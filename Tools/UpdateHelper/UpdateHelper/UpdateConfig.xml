@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Paths>
+	<Path source="Debug\2005\" target="..\dll\Buffalo\Debug\Net2.0"></Path>
+	<Path source="Debug\2008\" target="..\dll\Buffalo\Debug\Net3.5"></Path>
+	<Path source="Debug\2010\" target="..\dll\Buffalo\Debug\Net4.0"></Path>
+	<Path source="Release\2005\" target="..\dll\Buffalo\Release\Net2.0"></Path>
+	<Path source="Release\2008\" target="..\dll\Buffalo\Release\Net3.5"></Path>
+	<Path source="Release\2010\" target="..\dll\Buffalo\Release\Net4.0"></Path>
+	<Path source="Release\2005\" target="..\Tools\AddInSetup\AddIns\Net2.0"></Path>
+	<Path source="Release\2008\" target="..\Tools\AddInSetup\AddIns\Net3.5"></Path>
+	<Path source="Release\2010\" target="..\Tools\AddInSetup\AddIns\Net4.0"></Path>
+</Paths>

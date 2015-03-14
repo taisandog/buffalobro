@@ -1,0 +1,10 @@
+E:\CShareTest\CameraTest\CameraTest\bin\Debug\CameraTest.exe
+E:\CShareTest\CameraTest\CameraTest\bin\Debug\CameraTest.pdb
+E:\CShareTest\CameraTest\CameraTest\bin\Debug\DirectShowLib-2005.dll
+E:\CShareTest\CameraTest\CameraTest\bin\Debug\DirectShowLib-2005.pdb
+E:\CShareTest\CameraTest\CameraTest\obj\Debug\ResolveAssemblyReference.cache
+E:\CShareTest\CameraTest\CameraTest\obj\Debug\CameraTest.Form1.resources
+E:\CShareTest\CameraTest\CameraTest\obj\Debug\CameraTest.Properties.Resources.resources
+E:\CShareTest\CameraTest\CameraTest\obj\Debug\CameraTest.csproj.GenerateResource.Cache
+E:\CShareTest\CameraTest\CameraTest\obj\Debug\CameraTest.exe
+E:\CShareTest\CameraTest\CameraTest\obj\Debug\CameraTest.pdb

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<class TableName="GoodsShelf" ClassName="ManagementLib.GoodsShelf" IsTable="1" BelongDB="Management">
+  <property FieldName="_id" PropertyName="Id" DbType="Int32" Length="10" EntityPropertyType="10" ParamName="id" ReadOnly="0" />
+  <property FieldName="_goodShelf" PropertyName="GoodShelf" DbType="AnsiString" Length="100" EntityPropertyType="1" ParamName="goodShelf" ReadOnly="0" />
+  <property FieldName="_storageId" PropertyName="StorageId" DbType="Int32" Length="10" EntityPropertyType="1" ParamName="storageId" ReadOnly="0" />
+  <relation FieldName="_belongStorage_StorageId_Id" PropertyName="BelongStorage_StorageId_Id" SourceProperty="StorageId" TargetProperty="Id" IsToDB="1" IsParent="1" />
+  <relation FieldName="_lstSampleGressionRecodeId_GoodShelfId" PropertyName="LstSampleGressionRecodeId_GoodShelfId" SourceProperty="Id" TargetProperty="GoodShelfId" IsToDB="0" IsParent="0" />
+  <relation FieldName="_lstOutRecodeId_GoodShelfId" PropertyName="LstOutRecodeId_GoodShelfId" SourceProperty="Id" TargetProperty="GoodShelfId" IsToDB="0" IsParent="0" />
+  <relation FieldName="_lstGoodsLocationId_GoodsShelfId" PropertyName="LstGoodsLocationId_GoodsShelfId" SourceProperty="Id" TargetProperty="GoodsShelfId" IsToDB="0" IsParent="0" />
+</class>

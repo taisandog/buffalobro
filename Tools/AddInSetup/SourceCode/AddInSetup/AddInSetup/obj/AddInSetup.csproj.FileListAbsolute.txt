@@ -1,0 +1,9 @@
+D:\CShareTest\Buffalobro\Tools\AddInSetup\SourceCode\AddInSetup\AddInSetup\bin\Debug\AddInSetup.exe
+D:\CShareTest\Buffalobro\Tools\AddInSetup\SourceCode\AddInSetup\AddInSetup\bin\Debug\AddInSetup.pdb
+D:\CShareTest\Buffalobro\Tools\AddInSetup\SourceCode\AddInSetup\AddInSetup\obj\Debug\ResolveAssemblyReference.cache
+D:\CShareTest\Buffalobro\Tools\AddInSetup\SourceCode\AddInSetup\AddInSetup\obj\Debug\AddInSetup.FrmMain.resources
+D:\CShareTest\Buffalobro\Tools\AddInSetup\SourceCode\AddInSetup\AddInSetup\obj\Debug\AddInSetup.Properties.Resources.resources
+D:\CShareTest\Buffalobro\Tools\AddInSetup\SourceCode\AddInSetup\AddInSetup\obj\Debug\AddInSetup.csproj.GenerateResource.Cache
+D:\CShareTest\Buffalobro\Tools\AddInSetup\SourceCode\AddInSetup\AddInSetup\obj\Debug\AddInSetup.exe
+D:\CShareTest\Buffalobro\Tools\AddInSetup\SourceCode\AddInSetup\AddInSetup\obj\Debug\AddInSetup.pdb
+D:\CShareTest\Buffalobro\Tools\AddInSetup\SourceCode\AddInSetup\AddInSetup\bin\Debug\AddInConfig.xml

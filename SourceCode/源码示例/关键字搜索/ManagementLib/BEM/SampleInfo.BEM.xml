@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<class TableName="SampleInfo" ClassName="ManagementLib.SampleInfo" IsTable="1" BelongDB="Management">
+  <property FieldName="_id" PropertyName="Id" DbType="Int32" Length="10" EntityPropertyType="10" ParamName="id" ReadOnly="0" />
+  <property FieldName="_projectName" PropertyName="ProjectName" DbType="AnsiString" Length="200" EntityPropertyType="1" ParamName="projectName" ReadOnly="0" />
+  <property FieldName="_projectId" PropertyName="ProjectId" DbType="AnsiString" Length="200" EntityPropertyType="1" ParamName="projectId" ReadOnly="0" />
+  <property FieldName="_crudeSample" PropertyName="CrudeSample" DbType="AnsiString" Length="200" EntityPropertyType="1" ParamName="crudeSample" ReadOnly="0" />
+  <property FieldName="_yiYouSample" PropertyName="YiYouSample" DbType="AnsiString" Length="200" EntityPropertyType="1" ParamName="yiYouSample" ReadOnly="0" />
+  <property FieldName="_replaceNumber" PropertyName="ReplaceNumber" DbType="AnsiString" Length="200" EntityPropertyType="1" ParamName="replaceNumber" ReadOnly="0" />
+  <property FieldName="_sampleNumber" PropertyName="SampleNumber" DbType="AnsiString" Length="200" EntityPropertyType="1" ParamName="sampleNumber" ReadOnly="0" />
+  <property FieldName="_analysis" PropertyName="Analysis" DbType="AnsiString" Length="200" EntityPropertyType="1" ParamName="analysis" ReadOnly="0" />
+  <property FieldName="_samplingTerrace" PropertyName="SamplingTerrace" DbType="AnsiString" Length="200" EntityPropertyType="1" ParamName="samplingTerrace" ReadOnly="0" />
+  <property FieldName="_samplingUser" PropertyName="SamplingUser" DbType="AnsiString" Length="200" EntityPropertyType="1" ParamName="samplingUser" ReadOnly="0" />
+  <property FieldName="_duplicateSample" PropertyName="DuplicateSample" DbType="AnsiString" Length="200" EntityPropertyType="1" ParamName="duplicateSample" ReadOnly="0" />
+  <property FieldName="_samplingTime" PropertyName="SamplingTime" DbType="DateTime" Length="23" EntityPropertyType="1" ParamName="samplingTime" ReadOnly="0" />
+  <property FieldName="_sampleName" PropertyName="SampleName" DbType="AnsiString" Length="200" EntityPropertyType="1" ParamName="sampleName" ReadOnly="0" />
+  <property FieldName="_sampleLocation" PropertyName="SampleLocation" DbType="AnsiString" Length="200" EntityPropertyType="1" ParamName="sampleLocation" ReadOnly="0" />
+  <property FieldName="_sampledescribe" PropertyName="Sampledescribe" DbType="AnsiString" Length="200" EntityPropertyType="1" ParamName="sampledescribe" ReadOnly="0" />
+  <property FieldName="_boreholeTime" PropertyName="BoreholeTime" DbType="DateTime" Length="23" EntityPropertyType="1" ParamName="boreholeTime" ReadOnly="0" />
+  <property FieldName="_depth" PropertyName="Depth" DbType="AnsiString" Length="200" EntityPropertyType="1" ParamName="depth" ReadOnly="0" />
+  <property FieldName="_dailyoutput" PropertyName="Dailyoutput" DbType="AnsiString" Length="200" EntityPropertyType="1" ParamName="dailyoutput" ReadOnly="0" />
+  <property FieldName="_lithology" PropertyName="Lithology" DbType="AnsiString" Length="200" EntityPropertyType="1" ParamName="lithology" ReadOnly="0" />
+  <property FieldName="_gradation_all" PropertyName="Gradation_all" DbType="AnsiString" Length="200" EntityPropertyType="1" ParamName="gradation_all" ReadOnly="0" />
+  <property FieldName="_gradation_group" PropertyName="Gradation_group" DbType="AnsiString" Length="200" EntityPropertyType="1" ParamName="Gradation_group" ReadOnly="0" />
+  <property FieldName="_gradation_part" PropertyName="Gradation_part" DbType="AnsiString" Length="200" EntityPropertyType="1" ParamName="Gradation_part" ReadOnly="0" />
+  <property FieldName="_containingWater" PropertyName="ContainingWater" DbType="AnsiString" Length="200" EntityPropertyType="1" ParamName="containingWater" ReadOnly="0" />
+  <property FieldName="_density" PropertyName="Density" DbType="AnsiString" Length="200" EntityPropertyType="1" ParamName="density" ReadOnly="0" />
+  <property FieldName="_viscosity" PropertyName="Viscosity" DbType="AnsiString" Length="200" EntityPropertyType="1" ParamName="viscosity" ReadOnly="0" />
+  <property FieldName="_sulfur" PropertyName="Sulfur" DbType="AnsiString" Length="200" EntityPropertyType="1" ParamName="sulfur" ReadOnly="0" />
+  <property FieldName="_ripeDepe" PropertyName="RipeDepe" DbType="AnsiString" Length="200" EntityPropertyType="1" ParamName="ripeDepe" ReadOnly="0" />
+  <property FieldName="_addDose" PropertyName="AddDose" DbType="AnsiString" Length="200" EntityPropertyType="1" ParamName="addDose" ReadOnly="0" />
+  <property FieldName="_pipeInfo" PropertyName="PipeInfo" DbType="AnsiString" Length="500" EntityPropertyType="1" ParamName="pipeInfo" ReadOnly="0" />
+  <property FieldName="_sampleCode" PropertyName="SampleCode" DbType="AnsiString" Length="200" EntityPropertyType="1" ParamName="sampleCode" ReadOnly="0" />
+  <property FieldName="_printState" PropertyName="PrintState" DbType="Boolean" Length="1" EntityPropertyType="1" ParamName="printState" ReadOnly="0" />
+  <property FieldName="_transmitTime" PropertyName="TransmitTime" DbType="DateTime" Length="23" EntityPropertyType="1" ParamName="transmitTime" ReadOnly="0" />
+  <property FieldName="_blInStorage" PropertyName="BlInStorage" DbType="Boolean" Length="1" EntityPropertyType="1" ParamName="blInStorage" ReadOnly="0" />
+</class>

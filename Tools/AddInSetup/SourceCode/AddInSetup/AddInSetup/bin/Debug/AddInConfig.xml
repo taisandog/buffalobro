@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AddIns>
+	<AddIn file="Release\2005\Buffalo.DBTools.dll" version="8.0" addin="Visual Studio 2005"></AddIn>
+	<AddIn file="Release\2008\Buffalo.DBTools.dll" version="9.0" addin="Visual Studio 2008"></AddIn>
+	<AddIn file="Release\2010\Buffalo.DBTools.dll" version="10.0" addin="Visual Studio 2010"></AddIn>
+</AddIns>

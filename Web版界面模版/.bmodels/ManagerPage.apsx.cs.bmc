@@ -1,0 +1,123 @@
+<#script type="linked">
+
+</#script>
+
+<#script type="using">
+
+</#script>
+
+<#script type="method">
+/// <summary>
+/// 获取属性控件的值的属性
+/// </summary>
+/// <param name="pro">属性</param>
+/// <returns></returns>
+public string GetControlValueProperty(Property pro)
+{
+	string type=pro.TypeName;
+	if(type=="string")
+	{
+		return "Text";
+	}
+	if(pro.RelInfo!=null)
+	{
+		return "SelectedValue";
+	}
+	return "Text";
+}
+/// <summary>
+/// 获取查询条件
+/// </summary>
+/// <param name="pro">属性</param>
+/// <returns></returns>
+public string GetSearchCondition(Property pro,string value)
+{
+	if(pro.RelInfo!=null)
+	{
+		return "."+pro.RelInfo.SourceName+"=="+value;
+	}
+	string type=pro.TypeName;
+	if(type=="string")
+	{
+		return ".Like("+value+")";
+	}
+	
+	return "=="+value;
+}
+
+/// <summary>
+/// 获取查询控件
+/// </summary>
+/// <param name="pro">属性</param>
+/// <returns></returns>
+public string GetSearchControl(Property pro)
+{
+	if(pro.RelInfo!=null)
+	{
+		return "<asp:Label ID=\"lab"+pro.PropertyName+"\" runat=\"server\" Text=\""+pro.Summary+":\">"+
+		"</asp:Label><asp:DropDownList ID=\"ddl"+pro.PropertyName+"\" runat=\"server\"></asp:DropDownList>";
+	}
+	string type=pro.TypeName;
+	if(type=="string")
+	{
+		return "<asp:Label ID=\"lab"+pro.PropertyName+"\" runat=\"server\" Text=\""+pro.Summary+":\"></asp:Label>\n"+
+		"<asp:TextBox ID=\"txt"+pro.PropertyName+"\" runat=\"server\"></asp:TextBox>";
+	}
+	return "<asp:Label ID=\"lab"+pro.PropertyName+"\" runat=\"server\" Text=\""+pro.Summary+":\"></asp:Label>\n"+
+		"<asp:TextBox ID=\"txt"+pro.PropertyName+"\" runat=\"server\"></asp:TextBox>";
+}
+
+/// <summary>
+/// 获取字段名
+/// </summary>
+/// <param name="itemName"></param>
+/// <returns></returns>
+public string GetFieldName(string name)
+{
+	string retName=name.Substring(0, 1).ToLower()+name.Substring(1, name.Length - 1);
+	return retName;
+	
+}
+
+/// <summary>
+/// 
+/// </summary>
+/// <param name="pro"></param>
+/// <returns></returns>
+public string GetClassString()
+{
+	StringBuilder sb=new StringBuilder();
+	sb.Append(Entity.HasItem("CanQuery")?"true":"false");
+	sb.Append(",");
+	sb.Append(Entity.HasItem("CanAddNew")?"true":"false");
+	sb.Append(",");
+	sb.Append(Entity.HasItem("CanEdit")?"true":"false");
+	return sb.ToString();
+}
+
+/// <summary>
+/// 
+/// </summary>
+/// <param name="pro"></param>
+/// <returns></returns>
+public string GetParamString(Property pro)
+{
+	StringBuilder sb=new StringBuilder();
+	sb.Append("\""+pro.PropertyName+"\"");
+	sb.Append(",");
+	sb.Append("typeof("+pro.TypeName+")");
+	sb.Append(",");
+	sb.Append(pro.HasItem("CanQuery")?"true":"false");
+	sb.Append(",");
+	sb.Append(pro.HasItem("CanAddNew")?"true":"false");
+	sb.Append(",");
+	sb.Append(pro.HasItem("CanEdit")?"true":"false");
+	sb.Append(",");
+	string sumType=pro.GetValue("SumType");
+	sb.Append(string.IsNullOrEmpty(sumType)?"SumType.None":"SumType."+sumType);
+	sb.Append(",");
+	string customer=pro.GetValue("CustomCount");
+	sb.Append(string.IsNullOrEmpty(customer)?"null":customer);
+	return sb.ToString();
+}
+</#script>

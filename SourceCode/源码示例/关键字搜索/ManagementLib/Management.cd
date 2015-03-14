@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Font Name="微软雅黑" Size="9" />
+  <Class Name="ManagementLib.BarCodeGauge">
+    <Position X="2.0" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>BarCodeGauge.cs</FileName>
+      <HashCode>AAAAAAAAAIAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ManagementLib.GoodsLocation">
+    <Position X="4.0" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>GoodsLocation.cs</FileName>
+      <HashCode>AAAAAAAAAIAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ManagementLib.GoodsShelf">
+    <Position X="6.0" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>GoodsShelf.cs</FileName>
+      <HashCode>AAAAAAAAAIAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ManagementLib.InStorage">
+    <Position X="8.0" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>InStorage.cs</FileName>
+      <HashCode>AAAAAAAAAIAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ManagementLib.OutRecode">
+    <Position X="10.0" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>OutRecode.cs</FileName>
+      <HashCode>AAAAAAAAAIAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ManagementLib.SampleBack">
+    <Position X="12.0" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>SampleBack.cs</FileName>
+      <HashCode>AAAAAAAAAIAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ManagementLib.SampleGression">
+    <Position X="14.0" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>SampleGression.cs</FileName>
+      <HashCode>AAAAAAAAAIAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ManagementLib.SampleGressionRecode">
+    <Position X="16.0" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>SampleGressionRecode.cs</FileName>
+      <HashCode>AAAAAAAAAIAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ManagementLib.SampleInfo">
+    <Position X="18.0" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>SampleInfo.cs</FileName>
+      <HashCode>AAAAAAAAAIAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ManagementLib.SampleRecord">
+    <Position X="20.0" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>SampleRecord.cs</FileName>
+      <HashCode>AAAAAAAAAIAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ManagementLib.Storage">
+    <Position X="22.0" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Storage.cs</FileName>
+      <HashCode>AAAAAAAAAIAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ManagementLib.Users">
+    <Position X="24.0" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Users.cs</FileName>
+      <HashCode>AAAAAAAAAIAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ManagementLib.View_GLoacation_GShelf_Storage">
+    <Position X="26.0" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>View_GLoacation_GShelf_Storage.cs</FileName>
+      <HashCode>AAAAAAAAAIAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ManagementLib.View_GoodsShelf_Storage">
+    <Position X="28.0" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>View_GoodsShelf_Storage.cs</FileName>
+      <HashCode>AAAAAAAAAIAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ManagementLib.View_InSorageRecode">
+    <Position X="30.0" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>View_InSorageRecode.cs</FileName>
+      <HashCode>AAAAAAAAAIAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ManagementLib.View_InStorage">
+    <Position X="32.0" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>View_InStorage.cs</FileName>
+      <HashCode>AAAAAAAAAIAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ManagementLib.View_Message">
+    <Position X="34.0" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>View_Message.cs</FileName>
+      <HashCode>AAAAAAAAAIAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ManagementLib.View_OutRecode">
+    <Position X="36.0" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>View_OutRecode.cs</FileName>
+      <HashCode>AAAAAAAAAIAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ManagementLib.View_SampleGressionRecode">
+    <Position X="38.0" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>View_SampleGressionRecode.cs</FileName>
+      <HashCode>AAAAAAAAAIAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ManagementLib.View_SampleMove">
+    <Position X="40.0" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>View_SampleMove.cs</FileName>
+      <HashCode>AAAAAAAAAIAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ManagementLib.View_sampleRecord_Users">
+    <Position X="42.0" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>View_sampleRecord_Users.cs</FileName>
+      <HashCode>AAAAAAAAAIAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ManagementLib.View_Users_Storage">
+    <Position X="44.0" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>View_Users_Storage.cs</FileName>
+      <HashCode>AAAAAAAAAIAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+</ClassDiagram>

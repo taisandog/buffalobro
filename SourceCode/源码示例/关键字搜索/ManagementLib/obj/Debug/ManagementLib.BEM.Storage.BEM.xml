@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<class TableName="Storage" ClassName="ManagementLib.Storage" IsTable="1" BelongDB="Management">
+  <property FieldName="_id" PropertyName="Id" DbType="Int32" Length="10" EntityPropertyType="10" ParamName="id" ReadOnly="0" />
+  <property FieldName="_storageName" PropertyName="StorageName" DbType="AnsiString" Length="200" EntityPropertyType="1" ParamName="storageName" ReadOnly="0" />
+  <relation FieldName="_lstSampleGressionRecodeId_StorageId" PropertyName="LstSampleGressionRecodeId_StorageId" SourceProperty="Id" TargetProperty="StorageId" IsToDB="0" IsParent="0" />
+  <relation FieldName="_lstOutRecodeId_StorageId" PropertyName="LstOutRecodeId_StorageId" SourceProperty="Id" TargetProperty="StorageId" IsToDB="0" IsParent="0" />
+  <relation FieldName="_lstGoodsLocationId_StorageId" PropertyName="LstGoodsLocationId_StorageId" SourceProperty="Id" TargetProperty="StorageId" IsToDB="0" IsParent="0" />
+  <relation FieldName="_lstGoodsShelfId_StorageId" PropertyName="LstGoodsShelfId_StorageId" SourceProperty="Id" TargetProperty="StorageId" IsToDB="0" IsParent="0" />
+</class>

@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AddIns>
+	<AddIn file="AddIns\Net2.0\Buffalo.DBTools.dll" version="8.0" addin="Visual Studio 2005"></AddIn>
+	<AddIn file="AddIns\Net3.5\Buffalo.DBTools.dll" version="9.0" addin="Visual Studio 2008"></AddIn>
+	<AddIn file="AddIns\Net4.0\Buffalo.DBTools.dll" version="10.0" addin="Visual Studio 2010"></AddIn>
+	<AddIn file="AddIns\Net4.5\Buffalo.DBTools.dll" version="11.0" addin="Visual Studio 2012"></AddIn>
+	<AddIn file="AddIns\Net4.5.1\Buffalo.DBTools.dll" version="12.0" addin="Visual Studio 2013"></AddIn>
+</AddIns>

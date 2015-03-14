@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<class TableName="barCodeGauge" ClassName="ManagementLib.BarCodeGauge" IsTable="1" BelongDB="Management">
+  <property FieldName="_id" PropertyName="Id" DbType="Int32" Length="10" EntityPropertyType="10" ParamName="id" ReadOnly="0" />
+  <property FieldName="_customCode" PropertyName="CustomCode" DbType="AnsiString" Length="200" EntityPropertyType="1" ParamName="customCode" ReadOnly="0" />
+  <property FieldName="_state" PropertyName="State" DbType="Boolean" Length="1" EntityPropertyType="1" ParamName="state" ReadOnly="0" />
+  <property FieldName="_maxSerialnumber" PropertyName="MaxSerialnumber" DbType="Int32" Length="10" EntityPropertyType="1" ParamName="maxSerialnumber" ReadOnly="0" />
+</class>

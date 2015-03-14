@@ -1,0 +1,4773 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Buffalo.DBTools</name>
+    </assembly>
+    <members>
+        <member name="T:Buffalo.DBTools.Models">
+            <summary>
+              强类型资源类，用于查找本地化字符串等。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.Models.ResourceManager">
+            <summary>
+              返回此类使用的缓存 ResourceManager 实例。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.Models.Culture">
+            <summary>
+              为使用此强类型资源类的所有资源查找
+              重写当前线程的 CurrentUICulture 属性。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.Models.BQLDataAccess">
+             <summary>
+               查找类似 using System;
+            using System.Data;
+            using System.Configuration;
+            using Buffalo.DB.BQLCommon;
+            using Buffalo.DB.BQLCommon.BQLKeyWordCommon;
+            using Buffalo.DB.BQLCommon.BQLConditionCommon;
+            using System.Collections.Generic;
+            using Buffalo.DB.QueryConditions;
+            using &lt;%=BQLEntityNamespace%&gt;;
+            using &lt;%=EntityNamespace%&gt;;
+            using Buffalo.DB.DbCommon;
+            namespace &lt;%=DataAccessNamespace%&gt;.&lt;%=DataBaseType%&gt;
+            {
+                ///&lt;summary&gt;
+                /// &lt;%=Summary%&gt;数据访问层
+                ///&lt;/summary&gt;
+                public class &lt;%=ClassName%&gt;DataAccess :BQ [字符串的其余部分被截断]&quot;; 的本地化字符串。
+             </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.Models.BQLDB">
+             <summary>
+               查找类似 using System;
+            using System.Data;
+            using System.Configuration;
+            using Buffalo.DB.EntityInfos;
+            using Buffalo.DB.BQLCommon;
+            using Buffalo.DB.BQLCommon.BQLConditionCommon;
+            using Buffalo.DB.PropertyAttributes;
+            namespace &lt;%=BQLEntityNamespace%&gt;
+            {
+                [DataBaseAttribute(&quot;&lt;%=DBName%&gt;&quot;)]
+                public partial class &lt;%=DBName%&gt; :BQLDataBaseHandle&lt;&lt;%=DBName%&gt;&gt; 
+                {
+                }
+                
+            }
+             的本地化字符串。
+             </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.Models.BQLEntity">
+             <summary>
+               查找类似 using System;
+            using System.Data;
+            using System.Configuration;
+            using Buffalo.DB.EntityInfos;
+            using Buffalo.DB.BQLCommon;
+            using Buffalo.DB.BQLCommon.BQLConditionCommon;
+            using Buffalo.DB.PropertyAttributes;
+            namespace &lt;%=BQLEntityNamespace%&gt;
+            {
+            &lt;%#IF TableName%&gt;
+            
+                public partial class &lt;%=DBName%&gt; 
+                {
+                    private static &lt;%=BQLClassName%&gt; _&lt;%=ClassName%&gt; = new &lt;%=BQLClassName%&gt;();
+                
+                    public static &lt;%=BQLClassName%&gt; &lt;%=ClassName%&gt;
+                    {
+                        get
+                        {
+                    [字符串的其余部分被截断]&quot;; 的本地化字符串。
+             </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.Models.Business">
+             <summary>
+               查找类似 using System;
+            using &lt;%=EntityNamespace%&gt;;
+            using System.Collections.Generic;
+            using Buffalo.DB.DataBaseAdapter;
+            using Buffalo.DB.CommBase.BusinessBases;
+            using Buffalo.DB.CommBase.DataAccessBases;
+            using Buffalo.DB.DbCommon;
+            using Buffalo.DB.QueryConditions;
+            using Buffalo.DB.CommBase;
+            namespace &lt;%=BusinessNamespace%&gt;
+            {
+                /// &lt;summary&gt;
+                ///  &lt;%=Summary%&gt;业务层
+                /// &lt;/summary&gt;
+                public class &lt;%=BusinessClassName%&gt;Base&lt;T&gt;: &lt;%=BaseBusinessClass%&gt;&lt;T&gt; where T:&lt;%=ClassName%&gt;,new()
+                {
+                     [字符串的其余部分被截断]&quot;; 的本地化字符串。
+             </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.Models.ClassDiagram">
+             <summary>
+               查找类似 &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+            &lt;ClassDiagram MajorVersion=&quot;1&quot; MinorVersion=&quot;1&quot;&gt;
+              &lt;Font Name=&quot;微软雅黑&quot; Size=&quot;9&quot; /&gt;
+              
+            &lt;/ClassDiagram&gt; 的本地化字符串。
+             </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.Models.DataAccess">
+             <summary>
+               查找类似 using System;
+            using System.Data;
+            using Buffalo.DB.CommBase.DataAccessBases;
+            using Buffalo.DB.DbCommon;
+            using &lt;%=EntityNamespace%&gt;;
+            using System.Collections.Generic;
+            using &lt;%=DataAccessNamespace%&gt;.IDataAccess;
+            
+            namespace &lt;%=DataAccessNamespace%&gt;.&lt;%=DataBaseType%&gt;
+            {
+                ///&lt;summary&gt;
+                /// &lt;%=Summary%&gt;数据访问层
+                ///&lt;/summary&gt;
+                public class &lt;%=ClassName%&gt;DataAccess : DataAccessModel&lt;&lt;%=ClassName%&gt;&gt;,I&lt;%=ClassName%&gt;DataAccess
+                {
+                    public &lt;%=ClassName%&gt;DataAccess(DataBaseOperate oper):  [字符串的其余部分被截断]&quot;; 的本地化字符串。
+             </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.Models.DataView">
+             <summary>
+               查找类似 &lt;#script type=&quot;linked&quot;&gt;
+            
+            &lt;/#script&gt;
+            
+            &lt;#script type=&quot;using&quot;&gt;
+            
+            &lt;/#script&gt;
+            
+            &lt;#script type=&quot;code&quot;&gt;
+            using System;
+            using System.Collections.Generic;
+            using System.Text;
+            using Buffalo.Permissions.DataViewInfo;
+            using Buffalo.DB.BQLCommon.BQLConditionCommon;
+            &lt;#=Entity.GetValue(&quot;Using&quot;)#&gt;
+            namespace &lt;#=Entity.GetValue(&quot;Namespace&quot;)#&gt;
+            {
+            	public class &lt;#=Entity.ClassName #&gt;DataView:DataViewer
+            	{
+            		&lt;# foreach(Property pro in SelectedPropertys ) {#&gt;
+            		private DataItem _&lt;#=GetFieldName(pro.PropertyName)#&gt; [字符串的其余部分被截断]&quot;; 的本地化字符串。
+             </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.Models.Entity">
+             <summary>
+               查找类似 using System;
+            using System.Collections.Generic;
+            using System.Text;
+            using System.Data;
+            using Buffalo.DB.CommBase;
+            using Buffalo.Kernel.Defaults;
+            using Buffalo.DB.PropertyAttributes;
+            using Buffalo.DB.CommBase.BusinessBases;
+            namespace &lt;%=EntityNamespace%&gt;
+            {
+            	/// &lt;summary&gt;
+                /// &lt;%=Summary%&gt;
+                /// &lt;/summary&gt;
+                public partial class &lt;%=ClassName%&gt;: &lt;%=EntityBaseType%&gt;
+                {
+            &lt;%=EntityFields%&gt;
+            
+            &lt;%=EntityRelations%&gt;
+            
+            &lt;%=EntityContext%&gt;
+                }
+            }
+             的本地化字符串。
+             </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.Models.IDataAccess">
+             <summary>
+               查找类似 using System;
+            using System.Collections.Generic;
+            using System.Text;
+            using &lt;%=EntityNamespace%&gt;;
+            using Buffalo.DB.CommBase.DataAccessBases;
+            namespace &lt;%=DataAccessNamespace%&gt;.IDataAccess
+            {
+            	///&lt;summary&gt;
+                /// &lt;%=Summary%&gt;数据访问层接口
+                ///&lt;/summary&gt;
+                public interface I&lt;%=ClassName%&gt;DataAccess : IDataAccessModel&lt;&lt;%=ClassName%&gt;&gt;
+                {
+            		
+                }
+            }
+            
+            
+            
+             的本地化字符串。
+             </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.Models.UIConfigItem">
+             <summary>
+               查找类似 &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+            &lt;root&gt;
+            
+                &lt;configItems&gt;
+                  &lt;item type=&quot;check&quot;  name=&quot;CanQuery&quot; summary=&quot;查询条件&quot;&gt;&lt;/item&gt;
+                  &lt;item type=&quot;check&quot; name=&quot;CanAddNew&quot; summary=&quot;可添加&quot;&gt;&lt;/item&gt;
+                  &lt;item type=&quot;check&quot; name=&quot;CanEdit&quot; summary=&quot;可编辑&quot;&gt;&lt;/item&gt;
+                  &lt;item type=&quot;combo&quot; name=&quot;SumType&quot; summary=&quot;统计类型&quot; select=&quot;无:None,总相加:Sum,总条数:Count,平均:Avg,自定义:Custom&quot;&gt;&lt;/item&gt;
+                  &lt;item type=&quot;mtext&quot; name=&quot;CustomCount&quot; summary=&quot;自定义统计&quot;&gt;&lt;/item&gt;
+                &lt;/configItems&gt;
+              &lt;classItems&gt;
+                &lt;item type=&quot;text&quot; name= [字符串的其余部分被截断]&quot;; 的本地化字符串。
+             </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.Models.UserEntity">
+             <summary>
+               查找类似 using System;
+            using System.Data;
+            using System.Collections.Generic;
+            using Buffalo.DB.CommBase;
+            using Buffalo.Kernel.Defaults;
+            using Buffalo.DB.PropertyAttributes;
+            namespace &lt;%=EntityNamespace%&gt;
+            {
+            	
+            	/// &lt;summary&gt;
+            	///  &lt;%=Summary%&gt;
+            	/// &lt;/summary&gt;
+            	public partial class &lt;%=ClassFullName%&gt;
+            	{
+            		
+            	}
+            }
+             的本地化字符串。
+             </summary>
+        </member>
+        <member name="T:Buffalo.DBTools.DocSummary.VSConfig.VS2005Config">
+            <summary>
+            VS2005的位置配置信息
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.DocSummary.VSConfig.IVSConfig.MemberMarginX">
+            <summary>
+            填充色的X
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.DocSummary.VSConfig.IVSConfig.MemberSummaryY">
+            <summary>
+            类注释
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.DocSummary.VSConfig.IVSConfig.MemberExtendSummaryY">
+            <summary>
+            基类注释
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.DocSummary.VSConfig.VS2005Config.MemberMarginX">
+            <summary>
+            填充色的X
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.DocSummary.VSConfig.VS2005Config.MemberLineHeight">
+            <summary>
+            行高
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.DocSummary.VSConfig.VS2005Config.MemberStartMargin">
+            <summary>
+            离顶端的距离
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.DocSummary.VSConfig.VS2005Config.MemberSummaryHeight">
+            <summary>
+            离顶端的距离
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.DocSummary.VSConfig.VS2005Config.MemberSummaryY">
+            <summary>
+            类注释
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.DocSummary.VSConfig.VS2005Config.MemberExtendSummaryY">
+            <summary>
+            基类注释
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.ModelLoader.ICodeOutputer.GetCode(System.Collections.Generic.Queue{Buffalo.DBTools.UIHelper.ModelLoader.ExpressionItem})">
+            <summary>
+            获取代码
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="F:Buffalo.DBTools.UIHelper.FrmCompileResault.components">
+            <summary>
+            必需的设计器变量。
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.FrmCompileResault.Dispose(System.Boolean)">
+            <summary>
+            清理所有正在使用的资源。
+            </summary>
+            <param name="disposing">如果应释放托管资源，为 true；否则为 false。</param>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.FrmCompileResault.InitializeComponent">
+            <summary>
+            设计器支持所需的方法 - 不要
+            使用代码编辑器修改此方法的内容。
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.FrmCompileResault.ShowCompileResault(System.String,System.String,System.String)">
+            <summary>
+            显示错误
+            </summary>
+            <param name="code">代码</param>
+            <param name="error">错误</param>
+            <param name="title">标题</param>
+        </member>
+        <member name="T:Buffalo.DBTools.UIHelper.ConfigItem">
+            <summary>
+            可选项
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.ConfigItem.GetEditor">
+            <summary>
+            获取编辑框
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.ConfigItem.FormatDefaultValue(Buffalo.DBTools.UIHelper.ConfigItem,Buffalo.DBTools.UIHelper.EntityInfo,EnvDTE.Project,Buffalo.DBTools.UIHelper.UIModelItem)">
+            <summary>
+            格式化默认项的值
+            </summary>
+            <param name="item">项信息</param>
+            <param name="entityInfo">实体信息</param>
+            <param name="selectedProject">选中的项目</param>
+            <param name="itemInfo">项的属性信息</param>
+            <returns></returns>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.ConfigItem.Name">
+            <summary>
+            名字
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.ConfigItem.Summary">
+            <summary>
+            说明
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.ConfigItem.Type">
+            <summary>
+            项类型
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.ConfigItem.DefaultValue">
+            <summary>
+            默认值
+            </summary>
+        </member>
+        <member name="T:Buffalo.DBTools.UIHelper.ConfigItemType">
+            <summary>
+            项类型
+            </summary>
+        </member>
+        <member name="F:Buffalo.DBTools.UIHelper.ConfigItemType.Check">
+            <summary>
+            选择框
+            </summary>
+        </member>
+        <member name="F:Buffalo.DBTools.UIHelper.ConfigItemType.Combo">
+            <summary>
+            下拉框
+            </summary>
+        </member>
+        <member name="F:Buffalo.DBTools.UIHelper.ConfigItemType.Text">
+            <summary>
+            文本框
+            </summary>
+        </member>
+        <member name="F:Buffalo.DBTools.UIHelper.ConfigItemType.MText">
+            <summary>
+            多行文本框
+            </summary>
+        </member>
+        <member name="F:Buffalo.DBTools.UIHelper.ConfigItemType.Number">
+            <summary>
+            数字框
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityParamFieldCollection.FindByPropertyName(System.String)">
+            <summary>
+            通过属性名查找字段属性信息
+            </summary>
+            <param name="propertyName"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Buffalo.DBTools.HelperKernel.EntityParamField">
+            <summary>
+            字段属性信息
+            </summary>
+        </member>
+        <member name="T:Buffalo.DBTools.HelperKernel.EntityFieldBase">
+            <summary>
+            实体字段基类
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityFieldBase.ToPascalName(System.String,System.Boolean)">
+            <summary>
+            把名字转成帕斯卡命名法
+            </summary>
+            <param name="name"></param>
+            <param name="replaceSpace"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityFieldBase.ToPascalName(System.String)">
+            <summary>
+            把名字转成帕斯卡命名法
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityFieldBase.ToCamelName(System.String,System.Boolean)">
+            <summary>
+            把名字转成骆驼命名法
+            </summary>
+            <param name="name"></param>
+            <param name="replaceSpace"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityFieldBase.ReplaceBlock(System.String)">
+            <summary>
+            过滤无效字符
+            </summary>
+            <param name="name">名称</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityFieldBase.ToCamelName(System.String)">
+            <summary>
+            把名字转成骆驼命名法
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityFieldBase.GetAllSupportTypes">
+            <summary>
+            所有支持类型的集合
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityFieldBase.InitTypeInfos">
+            <summary>
+            初始化类型信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityFieldBase.GetTypeInfo(Microsoft.VisualStudio.EnterpriseTools.ArtifactModel.Clr.Member)">
+            <summary>
+            根据类型名获取信息
+            </summary>
+            <param name="typeName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityFieldBase.GetTypeInfo(System.String)">
+            <summary>
+            根据类型名获取信息
+            </summary>
+            <param name="typeName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityFieldBase.IsNullProperty(System.String)">
+            <summary>
+            判断类型是否为非空
+            </summary>
+            <param name="typeName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityFieldBase.GetMemberVariableDefaultValue(System.String)">
+            <summary>
+            获取数值默认类型
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityFieldBase.InitPropertyType">
+            <summary>
+            初始化类型集合
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityFieldBase.PropertyName">
+            <summary>
+            属性名
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityFieldBase.FieldName">
+            <summary>
+            对应的字段名
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityFieldBase.IsGenerate">
+            <summary>
+            是否生成
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityFieldBase.BelongEntity">
+            <summary>
+            所属实体
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityFieldBase.Summary">
+            <summary>
+            注释
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityFieldBase.StarLine">
+            <summary>
+            开始行
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityFieldBase.EndLine">
+            <summary>
+            结束行
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityFieldBase.TypeName">
+            <summary>
+            类型名
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityFieldBase.TypeFullName">
+            <summary>
+            类型全名
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityFieldBase.PropertyTypeItems">
+            <summary>
+            属性类型集合
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityParamField.#ctor(Microsoft.VisualStudio.EnterpriseTools.ArtifactModel.Clr.CodeElementPosition,Microsoft.VisualStudio.EnterpriseTools.ArtifactModel.Clr.ClrField,Buffalo.DBTools.HelperKernel.EntityConfig)">
+            <summary>
+            字段属性信息
+            </summary>
+            <param name="cp">字段代码位置</param>
+            <param name="fInfo">字段信息</param>
+            <param name="belongEntity">所属实体</param>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityParamField.GetEntityParamInfo(Microsoft.VisualStudio.EnterpriseTools.ArtifactModel.Clr.ClrField)">
+            <summary>
+            获取字段的配置信息
+            </summary>
+            <param name="fInfo"></param>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityParamField.ToParamInfo">
+            <summary>
+            转换成字段信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityParamField.AddSource(System.Collections.Generic.List{System.String},System.String)">
+            <summary>
+            添加到源码
+            </summary>
+            <param name="source">源码列表</param>
+            <param name="spaces">空格</param>
+            <param name="greanFiled">是否要生成字段</param>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityParamField.EntityPropertyType">
+            <summary>
+            属性类型
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityParamField.Description">
+            <summary>
+            注释
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityParamField.AllowNull">
+            <summary>
+            允许空
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityParamField.PropertyType">
+            <summary>
+            字段类型
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityParamField.ParamName">
+            <summary>
+            字段名
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityParamField.DbType">
+            <summary>
+            数据库类型
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityParamField.Length">
+            <summary>
+            长度
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityParamField.ReadOnly">
+            <summary>
+            只读
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.DBConfigInfo.CreateDBInfo">
+            <summary>
+            创建数据库信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.DBConfigInfo.GetFileName(Buffalo.DBTools.ClassDesignerInfo)">
+            <summary>
+            生成文件名
+            </summary>
+            <param name="curProject"></param>
+            <param name="curDiagram"></param>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.DBConfigInfo.GetConfigFileName(Buffalo.DBTools.ClassDesignerInfo)">
+            <summary>
+            生成配置的文件名
+            </summary>
+            <param name="curProject"></param>
+            <param name="curDiagram"></param>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.DBConfigInfo.GetDbName(Buffalo.DBTools.ClassDesignerInfo)">
+            <summary>
+            获取当前类图的库名
+            </summary>
+            <param name="docView"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.DBConfigInfo.SaveConfig(System.String)">
+            <summary>
+            保存
+            </summary>
+            <param name="path"></param>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.DBConfigInfo.SaveConfigInfo(System.String)">
+            <summary>
+            保存配置信息
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.DBConfigInfo.LoadInfo(Buffalo.DBTools.ClassDesignerInfo)">
+            <summary>
+            加载数据库信息
+            </summary>
+            <param name="curProject">当前工程</param>
+            <param name="curDiagram">当前图</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.DBConfigInfo.LoadInfo(System.Xml.XmlDocument)">
+            <summary>
+            加载数据库配置信息
+            </summary>
+            <param name="doc"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.DBConfigInfo.LoadConfig(Buffalo.DBTools.ClassDesignerInfo,Buffalo.DBTools.HelperKernel.DBConfigInfo)">
+            <summary>
+            加载其他配置信息
+            </summary>
+            <param name="info"></param>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.DBConfigInfo.DbName">
+            <summary>
+            数据库名
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.DBConfigInfo.AppNamespace">
+            <summary>
+            数据层所在的命名空间
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.DBConfigInfo.Assembly">
+            <summary>
+            程序集(一般留空)
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.DBConfigInfo.DbType">
+            <summary>
+            数据库类型
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.DBConfigInfo.ConnectionString">
+            <summary>
+            数据连接字符串
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.DBConfigInfo.FileName">
+            <summary>
+            所在文件路径
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.DBConfigInfo.Tier">
+            <summary>
+            层数
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.DBConfigInfo.SummaryShow">
+            <summary>
+            显示方式
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.DBConfigInfo.IsAllDal">
+            <summary>
+            是否生成所有数据层
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.DBConfigInfo.EntityToDirectory">
+            <summary>
+            实体是否放到Entity文件夹中
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.DBConfigInfo.CacheType">
+            <summary>
+            缓存类型
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.DBConfigInfo.CacheConnString">
+            <summary>
+            缓存的连接字符串
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.DBConfigInfo.IsAllTable">
+            <summary>
+            是否所有表都可用缓存
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.DBConfigInfo.AddDescription">
+            <summary>
+            是否添加Description标签
+            </summary>
+        </member>
+        <member name="T:Buffalo.DBTools.HelperKernel.DataAccessMappingConfig">
+            <summary>
+            数据层映射文件生成
+            </summary>
+        </member>
+        <member name="T:Buffalo.DBTools.HelperKernel.GrneraterBase">
+            <summary>
+            生成器基类
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.GrneraterBase.GetBaseTypeShortName(System.String)">
+            <summary>
+            获取基类短名
+            </summary>
+            <param name="baseType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.GrneraterBase.GetBaseTypeNameSpace(System.String)">
+            <summary>
+            获取基类短名
+            </summary>
+            <param name="baseType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.GrneraterBase.GetBaseTypeName(System.String)">
+            <summary>
+            获取基类名
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.GrneraterBase.FormatName(System.String)">
+            <summary>
+            格式化名字
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.GrneraterBase.Table">
+            <summary>
+            表信息
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.GrneraterBase.DesignerInfo">
+            <summary>
+            类设计图信息
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.GrneraterBase.EntityBaseTypeName">
+            <summary>
+            实体的基类
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.GrneraterBase.ClassDesignerFileName">
+            <summary>
+            类图文件
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.GrneraterBase.GenerateBasePath">
+            <summary>
+            需要生成到的路径目录
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.GrneraterBase.EntityBaseTypeShortName">
+            <summary>
+            实体的基类名
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.GrneraterBase.EntityFileName">
+            <summary>
+            实体文件名
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.GrneraterBase.EntityNamespace">
+            <summary>
+            实体命名空间
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.GrneraterBase.BQLEntityNamespace">
+            <summary>
+            BQL实体的命名空间
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.GrneraterBase.ClassName">
+            <summary>
+            实体名称
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.GrneraterBase.BusinessNamespace">
+            <summary>
+            业务层命名空间
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.GrneraterBase.BaseNamespace">
+            <summary>
+            基类命名空间
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.GrneraterBase.DataAccessNamespace">
+            <summary>
+            数据层命名空间
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.GrneraterBase.DBName">
+            <summary>
+            数据库名
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.GrneraterBase.BbConfig">
+            <summary>
+            数据库配置
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.GrneraterBase.GenericArgs">
+            <summary>
+            对泛型父类的传入值
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.GrneraterBase.GenericInfo">
+            <summary>
+            泛型信息
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.GrneraterBase.BaseGenericInfo">
+            <summary>
+            泛型信息
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.DataAccessMappingConfig.Init">
+            <summary>
+            初始化信息
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.DataAccessMappingConfig.SaveXML">
+            <summary>
+            保存XML信息
+            </summary>
+            <param name="entity"></param>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.DataAccessMappingConfig.AppendDal(System.String,System.String)">
+            <summary>
+            实体生成XML配置
+            </summary>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.DataAccessMappingConfig.AppendBo(System.String,System.String)">
+            <summary>
+            实体生成XML配置
+            </summary>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.DataAccessMappingConfig.DeleteDal(System.String)">
+            <summary>
+            删除DAL
+            </summary>
+            <param name="typeName"></param>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.DataAccessMappingConfig.DeleteBo(System.String)">
+            <summary>
+            删除DAL
+            </summary>
+            <param name="typeName"></param>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.DataAccessMappingConfig.BoExists(System.String)">
+            <summary>
+            判断是否存在
+            </summary>
+            <param name="typeName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.DataAccessMappingConfig.Exists(System.String)">
+            <summary>
+            判断是否存在
+            </summary>
+            <param name="typeName"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Buffalo.DBTools.ClassDesignerInfo">
+            <summary>
+            类图信息
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.ClassDesignerInfo.GetClassDesignerPath">
+            <summary>
+            获取类图所在路径
+            </summary>
+            <param name="docView"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.ClassDesignerInfo.GetNameSpace">
+            <summary>
+            获取命名空间
+            </summary>
+            <param name="docView">类设计图</param>
+            <param name="project">工程</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.ClassDesignerInfo.#ctor(Microsoft.VisualStudio.Modeling.Diagrams.Diagram,EnvDTE.Project,Microsoft.VisualStudio.EnterpriseTools.ClassDesigner.ClassDesignerDocView)">
+            <summary>
+            类图信息
+            </summary>
+            <param name="selectedDiagram"></param>
+            <param name="currentProject"></param>
+            <param name="selectDocView"></param>
+        </member>
+        <member name="P:Buffalo.DBTools.ClassDesignerInfo.SelectedDiagram">
+            <summary>
+            选中的关系图
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.ClassDesignerInfo.CurrentProject">
+            <summary>
+            当前项目
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.ClassDesignerInfo.SelectDocView">
+            <summary>
+            选择的文档
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.ModelLoader.LinkOutputer.GetCode(System.Collections.Generic.Queue{Buffalo.DBTools.UIHelper.ModelLoader.ExpressionItem},Buffalo.DBTools.UIHelper.EntityInfo)">
+            <summary>
+            获取代码
+            </summary>
+            <param name="queitem"></param>
+            <param name="modelPath">模块路径</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityConfig.InitDBConfig">
+            <summary>
+            初始化数据库信息
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityConfig.#ctor(Microsoft.VisualStudio.EnterpriseTools.ArtifactModel.Clr.ClrType,Buffalo.DBTools.ClassDesignerInfo)">
+            <summary>
+            初始化类配置
+            </summary>
+            <param name="classShape">类图形</param>
+            <param name="project">所属项目</param>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityConfig.GetParamMapField">
+            <summary>
+            获取字段对应的属性
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityConfig.GetRelationmMapField">
+            <summary>
+            获取关系对应的属性
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityConfig.GetEntityConfigByTable(Microsoft.VisualStudio.EnterpriseTools.ArtifactModel.Clr.ClrType,Buffalo.DBTools.ClassDesignerInfo)">
+            <summary>
+            更新类信息
+            </summary>
+            <param name="ctype"></param>
+            <param name="project"></param>
+            <param name="currentDiagram"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityConfig.GetBaseClass(Microsoft.VisualStudio.EnterpriseTools.ArtifactModel.Clr.ClrType,System.String@)">
+            <summary>
+            获取父类信息
+            </summary>
+            <param name="ctype"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityConfig.FillBaseTypeGenericArgs(Microsoft.VisualStudio.EnterpriseTools.ArtifactModel.Clr.ClrType,System.Collections.Generic.List{System.String})">
+            <summary>
+            填充基类的传入泛型参数
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityConfig.GetBaseTypeGenericArgs(System.String,System.Collections.Generic.List{System.String})">
+            <summary>
+            基类的传入泛型参数
+            </summary>
+            <param name="args">参数</param>
+            <param name="lstArgs">参数集合</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityConfig.GetFullName(Microsoft.VisualStudio.EnterpriseTools.ArtifactModel.Clr.ClrClass)">
+            <summary>
+            获取ClrClass的全名
+            </summary>
+            <param name="cls"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityConfig.FillClassInfo">
+            <summary>
+            填充类信息
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityConfig.InitGeneric(Microsoft.VisualStudio.EnterpriseTools.ArtifactModel.Clr.ClrType,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}})">
+            <summary>
+            初始化泛型信息
+            </summary>
+            <param name="ctype">类型</param>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityConfig.AppendGenericParam(System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}})">
+            <summary>
+            添加泛型信息
+            </summary>
+            <param name="genericParam"></param>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityConfig.AppendToKeys(System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}})">
+            <summary>
+            加到泛型集合
+            </summary>
+            <param name="code"></param>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityConfig.GetFileName(Microsoft.VisualStudio.EnterpriseTools.ArtifactModel.Clr.ClrType,Microsoft.VisualStudio.EnterpriseTools.ArtifactModel.Clr.CodeElementPosition@)">
+            <summary>
+            获取实体所在的文件
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityConfig.InitField">
+            <summary>
+            初始化字段信息
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityConfig.IsManyOne(Microsoft.VisualStudio.EnterpriseTools.ArtifactModel.Clr.Member)">
+            <summary>
+            判断是否多对一
+            </summary>
+            <param name="source"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityConfig.InitMethods">
+            <summary>
+            初始化函数
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityConfig.InitPropertys">
+            <summary>
+            初始化属性信息
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityConfig.CutSpace(System.String)">
+            <summary>
+            切出开头的空格数
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityConfig.GenerateExtenCode">
+            <summary>
+            生成扩展代码
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityConfig.AllField">
+            <summary>
+            获取所有字段
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityConfig.GenerateCode">
+            <summary>
+            生成代码
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityConfig.VirtualProperty(System.String)">
+            <summary>
+            Virtual属性
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityConfig.NeedVirtual">
+            <summary>
+            获取需要Virtual的属性
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityConfig.AddContext(System.Collections.Generic.List{System.String})">
+            <summary>
+            添加到代码
+            </summary>
+            <param name="lstTarget"></param>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityConfig.GetParamInfoByPropertyName(System.String)">
+            <summary>
+            通过属性名获取信息
+            </summary>
+            <param name="propertyName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityConfig.GetEntity(Buffalo.DBTools.HelperKernel.EntityConfig,Buffalo.DBTools.ClassDesignerInfo)">
+            <summary>
+            获取类的自身和基类集合
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityConfig.IsSystemType(Microsoft.VisualStudio.EnterpriseTools.ArtifactModel.Clr.ClrType)">
+            <summary>
+            是否系统类型
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityConfig.IsSystemTypeName(System.String)">
+            <summary>
+            是否系统类名
+            </summary>
+            <param name="typeName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityConfig.GetAllMember``1(Microsoft.VisualStudio.EnterpriseTools.ArtifactModel.Clr.ClrType,System.Boolean)">
+            <summary>
+            获取所有成员
+            </summary>
+            <typeparam name="T">成员类型</typeparam>
+            <param name="type">类型</param>
+            <param name="fillBase">是否级联父类</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityConfig.FillAllMember``1(System.Collections.Generic.List{``0},System.Collections.Generic.Dictionary{System.String,System.Boolean},Microsoft.VisualStudio.EnterpriseTools.ArtifactModel.Clr.ClrType,System.Boolean)">
+            <summary>
+            获取该类的所有成员
+            </summary>
+            <typeparam name="T">成员类型</typeparam>
+            <param name="lst">集合</param>
+            <param name="type">类型</param>
+            <param name="fillBase">是否级联父类</param>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityConfig.ExistsMember``1(Microsoft.VisualStudio.EnterpriseTools.ArtifactModel.Clr.ClrType,System.String)">
+            <summary>
+            判断是否存在成员
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="type"></param>
+            <param name="menberName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityConfig.ExistsMember``1(Microsoft.VisualStudio.EnterpriseTools.ArtifactModel.Clr.ClrType,System.String,System.Boolean)">
+            <summary>
+            判断是否存在成员
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityConfig.FindParamInfoByName(System.Collections.Generic.Stack{Buffalo.DBTools.HelperKernel.EntityConfig},System.String)">
+            <summary>
+            通过属性名查找属性配置信息
+            </summary>
+            <param name="stkEntity">实体集合</param>
+            <param name="propertyName">属性</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityConfig.FindRelInfoByName(System.Collections.Generic.Stack{Buffalo.DBTools.HelperKernel.EntityConfig},System.String)">
+            <summary>
+            通过属性名查找映射属性配置信息
+            </summary>
+            <param name="stkEntity">实体集合</param>
+            <param name="propertyName">映射属性</param>
+            <returns></returns>
+        </member>
+        <member name="F:Buffalo.DBTools.HelperKernel.EntityConfig._needUsing">
+            <summary>
+            所需的using
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityConfig.AddSqlCommonUsing(System.Collections.Generic.Dictionary{System.String,System.Boolean},System.Collections.Generic.List{System.String})">
+            <summary>
+            添加类库必要的using
+            </summary>
+            <param name="dicUsing">已有的using集合</param>
+            <param name="lstTarget">目标源码</param>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityConfig.GenerateExtendCode">
+            <summary>
+            生成扩展类代码文件
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityConfig.GetProjectItemByFileName(Buffalo.DBTools.ClassDesignerInfo,System.String)">
+            <summary>
+            获取项目项
+            </summary>
+            <param name="project">项目</param>
+            <param name="fileName">文件名</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityConfig.GetProjectItemByFileName(EnvDTE.ProjectItem,System.String)">
+            <summary>
+            获取文件所属的项目项
+            </summary>
+            <param name="item">项</param>
+            <param name="fileName">文件名</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityConfig.ToTableInfo">
+            <summary>
+            当前表到表信息的转换
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityConfig.FillRelation(Buffalo.DB.BQLCommon.BQLKeyWordCommon.KeyWordTableParamItem)">
+            <summary>
+            填充关系信息
+            </summary>
+            <param name="table"></param>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityConfig.FillParams(Buffalo.DB.BQLCommon.BQLKeyWordCommon.KeyWordTableParamItem)">
+            <summary>
+            填充字段信息
+            </summary>
+            <param name="table"></param>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityConfig.EParamFields">
+            <summary>
+            实体字段
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityConfig.ERelation">
+            <summary>
+            映射属性
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityConfig.UseCache">
+            <summary>
+            使用缓存
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityConfig.FileEncoding">
+            <summary>
+            类文件编码
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityConfig.CurrentDBConfigInfo">
+            <summary>
+            数据库配置信息
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityConfig.DesignerInfo">
+            <summary>
+            类设计图信息
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityConfig.ClassType">
+            <summary>
+            关联类型
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityConfig.Namespace">
+            <summary>
+            命名空间
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityConfig.TableName">
+            <summary>
+            表名
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityConfig.ClassName">
+            <summary>
+            类名
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityConfig.BaseType">
+            <summary>
+            基类 
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityConfig.BaseTypeName">
+            <summary>
+            基名称
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityConfig.Interfaces">
+            <summary>
+            接口
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityConfig.FileName">
+            <summary>
+            文件名
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityConfig.Summary">
+            <summary>
+            注释
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityConfig.IsTable">
+            <summary>
+            判断是否表
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityConfig.Properties">
+            <summary>
+            类包含的属性集合
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityConfig.DbInfo">
+            <summary>
+            数据库信息
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityConfig.Methods">
+            <summary>
+            类包含的函数集合
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityConfig.Fields">
+            <summary>
+            类包含的字段集合
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityConfig.DbParams">
+            <summary>
+            数据库所属的此类不存在的字段
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityConfig.DbRelations">
+            <summary>
+            数据库所属的此类不存在的关系
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityConfig.GenericInfo">
+            <summary>
+            泛型信息
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityConfig.GenericArgs">
+            <summary>
+            对泛型父类的传入值
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityConfig.HasConfig">
+            <summary>
+            此实体是否存在配置(BEM)
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityConfig.AllPropertyNames">
+            <summary>
+            所有字段名集合
+            </summary>
+        </member>
+        <member name="T:Buffalo.DBTools.UIHelper.ModelLoader.ExpressionItem">
+            <summary>
+            表达式项
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.ModelLoader.ExpressionItem.Content">
+            <summary>
+            内容
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.ModelLoader.ExpressionItem.Type">
+            <summary>
+            类型
+            </summary>
+        </member>
+        <member name="T:Buffalo.DBTools.UIHelper.BuildAction">
+            <summary>
+            文件生成类型
+            </summary>
+        </member>
+        <member name="F:Buffalo.DBTools.UIHelper.BuildAction.None">
+            <summary>
+            不做操作
+            </summary>
+        </member>
+        <member name="F:Buffalo.DBTools.UIHelper.BuildAction.Code">
+            <summary>
+            代码
+            </summary>
+        </member>
+        <member name="F:Buffalo.DBTools.UIHelper.BuildAction.File">
+            <summary>
+            普通文件
+            </summary>
+        </member>
+        <member name="F:Buffalo.DBTools.UIHelper.BuildAction.Resource">
+            <summary>
+            嵌入资源
+            </summary>
+        </member>
+        <member name="T:Buffalo.DBTools.HelperKernel.Generate3Tier">
+            <summary>
+            生成数据层
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.Generate3Tier.GenerateBusiness">
+            <summary>
+            生成业务层
+            </summary>
+            <param name="entity"></param>
+        </member>
+        <member name="F:Buffalo.DBTools.HelperKernel.Generate3Tier.DataAccessTypes">
+            <summary>
+            数据层的类型
+            </summary>
+        </member>
+        <member name="F:Buffalo.DBTools.HelperKernel.Generate3Tier.CacheTypes">
+            <summary>
+            数据层的类型
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.Generate3Tier.InitCacheItems">
+            <summary>
+            初始化数据库类型
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.Generate3Tier.GetOracleSummary(System.String,System.String)">
+            <summary>
+            获取Oracle数据库的备注
+            </summary>
+            <param name="oracleVersion">oracle版本</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.Generate3Tier.InitItems">
+            <summary>
+            初始化数据库类型
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.Generate3Tier.InitTiers">
+            <summary>
+            初始化架构层数
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.Generate3Tier.GenerateDataAccess">
+            <summary>
+            生成数据层
+            </summary>
+            <param name="entity"></param>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.Generate3Tier.GenerateIDataAccess">
+            <summary>
+            生成IDataAccess
+            </summary>
+            <param name="entity"></param>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.Generate3Tier.GenerateBQLDataAccess">
+            <summary>
+            生成BQL数据层
+            </summary>
+        </member>
+        <member name="F:Buffalo.DBTools.FrmClassDesigner.components">
+            <summary>
+            必需的设计器变量。
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.FrmClassDesigner.Dispose(System.Boolean)">
+            <summary>
+            清理所有正在使用的资源。
+            </summary>
+            <param name="disposing">如果应释放托管资源，为 true；否则为 false。</param>
+        </member>
+        <member name="M:Buffalo.DBTools.FrmClassDesigner.InitializeComponent">
+            <summary>
+            设计器支持所需的方法 - 不要
+            使用代码编辑器修改此方法的内容。
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.FrmClassDesigner.FillDBRealType(System.Int32)">
+            <summary>
+            填充数据层实际类型
+            </summary>
+            <param name="rowIndex"></param>
+        </member>
+        <member name="P:Buffalo.DBTools.FrmClassDesigner.SelectedClass">
+            <summary>
+            选中的类
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.FrmClassDesigner.DesignerInfo">
+            <summary>
+            类设计图信息
+            </summary>
+        </member>
+        <member name="T:Buffalo.DBTools.DocSummary.VSConfig.VS2010Config">
+            <summary>
+            VS2008的位置配置信息
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.DocSummary.VSConfig.VS2010Config.MemberMarginX">
+            <summary>
+            填充色的X
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.DocSummary.VSConfig.VS2010Config.MemberLineHeight">
+            <summary>
+            行高
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.DocSummary.VSConfig.VS2010Config.MemberStartMargin">
+            <summary>
+            离顶端的距离
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.DocSummary.VSConfig.VS2010Config.MemberSummaryHeight">
+            <summary>
+            离顶端的距离
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.DocSummary.VSConfig.VS2010Config.MemberSummaryY">
+            <summary>
+            类注释
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.DocSummary.VSConfig.VS2010Config.MemberExtendSummaryY">
+            <summary>
+            基类注释
+            </summary>
+        </member>
+        <member name="T:Buffalo.DBTools.DocSummary.VSConfig.VSConfigManager">
+            <summary>
+            VS配置信息
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.DocSummary.VSConfig.VSConfigManager.InitConfig(System.String)">
+            <summary>
+            初始化当前配置
+            </summary>
+            <param name="curProject"></param>
+        </member>
+        <member name="P:Buffalo.DBTools.DocSummary.VSConfig.VSConfigManager.CurConfig">
+            <summary>
+            获取当前的配置
+            </summary>
+        </member>
+        <member name="T:Buffalo.DBTools.UIHelper.ModelLoader.CompileException">
+            <summary>
+            编译错误的异常
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.ModelLoader.CompileException.Code">
+            <summary>
+            生成代码
+            </summary>
+        </member>
+        <member name="T:Buffalo.DBTools.UIHelper.ModelLoader.CodeGenInfo">
+            <summary>
+            代码生成的信息
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.ModelLoader.CodeGenInfo.Invoke(Buffalo.DBTools.UIHelper.EntityInfo,Buffalo.DBTools.UIHelper.UIConfigItem,System.Collections.Generic.List{Buffalo.DBTools.UIHelper.UIModelItem},Buffalo.DBTools.UIHelper.UIModelItem)">
+            <summary>
+            运行编译函数并返回结果
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.ModelLoader.CodeGenInfo.Code">
+            <summary>
+            生成代码
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityRelationCollection.FindByPropertyName(System.String)">
+            <summary>
+            通过属性名查找映射属性信息
+            </summary>
+            <param name="propertyName"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Buffalo.DBTools.HelperKernel.BQLEntityGenerater">
+            <summary>
+            BQL实体生成
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.BQLEntityGenerater.GenerateBQLEntityDB">
+            <summary>
+            生成DB声明
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.BQLEntityGenerater.GenerateBQLEntity">
+            <summary>
+            生成BQL实体
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.BQLEntityGenerater.GetBastGenericArgs">
+            <summary>
+            获取基类的泛型参数
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.BQLEntityGenerater.GetGeneric(System.Text.StringBuilder,System.Text.StringBuilder)">
+            <summary>
+            获取泛型字符串
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.BQLEntityGenerater.GenProperty">
+            <summary>
+            生成属性
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.BQLEntityGenerater.FormatClassName(System.String)">
+            <summary>
+            格式化类名
+            </summary>
+            <param name="typeName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.BQLEntityGenerater.GenRelation">
+            <summary>
+            生成映射属性
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.BQLEntityGenerater.GenInit">
+            <summary>
+            生成映射属性
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="F:Buffalo.DBTools.FrmDBSetting.components">
+            <summary>
+            必需的设计器变量。
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.FrmDBSetting.Dispose(System.Boolean)">
+            <summary>
+            清理所有正在使用的资源。
+            </summary>
+            <param name="disposing">如果应释放托管资源，为 true；否则为 false。</param>
+        </member>
+        <member name="M:Buffalo.DBTools.FrmDBSetting.InitializeComponent">
+            <summary>
+            设计器支持所需的方法 - 不要
+            使用代码编辑器修改此方法的内容。
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.FrmDBSetting.InitDBType">
+            <summary>
+            初始化数据库类型
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.FrmDBSetting.InitCacheType">
+            <summary>
+            初始化缓存类型
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.FrmDBSetting.FillEdit">
+            <summary>
+            填充编辑项
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.FrmDBSetting.FillSummary">
+            <summary>
+            填充注释设置
+            </summary>
+        </member>
+        <member name="F:Buffalo.DBTools.FrmDBSetting._selectedClassDesigner">
+            <summary>
+            选中的关系图信息
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.FrmDBSetting.ShowConfig(Buffalo.DBTools.ClassDesignerInfo,System.String)">
+            <summary>
+            显示配置框
+            </summary>
+            <param name="curProject"></param>
+            <param name="docView"></param>
+            <param name="dalNamespace"></param>
+        </member>
+        <member name="M:Buffalo.DBTools.FrmDBSetting.FillInfo">
+            <summary>
+            填充信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.FrmDBSetting.ShowOrHideCache(System.Boolean)">
+            <summary>
+            显示或隐藏缓存
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.FrmDBSetting.Info">
+            <summary>
+            数据库信息
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.FrmDBSetting.SummaryItem">
+            <summary>
+            设置注释选中状态
+            </summary>
+        </member>
+        <member name="T:Buffalo.DBTools.HelperKernel.EntityMappingConfig">
+            <summary>
+            实体映射文件生成
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityMappingConfig.LoadConfigInfo(Buffalo.DBTools.HelperKernel.EntityConfig)">
+            <summary>
+            加载配置信息
+            </summary>
+            <param name="entity"></param>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityMappingConfig.FillPropertyInfo(System.Xml.XmlDocument,Buffalo.DBTools.HelperKernel.EntityConfig)">
+            <summary>
+            填充属性信息
+            </summary>
+            <param name="doc"></param>
+            <param name="entity"></param>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityMappingConfig.FillRelationInfo(System.Xml.XmlDocument,Buffalo.DBTools.HelperKernel.EntityConfig)">
+            <summary>
+            填充映射信息
+            </summary>
+            <param name="doc"></param>
+            <param name="entity"></param>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityMappingConfig.SaveXML(Buffalo.DBTools.ROMHelper.DBEntityInfo)">
+            <summary>
+            保存XML信息
+            </summary>
+            <param name="entity"></param>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityMappingConfig.SaveXML(Buffalo.DBTools.HelperKernel.EntityConfig)">
+            <summary>
+            保存XML信息
+            </summary>
+            <param name="entity"></param>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityMappingConfig.SaveXML(System.String,System.Xml.XmlDocument)">
+            <summary>
+            保存XML
+            </summary>
+            <param name="path">文件路径</param>
+            <param name="doc">XML文档</param>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityMappingConfig.NewXmlDocument">
+            <summary>
+            新建一个XML文档
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityMappingConfig.LoadXML(System.String)">
+            <summary>
+            加载XML
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityMappingConfig.ToXML(Buffalo.DBTools.ROMHelper.DBEntityInfo)">
+            <summary>
+            实体生成XML配置
+            </summary>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityMappingConfig.AppendRelationInfo(System.Collections.Generic.List{Buffalo.DB.PropertyAttributes.TableRelationAttribute},System.Xml.XmlNode)">
+            <summary>
+            添加映射信息
+            </summary>
+            <param name="entity"></param>
+            <param name="classNode"></param>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityMappingConfig.AppendPropertyInfo(System.Collections.Generic.List{Buffalo.DB.PropertyAttributes.EntityParam},System.Xml.XmlNode)">
+            <summary>
+            添加属性的XML信息
+            </summary>
+            <param name="entity"></param>
+            <param name="classNode"></param>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityMappingConfig.ToXML(Buffalo.DBTools.HelperKernel.EntityConfig)">
+            <summary>
+            实体生成XML配置
+            </summary>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityMappingConfig.AppendRelationInfo(Buffalo.DBTools.HelperKernel.EntityConfig,System.Xml.XmlNode)">
+            <summary>
+            添加映射信息
+            </summary>
+            <param name="entity"></param>
+            <param name="classNode"></param>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityMappingConfig.AppendPropertyInfo(Buffalo.DBTools.HelperKernel.EntityConfig,System.Xml.XmlNode)">
+            <summary>
+            添加属性的XML信息
+            </summary>
+            <param name="entity"></param>
+            <param name="classNode"></param>
+        </member>
+        <member name="F:Buffalo.DBTools.FrmDBCreate.components">
+            <summary>
+            必需的设计器变量。
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.FrmDBCreate.Dispose(System.Boolean)">
+            <summary>
+            清理所有正在使用的资源。
+            </summary>
+            <param name="disposing">如果应释放托管资源，为 true；否则为 false。</param>
+        </member>
+        <member name="M:Buffalo.DBTools.FrmDBCreate.InitializeComponent">
+            <summary>
+            设计器支持所需的方法 - 不要
+            使用代码编辑器修改此方法的内容。
+            </summary>
+        </member>
+        <member name="F:Buffalo.DBTools.FrmDBCreate._lstSql">
+            <summary>
+            要执行的SQL
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.FrmDBCreate.GetClassSQL">
+            <summary>
+            获取类的创建语句
+            </summary>
+            <param name="type"></param>
+        </member>
+        <member name="M:Buffalo.DBTools.FrmDBCreate.ShowSql">
+            <summary>
+            显示SQL语句
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.FrmDBCreate.FillParams(Buffalo.DBTools.HelperKernel.EntityConfig,System.Collections.Generic.List{Buffalo.DB.PropertyAttributes.EntityParam},System.Collections.Generic.List{Buffalo.DB.PropertyAttributes.TableRelationAttribute})">
+            <summary>
+            填充字段信息
+            </summary>
+            <param name="entity"></param>
+            <param name="lstParam"></param>
+        </member>
+        <member name="P:Buffalo.DBTools.FrmDBCreate.SelectedClass">
+            <summary>
+            选中的类
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.FrmDBCreate.DesignerInfo">
+            <summary>
+            类设计图信息
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.FrmUIGenerater.BindItems(System.Collections.Generic.List{Buffalo.DBTools.UIHelper.UIModelItem})">
+            <summary>
+            绑定属性信息
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.FrmUIGenerater.BindTargetProjects(System.Collections.Generic.List{EnvDTE.Project})">
+            <summary>
+            绑定项目集合
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.FrmUIGenerater.BindProjects">
+            <summary>
+            绑定项目信息
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.FrmUIGenerater.CreateClassItem">
+            <summary>
+            创建类级别信息
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.FrmUIGenerater.CreateItems">
+            <summary>
+            创建控件
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.FrmUIGenerater.AddCellStyle">
+            <summary>
+            添加单元格样式
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.FrmUIGenerater.NewItem(Buffalo.DBTools.UIHelper.ConfigItem)">
+            <summary>
+            创建新的设置项
+            </summary>
+            <param name="item"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.FrmUIGenerater.LoadInfo">
+            <summary>
+            加载信息
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.FrmUIGenerater.LoadConfig">
+            <summary>
+            检测文件
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.FrmUIGenerater.GetProperty(System.Boolean)">
+            <summary>
+            获取项
+            </summary>
+            <param name="isAll">是否全部项</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.FrmUIGenerater.SaveItemInfos">
+            <summary>
+            保存项选择信息
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.FrmUIGenerater.SaveClassItemInfo">
+            <summary>
+            保存类信息
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.FrmUIGenerater.LoadClassItemCache">
+            <summary>
+            加载属性项信息
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.FrmUIGenerater.LoadItemCache">
+            <summary>
+            加载属性项信息
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.FrmUIGenerater.BindUIModleInfo(System.Collections.Generic.Dictionary{System.String,Buffalo.WinFormsControl.Editors.EditorBase},Buffalo.DBTools.UIHelper.UIModelItem)">
+            <summary>
+            绑定UI信息
+            </summary>
+            <param name="dicControl"></param>
+            <param name="item"></param>
+        </member>
+        <member name="F:Buffalo.DBTools.UIHelper.FrmUIGenerater.components">
+            <summary>
+            必需的设计器变量。
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.FrmUIGenerater.Dispose(System.Boolean)">
+            <summary>
+            清理所有正在使用的资源。
+            </summary>
+            <param name="disposing">如果应释放托管资源，为 true；否则为 false。</param>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.FrmUIGenerater.InitializeComponent">
+            <summary>
+            设计器支持所需的方法 - 不要
+            使用代码编辑器修改此方法的内容。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.FrmUIGenerater.CurEntityInfo">
+            <summary>
+            当前实体的信息
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.FrmUIGenerater.Config">
+            <summary>
+            配置信息
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.FrmUIGenerater.ModelPath">
+            <summary>
+            模版根目录
+            </summary>
+        </member>
+        <member name="T:Buffalo.DBTools.Connect">
+            <summary>用于实现外接程序的对象。</summary>
+            <seealso class='IDTExtensibility2' />
+        </member>
+        <member name="M:Buffalo.DBTools.Connect.#ctor">
+            <summary>实现外接程序对象的构造函数。请将您的初始化代码置于此方法内。</summary>
+        </member>
+        <member name="M:Buffalo.DBTools.Connect.GetDesignerInfo">
+            <summary>
+            类设计图信息
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.Connect.IsCommand(System.String,System.String)">
+            <summary>
+            是否此命令
+            </summary>
+            <param name="commandName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.Connect.FindClrClassByName(System.String,Microsoft.VisualStudio.Modeling.Diagrams.Diagram)">
+            <summary>
+            通过类名找到类
+            </summary>
+            <param name="className">类名</param>
+            <param name="selectedDiagram">类图</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.Connect.OnConnection(System.Object,Extensibility.ext_ConnectMode,System.Object,System.Array@)">
+            <summary>实现 IDTExtensibility2 接口的 OnConnection 方法。接收正在加载外接程序的通知。</summary>
+            <param term='application'>宿主应用程序的根对象。</param>
+            <param term='connectMode'>描述外接程序的加载方式。</param>
+            <param term='addInInst'>表示此外接程序的对象。</param>
+            <seealso class='IDTExtensibility2' />
+        </member>
+        <member name="M:Buffalo.DBTools.Connect.OnDisconnection(Extensibility.ext_DisconnectMode,System.Array@)">
+            <summary>实现 IDTExtensibility2 接口的 OnDisconnection 方法。接收正在卸载外接程序的通知。</summary>
+            <param term='disconnectMode'>描述外接程序的卸载方式。</param>
+            <param term='custom'>特定于宿主应用程序的参数数组。</param>
+            <seealso class='IDTExtensibility2' />
+        </member>
+        <member name="M:Buffalo.DBTools.Connect.OnAddInsUpdate(System.Array@)">
+            <summary>实现 IDTExtensibility2 接口的 OnAddInsUpdate 方法。当外接程序集合已发生更改时接收通知。</summary>
+            <param term='custom'>特定于宿主应用程序的参数数组。</param>
+            <seealso class='IDTExtensibility2' />		
+        </member>
+        <member name="M:Buffalo.DBTools.Connect.OnStartupComplete(System.Array@)">
+            <summary>实现 IDTExtensibility2 接口的 OnStartupComplete 方法。接收宿主应用程序已完成加载的通知。</summary>
+            <param term='custom'>特定于宿主应用程序的参数数组。</param>
+            <seealso class='IDTExtensibility2' />
+        </member>
+        <member name="M:Buffalo.DBTools.Connect.OnBeginShutdown(System.Array@)">
+            <summary>实现 IDTExtensibility2 接口的 OnBeginShutdown 方法。接收正在卸载宿主应用程序的通知。</summary>
+            <param term='custom'>特定于宿主应用程序的参数数组。</param>
+            <seealso class='IDTExtensibility2' />
+        </member>
+        <member name="M:Buffalo.DBTools.Connect.QueryStatus(System.String,EnvDTE.vsCommandStatusTextWanted,EnvDTE.vsCommandStatus@,System.Object@)">
+            <summary>实现 IDTCommandTarget 接口的 QueryStatus 方法。此方法在更新该命令的可用性时调用</summary>
+            <param term='commandName'>要确定其状态的命令的名称。</param>
+            <param term='neededText'>该命令所需的文本。</param>
+            <param term='status'>该命令在用户界面中的状态。</param>
+            <param term='commandText'>neededText 参数所要求的文本。</param>
+            <seealso class='Exec' />
+        </member>
+        <member name="M:Buffalo.DBTools.Connect.GetAllClass(Microsoft.VisualStudio.Modeling.Diagrams.Diagram)">
+            <summary>
+            获取所有类
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.Connect.Exec(System.String,EnvDTE.vsCommandExecOption,System.Object@,System.Object@,System.Boolean@)">
+            <summary>实现 IDTCommandTarget 接口的 Exec 方法。此方法在调用该命令时调用。</summary>
+            <param term='commandName'>要执行的命令的名称。</param>
+            <param term='executeOption'>描述该命令应如何运行。</param>
+            <param term='varIn'>从调用方传递到命令处理程序的参数。</param>
+            <param term='varOut'>从命令处理程序传递到调用方的参数。</param>
+            <param term='handled'>通知调用方此命令是否已被处理。</param>
+            <seealso class='Exec' />
+        </member>
+        <member name="M:Buffalo.DBTools.Connect.GreanDataAccess">
+            <summary>
+            生成数据层
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.Connect.CurrentProject">
+            <summary>
+            当前项目
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.Connect.AllProjects">
+            <summary>
+            获取所有项目
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.Connect.SelectedShapes">
+            <summary>
+            选中的图形
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.Connect.SelectedDiagram">
+            <summary>
+            选中的图
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.Connect.SelectDocView">
+            <summary>
+            选中的文档视图
+            </summary>
+        </member>
+        <member name="T:Buffalo.DBTools.UIHelper.ModelLoader.ExpressionType">
+            <summary>
+            表达式类型
+            </summary>
+        </member>
+        <member name="F:Buffalo.DBTools.UIHelper.ModelLoader.ExpressionType.String">
+            <summary>
+            字符串
+            </summary>
+        </member>
+        <member name="F:Buffalo.DBTools.UIHelper.ModelLoader.ExpressionType.Express">
+            <summary>
+            表达式
+            </summary>
+        </member>
+        <member name="F:Buffalo.DBTools.UIHelper.ModelLoader.ExpressionType.Code">
+            <summary>
+            代码块
+            </summary>
+        </member>
+        <member name="T:Buffalo.DBTools.HelperKernel.TagManager">
+            <summary>
+            标记标签管理
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.TagManager.AddTag(System.String)">
+            <summary>
+            添加标签
+            </summary>
+            <param name="tabName">标记名</param>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.TagManager.PopTag">
+            <summary>
+            弹出标签
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.TagManager.CurrentTag">
+            <summary>
+            当前标签
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityRemoveHelper.RemoveFromProject(System.String,Buffalo.DBTools.ClassDesignerInfo)">
+            <summary>
+            从项目中删除文件
+            </summary>
+            <param name="fileName"></param>
+            <param name="project"></param>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityRemoveHelper.FindItem(EnvDTE.ProjectItems,System.String)">
+            <summary>
+            通过名字查找项目中的项
+            </summary>
+            <param name="items"></param>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Buffalo.DBTools.CommandItems">
+            <summary>
+            菜单类
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.CommandItems.ClearControl(Microsoft.VisualStudio.CommandBars.CommandBar,System.String)">
+            <summary>
+            清除指定名称的项(删除可能VS崩溃没执行删除而残余的菜单)
+            </summary>
+            <param name="bar"></param>
+            <param name="name"></param>
+        </member>
+        <member name="M:Buffalo.DBTools.CommandItems.Install(EnvDTE80.DTE2,EnvDTE.AddIn,EnvDTE80.Commands2)">
+            <summary>
+            安装菜单
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.CommandItems.UnInstall">
+            <summary>
+            卸载菜单
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.CommandItems.AddToCommand(System.String,System.String,System.String,System.Boolean,System.Object)">
+            <summary>
+            添加命令
+            </summary>
+            <param name="name"></param>
+            <param name="buttonText"></param>
+            <param name="tooltip"></param>
+            <param name="msoButton"></param>
+            <param name="bitmap"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.CommandItems.AddPopUp(System.String,Microsoft.VisualStudio.CommandBars.CommandBar,System.Int32)">
+            <summary>
+            添加弹出菜单
+            </summary>
+            <param name="buttonText"></param>
+            <param name="parent"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Buffalo.DBTools.CommandBar">
+            <summary>
+              强类型资源类，用于查找本地化字符串等。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.ResourceManager">
+            <summary>
+              返回此类使用的缓存 ResourceManager 实例。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.Culture">
+            <summary>
+              为使用此强类型资源类的所有资源查找
+              重写当前线程的 CurrentUICulture 属性。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.deAction">
+            <summary>
+              查找类似 Aktion 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.deAddins">
+            <summary>
+              查找类似 Add-Ins 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.deBuild">
+            <summary>
+              查找类似 Erstellen 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.deClass_Diagram">
+            <summary>
+              查找类似 Klassendiagramm 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.deCommunity">
+            <summary>
+              查找类似 Community 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.deData">
+            <summary>
+              查找类似 Daten 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.deDatabase">
+            <summary>
+              查找类似 Datenbank 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.deDatabase_Diagram">
+            <summary>
+              查找类似 Datenbankdiagramm 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.deDebug">
+            <summary>
+              查找类似 Debuggen 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.deDiagram">
+            <summary>
+              查找类似 Diagramm 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.deEdit">
+            <summary>
+              查找类似 Bearbeiten 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.deFile">
+            <summary>
+              查找类似 Datei 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.deFormat">
+            <summary>
+              查找类似 Format 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.deFrames">
+            <summary>
+              查找类似 Rahmen 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.deHelp">
+            <summary>
+              查找类似 Hilfe 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.deImage">
+            <summary>
+              查找类似 Bild 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.deLayout">
+            <summary>
+              查找类似 Layout 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.deMacros">
+            <summary>
+              查找类似 Makros 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.deProject">
+            <summary>
+              查找类似 Projekt 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.deQuery">
+            <summary>
+              查找类似 Query 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.deQuery_Designer">
+            <summary>
+              查找类似 Abfrage-Designer 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.deRefactor">
+            <summary>
+              查找类似 Umgestalten 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.deResources">
+            <summary>
+              查找类似 Ressourcen 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.deSchema">
+            <summary>
+              查找类似 Schema 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.deStyles">
+            <summary>
+              查找类似 Formate 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.deTable">
+            <summary>
+              查找类似 Tabelle 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.deTable_Designer">
+            <summary>
+              查找类似 Tabellen-Designer 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.deTeam">
+            <summary>
+              查找类似 Team 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.deTest">
+            <summary>
+              查找类似 Testen 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.deTools">
+            <summary>
+              查找类似 Extras 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.deView">
+            <summary>
+              查找类似 Ansicht 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.deWindow">
+            <summary>
+              查找类似 Fenster 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.deXML">
+            <summary>
+              查找类似 XML 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.enAction">
+            <summary>
+              查找类似 Action 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.enAddins">
+            <summary>
+              查找类似 Addins 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.enBuild">
+            <summary>
+              查找类似 Build 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.enClass_Diagram">
+            <summary>
+              查找类似 Class Diagram 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.enCommunity">
+            <summary>
+              查找类似 Community 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.enData">
+            <summary>
+              查找类似 Data 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.enDatabase">
+            <summary>
+              查找类似 Database 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.enDatabase_Diagram">
+            <summary>
+              查找类似 Database Diagram 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.enDebug">
+            <summary>
+              查找类似 Debug 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.enDiagram">
+            <summary>
+              查找类似 Diagram 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.enEdit">
+            <summary>
+              查找类似 Edit 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.enFile">
+            <summary>
+              查找类似 File 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.enFormat">
+            <summary>
+              查找类似 Format 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.enFrames">
+            <summary>
+              查找类似 Frames 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.enHelp">
+            <summary>
+              查找类似 Help 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.enImage">
+            <summary>
+              查找类似 Image 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.enLayout">
+            <summary>
+              查找类似 Layout 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.enMacros">
+            <summary>
+              查找类似 Macros 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.enProject">
+            <summary>
+              查找类似 Project 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.enQuery">
+            <summary>
+              查找类似 Query 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.enQuery_Designer">
+            <summary>
+              查找类似 Query Designer 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.enRefactor">
+            <summary>
+              查找类似 Refactor 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.enResources">
+            <summary>
+              查找类似 Resources 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.enSchema">
+            <summary>
+              查找类似 Schema 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.enStyles">
+            <summary>
+              查找类似 Styles 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.enTable">
+            <summary>
+              查找类似 Table 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.enTable_Designer">
+            <summary>
+              查找类似 Table Designer 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.enTeam">
+            <summary>
+              查找类似 Team 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.enTest">
+            <summary>
+              查找类似 Test 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.enTools">
+            <summary>
+              查找类似 Tools 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.enView">
+            <summary>
+              查找类似 View 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.enWindow">
+            <summary>
+              查找类似 Window 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.enXML">
+            <summary>
+              查找类似 XML 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.esAction">
+            <summary>
+              查找类似 Acción 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.esAddins">
+            <summary>
+              查找类似 Complementos 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.esBuild">
+            <summary>
+              查找类似 Generar 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.esClass_Diagram">
+            <summary>
+              查找类似 Diagrama de clase 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.esCommunity">
+            <summary>
+              查找类似 Comunidad 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.esData">
+            <summary>
+              查找类似 Datos 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.esDatabase">
+            <summary>
+              查找类似 Base de datos 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.esDatabase_Diagram">
+            <summary>
+              查找类似 Diagrama de base de datos 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.esDebug">
+            <summary>
+              查找类似 Depurar 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.esDiagram">
+            <summary>
+              查找类似 Diagrama 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.esEdit">
+            <summary>
+              查找类似 Editar 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.esFile">
+            <summary>
+              查找类似 Archivo 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.esFormat">
+            <summary>
+              查找类似 Formato 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.esFrames">
+            <summary>
+              查找类似 Marcos 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.esHelp">
+            <summary>
+              查找类似 Ayuda 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.esImage">
+            <summary>
+              查找类似 Imagen 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.esLayout">
+            <summary>
+              查找类似 Diseño 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.esMacros">
+            <summary>
+              查找类似 Macros 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.esProject">
+            <summary>
+              查找类似 Proyecto 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.esQuery">
+            <summary>
+              查找类似 Consulta 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.esQuery_Designer">
+            <summary>
+              查找类似 Diseñador de consultas 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.esRefactor">
+            <summary>
+              查找类似 Refactorizar 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.esResources">
+            <summary>
+              查找类似 Recursos 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.esSchema">
+            <summary>
+              查找类似 Esquema 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.esStyles">
+            <summary>
+              查找类似 Estilos 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.esTable">
+            <summary>
+              查找类似 Tabla 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.esTable_Designer">
+            <summary>
+              查找类似 Diseñador de tablas 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.esTeam">
+            <summary>
+              查找类似 Equipo 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.esTest">
+            <summary>
+              查找类似 Prueba 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.esTools">
+            <summary>
+              查找类似 Herramientas 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.esView">
+            <summary>
+              查找类似 Ver 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.esWindow">
+            <summary>
+              查找类似 Ventana 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.esXML">
+            <summary>
+              查找类似 XML 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.frAction">
+            <summary>
+              查找类似 Action 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.frAddins">
+            <summary>
+              查找类似 Compléments 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.frBuild">
+            <summary>
+              查找类似 Générer 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.frClass_Diagram">
+            <summary>
+              查找类似 Diagramme de classes 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.frCommunity">
+            <summary>
+              查找类似 Communauté 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.frData">
+            <summary>
+              查找类似 Données 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.frDatabase">
+            <summary>
+              查找类似 Base de données 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.frDatabase_Diagram">
+            <summary>
+              查找类似 Schéma de base de données 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.frDebug">
+            <summary>
+              查找类似 Déboguer 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.frDiagram">
+            <summary>
+              查找类似 Schéma 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.frEdit">
+            <summary>
+              查找类似 Modifier 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.frFile">
+            <summary>
+              查找类似 Fichier 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.frFormat">
+            <summary>
+              查找类似 Format 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.frFrames">
+            <summary>
+              查找类似 Frames 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.frHelp">
+            <summary>
+              查找类似 ? 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.frImage">
+            <summary>
+              查找类似 Image 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.frLayout">
+            <summary>
+              查找类似 Disposition 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.frMacros">
+            <summary>
+              查找类似 Macros 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.frProject">
+            <summary>
+              查找类似 Projet 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.frQuery">
+            <summary>
+              查找类似 Requête 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.frQuery_Designer">
+            <summary>
+              查找类似 Concepteur de requêtes 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.frRefactor">
+            <summary>
+              查找类似 Refactoriser 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.frResources">
+            <summary>
+              查找类似 Ressources 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.frSchema">
+            <summary>
+              查找类似 Schéma 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.frStyles">
+            <summary>
+              查找类似 Styles 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.frTable">
+            <summary>
+              查找类似 Tableau 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.frTable_Designer">
+            <summary>
+              查找类似 Concepteur de tables 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.frTeam">
+            <summary>
+              查找类似 équipe 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.frTest">
+            <summary>
+              查找类似 Test 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.frTools">
+            <summary>
+              查找类似 Outils 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.frView">
+            <summary>
+              查找类似 Affichage 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.frWindow">
+            <summary>
+              查找类似 Fenêtre 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.frXML">
+            <summary>
+              查找类似 XML 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.itAction">
+            <summary>
+              查找类似 Azione 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.itAddins">
+            <summary>
+              查找类似 Componenti aggiuntivi 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.itBuild">
+            <summary>
+              查找类似 Genera 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.itClass_Diagram">
+            <summary>
+              查找类似 Diagramma classi 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.itCommunity">
+            <summary>
+              查找类似 Comunità 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.itData">
+            <summary>
+              查找类似 Dati 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.itDatabase">
+            <summary>
+              查找类似 Database 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.itDatabase_Diagram">
+            <summary>
+              查找类似 Diagramma database 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.itDebug">
+            <summary>
+              查找类似 Debug 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.itDiagram">
+            <summary>
+              查找类似 Diagramma 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.itEdit">
+            <summary>
+              查找类似 Modifica 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.itFile">
+            <summary>
+              查找类似 File 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.itFormat">
+            <summary>
+              查找类似 Formato 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.itFrames">
+            <summary>
+              查找类似 Frame 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.itHelp">
+            <summary>
+              查找类似 ? 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.itImage">
+            <summary>
+              查找类似 Immagine 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.itLayout">
+            <summary>
+              查找类似 Layout 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.itMacros">
+            <summary>
+              查找类似 Macro 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.itProject">
+            <summary>
+              查找类似 Progetto 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.itQuery">
+            <summary>
+              查找类似 Query 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.itQuery_Designer">
+            <summary>
+              查找类似 Progettazione query 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.itRefactor">
+            <summary>
+              查找类似 Effettua refactoring 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.itResources">
+            <summary>
+              查找类似 Risorse 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.itSchema">
+            <summary>
+              查找类似 Schema 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.itStyles">
+            <summary>
+              查找类似 Stili 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.itTable">
+            <summary>
+              查找类似 Tabella 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.itTable_Designer">
+            <summary>
+              查找类似 Progettazione tabelle 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.itTeam">
+            <summary>
+              查找类似 Team 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.itTest">
+            <summary>
+              查找类似 Prova 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.itTools">
+            <summary>
+              查找类似 Strumenti 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.itView">
+            <summary>
+              查找类似 Visualizza 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.itWindow">
+            <summary>
+              查找类似 Finestra 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.itXML">
+            <summary>
+              查找类似 XML 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.jaAction">
+            <summary>
+              查找类似 操作 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.jaAddins">
+            <summary>
+              查找类似 アドイン 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.jaBuild">
+            <summary>
+              查找类似 ビルド 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.jaClass_Diagram">
+            <summary>
+              查找类似 クラス ダイアグラム 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.jaCommunity">
+            <summary>
+              查找类似 コミュニティ 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.jaData">
+            <summary>
+              查找类似 データ 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.jaDatabase">
+            <summary>
+              查找类似 データベース 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.jaDatabase_Diagram">
+            <summary>
+              查找类似 データベース ダイアグラム 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.jaDebug">
+            <summary>
+              查找类似 デバッグ 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.jaDiagram">
+            <summary>
+              查找类似 ダイアグラム 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.jaEdit">
+            <summary>
+              查找类似 編集 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.jaFile">
+            <summary>
+              查找类似 ファイル 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.jaFormat">
+            <summary>
+              查找类似 書式 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.jaFrames">
+            <summary>
+              查找类似 フレーム 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.jaHelp">
+            <summary>
+              查找类似 ヘルプ 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.jaImage">
+            <summary>
+              查找类似 イメージ 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.jaLayout">
+            <summary>
+              查找类似 レイアウト 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.jaMacros">
+            <summary>
+              查找类似 マクロ 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.jaProject">
+            <summary>
+              查找类似 プロジェクト 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.jaQuery">
+            <summary>
+              查找类似 クエリ 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.jaQuery_Designer">
+            <summary>
+              查找类似 クエリ デザイナ 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.jaRefactor">
+            <summary>
+              查找类似 リファクタ 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.jaResources">
+            <summary>
+              查找类似 リソース 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.jaSchema">
+            <summary>
+              查找类似 スキーマ 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.jaStyles">
+            <summary>
+              查找类似 スタイル 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.jaTable">
+            <summary>
+              查找类似 テーブル 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.jaTable_Designer">
+            <summary>
+              查找类似 テーブル デザイナ 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.jaTeam">
+            <summary>
+              查找类似 チーム 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.jaTest">
+            <summary>
+              查找类似 テスト 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.jaTools">
+            <summary>
+              查找类似 ツール 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.jaView">
+            <summary>
+              查找类似 表示 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.jaWindow">
+            <summary>
+              查找类似 ウィンドウ 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.jaXML">
+            <summary>
+              查找类似 XML 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.koAction">
+            <summary>
+              查找类似 작업 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.koAddins">
+            <summary>
+              查找类似 추가 기능 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.koBuild">
+            <summary>
+              查找类似 빌드 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.koClass_Diagram">
+            <summary>
+              查找类似 클래스 다이어그램 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.koCommunity">
+            <summary>
+              查找类似 커뮤니티 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.koData">
+            <summary>
+              查找类似 데이터 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.koDatabase">
+            <summary>
+              查找类似 데이터베이스 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.koDatabase_Diagram">
+            <summary>
+              查找类似 데이터베이스 다이어그램 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.koDebug">
+            <summary>
+              查找类似 디버그 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.koDiagram">
+            <summary>
+              查找类似 다이어그램 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.koEdit">
+            <summary>
+              查找类似 편집 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.koFile">
+            <summary>
+              查找类似 파일 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.koFormat">
+            <summary>
+              查找类似 서식 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.koFrames">
+            <summary>
+              查找类似 프레임 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.koHelp">
+            <summary>
+              查找类似 도움말 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.koImage">
+            <summary>
+              查找类似 이미지 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.koLayout">
+            <summary>
+              查找类似 레이아웃 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.koMacros">
+            <summary>
+              查找类似 매크로 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.koProject">
+            <summary>
+              查找类似 프로젝트 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.koQuery">
+            <summary>
+              查找类似 쿼리 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.koQuery_Designer">
+            <summary>
+              查找类似 쿼리 디자이너 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.koRefactor">
+            <summary>
+              查找类似 리팩터링 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.koResources">
+            <summary>
+              查找类似 리소스 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.koSchema">
+            <summary>
+              查找类似 스키마 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.koStyles">
+            <summary>
+              查找类似 스타일 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.koTable">
+            <summary>
+              查找类似 테이블 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.koTable_Designer">
+            <summary>
+              查找类似 테이블 디자이너 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.koTeam">
+            <summary>
+              查找类似 팀 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.koTest">
+            <summary>
+              查找类似 테스트 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.koTools">
+            <summary>
+              查找类似 도구 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.koView">
+            <summary>
+              查找类似 뷰 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.koWindow">
+            <summary>
+              查找类似 창 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.koXML">
+            <summary>
+              查找类似 XML 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHSAction">
+            <summary>
+              查找类似 操作 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHSAddins">
+            <summary>
+              查找类似 外接程序 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHSBuild">
+            <summary>
+              查找类似 生成 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHSClass_Diagram">
+            <summary>
+              查找类似 类关系图 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHSCommunity">
+            <summary>
+              查找类似 社区 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHSData">
+            <summary>
+              查找类似 数据 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHSDatabase">
+            <summary>
+              查找类似 数据库 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHSDatabase_Diagram">
+            <summary>
+              查找类似 数据库关系图 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHSDebug">
+            <summary>
+              查找类似 调试 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHSDiagram">
+            <summary>
+              查找类似 关系图 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHSEdit">
+            <summary>
+              查找类似 编辑 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHSFile">
+            <summary>
+              查找类似 文件 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHSFormat">
+            <summary>
+              查找类似 格式 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHSFrames">
+            <summary>
+              查找类似 框架 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHSHelp">
+            <summary>
+              查找类似 帮助 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHSImage">
+            <summary>
+              查找类似 图像 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHSLayout">
+            <summary>
+              查找类似 布局 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHSMacros">
+            <summary>
+              查找类似 宏 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHSProject">
+            <summary>
+              查找类似 项目 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHSQuery">
+            <summary>
+              查找类似 查询 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHSQuery_Designer">
+            <summary>
+              查找类似 查询设计器 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHSRefactor">
+            <summary>
+              查找类似 重构 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHSResources">
+            <summary>
+              查找类似 资源 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHSSchema">
+            <summary>
+              查找类似 架构 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHSStyles">
+            <summary>
+              查找类似 样式 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHSTable">
+            <summary>
+              查找类似 表 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHSTable_Designer">
+            <summary>
+              查找类似 表设计器 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHSTeam">
+            <summary>
+              查找类似 工作组 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHSTest">
+            <summary>
+              查找类似 测试 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHSTools">
+            <summary>
+              查找类似 工具 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHSView">
+            <summary>
+              查找类似 视图 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHSWindow">
+            <summary>
+              查找类似 窗口 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHSXML">
+            <summary>
+              查找类似 XML 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHTAction">
+            <summary>
+              查找类似 動作 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHTAddins">
+            <summary>
+              查找类似 增益集 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHTBuild">
+            <summary>
+              查找类似 建置 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHTClass_Diagram">
+            <summary>
+              查找类似 類別圖表 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHTCommunity">
+            <summary>
+              查找类似 社群 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHTData">
+            <summary>
+              查找类似 資料 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHTDatabase">
+            <summary>
+              查找类似 資料庫 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHTDatabase_Diagram">
+            <summary>
+              查找类似 資料庫圖表 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHTDebug">
+            <summary>
+              查找类似 偵錯 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHTDiagram">
+            <summary>
+              查找类似 圖表 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHTEdit">
+            <summary>
+              查找类似 編輯 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHTFile">
+            <summary>
+              查找类似 檔案 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHTFormat">
+            <summary>
+              查找类似 格式 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHTFrames">
+            <summary>
+              查找类似 框架 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHTHelp">
+            <summary>
+              查找类似 說明 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHTImage">
+            <summary>
+              查找类似 影像 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHTLayout">
+            <summary>
+              查找类似 配置 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHTMacros">
+            <summary>
+              查找类似 巨集 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHTProject">
+            <summary>
+              查找类似 專案 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHTQuery">
+            <summary>
+              查找类似 查詢 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHTQuery_Designer">
+            <summary>
+              查找类似 查詢設計工具 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHTRefactor">
+            <summary>
+              查找类似 重整 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHTResources">
+            <summary>
+              查找类似 資源 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHTSchema">
+            <summary>
+              查找类似 結構描述 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHTStyles">
+            <summary>
+              查找类似 樣式 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHTTable">
+            <summary>
+              查找类似 資料表 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHTTable_Designer">
+            <summary>
+              查找类似 資料表設計工具 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHTTeam">
+            <summary>
+              查找类似 小組 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHTTest">
+            <summary>
+              查找类似 測試 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHTTools">
+            <summary>
+              查找类似 工具 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHTView">
+            <summary>
+              查找类似 檢視 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHTWindow">
+            <summary>
+              查找类似 視窗 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.CommandBar.zh_CHTXML">
+            <summary>
+              查找类似 XML 的本地化字符串。
+            </summary>
+        </member>
+        <member name="T:Buffalo.DBTools.ToolVersionInfo">
+            <summary>
+            版本信息
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.ToolVersionInfo.ToolVerInfo">
+            <summary>
+            软件版本信息
+            </summary>
+        </member>
+        <member name="F:Buffalo.DBTools.FrmProcess.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.FrmProcess.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:Buffalo.DBTools.FrmProcess.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.FrmProcess.ShowProcess">
+            <summary>
+            显示窗体
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Buffalo.DBTools.UIHelper.ModelLoader.CodeGenCache">
+            <summary>
+            模版编译缓存
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.ModelLoader.CodeGenCache.GetGenerationer(System.String,Buffalo.DBTools.UIHelper.EntityInfo)">
+            <summary>
+            根据文件路径获取生成器
+            </summary>
+            <param name="path">文件路径</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.ModelLoader.CodeGenCache.Clear">
+            <summary>
+            清空所有缓存
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.ModelLoader.CodeGenCache.DeleteGenerationer(System.String)">
+            <summary>
+            删除缓存
+            </summary>
+            <param name="path">缓存对应路径</param>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.ModelLoader.CodeGenCache.CreateGenerationer(System.String,Buffalo.DBTools.UIHelper.EntityInfo)">
+            <summary>
+            生成生成器
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.GridViewComboBoxCell.ShowComboBox(System.Windows.Forms.DataGridViewCell)">
+            <summary>
+            显示ComboBox
+            </summary>
+            <param name="cell"></param>
+            <param name="dataSource"></param>
+        </member>
+        <member name="M:Buffalo.DBTools.GridViewComboBoxCell.SetDataSource(System.Collections.IEnumerable)">
+            <summary>
+            设置数据源
+            </summary>
+            <param name="dataSource"></param>
+        </member>
+        <member name="M:Buffalo.DBTools.GridViewComboBoxCell.HideComboBox">
+            <summary>
+            隐藏ComboBox
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.DocSummary.ShapeSummaryDisplayer.ShowOrHideSummary(Microsoft.VisualStudio.Modeling.Diagrams.Diagram,Buffalo.DBTools.Connect)">
+            <summary>
+            显示或隐藏注释
+            </summary>
+            <param name="dia">图</param>
+        </member>
+        <member name="T:Buffalo.DBTools.UIHelper.ModelLoader.SourceCodeCompiler">
+            <summary>
+            源码编译器
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.ModelLoader.SourceCodeCompiler.DoCompiler(System.String,System.String,System.Collections.Generic.List{System.String},System.Text.StringBuilder)">
+            <summary>
+            编译
+            </summary>
+            <param name="code">代码</param>
+            <param name="errorMessage">错误信息</param>
+            <returns></returns>
+        </member>
+        <member name="T:Buffalo.DBTools.UIHelper.InitBaseCode">
+            <summary>
+            初始化基础dll
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.InitBaseCode.InitBaseDll">
+            <summary>
+            初始化基础dll
+            </summary>
+        </member>
+        <member name="T:Buffalo.DBTools.ROMHelper.DBEntityInfo">
+            <summary>
+            数据库到实体的信息
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.ROMHelper.DBEntityInfo.#ctor(System.String,Buffalo.DB.DataBaseAdapter.DBTableInfo,Buffalo.DBTools.ClassDesignerInfo,Buffalo.DBTools.HelperKernel.DBConfigInfo,System.String)">
+            <summary>
+            实体信息
+            </summary>
+            <param name="belong">所属的数据库信息</param>
+        </member>
+        <member name="M:Buffalo.DBTools.ROMHelper.DBEntityInfo.FillBaseTypeParam(System.String,Buffalo.DBTools.ClassDesignerInfo,System.Collections.Generic.Dictionary{System.String,Buffalo.DBTools.HelperKernel.EntityParamField},System.Collections.Generic.Dictionary{System.String,Buffalo.DBTools.HelperKernel.EntityRelationItem})">
+            <summary>
+            填充字段和映射信息
+            </summary>
+            <param name="cls"></param>
+            <param name="designerInfo"></param>
+            <param name="dicParam"></param>
+            <param name="dicRelation"></param>
+        </member>
+        <member name="M:Buffalo.DBTools.ROMHelper.DBEntityInfo.FilterBaseTypeParam">
+            <summary>
+            去掉基类已有字段
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.ROMHelper.DBEntityInfo.InitInfo">
+            <summary>
+            初始化类信息
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.ROMHelper.DBEntityInfo.GetRealFileName(Buffalo.DB.DataBaseAdapter.DBTableInfo,Buffalo.DBTools.ClassDesignerInfo)">
+            <summary>
+            获取实体的文件名
+            </summary>
+            <param name="table">实体表信息</param>
+            <param name="doc">文档信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.ROMHelper.DBEntityInfo.GetEntityRealFileName(Buffalo.DB.DataBaseAdapter.DBTableInfo,Buffalo.DBTools.HelperKernel.DBConfigInfo,Buffalo.DBTools.ClassDesignerInfo)">
+            <summary>
+            获取实体的文件名
+            </summary>
+            <param name="table">实体表信息</param>
+            <param name="doc">文档信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.ROMHelper.DBEntityInfo.GreanCode(System.Xml.XmlDocument)">
+            <summary>
+            生成代码
+            </summary>
+            <param name="code">代码行</param>
+            <param name="tiers">层数</param>
+        </member>
+        <member name="M:Buffalo.DBTools.ROMHelper.DBEntityInfo.GetEntityFileName(System.String)">
+            <summary>
+            获取实体文件名
+            </summary>
+            <param name="fileName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.ROMHelper.DBEntityInfo.SetToDiagram(System.Xml.XmlDocument)">
+            <summary>
+            把类设置到类图
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.ROMHelper.DBEntityInfo.GetClassDiagram(System.String)">
+            <summary>
+            获取类图文档
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.ROMHelper.DBEntityInfo.AppendNode(System.Xml.XmlNode,System.Decimal)">
+            <summary>
+            添加当前类到类图
+            </summary>
+            <param name="classDia"></param>
+        </member>
+        <member name="M:Buffalo.DBTools.ROMHelper.DBEntityInfo.FillRelationsInfo(Buffalo.DB.PropertyAttributes.TableRelationAttribute,System.Text.StringBuilder)">
+            <summary>
+            填充关系代码
+            </summary>
+            <param name="er"></param>
+            <param name="sb"></param>
+        </member>
+        <member name="M:Buffalo.DBTools.ROMHelper.DBEntityInfo.BildRelations">
+            <summary>
+            创建关系
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.ROMHelper.DBEntityInfo.FormatSummary(System.String)">
+            <summary>
+            格式化注释
+            </summary>
+            <param name="summary"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.ROMHelper.DBEntityInfo.AppendFieldInfo(Buffalo.DB.PropertyAttributes.EntityParam,System.Text.StringBuilder)">
+            <summary>
+            添加字段代码
+            </summary>
+            <param name="prm"></param>
+            <param name="sb"></param>
+        </member>
+        <member name="M:Buffalo.DBTools.ROMHelper.DBEntityInfo.BildFields">
+            <summary>
+            生成字段
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.ROMHelper.DBEntityInfo.BuildContext">
+            <summary>
+            添加到代码
+            </summary>
+            <param name="lstTarget"></param>
+        </member>
+        <member name="M:Buffalo.DBTools.ROMHelper.DBEntityInfo.ToCSharpType(System.Data.DbType,System.Boolean)">
+            <summary>
+            获取C#类型
+            </summary>
+            <param name="type">数据库类型</param>
+            <param name="nullAble">是否可空</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.ROMHelper.DBEntityInfo.ToTableInfo">
+            <summary>
+            当前表到表信息的转换
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.ROMHelper.DBEntityInfo.GenerateExtendCode">
+            <summary>
+            生成扩展类代码文件
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.ROMHelper.DBEntityInfo.CurrentDBConfigInfo">
+            <summary>
+            数据库配置信息
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.ROMHelper.DBEntityInfo.BelongTable">
+            <summary>
+            所属表
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.ROMHelper.DBEntityInfo.DesignerInfo">
+            <summary>
+            类设计图信息
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.ROMHelper.DBEntityInfo.FileName">
+            <summary>
+            文件名
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.ROMHelper.DBEntityInfo.Summary">
+            <summary>
+            注释
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.ROMHelper.DBEntityInfo.EntityNamespace">
+            <summary>
+            实体命名空间
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.ROMHelper.DBEntityInfo.ClassName">
+            <summary>
+            类名
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.ROMHelper.DBEntityInfo.BaseType">
+            <summary>
+            基类
+            </summary>
+        </member>
+        <member name="T:Buffalo.DBTools.HelperKernel.EntityRelationItem">
+            <summary>
+            映射信息
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityRelationItem.#ctor(Microsoft.VisualStudio.EnterpriseTools.ArtifactModel.Clr.CodeElementPosition,Microsoft.VisualStudio.EnterpriseTools.ArtifactModel.Clr.ClrField,Buffalo.DBTools.HelperKernel.EntityConfig)">
+            <summary>
+            实体映射
+            </summary>
+            <param name="cp"></param>
+            <param name="fInfo"></param>
+            <param name="belongEntity"></param>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityRelationItem.GetIsParent(Microsoft.VisualStudio.EnterpriseTools.ArtifactModel.Clr.ClrField)">
+            <summary>
+            获取此字段是否主表属性
+            </summary>
+            <param name="fInfo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityRelationItem.GetInfo(Microsoft.VisualStudio.EnterpriseTools.ArtifactModel.Clr.ClrField)">
+            <summary>
+            获取字段的配置信息
+            </summary>
+            <param name="fInfo"></param>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.EntityRelationItem.AddSource(System.Collections.Generic.List{System.String},System.String)">
+            <summary>
+            添加到源码
+            </summary>
+            <param name="source">源码列表</param>
+            <param name="spaces">空格</param>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityRelationItem.IsParent">
+            <summary>
+            是否主表属性
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityRelationItem.IsToDB">
+            <summary>
+            生成到数据库
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityRelationItem.TargetProperty">
+            <summary>
+            目标属性
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityRelationItem.SourceProperty">
+            <summary>
+            源属性
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityRelationItem.TargetPropertyList">
+            <summary>
+            获取目标实体的信息集合
+            </summary>
+        </member>
+        <member name="T:Buffalo.DBTools.UIHelper.UIConfigItem">
+            <summary>
+            UI配置信息
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.UIConfigItem.#ctor(System.Xml.XmlDocument,Buffalo.DBTools.ClassDesignerInfo)">
+            <summary>
+            UI配置信息
+            </summary>
+            <param name="config">配置的XML</param>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.UIConfigItem.FillProjectItems(System.Xml.XmlNode)">
+            <summary>
+            填充项目项
+            </summary>
+            <param name="node"></param>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.UIConfigItem.FillProjectItem(System.Xml.XmlNode,System.Collections.Generic.List{Buffalo.DBTools.UIHelper.UIProjectItem})">
+            <summary>
+            填充项目项
+            </summary>
+            <param name="node"></param>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.UIConfigItem.GetGenType(System.String)">
+            <summary>
+            获取生成类型
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.UIConfigItem.FormatParameter(System.String,Buffalo.DBTools.UIHelper.EntityInfo,EnvDTE.Project)">
+            <summary>
+            格式化参数名字
+            </summary>
+            <param name="parameter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.UIConfigItem.FillConfigItems(System.Xml.XmlNode)">
+            <summary>
+            填充配置项
+            </summary>
+            <param name="node"></param>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.UIConfigItem.GetItemType(System.Xml.XmlNode)">
+            <summary>
+            获取项类型
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.UIConfigItem.GetValueItems(System.Xml.XmlNode)">
+            <summary>
+            获取值类型项
+            </summary>
+            <param name="cnode"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.UIConfigItem.ConfigItems">
+            <summary>
+            可选项
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.UIConfigItem.ClassItems">
+            <summary>
+            类预设项
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.UIConfigItem.Projects">
+            <summary>
+            所属工程
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.UIConfigItem.DesignerInfo">
+            <summary>
+            类设计图信息
+            </summary>
+        </member>
+        <member name="F:Buffalo.DBTools.FrmAllTables.components">
+            <summary>
+            必需的设计器变量。
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.FrmAllTables.Dispose(System.Boolean)">
+            <summary>
+            清理所有正在使用的资源。
+            </summary>
+            <param name="disposing">如果应释放托管资源，为 true；否则为 false。</param>
+        </member>
+        <member name="M:Buffalo.DBTools.FrmAllTables.InitializeComponent">
+            <summary>
+            设计器支持所需的方法 - 不要
+            使用代码编辑器修改此方法的内容。
+            </summary>
+        </member>
+        <member name="F:Buffalo.DBTools.FrmAllTables._curLst">
+            <summary>
+            当前表集合
+            </summary>
+        </member>
+        <member name="F:Buffalo.DBTools.FrmAllTables._searchName">
+            <summary>
+            查找的表名
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.FrmAllTables.RefreashTablesInfo">
+            <summary>
+            刷新表状态
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.FrmAllTables.GetDefaultBaseType">
+            <summary>
+            默认基类
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.FrmAllTables.FillBaseType">
+            <summary>
+            填充基类
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.FrmAllTables.FilterTableInfo">
+            <summary>
+            筛选表信息
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.FrmAllTables.ClearTableCheck">
+            <summary>
+            清空所有表的选中状态
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.FrmAllTables.RefreashExistsInfo">
+            <summary>
+            填充是否存在的列
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.FrmAllTables.RefreashCheckType">
+            <summary>
+            刷新选中状态
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.FrmAllTables.DesignerInfo">
+            <summary>
+            类设计图信息
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.FrmAllTables.DbInfo">
+            <summary>
+            数据库信息
+            </summary>
+        </member>
+        <member name="T:Buffalo.DBTools.UIHelper.UIProject">
+            <summary>
+            项目项
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.UIProject.GenerateCode(Buffalo.DBTools.UIHelper.EntityInfo,Buffalo.DBTools.UIHelper.UIConfigItem,EnvDTE.Project,System.Collections.Generic.List{Buffalo.DBTools.UIHelper.UIModelItem},Buffalo.DBTools.UIHelper.UIModelItem)">
+            <summary>
+            生成代码
+            </summary>
+            <param name="entityInfo">实体信息</param>
+            <param name="classConfig">UI配置信息</param>
+            <param name="selectPropertys">选中需要生成的属性信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.UIProject.ClearCache(Buffalo.DBTools.UIHelper.EntityInfo)">
+            <summary>
+            清空项目的编译缓存
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.UIProject.GenerateCode(Buffalo.DBTools.UIHelper.EntityInfo,Buffalo.DBTools.UIHelper.UIConfigItem,EnvDTE.Project,System.Collections.Generic.List{Buffalo.DBTools.UIHelper.UIModelItem},Buffalo.DBTools.UIHelper.UIModelItem,System.Collections.Generic.List{Buffalo.DBTools.UIHelper.UIProjectItem},EnvDTE.ProjectItem)">
+            <summary>
+            生成代码
+            </summary>
+            <param name="entityInfo">实体信息</param>
+            <param name="classConfig">UI配置信息</param>
+            <param name="selectPropertys">选中需要生成的属性信息</param>
+            <param name="lstItem">UI项目项</param>
+            <param name="parentItem">父项</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.UIProject.SaveItem(System.String,EnvDTE.Project,System.String,Buffalo.DBTools.UIHelper.BuildAction,EnvDTE.ProjectItem,System.Text.Encoding)">
+            <summary>
+            保存结果文件
+            </summary>
+            <param name="fileName">文件名</param>
+            <param name="selectedProject">选中的项目</param>
+            <param name="content">文件内容</param>
+            <param name="baction">生成文件的类型</param>
+            <param name="parentItem"></param>
+            <param name="encoding"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.UIProject.Name">
+            <summary>
+            项目名
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.UIProject.LstItems">
+            <summary>
+            项目项
+            </summary>
+        </member>
+        <member name="T:Buffalo.DBTools.UIHelper.ModelLoader.CodeGeneration">
+            <summary>
+            代码生成
+            </summary>
+        </member>
+        <member name="F:Buffalo.DBTools.UIHelper.ModelLoader.CodeGeneration.ScriptChar">
+            <summary>
+            代码块的标识
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.ModelLoader.CodeGeneration.CompilerPart">
+            <summary>
+            处理代码块
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.ModelLoader.CodeGeneration.CompilerCode">
+            <summary>
+            解释代码块
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.ModelLoader.CodeGeneration.MoveNext">
+            <summary>
+            移动到下一个字符
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.ModelLoader.CodeGeneration.ExpressionItems">
+            <summary>
+            代码树
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.ModelLoader.CodeGeneration.CurrentChar">
+            <summary>
+            当前字符
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.ComboBoxItemCollection.FindByText(System.String)">
+            <summary>
+            名称获取项
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.HelperKernel.ComboBoxItemCollection.FindByValue(System.Object)">
+            <summary>
+            名称获取项
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Buffalo.DBTools.CodeFileHelper">
+            <summary>
+            代码文件管理类
+            </summary>
+        </member>
+        <member name="F:Buffalo.DBTools.CodeFileHelper.DefaultEncoding">
+            <summary>
+            默认编码
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.CodeFileHelper.SaveFile(System.String,System.Collections.Generic.List{System.String})">
+            <summary>
+            保存文件
+            </summary>
+            <param name="fileName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.CodeFileHelper.SaveFile(System.String,System.Collections.Generic.List{System.String},System.Text.Encoding)">
+            <summary>
+            保存文件
+            </summary>
+            <param name="fileName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.CodeFileHelper.GetFileEncoding(System.String)">
+            <summary>
+            获取文件编码
+            </summary>
+            <param name="fileName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.CodeFileHelper.BackupFile(System.String)">
+            <summary>
+            备份文件
+            </summary>
+            <param name="fileName"></param>
+        </member>
+        <member name="M:Buffalo.DBTools.CodeFileHelper.SaveFile(System.String,System.String)">
+            <summary>
+            保存文件
+            </summary>
+            <param name="fileName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.CodeFileHelper.SaveFile(System.String,System.String,System.Text.Encoding)">
+            <summary>
+            保存文件
+            </summary>
+            <param name="fileName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.CodeFileHelper.ReadFile(System.String)">
+            <summary>
+            读取文件
+            </summary>
+            <param name="fileName"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Buffalo.DBTools.UIHelper.UIProjectItem">
+            <summary>
+            UI工程项
+            </summary>
+        </member>
+        <member name="F:Buffalo.DBTools.UIHelper.UIProjectItem._genCodeCache">
+            <summary>
+            生成的代码缓存
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.UIProjectItem.ModelPath">
+            <summary>
+            模版路径
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.UIProjectItem.GenType">
+            <summary>
+            生成类型
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.UIProjectItem.TargetPath">
+            <summary>
+            生成路径
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.UIProjectItem.Encoding">
+            <summary>
+            输出文件的编码
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.UIProjectItem.ChildItems">
+            <summary>
+            项目子项
+            </summary>
+        </member>
+        <member name="T:Buffalo.DBTools.HelperKernel.DataTypeInfos">
+            <summary>
+            数值类型信息
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.DataTypeInfos.TypeName">
+            <summary>
+            类型名
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.DataTypeInfos.DbTypes">
+            <summary>
+            对应的数据库类型
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.DataTypeInfos.DefaultValue">
+            <summary>
+            默认值
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.DataTypeInfos.DefaultNullValue">
+            <summary>
+            默认带空的值
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.DataTypeInfos.DbLength">
+            <summary>
+            默认数据长度
+            </summary>
+        </member>
+        <member name="F:Buffalo.DBTools.UIHelper.ModelLoader.CodesManger.CompilerNamespace">
+            <summary>
+            编译的命名空间
+            </summary>
+        </member>
+        <member name="F:Buffalo.DBTools.UIHelper.ModelLoader.CodesManger.DoCompilerName">
+            <summary>
+            编译函数的随机名
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.ModelLoader.CodesManger.GetUsingCode(System.Text.StringBuilder)">
+            <summary>
+            获取Using部分代码
+            </summary>
+            <param name="sbCode"></param>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.ModelLoader.CodesManger.GetGreanCode(System.Text.StringBuilder)">
+            <summary>
+            获取生成的代码
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.ModelLoader.CodesManger.GetPropertyCode(System.Text.StringBuilder)">
+            <summary>
+            获取属性代码
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.ModelLoader.CodesManger.Link">
+            <summary>
+            关联类库
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.ModelLoader.CodesManger.Using">
+            <summary>
+            需要using的类
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.ModelLoader.CodesManger.Code">
+            <summary>
+            生成的输出模版
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.ModelLoader.CodesManger.Method">
+            <summary>
+            函数块
+            </summary>
+        </member>
+        <member name="T:Buffalo.DBTools.UIHelper.EntityInfo">
+            <summary>
+            实体信息
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.EntityInfo.#ctor(Microsoft.VisualStudio.EnterpriseTools.ArtifactModel.Clr.ClrType,Buffalo.DBTools.ClassDesignerInfo)">
+            <summary>
+            初始化类配置
+            </summary>
+            <param name="classShape">类图形</param>
+            <param name="project">所属项目</param>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.EntityInfo.InitPropertys">
+            <summary>
+            初始化属性
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.EntityInfo.FillClassInfo">
+            <summary>
+            填充类信息
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.EntityInfo.ToGeneratorEntity(Buffalo.DBTools.UIHelper.UIModelItem)">
+            <summary>
+            输出成GeneratorEntity
+            </summary>
+            <param name="classModelInfo"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.EntityInfo.FileName">
+            <summary>
+            文件名
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.EntityInfo.DesignerInfo">
+            <summary>
+            类设计图信息
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.EntityInfo.Namespace">
+            <summary>
+            命名空间
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.EntityInfo.ClassName">
+            <summary>
+            类名
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.EntityInfo.FullName">
+            <summary>
+            类全名
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.EntityInfo.Summary">
+            <summary>
+            注释
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.EntityInfo.BaseTypeName">
+            <summary>
+            基名称
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.EntityInfo.ClassType">
+            <summary>
+            类类型
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.EntityInfo.Propertys">
+            <summary>
+            属性集合
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.EntityInfo.BaseType">
+            <summary>
+            基类 
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.EntityInfo.GenericInfo">
+            <summary>
+            泛型信息
+            </summary>
+        </member>
+        <member name="T:Buffalo.DBTools.DocSummary.VSConfig.VS2008Config">
+            <summary>
+            VS2008的位置配置信息
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.DocSummary.VSConfig.VS2008Config.MemberMarginX">
+            <summary>
+            填充色的X
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.DocSummary.VSConfig.VS2008Config.MemberLineHeight">
+            <summary>
+            行高
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.DocSummary.VSConfig.VS2008Config.MemberStartMargin">
+            <summary>
+            离顶端的距离
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.DocSummary.VSConfig.VS2008Config.MemberSummaryHeight">
+            <summary>
+            离顶端的距离
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.DocSummary.VSConfig.VS2008Config.MemberSummaryY">
+            <summary>
+            类注释
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.DocSummary.VSConfig.VS2008Config.MemberExtendSummaryY">
+            <summary>
+            基类注释
+            </summary>
+        </member>
+        <member name="T:Buffalo.DBTools.DocSummary.SummaryShowItem">
+            <summary>
+            注释显示的项数
+            </summary>
+        </member>
+        <member name="F:Buffalo.DBTools.DocSummary.SummaryShowItem.TypeName">
+            <summary>
+            变量类型
+            </summary>
+        </member>
+        <member name="F:Buffalo.DBTools.DocSummary.SummaryShowItem.MemberName">
+            <summary>
+            变量名
+            </summary>
+        </member>
+        <member name="F:Buffalo.DBTools.DocSummary.SummaryShowItem.Summary">
+            <summary>
+            注释
+            </summary>
+        </member>
+        <member name="F:Buffalo.DBTools.DocSummary.SummaryShowItem.All">
+            <summary>
+            所有
+            </summary>
+        </member>
+        <member name="T:Buffalo.DBTools.DBCreater.TableCreater">
+            <summary>
+            表生成
+            </summary>
+        </member>
+        <member name="T:Buffalo.DBTools.UIHelper.UIModelItem">
+            <summary>
+            UI需要的信息
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.UIModelItem.#ctor(Microsoft.VisualStudio.EnterpriseTools.ArtifactModel.Clr.ClrProperty)">
+            <summary>
+            UI信息
+            </summary>
+            <param name="dicCheckItem">选中项</param>
+            <param name="belongProperty">所属属性</param>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.UIModelItem.#ctor">
+            <summary>
+            UI信息
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.UIModelItem.InitDefaultValue(System.Collections.Generic.IEnumerable{Buffalo.DBTools.UIHelper.ConfigItem},Buffalo.DBTools.UIHelper.EntityInfo,EnvDTE.Project,Buffalo.DBTools.UIHelper.UIModelItem)">
+            <summary>
+            初始化默认值
+            </summary>
+            <param name="collection">配置项</param>
+            <param name="entityInfo">实体信息</param>
+            <param name="selectedProject">选择项</param>
+            <param name="itemInfo">所属的属性信息</param>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.UIModelItem.HasItem(System.String)">
+            <summary>
+            获取是否选中项
+            </summary>
+            <param name="itemName">项名称</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.UIModelItem.GetValue(System.String)">
+            <summary>
+            获取值
+            </summary>
+            <param name="itemName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.UIModelItem.WriteNode(System.Xml.XmlNode)">
+            <summary>
+            写到XML节点
+            </summary>
+            <param name="node"></param>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.UIModelItem.ReadItem(System.Xml.XmlNode,System.Collections.Generic.Dictionary{System.String,Buffalo.DBTools.UIHelper.ConfigItem})">
+            <summary>
+            读取节点信息
+            </summary>
+            <param name="node">节点</param>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.UIModelItem.ConvertValue(System.String,Buffalo.DBTools.UIHelper.ConfigItem)">
+            <summary>
+            转换值
+            </summary>
+            <param name="value"></param>
+            <param name="item"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.UIModelItem.ToGeneratItem">
+            <summary>
+            输出成GeneratItem类
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.UIModelItem.RelInfo">
+            <summary>
+            关联信息
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.UIModelItem.TabInfo">
+            <summary>
+            表信息
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.UIModelItem.CheckItem">
+            <summary>
+            选中的项
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.UIModelItem.IsGenerate">
+            <summary>
+            是否生成
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.UIModelItem.Summary">
+            <summary>
+            注释
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.UIModelItem.TypeName">
+            <summary>
+            类型名
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.UIModelItem.TypeShortName">
+            <summary>
+            类型的短名
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.UIModelItem.TypeFullName">
+            <summary>
+            类型的完整名
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.UIHelper.UIModelItem.PropertyName">
+            <summary>
+            对应的属性名
+            </summary>
+        </member>
+        <member name="T:Buffalo.DBTools.UIHelper.ModelLoader.ModelCompiler">
+            <summary>
+            模版到代码的转换器
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.ModelLoader.ModelCompiler.#ctor(System.String,System.String,Buffalo.DBTools.UIHelper.EntityInfo)">
+            <summary>
+            模版到代码的转换器
+            </summary>
+            <param name="content">model文本内容</param>
+            <param name="backCode">后台代码</param>
+            <param name="entityInfo">实体信息</param>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.ModelLoader.ModelCompiler.GetCode(System.String)">
+            <summary>
+            处理Script标签
+            </summary>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.ModelLoader.ModelCompiler.GetContentCode(System.String)">
+            <summary>
+            获取内容的代码
+            </summary>
+            <param name="content"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.ModelLoader.ModelCompiler.AddBuffaloLink">
+            <summary>
+            添加本项目的引用
+            </summary>
+            <param name="dll"></param>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.ModelLoader.ModelCompiler.GetCompileType(System.String,System.Text.StringBuilder,System.Text.StringBuilder)">
+            <summary>
+            获取编译后的类型
+            </summary>
+            <param name="errorMessage">如果出错此为信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DBTools.UIHelper.ModelLoader.CodeOutputer.FilterCode(System.Text.StringBuilder)">
+            <summary>
+            处理字符
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

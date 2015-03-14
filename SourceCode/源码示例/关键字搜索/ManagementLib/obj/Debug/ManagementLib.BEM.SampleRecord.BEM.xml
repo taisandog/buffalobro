@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<class TableName="sampleRecord" ClassName="ManagementLib.SampleRecord" IsTable="1" BelongDB="Management">
+  <property FieldName="_id" PropertyName="Id" DbType="Int32" Length="10" EntityPropertyType="10" ParamName="id" ReadOnly="0" />
+  <property FieldName="_s_userId" PropertyName="S_userId" DbType="Int32" Length="10" EntityPropertyType="1" ParamName="s_userId" ReadOnly="0" />
+  <property FieldName="_sampleCode" PropertyName="SampleCode" DbType="AnsiString" Length="200" EntityPropertyType="1" ParamName="sampleCode" ReadOnly="0" />
+  <property FieldName="_s_remark" PropertyName="S_remark" DbType="AnsiString" Length="500" EntityPropertyType="1" ParamName="s_remark" ReadOnly="0" />
+  <property FieldName="_employTime" PropertyName="EmployTime" DbType="DateTime" Length="23" EntityPropertyType="1" ParamName="employTime" ReadOnly="0" />
+  <property FieldName="_recordType" PropertyName="RecordType" DbType="Int32" Length="10" EntityPropertyType="1" ParamName="recordType" ReadOnly="0" />
+  <relation FieldName="_belongUsers_S_userId_Id" PropertyName="BelongUsers_S_userId_Id" SourceProperty="S_userId" TargetProperty="Id" IsToDB="1" IsParent="1" />
+</class>

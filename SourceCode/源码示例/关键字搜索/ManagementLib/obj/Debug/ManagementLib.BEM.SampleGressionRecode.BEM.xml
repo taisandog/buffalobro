@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<class TableName="SampleGressionRecode" ClassName="ManagementLib.SampleGressionRecode" IsTable="1" BelongDB="Management">
+  <property FieldName="_id" PropertyName="Id" DbType="Int32" Length="10" EntityPropertyType="10" ParamName="id" ReadOnly="0" />
+  <property FieldName="_sampleCode" PropertyName="SampleCode" DbType="AnsiString" Length="200" EntityPropertyType="1" ParamName="sampleCode" ReadOnly="0" />
+  <property FieldName="_userId" PropertyName="UserId" DbType="Int32" Length="10" EntityPropertyType="1" ParamName="userId" ReadOnly="0" />
+  <property FieldName="_storageId" PropertyName="StorageId" DbType="Int32" Length="10" EntityPropertyType="1" ParamName="storageId" ReadOnly="0" />
+  <property FieldName="_goodShelfId" PropertyName="GoodShelfId" DbType="Int32" Length="10" EntityPropertyType="1" ParamName="goodShelfId" ReadOnly="0" />
+  <property FieldName="_goodLocationId" PropertyName="GoodLocationId" DbType="Int32" Length="10" EntityPropertyType="1" ParamName="goodLocationId" ReadOnly="0" />
+  <property FieldName="_recodeTime" PropertyName="RecodeTime" DbType="DateTime" Length="23" EntityPropertyType="1" ParamName="recodeTime" ReadOnly="0" />
+  <property FieldName="_remark" PropertyName="Remark" DbType="AnsiString" Length="500" EntityPropertyType="1" ParamName="remark" ReadOnly="0" />
+  <relation FieldName="_belongStorage_StorageId_Id" PropertyName="BelongStorage_StorageId_Id" SourceProperty="StorageId" TargetProperty="Id" IsToDB="1" IsParent="1" />
+  <relation FieldName="_belongGoodsShelf_GoodShelfId_Id" PropertyName="BelongGoodsShelf_GoodShelfId_Id" SourceProperty="GoodShelfId" TargetProperty="Id" IsToDB="1" IsParent="1" />
+  <relation FieldName="_belongGoodsLocation_GoodLocationId_Id" PropertyName="BelongGoodsLocation_GoodLocationId_Id" SourceProperty="GoodLocationId" TargetProperty="Id" IsToDB="1" IsParent="1" />
+</class>

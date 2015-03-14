@@ -1,0 +1,243 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="ManagerViewModel.master.cs" Inherits="Models.ManagerViewModel" %>
+
+<%@ Register src="~/Models/Left.ascx" tagname="Left" tagprefix="uc1" %>
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <title></title>
+    
+    <script language="javascript" type="text/javascript" src="../Models/Scripts/jquery-1.7.1.min.js"></script>
+
+    <asp:ContentPlaceHolder ID="HeadContentPlace" runat="server">
+    </asp:ContentPlaceHolder>
+     <style type="text/css">
+<!--
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+.STYLE1 {
+	font-size: 12px;
+	color: #FFFFFF;
+}
+.STYLE2 {font-size: 9px}
+.STYLE3 {
+	color: #033d61;
+	font-size: 12px;
+}
+.STYLE4 {
+	color: #03515d;
+	font-size: 12px;}
+.STYLEtab 
+{
+	font-size: 12px
+	}
+.menu_title SPAN {
+	FONT-WEIGHT: bold; LEFT: 3px; COLOR: #ffffff; POSITION: relative; TOP: 2px 
+}
+.StyleGridHead
+{
+		color: #03515d;
+	font-size: 12px;
+	background-image:url('../Models/images/bg.gif');
+	}
+.menu_title2 SPAN {
+	FONT-WEIGHT: bold; LEFT: 3px; COLOR: #FFCC00; POSITION: relative; TOP: 2px
+}
+.imgsty {vertical-align:text-bottom;}
+-->
+</style>
+
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div>
+    <div id="divTop">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td height="70" background="../Models/images/main_05.gif"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td height="24"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td width="270" height="24" background="../Models/images/main_03.gif">&nbsp;</td>
+            <td width="505" background="../Models/images/main_04.gif">&nbsp;</td>
+            <td>&nbsp;</td>
+            <td width="21"><img src="../Models/images/main_07.gif" width="21" height="24"></td>
+          </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td height="38"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td width="270" height="38" background="../Models/images/main_09.gif">&nbsp;</td>
+            <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="77%" height="25" valign="bottom"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="50" height="19"><div align="center"> <a href="AboutUs.aspx"><img src="../Models/images/main_12.gif" width="49" height="19"/></a></div></td>
+                    <td width="50"><div align="center"><a href="javascript:window.history.go(-1);"><img src="../Models/images/main_14.gif" width="48" height="19"/></a></div></td>
+                    <td width="50"><div align="center"><a href="javascript:window.history.go(1);"><img src="../Models/images/main_16.gif" width="48" height="19"/></a></div></td>
+                    <td width="50"><div align="center"><a href="javascript:window.location.reload();"><img src="../Models/images/main_18.gif" width="48" height="19"/></a></div></td>
+                    <td width="50"><div align="center"><a href="Loginout.aspx"><img src="../Models/images/main_20.gif" width="48" height="19"/></a></div></td>
+                    <td width="26"><div align="center"><img src="../Models/images/main_21.gif" width="26" height="19"/></div></td>
+                    <td width="100"><div align="center"><img src="../Models/images/main_22.gif" width="98" height="19" style=" visibility:hidden"/></div></td>
+                    <td>&nbsp;</td>
+                  </tr>
+                </table></td>
+                <td width="220" valign="bottom"  nowrap="nowrap"><div align="right"><span class="STYLE1"><span class="STYLE2">■</span> 今天是：<%=DateTime.Now.ToString("yyyy年MM月dd日") %> <%=DateTime.Now.ToString("dddd",new System.Globalization.CultureInfo("zh-cn"))  %></span></div></td>
+              </tr>
+            </table></td>
+            <td width="21"><img src="../Models/images/main_11.gif" width="21" height="38"></td>
+          </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td height="8" style=" line-height:8px;"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td width="270" background="../Models/images/main_29.gif" style=" line-height:8px;">&nbsp;</td>
+            <td width="505" background="../Models/images/main_30.gif" style=" line-height:8px;">&nbsp;</td>
+            <td style=" line-height:8px;">&nbsp;</td>
+            <td width="21" style=" line-height:8px;"><img src="../Models/images/main_31.gif" width="21" height="8"></td>
+          </tr>
+        </table></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td height="28" background="../Models/images/main_36.gif"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="177" height="28" background="../Models/images/main_32.gif"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td width="20%"  height="22">&nbsp;</td>
+            <td width="59%" valign="bottom"><div align="center" class="STYLE1">当前用户：<%="用户"%></div></td>
+            <td width="21%">&nbsp;</td>
+          </tr>
+        </table></td>
+        <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td width="65" height="28"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td height="23" valign="bottom"><table width="58" border="0" align="center" cellpadding="0" cellspacing="0">
+                  <tr> 
+                    <td height="20" style="cursor:hand" onMouseOver="this.style.backgroundImage='url(../Models/images/bg.gif)';this.style.borderStyle='solid';this.style.borderWidth='1';borderColor='#a6d0e7'; "onmouseout="this.style.backgroundImage='url()';this.style.borderStyle='none'"> <div align="center" class="STYLE3"><a href="EmployeeManager.aspx">管理员</a></div></td>
+                  </tr>
+                </table></td>
+              </tr>
+            </table></td>
+            <td width="3"><img src="../Models/images/main_34.gif" width="3" height="28"></td>
+            <td width="63"><table width="58" border="0" align="center" cellpadding="0" cellspacing="0">
+              <tr>
+                <td height="20" style="cursor:hand" onMouseOver="this.style.backgroundImage='url(../Models/images/bg.gif)';this.style.borderStyle='solid';this.style.borderWidth='1';borderColor='#a6d0e7'; "onmouseout="this.style.backgroundImage='url()';this.style.borderStyle='none'"><div align="center" class="STYLE3"><a href="ExamDaySet.aspx">综合设置</a></div></td>
+              </tr>
+            </table></td>
+            <td width="3"><img src="../Models/images/main_34.gif" width="3" height="28"></td>
+            <td width="63"><table width="58" border="0" align="center" cellpadding="0" cellspacing="0">
+              <tr>
+                <td height="20" style="cursor:hand" onMouseOver="this.style.backgroundImage='url(../Models/images/bg.gif)';this.style.borderStyle='solid';this.style.borderWidth='1';borderColor='#a6d0e7'; "onmouseout="this.style.backgroundImage='url()';this.style.borderStyle='none'"><div align="center" class="STYLE3">登录密码</div></td>
+              </tr>
+            </table></td>
+            
+            <td>&nbsp;</td>
+          </tr>
+        </table></td>
+        <td width="21"><img src="../Models/images/main_37.gif" width="21" height="28"></td>
+      </tr>
+    </table></td>
+  </tr>
+</table>
+    </div>
+
+    <div id="divbuttom">
+    <table style=" width:100%;">
+    <tr>
+            <td id="tdLeft"  style="width:120px;vertical-align:top;">
+            <uc1:Left ID="Left1" runat="server" />
+            </td>
+            <td id="tdRight" style=" vertical-align:top; ">
+            <table style=" width:100%;" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td height="30" background="../Models/images/tab_05.gif"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="12" height="30"><img src="../Models/images/tab_03.gif" width="12" height="30" /></td>
+                    <td>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td width="46%" valign="middle"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td width="5%"><div align="center"><img src="../Models/images/tb.gif" width="16" height="16" /></div></td>
+                            <td width="95%" class="STYLEtab"><span class="STYLE3">你当前的位置</span>：<asp:Label ID="labLocation" runat="server" Text=""></asp:Label></td>
+                          </tr>
+                        </table></td>
+                        <td width="54%"></td>
+                      </tr>
+                    </table></td>
+                    <td width="16"><img src="../Models/images/tab_07.gif" width="16" height="30" /></td>
+                  </tr>
+                </table></td>
+              </tr>
+              <tr>
+                <td>
+                
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td style=" width:8px" background="../Models/images/tab_12.gif">&nbsp;</td>
+                    <td style=" height:600px; vertical-align:top">
+                    <asp:ContentPlaceHolder ID="DetailContentPlace" runat="server">
+        
+                    </asp:ContentPlaceHolder>
+                    
+                    </td>
+                    <td style=" width:8px" background="../Models/images/tab_15.gif">&nbsp;</td>
+                  </tr>
+                </table></td>
+              </tr>
+              <tr>
+                <td height="35" background="../Models/images/tab_19.gif">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+          <td width="12" height="35"><img src="../Models/images/tab_18.gif" width="12" height="35" /></td>
+
+            
+            <td colspan="2">
+                <asp:ContentPlaceHolder ID="FootContentPlace" runat="server">
+        
+                    </asp:ContentPlaceHolder>
+              </td>
+            <td width="12" height="35"><img src="../Models/images/tab_20.gif" width="16" height="35" /></td>
+          </tr>
+        </table>
+                </td>
+              </tr>
+            </table>
+
+            </td>
+    </tr>
+    </table>
+     
+
+        </div>
+    </div>
+    </form>
+    <script type="text/javascript">
+        var he = document.body.clientHeight - 105;
+        document.write("<div id='tt' style=height:" + he + ";overflow:hidden>");
+        function showsubmenu(sid) {
+            whichEl = eval("submenu" + sid);
+            imgmenu = eval("imgmenu" + sid);
+            if (whichEl.style.display == "none") {
+                eval("submenu" + sid + ".style.display=\"\";");
+                imgmenu.background = "../Models/images/main_47.gif";
+            }
+            else {
+                eval("submenu" + sid + ".style.display=\"none\";");
+                imgmenu.background = "../Models/images/main_48.gif";
+            }
+        }
+</script>
+</body>
+</html>

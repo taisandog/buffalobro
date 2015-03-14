@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<class TableName="View_GLoacation_GShelf_Storage" ClassName="ManagementLib.View_GLoacation_GShelf_Storage" IsTable="0" BelongDB="Management">
+  <property FieldName="_id" PropertyName="Id" DbType="Int32" Length="10" EntityPropertyType="3" ParamName="id" ReadOnly="0" />
+  <property FieldName="_locationCode" PropertyName="LocationCode" DbType="AnsiString" Length="200" EntityPropertyType="1" ParamName="locationCode" ReadOnly="0" />
+  <property FieldName="_boxNum" PropertyName="BoxNum" DbType="AnsiString" Length="50" EntityPropertyType="1" ParamName="boxNum" ReadOnly="0" />
+  <property FieldName="_goodsShelfId" PropertyName="GoodsShelfId" DbType="Int32" Length="10" EntityPropertyType="1" ParamName="goodsShelfId" ReadOnly="0" />
+  <property FieldName="_storageId" PropertyName="StorageId" DbType="Int32" Length="10" EntityPropertyType="1" ParamName="storageId" ReadOnly="0" />
+  <property FieldName="_remark" PropertyName="Remark" DbType="AnsiString" Length="200" EntityPropertyType="1" ParamName="remark" ReadOnly="0" />
+  <property FieldName="_storageName" PropertyName="StorageName" DbType="AnsiString" Length="200" EntityPropertyType="1" ParamName="storageName" ReadOnly="0" />
+  <property FieldName="_goodShelf" PropertyName="GoodShelf" DbType="AnsiString" Length="100" EntityPropertyType="1" ParamName="goodShelf" ReadOnly="0" />
+</class>

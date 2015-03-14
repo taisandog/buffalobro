@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<class TableName="SampleBack" ClassName="ManagementLib.SampleBack" IsTable="1" BelongDB="Management">
+  <property FieldName="_id" PropertyName="Id" DbType="Int32" Length="10" EntityPropertyType="10" ParamName="id" ReadOnly="0" />
+  <property FieldName="_sampleCode" PropertyName="SampleCode" DbType="AnsiString" Length="50" EntityPropertyType="1" ParamName="sampleCode" ReadOnly="0" />
+  <property FieldName="_userId" PropertyName="UserId" DbType="Int32" Length="10" EntityPropertyType="1" ParamName="userId" ReadOnly="0" />
+  <property FieldName="_backTime" PropertyName="BackTime" DbType="DateTime" Length="23" EntityPropertyType="1" ParamName="backTime" ReadOnly="0" />
+  <property FieldName="_b_remark" PropertyName="B_remark" DbType="AnsiString" Length="500" EntityPropertyType="1" ParamName="b_remark" ReadOnly="0" />
+</class>

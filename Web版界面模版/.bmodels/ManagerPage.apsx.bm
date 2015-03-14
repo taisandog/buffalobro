@@ -1,0 +1,128 @@
+<%@ Page Title="" Language="C#" MasterPageFile="~/Models/ManagerViewModel.Master" AutoEventWireup="true" CodeBehind="<#=Entity.ClassName #>Manager.aspx.cs" Inherits="<#=Entity.GetValue("TargetNamespace")#>.<#=Entity.ClassName #>Manager" %>
+<%@ Register src="../Models/WebPageNumberBar/WebPagingBar.ascx" tagname="WebPagingBar" tagprefix="uc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="HeadContentPlace" runat="server">
+    <style type="text/css">
+#iframePage { font-size:12px  }
+#tips { color:#F00; }
+.tip { color:#999; }
+</style>
+<script type="text/javascript">
+    function showDialog(id, mid) {
+        var title = "添加<#=Entity.Summary #>";
+        var param = "";
+        if (id != null) {
+            title = "编辑<#=Entity.Summary #>";
+            param = "?id=" + id;
+        }
+        if (mid != null) {
+            param = "?mid=" + mid;
+
+        }
+
+        artShow_ShowIFrameDialog("<#=Entity.ClassName #>Edit.aspx" + param, title, 750, 450, true, closeFN);
+    }
+
+    
+	
+    function closeFN() { }
+
+    function RefreashData() {
+        $("#<%=pbPaging.GoBtnID %>").click();
+    }
+
+    function showYesNo(content, id) {
+        document.getElementById('<%= txtWillDelete.ClientID%>').value = id;
+        var dialog = art.dialog(
+        {
+            content: content,
+            lock: true,
+            ok: function () {
+                document.getElementById('<%= lbDelete.ClientID%>').click();
+            },
+            cancel: function () {
+
+            }
+        });
+    }
+</script>
+</asp:Content>
+
+<asp:Content ID="Content2" ContentPlaceHolderID="DetailContentPlace" runat="server">
+    <div class="STYLE4">
+
+<table style=" width:100%">
+<tr>
+<td>
+
+</td>
+<td style=" width:100px">
+    <asp:Button ID="btnSearch" runat="server" Text="查找" onclick="btnSearch_Click" />
+</td>
+</tr>
+</table>
+</div>
+
+        <asp:GridView ID="gvDetail" runat="server" AutoGenerateColumns="False" 
+        Width="100%" onsorting="GridViewSorting" AllowSorting="True">
+        <Columns>
+
+		
+		<# foreach(Property pro in SelectedPropertys ) {
+			if(!pro.HasItem("CanView"))
+			{
+				continue;
+			}
+		#>
+		
+            <asp:TemplateField HeaderText="<#=pro.GetValue("Lable")#>">
+                <ItemTemplate>
+                    <asp:Label ID="Label1" runat="server" Text='<%# Eval("<#=GetFieldName(pro.PropertyName)#>") %>'></asp:Label>
+                </ItemTemplate>
+                <ControlStyle CssClass="STYLE4" />
+                <HeaderStyle CssClass="StyleGridHead" />
+                <ItemStyle CssClass="STYLE4" />
+            </asp:TemplateField>
+			
+            <#}#>
+
+
+            <asp:TemplateField  HeaderStyle-CssClass="StyleGridHead">
+                <HeaderTemplate>
+                <a href='javascript:showDialog(null,null);'><img alt="新<#=Entity.Summary #>" src="../Models/images/33.gif" class="imgsty"/>新增</a>&nbsp;&nbsp;&nbsp;
+                </HeaderTemplate>
+                <ItemTemplate>
+                    <div class="STYLE4" style="text-align:center; vertical-align:middle">
+                        
+                        <a href='javascript:showDialog(<%#Eval("Id") %>,null);'><img alt="编辑" src="../Models/images/33.gif" class="imgsty"/>编辑</a>&nbsp;&nbsp;&nbsp;
+                        <a href='javascript:showYesNo("是否要删除？",<%#Eval("Id") %>)'><img alt="删除" src="../Models/images/11.gif" class="imgsty" />删除</a>
+                    </div>
+                </ItemTemplate>
+
+<HeaderStyle CssClass="StyleGridHead"></HeaderStyle>
+
+                <ItemStyle Width="180px" />
+            </asp:TemplateField>
+            
+        </Columns>
+        <EmptyDataTemplate>
+        <div class=" STYLE4">
+        现在还没有<#=Entity.Summary #>，是否需要<a href='javascript:showDialog(null,null);'><img alt="新增" src="../Models/images/22.gif" class="imgsty"/>新增</a>
+        </div>
+        </EmptyDataTemplate>
+    </asp:GridView>
+	
+     <div style=" visibility:hidden">
+    <asp:HiddenField ID="txtWillDelete" runat="server" />
+    <asp:LinkButton ID="lbDelete" runat="server" onclick="lbDelete_Click">Delete</asp:LinkButton>
+    </div>
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="FootContentPlace" runat="server">
+    <table style=" width:100%">
+<tr>
+<td class="STYLE4">
+    排序方式:<asp:Label ID="labSort" runat="server" Text=""></asp:Label>
+&nbsp;</td>
+<td style="width:400px"><uc1:webpagingbar ID="pbPaging" runat="server" /></td>
+</tr>
+</table>
+</asp:Content>

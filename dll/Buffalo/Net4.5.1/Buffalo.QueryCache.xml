@@ -1,0 +1,209 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Buffalo.QueryCache</name>
+    </assembly>
+    <members>
+        <member name="T:Buffalo.QueryCache.CacheLoader">
+            <summary>
+            获取缓存的加载器
+            </summary>
+        </member>
+        <member name="M:Buffalo.QueryCache.CacheLoader.GetCache(Buffalo.DB.DataBaseAdapter.DBInfo,System.String,System.String)">
+            <summary>
+            根据类型创建缓存适配器
+            </summary>
+            <param name="type">类型</param>
+            <param name="connectionString">连接字符串</param>
+            <returns></returns>
+        </member>
+        <member name="T:MemcacheClient.MemDataSerialize">
+            <summary>
+            缓存数据序列化
+            </summary>
+        </member>
+        <member name="F:MemcacheClient.MemDataSerialize.DefaultEncoding">
+            <summary>
+            默认编码
+            </summary>
+        </member>
+        <member name="F:MemcacheClient.MemDataSerialize.HeadData">
+            <summary>
+            数据头表示
+            </summary>
+        </member>
+        <member name="M:MemcacheClient.MemDataSerialize.DataSetToBytes(System.Data.DataSet)">
+            <summary>
+            数据写入成字节数组
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MemcacheClient.MemDataSerialize.WriteDataTable(System.Data.DataTable,System.IO.BinaryWriter)">
+            <summary>
+            写入数据表信息
+            </summary>
+            <param name="dt"></param>
+            <param name="bw"></param>
+        </member>
+        <member name="M:MemcacheClient.MemDataSerialize.LoadDataSet(System.IO.Stream)">
+            <summary>
+            把数据从流中加载出来
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MemcacheClient.MemDataSerialize.IsHead(System.IO.Stream)">
+            <summary>
+            判断数据头是否对应
+            </summary>
+            <param name="stm"></param>
+            <returns></returns>
+        </member>
+        <member name="T:MemcacheClient.MemTypeItem">
+            <summary>
+            读写器的类型项
+            </summary>
+        </member>
+        <member name="M:MemcacheClient.MemTypeItem.#ctor(System.Int32,System.Type,MemcacheClient.ReadInfo,MemcacheClient.WriteInfo)">
+            <summary>
+            读写器的类型项
+            </summary>
+            <param name="typeID"></param>
+            <param name="itemType"></param>
+            <param name="readHandle"></param>
+            <param name="writerHandle"></param>
+        </member>
+        <member name="F:MemcacheClient.MemTypeItem._typeID">
+            <summary>
+            数值类型ID
+            </summary>
+        </member>
+        <member name="P:MemcacheClient.MemTypeItem.ItemType">
+            <summary>
+            类型
+            </summary>
+        </member>
+        <member name="P:MemcacheClient.MemTypeItem.ReadHandle">
+            <summary>
+            读取方法
+            </summary>
+        </member>
+        <member name="P:MemcacheClient.MemTypeItem.WriterHandle">
+            <summary>
+            写入方法
+            </summary>
+        </member>
+        <member name="T:MemcacheClient.MemTypeManager">
+            <summary>
+            读写器类型管理器
+            </summary>
+        </member>
+        <member name="M:MemcacheClient.MemTypeManager.GetTypeInfo(System.Type)">
+            <summary>
+            获取类型信息
+            </summary>
+            <param name="objType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MemcacheClient.MemTypeManager.GetTypeByID(System.Int32)">
+            <summary>
+            根据类型ID获取类型信息
+            </summary>
+            <param name="typeID">类型ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:MemcacheClient.MemTypeManager.AddItem``1(System.Int32,MemcacheClient.ReadInfo,MemcacheClient.WriteInfo)">
+            <summary>
+            添加项
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="typeID">分配的ID</param>
+            <param name="readInfo">读取器</param>
+        </member>
+        <member name="M:MemcacheClient.MemTypeManager.ReadChars(System.IO.BinaryReader)">
+            <summary>
+            读取字节数组
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="reader"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MemcacheClient.MemTypeManager.ReadBytes(System.IO.BinaryReader)">
+            <summary>
+            读取字节数组
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="reader"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MemcacheClient.MemTypeManager.WriteChars(System.IO.BinaryWriter,System.Object)">
+            <summary>
+            写入值
+            </summary>
+            <param name="writer">写入器</param>
+            <param name="value">值</param>
+            <returns></returns>
+        </member>
+        <member name="M:MemcacheClient.MemTypeManager.WriteBytes(System.IO.BinaryWriter,System.Object)">
+            <summary>
+            写入值
+            </summary>
+            <param name="writer">写入器</param>
+            <param name="value">值</param>
+            <returns></returns>
+        </member>
+        <member name="T:Buffalo.QueryCache.MemCachedAdaper">
+            <summary>
+            利用MemCached做缓存
+            </summary>
+        </member>
+        <member name="M:Buffalo.QueryCache.MemCachedAdaper.#ctor(System.String,Buffalo.DB.DataBaseAdapter.DBInfo)">
+            <summary>
+            memcached的适配器
+            </summary>
+            <param name="connStr">连接字符串</param>
+        </member>
+        <member name="M:Buffalo.QueryCache.MemCachedAdaper.CreatePool(System.String)">
+            <summary>
+            创建连接池
+            </summary>
+            <param name="connStr"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.MemCachedAdaper.DoNewVer(System.String,Buffalo.QueryCache.EmptyClass)">
+            <summary>
+            设置版本号
+            </summary>
+            <param name="key"></param>
+            <param name="client"></param>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisAdaperByServiceStack.#ctor(System.String,Buffalo.DB.DataBaseAdapter.DBInfo)">
+            <summary>
+            memcached的适配器
+            </summary>
+            <param name="connStr">连接字符串</param>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisAdaperByServiceStack.CreateManager(System.String)">
+            <summary>
+            创建连接池
+            </summary>
+            <param name="connectionString">连接字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisAdaperByServiceStack.DoNewVer(System.String,ServiceStack.Redis.IRedisClient)">
+            <summary>
+            设置版本号
+            </summary>
+            <param name="key"></param>
+            <param name="client"></param>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisAdaperByServiceStack.GetValues(System.String[],ServiceStack.Redis.IRedisClient)">
+            <summary>
+            获取值
+            </summary>
+            <param name="key">键</param>
+            <param name="valueType">值类型</param>
+            <param name="client">客户端</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

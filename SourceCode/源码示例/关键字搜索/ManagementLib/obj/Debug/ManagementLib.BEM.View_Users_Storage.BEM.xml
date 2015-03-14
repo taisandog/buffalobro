@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<class TableName="View_Users_Storage" ClassName="ManagementLib.View_Users_Storage" IsTable="0" BelongDB="Management">
+  <property FieldName="_storageName" PropertyName="StorageName" DbType="AnsiString" Length="200" EntityPropertyType="3" ParamName="storageName" ReadOnly="0" />
+  <property FieldName="_id" PropertyName="Id" DbType="Int32" Length="10" EntityPropertyType="1" ParamName="id" ReadOnly="0" />
+  <property FieldName="_userID" PropertyName="UserID" DbType="AnsiString" Length="50" EntityPropertyType="1" ParamName="userID" ReadOnly="0" />
+  <property FieldName="_userName" PropertyName="UserName" DbType="AnsiString" Length="50" EntityPropertyType="1" ParamName="userName" ReadOnly="0" />
+  <property FieldName="_userPwd" PropertyName="UserPwd" DbType="AnsiString" Length="50" EntityPropertyType="1" ParamName="userPwd" ReadOnly="0" />
+  <property FieldName="_authority" PropertyName="Authority" DbType="Int32" Length="10" EntityPropertyType="1" ParamName="authority" ReadOnly="0" />
+  <property FieldName="_isEnable" PropertyName="IsEnable" DbType="Boolean" Length="1" EntityPropertyType="1" ParamName="isEnable" ReadOnly="0" />
+  <property FieldName="_storageId" PropertyName="StorageId" DbType="Int32" Length="10" EntityPropertyType="1" ParamName="storageId" ReadOnly="0" />
+</class>
