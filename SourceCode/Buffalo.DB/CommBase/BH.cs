@@ -70,19 +70,41 @@ namespace Buffalo.DB.CommBase
         /// <returns></returns>
         public static T GetUnique<T>(BQLCondition condition) where T : EntityBase, new()
         {
+            //string name = typeof(T).FullName;
+            //BusinessModelBase<T> bo = DataAccessLoader.GetBoInstance(name) as BusinessModelBase<T>;
+            //if (bo == null)
+            //{
+            //    throw new MissingMemberException("找不到:" + name + " 对应的业务类");
+            //}
+            ScopeList lstScope = new ScopeList();
+            if (!CommonMethods.IsNull(condition))
+            {
+                lstScope.Add(condition);
+            }
+            return GetUnique<T>(lstScope);
+        }
+        /// <summary>
+        /// 获取唯一
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="lstScope">条件</param>
+        /// <returns></returns>
+        public static T GetUnique<T>(ScopeList lstScope) where T : EntityBase, new()
+        {
             string name = typeof(T).FullName;
             BusinessModelBase<T> bo = DataAccessLoader.GetBoInstance(name) as BusinessModelBase<T>;
             if (bo == null)
             {
                 throw new MissingMemberException("找不到:" + name + " 对应的业务类");
             }
-            ScopeList lstScope = new ScopeList();
-            if (!CommonMethods.IsNull(condition))
-            {
-                lstScope.Add(condition);
-            }
+            //ScopeList lstScope = new ScopeList();
+            //if (!CommonMethods.IsNull(condition))
+            //{
+            //    lstScope.Add(condition);
+            //}
             return bo.GetUnique(lstScope);
         }
+
         /// <summary>
         /// 获取唯一
         /// </summary>
@@ -103,10 +125,31 @@ namespace Buffalo.DB.CommBase
         /// <summary>
         /// 查询数目
         /// </summary>
-        /// <param name="condition"></param>
+        /// <param name="condition">条件</param>
         /// <param name="entityType"></param>
         /// <returns></returns>
         public static long SelectCount<T>(BQLCondition condition) where T : EntityBase, new()
+        {
+            //string name = typeof(T).FullName;
+            //BusinessModelBase<T> bo = DataAccessLoader.GetBoInstance(name) as BusinessModelBase<T>;
+            //if (bo == null)
+            //{
+            //    throw new MissingMemberException("找不到:" + name + " 对应的业务类");
+            //}
+            ScopeList lstScope = new ScopeList();
+            if (!CommonMethods.IsNull(condition))
+            {
+                lstScope.Add(condition);
+            }
+            return SelectCount<T>(lstScope);
+        }
+        /// <summary>
+        /// 查询数目
+        /// </summary>
+        /// <param name="lstScope">条件</param>
+        /// <param name="entityType"></param>
+        /// <returns></returns>
+        public static long SelectCount<T>(ScopeList lstScope) where T : EntityBase, new()
         {
             string name = typeof(T).FullName;
             BusinessModelBase<T> bo = DataAccessLoader.GetBoInstance(name) as BusinessModelBase<T>;
@@ -114,14 +157,13 @@ namespace Buffalo.DB.CommBase
             {
                 throw new MissingMemberException("找不到:" + name + " 对应的业务类");
             }
-            ScopeList lstScope = new ScopeList();
-            if (!CommonMethods.IsNull(condition))
-            {
-                lstScope.Add(condition);
-            }
+            //ScopeList lstScope = new ScopeList();
+            //if (!CommonMethods.IsNull(condition))
+            //{
+            //    lstScope.Add(condition);
+            //}
             return bo.SelectCount(lstScope);
         }
-
         /// <summary>
         /// 更新一个实体
         /// </summary>
