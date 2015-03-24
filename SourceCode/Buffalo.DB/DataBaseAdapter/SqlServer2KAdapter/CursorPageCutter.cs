@@ -116,8 +116,8 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter
                     {
                         int totalRecord = reader.GetInt32(0);
                         objPage.TotalRecords = totalRecord;
-                        int totalPage = (int)Math.Ceiling((double)objPage.TotalRecords / (double)objPage.PageSize);
-                        objPage.TotalPage = totalPage;
+                        //int totalPage = (int)Math.Ceiling((double)objPage.TotalRecords / (double)objPage.PageSize);
+                        //objPage.TotalPage = totalPage;
                         if (objPage.CurrentPage >= objPage.TotalPage - 1)
                         {
                             objPage.CurrentPage = objPage.TotalPage - 1;
@@ -172,8 +172,8 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter
                     {
                         int totalRecord = reader.GetInt32(0);
                         objPage.TotalRecords = totalRecord;
-                        int totalPage = (int)Math.Ceiling((double)objPage.TotalRecords / (double)objPage.PageSize);
-                        objPage.TotalPage = totalPage;
+                        //int totalPage = (int)Math.Ceiling((double)objPage.TotalRecords / (double)objPage.PageSize);
+                        //objPage.TotalPage = totalPage;
                         if (objPage.CurrentPage >= objPage.TotalPage - 1)
                         {
                             objPage.CurrentPage = objPage.TotalPage - 1;

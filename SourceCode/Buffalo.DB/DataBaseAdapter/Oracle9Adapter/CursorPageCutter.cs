@@ -28,8 +28,8 @@ namespace Buffalo.DB.DataBaseAdapter.Oracle9Adapter
         {
 
             objPage.TotalRecords = CutPageSqlCreater.GetTotalRecord(lstParam, oper, sql, objPage.MaxSelectRecords,null);
-            long totalPage = (long)Math.Ceiling((double)objPage.TotalRecords / (double)objPage.PageSize);
-            objPage.TotalPage = totalPage;
+            //long totalPage = (long)Math.Ceiling((double)objPage.TotalRecords / (double)objPage.PageSize);
+            //objPage.TotalPage = totalPage;
             if (objPage.CurrentPage >= objPage.TotalPage - 1)
             {
                 objPage.CurrentPage = objPage.TotalPage - 1;
@@ -53,8 +53,8 @@ namespace Buffalo.DB.DataBaseAdapter.Oracle9Adapter
         public static DataTable QueryDataTable(string sql, ParamList lstParam, PageContent objPage, DataBaseOperate oper, Type curType)
         {
             objPage.TotalRecords = CutPageSqlCreater.GetTotalRecord(lstParam, oper, sql, objPage.MaxSelectRecords, null);
-            long totalPage = (long)Math.Ceiling((double)objPage.TotalRecords / (double)objPage.PageSize);
-            objPage.TotalPage = totalPage;
+            //long totalPage = (long)Math.Ceiling((double)objPage.TotalRecords / (double)objPage.PageSize);
+            //objPage.TotalPage = totalPage;
             if (objPage.CurrentPage >= objPage.TotalPage - 1)
             {
                 objPage.CurrentPage = objPage.TotalPage - 1;

@@ -1,0 +1,8 @@
+D:\CShareTest\BuffaloDBCode\SourceCode\Buffalo.DB\obj\Debug\ResolveAssemblyReference.cache
+D:\CShareTest\BuffaloDBCode\SourceCode\Buffalo.DB\obj\Debug\Buffalo.DB.Resource.resources
+D:\CShareTest\BuffaloDBCode\SourceCode\Buffalo.DB\obj\Debug\Buffalo.DB.csproj.GenerateResource.Cache
+D:\CShareTest\BuffaloDBCode\SourceCode\Debug\2005\Buffalo.DB.XML
+D:\CShareTest\BuffaloDBCode\SourceCode\Debug\2005\Buffalo.DB.dll
+D:\CShareTest\BuffaloDBCode\SourceCode\Debug\2005\Buffalo.DB.pdb
+D:\CShareTest\BuffaloDBCode\SourceCode\Buffalo.DB\obj\Debug\Buffalo.DB.dll
+D:\CShareTest\BuffaloDBCode\SourceCode\Buffalo.DB\obj\Debug\Buffalo.DB.pdb

@@ -234,12 +234,12 @@ namespace Buffalo.DB.ListExtends
                 XmlNodeList rootList = doc.GetElementsByTagName("root");
                 if (rootList.Count > 0)
                 {
-                    XmlAttribute attTotalPage = rootList[0].Attributes["totalPage"];
+                    XmlAttribute attTotalRecord = rootList[0].Attributes["totalRecord"];
                     XmlAttribute attCurrentPage = rootList[0].Attributes["currentPage"];
                     XmlAttribute attPageSize = rootList[0].Attributes["pageSize"];
-                    if (attTotalPage != null)
+                    if (attTotalRecord != null)
                     {
-                        objPage.TotalPage = Convert.ToInt32(attTotalPage.InnerText);
+                        objPage.TotalRecords = Convert.ToInt64(attTotalRecord.InnerText);
                     }
                     if (attCurrentPage != null)
                     {

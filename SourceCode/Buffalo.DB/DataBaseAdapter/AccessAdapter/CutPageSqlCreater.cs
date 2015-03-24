@@ -60,8 +60,8 @@ namespace Buffalo.DB.DataBaseAdapter.AccessAdapter
             if (objPage.IsFillTotalRecords)
             {
                 objPage.TotalRecords = GetTotalRecord(list, oper, objCondition, objPage,cacheTables);//获取总记录数
-                long totalPage = (long)Math.Ceiling((double)objPage.TotalRecords / (double)objPage.PageSize);
-                objPage.TotalPage = totalPage;
+                //long totalPage = (long)Math.Ceiling((double)objPage.TotalRecords / (double)objPage.PageSize);
+                //objPage.TotalPage = totalPage;
                 if (objPage.CurrentPage >= objPage.TotalPage - 1)
                 {
                     objPage.CurrentPage = objPage.TotalPage - 1;

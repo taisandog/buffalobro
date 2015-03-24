@@ -28,7 +28,7 @@ namespace Buffalo.DB.QueryConditions
 	{
         private long _pageSize = 0;
         private long _currentPage = 0;
-        private long _totalPage = 0;
+        //private long _totalPage = 0;
         private long _totalRecords = 0;
         private long _maxSelectRecords = 0;
         
@@ -126,8 +126,8 @@ namespace Buffalo.DB.QueryConditions
         /// </summary>
         public long TotalPage
         {
-            set { _totalPage = value; }
-            get { return _totalPage; }
+            //set { _totalPage = value; }
+            get { return (long)Math.Ceiling((double)_totalRecords / (double)_pageSize); }
         }
 		/// <summary>
 		/// 最大查询条数
