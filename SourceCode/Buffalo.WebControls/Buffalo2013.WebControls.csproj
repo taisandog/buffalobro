@@ -67,7 +67,6 @@
     <Compile Include="MyTipText\TipText.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resource.Designer.cs" />
-    <Compile Include="TYWebCalendar\TYWebCalendar.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\locationpicker.js" />

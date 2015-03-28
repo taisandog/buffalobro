@@ -963,7 +963,7 @@
             <param name="lstScope">条件</param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.CommBase.BH.Find``1(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLCondition,Buffalo.DB.QueryConditions.PageContent)">
+        <member name="M:Buffalo.DB.CommBase.BH.SelectList``1(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLCondition,Buffalo.DB.QueryConditions.PageContent)">
             <summary>
             查询集合
             </summary>
@@ -971,7 +971,7 @@
             <param name="lstScope">条件</param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.CommBase.BH.Find``1(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLCondition)">
+        <member name="M:Buffalo.DB.CommBase.BH.SelectList``1(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLCondition)">
             <summary>
             查询集合
             </summary>
@@ -980,6 +980,14 @@
             <returns></returns>
         </member>
         <member name="M:Buffalo.DB.CommBase.BH.GetUnique``1(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLCondition)">
+            <summary>
+            获取唯一
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="condition">条件</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CommBase.BH.GetUnique``1(Buffalo.DB.QueryConditions.ScopeList)">
             <summary>
             获取唯一
             </summary>
