@@ -267,7 +267,7 @@ namespace Buffalo.Kernel.Defaults
         /// <param name="type">当前类</param>
         /// <param name="interfaceType">接口类型</param>
         /// <returns></returns>
-        public bool IsImplement(Type type, Type interfaceType)
+        public static bool IsImplement(Type type, Type interfaceType)
         {
             if (!interfaceType.IsInterface) 
             {

@@ -38,7 +38,7 @@ namespace Buffalo.DB.CommBase
         /// <typeparam name="T"></typeparam>
         /// <param name="lstScope">条件</param>
         /// <returns></returns>
-        public static List<T> Find<T>(BQLCondition condition, PageContent pager) where T : EntityBase, new()
+        public static List<T> SelectList<T>(BQLCondition condition, PageContent pager) where T : EntityBase, new()
         {
             ScopeList lstScope = new ScopeList();
             if (!CommonMethods.IsNull(condition))
@@ -57,9 +57,9 @@ namespace Buffalo.DB.CommBase
         /// <typeparam name="T"></typeparam>
         /// <param name="lstScope">条件</param>
         /// <returns></returns>
-        public static List<T> Find<T>(BQLCondition condition) where T : EntityBase, new()
+        public static List<T> SelectList<T>(BQLCondition condition) where T : EntityBase, new()
         {
-            return Find<T>(condition,null);
+            return SelectList<T>(condition, null);
         }
 
         /// <summary>
@@ -70,12 +70,16 @@ namespace Buffalo.DB.CommBase
         /// <returns></returns>
         public static T GetUnique<T>(BQLCondition condition) where T : EntityBase, new()
         {
+<<<<<<< HEAD
             //string name = typeof(T).FullName;
             //BusinessModelBase<T> bo = DataAccessLoader.GetBoInstance(name) as BusinessModelBase<T>;
             //if (bo == null)
             //{
             //    throw new MissingMemberException("找不到:" + name + " 对应的业务类");
             //}
+=======
+            
+>>>>>>> 151c835cde841c4fbe872957ebd093f188ca4c22
             ScopeList lstScope = new ScopeList();
             if (!CommonMethods.IsNull(condition))
             {
@@ -87,7 +91,11 @@ namespace Buffalo.DB.CommBase
         /// 获取唯一
         /// </summary>
         /// <typeparam name="T"></typeparam>
+<<<<<<< HEAD
         /// <param name="lstScope">条件</param>
+=======
+        /// <param name="condition">条件</param>
+>>>>>>> 151c835cde841c4fbe872957ebd093f188ca4c22
         /// <returns></returns>
         public static T GetUnique<T>(ScopeList lstScope) where T : EntityBase, new()
         {
@@ -97,11 +105,15 @@ namespace Buffalo.DB.CommBase
             {
                 throw new MissingMemberException("找不到:" + name + " 对应的业务类");
             }
+<<<<<<< HEAD
             //ScopeList lstScope = new ScopeList();
             //if (!CommonMethods.IsNull(condition))
             //{
             //    lstScope.Add(condition);
             //}
+=======
+            
+>>>>>>> 151c835cde841c4fbe872957ebd093f188ca4c22
             return bo.GetUnique(lstScope);
         }
 

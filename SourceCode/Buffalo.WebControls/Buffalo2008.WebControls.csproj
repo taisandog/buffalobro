@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{533404A2-5255-478A-9F57-F4C37EBD6DBF}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -72,7 +72,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
-    <Compile Include="TYWebCalendar\TYWebCalendar.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Buffalo.Kernel\Buffalo2008.Kernel.csproj">
