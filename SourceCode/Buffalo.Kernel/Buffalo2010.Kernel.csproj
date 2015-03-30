@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="ArrayTypeConvert.cs" />
     <Compile Include="AutoServicesLib\AbsServicesHandle.cs" />
+    <Compile Include="AutoServicesLib\ServicesMessage.cs" />
     <Compile Include="AutoServicesLib\ServicesLoader.cs" />
     <Compile Include="CharCollectionEnumerator.cs" />
     <Compile Include="ClassProxyBuilder\DefaultProxyBuilder.cs" />

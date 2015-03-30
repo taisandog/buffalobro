@@ -29,13 +29,18 @@ namespace Buffalo.Kernel.AutoServicesLib
         /// <summary>
         /// 运行自动服务
         /// </summary>
-        public void DoTick() 
+        public List<ServicesMessage> DoTick() 
         {
+            List<ServicesMessage> lstMessage = new List<ServicesMessage>(_dicServices.Count);
             foreach (KeyValuePair<string, AbsServicesHandle> kvp in _dicServices) 
             {
                 try
                 {
-                    kvp.Value.CheckRun();
+                    ServicesMessage mess=kvp.Value.CheckRun();
+                    if (mess != null) 
+                    {
+                        lstMessage.Add(mess);
+                    }
                 }
                 catch (Exception ex) 
                 {
@@ -45,6 +50,7 @@ namespace Buffalo.Kernel.AutoServicesLib
                     }
                 }
             }
+            return lstMessage;
         }
 
         /// <summary>

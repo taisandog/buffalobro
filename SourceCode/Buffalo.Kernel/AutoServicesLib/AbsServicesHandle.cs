@@ -70,12 +70,16 @@ namespace Buffalo.Kernel.AutoServicesLib
         /// 检查是否要运行(每隔一段时间执行)
         /// </summary>
         /// <returns></returns>
-        public bool CheckRun() 
+        public ServicesMessage CheckRun() 
         {
-            bool ret=false;
+            ServicesMessage ret = null;
             if (Tick) 
             {
-                ret=DoAction();
+                ret = new ServicesMessage(this);
+                if (!DoAction(ret)) 
+                {
+                    ret = null;
+                }
                 _lasRun = DateTime.Now;
             }
             return ret;
@@ -85,6 +89,6 @@ namespace Buffalo.Kernel.AutoServicesLib
         /// <summary>
         /// 执行方法
         /// </summary>
-        protected abstract bool DoAction();
+        protected abstract bool DoAction(ServicesMessage message);
     }
 }
