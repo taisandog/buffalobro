@@ -60,8 +60,8 @@ namespace Buffalo.Data.SQLite
             {
                 objPage.TotalRecords = GetTotalRecord(list, oper, objCondition.GetSelect(false), objPage.MaxSelectRecords,
                     (useCache?objCondition.CacheTables:null));//获取总记录数
-                long totalPage = (long)Math.Ceiling((double)objPage.TotalRecords / (double)objPage.PageSize);
-                objPage.TotalPage = totalPage;
+                //long totalPage = (long)Math.Ceiling((double)objPage.TotalRecords / (double)objPage.PageSize);
+                //objPage.TotalPage = totalPage;
                 if (objPage.CurrentPage >= objPage.TotalPage - 1)
                 {
                     objPage.CurrentPage = objPage.TotalPage - 1;

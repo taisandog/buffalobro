@@ -29,8 +29,8 @@ namespace Buffalo.Data.SQLite
 
             objPage.TotalRecords = CutPageSqlCreater.GetTotalRecord(lstParam, oper, sql,
                 objPage.MaxSelectRecords, cacheTables);
-            long totalPage = (long)Math.Ceiling((double)objPage.TotalRecords / (double)objPage.PageSize);
-            objPage.TotalPage = totalPage;
+            //long totalPage = (long)Math.Ceiling((double)objPage.TotalRecords / (double)objPage.PageSize);
+            //objPage.TotalPage = totalPage;
             if (objPage.CurrentPage >= objPage.TotalPage - 1)
             {
                 objPage.CurrentPage = objPage.TotalPage - 1;
@@ -58,8 +58,8 @@ namespace Buffalo.Data.SQLite
         {
             objPage.TotalRecords = CutPageSqlCreater.GetTotalRecord(lstParam, oper,
                 sql,objPage.MaxSelectRecords,cacheTables);
-            long totalPage = (long)Math.Ceiling((double)objPage.TotalRecords / (double)objPage.PageSize);
-            objPage.TotalPage = totalPage;
+            //long totalPage = (long)Math.Ceiling((double)objPage.TotalRecords / (double)objPage.PageSize);
+            //objPage.TotalPage = totalPage;
             if (objPage.CurrentPage >= objPage.TotalPage - 1)
             {
                 objPage.CurrentPage = objPage.TotalPage - 1;
