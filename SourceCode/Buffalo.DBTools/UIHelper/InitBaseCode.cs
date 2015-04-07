@@ -15,7 +15,7 @@ namespace Buffalo.DBTools.UIHelper
         /// <summary>
         /// 初始化基础dll
         /// </summary>
-        public static void InitBaseDll() 
+        public static string InitBaseDll() 
         {
             Assembly ass = typeof(Buffalo.DBTools.CommandBar).Assembly;
             string path = new Uri(ass.CodeBase).LocalPath;
@@ -27,8 +27,16 @@ namespace Buffalo.DBTools.UIHelper
             }
             file = new FileInfo(path);
             string fileName = CommonMethods.GetBaseRoot(file.Name);
-
-            CommonMethods.CopyNewer(path, fileName);
+            try
+            {
+                CommonMethods.CopyNewer(path, fileName);
+            }
+            catch (Exception ex) 
+            {
+                FileInfo f=new FileInfo(fileName);
+                return "拷贝Buffalo.GeneratorInfo.dll失败，请尝试检查" + f.DirectoryName + "的权限\n错误信息:\n" + ex.Message;
+            }
+            return null;
         }
     }
 }
