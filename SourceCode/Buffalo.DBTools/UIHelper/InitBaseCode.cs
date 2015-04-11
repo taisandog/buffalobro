@@ -23,7 +23,7 @@ namespace Buffalo.DBTools.UIHelper
             path = file.DirectoryName + "\\Buffalo.GeneratorInfo.dll";
             if (!File.Exists(path))
             {
-                return;
+                return null;
             }
             file = new FileInfo(path);
             string fileName = CommonMethods.GetBaseRoot(file.Name);

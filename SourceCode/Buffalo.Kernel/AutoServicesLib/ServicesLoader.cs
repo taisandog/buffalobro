@@ -19,7 +19,15 @@ namespace Buffalo.Kernel.AutoServicesLib
     /// </summary>
     public class ServicesLoader
     {
-        Dictionary<string,AbsServicesHandle> _dicServices = new Dictionary<string,AbsServicesHandle>();
+        Dictionary<string, AbsServicesHandle> _dicServices = new Dictionary<string, AbsServicesHandle>();
+
+        /// <summary>
+        /// 服务集合
+        /// </summary>
+        public Dictionary<string, AbsServicesHandle> Services
+        {
+            get { return _dicServices; }
+        }
 
         /// <summary>
         /// 当抛出异常时候触发
