@@ -4,6 +4,47 @@
         <name>Buffalo.Data.PostgreSQL</name>
     </assembly>
     <members>
+        <member name="T:Buffalo.Data.PostgreSQL.AdapterLoader">
+            <summary>
+            适配器加载器
+            </summary>
+        </member>
+        <member name="P:Buffalo.Data.PostgreSQL.AdapterLoader.DbAdapter">
+            <summary>
+            当前数据库适配器
+            </summary>
+        </member>
+        <member name="T:Buffalo.Data.PostgreSQL.CutPageSqlCreater">
+            <summary>
+            生成分页语句的类
+            </summary>
+        </member>
+        <member name="M:Buffalo.Data.PostgreSQL.CutPageSqlCreater.CreatePageSql(Buffalo.DB.DbCommon.ParamList,Buffalo.DB.DbCommon.DataBaseOperate,Buffalo.DB.QueryConditions.SelectCondition,Buffalo.DB.QueryConditions.PageContent,System.Boolean)">
+            <summary>
+            生成SQL语句
+            </summary>
+            <param name="list">参数列表</param>
+            <param name="oper">连接对象</param>
+            <param name="objCondition">条件对象</param>
+            <param name="objPage">分页记录类</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.PostgreSQL.CutPageSqlCreater.GetCutPageSql(System.String,Buffalo.DB.QueryConditions.PageContent)">
+            <summary>
+            获取分页语句
+            </summary>
+            <param name="sql">要被分页的SQL</param>
+            <param name="objCondition">分页类</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.PostgreSQL.CutPageSqlCreater.GetTotalRecord(Buffalo.DB.DbCommon.ParamList,Buffalo.DB.DbCommon.DataBaseOperate,System.String,System.Int64,System.Collections.Generic.Dictionary{System.String,System.Boolean})">
+            <summary>
+            获取总记录数
+            </summary>
+            <param name="part">查询条件</param>
+            <param name="list">变量列表</param>
+            <param name="oper">通用类</param>
+        </member>
         <member name="T:Buffalo.Data.PostgreSQL.DBStructure">
             <summary>
             数据库结构特性类
@@ -52,65 +93,6 @@
             <param name="dbInfo">数据库类型</param>
             <param name="type">检查类型</param>
             <param name="lstSQL">SQL语句</param>
-        </member>
-        <member name="T:Buffalo.Data.PostgreSQL.CursorPageCutter">
-            <summary>
-            游标分页
-            </summary>
-        </member>
-        <member name="M:Buffalo.Data.PostgreSQL.CursorPageCutter.Query(System.String,Buffalo.DB.DbCommon.ParamList,Buffalo.DB.QueryConditions.PageContent,Buffalo.DB.DbCommon.DataBaseOperate)">
-            <summary>
-            查询并且返回集合(游标分页)
-            </summary>
-            <param name="sql">要查询的SQL语句</param>
-            <param name="lstParam">参数集合</param>
-            <param name="objPage">分页对象</param>
-            <param name="oper">数据库对象</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Data.PostgreSQL.CursorPageCutter.QueryDataTable(System.String,Buffalo.DB.DbCommon.ParamList,Buffalo.DB.QueryConditions.PageContent,Buffalo.DB.DbCommon.DataBaseOperate,System.Type)">
-            <summary>
-            查询并且返回DataSet(游标分页)
-            </summary>
-            <param name="sql">要查询的SQL语句</param>
-            <param name="lstParam">参数集合</param>
-            <param name="objPage">分页对象</param>
-            <param name="oper">数据库对象</param>
-            <param name="curType">映射的实体类型(如果用回数据库的原列名，则此为null)</param>
-            <returns></returns>
-        </member>
-        <member name="T:Buffalo.Data.PostgreSQL.ConvertFunction">
-            <summary>
-            数值转换函数
-            </summary>
-        </member>
-        <member name="M:Buffalo.Data.PostgreSQL.ConvertFunction.GetFormat(System.String)">
-            <summary>
-            格式化字符串
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Data.PostgreSQL.ConvertFunction.DateTimeToString(System.String,System.String)">
-            <summary>
-            日期转字符串
-            </summary>
-            <param name="values"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Data.PostgreSQL.ConvertFunction.StringToDateTime(System.String,System.String)">
-            <summary>
-            字符串转成日期
-            </summary>
-            <param name="values"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Data.PostgreSQL.ConvertFunction.ConvetTo(System.String,System.Data.DbType)">
-            <summary>
-            把数据转成指定类型
-            </summary>
-            <param name="value">数据</param>
-            <param name="dbType">指定类型</param>
-            <returns></returns>
         </member>
         <member name="M:Buffalo.Data.PostgreSQL.DBAdapter.GetNowDate(System.Data.DbType)">
             <summary>
@@ -360,80 +342,38 @@
             是否记录自增长字段作手动处理
             </summary>
         </member>
-        <member name="T:Buffalo.Data.PostgreSQL.AdapterLoader">
+        <member name="T:Buffalo.Data.PostgreSQL.ConvertFunction">
             <summary>
-            适配器加载器
+            数值转换函数
             </summary>
         </member>
-        <member name="P:Buffalo.Data.PostgreSQL.AdapterLoader.DbAdapter">
+        <member name="M:Buffalo.Data.PostgreSQL.ConvertFunction.GetFormat(System.String)">
             <summary>
-            当前数据库适配器
+            格式化字符串
             </summary>
-        </member>
-        <member name="T:Buffalo.Data.PostgreSQL.SequenceManager">
-            <summary>
-            主键序列管理
-            </summary>
-        </member>
-        <member name="M:Buffalo.Data.PostgreSQL.SequenceManager.GetSequenceName(Buffalo.DB.EntityInfos.EntityPropertyInfo)">
-            <summary>
-            获取该属性的序列
-            </summary>
-            <param name="info"></param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.Data.PostgreSQL.SequenceManager.GetDefaultName(System.String,System.String)">
+        <member name="M:Buffalo.Data.PostgreSQL.ConvertFunction.DateTimeToString(System.String,System.String)">
             <summary>
-            获取默认的序列名
+            日期转字符串
             </summary>
-            <param name="tableName">表</param>
-            <param name="paramName">字段</param>
+            <param name="values"></param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.Data.PostgreSQL.SequenceManager.GetInitSequence(System.String,Buffalo.DB.PropertyAttributes.EntityParam,Buffalo.DB.DbCommon.DataBaseOperate)">
+        <member name="M:Buffalo.Data.PostgreSQL.ConvertFunction.StringToDateTime(System.String,System.String)">
             <summary>
-            初始化序列
+            字符串转成日期
             </summary>
-            <param name="seqName"></param>
-        </member>
-        <member name="M:Buffalo.Data.PostgreSQL.SequenceManager.IsSequenceExists(System.String,Buffalo.DB.DbCommon.DataBaseOperate)">
-            <summary>
-            获取序列是否存在
-            </summary>
-            <param name="seqName">序列名</param>
-            <param name="oper">数据库链接</param>
+            <param name="values"></param>
             <returns></returns>
         </member>
-        <member name="T:Buffalo.Data.PostgreSQL.CutPageSqlCreater">
+        <member name="M:Buffalo.Data.PostgreSQL.ConvertFunction.ConvetTo(System.String,System.Data.DbType)">
             <summary>
-            生成分页语句的类
+            把数据转成指定类型
             </summary>
-        </member>
-        <member name="M:Buffalo.Data.PostgreSQL.CutPageSqlCreater.CreatePageSql(Buffalo.DB.DbCommon.ParamList,Buffalo.DB.DbCommon.DataBaseOperate,Buffalo.DB.QueryConditions.SelectCondition,Buffalo.DB.QueryConditions.PageContent,System.Boolean)">
-            <summary>
-            生成SQL语句
-            </summary>
-            <param name="list">参数列表</param>
-            <param name="oper">连接对象</param>
-            <param name="objCondition">条件对象</param>
-            <param name="objPage">分页记录类</param>
+            <param name="value">数据</param>
+            <param name="dbType">指定类型</param>
             <returns></returns>
-        </member>
-        <member name="M:Buffalo.Data.PostgreSQL.CutPageSqlCreater.GetCutPageSql(System.String,Buffalo.DB.QueryConditions.PageContent)">
-            <summary>
-            获取分页语句
-            </summary>
-            <param name="sql">要被分页的SQL</param>
-            <param name="objCondition">分页类</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Data.PostgreSQL.CutPageSqlCreater.GetTotalRecord(Buffalo.DB.DbCommon.ParamList,Buffalo.DB.DbCommon.DataBaseOperate,System.String,System.Int64,System.Collections.Generic.Dictionary{System.String,System.Boolean})">
-            <summary>
-            获取总记录数
-            </summary>
-            <param name="part">查询条件</param>
-            <param name="list">变量列表</param>
-            <param name="oper">通用类</param>
         </member>
         <member name="T:Buffalo.Data.PostgreSQL.AggregateFunctions">
             <summary>
@@ -480,6 +420,66 @@
             处理Avg函数
             </summary>
             <param name="paramName"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Buffalo.Data.PostgreSQL.CursorPageCutter">
+            <summary>
+            游标分页
+            </summary>
+        </member>
+        <member name="M:Buffalo.Data.PostgreSQL.CursorPageCutter.Query(System.String,Buffalo.DB.DbCommon.ParamList,Buffalo.DB.QueryConditions.PageContent,Buffalo.DB.DbCommon.DataBaseOperate)">
+            <summary>
+            查询并且返回集合(游标分页)
+            </summary>
+            <param name="sql">要查询的SQL语句</param>
+            <param name="lstParam">参数集合</param>
+            <param name="objPage">分页对象</param>
+            <param name="oper">数据库对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.PostgreSQL.CursorPageCutter.QueryDataTable(System.String,Buffalo.DB.DbCommon.ParamList,Buffalo.DB.QueryConditions.PageContent,Buffalo.DB.DbCommon.DataBaseOperate,System.Type)">
+            <summary>
+            查询并且返回DataSet(游标分页)
+            </summary>
+            <param name="sql">要查询的SQL语句</param>
+            <param name="lstParam">参数集合</param>
+            <param name="objPage">分页对象</param>
+            <param name="oper">数据库对象</param>
+            <param name="curType">映射的实体类型(如果用回数据库的原列名，则此为null)</param>
+            <returns></returns>
+        </member>
+        <member name="T:Buffalo.Data.PostgreSQL.SequenceManager">
+            <summary>
+            主键序列管理
+            </summary>
+        </member>
+        <member name="M:Buffalo.Data.PostgreSQL.SequenceManager.GetSequenceName(Buffalo.DB.EntityInfos.EntityPropertyInfo)">
+            <summary>
+            获取该属性的序列
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.PostgreSQL.SequenceManager.GetDefaultName(System.String,System.String)">
+            <summary>
+            获取默认的序列名
+            </summary>
+            <param name="tableName">表</param>
+            <param name="paramName">字段</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.PostgreSQL.SequenceManager.GetInitSequence(System.String,Buffalo.DB.PropertyAttributes.EntityParam,Buffalo.DB.DbCommon.DataBaseOperate)">
+            <summary>
+            初始化序列
+            </summary>
+            <param name="seqName"></param>
+        </member>
+        <member name="M:Buffalo.Data.PostgreSQL.SequenceManager.IsSequenceExists(System.String,Buffalo.DB.DbCommon.DataBaseOperate)">
+            <summary>
+            获取序列是否存在
+            </summary>
+            <param name="seqName">序列名</param>
+            <param name="oper">数据库链接</param>
             <returns></returns>
         </member>
     </members>

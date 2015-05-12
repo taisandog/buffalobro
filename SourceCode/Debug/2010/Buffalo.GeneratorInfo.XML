@@ -4,44 +4,92 @@
         <name>Buffalo.GeneratorInfo</name>
     </assembly>
     <members>
-        <member name="T:Buffalo.GeneratorInfo.RelationInfo">
+        <member name="T:Buffalo.GeneratorInfo.EntityInfo">
             <summary>
-            属性的外键信息
+            要生成实体信息
             </summary>
         </member>
-        <member name="M:Buffalo.GeneratorInfo.RelationInfo.#ctor(System.String,System.String,System.Boolean,System.String,System.String)">
+        <member name="M:Buffalo.GeneratorInfo.EntityInfo.#ctor(System.String,System.String,System.String,System.String,System.String,System.String,System.Collections.Generic.List{Buffalo.GeneratorInfo.Property},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},Buffalo.GeneratorInfo.Property)">
             <summary>
-            关联信息
+            要生成实体信息
             </summary>
-            <param name="targetName">目标实体的属性名</param>
-            <param name="sourceName">本实体的关联属性</param>
-            <param name="isParent">是否主表属性</param>
-            <param name="sourceType">源属性的类型</param>
-            <param name="sourceTypeFullName">源属性的类型全名</param>
+            <param name="dbName">数据库名</param>
+            <param name="fileName">类文件名</param>
+            <param name="nameSpace">命名空间</param>
+            <param name="className">类名</param>
+            <param name="summary">注释</param>
+            <param name="baseTypeName">基类名</param>
+            <param name="dicGenericInfo">泛型信息</param>
+            <param name="lstAllProperty">所有属性</param>
+            <param name="model">可选项信息</param>
         </member>
-        <member name="P:Buffalo.GeneratorInfo.RelationInfo.TargetName">
+        <member name="M:Buffalo.GeneratorInfo.EntityInfo.GetValue(System.String)">
             <summary>
-            目标实体的属性名
+            获取值
+            </summary>
+            <param name="itemName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.GeneratorInfo.EntityInfo.HasItem(System.String)">
+            <summary>
+            获取是否选中项
+            </summary>
+            <param name="itemName">项名称</param>
+            <returns></returns>
+        </member>
+        <member name="P:Buffalo.GeneratorInfo.EntityInfo.DBName">
+            <summary>
+            类图名
             </summary>
         </member>
-        <member name="P:Buffalo.GeneratorInfo.RelationInfo.SourceName">
+        <member name="P:Buffalo.GeneratorInfo.EntityInfo.FileName">
             <summary>
-            本实体的关联属性
+            文件名
             </summary>
         </member>
-        <member name="P:Buffalo.GeneratorInfo.RelationInfo.SourceType">
+        <member name="P:Buffalo.GeneratorInfo.EntityInfo.Namespace">
             <summary>
-            关联属性的数值类型
+            命名空间
             </summary>
         </member>
-        <member name="P:Buffalo.GeneratorInfo.RelationInfo.SourceTypeFullName">
+        <member name="P:Buffalo.GeneratorInfo.EntityInfo.ClassName">
             <summary>
-            关联属性的数值类型全名
+            类名
             </summary>
         </member>
-        <member name="P:Buffalo.GeneratorInfo.RelationInfo.IsParent">
+        <member name="P:Buffalo.GeneratorInfo.EntityInfo.FullName">
             <summary>
-            是否主表属性
+            类全名
+            </summary>
+        </member>
+        <member name="P:Buffalo.GeneratorInfo.EntityInfo.Summary">
+            <summary>
+            注释
+            </summary>
+        </member>
+        <member name="P:Buffalo.GeneratorInfo.EntityInfo.BaseTypeName">
+            <summary>
+            基名称
+            </summary>
+        </member>
+        <member name="P:Buffalo.GeneratorInfo.EntityInfo.GenericInfo">
+            <summary>
+            泛型信息
+            </summary>
+        </member>
+        <member name="P:Buffalo.GeneratorInfo.EntityInfo.AllProperty">
+            <summary>
+            所有属性
+            </summary>
+        </member>
+        <member name="P:Buffalo.GeneratorInfo.EntityInfo.PrimaryProperty">
+            <summary>
+            主键对应的属性
+            </summary>
+        </member>
+        <member name="P:Buffalo.GeneratorInfo.EntityInfo.CheckItem">
+            <summary>
+            选中的项
             </summary>
         </member>
         <member name="T:Buffalo.GeneratorInfo.TableInfo">
@@ -150,92 +198,44 @@
             对应的属性名
             </summary>
         </member>
-        <member name="T:Buffalo.GeneratorInfo.EntityInfo">
+        <member name="T:Buffalo.GeneratorInfo.RelationInfo">
             <summary>
-            要生成实体信息
+            属性的外键信息
             </summary>
         </member>
-        <member name="M:Buffalo.GeneratorInfo.EntityInfo.#ctor(System.String,System.String,System.String,System.String,System.String,System.String,System.Collections.Generic.List{Buffalo.GeneratorInfo.Property},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},Buffalo.GeneratorInfo.Property)">
+        <member name="M:Buffalo.GeneratorInfo.RelationInfo.#ctor(System.String,System.String,System.Boolean,System.String,System.String)">
             <summary>
-            要生成实体信息
+            关联信息
             </summary>
-            <param name="dbName">数据库名</param>
-            <param name="fileName">类文件名</param>
-            <param name="nameSpace">命名空间</param>
-            <param name="className">类名</param>
-            <param name="summary">注释</param>
-            <param name="baseTypeName">基类名</param>
-            <param name="dicGenericInfo">泛型信息</param>
-            <param name="lstAllProperty">所有属性</param>
-            <param name="model">可选项信息</param>
+            <param name="targetName">目标实体的属性名</param>
+            <param name="sourceName">本实体的关联属性</param>
+            <param name="isParent">是否主表属性</param>
+            <param name="sourceType">源属性的类型</param>
+            <param name="sourceTypeFullName">源属性的类型全名</param>
         </member>
-        <member name="M:Buffalo.GeneratorInfo.EntityInfo.GetValue(System.String)">
+        <member name="P:Buffalo.GeneratorInfo.RelationInfo.TargetName">
             <summary>
-            获取值
-            </summary>
-            <param name="itemName"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.GeneratorInfo.EntityInfo.HasItem(System.String)">
-            <summary>
-            获取是否选中项
-            </summary>
-            <param name="itemName">项名称</param>
-            <returns></returns>
-        </member>
-        <member name="P:Buffalo.GeneratorInfo.EntityInfo.DBName">
-            <summary>
-            类图名
+            目标实体的属性名
             </summary>
         </member>
-        <member name="P:Buffalo.GeneratorInfo.EntityInfo.FileName">
+        <member name="P:Buffalo.GeneratorInfo.RelationInfo.SourceName">
             <summary>
-            文件名
+            本实体的关联属性
             </summary>
         </member>
-        <member name="P:Buffalo.GeneratorInfo.EntityInfo.Namespace">
+        <member name="P:Buffalo.GeneratorInfo.RelationInfo.SourceType">
             <summary>
-            命名空间
+            关联属性的数值类型
             </summary>
         </member>
-        <member name="P:Buffalo.GeneratorInfo.EntityInfo.ClassName">
+        <member name="P:Buffalo.GeneratorInfo.RelationInfo.SourceTypeFullName">
             <summary>
-            类名
+            关联属性的数值类型全名
             </summary>
         </member>
-        <member name="P:Buffalo.GeneratorInfo.EntityInfo.FullName">
+        <member name="P:Buffalo.GeneratorInfo.RelationInfo.IsParent">
             <summary>
-            类全名
-            </summary>
-        </member>
-        <member name="P:Buffalo.GeneratorInfo.EntityInfo.Summary">
-            <summary>
-            注释
-            </summary>
-        </member>
-        <member name="P:Buffalo.GeneratorInfo.EntityInfo.BaseTypeName">
-            <summary>
-            基名称
-            </summary>
-        </member>
-        <member name="P:Buffalo.GeneratorInfo.EntityInfo.GenericInfo">
-            <summary>
-            泛型信息
-            </summary>
-        </member>
-        <member name="P:Buffalo.GeneratorInfo.EntityInfo.AllProperty">
-            <summary>
-            所有属性
-            </summary>
-        </member>
-        <member name="P:Buffalo.GeneratorInfo.EntityInfo.PrimaryProperty">
-            <summary>
-            主键对应的属性
-            </summary>
-        </member>
-        <member name="P:Buffalo.GeneratorInfo.EntityInfo.CheckItem">
-            <summary>
-            选中的项
+            是否主表属性
             </summary>
         </member>
     </members>

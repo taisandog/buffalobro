@@ -64,6 +64,85 @@ namespace Buffalo.Storage.LocalFileManager
             uint resault = FileAPI.WNetCancelConnection(_fileRoot, 1, true); //取消映射
             
         }
+
+        /// <summary>
+        /// 获取文件流
+        /// </summary>
+        /// <param name="path">路径</param>
+        /// <param name="postion"></param>
+        /// <returns></returns>
+        public Stream GetFile(string path, long postion) 
+        {
+            FileStream fs = new FileStream(path, FileMode.Open);
+            if (postion > 0) 
+            {
+                fs.Position = postion;
+            }
+            return fs;
+        }
+        /// <summary>
+        /// 获取文件流
+        /// </summary>
+        /// <param name="path">路径</param>
+        /// <param name="postion"></param>
+        /// <returns></returns>
+        public Stream GetFile(string path)
+        {
+            return GetFile(path,0);
+        }
+
+        /// <summary>
+        /// 追加文件
+        /// </summary>
+        /// <param name="path">路径</param>
+        /// <param name="content">文件内容</param>
+        /// <param name="postion">写入起始位置</param>
+        /// <returns></returns>
+        public bool AppendFile(string path, byte[] content, long postion) 
+        {
+            using (FileStream file = new FileStream(path, FileMode.Open, FileAccess.Write))
+            {
+                //file.Seek(postion, SeekOrigin.End);
+                file.Position = postion;
+                file.Write(content, 0, content.Length);
+            }
+            return true;
+        }
+        /// <summary>
+        /// 保存文件
+        /// </summary>
+        /// <param name="path">路径</param>
+        /// <param name="content">文件内容</param>
+        /// <returns></returns>
+        public bool SaveFile(string path, byte[] content)
+        {
+            using (FileStream file = new FileStream(path, FileMode.Create, FileAccess.Write))
+            {
+                //file.Seek(postion, SeekOrigin.End);
+                file.Write(content, 0, content.Length);
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// 删除文件
+        /// </summary>
+        /// <param name="path">路径</param>
+        public void RemoveFile(string path) 
+        {
+            File.Delete(path);
+        }
+
+        /// <summary>
+        /// 重命名文件
+        /// </summary>
+        /// <param name="source">原文件路径</param>
+        /// <param name="target">目标文件路径</param>
+        public void ReNameFile(string source, string target) 
+        {
+            File.Move(source, target);
+        }
+
         /// <summary>
         /// 获取所有文件
         /// </summary>

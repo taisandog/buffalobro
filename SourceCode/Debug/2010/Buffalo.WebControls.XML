@@ -4,6 +4,163 @@
         <name>Buffalo.WebControls</name>
     </assembly>
     <members>
+        <member name="T:Buffalo.WebControls.Resource">
+            <summary>
+              强类型资源类，用于查找本地化字符串等。
+            </summary>
+        </member>
+        <member name="P:Buffalo.WebControls.Resource.ResourceManager">
+            <summary>
+              返回此类使用的缓存 ResourceManager 实例。
+            </summary>
+        </member>
+        <member name="P:Buffalo.WebControls.Resource.Culture">
+            <summary>
+              为使用此强类型资源类的所有资源查找
+              重写当前线程的 CurrentUICulture 属性。
+            </summary>
+        </member>
+        <!-- 对于成员“P:Buffalo.WebControls.Resource.KimSoftWebCalendar”忽略有格式错误的 XML 注释 -->
+        <member name="P:Buffalo.WebControls.Resource.LocationPicker">
+            <summary>
+              查找类似 	
+            function LocationPicker(provice,city,area,hidProviceId,hidCityId,hidAreaId)//城市对象
+            {
+            	this.selProvice=document.getElementById(provice);
+            	this.selCity=document.getElementById(city);
+            	this.selArea=document.getElementById(area);
+            	this.hidProvice=document.getElementById(hidProviceId);
+            	this.hidCity=document.getElementById(hidCityId);
+            	this.hidArea=document.getElementById(hidAreaId);
+            	init(this);
+            }
+            
+            LocationPicker.prototype.fillProvice=function()//填充省份信息
+            {
+            	//var sel=document.getElementById(this.f [字符串的其余部分被截断]&quot;; 的本地化字符串。
+            </summary>
+        </member>
+        <member name="M:MyTipText.TipItemCollection.Add(System.String)">
+            <summary>
+            添加一个列表对象
+            </summary>
+            <param name="text"></param>
+        </member>
+        <member name="M:MyTipText.TipItemCollection.Add(System.String,System.String)">
+            <summary>
+            添加一个列表对象
+            </summary>
+            <param name="text"></param>
+        </member>
+        <member name="P:MyCrt.MyLabel.InnerText">
+            <summary>
+            HTML字符
+            </summary>
+        </member>
+        <member name="P:MyCrt.MyLabel.FileUrl">
+            <summary>
+            HTML字符
+            </summary>
+        </member>
+        <member name="M:Buffalo.WebControls.KimSoftWebCalendars.KimSoftWebCalendar.InitTextControl">
+            <summary>
+            初始化中转值的控件
+            </summary>
+        </member>
+        <member name="M:Buffalo.WebControls.KimSoftWebCalendars.KimSoftWebCalendar.SaveJs">
+            <summary>
+            保存成JS文件
+            </summary>
+        </member>
+        <member name="M:Buffalo.WebControls.KimSoftWebCalendars.KimSoftWebCalendar.CreateJs">
+            <summary>
+            创建日期的JS脚本
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Buffalo.WebControls.KimSoftWebCalendars.KimSoftWebCalendar.Text">
+            <summary>
+            文本
+            </summary>
+        </member>
+        <member name="P:Buffalo.WebControls.KimSoftWebCalendars.KimSoftWebCalendar.CurrentDate">
+            <summary>
+            当前日期
+            </summary>
+        </member>
+        <member name="P:Buffalo.WebControls.KimSoftWebCalendars.KimSoftWebCalendar.CurrentDayLast">
+            <summary>
+            当前日期的最后一刻(如2007-1-1就返回2007-1-1 23:59:59 999)
+            </summary>
+        </member>
+        <member name="P:Buffalo.WebControls.KimSoftWebCalendars.KimSoftWebCalendar.TextClientID">
+            <summary>
+            容器的客户端ID
+            </summary>
+        </member>
+        <member name="M:Buffalo.WebControls.LocationSelecter.LocationPicker.InitTextControl">
+            <summary>
+            初始化中转值的控件
+            </summary>
+        </member>
+        <member name="M:Buffalo.WebControls.LocationSelecter.LocationPicker.SaveJs">
+            <summary>
+            保存成JS文件
+            </summary>
+        </member>
+        <member name="M:Buffalo.WebControls.LocationSelecter.LocationPicker.GetControlClientID(System.String)">
+            <summary>
+            获取控件的客户端ID
+            </summary>
+            <param name="id">控件ID</param>
+            <returns></returns>
+        </member>
+        <member name="P:Buffalo.WebControls.LocationSelecter.LocationPicker.SelectedProvice">
+            <summary>
+            获取或设置选中的省份
+            </summary>
+        </member>
+        <member name="P:Buffalo.WebControls.LocationSelecter.LocationPicker.SelectedCity">
+            <summary>
+            获取或设置选中的城市
+            </summary>
+        </member>
+        <member name="P:Buffalo.WebControls.LocationSelecter.LocationPicker.SelectedAred">
+            <summary>
+            获取或设置选中的地区
+            </summary>
+        </member>
+        <member name="P:Buffalo.WebControls.LocationSelecter.LocationPicker.ProviceSelecter">
+            <summary>
+            省的选择下拉框
+            </summary>
+        </member>
+        <member name="P:Buffalo.WebControls.LocationSelecter.LocationPicker.CitySelecter">
+            <summary>
+            市的选择下拉框
+            </summary>
+        </member>
+        <member name="P:Buffalo.WebControls.LocationSelecter.LocationPicker.AreaSelecter">
+            <summary>
+            区的选择下拉框
+            </summary>
+        </member>
+        <member name="M:Buffalo.WebControls.GroupControlLib.ControlGroup.GetGroupVisable">
+            <summary>
+            获取组可见性
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Buffalo.WebControls.GroupControlLib.ControlGroup.GroupName">
+            <summary>
+            控件组名
+            </summary>
+        </member>
+        <member name="P:Buffalo.WebControls.GroupControlLib.ControlGroup.IsSet">
+            <summary>
+            是否已经设置过
+            </summary>
+        </member>
         <member name="T:MyTipText.TipItemInfo">
             <summary>
             子项的属性信息
@@ -39,39 +196,19 @@
             子项(已选中)的CSS名
             </summary>
         </member>
-        <member name="M:MyTipText.TipItemCollection.Add(System.String)">
+        <member name="P:Buffalo.WebControls.GroupControlLib.GroupItem.ItemContorl">
             <summary>
-            添加一个列表对象
-            </summary>
-            <param name="text"></param>
-        </member>
-        <member name="M:MyTipText.TipItemCollection.Add(System.String,System.String)">
-            <summary>
-            添加一个列表对象
-            </summary>
-            <param name="text"></param>
-        </member>
-        <member name="M:MyTipText.TipItem.#ctor(System.String)">
-            <summary>
-             提示项
-            </summary>
-            <param name="text">提示文本</param>
-        </member>
-        <member name="M:MyTipText.TipItem.#ctor(System.String,System.String)">
-            <summary>
-            提示项
-            </summary>
-            <param name="text">提示文本</param>
-            <param name="value">提示值</param>
-        </member>
-        <member name="P:MyTipText.TipItem.Text">
-            <summary>
-            文本
+            控件
             </summary>
         </member>
-        <member name="P:MyTipText.TipItem.Value">
+        <member name="P:Buffalo.WebControls.GroupControlLib.GroupItem.ColumnIndex">
             <summary>
-            值
+            列索引(GridView)
+            </summary>
+        </member>
+        <member name="P:Buffalo.WebControls.GroupControlLib.GroupItem.ContorlName">
+            <summary>
+            要控制的控件名
             </summary>
         </member>
         <!-- 对于成员“M:Buffalo.WebControls.MyCrt.PopDiv.SaveJs”忽略有格式错误的 XML 注释 -->
@@ -130,14 +267,27 @@
             显示此对话框的JS
             </summary>
         </member>
-        <member name="P:MyCrt.MyLabel.InnerText">
+        <member name="M:MyTipText.TipItem.#ctor(System.String)">
             <summary>
-            HTML字符
+             提示项
+            </summary>
+            <param name="text">提示文本</param>
+        </member>
+        <member name="M:MyTipText.TipItem.#ctor(System.String,System.String)">
+            <summary>
+            提示项
+            </summary>
+            <param name="text">提示文本</param>
+            <param name="value">提示值</param>
+        </member>
+        <member name="P:MyTipText.TipItem.Text">
+            <summary>
+            文本
             </summary>
         </member>
-        <member name="P:MyCrt.MyLabel.FileUrl">
+        <member name="P:MyTipText.TipItem.Value">
             <summary>
-            HTML字符
+            值
             </summary>
         </member>
         <!-- 对于成员“M:MyTipText.TipText.SaveJs”忽略有格式错误的 XML 注释 -->
@@ -188,89 +338,6 @@
             容器DIV的CSS
             </summary>
         </member>
-        <member name="M:Buffalo.WebControls.LocationSelecter.LocationPicker.InitTextControl">
-            <summary>
-            初始化中转值的控件
-            </summary>
-        </member>
-        <member name="M:Buffalo.WebControls.LocationSelecter.LocationPicker.SaveJs">
-            <summary>
-            保存成JS文件
-            </summary>
-        </member>
-        <member name="M:Buffalo.WebControls.LocationSelecter.LocationPicker.GetControlClientID(System.String)">
-            <summary>
-            获取控件的客户端ID
-            </summary>
-            <param name="id">控件ID</param>
-            <returns></returns>
-        </member>
-        <member name="P:Buffalo.WebControls.LocationSelecter.LocationPicker.SelectedProvice">
-            <summary>
-            获取或设置选中的省份
-            </summary>
-        </member>
-        <member name="P:Buffalo.WebControls.LocationSelecter.LocationPicker.SelectedCity">
-            <summary>
-            获取或设置选中的城市
-            </summary>
-        </member>
-        <member name="P:Buffalo.WebControls.LocationSelecter.LocationPicker.SelectedAred">
-            <summary>
-            获取或设置选中的地区
-            </summary>
-        </member>
-        <member name="P:Buffalo.WebControls.LocationSelecter.LocationPicker.ProviceSelecter">
-            <summary>
-            省的选择下拉框
-            </summary>
-        </member>
-        <member name="P:Buffalo.WebControls.LocationSelecter.LocationPicker.CitySelecter">
-            <summary>
-            市的选择下拉框
-            </summary>
-        </member>
-        <member name="P:Buffalo.WebControls.LocationSelecter.LocationPicker.AreaSelecter">
-            <summary>
-            区的选择下拉框
-            </summary>
-        </member>
-        <member name="T:Buffalo.WebControls.Resource">
-            <summary>
-              强类型资源类，用于查找本地化字符串等。
-            </summary>
-        </member>
-        <member name="P:Buffalo.WebControls.Resource.ResourceManager">
-            <summary>
-              返回此类使用的缓存 ResourceManager 实例。
-            </summary>
-        </member>
-        <member name="P:Buffalo.WebControls.Resource.Culture">
-            <summary>
-              为使用此强类型资源类的所有资源查找
-              重写当前线程的 CurrentUICulture 属性。
-            </summary>
-        </member>
-        <!-- 对于成员“P:Buffalo.WebControls.Resource.KimSoftWebCalendar”忽略有格式错误的 XML 注释 -->
-        <member name="P:Buffalo.WebControls.Resource.LocationPicker">
-            <summary>
-              查找类似 	
-            function LocationPicker(provice,city,area,hidProviceId,hidCityId,hidAreaId)//城市对象
-            {
-            	this.selProvice=document.getElementById(provice);
-            	this.selCity=document.getElementById(city);
-            	this.selArea=document.getElementById(area);
-            	this.hidProvice=document.getElementById(hidProviceId);
-            	this.hidCity=document.getElementById(hidCityId);
-            	this.hidArea=document.getElementById(hidAreaId);
-            	init(this);
-            }
-            
-            LocationPicker.prototype.fillProvice=function()//填充省份信息
-            {
-            	//var sel=document.getElementById(this.f [字符串的其余部分被截断]&quot;; 的本地化字符串。
-            </summary>
-        </member>
         <member name="M:Buffalo.WebControls.GroupControlLib.GroupVisableSetter.GetViewStateName(System.String)">
             <summary>
             获取ViewState名字
@@ -299,139 +366,6 @@
             </summary>
             <param name="groupNam"></param>
             <returns></returns>
-        </member>
-        <member name="T:TYInfoTechCalendar.TYWebCalendar">
-            <summary>
-            TYWebCalendar1.1
-            </summary>
-        </member>
-        <member name="M:TYInfoTechCalendar.TYWebCalendar.ResetDate">
-            <summary>
-            清空日期框
-            </summary>
-        </member>
-        <member name="M:TYInfoTechCalendar.TYWebCalendar.SaveJs">
-            <summary>
-            保存成JS文件
-            </summary>
-        </member>
-        <member name="M:TYInfoTechCalendar.TYWebCalendar.CreateJs">
-            <summary>
-            创建日期的JS脚本
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:TYInfoTechCalendar.TYWebCalendar.MinYear">
-            <summary>
-            最小年份
-            </summary>
-        </member>
-        <member name="P:TYInfoTechCalendar.TYWebCalendar.MaxYear">
-            <summary>
-            最大年份
-            </summary>
-        </member>
-        <member name="P:TYInfoTechCalendar.TYWebCalendar.MainColor">
-            <summary>
-            主颜色
-            </summary>
-        </member>
-        <member name="P:TYInfoTechCalendar.TYWebCalendar.Shadow">
-            <summary>
-            阴影颜色
-            </summary>
-        </member>
-        <member name="P:TYInfoTechCalendar.TYWebCalendar.Alpha">
-            <summary>
-            透明值
-            </summary>
-        </member>
-        <member name="P:TYInfoTechCalendar.TYWebCalendar.CurrentDate">
-            <summary>
-            当前日期
-            </summary>
-        </member>
-        <member name="P:TYInfoTechCalendar.TYWebCalendar.CurrentDayLast">
-            <summary>
-            当前日期的最后一刻(如2007-1-1就返回2007-1-1 23:59:59 999)
-            </summary>
-        </member>
-        <member name="P:TYInfoTechCalendar.TYWebCalendar.BgTitle">
-            <summary>
-            背景标题
-            </summary>
-        </member>
-        <member name="P:TYInfoTechCalendar.TYWebCalendar.Text">
-            <summary>
-            文本
-            </summary>
-        </member>
-        <member name="M:Buffalo.WebControls.KimSoftWebCalendars.KimSoftWebCalendar.InitTextControl">
-            <summary>
-            初始化中转值的控件
-            </summary>
-        </member>
-        <member name="M:Buffalo.WebControls.KimSoftWebCalendars.KimSoftWebCalendar.SaveJs">
-            <summary>
-            保存成JS文件
-            </summary>
-        </member>
-        <member name="M:Buffalo.WebControls.KimSoftWebCalendars.KimSoftWebCalendar.CreateJs">
-            <summary>
-            创建日期的JS脚本
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:Buffalo.WebControls.KimSoftWebCalendars.KimSoftWebCalendar.Text">
-            <summary>
-            文本
-            </summary>
-        </member>
-        <member name="P:Buffalo.WebControls.KimSoftWebCalendars.KimSoftWebCalendar.CurrentDate">
-            <summary>
-            当前日期
-            </summary>
-        </member>
-        <member name="P:Buffalo.WebControls.KimSoftWebCalendars.KimSoftWebCalendar.CurrentDayLast">
-            <summary>
-            当前日期的最后一刻(如2007-1-1就返回2007-1-1 23:59:59 999)
-            </summary>
-        </member>
-        <member name="P:Buffalo.WebControls.KimSoftWebCalendars.KimSoftWebCalendar.TextClientID">
-            <summary>
-            容器的客户端ID
-            </summary>
-        </member>
-        <member name="P:Buffalo.WebControls.GroupControlLib.GroupItem.ItemContorl">
-            <summary>
-            控件
-            </summary>
-        </member>
-        <member name="P:Buffalo.WebControls.GroupControlLib.GroupItem.ColumnIndex">
-            <summary>
-            列索引(GridView)
-            </summary>
-        </member>
-        <member name="P:Buffalo.WebControls.GroupControlLib.GroupItem.ContorlName">
-            <summary>
-            要控制的控件名
-            </summary>
-        </member>
-        <member name="M:Buffalo.WebControls.GroupControlLib.ControlGroup.GetGroupVisable">
-            <summary>
-            获取组可见性
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:Buffalo.WebControls.GroupControlLib.ControlGroup.GroupName">
-            <summary>
-            控件组名
-            </summary>
-        </member>
-        <member name="P:Buffalo.WebControls.GroupControlLib.ControlGroup.IsSet">
-            <summary>
-            是否已经设置过
-            </summary>
         </member>
     </members>
 </doc>

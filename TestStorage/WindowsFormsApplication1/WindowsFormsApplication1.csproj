@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -82,6 +83,10 @@
     <ProjectReference Include="..\..\SourceCode\Buffalo.Kernel\Buffalo2013.Kernel.csproj">
       <Project>{6ec04216-a422-4751-aa81-1211dcb10bab}</Project>
       <Name>Buffalo2013.Kernel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SourceCode\Buffalo.Storage\Buffalo2013.Storage.csproj">
+      <Project>{1bbb9409-a9ea-48e4-bff5-c97eb4017283}</Project>
+      <Name>Buffalo2013.Storage</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

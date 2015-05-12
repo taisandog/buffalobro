@@ -187,6 +187,11 @@
             ArtDialog
             </summary>
         </member>
+        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.#ctor(System.String)">
+            <summary>
+            ArtDialog
+            </summary>
+        </member>
         <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.GetCloseDialogJS">
             <summary>
             获取关闭窗体的JS

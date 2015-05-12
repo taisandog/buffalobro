@@ -86,6 +86,21 @@ namespace Buffalo.WebKernel.ARTDialog
             RegisterJS(jsName);
         }
         /// <summary>
+        /// ArtDialog
+        /// </summary>
+        public ArtDialog(string skinName)
+        {
+            _curPage = System.Web.HttpContext.Current.Handler as Page;
+
+
+            string jsName = "artdialog/artDialog.source.js?skin=" + skinName;
+            RegisterJS(jsName);
+            jsName = "artdialog/plugins/iframeTools.source.js";
+            RegisterJS(jsName);
+            jsName = "artdialog/artDialogShow.js";
+            RegisterJS(jsName);
+        }
+        /// <summary>
         /// 获取关闭窗体的JS
         /// </summary>
         /// <returns></returns>

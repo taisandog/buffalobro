@@ -9,9 +9,14 @@
             生成分页语句的类
             </summary>
         </member>
-        <member name="T:Buffalo.Data.Oracle11.CursorPageCutter">
+        <member name="T:Buffalo.Data.Oracle11.DBStructure">
             <summary>
-            游标分页
+            数据库结构特性类
+            </summary>
+        </member>
+        <member name="T:Buffalo.Data.Oracle11.SequenceManager">
+            <summary>
+            主键序列管理
             </summary>
         </member>
         <member name="M:Buffalo.Data.Oracle11.DBAdapter.GetDataParameter(System.String,System.Data.DbType,System.Object,System.Data.ParameterDirection)">
@@ -42,14 +47,9 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:Buffalo.Data.Oracle11.DBStructure">
+        <member name="T:Buffalo.Data.Oracle11.CursorPageCutter">
             <summary>
-            数据库结构特性类
-            </summary>
-        </member>
-        <member name="T:Buffalo.Data.Oracle11.AggregateFunctions">
-            <summary>
-            聚合函数处理
+            游标分页
             </summary>
         </member>
         <member name="T:Buffalo.Data.Oracle11.AdapterLoader">
@@ -67,9 +67,9 @@
             数值转换函数
             </summary>
         </member>
-        <member name="T:Buffalo.Data.Oracle11.SequenceManager">
+        <member name="T:Buffalo.Data.Oracle11.AggregateFunctions">
             <summary>
-            主键序列管理
+            聚合函数处理
             </summary>
         </member>
     </members>

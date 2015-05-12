@@ -4,6 +4,396 @@
         <name>Buffalo.Win32Kernel</name>
     </assembly>
     <members>
+        <member name="T:Buffalo.Win32Kernel.Win32.ParallelPort">
+            <summary>
+            并口控制类
+            </summary>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.Win32.ParallelPort.WriteData(System.Byte[])">
+            <summary>
+            写入数据
+            </summary>
+            <param name="data">数据</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.Win32.ParallelPort.ReadData(System.Int32)">
+            <summary>
+            读状态
+            </summary>
+            <param name="len">长度</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.Win32.ParallelPort.Open">
+            <summary>
+            打开端口
+            </summary>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.Win32.ParallelPort.Close">
+            <summary>
+            关闭端口
+            </summary>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.Win32.ParallelPort.#ctor(System.String)">
+            <summary>
+            并口通信
+            </summary>
+            <param name="portName"></param>
+        </member>
+        <member name="P:Buffalo.Win32Kernel.Win32.ParallelPort.IsOpen">
+            <summary>
+            是否开启
+            </summary>
+        </member>
+        <member name="P:Buffalo.Win32Kernel.Win32.ParallelPort.Name">
+            <summary>
+            并口名
+            </summary>
+        </member>
+        <member name="P:Buffalo.Win32Kernel.Win32.ParallelPort.BasePort">
+            <summary>
+            端口基址
+            </summary>
+        </member>
+        <member name="P:Buffalo.Win32Kernel.Win32.MessageBoxEx.DefaultLCID">
+            <summary>
+            默认区域ID
+            </summary>
+        </member>
+        <member name="T:Buffalo.Win32Kernel.ScreenLibrary.ResizeType">
+            <summary>
+            表示調整大小模式
+            </summary>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.ScreenLibrary.BitMapDeal.PrintScreen(System.Drawing.Rectangle)">
+            <summary>
+            截取屏幕
+            </summary>
+            <param name="rect">开始截取位置</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.ScreenLibrary.BitMapDeal.SelectionPrintScreen">
+            <summary>
+            区域截取屏幕
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.ScreenLibrary.BitMapDeal.BitmapCut(System.Drawing.Image,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            取得圖象指定區域的信息，並創建為一個新的圖象返回。
+            </summary>
+            <param name="img">圖象。</param>
+            <param name="x">圖象內起始的 X 坐標處。</param>
+            <param name="y">圖象內起始的 Y 坐標處</param>
+            <param name="width">需要獲得的區域寬度。</param>
+            <param name="height">需要獲得的區域高度。</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.ScreenLibrary.BitMapDeal.GetScreenBitmap">
+            <summary>
+            截取屏幕图像。
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ImageResourceInfo.LoadInfo">
+            <summary>
+            加载信息
+            </summary>
+            <param name="deep">层深</param>
+            <param name="baseOffest">基地址</param>
+        </member>
+        <member name="P:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ImageResourceInfo.ResourceDirectory">
+            <summary>
+            资源信息
+            </summary>
+        </member>
+        <member name="P:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ImageResourceInfo.LstResourceInfo">
+            <summary>
+            资源信息集合
+            </summary>
+        </member>
+        <member name="T:Buffalo.Win32Kernel.Win32.RegExportImport">
+            <summary>
+            该类是对注册表导入导出的操作
+            </summary>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.Win32.RegExportImport.ExportReg(System.String,System.String)">
+            <summary>
+            从注册表导出到文件，在导出的过程是异步的，不受操作进程管理
+            </summary>
+            <param name="SavingFilePath">从注册表导出的文件，如果是已存在的，会提示覆盖；
+            如果不存在由参数指定名字的文件，将自动创建一个。导出的文件的扩展名应当是.REG的</param>
+            <param name="regPath">指定注册表的某一键被导出，如果指定null值，将导出整个注册表</param>
+            <returns>成功返回0，用户中断返回1</returns>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.Win32.RegExportImport.ImportReg(System.String,System.String)">
+            <summary>
+            从文件导入的注册表
+            </summary>
+            <param name="SavedFilePath">指定在磁盘上存在的文件，如果指定的文件不存在，将抛出异常</param>
+            <param name="regPath">指定注册表的键（包含在SavedFilePath文件中保存的关键字），如果该参数设置为null将导入整个SavedFilePath文件
+            中保存的所有关于注册表的关键字</param>
+            <returns>成功返回0</returns>
+        </member>
+        <!-- 对于成员“M:Buffalo.Win32Kernel.SingleForms.IsControlExists(System.Windows.Forms.Control)”忽略有格式错误的 XML 注释 -->
+        <member name="M:Buffalo.Win32Kernel.SingleForms.GetControl(System.String,System.Object[])">
+            <summary>
+            根据Form的类型获取其实例
+            </summary>
+            <param name="typeName">类型名</param>
+            <param name="args">参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.SingleForms.GetControl(System.Type,System.Object[])">
+            <summary>
+            根据Form的类型获取其实例
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.SingleForms.GetControl``1(System.Object[])">
+            <summary>
+            获取指定窗体
+            </summary>
+            <typeparam name="T">窗体类型</typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.SingleForms.GetForm``1(System.Object[])">
+            <summary>
+            获取指定窗体
+            </summary>
+            <typeparam name="T">窗体类型</typeparam>
+            <returns></returns>
+        </member>
+        <member name="P:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ResourceDirectoryEntryInfo.ResourceDirectorEntry">
+            <summary>
+            资源目录入口
+            </summary>
+        </member>
+        <member name="P:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ResourceDirectoryEntryInfo.ResourceDirString">
+            <summary>
+            字符串
+            </summary>
+        </member>
+        <member name="P:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ResourceDirectoryEntryInfo.NextDirectory">
+            <summary>
+            下一层目录
+            </summary>
+        </member>
+        <member name="P:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ResourceDirectoryEntryInfo.ValueData">
+            <summary>
+            指向的资源
+            </summary>
+        </member>
+        <member name="T:Buffalo.Win32Kernel.Win32.ClipboardListener">
+            <summary>
+            剪贴板监听器
+            </summary>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.Win32.ClipboardListener.#ctor(System.IntPtr)">
+            <summary>
+            剪贴板监听器
+            </summary>
+            <param name="handle">关联的控件句柄</param>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.Win32.ClipboardListener.GetIsWinVistaOrLater">
+            <summary>
+            是否Vista以上
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.Win32.ClipboardListener.Listen">
+            <summary>
+            监听剪贴板
+            </summary>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.Win32.ClipboardListener.StopListen">
+            <summary>
+            停止监听
+            </summary>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.Win32.ClipboardListener.DoWndProc(System.Windows.Forms.Message)">
+            <summary>
+            通知监听器控件触发了WndProc事件(请在WndProc)里调用)
+            </summary>
+            <param name="m">WndProc的消息</param>
+            <returns></returns>
+        </member>
+        <member name="E:Buffalo.Win32Kernel.Win32.ClipboardListener.OnClipboardWrite">
+            <summary>
+            当剪贴板被写入时候触发
+            </summary>
+        </member>
+        <member name="P:Buffalo.Win32Kernel.Win32.ClipboardListener.HNextClipboardViewer">
+            <summary>
+            下一个监视的窗口
+            </summary>
+        </member>
+        <member name="P:Buffalo.Win32Kernel.Win32.ClipboardListener.IsListen">
+            <summary>
+            是否在监听
+            </summary>
+        </member>
+        <member name="P:Buffalo.Win32Kernel.Win32.ClipboardListener.Handle">
+            <summary>
+            关联的控件句柄
+            </summary>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.ThreadCycle.GetCurTnreadCycle">
+            <summary>
+            获取当前线程周期
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.ThreadCycle.Star">
+            <summary>
+            开始
+            </summary>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.ThreadCycle.Stop">
+            <summary>
+            停止
+            </summary>
+        </member>
+        <member name="P:Buffalo.Win32Kernel.ThreadCycle.TotalCycle">
+            <summary>
+            获取一共用了多少CPU周期
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Buffalo.Win32Kernel.UpdateModelUnit.ControlDefaultValue">
+            <summary>
+            获取控件的默认属性的类
+            </summary>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.UpdateModelUnit.ControlDefaultValue.GetDefaultPropertyName(System.Windows.Forms.Control)">
+            <summary>
+            获取该类的默认属性名
+            </summary>
+            <param name="ctr">控件</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.UpdateModelUnit.ControlDefaultValue.GetDefaultContorltPropertyName(System.Windows.Forms.Control)">
+            <summary>
+            获取系统预设的控件类型的默认属性名
+            </summary>
+            <param name="ctr">控件</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.UpdateModelUnit.ControlDefaultValue.GetDefaultPropertyValue(System.Reflection.PropertyInfo)">
+            <summary>
+            获取该属性的默认值
+            </summary>
+            <param name="pinf">字段信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.UpdateModelUnit.ControlDefaultValue.GetDefaultPropertyInfo(System.Windows.Forms.Control)">
+            <summary>
+            获取控件的默认属性的信息
+            </summary>
+            <param name="ctr"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.UpdateModelUnit.ControlDefaultValue.GetDefaultPropertyInfoWithoutCache(System.Windows.Forms.Control)">
+            <summary>
+            无缓存的获取控件默认值
+            </summary>
+            <param name="ctr"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.UpdateModelUnit.ControlDefaultValue.ResetContorlValue(System.Windows.Forms.Control)">
+            <summary>
+            重置控件的默认值
+            </summary>
+            <param name="ctr">控件</param>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.UpdateModelUnit.ControlDefaultValue.GetControlDefaultPropertyValue(System.Windows.Forms.Control)">
+            <summary>
+            获取该控件的默认属性
+            </summary>
+            <param name="ctr">控件</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.UpdateModelUnit.ControlDefaultValue.GetControlDefaultPropertyValue(System.Windows.Forms.Control,Buffalo.Kernel.UpdateModelUnit.ContorlDefaultPropertyInfo)">
+            <summary>
+            获取该控件的默认属性
+            </summary>
+            <param name="ctr">控件</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.UpdateModelUnit.ControlDefaultValue.SetControlDefaultPropertyValue(System.Windows.Forms.Control,System.Object)">
+            <summary>
+            设置该控件的默认属性
+            </summary>
+            <param name="ctr">控件</param>
+            <param name="value">属性值</param>
+        </member>
+        <member name="T:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ResourceEntry">
+            <summary>
+            资源信息
+            </summary>
+        </member>
+        <member name="P:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ResourceEntry.Name">
+            <summary>
+            资源名
+            </summary>
+        </member>
+        <member name="P:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ResourceEntry.ResourceInfo">
+            <summary>
+            资源的指向信息
+            </summary>
+        </member>
+        <member name="T:Buffalo.Win32Kernel.Win32.HardwareInfo">
+            <summary>
+            得到硬盘与CPU的ID及网卡MAC
+            </summary>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.Win32.HardwareInfo.GetHostName">
+            <summary>
+            取机器名 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.Win32.HardwareInfo.GetCpuID">
+            <summary>
+            取CPU编号
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.Win32.HardwareInfo.GetHardDiskID">
+            <summary>
+            取第一块硬盘编号
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.Win32.HardwareInfo.GetMacAddress">
+            <summary>
+            得到网卡MAC
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.Win32.HardwareInfo.GetMacByIP(System.String)">
+            <summary>
+            根据IP获取MAC
+            </summary>
+            <param name="ip"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Buffalo.Win32Kernel.Properties.Resources">
+            <summary>
+              强类型资源类，用于查找本地化字符串等。
+            </summary>
+        </member>
+        <member name="P:Buffalo.Win32Kernel.Properties.Resources.ResourceManager">
+            <summary>
+              返回此类使用的缓存 ResourceManager 实例。
+            </summary>
+        </member>
+        <member name="P:Buffalo.Win32Kernel.Properties.Resources.Culture">
+            <summary>
+              为使用此强类型资源类的所有资源查找
+              重写当前线程的 CurrentUICulture 属性。
+            </summary>
+        </member>
         <member name="T:Buffalo.Win32Kernel.Win32.WindowsApplication">
             <summary>
             系统程序
@@ -75,6 +465,23 @@
         <member name="T:Buffalo.Win32Kernel.ScreenLibrary.ScreenWnd">
             <summary>
             屏幕截圖器。
+            </summary>
+        </member>
+        <member name="F:Buffalo.Win32Kernel.ScreenLibrary.ScreenWnd.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.ScreenLibrary.ScreenWnd.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.ScreenLibrary.ScreenWnd.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
             </summary>
         </member>
         <member name="M:Buffalo.Win32Kernel.ScreenLibrary.ScreenWnd.OnPaintBackground(System.Windows.Forms.PaintEventArgs)">
@@ -166,89 +573,6 @@
             <param name="sender"></param>
             <param name="e"></param>
         </member>
-        <member name="F:Buffalo.Win32Kernel.ScreenLibrary.ScreenWnd.components">
-            <summary>
-            Required designer variable.
-            </summary>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.ScreenLibrary.ScreenWnd.Dispose(System.Boolean)">
-            <summary>
-            Clean up any resources being used.
-            </summary>
-            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.ScreenLibrary.ScreenWnd.InitializeComponent">
-            <summary>
-            Required method for Designer support - do not modify
-            the contents of this method with the code editor.
-            </summary>
-        </member>
-        <member name="T:Buffalo.Win32Kernel.Win32.HardwareInfo">
-            <summary>
-            得到硬盘与CPU的ID及网卡MAC
-            </summary>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.Win32.HardwareInfo.GetHostName">
-            <summary>
-            取机器名 
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.Win32.HardwareInfo.GetCpuID">
-            <summary>
-            取CPU编号
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.Win32.HardwareInfo.GetHardDiskID">
-            <summary>
-            取第一块硬盘编号
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.Win32.HardwareInfo.GetMacAddress">
-            <summary>
-            得到网卡MAC
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.Win32.HardwareInfo.GetMacByIP(System.String)">
-            <summary>
-            根据IP获取MAC
-            </summary>
-            <param name="ip"></param>
-            <returns></returns>
-        </member>
-        <!-- 对于成员“M:Buffalo.Win32Kernel.SingleForms.IsControlExists(System.Windows.Forms.Control)”忽略有格式错误的 XML 注释 -->
-        <member name="M:Buffalo.Win32Kernel.SingleForms.GetControl(System.String,System.Object[])">
-            <summary>
-            根据Form的类型获取其实例
-            </summary>
-            <param name="typeName">类型名</param>
-            <param name="args">参数</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.SingleForms.GetControl(System.Type,System.Object[])">
-            <summary>
-            根据Form的类型获取其实例
-            </summary>
-            <param name="type"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.SingleForms.GetControl``1(System.Object[])">
-            <summary>
-            获取指定窗体
-            </summary>
-            <typeparam name="T">窗体类型</typeparam>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.SingleForms.GetForm``1(System.Object[])">
-            <summary>
-            获取指定窗体
-            </summary>
-            <typeparam name="T">窗体类型</typeparam>
-            <returns></returns>
-        </member>
         <member name="T:Buffalo.Win32Kernel.Resource">
             <summary>
               强类型资源类，用于查找本地化字符串等。
@@ -265,65 +589,27 @@
               重写当前线程的 CurrentUICulture 属性。
             </summary>
         </member>
-        <member name="T:Buffalo.Win32Kernel.Properties.Resources">
+        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.IMAGE_RESOURCE_DIRECTORY_ENTRY.Name">
             <summary>
-              强类型资源类，用于查找本地化字符串等。
+            目录项名称字符串指针或ID
             </summary>
         </member>
-        <member name="P:Buffalo.Win32Kernel.Properties.Resources.ResourceManager">
+        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.IMAGE_RESOURCE_DIRECTORY_ENTRY.OffsetToData">
             <summary>
-              返回此类使用的缓存 ResourceManager 实例。
+            资源数据偏移地址或子目录偏移地址
             </summary>
         </member>
-        <member name="P:Buffalo.Win32Kernel.Properties.Resources.Culture">
+        <member name="T:Buffalo.Win32Kernel.DataGridViewUnit.BindingCollection`1">
             <summary>
-              为使用此强类型资源类的所有资源查找
-              重写当前线程的 CurrentUICulture 属性。
+            可排序绑定的集合
             </summary>
+            <typeparam name="T"></typeparam>
         </member>
-        <member name="P:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ResourceItem.Type">
+        <member name="M:Buffalo.Win32Kernel.DataGridViewUnit.BindingCollection`1.AddRange(System.Collections.Generic.IEnumerable{`0})">
             <summary>
-            资源类型
+            添加一个集合
             </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ResourceItem.Entrys">
-            <summary>
-            信息集合
-            </summary>
-        </member>
-        <member name="T:Buffalo.Win32Kernel.FormInfo">
-            <summary>
-            窗体的信息
-            </summary>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.FormInfo.GetContorlText(System.IntPtr)">
-            <summary>
-            获取控件的文本值
-            </summary>
-            <param name="txthandle"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.ThreadCycle.GetCurTnreadCycle">
-            <summary>
-            获取当前线程周期
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.ThreadCycle.Star">
-            <summary>
-            开始
-            </summary>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.ThreadCycle.Stop">
-            <summary>
-            停止
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.ThreadCycle.TotalCycle">
-            <summary>
-            获取一共用了多少CPU周期
-            </summary>
-            <returns></returns>
+            <param name="lst"></param>
         </member>
         <member name="T:Buffalo.Win32Kernel.ServicesUnit.ServiceInfo">
             <summary>
@@ -395,44 +681,226 @@
             是否存在
             </summary>
         </member>
-        <member name="M:Buffalo.Win32Kernel.Win32.KeyBoardListener.SetCombination(System.Int32,System.Boolean)">
+        <member name="P:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ResourceItem.Type">
             <summary>
-            设置组合键
+            资源类型
             </summary>
-            <param name="vkCode"></param>
         </member>
-        <member name="M:Buffalo.Win32Kernel.Win32.KeyBoardListener.MakeKeys(System.Int32)">
+        <member name="P:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ResourceItem.Entrys">
             <summary>
-            组合按键信息
+            信息集合
             </summary>
-            <param name="vkCode"></param>
+        </member>
+        <member name="T:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.IMAGE_RESOURCE_DIRECTORY">
+            <summary>
+            资源目录
+            </summary>
+        </member>
+        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.IMAGE_RESOURCE_DIRECTORY.Characteristics">
+            <summary>
+            标识此资源的类型,但通常为0
+            </summary>
+        </member>
+        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.IMAGE_RESOURCE_DIRECTORY.TimeDateStamp">
+            <summary>
+            资源建立时间
+            </summary>
+        </member>
+        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.IMAGE_RESOURCE_DIRECTORY.MajorVersion">
+            <summary>
+            版本号
+            </summary>
+        </member>
+        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.IMAGE_RESOURCE_DIRECTORY.MinorVersion">
+            <summary>
+            次版本号
+            </summary>
+        </member>
+        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.IMAGE_RESOURCE_DIRECTORY.NumberOfNamedEntries">
+            <summary>
+            使用名字资源条目的个数
+            </summary>
+        </member>
+        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.IMAGE_RESOURCE_DIRECTORY.NumberOfIdEntries">
+            <summary>
+            使用ID数字资源条目的个数
+            </summary>
+        </member>
+        <member name="T:Buffalo.Win32Kernel.FormInfo">
+            <summary>
+            窗体的信息
+            </summary>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.FormInfo.GetContorlText(System.IntPtr)">
+            <summary>
+            获取控件的文本值
+            </summary>
+            <param name="txthandle"></param>
             <returns></returns>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.Win32.KeyBoardListener.IsListening">
-            <summary>
-            是否已经监控
-            </summary>
         </member>
         <member name="M:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ImageResourceManager.FillItems">
             <summary>
             筛选出资源信息
             </summary>
         </member>
-        <member name="M:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ImageResourceInfo.LoadInfo">
+        <member name="M:Buffalo.Win32Kernel.IllegalCrossControl.SetProperty(System.Windows.Forms.Control,System.String,System.Object)">
             <summary>
-            加载信息
+            设置控件的属性
             </summary>
-            <param name="deep">层深</param>
-            <param name="baseOffest">基地址</param>
+            <param name="ctr">要设置的控件</param>
+            <param name="propertyName">属性名</param>
+            <param name="value">属性值</param>
         </member>
-        <member name="P:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ImageResourceInfo.ResourceDirectory">
+        <member name="M:Buffalo.Win32Kernel.IllegalCrossControl.InvokeMethod(System.Windows.Forms.Control,System.String,System.Type[],System.Object[])">
             <summary>
-            资源信息
+            设置控件的属性
+            </summary>
+            <param name="ctr">要设置的控件</param>
+            <param name="methodName">函数名</param>
+            <param name="parametersType">参数类型</param>
+            <param name="args">参数</param>
+        </member>
+        <member name="T:Buffalo.Win32Kernel.Win32.RegistryUtil">
+            <summary>
+            Summary description for Registry.
             </summary>
         </member>
-        <member name="P:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ImageResourceInfo.LstResourceInfo">
+        <member name="M:Buffalo.Win32Kernel.ServicesUnit.ServicesManager.BindService">
             <summary>
-            资源信息集合
+            获取服务集合
+            </summary>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.ServicesUnit.ServicesManager.GetController(System.String)">
+            <summary>
+            获取服务
+            </summary>
+            <param name="servicesName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.ServicesUnit.ServicesManager.RefreashServices">
+            <summary>
+            刷新服务缓存
+            </summary>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.ServicesUnit.ServicesManager.InstallServices(Buffalo.Win32Kernel.ServicesUnit.ServiceInfo)">
+            <summary>
+            创建服务
+            </summary>
+            <param name="servicesName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.ServicesUnit.ServicesManager.SetDescription(Buffalo.Win32Kernel.ServicesUnit.ServiceInfo)">
+            <summary>
+            设置注释
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.ServicesUnit.ServicesManager.GetServicesKey(System.String)">
+            <summary>
+            获取服务所在的注册表
+            </summary>
+            <param name="servicesName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.ServicesUnit.ServicesManager.UnInstallServices(System.ServiceProcess.ServiceController)">
+            <summary>
+            卸载服务
+            </summary>
+            <param name="servicesName"></param>
+            <returns></returns>
+        </member>
+        <member name="F:Buffalo.Win32Kernel.PEReader.PeHeaderReader.dosHeader">
+            <summary>
+            The DOS header
+            </summary>
+        </member>
+        <member name="F:Buffalo.Win32Kernel.PEReader.PeHeaderReader.fileHeader">
+            <summary>
+            The file header
+            </summary>
+        </member>
+        <member name="F:Buffalo.Win32Kernel.PEReader.PeHeaderReader.optionalHeader32">
+            <summary>
+            Optional 32 bit file header 
+            </summary>
+        </member>
+        <member name="F:Buffalo.Win32Kernel.PEReader.PeHeaderReader.optionalHeader64">
+            <summary>
+            Optional 64 bit file header 
+            </summary>
+        </member>
+        <member name="F:Buffalo.Win32Kernel.PEReader.PeHeaderReader.imageSectionHeaders">
+            <summary>
+            Image Section headers. Number of sections is in the file header.
+            </summary>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.PEReader.PeHeaderReader.LoadToResourceDirector(Buffalo.Win32Kernel.PEReader.IMAGE_DATA_DIRECTORY)">
+            <summary>
+            把此位置的表加载成资源表
+            </summary>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.PEReader.PeHeaderReader.RVAToFileOffest(System.Int64)">
+            <summary>
+            虚拟偏移转换成文件相对位置
+            </summary>
+            <param name="rav">内存相对地址</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.PEReader.PeHeaderReader.FindSectionHeader(System.Int64)">
+            <summary>
+            找出当前虚拟偏移所在的区段
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.PEReader.PeHeaderReader.#ctor(System.IO.Stream)">
+            <summary>
+            PE读取器
+            </summary>
+            <param name="filePath"></param>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.PEReader.PeHeaderReader.FromBinaryReader``1(System.IO.BinaryReader)">
+            <summary>
+            Reads in a block from a file and converts it to the struct
+            type specified by the template parameter
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="reader"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Buffalo.Win32Kernel.PEReader.PeHeaderReader.BaseStream">
+            <summary>
+            文件流
+            </summary>
+        </member>
+        <member name="P:Buffalo.Win32Kernel.PEReader.PeHeaderReader.PeReader">
+            <summary>
+            PE读取器
+            </summary>
+        </member>
+        <member name="P:Buffalo.Win32Kernel.PEReader.PeHeaderReader.Is32BitHeader">
+            <summary>
+            Gets if the file header is 32 bit or not
+            </summary>
+        </member>
+        <member name="P:Buffalo.Win32Kernel.PEReader.PeHeaderReader.FileHeader">
+            <summary>
+            Gets the file header
+            </summary>
+        </member>
+        <member name="P:Buffalo.Win32Kernel.PEReader.PeHeaderReader.OptionalHeader32">
+            <summary>
+            Gets the optional header
+            </summary>
+        </member>
+        <member name="P:Buffalo.Win32Kernel.PEReader.PeHeaderReader.OptionalHeader64">
+            <summary>
+            Gets the optional header
+            </summary>
+        </member>
+        <member name="P:Buffalo.Win32Kernel.PEReader.PeHeaderReader.TimeStamp">
+            <summary>
+            Gets the timestamp from the file header
             </summary>
         </member>
         <member name="F:Buffalo.Win32Kernel.PEReader.DataSectionFlags.TypeReg">
@@ -645,175 +1113,89 @@
             The section can be written to.
             </summary>
         </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.IMAGE_RESOURCE_DIRECTORY_ENTRY.Name">
+        <member name="P:Buffalo.Win32Kernel.ComboBoxItem.Tag">
             <summary>
-            目录项名称字符串指针或ID
+            附加信息
             </summary>
         </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.IMAGE_RESOURCE_DIRECTORY_ENTRY.OffsetToData">
+        <member name="P:Buffalo.Win32Kernel.ComboBoxItem.Value">
             <summary>
-            资源数据偏移地址或子目录偏移地址
+            值
             </summary>
         </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.IMAGE_RESOURCE_DIR_STRING_U.Length">
+        <member name="P:Buffalo.Win32Kernel.ComboBoxItem.Text">
             <summary>
-            字符串长度
+            显示文本
             </summary>
         </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.IMAGE_RESOURCE_DIR_STRING_U.NameString">
+        <member name="M:Buffalo.Win32Kernel.Win32.AsmManager.RunAsm(System.Byte[],System.Int32)">
             <summary>
-            unicode字符串
+            开启新线程运行asm代码
             </summary>
+            <param name="asmCode"></param>
+            <param name="pid"></param>
         </member>
-        <member name="T:Buffalo.Win32Kernel.DataGridViewUnit.BindingCollection`1">
+        <member name="M:Buffalo.Win32Kernel.Win32.KeyBoardListener.SetCombination(System.Int32,System.Boolean)">
             <summary>
-            可排序绑定的集合
+            设置组合键
             </summary>
-            <typeparam name="T"></typeparam>
+            <param name="vkCode"></param>
         </member>
-        <member name="M:Buffalo.Win32Kernel.DataGridViewUnit.BindingCollection`1.AddRange(System.Collections.Generic.IEnumerable{`0})">
+        <member name="M:Buffalo.Win32Kernel.Win32.KeyBoardListener.MakeKeys(System.Int32)">
             <summary>
-            添加一个集合
+            组合按键信息
             </summary>
-            <param name="lst"></param>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.ServicesUnit.ServicesManager.BindService">
-            <summary>
-            获取服务集合
-            </summary>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.ServicesUnit.ServicesManager.GetController(System.String)">
-            <summary>
-            获取服务
-            </summary>
-            <param name="servicesName"></param>
+            <param name="vkCode"></param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.Win32Kernel.ServicesUnit.ServicesManager.RefreashServices">
+        <member name="P:Buffalo.Win32Kernel.Win32.KeyBoardListener.IsListening">
             <summary>
-            刷新服务缓存
+            是否已经监控
             </summary>
         </member>
-        <member name="M:Buffalo.Win32Kernel.ServicesUnit.ServicesManager.InstallServices(Buffalo.Win32Kernel.ServicesUnit.ServiceInfo)">
+        <member name="T:Buffalo.Win32Kernel.UpdateModelUnit.ModelUpdateHelper">
             <summary>
-            创建服务
-            </summary>
-            <param name="servicesName"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.ServicesUnit.ServicesManager.SetDescription(Buffalo.Win32Kernel.ServicesUnit.ServiceInfo)">
-            <summary>
-            设置注释
-            </summary>
-            <param name="info"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.ServicesUnit.ServicesManager.GetServicesKey(System.String)">
-            <summary>
-            获取服务所在的注册表
-            </summary>
-            <param name="servicesName"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.ServicesUnit.ServicesManager.UnInstallServices(System.ServiceProcess.ServiceController)">
-            <summary>
-            卸载服务
-            </summary>
-            <param name="servicesName"></param>
-            <returns></returns>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.PeHeaderReader.dosHeader">
-            <summary>
-            The DOS header
+            实体填充帮助类
             </summary>
         </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.PeHeaderReader.fileHeader">
+        <member name="M:Buffalo.Win32Kernel.UpdateModelUnit.ModelUpdateHelper.UpdateModel(System.Windows.Forms.Control,System.Object)">
             <summary>
-            The file header
+            更新实体
             </summary>
+            <param name="container">容器</param>
+            <param name="model">实体</param>
+            <param name="type">命名类型</param>
         </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.PeHeaderReader.optionalHeader32">
+        <member name="M:Buffalo.Win32Kernel.UpdateModelUnit.ModelUpdateHelper.UpdateModel(System.Windows.Forms.Control,System.Object,Buffalo.Kernel.UpdateModelUnit.PrefixType)">
             <summary>
-            Optional 32 bit file header 
+            更新实体
             </summary>
+            <param name="container">容器</param>
+            <param name="model">实体</param>
+            <param name="type">命名类型</param>
         </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.PeHeaderReader.optionalHeader64">
+        <member name="M:Buffalo.Win32Kernel.UpdateModelUnit.ModelUpdateHelper.SetModelValue(System.Windows.Forms.Control,System.Object,Buffalo.Kernel.FastReflection.PropertyInfoHandle)">
             <summary>
-            Optional 64 bit file header 
+            给模型赋值
             </summary>
+            <param name="ctr">控件</param>
+            <param name="model">模型</param>
+            <param name="handle">属性信息</param>
         </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.PeHeaderReader.imageSectionHeaders">
+        <member name="M:Buffalo.Win32Kernel.UpdateModelUnit.ModelUpdateHelper.FillForm(System.Windows.Forms.Control,System.Object)">
             <summary>
-            Image Section headers. Number of sections is in the file header.
+            实体信息填充到表单
             </summary>
+            <param name="container">容器</param>
+            <param name="model">实体</param>
         </member>
-        <member name="M:Buffalo.Win32Kernel.PEReader.PeHeaderReader.LoadToResourceDirector(Buffalo.Win32Kernel.PEReader.IMAGE_DATA_DIRECTORY)">
+        <member name="M:Buffalo.Win32Kernel.UpdateModelUnit.ModelUpdateHelper.FillForm(System.Windows.Forms.Control,System.Object,Buffalo.Kernel.UpdateModelUnit.PrefixType)">
             <summary>
-            把此位置的表加载成资源表
+            实体信息填充到表单
             </summary>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.PEReader.PeHeaderReader.RVAToFileOffest(System.Int64)">
-            <summary>
-            虚拟偏移转换成文件相对位置
-            </summary>
-            <param name="rav">内存相对地址</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.PEReader.PeHeaderReader.FindSectionHeader(System.Int64)">
-            <summary>
-            找出当前虚拟偏移所在的区段
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.PEReader.PeHeaderReader.#ctor(System.IO.Stream)">
-            <summary>
-            PE读取器
-            </summary>
-            <param name="filePath"></param>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.PEReader.PeHeaderReader.FromBinaryReader``1(System.IO.BinaryReader)">
-            <summary>
-            Reads in a block from a file and converts it to the struct
-            type specified by the template parameter
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="reader"></param>
-            <returns></returns>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.PEReader.PeHeaderReader.BaseStream">
-            <summary>
-            文件流
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.PEReader.PeHeaderReader.PeReader">
-            <summary>
-            PE读取器
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.PEReader.PeHeaderReader.Is32BitHeader">
-            <summary>
-            Gets if the file header is 32 bit or not
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.PEReader.PeHeaderReader.FileHeader">
-            <summary>
-            Gets the file header
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.PEReader.PeHeaderReader.OptionalHeader32">
-            <summary>
-            Gets the optional header
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.PEReader.PeHeaderReader.OptionalHeader64">
-            <summary>
-            Gets the optional header
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.PEReader.PeHeaderReader.TimeStamp">
-            <summary>
-            Gets the timestamp from the file header
-            </summary>
+            <param name="container">容器</param>
+            <param name="model">实体</param>
+            <param name="type">命名类型</param>
         </member>
         <member name="T:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ResourceType">
             <summary>
@@ -895,130 +1277,6 @@
             版本信息
             </summary>
         </member>
-        <member name="T:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ResourceEntry">
-            <summary>
-            资源信息
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ResourceEntry.Name">
-            <summary>
-            资源名
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ResourceEntry.ResourceInfo">
-            <summary>
-            资源的指向信息
-            </summary>
-        </member>
-        <member name="T:Buffalo.Win32Kernel.Win32.RegistryUtil">
-            <summary>
-            Summary description for Registry.
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ResourceDirectoryEntryInfo.ResourceDirectorEntry">
-            <summary>
-            资源目录入口
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ResourceDirectoryEntryInfo.ResourceDirString">
-            <summary>
-            字符串
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ResourceDirectoryEntryInfo.NextDirectory">
-            <summary>
-            下一层目录
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ResourceDirectoryEntryInfo.ValueData">
-            <summary>
-            指向的资源
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.ComboBoxItem.Tag">
-            <summary>
-            附加信息
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.ComboBoxItem.Value">
-            <summary>
-            值
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.ComboBoxItem.Text">
-            <summary>
-            显示文本
-            </summary>
-        </member>
-        <member name="T:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.IMAGE_RESOURCE_DIRECTORY">
-            <summary>
-            资源目录
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.IMAGE_RESOURCE_DIRECTORY.Characteristics">
-            <summary>
-            标识此资源的类型,但通常为0
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.IMAGE_RESOURCE_DIRECTORY.TimeDateStamp">
-            <summary>
-            资源建立时间
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.IMAGE_RESOURCE_DIRECTORY.MajorVersion">
-            <summary>
-            版本号
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.IMAGE_RESOURCE_DIRECTORY.MinorVersion">
-            <summary>
-            次版本号
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.IMAGE_RESOURCE_DIRECTORY.NumberOfNamedEntries">
-            <summary>
-            使用名字资源条目的个数
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.IMAGE_RESOURCE_DIRECTORY.NumberOfIdEntries">
-            <summary>
-            使用ID数字资源条目的个数
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.IMAGE_RESOURCE_DATA_ENTRY.OffsetToData">
-            <summary>
-            资源数据的RVA
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.IMAGE_RESOURCE_DATA_ENTRY.Size">
-            <summary>
-            资源数据长度
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.IMAGE_RESOURCE_DATA_ENTRY.CodePage">
-            <summary>
-            代码页，一般为0
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.IMAGE_RESOURCE_DATA_ENTRY.Reserved">
-            <summary>
-            保留字段
-            </summary>
-        </member>
-        <member name="T:Buffalo.Win32Kernel.DataGridViewUnit.ObjectPropertyCompare`1">
-            <summary>
-            实体属性对比器
-            </summary>
-            <typeparam name="T"></typeparam>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.DataGridViewUnit.ObjectPropertyCompare`1.Compare(`0,`0)">
-            <summary>
-            比较方法
-            </summary>
-            <param name="x">相对属性x</param>
-            <param name="y">相对属性y</param>
-            <returns></returns>
-        </member>
         <member name="M:Buffalo.Win32Kernel.Win32.HotKey.Register">
             <summary>
             注册此热键
@@ -1066,307 +1324,49 @@
             是否已经注册了热键
             </summary>
         </member>
-        <member name="T:Buffalo.Win32Kernel.ScreenLibrary.ResizeType">
+        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.IMAGE_RESOURCE_DIR_STRING_U.Length">
             <summary>
-            表示調整大小模式
+            字符串长度
             </summary>
         </member>
-        <member name="M:Buffalo.Win32Kernel.ScreenLibrary.BitMapDeal.PrintScreen(System.Drawing.Rectangle)">
+        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.IMAGE_RESOURCE_DIR_STRING_U.NameString">
             <summary>
-            截取屏幕
+            unicode字符串
             </summary>
-            <param name="rect">开始截取位置</param>
+        </member>
+        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.IMAGE_RESOURCE_DATA_ENTRY.OffsetToData">
+            <summary>
+            资源数据的RVA
+            </summary>
+        </member>
+        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.IMAGE_RESOURCE_DATA_ENTRY.Size">
+            <summary>
+            资源数据长度
+            </summary>
+        </member>
+        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.IMAGE_RESOURCE_DATA_ENTRY.CodePage">
+            <summary>
+            代码页，一般为0
+            </summary>
+        </member>
+        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.IMAGE_RESOURCE_DATA_ENTRY.Reserved">
+            <summary>
+            保留字段
+            </summary>
+        </member>
+        <member name="T:Buffalo.Win32Kernel.DataGridViewUnit.ObjectPropertyCompare`1">
+            <summary>
+            实体属性对比器
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.DataGridViewUnit.ObjectPropertyCompare`1.Compare(`0,`0)">
+            <summary>
+            比较方法
+            </summary>
+            <param name="x">相对属性x</param>
+            <param name="y">相对属性y</param>
             <returns></returns>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.ScreenLibrary.BitMapDeal.SelectionPrintScreen">
-            <summary>
-            区域截取屏幕
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.ScreenLibrary.BitMapDeal.BitmapCut(System.Drawing.Image,System.Int32,System.Int32,System.Int32,System.Int32)">
-            <summary>
-            取得圖象指定區域的信息，並創建為一個新的圖象返回。
-            </summary>
-            <param name="img">圖象。</param>
-            <param name="x">圖象內起始的 X 坐標處。</param>
-            <param name="y">圖象內起始的 Y 坐標處</param>
-            <param name="width">需要獲得的區域寬度。</param>
-            <param name="height">需要獲得的區域高度。</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.ScreenLibrary.BitMapDeal.GetScreenBitmap">
-            <summary>
-            截取屏幕图像。
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.IllegalCrossControl.SetProperty(System.Windows.Forms.Control,System.String,System.Object)">
-            <summary>
-            设置控件的属性
-            </summary>
-            <param name="ctr">要设置的控件</param>
-            <param name="propertyName">属性名</param>
-            <param name="value">属性值</param>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.IllegalCrossControl.InvokeMethod(System.Windows.Forms.Control,System.String,System.Type[],System.Object[])">
-            <summary>
-            设置控件的属性
-            </summary>
-            <param name="ctr">要设置的控件</param>
-            <param name="methodName">函数名</param>
-            <param name="parametersType">参数类型</param>
-            <param name="args">参数</param>
-        </member>
-        <member name="T:Buffalo.Win32Kernel.Win32.RegExportImport">
-            <summary>
-            该类是对注册表导入导出的操作
-            </summary>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.Win32.RegExportImport.ExportReg(System.String,System.String)">
-            <summary>
-            从注册表导出到文件，在导出的过程是异步的，不受操作进程管理
-            </summary>
-            <param name="SavingFilePath">从注册表导出的文件，如果是已存在的，会提示覆盖；
-            如果不存在由参数指定名字的文件，将自动创建一个。导出的文件的扩展名应当是.REG的</param>
-            <param name="regPath">指定注册表的某一键被导出，如果指定null值，将导出整个注册表</param>
-            <returns>成功返回0，用户中断返回1</returns>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.Win32.RegExportImport.ImportReg(System.String,System.String)">
-            <summary>
-            从文件导入的注册表
-            </summary>
-            <param name="SavedFilePath">指定在磁盘上存在的文件，如果指定的文件不存在，将抛出异常</param>
-            <param name="regPath">指定注册表的键（包含在SavedFilePath文件中保存的关键字），如果该参数设置为null将导入整个SavedFilePath文件
-            中保存的所有关于注册表的关键字</param>
-            <returns>成功返回0</returns>
-        </member>
-        <member name="T:Buffalo.Win32Kernel.Win32.ParallelPort">
-            <summary>
-            并口控制类
-            </summary>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.Win32.ParallelPort.WriteData(System.Byte[])">
-            <summary>
-            写入数据
-            </summary>
-            <param name="data">数据</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.Win32.ParallelPort.ReadData(System.Int32)">
-            <summary>
-            读状态
-            </summary>
-            <param name="len">长度</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.Win32.ParallelPort.Open">
-            <summary>
-            打开端口
-            </summary>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.Win32.ParallelPort.Close">
-            <summary>
-            关闭端口
-            </summary>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.Win32.ParallelPort.#ctor(System.String)">
-            <summary>
-            并口通信
-            </summary>
-            <param name="portName"></param>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.Win32.ParallelPort.IsOpen">
-            <summary>
-            是否开启
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.Win32.ParallelPort.Name">
-            <summary>
-            并口名
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.Win32.ParallelPort.BasePort">
-            <summary>
-            端口基址
-            </summary>
-        </member>
-        <member name="T:Buffalo.Win32Kernel.UpdateModelUnit.ModelUpdateHelper">
-            <summary>
-            实体填充帮助类
-            </summary>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.UpdateModelUnit.ModelUpdateHelper.UpdateModel(System.Windows.Forms.Control,System.Object)">
-            <summary>
-            更新实体
-            </summary>
-            <param name="container">容器</param>
-            <param name="model">实体</param>
-            <param name="type">命名类型</param>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.UpdateModelUnit.ModelUpdateHelper.UpdateModel(System.Windows.Forms.Control,System.Object,Buffalo.Kernel.UpdateModelUnit.PrefixType)">
-            <summary>
-            更新实体
-            </summary>
-            <param name="container">容器</param>
-            <param name="model">实体</param>
-            <param name="type">命名类型</param>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.UpdateModelUnit.ModelUpdateHelper.SetModelValue(System.Windows.Forms.Control,System.Object,Buffalo.Kernel.FastReflection.PropertyInfoHandle)">
-            <summary>
-            给模型赋值
-            </summary>
-            <param name="ctr">控件</param>
-            <param name="model">模型</param>
-            <param name="handle">属性信息</param>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.UpdateModelUnit.ModelUpdateHelper.FillForm(System.Windows.Forms.Control,System.Object)">
-            <summary>
-            实体信息填充到表单
-            </summary>
-            <param name="container">容器</param>
-            <param name="model">实体</param>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.UpdateModelUnit.ModelUpdateHelper.FillForm(System.Windows.Forms.Control,System.Object,Buffalo.Kernel.UpdateModelUnit.PrefixType)">
-            <summary>
-            实体信息填充到表单
-            </summary>
-            <param name="container">容器</param>
-            <param name="model">实体</param>
-            <param name="type">命名类型</param>
-        </member>
-        <member name="T:Buffalo.Win32Kernel.UpdateModelUnit.ControlDefaultValue">
-            <summary>
-            获取控件的默认属性的类
-            </summary>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.UpdateModelUnit.ControlDefaultValue.GetDefaultPropertyName(System.Windows.Forms.Control)">
-            <summary>
-            获取该类的默认属性名
-            </summary>
-            <param name="ctr">控件</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.UpdateModelUnit.ControlDefaultValue.GetDefaultContorltPropertyName(System.Windows.Forms.Control)">
-            <summary>
-            获取系统预设的控件类型的默认属性名
-            </summary>
-            <param name="ctr">控件</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.UpdateModelUnit.ControlDefaultValue.GetDefaultPropertyValue(System.Reflection.PropertyInfo)">
-            <summary>
-            获取该属性的默认值
-            </summary>
-            <param name="pinf">字段信息</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.UpdateModelUnit.ControlDefaultValue.GetDefaultPropertyInfo(System.Windows.Forms.Control)">
-            <summary>
-            获取控件的默认属性的信息
-            </summary>
-            <param name="ctr"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.UpdateModelUnit.ControlDefaultValue.GetDefaultPropertyInfoWithoutCache(System.Windows.Forms.Control)">
-            <summary>
-            无缓存的获取控件默认值
-            </summary>
-            <param name="ctr"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.UpdateModelUnit.ControlDefaultValue.ResetContorlValue(System.Windows.Forms.Control)">
-            <summary>
-            重置控件的默认值
-            </summary>
-            <param name="ctr">控件</param>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.UpdateModelUnit.ControlDefaultValue.GetControlDefaultPropertyValue(System.Windows.Forms.Control)">
-            <summary>
-            获取该控件的默认属性
-            </summary>
-            <param name="ctr">控件</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.UpdateModelUnit.ControlDefaultValue.GetControlDefaultPropertyValue(System.Windows.Forms.Control,Buffalo.Kernel.UpdateModelUnit.ContorlDefaultPropertyInfo)">
-            <summary>
-            获取该控件的默认属性
-            </summary>
-            <param name="ctr">控件</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.UpdateModelUnit.ControlDefaultValue.SetControlDefaultPropertyValue(System.Windows.Forms.Control,System.Object)">
-            <summary>
-            设置该控件的默认属性
-            </summary>
-            <param name="ctr">控件</param>
-            <param name="value">属性值</param>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.Win32.MessageBoxEx.DefaultLCID">
-            <summary>
-            默认区域ID
-            </summary>
-        </member>
-        <member name="T:Buffalo.Win32Kernel.Win32.ClipboardListener">
-            <summary>
-            剪贴板监听器
-            </summary>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.Win32.ClipboardListener.#ctor(System.IntPtr)">
-            <summary>
-            剪贴板监听器
-            </summary>
-            <param name="handle">关联的控件句柄</param>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.Win32.ClipboardListener.GetIsWinVistaOrLater">
-            <summary>
-            是否Vista以上
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.Win32.ClipboardListener.Listen">
-            <summary>
-            监听剪贴板
-            </summary>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.Win32.ClipboardListener.StopListen">
-            <summary>
-            停止监听
-            </summary>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.Win32.ClipboardListener.DoWndProc(System.Windows.Forms.Message)">
-            <summary>
-            通知监听器控件触发了WndProc事件(请在WndProc)里调用)
-            </summary>
-            <param name="m">WndProc的消息</param>
-            <returns></returns>
-        </member>
-        <member name="E:Buffalo.Win32Kernel.Win32.ClipboardListener.OnClipboardWrite">
-            <summary>
-            当剪贴板被写入时候触发
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.Win32.ClipboardListener.HNextClipboardViewer">
-            <summary>
-            下一个监视的窗口
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.Win32.ClipboardListener.IsListen">
-            <summary>
-            是否在监听
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.Win32.ClipboardListener.Handle">
-            <summary>
-            关联的控件句柄
-            </summary>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.Win32.AsmManager.RunAsm(System.Byte[],System.Int32)">
-            <summary>
-            开启新线程运行asm代码
-            </summary>
-            <param name="asmCode"></param>
-            <param name="pid"></param>
         </member>
     </members>
 </doc>

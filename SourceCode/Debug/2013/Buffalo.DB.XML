@@ -963,20 +963,21 @@
             <param name="lstScope">条件</param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.CommBase.BH.Find``1(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLCondition,Buffalo.DB.QueryConditions.PageContent)">
+        <member name="M:Buffalo.DB.CommBase.BH.SelectList``1(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLCondition,Buffalo.DB.QueryConditions.PageContent)">
             <summary>
             查询集合
             </summary>
             <typeparam name="T"></typeparam>
-            <param name="lstScope">条件</param>
+            <param name="condition">条件</param>
+            <param name="pager">分页条件</param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.CommBase.BH.Find``1(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLCondition)">
+        <member name="M:Buffalo.DB.CommBase.BH.SelectList``1(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLCondition)">
             <summary>
             查询集合
             </summary>
             <typeparam name="T"></typeparam>
-            <param name="lstScope">条件</param>
+            <param name="condition">条件</param>
             <returns></returns>
         </member>
         <member name="M:Buffalo.DB.CommBase.BH.GetUnique``1(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLCondition)">
@@ -987,20 +988,34 @@
             <param name="condition">条件</param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.CommBase.BH.GetById``1(System.Object)">
+        <member name="M:Buffalo.DB.CommBase.BH.GetUnique``1(Buffalo.DB.QueryConditions.ScopeList)">
             <summary>
             获取唯一
             </summary>
             <typeparam name="T"></typeparam>
-            <param name="condition">条件</param>
+            <param name="lstScope">条件</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CommBase.BH.GetById``1(System.Object)">
+            <summary>
+            根据ID获取实体
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="id">id</param>
             <returns></returns>
         </member>
         <member name="M:Buffalo.DB.CommBase.BH.SelectCount``1(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLCondition)">
             <summary>
             查询数目
             </summary>
-            <param name="condition"></param>
-            <param name="entityType"></param>
+            <param name="condition">条件</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CommBase.BH.SelectCount``1(Buffalo.DB.QueryConditions.ScopeList)">
+            <summary>
+            查询数目
+            </summary>
+            <param name="lstScope">条件</param>
             <returns></returns>
         </member>
         <member name="M:Buffalo.DB.CommBase.BH.Update(Buffalo.DB.CommBase.EntityBase)">
@@ -1014,14 +1029,22 @@
             <summary>
             删除一个实体
             </summary>
-            <param name="entity"></param>
+            <param name="entity">要删除的实体</param>
             <returns></returns>
         </member>
         <member name="M:Buffalo.DB.CommBase.BH.Insert(Buffalo.DB.CommBase.EntityBase,System.Boolean)">
             <summary>
             插入一个实体
             </summary>
-            <param name="entity"></param>
+            <param name="entity">要插入的实体</param>
+            <param name="fillIdentity">是否填充主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CommBase.BH.Insert(Buffalo.DB.CommBase.EntityBase)">
+            <summary>
+            插入一个实体
+            </summary>
+            <param name="entity">要插入的实体</param>
             <returns></returns>
         </member>
         <member name="T:Buffalo.DB.CommBase.BusinessBases.BatchAction">

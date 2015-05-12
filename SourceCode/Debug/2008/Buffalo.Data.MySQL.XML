@@ -4,143 +4,6 @@
         <name>Buffalo.Data.MySQL</name>
     </assembly>
     <members>
-        <member name="T:Buffalo.Data.MySQL.ConvertFunction">
-            <summary>
-            数值转换函数
-            </summary>
-        </member>
-        <member name="M:Buffalo.Data.MySQL.ConvertFunction.GetFormat(System.String)">
-            <summary>
-            格式化字符串
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Data.MySQL.ConvertFunction.DateTimeToString(System.String,System.String)">
-            <summary>
-            日期转字符串
-            </summary>
-            <param name="values"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Data.MySQL.ConvertFunction.StringToDateTime(System.String,System.String)">
-            <summary>
-            字符串转成日期
-            </summary>
-            <param name="values"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Data.MySQL.ConvertFunction.ConvetTo(System.String,System.Data.DbType)">
-            <summary>
-            把数据转成指定类型
-            </summary>
-            <param name="value">数据</param>
-            <param name="dbType">指定类型</param>
-            <returns></returns>
-        </member>
-        <member name="T:Buffalo.Data.MySQL.DBStructure">
-            <summary>
-            数据库结构特性类
-            </summary>
-        </member>
-        <member name="M:Buffalo.Data.MySQL.DBStructure.GetAllTableName(Buffalo.DB.DbCommon.DataBaseOperate,Buffalo.DB.DataBaseAdapter.DBInfo)">
-            <summary>
-            获取所有用户表
-            </summary>
-            <param name="oper"></param>
-            <param name="info"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Data.MySQL.DBStructure.GetTableNames(Buffalo.DB.DbCommon.DataBaseOperate,Buffalo.DB.DataBaseAdapter.DBInfo,System.Collections.Generic.IEnumerable{System.String})">
-            <summary>
-            获取所有用户表
-            </summary>
-            <param name="oper"></param>
-            <param name="info"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Data.MySQL.DBStructure.GetAddParamSQL">
-            <summary>
-            添加字段的语句
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Data.MySQL.DBStructure.GetRelation(Buffalo.DB.DbCommon.DataBaseOperate,Buffalo.DB.DataBaseAdapter.DBInfo,System.Collections.Generic.IEnumerable{System.String})">
-            <summary>
-            获取所有关系
-            </summary>
-            <param name="oper"> </param>
-            <param name="info"> </param>
-            <param name="childNames">null则查询所有表</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Data.MySQL.DBStructure.GetTablesInfo(Buffalo.DB.DbCommon.DataBaseOperate,Buffalo.DB.DataBaseAdapter.DBInfo,System.Collections.Generic.IEnumerable{System.String})">
-            <summary>
-            获取表信息
-            </summary>
-            <param name="oper"></param>
-            <param name="info"></param>
-            <param name="tableNames"></param>
-            <returns></returns>
-        </member>
-        <!-- 对于成员“M:Buffalo.Data.MySQL.DBStructure.FillParam(Buffalo.DB.DataBaseAdapter.DBTableInfo,System.Data.IDataReader)”忽略有格式错误的 XML 注释 -->
-        <member name="M:Buffalo.Data.MySQL.DBStructure.GetDbType(System.String,System.Boolean)">
-            <summary>
-            获取数据库类型
-            </summary>
-            <param name="type"></param>
-            <param name="isUnsigned"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Data.MySQL.DBStructure.OnCheckEvent(System.Object,Buffalo.DB.DataBaseAdapter.DBInfo,Buffalo.DB.DataBaseAdapter.IDbAdapters.CheckEvent,System.Collections.Generic.List{System.String})">
-            <summary>
-            数据库检查时候的事建
-            </summary>
-            <param name="arg">当前类型</param>
-            <param name="dbInfo">数据库类型</param>
-            <param name="type">检查类型</param>
-            <param name="lstSQL">SQL语句</param>
-        </member>
-        <member name="T:Buffalo.Data.MySQL.AdapterLoader">
-            <summary>
-            适配器加载器
-            </summary>
-        </member>
-        <member name="P:Buffalo.Data.MySQL.AdapterLoader.DbAdapter">
-            <summary>
-            当前数据库适配器
-            </summary>
-        </member>
-        <member name="T:Buffalo.Data.MySQL.CutPageSqlCreater">
-            <summary>
-            生成分页语句的类
-            </summary>
-        </member>
-        <member name="M:Buffalo.Data.MySQL.CutPageSqlCreater.CreatePageSql(Buffalo.DB.DbCommon.ParamList,Buffalo.DB.DbCommon.DataBaseOperate,Buffalo.DB.QueryConditions.SelectCondition,Buffalo.DB.QueryConditions.PageContent,System.Boolean)">
-            <summary>
-            生成SQL语句
-            </summary>
-            <param name="list">参数列表</param>
-            <param name="oper">连接对象</param>
-            <param name="objCondition">条件对象</param>
-            <param name="objPage">分页记录类</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Data.MySQL.CutPageSqlCreater.GetCutPageSql(System.String,Buffalo.DB.QueryConditions.PageContent)">
-            <summary>
-            获取分页语句
-            </summary>
-            <param name="sql">要被分页的SQL</param>
-            <param name="objCondition">分页类</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Data.MySQL.CutPageSqlCreater.GetTotalRecord(Buffalo.DB.DbCommon.ParamList,Buffalo.DB.DbCommon.DataBaseOperate,System.String,System.Int64,System.Collections.Generic.Dictionary{System.String,System.Boolean})">
-            <summary>
-            获取总记录数
-            </summary>
-            <param name="part">查询条件</param>
-            <param name="list">变量列表</param>
-            <param name="oper">通用类</param>
-        </member>
         <member name="M:Buffalo.Data.MySQL.DBAdapter.GetNowDate(System.Data.DbType)">
             <summary>
             获取当前时间
@@ -436,6 +299,69 @@
             <param name="paramName"></param>
             <returns></returns>
         </member>
+        <member name="T:Buffalo.Data.MySQL.DBStructure">
+            <summary>
+            数据库结构特性类
+            </summary>
+        </member>
+        <member name="M:Buffalo.Data.MySQL.DBStructure.GetAllTableName(Buffalo.DB.DbCommon.DataBaseOperate,Buffalo.DB.DataBaseAdapter.DBInfo)">
+            <summary>
+            获取所有用户表
+            </summary>
+            <param name="oper"></param>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.MySQL.DBStructure.GetTableNames(Buffalo.DB.DbCommon.DataBaseOperate,Buffalo.DB.DataBaseAdapter.DBInfo,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            获取所有用户表
+            </summary>
+            <param name="oper"></param>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.MySQL.DBStructure.GetAddParamSQL">
+            <summary>
+            添加字段的语句
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.MySQL.DBStructure.GetRelation(Buffalo.DB.DbCommon.DataBaseOperate,Buffalo.DB.DataBaseAdapter.DBInfo,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            获取所有关系
+            </summary>
+            <param name="oper"> </param>
+            <param name="info"> </param>
+            <param name="childNames">null则查询所有表</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.MySQL.DBStructure.GetTablesInfo(Buffalo.DB.DbCommon.DataBaseOperate,Buffalo.DB.DataBaseAdapter.DBInfo,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            获取表信息
+            </summary>
+            <param name="oper"></param>
+            <param name="info"></param>
+            <param name="tableNames"></param>
+            <returns></returns>
+        </member>
+        <!-- 对于成员“M:Buffalo.Data.MySQL.DBStructure.FillParam(Buffalo.DB.DataBaseAdapter.DBTableInfo,System.Data.IDataReader)”忽略有格式错误的 XML 注释 -->
+        <member name="M:Buffalo.Data.MySQL.DBStructure.GetDbType(System.String,System.Boolean)">
+            <summary>
+            获取数据库类型
+            </summary>
+            <param name="type"></param>
+            <param name="isUnsigned"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.MySQL.DBStructure.OnCheckEvent(System.Object,Buffalo.DB.DataBaseAdapter.DBInfo,Buffalo.DB.DataBaseAdapter.IDbAdapters.CheckEvent,System.Collections.Generic.List{System.String})">
+            <summary>
+            数据库检查时候的事建
+            </summary>
+            <param name="arg">当前类型</param>
+            <param name="dbInfo">数据库类型</param>
+            <param name="type">检查类型</param>
+            <param name="lstSQL">SQL语句</param>
+        </member>
         <member name="T:Buffalo.Data.MySQL.CursorPageCutter">
             <summary>
             游标分页
@@ -461,6 +387,80 @@
             <param name="oper">数据库对象</param>
             <param name="curType">映射的实体类型(如果用回数据库的原列名，则此为null)</param>
             <returns></returns>
+        </member>
+        <member name="T:Buffalo.Data.MySQL.ConvertFunction">
+            <summary>
+            数值转换函数
+            </summary>
+        </member>
+        <member name="M:Buffalo.Data.MySQL.ConvertFunction.GetFormat(System.String)">
+            <summary>
+            格式化字符串
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.MySQL.ConvertFunction.DateTimeToString(System.String,System.String)">
+            <summary>
+            日期转字符串
+            </summary>
+            <param name="values"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.MySQL.ConvertFunction.StringToDateTime(System.String,System.String)">
+            <summary>
+            字符串转成日期
+            </summary>
+            <param name="values"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.MySQL.ConvertFunction.ConvetTo(System.String,System.Data.DbType)">
+            <summary>
+            把数据转成指定类型
+            </summary>
+            <param name="value">数据</param>
+            <param name="dbType">指定类型</param>
+            <returns></returns>
+        </member>
+        <member name="T:Buffalo.Data.MySQL.CutPageSqlCreater">
+            <summary>
+            生成分页语句的类
+            </summary>
+        </member>
+        <member name="M:Buffalo.Data.MySQL.CutPageSqlCreater.CreatePageSql(Buffalo.DB.DbCommon.ParamList,Buffalo.DB.DbCommon.DataBaseOperate,Buffalo.DB.QueryConditions.SelectCondition,Buffalo.DB.QueryConditions.PageContent,System.Boolean)">
+            <summary>
+            生成SQL语句
+            </summary>
+            <param name="list">参数列表</param>
+            <param name="oper">连接对象</param>
+            <param name="objCondition">条件对象</param>
+            <param name="objPage">分页记录类</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.MySQL.CutPageSqlCreater.GetCutPageSql(System.String,Buffalo.DB.QueryConditions.PageContent)">
+            <summary>
+            获取分页语句
+            </summary>
+            <param name="sql">要被分页的SQL</param>
+            <param name="objCondition">分页类</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.MySQL.CutPageSqlCreater.GetTotalRecord(Buffalo.DB.DbCommon.ParamList,Buffalo.DB.DbCommon.DataBaseOperate,System.String,System.Int64,System.Collections.Generic.Dictionary{System.String,System.Boolean})">
+            <summary>
+            获取总记录数
+            </summary>
+            <param name="part">查询条件</param>
+            <param name="list">变量列表</param>
+            <param name="oper">通用类</param>
+        </member>
+        <member name="T:Buffalo.Data.MySQL.AdapterLoader">
+            <summary>
+            适配器加载器
+            </summary>
+        </member>
+        <member name="P:Buffalo.Data.MySQL.AdapterLoader.DbAdapter">
+            <summary>
+            当前数据库适配器
+            </summary>
         </member>
     </members>
 </doc>

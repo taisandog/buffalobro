@@ -4,6 +4,60 @@
         <name>Buffalo.QueryCache</name>
     </assembly>
     <members>
+        <member name="M:Buffalo.QueryCache.RedisAdaperByServiceStack.#ctor(System.String,Buffalo.DB.DataBaseAdapter.DBInfo)">
+            <summary>
+            memcached的适配器
+            </summary>
+            <param name="connStr">连接字符串</param>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisAdaperByServiceStack.CreateManager(System.String)">
+            <summary>
+            创建连接池
+            </summary>
+            <param name="connectionString">连接字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisAdaperByServiceStack.DoNewVer(System.String,ServiceStack.Redis.IRedisClient)">
+            <summary>
+            设置版本号
+            </summary>
+            <param name="key"></param>
+            <param name="client"></param>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisAdaperByServiceStack.GetValues(System.String[],ServiceStack.Redis.IRedisClient)">
+            <summary>
+            获取值
+            </summary>
+            <param name="key">键</param>
+            <param name="valueType">值类型</param>
+            <param name="client">客户端</param>
+            <returns></returns>
+        </member>
+        <member name="T:Buffalo.QueryCache.MemCachedAdaper">
+            <summary>
+            利用MemCached做缓存
+            </summary>
+        </member>
+        <member name="M:Buffalo.QueryCache.MemCachedAdaper.#ctor(System.String,Buffalo.DB.DataBaseAdapter.DBInfo)">
+            <summary>
+            memcached的适配器
+            </summary>
+            <param name="connStr">连接字符串</param>
+        </member>
+        <member name="M:Buffalo.QueryCache.MemCachedAdaper.CreatePool(System.String)">
+            <summary>
+            创建连接池
+            </summary>
+            <param name="connStr"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.MemCachedAdaper.DoNewVer(System.String,Buffalo.QueryCache.EmptyClass)">
+            <summary>
+            设置版本号
+            </summary>
+            <param name="key"></param>
+            <param name="client"></param>
+        </member>
         <member name="T:MemcacheClient.MemDataSerialize">
             <summary>
             缓存数据序列化
@@ -137,60 +191,6 @@
             <summary>
             写入方法
             </summary>
-        </member>
-        <member name="M:Buffalo.QueryCache.RedisAdaperByServiceStack.#ctor(System.String,Buffalo.DB.DataBaseAdapter.DBInfo)">
-            <summary>
-            memcached的适配器
-            </summary>
-            <param name="connStr">连接字符串</param>
-        </member>
-        <member name="M:Buffalo.QueryCache.RedisAdaperByServiceStack.CreateManager(System.String)">
-            <summary>
-            创建连接池
-            </summary>
-            <param name="connectionString">连接字符串</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.QueryCache.RedisAdaperByServiceStack.DoNewVer(System.String,ServiceStack.Redis.IRedisClient)">
-            <summary>
-            设置版本号
-            </summary>
-            <param name="key"></param>
-            <param name="client"></param>
-        </member>
-        <member name="M:Buffalo.QueryCache.RedisAdaperByServiceStack.GetValues(System.String[],ServiceStack.Redis.IRedisClient)">
-            <summary>
-            获取值
-            </summary>
-            <param name="key">键</param>
-            <param name="valueType">值类型</param>
-            <param name="client">客户端</param>
-            <returns></returns>
-        </member>
-        <member name="T:Buffalo.QueryCache.MemCachedAdaper">
-            <summary>
-            利用MemCached做缓存
-            </summary>
-        </member>
-        <member name="M:Buffalo.QueryCache.MemCachedAdaper.#ctor(System.String,Buffalo.DB.DataBaseAdapter.DBInfo)">
-            <summary>
-            memcached的适配器
-            </summary>
-            <param name="connStr">连接字符串</param>
-        </member>
-        <member name="M:Buffalo.QueryCache.MemCachedAdaper.CreatePool(System.String)">
-            <summary>
-            创建连接池
-            </summary>
-            <param name="connStr"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.QueryCache.MemCachedAdaper.DoNewVer(System.String,Buffalo.QueryCache.EmptyClass)">
-            <summary>
-            设置版本号
-            </summary>
-            <param name="key"></param>
-            <param name="client"></param>
         </member>
         <member name="T:Buffalo.QueryCache.CacheLoader">
             <summary>
