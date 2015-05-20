@@ -45,11 +45,11 @@ namespace Buffalo.Kernel
             {
                 if (IsWebContext)
                 {
-                    _baseRoot = HttpContext.Current.Server.MapPath("~//");
+                    _baseRoot = HttpContext.Current.Server.MapPath(configRoot);
                 }
                 else 
                 {
-                    _baseRoot=AppDomain.CurrentDomain.BaseDirectory;
+                    _baseRoot = AppDomain.CurrentDomain.BaseDirectory + configRoot;
                 }
             }
             string retRoot = _baseRoot+ configRoot;

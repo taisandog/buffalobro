@@ -66,6 +66,7 @@
     <Compile Include="ClassProxyBuilder\IInterceptor.cs" />
     <Compile Include="CommonMethods.cs" />
     <Compile Include="CommonRegular.cs" />
+    <Compile Include="ConnStrFilter.cs" />
     <Compile Include="ContextValue.cs" />
     <Compile Include="CSVReader.cs" />
     <Compile Include="Defaults\DefaultType.cs" />
@@ -133,6 +134,7 @@
     <Compile Include="Win32\Structs.cs" />
     <Compile Include="Win32\SystemInfo.cs" />
     <Compile Include="Win32\WindowsAPI.cs" />
+    <Compile Include="Win32\WinError.cs" />
     <Compile Include="ZipUnit\SharpUnZipFile.cs" />
     <Compile Include="ZipUnit\SharpZipFile.cs" />
   </ItemGroup>

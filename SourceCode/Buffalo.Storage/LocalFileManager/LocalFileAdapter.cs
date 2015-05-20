@@ -3,13 +3,15 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Collections;
+using Buffalo.Kernel;
 
 namespace Buffalo.Storage.LocalFileManager
 {
     /// <summary>
     /// 本地文件的适配
     /// </summary>
-    public class LocalFileAdapter
+    public class LocalFileAdapter : IFileStorage
     {
         /// <summary>
         /// 存储根目录
@@ -25,17 +27,61 @@ namespace Buffalo.Storage.LocalFileManager
         /// </summary>
         private string _password;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="userName"></param>
-        /// <param name="password"></param>
-        public LocalFileAdapter(string fileName, string userName, string password) 
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        ///// <param name="fileName"></param>
+        ///// <param name="userName"></param>
+        ///// <param name="password"></param>
+        //public LocalFileAdapter(string fileName, string userName, string password) 
+        //{
+        //    _fileRoot = fileName;
+        //    _userName = userName;
+        //    _password = password;
+        //}
+
+        public LocalFileAdapter(string connectString) 
         {
-            _fileRoot = fileName;
-            _userName = userName;
-            _password = password;
+
+            Hashtable hs=ConnStrFilter.GetConnectInfo(connectString);
+            _fileRoot = hs["root"] as string;
+            if (!string.IsNullOrEmpty(_fileRoot)) 
+            {
+                _fileRoot = GetRealRoot(_fileRoot);
+                if(!_fileRoot.EndsWith("\\"))
+                {
+                    _fileRoot=_fileRoot+"\\";
+                }
+            }
+            _userName = hs["user"] as string;
+            _password = hs["pwd"] as string;
+        }
+
+        /// <summary>
+        /// 获取操作路径
+        /// </summary>
+        /// <param name="path">目录</param>
+        /// <returns></returns>
+        private string GetLocal(string path) 
+        {
+            return _fileRoot + path;
+        }
+
+        /// <summary>
+        /// 获取真实路径
+        /// </summary>
+        /// <param name="root"></param>
+        /// <returns></returns>
+        private string GetRealRoot(string root) 
+        {
+            char start=root[0];
+            if (start=='.' || start=='\\' || start=='/') 
+            {
+                string mroot = CommonMethods.GetBaseRoot()+"\\" + root;
+                DirectoryInfo dir = new DirectoryInfo(mroot);
+                return dir.FullName;
+            }
+            return root;
         }
 
         /// <summary>
@@ -73,7 +119,7 @@ namespace Buffalo.Storage.LocalFileManager
         /// <returns></returns>
         public Stream GetFile(string path, long postion) 
         {
-            FileStream fs = new FileStream(path, FileMode.Open);
+            FileStream fs = new FileStream(GetLocal(path), FileMode.Open);
             if (postion > 0) 
             {
                 fs.Position = postion;
@@ -100,10 +146,26 @@ namespace Buffalo.Storage.LocalFileManager
         /// <returns></returns>
         public bool AppendFile(string path, byte[] content, long postion) 
         {
-            using (FileStream file = new FileStream(path, FileMode.Open, FileAccess.Write))
+            using (FileStream file = new FileStream(GetLocal(path), FileMode.Open, FileAccess.Write))
             {
                 //file.Seek(postion, SeekOrigin.End);
                 file.Position = postion;
+                file.Write(content, 0, content.Length);
+            }
+            return true;
+        }
+        /// <summary>
+        /// 追加到文件末尾
+        /// </summary>
+        /// <param name="path">路径</param>
+        /// <param name="content">文件内容</param>
+        /// <returns></returns>
+        public bool AppendFile(string path, byte[] content)
+        {
+            using (FileStream file = new FileStream(GetLocal(path), FileMode.Append, FileAccess.Write))
+            {
+                //file.Seek(postion, SeekOrigin.End);
+                
                 file.Write(content, 0, content.Length);
             }
             return true;
@@ -116,7 +178,7 @@ namespace Buffalo.Storage.LocalFileManager
         /// <returns></returns>
         public bool SaveFile(string path, byte[] content)
         {
-            using (FileStream file = new FileStream(path, FileMode.Create, FileAccess.Write))
+            using (FileStream file = new FileStream(GetLocal(path), FileMode.Create, FileAccess.Write))
             {
                 //file.Seek(postion, SeekOrigin.End);
                 file.Write(content, 0, content.Length);
@@ -130,7 +192,7 @@ namespace Buffalo.Storage.LocalFileManager
         /// <param name="path">路径</param>
         public void RemoveFile(string path) 
         {
-            File.Delete(path);
+            File.Delete(GetLocal(path));
         }
 
         /// <summary>
@@ -140,7 +202,7 @@ namespace Buffalo.Storage.LocalFileManager
         /// <param name="target">目标文件路径</param>
         public void ReNameFile(string source, string target) 
         {
-            File.Move(source, target);
+            File.Move(GetLocal(source), GetLocal(target));
         }
 
         /// <summary>
@@ -151,7 +213,7 @@ namespace Buffalo.Storage.LocalFileManager
         /// <returns></returns>
         public List<string> GetFiles(string path, SearchOption searchOption) 
         {
-            string sfilePath = _fileRoot + path;
+            string sfilePath = GetLocal(path);
 
             string[] files = Directory.GetFiles(sfilePath, "*.*", searchOption);
             List<string> ret = new List<string>(files.Length);
@@ -174,7 +236,7 @@ namespace Buffalo.Storage.LocalFileManager
         /// <returns></returns>
         public List<string> GetDirectories(string path, SearchOption searchOption)
         {
-            string sfilePath = _fileRoot + path;
+            string sfilePath = GetLocal(path);
             string[] files = Directory.GetDirectories(sfilePath, "*", searchOption);
             List<string> ret = new List<string>(files.Length);
             foreach (string spath in files)
@@ -189,5 +251,14 @@ namespace Buffalo.Storage.LocalFileManager
             return ret;
         }
 
+
+        #region IDisposable 成员
+
+        public void Dispose()
+        {
+            Close();
+        }
+
+        #endregion
     }
 }
