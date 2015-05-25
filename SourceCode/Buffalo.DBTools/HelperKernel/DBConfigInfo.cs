@@ -157,6 +157,16 @@ namespace Buffalo.DBTools.HelperKernel
             get { return _addDescription; }
             set { _addDescription = value; }
         }
+
+        private LazyType _allowLazy=LazyType.Enable;
+        /// <summary>
+        /// 允许延迟加载
+        /// </summary>
+        public LazyType AllowLazy
+        {
+            get { return _allowLazy; }
+            set { _allowLazy=value; }
+        }
         /// <summary>
         /// 创建数据库信息
         /// </summary>
@@ -164,7 +174,7 @@ namespace Buffalo.DBTools.HelperKernel
         public DBInfo CreateDBInfo() 
         {
             
-            DBInfo info = new DBInfo(DbName, ConnectionString, DbType);
+            DBInfo info = new DBInfo(DbName, ConnectionString, DbType,LazyType.Disable);
             return info;
         }
 
@@ -255,6 +265,10 @@ namespace Buffalo.DBTools.HelperKernel
 
             att = doc.CreateAttribute("allCache");
             att.InnerText = this.IsAllTable ? "1" : "0";
+            configNode.Attributes.Append(att);
+
+            att = doc.CreateAttribute("lazy");
+            att.InnerText = ((int)this.AllowLazy).ToString();
             configNode.Attributes.Append(att);
 
             EntityMappingConfig.SaveXML(path, doc);
@@ -380,6 +394,17 @@ namespace Buffalo.DBTools.HelperKernel
                 if (att != null)
                 {
                     info.IsAllTable = att.InnerText=="1";
+                }
+                att = config.Attributes["lazy"];
+                if (att != null)
+                {
+                    LazyType lazy = LazyType.User;
+                    int ilazy = 0;
+                    if (int.TryParse(att.InnerText, out ilazy))
+                    {
+                        lazy = (LazyType)ilazy;
+                    }
+                    info.AllowLazy = lazy;
                 }
                 return info;
             }

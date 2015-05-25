@@ -45,7 +45,16 @@ namespace Buffalo.DBTools.HelperKernel
         {
             get { return _eRelation; }
         }
+        private bool _allowLazy=true;
 
+        /// <summary>
+        /// 允许延迟加载
+        /// </summary>
+        public bool AllowLazy
+        {
+            set { _allowLazy = value; }
+            get { return _allowLazy; }
+        }
         //ClassDesignerDocView _selectDocView;
         ///// <summary>
         ///// 选择的文档

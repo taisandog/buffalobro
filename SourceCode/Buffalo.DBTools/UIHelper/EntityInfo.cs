@@ -97,6 +97,13 @@ namespace Buffalo.DBTools.UIHelper
             get { return _classType; }
         }
 
+        private bool _allowLazy;
+
+        public bool AllowLazy
+        {
+            get { return _allowLazy; }
+        }
+
         List<UIModelItem> _lstProperty;
 
         /// <summary>
@@ -128,6 +135,7 @@ namespace Buffalo.DBTools.UIHelper
             _designerInfo = info;
             FillClassInfo();
             InitPropertys();
+            _allowLazy = true;
             
         }
         Dictionary<string, List<string>> _dicGenericInfo = new Dictionary<string, List<string>>();

@@ -201,6 +201,12 @@ namespace Buffalo.DB.EntityInfos
                 {
                     tableAtt.Description = att.InnerText;
                 }
+                att = node.Attributes["lazy"];
+                if (att != null)
+                {
+                    tableAtt.AllowLazy = att.InnerText=="1";
+                }
+
                 att = node.Attributes["UseCache"];
                 if (att != null)
                 {

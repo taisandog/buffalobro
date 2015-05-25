@@ -10,6 +10,7 @@ using Buffalo.DB.DBCheckers;
 using Buffalo.DB.CacheManager;
 using Buffalo.DB.Exceptions;
 using System.Reflection;
+using System.ComponentModel;
 
 namespace Buffalo.DB.DataBaseAdapter
 {
@@ -48,6 +49,14 @@ namespace Buffalo.DB.DataBaseAdapter
             get { return _cache; }
         }
 
+        private LazyType _allowLazy;
+        /// <summary>
+        /// 允许延迟加载
+        /// </summary>
+        public LazyType AllowLazy
+        {
+            get { return _allowLazy; }
+        }
 
         /// <summary>
         /// 设置查询缓存
@@ -163,15 +172,19 @@ namespace Buffalo.DB.DataBaseAdapter
         //private Dictionary<string, string> _extendDatabaseConnection = null;
 
         public DBInfo(string dbName,string connectionString, 
-            string dbType
+            string dbType,LazyType allowLazy
             ) 
         {
             _dbType = dbType;
             _connectionString = connectionString;
             _dbName = dbName;
             _cache = new QueryCache(this);
+            _allowLazy = allowLazy;
             InitAdapters();
         }
+
+
+
         /// <summary>
         /// 检查数据库结构
         /// </summary>
@@ -466,5 +479,18 @@ namespace Buffalo.DB.DataBaseAdapter
             get { return _exceptionOption; }
         }
        
+    }
+
+    /// <summary>
+    /// 延迟加载类型
+    /// </summary>
+    public enum LazyType 
+    {
+        [Description("全部启用")]
+        Enable=1,
+        [Description("全部禁用")]
+        Disable=2,
+        [Description("实体自定")]
+        User=3
     }
 }

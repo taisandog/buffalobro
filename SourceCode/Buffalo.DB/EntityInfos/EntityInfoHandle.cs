@@ -48,6 +48,21 @@ namespace Buffalo.DB.EntityInfos
         }
 
         /// <summary>
+        /// 获取是否需要延迟加载
+        /// </summary>
+        /// <returns></returns>
+        public bool GetNeedLazy() 
+        {
+            if (_dbInfo.AllowLazy == LazyType.User) 
+            {
+                return _tableInfo.AllowLazy;
+            }
+
+            return _dbInfo.AllowLazy==LazyType.Enable;
+            
+        }
+
+        /// <summary>
         /// 设置属性和映射信息
         /// </summary>
         /// <param name="propertyInfoHandles">属性信息集合</param>

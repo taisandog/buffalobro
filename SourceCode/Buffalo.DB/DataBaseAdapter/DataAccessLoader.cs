@@ -161,6 +161,7 @@ namespace Buffalo.DB.DataBaseAdapter
             ICacheAdaper ica=null;
             string cacheType = null;
             string cacheConn = null;
+            LazyType lazy=LazyType.Enable;
             //Dictionary<string, string> extendDatabaseConnection = new Dictionary<string,string>();
             if (doc == null)
             {
@@ -218,6 +219,14 @@ namespace Buffalo.DB.DataBaseAdapter
                     {
                         isAlltable = att.InnerText=="1";
                     }
+                    else if (att.Name.Equals("lazy", StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        int ilazy=0;
+                        if(int.TryParse(att.InnerText, out ilazy))
+                        {
+                            lazy=(LazyType)ilazy;
+                        }
+                    }
                 }
             }
             else
@@ -225,7 +234,7 @@ namespace Buffalo.DB.DataBaseAdapter
                 throw new Exception("配置文件没有config节点");
             }
             
-            DBInfo info = new DBInfo(name, connectionString, dbType);
+            DBInfo info = new DBInfo(name, connectionString, dbType,lazy);
             
             ica = QueryCache.GetCache(info,cacheType, cacheConn);
 

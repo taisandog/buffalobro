@@ -14,6 +14,14 @@ namespace Buffalo.DBTools.HelperKernel
     /// </summary>
     public class EntityMappingConfig
     {
+        private bool _allowLazy;
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool AllowLazy
+        {
+            get { return _allowLazy; }
+        }
         /// <summary>
         /// º”‘ÿ≈‰÷√–≈œ¢
         /// </summary>
@@ -49,6 +57,19 @@ namespace Buffalo.DBTools.HelperKernel
                     
                     entity.UseCache =(att.InnerText=="1");
                 }
+                //att = classNode.Attributes["UseCache"];
+                //if (att != null)
+                //{
+
+                //    entity.UseCache = (att.InnerText == "1");
+                //}
+                att = classNode.Attributes["Lazy"];
+                if (att != null)
+                {
+
+                    entity.AllowLazy = (att.InnerText == "1");
+                }
+
             }
 
             FillPropertyInfo(doc, entity);
@@ -300,6 +321,10 @@ namespace Buffalo.DBTools.HelperKernel
             att.InnerText = entity.Summary;
             classNode.Attributes.Append(att);
 
+            att = doc.CreateAttribute("Lazy");//—”≥Ÿº”‘ÿ
+            att.InnerText = "1";
+            classNode.Attributes.Append(att);
+
             AppendPropertyInfo(entity.BelongTable.Params, classNode);
             AppendRelationInfo(entity.BelongTable.RelationItems, classNode);
             return doc;
@@ -351,6 +376,8 @@ namespace Buffalo.DBTools.HelperKernel
                 att = doc.CreateAttribute("Description");// Ù–‘◊¢ Õ
                 att.InnerText = field.Description;
                 node.Attributes.Append(att);
+
+                
             }
         }
 
@@ -449,6 +476,10 @@ namespace Buffalo.DBTools.HelperKernel
 
             att = doc.CreateAttribute("Description");
             att.InnerText = entity.Summary;
+            classNode.Attributes.Append(att);
+
+            att = doc.CreateAttribute("Lazy");
+            att.InnerText = entity.AllowLazy?"1":"0";
             classNode.Attributes.Append(att);
 
             AppendPropertyInfo(entity, classNode);

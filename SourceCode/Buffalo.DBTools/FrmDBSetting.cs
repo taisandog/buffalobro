@@ -88,6 +88,7 @@ namespace Buffalo.DBTools
             InitTiers();
             InitDBType();
             InitCacheType();
+            InitLazyType();
             FillEdit();
             this.Text += ToolVersionInfo.ToolVerInfo;
             ShowOrHideCache(!string.IsNullOrEmpty(_info.CacheType));
@@ -102,7 +103,17 @@ namespace Buffalo.DBTools
             cmbCacheType.DataSource = Generate3Tier.CacheTypes;
             
         }
-        
+        /// <summary>
+        /// 初始化缓存类型
+        /// </summary>
+        private void InitLazyType()
+        {
+            cmbLazy.DisplayMember = "Description";
+            cmbLazy.ValueMember = "Value";
+            List<EnumInfo> lst = EnumUnit.GetEnumInfos(typeof(LazyType));
+            cmbLazy.DataSource = lst;
+
+        }
         /// <summary>
         /// 填充编辑项
         /// </summary>
@@ -128,6 +139,7 @@ namespace Buffalo.DBTools
                     cmbCacheType.SelectedValue = _info.CacheType;
                 }
                 ckbAll.Checked = _info.IsAllTable;
+                cmbLazy.SelectedValue = _info.AllowLazy;
                 txtCacheServer.Text = Info.CacheConnString;
             }
         }
@@ -280,6 +292,7 @@ namespace Buffalo.DBTools
             _info.CacheType = cmbCacheType.SelectedValue as string;
             _info.CacheConnString = txtCacheServer.Text;
             _info.IsAllTable = ckbAll.Checked;
+            _info.AllowLazy = (LazyType)cmbLazy.SelectedValue;
             return true;
         }
 

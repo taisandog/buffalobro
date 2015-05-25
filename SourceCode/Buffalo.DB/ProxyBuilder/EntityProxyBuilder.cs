@@ -159,7 +159,8 @@ namespace Buffalo.DB.ProxyBuilder
                 }
                 BuildEmit(classType, pInfo.BelongPropertyInfo, typeBuilder, method);
             }
-            
+
+            bool needLazy = entityInfo.GetNeedLazy();
 
             foreach (EntityMappingInfo mInfo in entityInfo.MappingInfo)
             {
@@ -168,9 +169,12 @@ namespace Buffalo.DB.ProxyBuilder
                 {
                     
                     BuildEmit(classType, mInfo.BelongPropertyInfo, typeBuilder, _mapupdateMethod);//创建set方法
-                    BuildMapEmit(classType, mInfo.BelongPropertyInfo, finfo, typeBuilder, _fillParent);//创建get方法
+                    if (needLazy)
+                    {
+                        BuildMapEmit(classType, mInfo.BelongPropertyInfo, finfo, typeBuilder, _fillParent);//创建get方法
+                    }
                 }
-                else 
+                else if (needLazy)
                 {
                     BuildMapEmit(classType, mInfo.BelongPropertyInfo, finfo, typeBuilder, _fillChildMethod);//创建get方法
                 }

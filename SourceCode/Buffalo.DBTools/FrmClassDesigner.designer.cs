@@ -42,6 +42,17 @@
             this.tbEntity = new System.Windows.Forms.TabControl();
             this.tpEntity = new System.Windows.Forms.TabPage();
             this.gvField = new System.Windows.Forms.DataGridView();
+            this.ColChecked = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.ColFName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColProperty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColParam = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColParamType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DBRealType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColLength = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColPropertyType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColNull = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.ColReadOnly = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.tpMapping = new System.Windows.Forms.TabPage();
             this.panel4 = new System.Windows.Forms.Panel();
             this.gvMapping = new System.Windows.Forms.DataGridView();
@@ -55,17 +66,7 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.btnClose = new System.Windows.Forms.Button();
             this.btnGenCode = new System.Windows.Forms.Button();
-            this.ColChecked = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.ColFName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColProperty = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColParam = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColParamType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DBRealType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColLength = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColPropertyType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColNull = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.ColReadOnly = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.chkLazy = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -80,6 +81,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.chkLazy);
             this.panel1.Controls.Add(this.ckbCache);
             this.panel1.Controls.Add(this.txtBaseClass);
             this.panel1.Controls.Add(this.label1);
@@ -225,8 +227,81 @@
             this.gvField.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.gvField.Size = new System.Drawing.Size(980, 407);
             this.gvField.TabIndex = 27;
-            this.gvField.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.gvField_CellValueChanged);
             this.gvField.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gvField_CellFormatting);
+            this.gvField.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.gvField_CellValueChanged);
+            // 
+            // ColChecked
+            // 
+            this.ColChecked.DataPropertyName = "IsGenerate";
+            this.ColChecked.HeaderText = "选中";
+            this.ColChecked.Name = "ColChecked";
+            this.ColChecked.Width = 50;
+            // 
+            // ColFName
+            // 
+            this.ColFName.DataPropertyName = "FieldName";
+            this.ColFName.HeaderText = "变量名";
+            this.ColFName.Name = "ColFName";
+            this.ColFName.Width = 113;
+            // 
+            // ColType
+            // 
+            this.ColType.DataPropertyName = "TypeName";
+            this.ColType.HeaderText = "变量类型";
+            this.ColType.Name = "ColType";
+            this.ColType.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.ColType.Width = 112;
+            // 
+            // ColProperty
+            // 
+            this.ColProperty.DataPropertyName = "PropertyName";
+            this.ColProperty.HeaderText = "属性名";
+            this.ColProperty.Name = "ColProperty";
+            // 
+            // ColParam
+            // 
+            this.ColParam.DataPropertyName = "ParamName";
+            this.ColParam.HeaderText = "字段名";
+            this.ColParam.Name = "ColParam";
+            // 
+            // ColParamType
+            // 
+            this.ColParamType.DataPropertyName = "DbType";
+            this.ColParamType.HeaderText = "字段类型";
+            this.ColParamType.Name = "ColParamType";
+            this.ColParamType.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // DBRealType
+            // 
+            this.DBRealType.HeaderText = "数据库类型";
+            this.DBRealType.Name = "DBRealType";
+            this.DBRealType.ReadOnly = true;
+            // 
+            // ColLength
+            // 
+            this.ColLength.DataPropertyName = "Length";
+            this.ColLength.HeaderText = "长度";
+            this.ColLength.Name = "ColLength";
+            // 
+            // ColPropertyType
+            // 
+            this.ColPropertyType.DataPropertyName = "PropertyType";
+            this.ColPropertyType.HeaderText = "类型";
+            this.ColPropertyType.Name = "ColPropertyType";
+            // 
+            // ColNull
+            // 
+            this.ColNull.DataPropertyName = "AllowNull";
+            this.ColNull.HeaderText = "可空";
+            this.ColNull.Name = "ColNull";
+            this.ColNull.Width = 50;
+            // 
+            // ColReadOnly
+            // 
+            this.ColReadOnly.DataPropertyName = "ReadOnly";
+            this.ColReadOnly.HeaderText = "只读";
+            this.ColReadOnly.Name = "ColReadOnly";
+            this.ColReadOnly.Width = 50;
             // 
             // tpMapping
             // 
@@ -234,7 +309,7 @@
             this.tpMapping.Location = new System.Drawing.Point(4, 22);
             this.tpMapping.Name = "tpMapping";
             this.tpMapping.Padding = new System.Windows.Forms.Padding(3);
-            this.tpMapping.Size = new System.Drawing.Size(937, 413);
+            this.tpMapping.Size = new System.Drawing.Size(986, 413);
             this.tpMapping.TabIndex = 1;
             this.tpMapping.Text = "实体映射";
             this.tpMapping.UseVisualStyleBackColor = true;
@@ -245,7 +320,7 @@
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel4.Location = new System.Drawing.Point(3, 3);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(931, 407);
+            this.panel4.Size = new System.Drawing.Size(980, 407);
             this.panel4.TabIndex = 1;
             // 
             // gvMapping
@@ -269,7 +344,7 @@
             this.gvMapping.RowHeadersVisible = false;
             this.gvMapping.RowTemplate.Height = 23;
             this.gvMapping.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gvMapping.Size = new System.Drawing.Size(931, 407);
+            this.gvMapping.Size = new System.Drawing.Size(980, 407);
             this.gvMapping.TabIndex = 1;
             // 
             // ColSelect
@@ -347,78 +422,15 @@
             this.btnGenCode.UseVisualStyleBackColor = true;
             this.btnGenCode.Click += new System.EventHandler(this.btnGenCode_Click);
             // 
-            // ColChecked
+            // chkLazy
             // 
-            this.ColChecked.DataPropertyName = "IsGenerate";
-            this.ColChecked.HeaderText = "选中";
-            this.ColChecked.Name = "ColChecked";
-            this.ColChecked.Width = 50;
-            // 
-            // ColFName
-            // 
-            this.ColFName.DataPropertyName = "FieldName";
-            this.ColFName.HeaderText = "变量名";
-            this.ColFName.Name = "ColFName";
-            this.ColFName.Width = 113;
-            // 
-            // ColType
-            // 
-            this.ColType.DataPropertyName = "TypeName";
-            this.ColType.HeaderText = "变量类型";
-            this.ColType.Name = "ColType";
-            this.ColType.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.ColType.Width = 112;
-            // 
-            // ColProperty
-            // 
-            this.ColProperty.DataPropertyName = "PropertyName";
-            this.ColProperty.HeaderText = "属性名";
-            this.ColProperty.Name = "ColProperty";
-            // 
-            // ColParam
-            // 
-            this.ColParam.DataPropertyName = "ParamName";
-            this.ColParam.HeaderText = "字段名";
-            this.ColParam.Name = "ColParam";
-            // 
-            // ColParamType
-            // 
-            this.ColParamType.DataPropertyName = "DbType";
-            this.ColParamType.HeaderText = "字段类型";
-            this.ColParamType.Name = "ColParamType";
-            this.ColParamType.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // DBRealType
-            // 
-            this.DBRealType.HeaderText = "数据库类型";
-            this.DBRealType.Name = "DBRealType";
-            this.DBRealType.ReadOnly = true;
-            // 
-            // ColLength
-            // 
-            this.ColLength.DataPropertyName = "Length";
-            this.ColLength.HeaderText = "长度";
-            this.ColLength.Name = "ColLength";
-            // 
-            // ColPropertyType
-            // 
-            this.ColPropertyType.DataPropertyName = "PropertyType";
-            this.ColPropertyType.HeaderText = "类型";
-            this.ColPropertyType.Name = "ColPropertyType";
-            // 
-            // ColNull
-            // 
-            this.ColNull.DataPropertyName = "AllowNull";
-            this.ColNull.HeaderText = "可空";
-            this.ColNull.Name = "ColNull";
-            this.ColNull.Width = 50;
-            // 
-            // ColReadOnly
-            // 
-            this.ColReadOnly.DataPropertyName = "ReadOnly";
-            this.ColReadOnly.HeaderText = "只读";
-            this.ColReadOnly.Name = "ColReadOnly";
-            this.ColReadOnly.Width = 50;
+            this.chkLazy.AutoSize = true;
+            this.chkLazy.Location = new System.Drawing.Point(755, 15);
+            this.chkLazy.Name = "chkLazy";
+            this.chkLazy.Size = new System.Drawing.Size(72, 16);
+            this.chkLazy.TabIndex = 7;
+            this.chkLazy.Text = "延迟加载";
+            this.chkLazy.UseVisualStyleBackColor = true;
             // 
             // FrmClassDesigner
             // 
@@ -487,6 +499,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ColPropertyType;
         private System.Windows.Forms.DataGridViewCheckBoxColumn ColNull;
         private System.Windows.Forms.DataGridViewCheckBoxColumn ColReadOnly;
+        private System.Windows.Forms.CheckBox chkLazy;
 
 
     }

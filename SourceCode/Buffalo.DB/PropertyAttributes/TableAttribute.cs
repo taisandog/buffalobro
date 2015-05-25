@@ -28,6 +28,18 @@ namespace Buffalo.DB.PropertyAttributes
         {
 
         }
+
+        private bool _allowLazy;
+
+        /// <summary>
+        ///  «∑Ò‘ –Ì—”≥Ÿº”‘ÿ
+        /// </summary>
+        public bool AllowLazy
+        {
+            get { return _allowLazy; }
+            set { _allowLazy = value; }
+        }
+
         private string _description;
 
         /// <summary>

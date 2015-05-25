@@ -53,6 +53,8 @@
             this.cmbCacheType = new System.Windows.Forms.ComboBox();
             this.btnCache = new System.Windows.Forms.Button();
             this.btnImp = new System.Windows.Forms.Button();
+            this.cmbLazy = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.gpCache.SuspendLayout();
             this.gpCacheServer.SuspendLayout();
@@ -80,7 +82,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(2, 62);
+            this.label2.Location = new System.Drawing.Point(2, 85);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(71, 12);
             this.label2.TabIndex = 2;
@@ -88,9 +90,9 @@
             // 
             // rtbConnstr
             // 
-            this.rtbConnstr.Location = new System.Drawing.Point(78, 59);
+            this.rtbConnstr.Location = new System.Drawing.Point(78, 83);
             this.rtbConnstr.Name = "rtbConnstr";
-            this.rtbConnstr.Size = new System.Drawing.Size(265, 96);
+            this.rtbConnstr.Size = new System.Drawing.Size(265, 72);
             this.rtbConnstr.TabIndex = 3;
             this.rtbConnstr.Text = "";
             // 
@@ -136,9 +138,9 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(345, 10);
+            this.pictureBox1.Location = new System.Drawing.Point(346, 15);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(132, 170);
+            this.pictureBox1.Size = new System.Drawing.Size(132, 166);
             this.pictureBox1.TabIndex = 8;
             this.pictureBox1.TabStop = false;
             // 
@@ -163,7 +165,7 @@
             // 
             // btnModel
             // 
-            this.btnModel.Location = new System.Drawing.Point(2, 77);
+            this.btnModel.Location = new System.Drawing.Point(3, 103);
             this.btnModel.Name = "btnModel";
             this.btnModel.Size = new System.Drawing.Size(68, 23);
             this.btnModel.TabIndex = 11;
@@ -174,7 +176,7 @@
             // chkAllDal
             // 
             this.chkAllDal.AutoSize = true;
-            this.chkAllDal.Location = new System.Drawing.Point(205, 36);
+            this.chkAllDal.Location = new System.Drawing.Point(203, 61);
             this.chkAllDal.Name = "chkAllDal";
             this.chkAllDal.Size = new System.Drawing.Size(84, 16);
             this.chkAllDal.TabIndex = 12;
@@ -184,7 +186,7 @@
             // chkEntityToDirectory
             // 
             this.chkEntityToDirectory.AutoSize = true;
-            this.chkEntityToDirectory.Location = new System.Drawing.Point(79, 37);
+            this.chkEntityToDirectory.Location = new System.Drawing.Point(77, 61);
             this.chkEntityToDirectory.Name = "chkEntityToDirectory";
             this.chkEntityToDirectory.Size = new System.Drawing.Size(120, 16);
             this.chkEntityToDirectory.TabIndex = 13;
@@ -200,7 +202,7 @@
             this.gpCache.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.gpCache.Location = new System.Drawing.Point(0, 211);
             this.gpCache.Name = "gpCache";
-            this.gpCache.Size = new System.Drawing.Size(475, 115);
+            this.gpCache.Size = new System.Drawing.Size(479, 115);
             this.gpCache.TabIndex = 14;
             this.gpCache.TabStop = false;
             this.gpCache.Text = "缓存设置";
@@ -222,7 +224,7 @@
             this.gpCacheServer.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.gpCacheServer.Location = new System.Drawing.Point(3, 37);
             this.gpCacheServer.Name = "gpCacheServer";
-            this.gpCacheServer.Size = new System.Drawing.Size(469, 75);
+            this.gpCacheServer.Size = new System.Drawing.Size(473, 75);
             this.gpCacheServer.TabIndex = 1;
             this.gpCacheServer.TabStop = false;
             this.gpCacheServer.Text = "缓存服务器连接字符串";
@@ -230,7 +232,7 @@
             // txtCacheServer
             // 
             this.txtCacheServer.Dock = System.Windows.Forms.DockStyle.Right;
-            this.txtCacheServer.Location = new System.Drawing.Point(99, 17);
+            this.txtCacheServer.Location = new System.Drawing.Point(103, 17);
             this.txtCacheServer.Name = "txtCacheServer";
             this.txtCacheServer.Size = new System.Drawing.Size(367, 55);
             this.txtCacheServer.TabIndex = 6;
@@ -269,7 +271,7 @@
             // btnImp
             // 
             this.btnImp.ForeColor = System.Drawing.Color.Red;
-            this.btnImp.Location = new System.Drawing.Point(3, 106);
+            this.btnImp.Location = new System.Drawing.Point(3, 132);
             this.btnImp.Name = "btnImp";
             this.btnImp.Size = new System.Drawing.Size(67, 23);
             this.btnImp.TabIndex = 16;
@@ -277,12 +279,32 @@
             this.btnImp.UseVisualStyleBackColor = true;
             this.btnImp.Click += new System.EventHandler(this.btnImp_Click);
             // 
+            // cmbLazy
+            // 
+            this.cmbLazy.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbLazy.FormattingEnabled = true;
+            this.cmbLazy.Location = new System.Drawing.Point(77, 36);
+            this.cmbLazy.Name = "cmbLazy";
+            this.cmbLazy.Size = new System.Drawing.Size(157, 20);
+            this.cmbLazy.TabIndex = 17;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(12, 39);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(59, 12);
+            this.label4.TabIndex = 18;
+            this.label4.Text = "延迟加载:";
+            // 
             // FrmDBSetting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(475, 326);
+            this.ClientSize = new System.Drawing.Size(479, 326);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.cmbLazy);
             this.Controls.Add(this.btnImp);
             this.Controls.Add(this.btnCache);
             this.Controls.Add(this.gpCache);
@@ -340,5 +362,7 @@
         private System.Windows.Forms.CheckBox ckbAll;
         private System.Windows.Forms.Button btnCache;
         private System.Windows.Forms.Button btnImp;
+        private System.Windows.Forms.ComboBox cmbLazy;
+        private System.Windows.Forms.Label label4;
     }
 }
