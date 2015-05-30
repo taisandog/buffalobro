@@ -73,9 +73,11 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             keyinfo.OutPutModle = false;
             if (obj != null)
             {
-                if (!(obj is IEntityProxy))
+                bool isProxy = true;
+                if (!(obj is IEntityProxy))//如果为非代理类则全实体更新
                 {
-                    throw new System.InvalidCastException("Update的实体类型必须为代理类，请用CH.Create<T>创建实体或者使用查询出来的实体来更新");
+                    //throw new System.InvalidCastException("Update的实体类型必须为代理类，请用CH.Create<T>创建实体或者使用查询出来的实体来更新");
+                    isProxy = false;
                 }
                 ///读取属性别名
                 foreach (EntityPropertyInfo info in EntityInfo.PropertyInfo)
@@ -109,11 +111,11 @@ namespace Buffalo.DB.CommBase.DataAccessBases
                                 //    continue;
                                 //    //}
                                 //}
-                                if (!obj.HasPropertyChange(info.PropertyName))
+                                if (isProxy && !obj.HasPropertyChange(info.PropertyName))
                                 {
                                     continue;
                                 }
-                                if (setList != null)
+                                if (setList != null)//如果强制赋值集合已经有，则不使用实体值更新
                                 {
                                     BQLValueItem bvalue = null;
                                     if (setList.TryGetValue(info.PropertyName, out bvalue))

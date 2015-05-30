@@ -47,6 +47,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buffalo2010.Data.Oracle11",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buffalo2010.Data.Oracle11.X64", "Buffalo.Data.Oracle12\Buffalo2010.Data.Oracle11.X64.csproj", "{E986EECF-0C55-4861-9440-2A7392249B9B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buffalo.Storage2010", "Buffalo.Storage\Buffalo.Storage2010.csproj", "{1BBB9409-A9EA-48E4-BFF5-C97EB4017283}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -257,6 +259,16 @@ Global
 		{E986EECF-0C55-4861-9440-2A7392249B9B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{E986EECF-0C55-4861-9440-2A7392249B9B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{E986EECF-0C55-4861-9440-2A7392249B9B}.Release|x86.ActiveCfg = Release|Any CPU
+		{1BBB9409-A9EA-48E4-BFF5-C97EB4017283}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BBB9409-A9EA-48E4-BFF5-C97EB4017283}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BBB9409-A9EA-48E4-BFF5-C97EB4017283}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{1BBB9409-A9EA-48E4-BFF5-C97EB4017283}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{1BBB9409-A9EA-48E4-BFF5-C97EB4017283}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1BBB9409-A9EA-48E4-BFF5-C97EB4017283}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BBB9409-A9EA-48E4-BFF5-C97EB4017283}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BBB9409-A9EA-48E4-BFF5-C97EB4017283}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{1BBB9409-A9EA-48E4-BFF5-C97EB4017283}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{1BBB9409-A9EA-48E4-BFF5-C97EB4017283}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

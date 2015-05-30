@@ -208,6 +208,11 @@
             查询缓存
             </summary>
         </member>
+        <member name="P:Buffalo.DB.DataBaseAdapter.DBInfo.AllowLazy">
+            <summary>
+            允许延迟加载
+            </summary>
+        </member>
         <member name="P:Buffalo.DB.DataBaseAdapter.DBInfo.DefaultOperate">
             <summary>
             默认连接
@@ -279,6 +284,11 @@
         <member name="P:Buffalo.DB.DataBaseAdapter.DBInfo.ExceptionOption">
             <summary>
             异常信息配置
+            </summary>
+        </member>
+        <member name="T:Buffalo.DB.DataBaseAdapter.LazyType">
+            <summary>
+            延迟加载类型
             </summary>
         </member>
         <member name="T:Buffalo.DB.DataBaseAdapter.AccessAdapter.CutPageSqlCreater">
@@ -2992,6 +3002,11 @@
         <member name="M:Buffalo.DB.PropertyAttributes.TableAttribute.#ctor">
             <summary>
             类标示
+            </summary>
+        </member>
+        <member name="P:Buffalo.DB.PropertyAttributes.TableAttribute.AllowLazy">
+            <summary>
+            是否允许延迟加载
             </summary>
         </member>
         <member name="P:Buffalo.DB.PropertyAttributes.TableAttribute.Description">
@@ -9117,6 +9132,12 @@
             <param name="tableName">对应的表名</param>
             <param name="baseListInfo">此对象的查询缓存集合句柄</param>
             <param name="connectionKey">连接字符串的键</param>
+        </member>
+        <member name="M:Buffalo.DB.EntityInfos.EntityInfoHandle.GetNeedLazy">
+            <summary>
+            获取是否需要延迟加载
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:Buffalo.DB.EntityInfos.EntityInfoHandle.SetInfoHandles(System.Collections.Generic.Dictionary{System.String,Buffalo.DB.EntityInfos.EntityPropertyInfo},System.Collections.Generic.Dictionary{System.String,Buffalo.DB.EntityInfos.EntityMappingInfo})">
             <summary>

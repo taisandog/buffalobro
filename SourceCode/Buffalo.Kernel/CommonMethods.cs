@@ -40,19 +40,19 @@ namespace Buffalo.Kernel
         /// <returns></returns>
         public static string GetBaseRoot(string configRoot)
         {
-            
+
             if (_baseRoot == null)
             {
                 if (IsWebContext)
                 {
-                    _baseRoot = HttpContext.Current.Server.MapPath(configRoot);
+                    _baseRoot = HttpContext.Current.Server.MapPath("~//");
                 }
-                else 
+                else
                 {
-                    _baseRoot = AppDomain.CurrentDomain.BaseDirectory + configRoot;
+                    _baseRoot = AppDomain.CurrentDomain.BaseDirectory;
                 }
             }
-            string retRoot = _baseRoot+ configRoot;
+            string retRoot = _baseRoot + configRoot;
             return retRoot;
         }
         /// <summary>

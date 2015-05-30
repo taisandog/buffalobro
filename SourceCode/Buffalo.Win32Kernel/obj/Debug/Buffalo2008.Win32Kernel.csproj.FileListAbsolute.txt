@@ -9,3 +9,14 @@ E:\CSharpTest\BuffaloDBCode\SourceCode\Buffalo.Win32Kernel\obj\Debug\Buffalo.Win
 E:\CSharpTest\BuffaloDBCode\SourceCode\Buffalo.Win32Kernel\obj\Debug\Buffalo2008.Win32Kernel.csproj.GenerateResource.Cache
 E:\CSharpTest\BuffaloDBCode\SourceCode\Buffalo.Win32Kernel\obj\Debug\Buffalo.Win32Kernel.dll
 E:\CSharpTest\BuffaloDBCode\SourceCode\Buffalo.Win32Kernel\obj\Debug\Buffalo.Win32Kernel.pdb
+E:\CSharpTest\Buffalobro\SourceCode\Debug\2008\Buffalo.Win32Kernel.XML
+E:\CSharpTest\Buffalobro\SourceCode\Debug\2008\Buffalo.Win32Kernel.dll
+E:\CSharpTest\Buffalobro\SourceCode\Debug\2008\Buffalo.Win32Kernel.pdb
+E:\CSharpTest\Buffalobro\SourceCode\Buffalo.Win32Kernel\obj\Debug\ResolveAssemblyReference.cache
+E:\CSharpTest\Buffalobro\SourceCode\Buffalo.Win32Kernel\obj\Debug\Buffalo.Win32Kernel.Properties.Resources.resources
+E:\CSharpTest\Buffalobro\SourceCode\Buffalo.Win32Kernel\obj\Debug\Buffalo.Win32Kernel.Resource.resources
+E:\CSharpTest\Buffalobro\SourceCode\Buffalo.Win32Kernel\obj\Debug\Buffalo.Win32Kernel.ScreenLibrary.ScreenWnd.resources
+E:\CSharpTest\Buffalobro\SourceCode\Buffalo.Win32Kernel\obj\Debug\Buffalo.Win32Kernel.SingleForms.resources
+E:\CSharpTest\Buffalobro\SourceCode\Buffalo.Win32Kernel\obj\Debug\Buffalo2008.Win32Kernel.csproj.GenerateResource.Cache
+E:\CSharpTest\Buffalobro\SourceCode\Buffalo.Win32Kernel\obj\Debug\Buffalo.Win32Kernel.dll
+E:\CSharpTest\Buffalobro\SourceCode\Buffalo.Win32Kernel\obj\Debug\Buffalo.Win32Kernel.pdb

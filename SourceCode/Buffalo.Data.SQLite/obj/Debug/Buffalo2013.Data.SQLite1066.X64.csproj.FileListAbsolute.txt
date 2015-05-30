@@ -1,3 +1,9 @@
 E:\CSharpTest\BuffaloDBCode\SourceCode\Buffalo.Data.SQLite\obj\Debug\Buffalo2013.Data.SQLite1066.X64.csprojResolveAssemblyReference.cache
 E:\CSharpTest\BuffaloDBCode\SourceCode\Buffalo.Data.SQLite\obj\Debug\Buffalo.Data.SQLite.dll
 E:\CSharpTest\BuffaloDBCode\SourceCode\Buffalo.Data.SQLite\obj\Debug\Buffalo.Data.SQLite.pdb
+E:\CSharpTest\Buffalobro\SourceCode\Debug\2013\OldDll\X64\Buffalo.Data.SQLite.XML
+E:\CSharpTest\Buffalobro\SourceCode\Debug\2013\OldDll\X64\Buffalo.Data.SQLite.dll
+E:\CSharpTest\Buffalobro\SourceCode\Debug\2013\OldDll\X64\Buffalo.Data.SQLite.pdb
+E:\CSharpTest\Buffalobro\SourceCode\Buffalo.Data.SQLite\obj\Debug\Buffalo2013.Data.SQLite1066.X64.csprojResolveAssemblyReference.cache
+E:\CSharpTest\Buffalobro\SourceCode\Buffalo.Data.SQLite\obj\Debug\Buffalo.Data.SQLite.dll
+E:\CSharpTest\Buffalobro\SourceCode\Buffalo.Data.SQLite\obj\Debug\Buffalo.Data.SQLite.pdb

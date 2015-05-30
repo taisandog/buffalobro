@@ -138,6 +138,21 @@ namespace Buffalo.Storage.LocalFileManager
         }
 
         /// <summary>
+        /// 检查文件夹
+        /// </summary>
+        /// <param name="path"></param>
+        private void CheckDirectory(string path) 
+        {
+            //string curPath = GetLocal(path);
+            FileInfo finf = new FileInfo(path);
+            DirectoryInfo info = new DirectoryInfo(finf.DirectoryName);
+            if (!info.Exists) 
+            {
+                info.Create();
+            }
+        }
+
+        /// <summary>
         /// 追加文件
         /// </summary>
         /// <param name="path">路径</param>
@@ -146,7 +161,9 @@ namespace Buffalo.Storage.LocalFileManager
         /// <returns></returns>
         public bool AppendFile(string path, byte[] content, long postion) 
         {
-            using (FileStream file = new FileStream(GetLocal(path), FileMode.Open, FileAccess.Write))
+            string curpath=GetLocal(path);
+            CheckDirectory(curpath);
+            using (FileStream file = new FileStream(curpath, FileMode.Open, FileAccess.Write))
             {
                 //file.Seek(postion, SeekOrigin.End);
                 file.Position = postion;
@@ -162,7 +179,9 @@ namespace Buffalo.Storage.LocalFileManager
         /// <returns></returns>
         public bool AppendFile(string path, byte[] content)
         {
-            using (FileStream file = new FileStream(GetLocal(path), FileMode.Append, FileAccess.Write))
+            string curpath = GetLocal(path);
+            CheckDirectory(curpath);
+            using (FileStream file = new FileStream(curpath, FileMode.Append, FileAccess.Write))
             {
                 //file.Seek(postion, SeekOrigin.End);
                 
@@ -178,7 +197,9 @@ namespace Buffalo.Storage.LocalFileManager
         /// <returns></returns>
         public bool SaveFile(string path, byte[] content)
         {
-            using (FileStream file = new FileStream(GetLocal(path), FileMode.Create, FileAccess.Write))
+            string curpath = GetLocal(path);
+            CheckDirectory(curpath);
+            using (FileStream file = new FileStream(curpath, FileMode.Create, FileAccess.Write))
             {
                 //file.Seek(postion, SeekOrigin.End);
                 file.Write(content, 0, content.Length);
@@ -202,7 +223,9 @@ namespace Buffalo.Storage.LocalFileManager
         /// <param name="target">目标文件路径</param>
         public void ReNameFile(string source, string target) 
         {
-            File.Move(GetLocal(source), GetLocal(target));
+            string tpath = GetLocal(target);
+            CheckDirectory(tpath);
+            File.Move(GetLocal(source), tpath);
         }
 
         /// <summary>

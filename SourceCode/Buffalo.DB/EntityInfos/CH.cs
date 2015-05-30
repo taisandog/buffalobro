@@ -30,7 +30,7 @@ namespace Buffalo.DB.EntityInfos
         /// 创建代理类
         /// </summary>
         /// <returns></returns>
-        public static object Create(Type objType) 
+        public static object Create(Type objType)
         {
             EntityInfoHandle handle = EntityInfoManager.GetEntityHandle(objType);
             if (handle != null)
@@ -39,6 +39,37 @@ namespace Buffalo.DB.EntityInfos
             }
             return null;
         }
+
+        /// <summary>
+        /// 获取代理类类型
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static Type GetProxyType<T>() where T : EntityBase
+        {
+            Type objType = typeof(T);
+            EntityInfoHandle handle = EntityInfoManager.GetEntityHandle(objType);
+            if (handle != null)
+            {
+                return handle.ProxyType;
+            }
+            return null;
+        }
+        /// <summary>
+        /// 获取代理类类型
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static Type GetProxyType(Type objType)
+        {
+            EntityInfoHandle handle = EntityInfoManager.GetEntityHandle(objType);
+            if (handle != null)
+            {
+                return handle.ProxyType;
+            }
+            return null;
+        }
+       
 
         /// <summary>
         /// 获取真正的类型
