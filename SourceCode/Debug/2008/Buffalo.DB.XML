@@ -208,6 +208,11 @@
             查询缓存
             </summary>
         </member>
+        <member name="P:Buffalo.DB.DataBaseAdapter.DBInfo.AllowLazy">
+            <summary>
+            允许延迟加载
+            </summary>
+        </member>
         <member name="P:Buffalo.DB.DataBaseAdapter.DBInfo.DefaultOperate">
             <summary>
             默认连接
@@ -279,6 +284,11 @@
         <member name="P:Buffalo.DB.DataBaseAdapter.DBInfo.ExceptionOption">
             <summary>
             异常信息配置
+            </summary>
+        </member>
+        <member name="T:Buffalo.DB.DataBaseAdapter.LazyType">
+            <summary>
+            延迟加载类型
             </summary>
         </member>
         <member name="T:Buffalo.DB.DataBaseAdapter.AccessAdapter.CutPageSqlCreater">
@@ -2994,6 +3004,11 @@
             类标示
             </summary>
         </member>
+        <member name="P:Buffalo.DB.PropertyAttributes.TableAttribute.AllowLazy">
+            <summary>
+            是否允许延迟加载
+            </summary>
+        </member>
         <member name="P:Buffalo.DB.PropertyAttributes.TableAttribute.Description">
             <summary>
             字段注释
@@ -4593,6 +4608,20 @@
             <summary>
             创建代理类
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.EntityInfos.CH.GetProxyType``1">
+            <summary>
+            获取代理类类型
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.EntityInfos.CH.GetProxyType(System.Type)">
+            <summary>
+            获取代理类类型
+            </summary>
+            <typeparam name="T"></typeparam>
             <returns></returns>
         </member>
         <member name="M:Buffalo.DB.EntityInfos.CH.GetRealType(System.Object)">
@@ -8818,7 +8847,7 @@
             <param name="innerException">关联异常</param>
             <param name="prmList">变量集合</param>
         </member>
-        <member name="M:Buffalo.DB.Exceptions.SQLRunningException.GetMessage(System.String,Buffalo.DB.DbCommon.ParamList,Buffalo.DB.DataBaseAdapter.DBInfo)">
+        <member name="M:Buffalo.DB.Exceptions.SQLRunningException.GetMessage(System.String,Buffalo.DB.DbCommon.ParamList,Buffalo.DB.DataBaseAdapter.DBInfo,System.Exception)">
             <summary>
             获取输出的信息
             </summary>
@@ -9117,6 +9146,12 @@
             <param name="tableName">对应的表名</param>
             <param name="baseListInfo">此对象的查询缓存集合句柄</param>
             <param name="connectionKey">连接字符串的键</param>
+        </member>
+        <member name="M:Buffalo.DB.EntityInfos.EntityInfoHandle.GetNeedLazy">
+            <summary>
+            获取是否需要延迟加载
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:Buffalo.DB.EntityInfos.EntityInfoHandle.SetInfoHandles(System.Collections.Generic.Dictionary{System.String,Buffalo.DB.EntityInfos.EntityPropertyInfo},System.Collections.Generic.Dictionary{System.String,Buffalo.DB.EntityInfos.EntityMappingInfo})">
             <summary>

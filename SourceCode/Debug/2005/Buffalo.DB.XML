@@ -208,6 +208,11 @@
             查询缓存
             </summary>
         </member>
+        <member name="P:Buffalo.DB.DataBaseAdapter.DBInfo.AllowLazy">
+            <summary>
+            允许延迟加载
+            </summary>
+        </member>
         <member name="P:Buffalo.DB.DataBaseAdapter.DBInfo.DefaultOperate">
             <summary>
             默认连接
@@ -279,6 +284,11 @@
         <member name="P:Buffalo.DB.DataBaseAdapter.DBInfo.ExceptionOption">
             <summary>
             异常信息配置
+            </summary>
+        </member>
+        <member name="T:Buffalo.DB.DataBaseAdapter.LazyType">
+            <summary>
+            延迟加载类型
             </summary>
         </member>
         <member name="T:Buffalo.DB.DataBaseAdapter.AccessAdapter.CutPageSqlCreater">
@@ -2994,6 +3004,11 @@
             类标示
             </summary>
         </member>
+        <member name="P:Buffalo.DB.PropertyAttributes.TableAttribute.AllowLazy">
+            <summary>
+            是否允许延迟加载
+            </summary>
+        </member>
         <member name="P:Buffalo.DB.PropertyAttributes.TableAttribute.Description">
             <summary>
             字段注释
@@ -4593,6 +4608,20 @@
             <summary>
             创建代理类
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.EntityInfos.CH.GetProxyType``1">
+            <summary>
+            获取代理类类型
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.EntityInfos.CH.GetProxyType(System.Type)">
+            <summary>
+            获取代理类类型
+            </summary>
+            <typeparam name="T"></typeparam>
             <returns></returns>
         </member>
         <member name="M:Buffalo.DB.EntityInfos.CH.GetRealType(System.Object)">
@@ -8439,7 +8468,8 @@
             查询集合
             </summary>
             <typeparam name="T"></typeparam>
-            <param name="lstScope">条件</param>
+            <param name="condition">条件</param>
+            <param name="pager">分页条件</param>
             <returns></returns>
         </member>
         <member name="M:Buffalo.DB.CommBase.BH.SelectList``1(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLCondition)">
@@ -8447,7 +8477,7 @@
             查询集合
             </summary>
             <typeparam name="T"></typeparam>
-            <param name="lstScope">条件</param>
+            <param name="condition">条件</param>
             <returns></returns>
         </member>
         <member name="M:Buffalo.DB.CommBase.BH.GetUnique``1(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLCondition)">
@@ -8468,10 +8498,10 @@
         </member>
         <member name="M:Buffalo.DB.CommBase.BH.GetById``1(System.Object)">
             <summary>
-            获取唯一
+            根据ID获取实体
             </summary>
             <typeparam name="T"></typeparam>
-            <param name="condition">条件</param>
+            <param name="id">id</param>
             <returns></returns>
         </member>
         <member name="M:Buffalo.DB.CommBase.BH.SelectCount``1(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLCondition)">
@@ -8479,7 +8509,6 @@
             查询数目
             </summary>
             <param name="condition">条件</param>
-            <param name="entityType"></param>
             <returns></returns>
         </member>
         <member name="M:Buffalo.DB.CommBase.BH.SelectCount``1(Buffalo.DB.QueryConditions.ScopeList)">
@@ -8487,7 +8516,6 @@
             查询数目
             </summary>
             <param name="lstScope">条件</param>
-            <param name="entityType"></param>
             <returns></returns>
         </member>
         <member name="M:Buffalo.DB.CommBase.BH.Update(Buffalo.DB.CommBase.EntityBase)">
@@ -8501,14 +8529,22 @@
             <summary>
             删除一个实体
             </summary>
-            <param name="entity"></param>
+            <param name="entity">要删除的实体</param>
             <returns></returns>
         </member>
         <member name="M:Buffalo.DB.CommBase.BH.Insert(Buffalo.DB.CommBase.EntityBase,System.Boolean)">
             <summary>
             插入一个实体
             </summary>
-            <param name="entity"></param>
+            <param name="entity">要插入的实体</param>
+            <param name="fillIdentity">是否填充主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CommBase.BH.Insert(Buffalo.DB.CommBase.EntityBase)">
+            <summary>
+            插入一个实体
+            </summary>
+            <param name="entity">要插入的实体</param>
             <returns></returns>
         </member>
         <member name="T:Buffalo.DB.QueryConditions.AlterTableCondition">
@@ -8811,7 +8847,7 @@
             <param name="innerException">关联异常</param>
             <param name="prmList">变量集合</param>
         </member>
-        <member name="M:Buffalo.DB.Exceptions.SQLRunningException.GetMessage(System.String,Buffalo.DB.DbCommon.ParamList,Buffalo.DB.DataBaseAdapter.DBInfo)">
+        <member name="M:Buffalo.DB.Exceptions.SQLRunningException.GetMessage(System.String,Buffalo.DB.DbCommon.ParamList,Buffalo.DB.DataBaseAdapter.DBInfo,System.Exception)">
             <summary>
             获取输出的信息
             </summary>
@@ -9110,6 +9146,12 @@
             <param name="tableName">对应的表名</param>
             <param name="baseListInfo">此对象的查询缓存集合句柄</param>
             <param name="connectionKey">连接字符串的键</param>
+        </member>
+        <member name="M:Buffalo.DB.EntityInfos.EntityInfoHandle.GetNeedLazy">
+            <summary>
+            获取是否需要延迟加载
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:Buffalo.DB.EntityInfos.EntityInfoHandle.SetInfoHandles(System.Collections.Generic.Dictionary{System.String,Buffalo.DB.EntityInfos.EntityPropertyInfo},System.Collections.Generic.Dictionary{System.String,Buffalo.DB.EntityInfos.EntityMappingInfo})">
             <summary>

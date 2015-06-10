@@ -4610,6 +4610,20 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Buffalo.DB.EntityInfos.CH.GetProxyType``1">
+            <summary>
+            获取代理类类型
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.EntityInfos.CH.GetProxyType(System.Type)">
+            <summary>
+            获取代理类类型
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
         <member name="M:Buffalo.DB.EntityInfos.CH.GetRealType(System.Object)">
             <summary>
             获取真正的类型
@@ -8833,7 +8847,7 @@
             <param name="innerException">关联异常</param>
             <param name="prmList">变量集合</param>
         </member>
-        <member name="M:Buffalo.DB.Exceptions.SQLRunningException.GetMessage(System.String,Buffalo.DB.DbCommon.ParamList,Buffalo.DB.DataBaseAdapter.DBInfo)">
+        <member name="M:Buffalo.DB.Exceptions.SQLRunningException.GetMessage(System.String,Buffalo.DB.DbCommon.ParamList,Buffalo.DB.DataBaseAdapter.DBInfo,System.Exception)">
             <summary>
             获取输出的信息
             </summary>

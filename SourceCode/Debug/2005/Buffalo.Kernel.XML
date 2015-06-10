@@ -1191,6 +1191,90 @@
             <param name="valueType"></param>
             <returns></returns>
         </member>
+        <member name="T:Buffalo.Kernel.AutoServicesLib.ThrowExceptionHandle">
+            <summary>
+            异常触发事件
+            </summary>
+            <param name="ex"></param>
+        </member>
+        <member name="T:Buffalo.Kernel.AutoServicesLib.ServicesLoader">
+            <summary>
+            自动服务的容器
+            </summary>
+        </member>
+        <member name="M:Buffalo.Kernel.AutoServicesLib.ServicesLoader.DoTick">
+            <summary>
+            运行自动服务
+            </summary>
+        </member>
+        <member name="M:Buffalo.Kernel.AutoServicesLib.ServicesLoader.AddServices(Buffalo.Kernel.AutoServicesLib.AbsServicesHandle)">
+            <summary>
+            添加服务
+            </summary>
+            <param name="handle"></param>
+        </member>
+        <member name="M:Buffalo.Kernel.AutoServicesLib.ServicesLoader.LoadAssembly(System.Reflection.Assembly)">
+            <summary>
+            加载程序集
+            </summary>
+            <param name="ass"></param>
+        </member>
+        <member name="P:Buffalo.Kernel.AutoServicesLib.ServicesLoader.Services">
+            <summary>
+            服务集合
+            </summary>
+        </member>
+        <member name="E:Buffalo.Kernel.AutoServicesLib.ServicesLoader.OnThrowException">
+            <summary>
+            当抛出异常时候触发
+            </summary>
+        </member>
+        <member name="T:Buffalo.Kernel.AutoServicesLib.AbsServicesHandle">
+            <summary>
+            服务基类
+            </summary>
+        </member>
+        <member name="M:Buffalo.Kernel.AutoServicesLib.AbsServicesHandle.CheckRun">
+            <summary>
+            检查是否要运行(每隔一段时间执行)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Kernel.AutoServicesLib.AbsServicesHandle.DoAction(Buffalo.Kernel.AutoServicesLib.ServicesMessage)">
+            <summary>
+            执行方法
+            </summary>
+        </member>
+        <member name="P:Buffalo.Kernel.AutoServicesLib.AbsServicesHandle.ServicesName">
+            <summary>
+            服务名
+            </summary>
+        </member>
+        <member name="P:Buffalo.Kernel.AutoServicesLib.AbsServicesHandle.ServicesID">
+            <summary>
+            服务标识
+            </summary>
+        </member>
+        <member name="P:Buffalo.Kernel.AutoServicesLib.AbsServicesHandle.SerVersion">
+            <summary>
+            版本
+            </summary>
+        </member>
+        <member name="P:Buffalo.Kernel.AutoServicesLib.AbsServicesHandle.Interval">
+            <summary>
+            间隔时间(毫秒)
+            </summary>
+        </member>
+        <member name="P:Buffalo.Kernel.AutoServicesLib.AbsServicesHandle.LasRun">
+            <summary>
+            上次执行时间
+            </summary>
+        </member>
+        <member name="P:Buffalo.Kernel.AutoServicesLib.AbsServicesHandle.Tick">
+            <summary>
+            是否已经到时间
+            </summary>
+        </member>
         <member name="T:Buffalo.Kernel.Win32.WindowsAPI">
             <summary>
             Windows API Functions
@@ -1578,6 +1662,39 @@
         <member name="F:Buffalo.Kernel.Win32.FILEOP_FLAGS.FOF_NORECURSION">
             <summary>
             不递归目录
+            </summary>
+        </member>
+        <member name="T:Buffalo.Kernel.AutoServicesLib.ServicesMessage">
+            <summary>
+            服务运行信息
+            </summary>
+        </member>
+        <member name="M:Buffalo.Kernel.AutoServicesLib.ServicesMessage.#ctor(Buffalo.Kernel.AutoServicesLib.AbsServicesHandle)">
+            <summary>
+            信息类
+            </summary>
+            <param name="handle"></param>
+            <param name="message"></param>
+            <param name="tag"></param>
+        </member>
+        <member name="F:Buffalo.Kernel.AutoServicesLib.ServicesMessage._message">
+            <summary>
+            信息
+            </summary>
+        </member>
+        <member name="P:Buffalo.Kernel.AutoServicesLib.ServicesMessage.Handle">
+            <summary>
+            服务类
+            </summary>
+        </member>
+        <member name="P:Buffalo.Kernel.AutoServicesLib.ServicesMessage.Message">
+            <summary>
+            信息
+            </summary>
+        </member>
+        <member name="P:Buffalo.Kernel.AutoServicesLib.ServicesMessage.Tag">
+            <summary>
+            其他信息
             </summary>
         </member>
         <member name="P:Buffalo.Kernel.Replacer.ReplaceItemCollection.MinLength">

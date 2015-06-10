@@ -75,6 +75,10 @@ namespace Buffalo.Storage.LocalFileManager
         private string GetRealRoot(string root) 
         {
             char start=root[0];
+            if (root[0] == '\\' && root[1] == '\\') 
+            {
+                return root;
+            }
             if (start=='.' || start=='\\' || start=='/') 
             {
                 string mroot = CommonMethods.GetBaseRoot()+"\\" + root;

@@ -883,6 +883,11 @@
             初始化缓存类型
             </summary>
         </member>
+        <member name="M:Buffalo.DBTools.FrmDBSetting.InitLazyType">
+            <summary>
+            初始化缓存类型
+            </summary>
+        </member>
         <member name="M:Buffalo.DBTools.FrmDBSetting.FillEdit">
             <summary>
             填充编辑项
@@ -1684,6 +1689,11 @@
             是否添加Description标签
             </summary>
         </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.DBConfigInfo.AllowLazy">
+            <summary>
+            允许延迟加载
+            </summary>
+        </member>
         <member name="T:Buffalo.DBTools.HelperKernel.BQLEntityGenerater">
             <summary>
             BQL实体生成
@@ -2121,6 +2131,11 @@
         <member name="P:Buffalo.DBTools.HelperKernel.EntityConfig.ERelation">
             <summary>
             映射属性
+            </summary>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityConfig.AllowLazy">
+            <summary>
+            允许延迟加载
             </summary>
         </member>
         <member name="P:Buffalo.DBTools.HelperKernel.EntityConfig.UseCache">
@@ -2591,6 +2606,11 @@
             </summary>
             <param name="entity"></param>
             <param name="classNode"></param>
+        </member>
+        <member name="P:Buffalo.DBTools.HelperKernel.EntityMappingConfig.AllowLazy">
+            <summary>
+            
+            </summary>
         </member>
         <member name="T:Buffalo.DBTools.HelperKernel.Generate3Tier">
             <summary>

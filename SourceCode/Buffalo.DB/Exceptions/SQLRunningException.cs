@@ -18,12 +18,12 @@ namespace Buffalo.DB.Exceptions
         /// <param name="innerException">关联异常</param>
         /// <param name="prmList">变量集合</param>
         public SQLRunningException(string sql,ParamList prmList,DBInfo db, Exception innerException)
-            : base(GetMessage(sql, prmList, db), innerException)
+            : base(GetMessage(sql, prmList, db, innerException), innerException)
         {
             
         }
 
-
+        
 
         /// <summary>
         /// 获取输出的信息
@@ -31,16 +31,19 @@ namespace Buffalo.DB.Exceptions
         /// <param name="sql"></param>
         /// <param name="prmList"></param>
         /// <returns></returns>
-        private static string GetMessage(string sql, ParamList prmList,DBInfo db) 
+        private static string GetMessage(string sql, ParamList prmList,DBInfo db,Exception innerException) 
         {
             StringBuilder sbRet = new StringBuilder(512);
-            sbRet.Append("SQLError:");
+            sbRet.Append("Error:");
+            sbRet.AppendLine(innerException.Message);
+            sbRet.Append("SQL:");
             sbRet.Append(sql);
             sbRet.Append(";");
             if (prmList != null)
             {
                 sbRet.Append(prmList.GetParamString(db, db.ExceptionOption.ShowBinary, db.ExceptionOption.HideTextLength));
             }
+            sbRet.AppendLine("");
             return sbRet.ToString();
         }
     }
