@@ -10,7 +10,15 @@ namespace Buffalo.WebKernel.JsonUnit
 {
     public class JsonHelper
     {
-        private static JavaScriptSerializer serializer = new JavaScriptSerializer();
+        private static JavaScriptSerializer _serializer = new JavaScriptSerializer();
+
+        /// <summary>
+        /// Json处理类
+        /// </summary>
+        public static JavaScriptSerializer Serializer
+        {
+          get { return JsonHelper._serializer; }
+        }
 
         /// <summary>
         /// 把Json信息解释成字典
@@ -19,7 +27,7 @@ namespace Buffalo.WebKernel.JsonUnit
         /// <returns></returns>
         public static Dictionary<string, object> DeserializeObject(string json) 
         {
-            Dictionary<string, object> ret = serializer.Deserialize<Dictionary<string, object>>(json);
+            Dictionary<string, object> ret = _serializer.Deserialize<Dictionary<string, object>>(json);
             return ret;
         }
         /// <summary>
@@ -29,7 +37,7 @@ namespace Buffalo.WebKernel.JsonUnit
         /// <returns></returns>
         public static void DeserializeObject(object obj,string json, IEnumerable<string> propertyMap = null)
         {
-            Dictionary<string, object> dic = serializer.Deserialize<Dictionary<string, object>>(json);
+            Dictionary<string, object> dic = _serializer.Deserialize<Dictionary<string, object>>(json);
             EntitySerializer.DeserializeToObject(obj,dic, propertyMap);
 
         }
@@ -41,7 +49,7 @@ namespace Buffalo.WebKernel.JsonUnit
         public static T DeserializeObject<T>(string json, IEnumerable<string> propertyMap = null)
             where T:new()
         {
-            Dictionary<string, object> dic = serializer.Deserialize<Dictionary<string, object>>(json);
+            Dictionary<string, object> dic = _serializer.Deserialize<Dictionary<string, object>>(json);
             T obj = EntitySerializer.DeserializeToObject<T>(dic, propertyMap);
             return obj;
         }
@@ -52,7 +60,7 @@ namespace Buffalo.WebKernel.JsonUnit
         /// <returns></returns>
         public static string SerializeObject(Dictionary<string, object> dic)
         {
-            string json = serializer.Serialize(dic);
+            string json = _serializer.Serialize(dic);
             return json;
         }
 
@@ -63,7 +71,7 @@ namespace Buffalo.WebKernel.JsonUnit
         /// <returns></returns>
         public static string SerializeList(List<Dictionary<string, object>> lst)
         {
-            string json = serializer.Serialize(lst);
+            string json = _serializer.Serialize(lst);
             return json;
         }
         /// <summary>
@@ -73,7 +81,7 @@ namespace Buffalo.WebKernel.JsonUnit
         /// <returns></returns>
         public static List<Dictionary<string, object>> DeSerializeList(string json)
         {
-            List<Dictionary<string, object>> ret = serializer.Deserialize<List<Dictionary<string, object>>>(json);
+            List<Dictionary<string, object>> ret = _serializer.Deserialize<List<Dictionary<string, object>>>(json);
             return ret;
         }
         /// <summary>
@@ -84,7 +92,7 @@ namespace Buffalo.WebKernel.JsonUnit
         public static List<T> DeSerializeList<T>(string json, IEnumerable<string> propertyMap = null)
              where T : new()
         {
-            List<Dictionary<string, object>> dic = serializer.Deserialize<List<Dictionary<string, object>>>(json);
+            List<Dictionary<string, object>> dic = _serializer.Deserialize<List<Dictionary<string, object>>>(json);
             List<T> lst = EntitySerializer.DeserializeToList<T>(dic, propertyMap);
             return lst;
         }
@@ -180,6 +188,5 @@ namespace Buffalo.WebKernel.JsonUnit
             dic["Data"] = data;
             return SerializeObject(dic);
         }
-        
     }
 }

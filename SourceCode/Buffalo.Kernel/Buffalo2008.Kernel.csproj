@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{6EC04216-A422-4751-AA81-1211DCB10BAB}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -68,6 +68,7 @@
     <Compile Include="ClassProxyBuilder\IInterceptor.cs" />
     <Compile Include="CommonMethods.cs" />
     <Compile Include="CommonRegular.cs" />
+    <Compile Include="ConnStrFilter.cs" />
     <Compile Include="ContextValue.cs" />
     <Compile Include="CSVReader.cs" />
     <Compile Include="Defaults\DefaultType.cs" />

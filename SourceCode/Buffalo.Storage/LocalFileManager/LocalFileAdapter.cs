@@ -55,6 +55,7 @@ namespace Buffalo.Storage.LocalFileManager
             }
             _userName = hs["user"] as string;
             _password = hs["pwd"] as string;
+            
         }
 
         /// <summary>
@@ -64,7 +65,13 @@ namespace Buffalo.Storage.LocalFileManager
         /// <returns></returns>
         private string GetLocal(string path) 
         {
-            return _fileRoot + path;
+            string ret= _fileRoot + path;
+            StringBuilder sbRet=new StringBuilder(200);
+            sbRet.Append(_fileRoot);
+            
+            sbRet.Append(path);
+           
+            return sbRet.ToString();
         }
 
         /// <summary>

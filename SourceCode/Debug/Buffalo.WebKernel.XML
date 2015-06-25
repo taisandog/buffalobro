@@ -46,6 +46,13 @@
             ArtDialog
             </summary>
         </member>
+        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.GetCloseDialogJS(System.Boolean)">
+            <summary>
+            获取关闭窗体的JS
+            </summary>
+            <param name="top">是否关闭顶层窗口</param>
+            <returns></returns>
+        </member>
         <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.GetCloseDialogJS">
             <summary>
             获取关闭窗体的JS
@@ -73,7 +80,7 @@
             <param name="isString">是否字符串</param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.ShowDialog(System.String,System.String,System.Int32,System.Int32,System.Boolean,System.String,System.String)">
+        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.ShowDialog(System.String,System.String,System.Int32,System.Int32,System.Boolean,System.String,System.Boolean,System.String)">
             <summary>
             显示提示框
             </summary>
@@ -82,34 +89,64 @@
             <param name="width">宽</param>
             <param name="height">高</param>
             <param name="isDialog">是否模态窗口</param>
+            <param name="findParent">查找父窗体</param>
              <param name="icon">图标标识(ArtIcons)</param>
+             <param name="closeHandle">关闭时候触发的JS</param>
         </member>
-        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.Alert(System.String,System.String)">
+        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.Alert(System.String,System.Boolean,System.String)">
             <summary>
             显示提示框
             </summary>
             <param name="title">标题</param>
+            <param name="top">是否顶层窗口弹出对话框</param>
             <param name="content">内容</param>
         </member>
-        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.SuccessDialog(System.String,System.String)">
+        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.Alert(System.String)">
             <summary>
             显示提示框
             </summary>
-            <param name="title">标题</param>
             <param name="content">内容</param>
         </member>
-        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.ErrorDialog(System.String,System.String)">
+        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.SuccessDialog(System.String,System.Boolean,System.String)">
             <summary>
             显示提示框
             </summary>
             <param name="title">标题</param>
+            <param name="top">是否顶层窗口弹出对话框</param>
             <param name="content">内容</param>
         </member>
-        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.WarningDialog(System.String,System.String)">
+        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.SuccessDialog(System.String)">
+            <summary>
+            显示提示框
+            </summary>
+            <param name="content">内容</param>
+        </member>
+        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.ErrorDialog(System.String,System.Boolean,System.String)">
             <summary>
             显示提示框
             </summary>
             <param name="title">标题</param>
+            <param name="top">是否顶层窗口弹出对话框</param>
+            <param name="content">内容</param>
+        </member>
+        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.ErrorDialog(System.String)">
+            <summary>
+            显示提示框
+            </summary>
+            <param name="content">内容</param>
+        </member>
+        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.WarningDialog(System.String,System.Boolean,System.String)">
+            <summary>
+            显示提示框
+            </summary>
+            <param name="title">标题</param>
+            <param name="top">是否顶层窗口弹出对话框</param>
+            <param name="content">内容</param>
+        </member>
+        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.WarningDialog(System.String)">
+            <summary>
+            显示提示框
+            </summary>
             <param name="content">内容</param>
         </member>
         <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.GetFrameDialog(System.String,System.String,System.Int32,System.Int32,System.Boolean,System.String)">
@@ -123,6 +160,11 @@
             <param name="isDialog">是否模态窗口</param>
             <param name="closeHandle">关闭时候执行的方法</param>
             <returns></returns>
+        </member>
+        <member name="P:Buffalo.WebKernel.ARTDialog.ArtDialog.DefaultTitle">
+            <summary>
+            默认标题
+            </summary>
         </member>
         <member name="P:Buffalo.WebKernel.ARTDialog.ArtDialog.CurPage">
             <summary>
@@ -1130,6 +1172,11 @@
             <param name="status">结果类型</param>
             <param name="data">结果信息</param>
             <returns></returns>
+        </member>
+        <member name="P:Buffalo.WebKernel.JsonUnit.JsonHelper.Serializer">
+            <summary>
+            Json处理类
+            </summary>
         </member>
     </members>
 </doc>

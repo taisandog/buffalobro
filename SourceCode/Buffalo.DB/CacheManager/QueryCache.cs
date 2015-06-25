@@ -335,6 +335,21 @@ namespace Buffalo.DB.CacheManager
         {
             return _cache.GetValues(keys, _db.DefaultOperate);
         }
+
+        /// <summary>
+        /// 获取值
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <returns></returns>
+        public  object GetValue(string key)
+        {
+            string[] keys ={ key };
+            IDictionary<string, object> dic=_cache.GetValues(keys, _db.DefaultOperate);
+            object ret=null;
+            dic.TryGetValue(key,out ret);
+            return ret;
+        }
+
         /// <summary>
         /// 设置值
         /// </summary>

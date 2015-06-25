@@ -70,6 +70,18 @@ namespace Buffalo.WebKernel.ARTDialog
         public ArtDialog():this(DialogSkin.Default)
         {
         }
+
+        private string _defaultTitle;
+
+        /// <summary>
+        /// 默认标题
+        /// </summary>
+        public string DefaultTitle
+        {
+            get { return _defaultTitle; }
+            set { _defaultTitle = value; }
+        }
+
         /// <summary>
         /// ArtDialog
         /// </summary>
@@ -103,10 +115,26 @@ namespace Buffalo.WebKernel.ARTDialog
         /// <summary>
         /// 获取关闭窗体的JS
         /// </summary>
+        /// <param name="top">是否关闭顶层窗口</param>
         /// <returns></returns>
-        public string GetCloseDialogJS() 
+        public string GetCloseDialogJS(bool top) 
         {
-            return "artShow_CloseCurDialog()";
+            StringBuilder js = new StringBuilder();
+            if (top)
+            {
+                js.Append("window.top.");
+                
+            }
+            js.Append("artShow_CloseCurDialog()");
+            return js.ToString();
+        }
+        /// <summary>
+        /// 获取关闭窗体的JS
+        /// </summary>
+        /// <returns></returns>
+        public string GetCloseDialogJS()
+        {
+            return GetCloseDialogJS(true);
         }
         /// <summary>
         /// 引用JS文件
@@ -194,14 +222,22 @@ namespace Buffalo.WebKernel.ARTDialog
         /// <param name="width">宽</param>
         /// <param name="height">高</param>
         /// <param name="isDialog">是否模态窗口</param>
+        /// <param name="findParent">查找父窗体</param>
         ///  <param name="icon">图标标识(ArtIcons)</param>
-        public void ShowDialog(string title,string content,int width,int height,bool isDialog,string icon,string jsHandle) 
+        ///  <param name="closeHandle">关闭时候触发的JS</param>
+        public void ShowDialog(string title,string content,int width,int height,bool isDialog,string icon,bool top,string closeHandle) 
         {
             string sicon = GetJSValue(icon, true);
-            string handle = GetJSValue(jsHandle, false);
-            string js = "artShow_AlertDialog('" + title.Replace("'", "\\'") + "','" + content.Replace("'", "\\'") + "'," + width + "," + height + ","
-                + GetBooleanString(isDialog) + "," + sicon + "," + handle + ");";
-            CurPage.ClientScript.RegisterStartupScript(System.Web.HttpContext.Current.Handler.GetType(), content, js, true);
+            string handle = GetJSValue(closeHandle, false);
+            StringBuilder js = new StringBuilder();
+            if (top) 
+            {
+                js.Append("window.top.");
+                
+            }
+            js.Append("artShow_AlertDialog('" + title.Replace("'", "\\'") + "','" + content.Replace("'", "\\'") + "'," + width + "," + height + ","
+                + GetBooleanString(isDialog) + "," + sicon + "," + handle + ");");
+            CurPage.ClientScript.RegisterStartupScript(System.Web.HttpContext.Current.Handler.GetType(), content, js.ToString(), true);
             
         }
 
@@ -209,40 +245,76 @@ namespace Buffalo.WebKernel.ARTDialog
         /// 显示提示框
         /// </summary>
         /// <param name="title">标题</param>
+        /// <param name="top">是否顶层窗口弹出对话框</param>
         /// <param name="content">内容</param>
-        public void Alert(string title, string content) 
+        public void Alert(string title, bool top, string content) 
         {
-            ShowDialog(title, content, _defauleWidth, _defauleHeight, true, null,null);
+            ShowDialog(title, content, _defauleWidth, _defauleHeight, true, null,top,null);
         }
 
         /// <summary>
         /// 显示提示框
         /// </summary>
-        /// <param name="title">标题</param>
         /// <param name="content">内容</param>
-        public void SuccessDialog(string title, string content)
+        public void Alert( string content)
         {
-            ShowDialog(title, content, _defauleWidth, _defauleHeight, true, ArtIcons.Succeed, null);
-        }
-        /// <summary>
-        /// 显示提示框
-        /// </summary>
-        /// <param name="title">标题</param>
-        /// <param name="content">内容</param>
-        public void ErrorDialog(string title, string content)
-        {
-            ShowDialog(title, content, _defauleWidth, _defauleHeight, true, ArtIcons.Error, null);
-        }
-        /// <summary>
-        /// 显示提示框
-        /// </summary>
-        /// <param name="title">标题</param>
-        /// <param name="content">内容</param>
-        public void WarningDialog(string title, string content)
-        {
-            ShowDialog(title, content, _defauleWidth, _defauleHeight, true, ArtIcons.Warning, null);
-        }
+            Alert(_defaultTitle, true, content);
+        } 
 
+        /// <summary>
+        /// 显示提示框
+        /// </summary>
+        /// <param name="title">标题</param>
+        /// <param name="top">是否顶层窗口弹出对话框</param>
+        /// <param name="content">内容</param>
+        public void SuccessDialog(string title,bool top, string content)
+        {
+            ShowDialog(title, content, _defauleWidth, _defauleHeight, true, ArtIcons.Succeed, top, null);
+        }
+        /// <summary>
+        /// 显示提示框
+        /// </summary>
+        /// <param name="content">内容</param>
+        public void SuccessDialog(string content)
+        {
+            SuccessDialog(_defaultTitle, true, content);
+        }
+        /// <summary>
+        /// 显示提示框
+        /// </summary>
+        /// <param name="title">标题</param>
+        /// <param name="top">是否顶层窗口弹出对话框</param>
+        /// <param name="content">内容</param>
+        public void ErrorDialog(string title, bool top, string content)
+        {
+            ShowDialog(title, content, _defauleWidth, _defauleHeight, true, ArtIcons.Error, top, null);
+        }
+        /// <summary>
+        /// 显示提示框
+        /// </summary>
+        /// <param name="content">内容</param>
+        public void ErrorDialog( string content)
+        {
+            ErrorDialog(_defaultTitle,true,content);
+        }
+        /// <summary>
+        /// 显示提示框
+        /// </summary>
+        /// <param name="title">标题</param>
+        /// <param name="top">是否顶层窗口弹出对话框</param>
+        /// <param name="content">内容</param>
+        public void WarningDialog(string title, bool top, string content)
+        {
+            ShowDialog(title, content, _defauleWidth, _defauleHeight, true, ArtIcons.Warning, top, null);
+        }
+        /// <summary>
+        /// 显示提示框
+        /// </summary>
+        /// <param name="content">内容</param>
+        public void WarningDialog( string content)
+        {
+            WarningDialog(_defaultTitle,true,content);
+        }
         /// <summary>
         /// 获取iframe弹出窗的JS
         /// </summary>
@@ -258,6 +330,6 @@ namespace Buffalo.WebKernel.ARTDialog
             return "artShow_ShowIFrameDialog('"+url+"','"+title.Replace("'", "\\'") +"',"+ width + ","
                 + height + "," + GetBooleanString(isDialog) + "," + GetJSValue(closeHandle,false) + ")";
         }
-
+        
     }
 }

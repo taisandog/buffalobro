@@ -60,6 +60,7 @@
     <Compile Include="ClassProxyBuilder\IInterceptor.cs" />
     <Compile Include="CommonMethods.cs" />
     <Compile Include="CommonRegular.cs" />
+    <Compile Include="ConnStrFilter.cs" />
     <Compile Include="ContextValue.cs" />
     <Compile Include="CSVReader.cs" />
     <Compile Include="Defaults\DefaultType.cs" />
