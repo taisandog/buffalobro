@@ -16,7 +16,17 @@ namespace Buffalo.WebKernel.WebCommons.PageBases
     public class PageContext : System.Web.UI.Page
     {
 
-
+        /// <summary>
+        /// 直接把文字输出到页面
+        /// </summary>
+        /// <param name="content"></param>
+        protected static void ShowResponseText(string content)
+        {
+            HttpResponse response = HttpContext.Current.Response;
+            response.Clear();
+            response.Write(content);
+            response.End();
+        }
 
         /// <summary>
         /// 给文本框控件添加keydown事件
