@@ -1,0 +1,32 @@
+﻿using System;
+using System.Data;
+using System.Configuration;
+using Buffalo.DB.BQLCommon;
+using Buffalo.DB.BQLCommon.BQLKeyWordCommon;
+using Buffalo.DB.BQLCommon.BQLConditionCommon;
+using System.Collections.Generic;
+using Buffalo.DB.QueryConditions;
+using <%=BQLEntityNamespace%>;
+using <%=EntityNamespace%>;
+using Buffalo.DB.DbCommon;
+namespace <%=DataAccessNamespace%>.<%=DataBaseType%>
+{
+    ///<summary>
+    /// <%=Summary%>数据访问层
+    ///</summary>
+    public class <%=ClassName%>DataAccess :BQLDataAccessBase<<%=ClassName%>>
+    {
+        public <%=ClassName%>DataAccess(DataBaseOperate oper)
+            : base(oper)
+        {
+            
+        }
+        public <%=ClassName%>DataAccess()
+        {
+            
+        }
+    }
+}
+
+
+

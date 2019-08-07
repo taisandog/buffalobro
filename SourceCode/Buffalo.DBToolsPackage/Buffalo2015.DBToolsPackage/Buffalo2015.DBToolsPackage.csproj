@@ -1,0 +1,498 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\packages\Microsoft.VSSDK.BuildTools.14.0.23107\build\Microsoft.VSSDK.BuildTools.props" Condition="Exists('..\..\packages\Microsoft.VSSDK.BuildTools.14.0.23107\build\Microsoft.VSSDK.BuildTools.props')" />
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <UseCodebase>true</UseCodebase>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectTypeGuids>{82b43b9b-a64c-4715-b499-d71e9ca2bd60};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectGuid>{DDB8ACC4-9958-462A-9FF1-C556119376E7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Buffalo.DBTools</RootNamespace>
+    <AssemblyName>Buffalo2015.DBToolsPackage</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <GeneratePkgDefFile>true</GeneratePkgDefFile>
+    <IncludeAssemblyInVSIXContainer>true</IncludeAssemblyInVSIXContainer>
+    <IncludeDebugSymbolsInVSIXContainer>false</IncludeDebugSymbolsInVSIXContainer>
+    <IncludeDebugSymbolsInLocalVSIXDeployment>true</IncludeDebugSymbolsInLocalVSIXDeployment>
+    <CopyBuildOutputToOutputDirectory>true</CopyBuildOutputToOutputDirectory>
+    <CopyOutputSymbolsToOutputDirectory>true</CopyOutputSymbolsToOutputDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Debug\2015\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;NET_4_6</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>..\..\Debug\2015\Buffalo2015.DBToolsPackage.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\Release\2015\</OutputPath>
+    <DefineConstants>TRACE;NET_4_6</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>
+    </DocumentationFile>
+    <CreateVsixContainer>True</CreateVsixContainer>
+    <DeployExtension>True</DeployExtension>
+    <CopyVsixExtensionFiles>False</CopyVsixExtensionFiles>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="BuffaloToolCDCommand.cs" />
+    <Compile Include="BuffaloToolsPackage.cs" />
+    <Compile Include="ClassDesignerInfo.cs" />
+    <Compile Include="CommandBar.Designer.cs" />
+    <Compile Include="CommandBarId.cs" />
+    <Compile Include="CommandItems.cs" />
+    <Compile Include="DBCreater\TableCreater.cs" />
+    <Compile Include="DocSummary\AssLabelSummary.cs" />
+    <Compile Include="DocSummary\EnumItemSummary.cs" />
+    <Compile Include="DocSummary\EnumSummary.cs" />
+    <Compile Include="DocSummary\InterSummary.cs" />
+    <Compile Include="DocSummary\MemberItem.cs" />
+    <Compile Include="DocSummary\MemberSummary.cs" />
+    <Compile Include="DocSummary\ShapeSummaryDisplayer.cs" />
+    <Compile Include="DocSummary\SummaryShape.cs" />
+    <Compile Include="DocSummary\SummaryShowItem.cs" />
+    <Compile Include="DocSummary\VSConfig\IVSConfig.cs" />
+    <Compile Include="DocSummary\VSConfig\VS2005Config.cs" />
+    <Compile Include="DocSummary\VSConfig\VS2008Config.cs" />
+    <Compile Include="DocSummary\VSConfig\VS2010Config.cs" />
+    <Compile Include="DocSummary\VSConfig\VSConfigManager.cs" />
+    <Compile Include="FrmAllTables.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmAllTables.Designer.cs">
+      <DependentUpon>FrmAllTables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmClassDesigner.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmClassDesigner.designer.cs">
+      <DependentUpon>FrmClassDesigner.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmDBCreate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmDBCreate.Designer.cs">
+      <DependentUpon>FrmDBCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmDBSetting.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmDBSetting.Designer.cs">
+      <DependentUpon>FrmDBSetting.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmProcess.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmProcess.Designer.cs">
+      <DependentUpon>FrmProcess.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GridViewComboBoxCell.cs" />
+    <Compile Include="HelperKernel\BQLEntityGenerater.cs" />
+    <Compile Include="HelperKernel\CodeFile.cs" />
+    <Compile Include="HelperKernel\ComboBoxItemCollection.cs" />
+    <Compile Include="HelperKernel\DataAccessMappingConfig.cs" />
+    <Compile Include="HelperKernel\DataTypeInfos.cs" />
+    <Compile Include="HelperKernel\DBConfigInfo.cs" />
+    <Compile Include="HelperKernel\EntityConfig.cs" />
+    <Compile Include="HelperKernel\EntityFieldBase.cs" />
+    <Compile Include="HelperKernel\EntityMappingConfig.cs" />
+    <Compile Include="HelperKernel\EntityParamField.cs" />
+    <Compile Include="HelperKernel\EntityParamFieldCollection.cs" />
+    <Compile Include="HelperKernel\EntityRelationCollection.cs" />
+    <Compile Include="HelperKernel\EntityRelationItem.cs" />
+    <Compile Include="HelperKernel\EntityRemoveHelper.cs" />
+    <Compile Include="HelperKernel\FieldComparer.cs" />
+    <Compile Include="HelperKernel\Generate3Tier.cs" />
+    <Compile Include="HelperKernel\GrneraterBase.cs" />
+    <Compile Include="HelperKernel\TagManager.cs" />
+    <Compile Include="Models.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Models.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ROMHelper\DBEntityInfo.cs" />
+    <Compile Include="ToolVersionInfo.cs" />
+    <Compile Include="UIHelper\BuildAction.cs" />
+    <Compile Include="UIHelper\ConfigItem.cs" />
+    <Compile Include="UIHelper\EntityInfo.cs" />
+    <Compile Include="UIHelper\FrmCompileResault.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UIHelper\FrmCompileResault.Designer.cs">
+      <DependentUpon>FrmCompileResault.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UIHelper\FrmUIGenerater.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UIHelper\FrmUIGenerater.Designer.cs">
+      <DependentUpon>FrmUIGenerater.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UIHelper\InitBaseCode.cs" />
+    <Compile Include="UIHelper\ModelLoader\CodeGenCache.cs" />
+    <Compile Include="UIHelper\ModelLoader\CodeGeneration.cs" />
+    <Compile Include="UIHelper\ModelLoader\CodeGenInfo.cs" />
+    <Compile Include="UIHelper\ModelLoader\CodeOutputer.cs" />
+    <Compile Include="UIHelper\ModelLoader\CodesManger.cs" />
+    <Compile Include="UIHelper\ModelLoader\CompileException.cs" />
+    <Compile Include="UIHelper\ModelLoader\ExpressionItem.cs" />
+    <Compile Include="UIHelper\ModelLoader\ExpressionType.cs" />
+    <Compile Include="UIHelper\ModelLoader\ICodeOutputer.cs" />
+    <Compile Include="UIHelper\ModelLoader\LinkOutputer.cs" />
+    <Compile Include="UIHelper\ModelLoader\MethodOutputer.cs" />
+    <Compile Include="UIHelper\ModelLoader\ModelCompiler.cs" />
+    <Compile Include="UIHelper\ModelLoader\SourceCodeCompiler.cs" />
+    <Compile Include="UIHelper\ModelLoader\UsingOutputer.cs" />
+    <Compile Include="UIHelper\UIConfigItem.cs" />
+    <Compile Include="UIHelper\UIModelItem.cs" />
+    <Compile Include="UIHelper\UIProject.cs" />
+    <Compile Include="UIHelper\UIProjectItem.cs" />
+    <Compile Include="Units\FileEncodingInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Key.snk" />
+    <None Include="packages.config" />
+    <None Include="source.extension.vsixmanifest">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="x64\SQLite.Interop.dll">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="x86\SQLite.Interop.dll">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <VSCTCompile Include="BuffaloToolsPackage.vsct">
+      <ResourceName>Menus.ctmenu</ResourceName>
+      <SubType>Designer</SubType>
+    </VSCTCompile>
+    <Content Include="index.html" />
+    <None Include="Resources\bqldataaccess.txt" />
+    <None Include="Resources\bqldb.txt" />
+    <None Include="Resources\bqlentity.txt" />
+    <Content Include="Resources\BuffaloToolCDCommand.png" />
+    <Content Include="Resources\BuffaloToolsPackage.ico" />
+    <None Include="Resources\business.txt" />
+    <None Include="Resources\classdiagram.txt" />
+    <None Include="Resources\dataaccess.txt" />
+    <None Include="Resources\dataview.txt" />
+    <None Include="Resources\entity.txt" />
+    <None Include="Resources\idataaccess.txt" />
+    <None Include="Resources\uiconfigitem.xml" />
+    <None Include="Resources\userentity.txt" />
+    <None Include="Resources\pic0100.png" />
+    <None Include="Resources\pic0101.png" />
+    <None Include="Resources\pic0200.png" />
+    <None Include="Resources\pic0201.png" />
+    <None Include="Resources\pic0300.png" />
+    <None Include="Resources\pic0301.png" />
+    <None Include="Resources\pic0400.png" />
+    <None Include="Resources\pic0401.png" />
+    <None Include="Resources\pic0500.png" />
+    <None Include="Resources\pic0501.png" />
+    <Content Include="slogo.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="stylesheet.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="EnvDTE100, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="EnvDTE80, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="EnvDTE90, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.Build.Framework" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.VisualStudio.CommandBars, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.EnterpriseTools.ClassDesigner, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Buffalo.DBTools\Microsoft.VisualStudio.EnterpriseTools\VS2015\Microsoft.VisualStudio.EnterpriseTools.ClassDesigner.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.EnterpriseTools.ClassDesigner.Resources, Version=14.0.0.0, Culture=zh-HANS, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Buffalo.DBTools\Microsoft.VisualStudio.EnterpriseTools\VS2015\Microsoft.VisualStudio.EnterpriseTools.ClassDesigner.Resources.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.EnterpriseTools.Resources, Version=14.0.0.0, Culture=zh-Hans, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Buffalo.DBTools\Microsoft.VisualStudio.EnterpriseTools\VS2015\Microsoft.VisualStudio.EnterpriseTools.Resources.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.EnterpriseTools.Shell, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Buffalo.DBTools\Microsoft.VisualStudio.EnterpriseTools\VS2015\Microsoft.VisualStudio.EnterpriseTools.Shell.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.EnterpriseTools.Shell.Resources, Version=14.0.0.0, Culture=zh-Hans, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Buffalo.DBTools\Microsoft.VisualStudio.EnterpriseTools\VS2015\Microsoft.VisualStudio.EnterpriseTools.Shell.Resources.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.EnterpriseTools.TypeSystem, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Buffalo.DBTools\Microsoft.VisualStudio.EnterpriseTools\VS2015\Microsoft.VisualStudio.EnterpriseTools.TypeSystem.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.EnterpriseTools.TypeSystem.resources, Version=14.0.0.0, Culture=zh-Hans, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Buffalo.DBTools\Microsoft.VisualStudio.EnterpriseTools\VS2015\Microsoft.VisualStudio.EnterpriseTools.TypeSystem.resources.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Imaging, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.Imaging.14.0.23107\lib\net45\Microsoft.VisualStudio.Imaging.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Modeling, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Buffalo.DBTools\Microsoft.VisualStudio.EnterpriseTools\VS2015\Microsoft.VisualStudio.Modeling.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Modeling.Diagrams, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Buffalo.DBTools\Microsoft.VisualStudio.EnterpriseTools\VS2015\Microsoft.VisualStudio.Modeling.Diagrams.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Modeling.Diagrams.GraphObject, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Buffalo.DBTools\Microsoft.VisualStudio.EnterpriseTools\VS2015\Microsoft.VisualStudio.Modeling.Diagrams.GraphObject.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Modeling.Diagrams.Resources, Version=14.0.0.0, Culture=zh-Hans, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Buffalo.DBTools\Microsoft.VisualStudio.EnterpriseTools\VS2015\Microsoft.VisualStudio.Modeling.Diagrams.Resources.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Modeling.Sdk.Diagrams.GraphObject.11.0, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Buffalo.DBTools\Microsoft.VisualStudio.EnterpriseTools\VS2015\Microsoft.VisualStudio.Modeling.Sdk.Diagrams.GraphObject.11.0.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Modeling.Sdk.Diagrams.GraphObject.12.0, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Buffalo.DBTools\Microsoft.VisualStudio.EnterpriseTools\VS2015\Microsoft.VisualStudio.Modeling.Sdk.Diagrams.GraphObject.12.0.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Modeling.Sdk.Diagrams.GraphObject.14.0, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Buffalo.DBTools\Microsoft.VisualStudio.EnterpriseTools\VS2015\Microsoft.VisualStudio.Modeling.Sdk.Diagrams.GraphObject.14.0.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.OLE.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.OLE.Interop.7.10.6070\lib\Microsoft.VisualStudio.OLE.Interop.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.14.0, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.Shell.14.0.14.0.23107\lib\Microsoft.VisualStudio.Shell.14.0.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Immutable.10.0, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.Shell.Immutable.10.0.10.0.30319\lib\net40\Microsoft.VisualStudio.Shell.Immutable.10.0.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Immutable.11.0, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.Shell.Immutable.11.0.11.0.50727\lib\net45\Microsoft.VisualStudio.Shell.Immutable.11.0.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Immutable.12.0, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.Shell.Immutable.12.0.12.0.21003\lib\net45\Microsoft.VisualStudio.Shell.Immutable.12.0.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Immutable.14.0, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.Shell.Immutable.14.0.14.0.23107\lib\net45\Microsoft.VisualStudio.Shell.Immutable.14.0.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.Shell.Interop.7.10.6071\lib\Microsoft.VisualStudio.Shell.Interop.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.10.0, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\packages\Microsoft.VisualStudio.Shell.Interop.10.0.10.0.30319\lib\Microsoft.VisualStudio.Shell.Interop.10.0.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.11.0, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\packages\Microsoft.VisualStudio.Shell.Interop.11.0.11.0.61030\lib\Microsoft.VisualStudio.Shell.Interop.11.0.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.12.0, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\packages\Microsoft.VisualStudio.Shell.Interop.12.0.12.0.30110\lib\Microsoft.VisualStudio.Shell.Interop.12.0.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.8.0, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.Shell.Interop.8.0.8.0.50727\lib\Microsoft.VisualStudio.Shell.Interop.8.0.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.9.0, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.Shell.Interop.9.0.9.0.30729\lib\Microsoft.VisualStudio.Shell.Interop.9.0.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TextManager.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.TextManager.Interop.7.10.6070\lib\Microsoft.VisualStudio.TextManager.Interop.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TextManager.Interop.8.0, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.TextManager.Interop.8.0.8.0.50727\lib\Microsoft.VisualStudio.TextManager.Interop.8.0.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Threading, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.Threading.14.0.50702\lib\net45\Microsoft.VisualStudio.Threading.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Utilities, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.Utilities.14.0.23107\lib\net45\Microsoft.VisualStudio.Utilities.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Validation, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.Validation.14.0.50702\lib\net45\Microsoft.VisualStudio.Validation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MySql.Data, Version=6.8.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\dll\dll\Net4.5.1\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="stdole, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CommandBar.resx" />
+    <EmbeddedResource Include="FrmAllTables.resx">
+      <DependentUpon>FrmAllTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmClassDesigner.resx">
+      <DependentUpon>FrmClassDesigner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmDBCreate.resx">
+      <DependentUpon>FrmDBCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmDBSetting.resx">
+      <DependentUpon>FrmDBSetting.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmProcess.resx">
+      <DependentUpon>FrmProcess.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Models.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Models.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIHelper\FrmCompileResault.resx">
+      <DependentUpon>FrmCompileResault.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIHelper\FrmUIGenerater.resx">
+      <DependentUpon>FrmUIGenerater.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VSPackage.resx">
+      <MergeWithCTO>true</MergeWithCTO>
+      <ManifestResourceName>VSPackage</ManifestResourceName>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Buffalo.Data.DB2\Buffalo2015.Data.DB2.csproj">
+      <Project>{421a6af4-de30-47d4-9aa1-4b573a31c5f3}</Project>
+      <Name>Buffalo2015.Data.DB2</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Buffalo.Data.MySQL\Buffalo2015.Data.MySQL.csproj">
+      <Project>{687614c3-2681-403a-998a-ada65e02ea64}</Project>
+      <Name>Buffalo2015.Data.MySQL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Buffalo.Data.Oracle12\Buffalo2015.Data.Oracle11.csproj">
+      <Project>{c38522e1-35ba-40f7-a1e9-716d52bb6c04}</Project>
+      <Name>Buffalo2015.Data.Oracle11</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Buffalo.Data.Oracle12\Buffalo2015.Data.Oracle12.csproj">
+      <Project>{481a477b-af05-48f7-adf3-34ff703d8366}</Project>
+      <Name>Buffalo2015.Data.Oracle12</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Buffalo.Data.PostgreSQL\Buffalo2015.Data.PostgreSQL.csproj">
+      <Project>{ef96ea11-c57a-4de0-97f7-1ab7e20ca0bd}</Project>
+      <Name>Buffalo2015.Data.PostgreSQL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Buffalo.Data.SQLite\Buffalo2015.Data.SQLite.csproj">
+      <Project>{d7ca14c3-1869-4928-91e4-3584de3823c2}</Project>
+      <Name>Buffalo2015.Data.SQLite</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Buffalo.DB\Buffalo2015.DB.csproj">
+      <Project>{9b0043e4-883b-47ba-9a5a-5110c8583902}</Project>
+      <Name>Buffalo2015.DB</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Buffalo.GeneratorInfo\Buffalo2015.GeneratorInfo.csproj">
+      <Project>{6320c7dc-d4ae-4ea5-a2ab-b08b59062868}</Project>
+      <Name>Buffalo2015.GeneratorInfo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Buffalo.Kernel\Buffalo2015.Kernel.csproj">
+      <Project>{6ec04216-a422-4751-aa81-1211dcb10bab}</Project>
+      <Name>Buffalo2015.Kernel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Buffalo.WebKernel\Buffalo2015.WebKernel.csproj">
+      <Project>{cbd39541-7a26-4c92-a369-0f2df5d13030}</Project>
+      <Name>Buffalo2015.WebKernel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Buffalo.Win32Kernel\Buffalo2015.Win32Kernel.csproj">
+      <Project>{48492bad-6312-4a80-a660-c0da04957227}</Project>
+      <Name>Buffalo2015.Win32Kernel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Buffalo.WinFormsControl\Buffalo2015.WinFormsControl.csproj">
+      <Project>{e7808223-2e0f-44c3-a39d-26cf22a9d946}</Project>
+      <Name>Buffalo2015.WinFormsControl</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>此项目引用这台计算机上缺少的 NuGet 程序包。使用 NuGet 程序包还原可下载这些程序包。有关详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\Microsoft.VSSDK.BuildTools.14.0.23107\build\Microsoft.VSSDK.BuildTools.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.VSSDK.BuildTools.14.0.23107\build\Microsoft.VSSDK.BuildTools.props'))" />
+    <Error Condition="!Exists('..\..\packages\Microsoft.VSSDK.BuildTools.14.0.23107\build\Microsoft.VSSDK.BuildTools.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.VSSDK.BuildTools.14.0.23107\build\Microsoft.VSSDK.BuildTools.targets'))" />
+  </Target>
+  <Import Project="..\..\packages\Microsoft.VSSDK.BuildTools.14.0.23107\build\Microsoft.VSSDK.BuildTools.targets" Condition="Exists('..\..\packages\Microsoft.VSSDK.BuildTools.14.0.23107\build\Microsoft.VSSDK.BuildTools.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

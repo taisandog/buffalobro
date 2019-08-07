@@ -1,0 +1,280 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <!--  This is the file that defines the actual layout and type of the commands.
+        It is divided in different sections (e.g. command definition, command
+        placement, ...), with each defining a specific set of properties.
+        See the comment before each section for more details about how to
+        use it. -->
+
+  <!--  The VSCT compiler (the tool that translates this file into the binary
+        format that VisualStudio will consume) has the ability to run a preprocessor
+        on the vsct file; this preprocessor is (usually) the C++ preprocessor, so
+        it is possible to define includes and macros with the same syntax used
+        in C++ files. Using this ability of the compiler here, we include some files
+        defining some of the constants that we will use inside the file. -->
+
+  <!--This is the file that defines the IDs for all the commands exposed by VisualStudio. -->
+  <Extern href="stdidcmd.h"/>
+
+  <!--This header contains the command ids for the menus provided by the shell. -->
+  <Extern href="vsshlids.h"/>
+
+  <!--The Commands section is where commands, menus, and menu groups are defined.
+      This section uses a Guid to identify the package that provides the command defined inside it. -->
+  <Commands package="guidBuffaloToolsPackage">
+    <!-- Inside this section we have different sub-sections: one for the menus, another
+    for the menu groups, one for the buttons (the actual commands), one for the combos
+    and the last one for the bitmaps used. Each element is identified by a command id that
+    is a unique pair of guid and numeric identifier; the guid part of the identifier is usually
+    called "command set" and is used to group different command inside a logically related
+    group; your package should define its own command set in order to avoid collisions
+    with command ids defined by other packages. -->
+
+    <!-- In this section you can define new menu groups. A menu group is a container for
+         other menus or buttons (commands); from a visual point of view you can see the
+         group as the part of a menu contained between two lines. The parent of a group
+         must be a menu. -->
+    <Groups>
+      <!-- 类图右键菜单分组 -->
+      <Group guid="guidBuffaloToolsPackageCmdSet" id="grpClassDiagramContextMenu" priority="0x0100">
+        <Parent guid="guidClassDiagramContextMenu" id="cmdContextMenu"/>
+      </Group>
+
+      <!-- 类图右键菜单项分组 -->
+      <Group guid="guidBuffaloToolsPackageCmdSet" id="grpClassDiagramContextMenuItems" priority="0x0600">
+        <Parent guid="guidBuffaloToolsPackageCmdSet" id="buffaloClassDiagramMenu"/>
+      </Group>
+
+
+
+      <!-- 类图形右键菜单分组 -->
+      <Group guid="guidBuffaloToolsPackageCmdSet2" id="grpClassDiagramContextMenu2" priority="0x0101">
+        <Parent guid="guidClassDiagramContextMenu" id="cmdContextMenu2"/>
+      </Group>
+
+      <!-- 类图形右键菜单项分组 -->
+      <Group guid="guidBuffaloToolsPackageCmdSet2" id="grpClassDiagramContextMenuItems2" priority="0x0601">
+        <Parent guid="guidBuffaloToolsPackageCmdSet2" id="buffaloClassDiagramMenu2"/>
+      </Group>
+
+
+    </Groups>
+    
+    
+    
+    <Menus>
+      <!-- 类图右键菜单组 -->
+      <Menu guid="guidBuffaloToolsPackageCmdSet" id="buffaloClassDiagramMenu" priority="0x050" type="Menu">
+        <Parent guid="guidBuffaloToolsPackageCmdSet" id="grpClassDiagramContextMenu" />
+        <Strings>
+          <ButtonText>Buffalo工具</ButtonText>
+        </Strings>
+      </Menu>
+
+
+      <!-- 类图形右键菜单组 -->
+      <Menu guid="guidBuffaloToolsPackageCmdSet2" id="buffaloClassDiagramMenu2" priority="0x060" type="Menu">
+        <Parent guid="guidBuffaloToolsPackageCmdSet2" id="grpClassDiagramContextMenu2" />
+        <Strings>
+          <ButtonText>Buffalo类工具</ButtonText>
+        </Strings>
+      </Menu>
+    </Menus>
+    
+    
+    
+    <!--Buttons section. -->
+    <!--This section defines the elements the user can interact with, like a menu command or a button
+        or combo box in a toolbar. -->
+    <Buttons>
+      <!--To define a menu group you have to specify its ID, the parent menu and its display priority.
+          The command is visible and enabled by default. If you need to change the visibility, status, etc, you can use
+          the CommandFlag node.
+          You can add more than one CommandFlag node e.g.:
+              <CommandFlag>DefaultInvisible</CommandFlag>
+              <CommandFlag>DynamicVisibility</CommandFlag>
+          If you do not want an image next to your command, remove the Icon node /> -->
+      <Button guid="guidBuffaloToolsPackageCmdSet" id="BuffaloDBToEntity" priority="0x0100" type="Button">
+        <Parent guid="guidBuffaloToolsPackageCmdSet" id="grpClassDiagramContextMenuItems" />
+        <Icon guid="pic0100" id="bmpPic1" />
+        <Strings>
+          <ButtonText>表到实体</ButtonText>
+        </Strings>
+      </Button>
+
+
+      <Button guid="guidBuffaloToolsPackageCmdSet" id="BuffaloShowHideSummery" priority="0x0200" type="Button">
+        <Parent guid="guidBuffaloToolsPackageCmdSet" id="grpClassDiagramContextMenuItems" />
+        <Icon guid="pic0200" id="bmpPic1" />
+        <Strings>
+          <ButtonText>显示/隐藏注释</ButtonText>
+        </Strings>
+      </Button>
+      
+      <Button guid="guidBuffaloToolsPackageCmdSet" id="BuffaloDBCreateAll" priority="0x0300" type="Button">
+        <Parent guid="guidBuffaloToolsPackageCmdSet" id="grpClassDiagramContextMenuItems" />
+        <Icon guid="pic0300" id="bmpPic1" />
+        <Strings>
+          <ButtonText>生成数据库</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="guidBuffaloToolsPackageCmdSet" id="commandGenDal" priority="0x0400" type="Button">
+        <Parent guid="guidBuffaloToolsPackageCmdSet" id="grpClassDiagramContextMenuItems" />
+        <Icon guid="pic0400" id="bmpPic1" />
+        <Strings>
+          <ButtonText>生成数据层</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="guidBuffaloToolsPackageCmdSet" id="BuffaloDBSet" priority="0x0500" type="Button">
+        <Parent guid="guidBuffaloToolsPackageCmdSet" id="grpClassDiagramContextMenuItems" />
+        <Icon guid="pic0500" id="bmpPic1" />
+        <Strings>
+          <ButtonText>设置参数</ButtonText>
+        </Strings>
+      </Button>
+
+      
+      
+
+      <Button guid="guidBuffaloToolsPackageCmdSet2" id="BuffaloEntityConfig" priority="0x0101" type="Button">
+        <Parent guid="guidBuffaloToolsPackageCmdSet2" id="grpClassDiagramContextMenuItems2" />
+        <Icon guid="pic0101" id="bmpPic1" />
+        <Strings>
+          <ButtonText>配置实体</ButtonText>
+        </Strings>
+      </Button>
+
+
+      <Button guid="guidBuffaloToolsPackageCmdSet2" id="BuffaloDBCreater" priority="0x0201" type="Button">
+        <Parent guid="guidBuffaloToolsPackageCmdSet2" id="grpClassDiagramContextMenuItems2" />
+        <Icon guid="pic0201" id="bmpPic1" />
+        <Strings>
+          <ButtonText>实体到表</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="guidBuffaloToolsPackageCmdSet2" id="BuffaloUpdateEntityByDB" priority="0x0301" type="Button">
+        <Parent guid="guidBuffaloToolsPackageCmdSet2" id="grpClassDiagramContextMenuItems2" />
+        <Icon guid="pic0301" id="bmpPic1" />
+        <Strings>
+          <ButtonText>更新实体</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="guidBuffaloToolsPackageCmdSet2" id="BuffaloEntityRemove" priority="0x0401" type="Button">
+        <Parent guid="guidBuffaloToolsPackageCmdSet2" id="grpClassDiagramContextMenuItems2" />
+        <Icon guid="pic0401" id="bmpPic1" />
+        <Strings>
+          <ButtonText>删除实体</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="guidBuffaloToolsPackageCmdSet2" id="BuffaloUI" priority="0x0501" type="Button">
+        <Parent guid="guidBuffaloToolsPackageCmdSet2" id="grpClassDiagramContextMenuItems2" />
+        <Icon guid="pic0501" id="bmpPic1" />
+        <Strings>
+          <ButtonText>界面生成</ButtonText>
+        </Strings>
+      </Button>
+    </Buttons>
+
+    <!--The bitmaps section is used to define the bitmaps that are used for the commands.-->
+    <Bitmaps>
+      <!--  The bitmap id is defined in a way that is a little bit different from the others:
+            the declaration starts with a guid for the bitmap strip, then there is the resource id of the
+            bitmap strip containing the bitmaps and then there are the numeric ids of the elements used
+            inside a button definition. An important aspect of this declaration is that the element id
+            must be the actual index (1-based) of the bitmap inside the bitmap strip. -->
+      <!-- <Bitmap guid="guidImages" href="Resources\BuffaloToolCDCommand.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough"/>-->
+      <Bitmap guid="pic0100" href="Resources\pic0100.png" usedList="bmpPic1"/>
+      <Bitmap guid="pic0101" href="Resources\pic0101.png" usedList="bmpPic1"/>
+      <Bitmap guid="pic0200" href="Resources\pic0200.png" usedList="bmpPic1"/>
+      <Bitmap guid="pic0201" href="Resources\pic0201.png" usedList="bmpPic1"/>
+      <Bitmap guid="pic0300" href="Resources\pic0300.png" usedList="bmpPic1"/>
+      <Bitmap guid="pic0301" href="Resources\pic0301.png" usedList="bmpPic1"/>
+      <Bitmap guid="pic0400" href="Resources\pic0400.png" usedList="bmpPic1"/>
+      <Bitmap guid="pic0401" href="Resources\pic0401.png" usedList="bmpPic1"/>
+      <Bitmap guid="pic0500" href="Resources\pic0500.png" usedList="bmpPic1"/>
+      <Bitmap guid="pic0501" href="Resources\pic0501.png" usedList="bmpPic1"/>
+    </Bitmaps>
+  </Commands>
+
+  <Symbols>
+    
+    <!-- This is the package guid. -->
+    <GuidSymbol name="guidBuffaloToolsPackage" value="{b6b344d1-9ffa-487a-a1e4-e0a3da0d17a1}" />
+
+    <!-- This is the guid used to group the menu commands together -->
+    <GuidSymbol name="guidBuffaloToolsPackageCmdSet" value="{4841c4b5-cdfe-4428-9237-34bd8932872f}">
+      <IDSymbol name="grpClassDiagramContextMenu" value="0x1000" />
+      <IDSymbol name="grpClassDiagramContextMenuItems" value="0x1010" />
+      <IDSymbol name="buffaloClassDiagramMenu" value="0x1020" />
+      <IDSymbol name="BuffaloDBToEntity" value="0x1030" />
+      <IDSymbol name="BuffaloShowHideSummery" value="0x1040" />
+      <IDSymbol name="BuffaloDBCreateAll" value="0x1050" />
+      <IDSymbol name="commandGenDal" value="0x1060" />
+      <IDSymbol name="BuffaloDBSet" value="0x1070" />
+    </GuidSymbol>
+
+    <GuidSymbol name="guidBuffaloToolsPackageCmdSet2" value="{22A4E5D6-9A91-43A9-83E2-5A67F5807BAF}">
+      <IDSymbol name="grpClassDiagramContextMenu2" value="0x2000" />
+      <IDSymbol name="grpClassDiagramContextMenuItems2" value="0x2010" />
+      <IDSymbol name="buffaloClassDiagramMenu2" value="0x2020" />
+      <IDSymbol name="BuffaloEntityConfig" value="0x2030" />
+      <IDSymbol name="BuffaloDBCreater" value="0x2040" />
+      <IDSymbol name="BuffaloUpdateEntityByDB" value="0x2050" />
+      <IDSymbol name="BuffaloEntityRemove" value="0x2060" />
+      <IDSymbol name="BuffaloUI" value="0x2070" />
+        
+    </GuidSymbol>
+    <!-- 类图右键菜单ID -->
+    <GuidSymbol name="guidClassDiagramContextMenu" value="{f5eac013-f209-453b-a2f3-cdf43821c24e}">
+      <!-- 空白处 -->
+      <IDSymbol name="cmdContextMenu" value="0x150" />
+      <!-- 点击类图图形 -->
+      <IDSymbol name="cmdContextMenu2" value="0x100" />
+      
+    </GuidSymbol>
+    
+    <GuidSymbol name="pic0100" value="{f5259453-8959-45ec-983b-5f284c85d0d8}" >
+      <IDSymbol name="bmpPic1" value="1" />
+    </GuidSymbol>
+    <GuidSymbol name="pic0200" value="{f5259453-8959-45ec-983b-5f284c85d0d9}" >
+      <IDSymbol name="bmpPic1" value="1" />
+    </GuidSymbol>
+    <GuidSymbol name="pic0300" value="{f5259453-8959-45ec-983b-5f284c85d0da}" >
+      <IDSymbol name="bmpPic1" value="1" />
+    </GuidSymbol>
+    <GuidSymbol name="pic0400" value="{f5259453-8959-45ec-983b-5f284c85d0db}" >
+      <IDSymbol name="bmpPic1" value="1" />
+    </GuidSymbol>
+    <GuidSymbol name="pic0500" value="{f5259453-8959-45ec-983b-5f284c85d0dc}" >
+      <IDSymbol name="bmpPic1" value="1" />
+    </GuidSymbol>
+    <GuidSymbol name="pic0101" value="{f5259453-8959-45ec-983b-5f284c85d0dd}" >
+      <IDSymbol name="bmpPic1" value="1" />
+    </GuidSymbol>
+    <GuidSymbol name="pic0201" value="{f5259453-8959-45ec-983b-5f284c85d0de}" >
+      <IDSymbol name="bmpPic1" value="1" />
+    </GuidSymbol>
+    <GuidSymbol name="pic0301" value="{f5259453-8959-45ec-983b-5f284c85d0df}" >
+      <IDSymbol name="bmpPic1" value="1" />
+    </GuidSymbol>
+    <GuidSymbol name="pic0401" value="{f5259453-8959-45ec-983b-5f284c85d0d0}" >
+      <IDSymbol name="bmpPic1" value="1" />
+    </GuidSymbol>
+    <GuidSymbol name="pic0501" value="{f5259453-8959-45ec-983b-5f284c85d0d1}" >
+      <IDSymbol name="bmpPic1" value="1" />
+    </GuidSymbol>
+  </Symbols>
+</CommandTable>
+
+
+<!-- 
+  教程出处 ：http://www.cnblogs.com/jiangjun0817/p/4106718.html
+  获取右键菜单技巧：
+  按着右键 ==> 按下Ctrl+Shift ==> 右键放手
+  -->
