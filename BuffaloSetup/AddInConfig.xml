@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root date="2019-08-06 14:38:00">
+<AddIns>
+  <AddIn file="AddIns\Net2.0\Buffalo.DBTools.dll" version="8.0" addin="Visual Studio 2005"></AddIn>
+  <AddIn file="AddIns\Net3.5\Buffalo.DBTools.dll" version="9.0" addin="Visual Studio 2008"></AddIn>
+  <AddIn file="AddIns\Net4.0\Buffalo.DBTools.dll" version="10.0" addin="Visual Studio 2010"></AddIn>
+  <AddIn file="AddIns\Net4.5\Buffalo.DBTools.dll" version="11.0" addin="Visual Studio 2012"></AddIn>
+  <AddIn file="AddIns\Net4.5.1\Buffalo.DBTools.dll" version="12.0" addin="Visual Studio 2013"></AddIn>
+  <AddIn file="AddIns\Net4.6\Buffalo2015.DBToolsPackage.vsix" version="14.0" addin="Visual Studio 2015" isvsix="1"></AddIn>
+  <AddIn file="AddIns\Net4.6.2\Buffalo.DBToolsPackage2017.vsix" version="15.0" addin="Visual Studio 2017" isvsix="1"></AddIn>
+</AddIns>
+  <DllVer>
+    <net ver="2.0" path="AddIns\Net2.0\"></net>
+    <net ver="3.5" path="AddIns\Net3.5\"></net>
+    <net ver="4.0" path="AddIns\Net4.0\"></net>
+    <net ver="4.5" path="AddIns\Net4.5\"></net>
+    <net ver="4.5.1" path="AddIns\Net4.5.1\"></net>
+    <net ver="4.6" path="AddIns\Net4.6\"></net>
+    <net ver="4.6.2" path="AddIns\Net4.6.2\"></net>
+  </DllVer>
+  <Dlls>
+    <item des="核心库" name="Buffalo.Kernel" selected="1">
+      <file path="Buffalo.Kernel.dll" main="1"></file>
+      <file path="Buffalo.Kernel.XML"></file>
+    </item>
+    <item des="数据操作库"  name="Buffalo.DB" selected="1">
+      <file path="Buffalo.DB.dll" main="1"></file>
+      <file path="Buffalo.DB.XML"></file>
+    </item>
+	<item des="Json化的参数值库"  name="Buffalo.ArgCommon" selected="0">
+		<file path="Buffalo.ArgCommon.dll" main="1"></file>
+		<file path="Buffalo.ArgCommon.xml"></file>
+    </item>
+    <item des="Web工具库"  name="Buffalo.WebKernel" selected="0">
+      <file path="Buffalo.WebKernel.dll" main="1"></file>
+      <file path="Buffalo.WebKernel.XML"></file>
+      <file path="ICSharpCode.SharpZipLib.dll"></file>
+      <file path="ICSharpCode.SharpZipLib.XML"></file>
+    </item>
+    <item des="Win32工具库"  name="Buffalo.Win32Kernel" selected="0">
+      <file path="Buffalo.Win32Kernel.dll" main="1"></file>
+      <file path="Buffalo.Win32Kernel.XML"></file>
+    </item>
+    <item des="缓存支持(Memcached/Redis)"  name="Buffalo.QueryCache" ignore="2.0" selected="0">
+      <file path="Buffalo.QueryCache.dll" main="1"></file>
+      <file path="Buffalo.QueryCache.XML"></file>
+      <file path="Enyim.Caching.dll"></file>
+      <file path="Enyim.Caching.xml"></file>
+      <file path="ServiceStack.Common.dll"></file>
+      <file path="ServiceStack.Common.xml"></file>
+      <file path="ServiceStack.Interfaces.dll"></file>
+      <file path="ServiceStack.Interfaces.xml"></file>
+      <file path="ServiceStack.Redis.dll"></file>
+      <file path="ServiceStack.Redis.xml"></file>
+      <file path="ServiceStack.Text.dll"></file>
+      <file path="ServiceStack.Text.xml"></file>
+	  <file path="StackExchange.Redis.dll"></file>
+      <file path="StackExchange.Redis.xml"></file>
+    </item>
+	<item des="对象存储支持"  name="Buffalo.Storage" ignore="2.0,3.5" selected="0">
+		  <file path="Buffalo.Storage.dll" main="1"></file>
+		  <file path="Buffalo.Storage.XML"></file>
+		  <file path="Buffalo.ArgCommon.dll"></file>
+		  <file path="Buffalo.ArgCommon.xml"></file>
+    </item>
+    <item des="MySQL支持"  name="Buffalo.Data.MySQL" isDB="1" selected="0">
+      <file path="Buffalo.Data.MySQL.dll" main="1"></file>
+      <file path="Buffalo.Data.MySQL.XML"></file>
+      <file path="MySql.Data.dll"></file>
+    </item>
+    <item des="DB2支持"  name="Buffalo.Data.DB2" isDB="1" selected="0">
+      <file path="Buffalo.Data.DB2.dll" main="1"></file>
+      <file path="Buffalo.Data.DB2.XML"></file>
+      <file path="IBM.Data.DB2.dll"></file>
+    </item>
+    <item des="PostgreSQL支持"  name="Buffalo.Data.PostgreSQL" isDB="1" selected="0">
+      <file path="Buffalo.Data.PostgreSQL.dll" main="1"></file>
+      <file path="Buffalo.Data.PostgreSQL.XML"></file>
+      <file path="Npgsql.dll"></file>
+      <file path="Npgsql.xml"></file>
+	  <file path="Mono.Security.dll"></file>
+    </item>
+
+    <item des="SQLite支持"  name="Buffalo.Data.SQLite" isDB="1" selected="0">
+      <file path="Buffalo.Data.SQLite.dll" main="1"></file>
+      <file path="Buffalo.Data.SQLite.XML"></file>
+      <file path="System.Data.SQLite.dll"></file>
+      <file path="System.Data.SQLite.XML"></file>
+      <file path="x86\SQLite.Interop.dll"></file>
+      <file path="x64\SQLite.Interop.dll"></file>
+    </item>
+    <item des="Oracle11(ODAC)"  name="Buffalo.Data.Oracle" isDB="1" selected="0">
+      <file path="Oracle11\Buffalo.Data.Oracle11.dll" main="1"></file>
+      <file path="Oracle11\Buffalo.Data.Oracle11.XML"></file>
+      <file path="Oracle11\Oracle.DataAccess.dll"></file>
+      <file path="Oracle11\X64\Buffalo.Data.Oracle11.dll"></file>
+      <file path="Oracle11\X64\Buffalo.Data.Oracle11.XML"></file>
+      <file path="Oracle11\X64\Oracle.DataAccess.dll"></file>
+    </item>
+    <item des="Oracle12(ODAC)"  name="Buffalo.Data.Oracle" isDB="1" selected="0">
+      <file path="Oracle12\Buffalo.Data.Oracle12.dll" main="1"></file>
+      <file path="Oracle12\Buffalo.Data.Oracle12.XML"></file>
+	  <file path="Oracle12\Oracle.DataAccess.dll"></file>
+	  <file path="Oracle12\X64\Buffalo.Data.Oracle12.dll"></file>
+      <file path="Oracle12\X64\Buffalo.Data.Oracle12.XML"></file>
+	  <file path="Oracle12\X64\Oracle.DataAccess.dll"></file>
+    </item>
+  </Dlls>
+</root>
