@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<class TableName="SampleGression" ClassName="ManagementLib.SampleGression" IsTable="1" BelongDB="Management">
-  <property FieldName="_id" PropertyName="Id" DbType="Int32" Length="10" EntityPropertyType="10" ParamName="id" ReadOnly="0" />
-  <property FieldName="_sampleCode" PropertyName="SampleCode" DbType="AnsiString" Length="200" EntityPropertyType="1" ParamName="sampleCode" ReadOnly="0" />
-  <property FieldName="_storageId" PropertyName="StorageId" DbType="Int32" Length="10" EntityPropertyType="1" ParamName="storageId" ReadOnly="0" />
-  <property FieldName="_goodShelfId" PropertyName="GoodShelfId" DbType="Int32" Length="10" EntityPropertyType="1" ParamName="goodShelfId" ReadOnly="0" />
-  <property FieldName="_goodLocationId" PropertyName="GoodLocationId" DbType="Int32" Length="10" EntityPropertyType="1" ParamName="goodLocationId" ReadOnly="0" />
-  <relation FieldName="_belongGoodsLocation_GoodLocationId_Id" PropertyName="BelongGoodsLocation_GoodLocationId_Id" SourceProperty="GoodLocationId" TargetProperty="Id" IsToDB="1" IsParent="1" />
-</class>

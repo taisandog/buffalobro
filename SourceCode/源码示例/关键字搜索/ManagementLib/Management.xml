@@ -1,2 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<config connectionString="server=.;database=Management;uid=sa;pwd=111111" dbType="Sql2K5" appnamespace="ManagementLib.DataAccess.Sql2K5" assembly="" name="Management" tier="1" isAllDal="0" summary="7" />

@@ -1,9 +1,0 @@
-E:\CSharpTest\BuffaloDBCode\SourceCode\源码示例\旋转屏幕\RotateScreen\obj\Release\RotateScreen.exe
-E:\CSharpTest\BuffaloDBCode\SourceCode\源码示例\旋转屏幕\RotateScreen\obj\Release\RotateScreen.pdb
-E:\CSharpTest\BuffaloDBCode\SourceCode\源码示例\旋转屏幕\RotateScreen\bin\Release\RotateScreen.exe.config
-E:\CSharpTest\BuffaloDBCode\SourceCode\源码示例\旋转屏幕\RotateScreen\bin\Release\RotateScreen.exe
-E:\CSharpTest\BuffaloDBCode\SourceCode\源码示例\旋转屏幕\RotateScreen\bin\Release\RotateScreen.pdb
-E:\CSharpTest\BuffaloDBCode\SourceCode\源码示例\旋转屏幕\RotateScreen\obj\Release\RotateScreen.csprojResolveAssemblyReference.cache
-E:\CSharpTest\BuffaloDBCode\SourceCode\源码示例\旋转屏幕\RotateScreen\obj\Release\RotateScreen.Form1.resources
-E:\CSharpTest\BuffaloDBCode\SourceCode\源码示例\旋转屏幕\RotateScreen\obj\Release\RotateScreen.Properties.Resources.resources
-E:\CSharpTest\BuffaloDBCode\SourceCode\源码示例\旋转屏幕\RotateScreen\obj\Release\RotateScreen.csproj.GenerateResource.Cache

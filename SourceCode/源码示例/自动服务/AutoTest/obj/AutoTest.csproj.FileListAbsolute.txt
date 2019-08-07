@@ -1,9 +1,0 @@
-E:\CShareTest\Buffalobro\SourceCode\源码示例\自动服务\AutoTest\obj\Debug\ResolveAssemblyReference.cache
-E:\CShareTest\Buffalobro\SourceCode\源码示例\自动服务\AutoTest\obj\Debug\AutoTest.Properties.Resources.resources
-E:\CShareTest\Buffalobro\SourceCode\源码示例\自动服务\AutoTest\obj\Debug\AutoTest.csproj.GenerateResource.Cache
-E:\CShareTest\Buffalobro\SourceCode\源码示例\自动服务\AutoTest\bin\Debug\AutoTest.exe
-E:\CShareTest\Buffalobro\SourceCode\源码示例\自动服务\AutoTest\bin\Debug\AutoTest.pdb
-E:\CShareTest\Buffalobro\SourceCode\源码示例\自动服务\AutoTest\bin\Debug\AutoServices.dll
-E:\CShareTest\Buffalobro\SourceCode\源码示例\自动服务\AutoTest\bin\Debug\AutoServices.pdb
-E:\CShareTest\Buffalobro\SourceCode\源码示例\自动服务\AutoTest\obj\Debug\AutoTest.exe
-E:\CShareTest\Buffalobro\SourceCode\源码示例\自动服务\AutoTest\obj\Debug\AutoTest.pdb

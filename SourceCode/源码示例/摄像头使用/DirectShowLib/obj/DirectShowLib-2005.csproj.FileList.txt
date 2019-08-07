@@ -1,5 +1,0 @@
-bin\Debug\DirectShowLib-2005.dll
-bin\Debug\DirectShowLib-2005.pdb
-obj\Debug\ResolveAssemblyReference.cache
-obj\Debug\DirectShowLib-2005.dll
-obj\Debug\DirectShowLib-2005.pdb

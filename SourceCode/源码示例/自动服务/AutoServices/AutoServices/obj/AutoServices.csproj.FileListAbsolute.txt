@@ -1,7 +1,0 @@
-E:\CShareTest\Buffalobro\SourceCode\源码示例\自动服务\AutoServices\AutoServices\obj\Debug\ResolveAssemblyReference.cache
-E:\CShareTest\Buffalobro\SourceCode\源码示例\自动服务\AutoServices\AutoServices\bin\Debug\AutoServices.dll
-E:\CShareTest\Buffalobro\SourceCode\源码示例\自动服务\AutoServices\AutoServices\bin\Debug\AutoServices.pdb
-E:\CShareTest\Buffalobro\SourceCode\源码示例\自动服务\AutoServices\AutoServices\bin\Debug\Buffalo.Kernel.dll
-E:\CShareTest\Buffalobro\SourceCode\源码示例\自动服务\AutoServices\AutoServices\bin\Debug\Buffalo.Kernel.xml
-E:\CShareTest\Buffalobro\SourceCode\源码示例\自动服务\AutoServices\AutoServices\obj\Debug\AutoServices.dll
-E:\CShareTest\Buffalobro\SourceCode\源码示例\自动服务\AutoServices\AutoServices\obj\Debug\AutoServices.pdb
