@@ -1,0 +1,89 @@
+<#script type="linked">
+
+</#script>
+
+<#script type="using">
+
+</#script>
+
+<#script type="code">
+using System;
+using System.Collections.Generic;
+using System.Text;
+using Buffalo.Permissions.DataViewInfo;
+using Buffalo.DB.BQLCommon.BQLConditionCommon;
+<#=Entity.GetValue("Using")#>
+namespace <#=Entity.GetValue("Namespace")#>
+{
+	public class <#=Entity.ClassName #>DataView:DataViewer
+	{
+		<# foreach(Property pro in SelectedPropertys ) {#>
+		private DataItem _<#=GetFieldName(pro.PropertyName)#>=null;
+		private DataItem <#=pro.PropertyName#>
+		{
+			get
+			{
+				return _<#=GetFieldName(pro.PropertyName)#>;
+			}
+			set
+			{
+				_<#=GetFieldName(pro.PropertyName)#>=value;
+			}
+		}
+		<#}#>
+		
+		/// <summary>
+        /// <#= Entity.Summary #>数据视图
+        /// </summary>
+        /// <param name="entityHandle">所属的实体信息</param>
+		public <#=Entity.ClassName #>DataView(BQLEntityTableHandle entityHandle)
+		:base(entityHandle)
+		{
+			<# foreach(Property pro in SelectedPropertys ) {#>
+			_<#=GetFieldName(pro.PropertyName)#>=CreateDataItem(<#=GetParamString(pro)#>);
+			<#}#>
+		}
+		
+	}
+}
+</#script>
+
+<#script type="method">
+/// <summary>
+/// 获取字段吿
+/// </summary>
+/// <param name="itemName">项名称</param>
+/// <returns></returns>
+public string GetFieldName(string name)
+{
+	string retName=name.Substring(0, 1).ToLower()+name.Substring(1, name.Length - 1);
+	return retName;
+	
+}
+
+/// <summary>
+/// 把属性信息转成初始化的参数信息
+/// </summary>
+/// <param name="pro">属性信息</param>
+/// <returns></returns>
+public string GetParamString(Property pro)
+{
+	StringBuilder sb=new StringBuilder();
+	sb.Append("\""+pro.PropertyName+"\"");
+	sb.Append(",");
+	sb.Append("typeof("+pro.TypeName+")");
+	sb.Append(",");
+	sb.Append(pro.HasItem("CanQuery")?"true":"false");
+	sb.Append(",");
+	sb.Append(pro.HasItem("CanAddNew")?"true":"false");
+	sb.Append(",");
+	sb.Append(pro.HasItem("CanEdit")?"true":"false");
+	sb.Append(",");
+	string sumType=pro.GetValue("SumType");
+	sb.Append(string.IsNullOrEmpty(sumType)?"SumType.None":"SumType."+sumType);
+	sb.Append(",");
+	string customer=pro.GetValue("CustomCount");
+	sb.Append(string.IsNullOrEmpty(customer)?"null":customer);
+	return sb.ToString();
+}
+</#script>
