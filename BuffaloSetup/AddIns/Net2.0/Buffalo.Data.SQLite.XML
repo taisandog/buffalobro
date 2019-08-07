@@ -1,0 +1,614 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Buffalo.Data.SQLite</name>
+    </assembly>
+    <members>
+        <member name="T:Buffalo.Data.SQLite.AggregateFunctions">
+            <summary>
+            聚合函数处理
+            </summary>
+        </member>
+        <member name="T:Buffalo.Data.SQLite.CutPageSqlCreater">
+            <summary>
+            生成分页语句的类
+            </summary>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.CutPageSqlCreater.CreatePageSql(Buffalo.DB.DbCommon.ParamList,Buffalo.DB.DbCommon.DataBaseOperate,Buffalo.DB.QueryConditions.SelectCondition,Buffalo.DB.QueryConditions.PageContent,System.Boolean)">
+            <summary>
+            生成SQL语句
+            </summary>
+            <param name="list">参数列表</param>
+            <param name="oper">连接对象</param>
+            <param name="objCondition">条件对象</param>
+            <param name="objPage">分页记录类</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.CutPageSqlCreater.GetCutPageSql(System.String,Buffalo.DB.QueryConditions.PageContent)">
+            <summary>
+            获取分页语句
+            </summary>
+            <param name="sql">要被分页的SQL</param>
+            <param name="objCondition">分页类</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.CutPageSqlCreater.GetTotalRecord(Buffalo.DB.DbCommon.ParamList,Buffalo.DB.DbCommon.DataBaseOperate,System.String,System.Int64,System.Collections.Generic.Dictionary{System.String,System.Boolean})">
+            <summary>
+            获取总记录数
+            </summary>
+            <param name="part">查询条件</param>
+            <param name="list">变量列表</param>
+            <param name="oper">通用类</param>
+        </member>
+        <member name="T:Buffalo.Data.SQLite.CursorPageCutter">
+            <summary>
+            游标分页
+            </summary>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.CursorPageCutter.Query(System.String,Buffalo.DB.DbCommon.ParamList,Buffalo.DB.QueryConditions.PageContent,Buffalo.DB.DbCommon.DataBaseOperate,System.Collections.Generic.Dictionary{System.String,System.Boolean})">
+            <summary>
+            查询并且返回集合(游标分页)
+            </summary>
+            <param name="sql">要查询的SQL语句</param>
+            <param name="lstParam">参数集合</param>
+            <param name="objPage">分页对象</param>
+            <param name="oper">数据库对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.CursorPageCutter.QueryDataTable(System.String,Buffalo.DB.DbCommon.ParamList,Buffalo.DB.QueryConditions.PageContent,Buffalo.DB.DbCommon.DataBaseOperate,System.Type,System.Collections.Generic.Dictionary{System.String,System.Boolean})">
+            <summary>
+            查询并且返回DataSet(游标分页)
+            </summary>
+            <param name="sql">要查询的SQL语句</param>
+            <param name="lstParam">参数集合</param>
+            <param name="objPage">分页对象</param>
+            <param name="oper">数据库对象</param>
+            <param name="curType">映射的实体类型(如果用回数据库的原列名，则此为null)</param>
+            <returns></returns>
+        </member>
+        <member name="T:Buffalo.Data.SQLite.DBStructure">
+            <summary>
+            数据库结构特性类
+            </summary>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.DBStructure.GetAllTableName(Buffalo.DB.DbCommon.DataBaseOperate,Buffalo.DB.DataBaseAdapter.DBInfo)">
+            <summary>
+            获取数据库中的所有表      
+            </summary>
+            <param name="oper"></param>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.DBStructure.IsSysTable(System.String)">
+            <summary>
+            是否系统表名
+            </summary>
+            <param name="tableName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.DBStructure.GetTableNames(Buffalo.DB.DbCommon.DataBaseOperate,Buffalo.DB.DataBaseAdapter.DBInfo,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            获取表信息
+            </summary>
+            <param name="oper"></param>
+            <param name="info"></param>
+            <param name="tableNames"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.DBStructure.GetAddParamSQL">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.DBStructure.GetRelation(Buffalo.DB.DbCommon.DataBaseOperate,Buffalo.DB.DataBaseAdapter.DBInfo,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            获取所有关系
+            </summary>
+            <param name="oper"></param>
+            <param name="info"></param>
+            <param name="childName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.DBStructure.GetTablesInfo(Buffalo.DB.DbCommon.DataBaseOperate,Buffalo.DB.DataBaseAdapter.DBInfo,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            获取表信息
+            </summary>
+            <param name="oper"></param>
+            <param name="info"></param>
+            <param name="tableNames"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.DBStructure.FillParam(Buffalo.DB.DataBaseAdapter.DBTableInfo,System.Data.DataRow,System.Data.DataTable)">
+            <summary>
+            填充字段信息
+            </summary>
+            <param name="table"></param>
+            <param name="reader"></param>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.DBStructure.FillDbType(System.String,Buffalo.DB.PropertyAttributes.EntityParam,System.Data.DataTable)">
+            <summary>
+            填充数据库类型
+            </summary>
+            <param name="nativeType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.DBStructure.OnCheckEvent(System.Object,Buffalo.DB.DataBaseAdapter.DBInfo,Buffalo.DB.DataBaseAdapter.IDbAdapters.CheckEvent,System.Collections.Generic.List{System.String})">
+            <summary>
+            数据库检查时候的事建
+            </summary>
+            <param name="arg">当前类型</param>
+            <param name="dbInfo">数据库类型</param>
+            <param name="type">检查类型</param>
+            <param name="lstSQL">SQL语句</param>
+        </member>
+        <member name="T:Buffalo.Data.SQLite.ConvertFunction">
+            <summary>
+            数值转换函数
+            </summary>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.ConvertFunction.GetFormat(System.String)">
+            <summary>
+            格式化字符串
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.ConvertFunction.DateTimeToString(System.String,System.String)">
+            <summary>
+            日期转字符串
+            </summary>
+            <param name="values"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.ConvertFunction.StringToDateTime(System.String,System.String)">
+            <summary>
+            字符串转成日期
+            </summary>
+            <param name="values"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.ConvertFunction.ConvetTo(System.String,System.Data.DbType)">
+            <summary>
+            把数据转成指定类型
+            </summary>
+            <param name="value">数据</param>
+            <param name="dbType">指定类型</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.ConvertFunction.GetSQLType(System.Data.DbType)">
+            <summary>
+            获取SQL语句中的数值类型
+            </summary>
+            <param name="dbType"></param>
+            <param name="length"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.MathFunctions.DoAbs(System.String[])">
+            <summary>
+            处理abs函数
+            </summary>
+            <param name="paramName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.MathFunctions.DoCeil(System.String[])">
+            <summary>
+            处理Ceil函数
+            </summary>
+            <param name="paramName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.MathFunctions.DoFloor(System.String[])">
+            <summary>
+            处理floor函数
+            </summary>
+            <param name="paramName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.MathFunctions.DoRound(System.String[])">
+            <summary>
+            处理round函数
+            </summary>
+            <param name="paramName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.MathFunctions.DoExp(System.String[])">
+            <summary>
+            处理exp函数
+            </summary>
+            <param name="paramName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.MathFunctions.DoLn(System.String[])">
+            <summary>
+            处理ln函数
+            </summary>
+            <param name="paramName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.MathFunctions.DoLog10(System.String[])">
+            <summary>
+            处理log函数
+            </summary>
+            <param name="paramName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.MathFunctions.DoSqrt(System.String[])">
+            <summary>
+            处理SQRT函数
+            </summary>
+            <param name="paramName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.MathFunctions.DoPower(System.String[])">
+            <summary>
+            处理power函数
+            </summary>
+            <param name="paramName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.MathFunctions.DoRandom(System.String[])">
+            <summary>
+            处理随机函数
+            </summary>
+            <param name="paramName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.MathFunctions.DoSign(System.String[])">
+            <summary>
+            处理Sign函数
+            </summary>
+            <param name="paramName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.MathFunctions.DoSin(System.String[])">
+            <summary>
+            处理Sin函数
+            </summary>
+            <param name="paramName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.MathFunctions.DoCos(System.String[])">
+            <summary>
+            处理Cos函数
+            </summary>
+            <param name="paramName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.MathFunctions.DoTan(System.String[])">
+            <summary>
+            处理Tan函数
+            </summary>
+            <param name="paramName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.MathFunctions.DoAsin(System.String[])">
+            <summary>
+            处理Asin函数
+            </summary>
+            <param name="paramName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.MathFunctions.DoAcos(System.String[])">
+            <summary>
+            处理Acos函数
+            </summary>
+            <param name="paramName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.MathFunctions.DoAtan(System.String[])">
+            <summary>
+            处理Atan函数
+            </summary>
+            <param name="paramName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.MathFunctions.DoAtan2(System.String[])">
+            <summary>
+            处理Atan2函数
+            </summary>
+            <param name="paramName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.MathFunctions.IndexOf(System.String[])">
+            <summary>
+            处理查找字符串函数
+            </summary>
+            <param name="paramName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.MathFunctions.SubString(System.String[])">
+            <summary>
+            处理截取字符串函数
+            </summary>
+            <param name="paramName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.DBAdapter.GetNowDate(System.Data.DbType)">
+            <summary>
+            获取当前时间
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.DBAdapter.GetUTCDate(System.Data.DbType)">
+            <summary>
+            获取格林威治时间
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.DBAdapter.GetTimeStamp(System.Data.DbType)">
+            <summary>
+            获取unix时间戳
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.DBAdapter.RebuildParamList(System.String@,Buffalo.DB.DbCommon.ParamList)">
+            <summary>
+            重建参数集合
+            </summary>
+            <param name="lstPrm"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.DBAdapter.GetColumnDescriptionSQL(Buffalo.DB.PropertyAttributes.EntityParam,Buffalo.DB.DataBaseAdapter.DBInfo)">
+            <summary>
+            获取在字段添加SQL
+            </summary>
+            <param name="table">表</param>
+            <param name="pInfo">字段（如果为空则设置表注释）</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.DBAdapter.GetDataParameter(System.String,System.Data.DbType,System.Object,System.Data.ParameterDirection)">
+            <summary>
+            获取参数类
+            </summary>
+            <param name="paramName">参数名</param>
+            <param name="type">参数数据库类型</param>
+            <param name="paramValue">参数值</param>
+            <param name="paramDir">参数进出类型</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.DBAdapter.GetTopSelectSql(Buffalo.DB.QueryConditions.SelectCondition,System.Int32)">
+            <summary>
+            获取top的查询字符串
+            </summary>
+            <param name="sql">查询字符串</param>
+            <param name="top">top值</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.DBAdapter.ToCurrentDbType(System.Data.DbType)">
+            <summary>
+            把数据类型转换成当前数据库支持的类型
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.DBAdapter.GetCommand">
+            <summary>
+            获取SQL命令类
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.DBAdapter.GetConnection(Buffalo.DB.DataBaseAdapter.DBInfo)">
+            <summary>
+            获取SQL连接
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.DBAdapter.GetAdapter">
+            <summary>
+            获取SQL适配器
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.DBAdapter.FormatParam(System.String)">
+            <summary>
+            格式化字段名
+            </summary>
+            <param name="paramName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.DBAdapter.FormatTableName(System.String)">
+            <summary>
+            格式化表格名
+            </summary>
+            <param name="paramName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.DBAdapter.FormatValueName(System.String)">
+            <summary>
+            格式化变量名
+            </summary>
+            <param name="pname"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.DBAdapter.FormatParamKeyName(System.String)">
+            <summary>
+            格式化变量的键名
+            </summary>
+            <param name="pname"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.DBAdapter.ContainsLike(System.String,System.String)">
+            <summary>
+            返回全文检索的查询语句
+            </summary>
+            <param name="paranName"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.DBAdapter.FreeTextLike(System.String,System.String)">
+            <summary>
+            返回全文检索的查询语句
+            </summary>
+            <param name="paranName"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.DBAdapter.Query(System.String,Buffalo.DB.QueryConditions.PageContent,Buffalo.DB.DbCommon.DataBaseOperate)">
+            <summary>
+            游标分页
+            </summary>
+            <typeparam name="T">实体类型</typeparam>
+            <param name="sql">sql语句</param>
+            <param name="objPage">分页实体</param>
+            <param name="oper">数据库链接</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.DBAdapter.QueryDataTable(System.String,Buffalo.DB.QueryConditions.PageContent,Buffalo.DB.DbCommon.DataBaseOperate,System.Type)">
+            <summary>
+            查询并且返回DataSet(游标分页)
+            </summary>
+            <param name="sql">要查询的SQL语句</param>
+            <param name="objPage">分页对象</param>
+            <param name="oper">数据库对象</param>
+            <param name="curType">映射的实体类型(如果用回数据库的原列名，则此为null)</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.DBAdapter.Query(System.String,Buffalo.DB.DbCommon.ParamList,Buffalo.DB.QueryConditions.PageContent,Buffalo.DB.DbCommon.DataBaseOperate)">
+            <summary>
+            游标分页
+            </summary>
+            <typeparam name="T">实体类型</typeparam>
+            <param name="lstParam">参数集合</param>
+            <param name="sql">sql语句</param>
+            <param name="objPage">分页实体</param>
+            <param name="oper">数据库链接</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.DBAdapter.QueryDataTable(System.String,Buffalo.DB.DbCommon.ParamList,Buffalo.DB.QueryConditions.PageContent,Buffalo.DB.DbCommon.DataBaseOperate,System.Type)">
+            <summary>
+            查询并且返回DataSet(游标分页)
+            </summary>
+            <param name="sql">要查询的SQL语句</param>
+            <param name="lstParam">参数集合</param>
+            <param name="objPage">分页对象</param>
+            <param name="oper">数据库对象</param>
+            <param name="curType">映射的实体类型(如果用回数据库的原列名，则此为null)</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.DBAdapter.CreatePageSql(Buffalo.DB.DbCommon.ParamList,Buffalo.DB.DbCommon.DataBaseOperate,Buffalo.DB.QueryConditions.SelectCondition,Buffalo.DB.QueryConditions.PageContent,System.Boolean)">
+            <summary>
+            生成分页SQL语句
+            </summary>
+            <param name="list">参数列表</param>
+            <param name="oper">连接对象</param>
+            <param name="objCondition">条件对象</param>
+            <param name="objPage">分页记录类</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.DBAdapter.GetInitPointFunSql">
+            <summary>
+            获取初始化计分函数的SQL语句
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.DBAdapter.GetPiontFunSqlExistsSql">
+            <summary>
+            获取判断计分函数是否存在的SQL
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.DBAdapter.ConcatString(System.String[])">
+            <summary>
+            获取字符串拼接SQl语句
+            </summary>
+            <param name="str">字符串集合</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.DBAdapter.GetIdentitySQL(Buffalo.DB.EntityInfos.EntityPropertyInfo)">
+            <summary>
+            获取自动增长的SQL
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.DBAdapter.GetIdentityValueSQL(Buffalo.DB.EntityInfos.EntityPropertyInfo)">
+            <summary>
+            获取自动增长值的SQL
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.DBAdapter.GetDateTimeString(System.Object)">
+            <summary>
+            把变量转变成SQL语句中的时间表达式
+            </summary>
+            <returns></returns>
+        </member>
+        <!-- 对于成员“M:Buffalo.Data.SQLite.DBAdapter.GetIdentityParamName(Buffalo.DB.EntityInfos.EntityPropertyInfo)”忽略有格式错误的 XML 注释 -->
+        <member name="M:Buffalo.Data.SQLite.DBAdapter.GetInsertPKParamValue(Buffalo.DB.EntityInfos.EntityPropertyInfo)">
+            <summary>
+            插入时候的主键字段值
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.DBAdapter.GetAddDescriptionSQL(Buffalo.DB.BQLCommon.BQLKeyWordCommon.KeyWordTableParamItem,Buffalo.DB.PropertyAttributes.EntityParam,Buffalo.DB.DataBaseAdapter.DBInfo)">
+            <summary>
+            获取创建注释的SQL
+            </summary>
+            <param name="table">表</param>
+            <param name="paramName">字段(如果为空则给表设置注释)</param>
+            <param name="description">注释</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.DBAdapter.SetObjectValueFromReader(System.Data.IDataReader,System.Int32,System.Object,Buffalo.DB.EntityInfos.EntityPropertyInfo,System.Boolean)">
+            <summary>
+            根据Reader的内容把数值赋进实体
+            </summary>
+            <param name="reader">Reader</param>
+            <param name="index">当前Reader的索引</param>
+            <param name="arg">目标对象</param>
+            <param name="info">目标属性的句柄</param>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.DBAdapter.GetDefaultSequenceName(System.String,System.String)">
+            <summary>
+             获取默认序列名
+            </summary>
+            <param name="tableName">表名</param>
+            <param name="paramName">字段名</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.DBAdapter.GetSequenceInit(System.String,Buffalo.DB.PropertyAttributes.EntityParam,Buffalo.DB.DbCommon.DataBaseOperate)">
+            <summary>
+            初始化序列名
+            </summary>
+            <param name="seqName"></param>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.DBAdapter.DBIdentity(System.String,System.String)">
+            <summary>
+            获取数据库的自增长字段的信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.SQLite.DBAdapter.CreateTableSQLEnd(Buffalo.DB.DataBaseAdapter.DBInfo)">
+            <summary>
+            创建表语句的结束
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Buffalo.Data.SQLite.DBAdapter.IsShowExpression">
+            <summary>
+            全文搜索时候排序字段是否显示表达式
+            </summary>
+        </member>
+        <member name="P:Buffalo.Data.SQLite.DBAdapter.IsSaveIdentityParam">
+            <summary>
+            是否记录自增长字段作手动处理
+            </summary>
+        </member>
+        <member name="P:Buffalo.Data.SQLite.DBAdapter.PointFunName">
+            <summary>
+            获取计分函数的名字
+            </summary>
+        </member>
+        <member name="T:Buffalo.Data.SQLite.AdapterLoader">
+            <summary>
+            适配器加载器
+            </summary>
+        </member>
+        <member name="P:Buffalo.Data.SQLite.AdapterLoader.DbAdapter">
+            <summary>
+            当前数据库适配器
+            </summary>
+        </member>
+    </members>
+</doc>
