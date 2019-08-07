@@ -1,0 +1,416 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Buffalo.Data.DB2</name>
+    </assembly>
+    <members>
+        <member name="T:Buffalo.Data.DB2.AdapterLoader">
+            <summary>
+            适配器加载器
+            </summary>
+        </member>
+        <member name="P:Buffalo.Data.DB2.AdapterLoader.DbAdapter">
+            <summary>
+            当前数据库适配器
+            </summary>
+        </member>
+        <member name="T:Buffalo.Data.DB2.AggregateFunctions">
+            <summary>
+            聚合函数处理
+            </summary>
+        </member>
+        <member name="T:Buffalo.Data.DB2.ConvertFunction">
+            <summary>
+            数值转换函数
+            </summary>
+        </member>
+        <member name="M:Buffalo.Data.DB2.ConvertFunction.GetFormat(System.String)">
+            <summary>
+            格式化字符串
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.DB2.ConvertFunction.DateTimeToString(System.String,System.String)">
+            <summary>
+            日期转字符串
+            </summary>
+            <param name="values"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.DB2.ConvertFunction.StringToDateTime(System.String,System.String)">
+            <summary>
+            字符串转成日期
+            </summary>
+            <param name="values"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.DB2.ConvertFunction.ConvetTo(System.String,System.Data.DbType)">
+            <summary>
+            把数据转成指定类型
+            </summary>
+            <param name="value">数据</param>
+            <param name="dbType">指定类型</param>
+            <returns></returns>
+        </member>
+        <member name="T:Buffalo.Data.DB2.CursorPageCutter">
+            <summary>
+            游标分页
+            </summary>
+        </member>
+        <member name="M:Buffalo.Data.DB2.CursorPageCutter.Query(System.String,Buffalo.DB.DbCommon.ParamList,Buffalo.DB.QueryConditions.PageContent,Buffalo.DB.DbCommon.DataBaseOperate,System.Collections.Generic.Dictionary{System.String,System.Boolean})">
+            <summary>
+            查询并且返回集合(游标分页)
+            </summary>
+            <param name="sql">要查询的SQL语句</param>
+            <param name="lstParam">参数集合</param>
+            <param name="objPage">分页对象</param>
+            <param name="oper">数据库对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.DB2.CursorPageCutter.GetCursorPageSql(System.String,Buffalo.DB.QueryConditions.PageContent)">
+            <summary>
+            生成分页SQL语句
+            </summary>
+            <param name="part">SQL条件</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.DB2.CursorPageCutter.QueryDataTable(System.String,Buffalo.DB.DbCommon.ParamList,Buffalo.DB.QueryConditions.PageContent,Buffalo.DB.DbCommon.DataBaseOperate,System.Type,System.Collections.Generic.Dictionary{System.String,System.Boolean})">
+            <summary>
+            查询并且返回DataSet(游标分页)
+            </summary>
+            <param name="sql">要查询的SQL语句</param>
+            <param name="lstParam">参数集合</param>
+            <param name="objPage">分页对象</param>
+            <param name="oper">数据库对象</param>
+            <param name="curType">映射的实体类型(如果用回数据库的原列名，则此为null)</param>
+            <returns></returns>
+        </member>
+        <member name="T:Buffalo.Data.DB2.CutPageSqlCreater">
+            <summary>
+            生成分页语句的类
+            </summary>
+        </member>
+        <member name="M:Buffalo.Data.DB2.CutPageSqlCreater.CreatePageSql(Buffalo.DB.DbCommon.ParamList,Buffalo.DB.DbCommon.DataBaseOperate,Buffalo.DB.QueryConditions.SelectCondition,Buffalo.DB.QueryConditions.PageContent,System.Boolean)">
+            <summary>
+            生成SQL语句
+            </summary>
+            <param name="list">参数列表</param>
+            <param name="oper">连接对象</param>
+            <param name="objCondition">条件对象</param>
+            <param name="objPage">分页记录类</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.DB2.CutPageSqlCreater.GetCutPageSql(Buffalo.DB.QueryConditions.SelectCondition,Buffalo.DB.QueryConditions.PageContent)">
+            <summary>
+            生成分页SQL语句
+            </summary>
+            <param name="part">SQL条件</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.DB2.CutPageSqlCreater.GetTotalRecord(Buffalo.DB.DbCommon.ParamList,Buffalo.DB.DbCommon.DataBaseOperate,System.String,System.Int64,System.Collections.Generic.Dictionary{System.String,System.Boolean})">
+            <summary>
+            获取总记录数
+            </summary>
+            <param name="part">查询条件</param>
+            <param name="list">变量列表</param>
+            <param name="oper">通用类</param>
+        </member>
+        <member name="M:Buffalo.Data.DB2.DBAdapter.GetColumnDescriptionSQL(Buffalo.DB.PropertyAttributes.EntityParam,Buffalo.DB.DataBaseAdapter.DBInfo)">
+            <summary>
+            获取在字段添加SQL
+            </summary>
+            <param name="table">表</param>
+            <param name="pInfo">字段（如果为空则设置表注释）</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.DB2.DBAdapter.RebuildParamList(System.String@,Buffalo.DB.DbCommon.ParamList)">
+            <summary>
+            重建参数集合
+            </summary>
+            <param name="lstPrm"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.DB2.DBAdapter.GetNowDate(System.Data.DbType)">
+            <summary>
+            获取当前时间
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.DB2.DBAdapter.GetUTCDate(System.Data.DbType)">
+            <summary>
+            获取数据库当前格林威治时间
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.DB2.DBAdapter.GetTimeStamp(System.Data.DbType)">
+            <summary>
+            获取时间戳
+            </summary>
+            <param name="dbType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.DB2.DBAdapter.GetDataParameter(System.String,System.Data.DbType,System.Object,System.Data.ParameterDirection)">
+            <summary>
+            获取参数类
+            </summary>
+            <param name="paramName">参数名</param>
+            <param name="type">参数数据库类型</param>
+            <param name="paramValue">参数值</param>
+            <param name="paramDir">参数进出类型</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.DB2.DBAdapter.FormatValue(System.Object)">
+            <summary>
+            格式化值
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.DB2.DBAdapter.FormatDbType(System.Data.DbType)">
+            <summary>
+            格式化数据库类型
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.DB2.DBAdapter.GetTopSelectSql(Buffalo.DB.QueryConditions.SelectCondition,System.Int32)">
+            <summary>
+            获取top的查询字符串
+            </summary>
+            <param name="sql">查询字符串</param>
+            <param name="top">top值</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.DB2.DBAdapter.ToCurrentDbType(System.Data.DbType)">
+            <summary>
+            把数据类型转换成当前数据库支持的类型
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.DB2.DBAdapter.GetCommand">
+            <summary>
+            获取SQL命令类
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.DB2.DBAdapter.GetConnection(Buffalo.DB.DataBaseAdapter.DBInfo)">
+            <summary>
+            获取SQL连接
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.DB2.DBAdapter.GetAdapter">
+            <summary>
+            获取SQL适配器
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.DB2.DBAdapter.FormatParam(System.String)">
+            <summary>
+            格式化字段名
+            </summary>
+            <param name="paramName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.DB2.DBAdapter.FormatTableName(System.String)">
+            <summary>
+            格式化表格名
+            </summary>
+            <param name="paramName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.DB2.DBAdapter.FormatValueName(System.String)">
+            <summary>
+            格式化变量名
+            </summary>
+            <param name="pname"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.DB2.DBAdapter.FormatParamKeyName(System.String)">
+            <summary>
+            格式化变量的键名
+            </summary>
+            <param name="pname"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.DB2.DBAdapter.ContainsLike(System.String,System.String)">
+            <summary>
+            返回全文检索的查询语句
+            </summary>
+            <param name="paranName"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.DB2.DBAdapter.FreeTextLike(System.String,System.String)">
+            <summary>
+            返回全文检索的查询语句
+            </summary>
+            <param name="paranName"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.DB2.DBAdapter.Query(System.String,Buffalo.DB.QueryConditions.PageContent,Buffalo.DB.DbCommon.DataBaseOperate)">
+            <summary>
+            游标分页
+            </summary>
+            <typeparam name="T">实体类型</typeparam>
+            <param name="sql">sql语句</param>
+            <param name="objPage">分页实体</param>
+            <param name="oper">数据库链接</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.DB2.DBAdapter.QueryDataTable(System.String,Buffalo.DB.QueryConditions.PageContent,Buffalo.DB.DbCommon.DataBaseOperate,System.Type)">
+            <summary>
+            查询并且返回DataSet(游标分页)
+            </summary>
+            <param name="sql">要查询的SQL语句</param>
+            <param name="objPage">分页对象</param>
+            <param name="oper">数据库对象</param>
+            <param name="curType">映射的实体类型(如果用回数据库的原列名，则此为null)</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.DB2.DBAdapter.Query(System.String,Buffalo.DB.DbCommon.ParamList,Buffalo.DB.QueryConditions.PageContent,Buffalo.DB.DbCommon.DataBaseOperate)">
+            <summary>
+            游标分页
+            </summary>
+            <typeparam name="T">实体类型</typeparam>
+            <param name="lstParam">参数集合</param>
+            <param name="sql">sql语句</param>
+            <param name="objPage">分页实体</param>
+            <param name="oper">数据库链接</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.DB2.DBAdapter.QueryDataTable(System.String,Buffalo.DB.DbCommon.ParamList,Buffalo.DB.QueryConditions.PageContent,Buffalo.DB.DbCommon.DataBaseOperate,System.Type)">
+            <summary>
+            查询并且返回DataSet(游标分页)
+            </summary>
+            <param name="sql">要查询的SQL语句</param>
+            <param name="lstParam">参数集合</param>
+            <param name="objPage">分页对象</param>
+            <param name="oper">数据库对象</param>
+            <param name="curType">映射的实体类型(如果用回数据库的原列名，则此为null)</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.DB2.DBAdapter.CreatePageSql(Buffalo.DB.DbCommon.ParamList,Buffalo.DB.DbCommon.DataBaseOperate,Buffalo.DB.QueryConditions.SelectCondition,Buffalo.DB.QueryConditions.PageContent,System.Boolean)">
+            <summary>
+            生成分页SQL语句
+            </summary>
+            <param name="list">参数列表</param>
+            <param name="oper">连接对象</param>
+            <param name="objCondition">条件对象</param>
+            <param name="objPage">分页记录类</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.DB2.DBAdapter.ConcatString(System.String[])">
+            <summary>
+            获取字符串拼接SQl语句
+            </summary>
+            <param name="str">字符串集合</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.DB2.DBAdapter.GetIdentitySQL(Buffalo.DB.EntityInfos.EntityPropertyInfo)">
+            <summary>
+            获取自动增长的SQL
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.DB2.DBAdapter.GetIdentityValueSQL(Buffalo.DB.EntityInfos.EntityPropertyInfo)">
+            <summary>
+            获取自动增长值的SQL
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.DB2.DBAdapter.GetDateTimeString(System.Object)">
+            <summary>
+            把变量转变成SQL语句中的时间表达式
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.DB2.DBAdapter.GetIdentityParamName(Buffalo.DB.EntityInfos.EntityPropertyInfo)">
+            <summary>
+            插入时候自动增长的字段名
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.DB2.DBAdapter.GetIdentityParamValue(Buffalo.DB.EntityInfos.EntityInfoHandle,Buffalo.DB.EntityInfos.EntityPropertyInfo)">
+            <summary>
+            插入时候自动增长的字段值
+            </summary>
+            <param name="entityInfo">实体信息</param>
+            <param name="info">属性信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.DB2.DBAdapter.SetObjectValueFromReader(System.Data.IDataReader,System.Int32,System.Object,Buffalo.DB.EntityInfos.EntityPropertyInfo,System.Boolean)">
+            <summary>
+            根据Reader的内容把数值赋进实体
+            </summary>
+            <param name="reader">Reader</param>
+            <param name="index">当前Reader的索引</param>
+            <param name="arg">目标对象</param>
+            <param name="info">目标属性的句柄</param>
+        </member>
+        <member name="M:Buffalo.Data.DB2.DBAdapter.GetDefaultSequenceName(System.String,System.String)">
+            <summary>
+             获取默认序列名
+            </summary>
+            <param name="tableName">表名</param>
+            <param name="paramName">字段名</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.DB2.DBAdapter.DBIdentity(System.String,System.String)">
+            <summary>
+            获取数据库的自增长字段的信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.DB2.DBAdapter.GetAddDescriptionSQL(Buffalo.DB.BQLCommon.BQLKeyWordCommon.KeyWordTableParamItem,Buffalo.DB.PropertyAttributes.EntityParam,Buffalo.DB.DataBaseAdapter.DBInfo)">
+            <summary>
+            获取创建注释的SQL
+            </summary>
+            <param name="table">表</param>
+            <param name="paramName">字段(如果为空则给表设置注释)</param>
+            <param name="description">注释</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.DB2.DBAdapter.CreateTableSQLEnd(Buffalo.DB.DataBaseAdapter.DBInfo)">
+            <summary>
+            创建表语句的结束
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Buffalo.Data.DB2.DBAdapter.IsShowExpression">
+            <summary>
+            全文搜索时候排序字段是否显示表达式
+            </summary>
+        </member>
+        <member name="P:Buffalo.Data.DB2.DBAdapter.IsSaveIdentityParam">
+            <summary>
+            是否记录自增长字段作手动处理
+            </summary>
+        </member>
+        <member name="T:Buffalo.Data.DB2.DBStructure">
+            <summary>
+            数据库结构特性类
+            </summary>
+        </member>
+        <member name="M:Buffalo.Data.DB2.DBStructure.FillParam(Buffalo.DB.DataBaseAdapter.DBTableInfo,System.Data.IDataReader)">
+            <summary>
+            填充字段信息
+            </summary>
+            <param name="prm">字段信息</param>
+            <param name="reader">reader</param>
+        </member>
+        <member name="M:Buffalo.Data.DB2.DBStructure.OnCheckEvent(System.Object,Buffalo.DB.DataBaseAdapter.DBInfo,Buffalo.DB.DataBaseAdapter.IDbAdapters.CheckEvent,System.Collections.Generic.List{System.String})">
+            <summary>
+            数据库检查时候的事建
+            </summary>
+            <param name="arg">当前类型</param>
+            <param name="dbInfo">数据库类型</param>
+            <param name="type">检查类型</param>
+            <param name="lstSQL">SQL语句</param>
+        </member>
+    </members>
+</doc>

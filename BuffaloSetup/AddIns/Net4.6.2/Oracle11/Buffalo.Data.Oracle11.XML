@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Buffalo.Data.Oracle11</name>
+    </assembly>
+    <members>
+        <member name="T:Buffalo.Data.Oracle11.AdapterLoader">
+            <summary>
+            适配器加载器
+            </summary>
+        </member>
+        <member name="P:Buffalo.Data.Oracle11.AdapterLoader.DbAdapter">
+            <summary>
+            当前数据库适配器
+            </summary>
+        </member>
+        <member name="T:Buffalo.Data.Oracle11.AggregateFunctions">
+            <summary>
+            聚合函数处理
+            </summary>
+        </member>
+        <member name="T:Buffalo.Data.Oracle11.ConvertFunction">
+            <summary>
+            数值转换函数
+            </summary>
+        </member>
+        <member name="T:Buffalo.Data.Oracle11.CursorPageCutter">
+            <summary>
+            游标分页
+            </summary>
+        </member>
+        <member name="T:Buffalo.Data.Oracle11.CutPageSqlCreater">
+            <summary>
+            生成分页语句的类
+            </summary>
+        </member>
+        <member name="M:Buffalo.Data.Oracle11.DBAdapter.GetDataParameter(System.String,System.Data.DbType,System.Object,System.Data.ParameterDirection)">
+            <summary>
+            获取参数类
+            </summary>
+            <param name="paramName">参数名</param>
+            <param name="type">参数数据库类型</param>
+            <param name="paramValue">参数值</param>
+            <param name="paramDir">参数进出类型</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.Oracle11.DBAdapter.FormatDbType(System.Data.DbType)">
+            <summary>
+            格式化数据库类型
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.Oracle11.DBAdapter.GetCommand">
+            <summary>
+            获取SQL命令类
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.Oracle11.DBAdapter.GetConnection(Buffalo.DB.DataBaseAdapter.DBInfo)">
+            <summary>
+            获取SQL连接
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.Oracle11.DBAdapter.GetAdapter">
+            <summary>
+            获取SQL适配器
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Data.Oracle11.DBAdapter.DBTypeToSQL(System.Data.DbType,System.Int64,System.Boolean)">
+            <summary>
+            把DBType类型转成对应的SQLType
+            </summary>
+            <param name="dbType"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Buffalo.Data.Oracle11.DBStructure">
+            <summary>
+            数据库结构特性类
+            </summary>
+        </member>
+        <member name="T:Buffalo.Data.Oracle11.SequenceManager">
+            <summary>
+            主键序列管理
+            </summary>
+        </member>
+    </members>
+</doc>
