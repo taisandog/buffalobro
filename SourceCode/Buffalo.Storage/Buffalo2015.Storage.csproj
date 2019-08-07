@@ -1,0 +1,611 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1BBB9409-A9EA-48E4-BFF5-C97EB4017283}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Buffalo.Storage</RootNamespace>
+    <AssemblyName>Buffalo.Storage</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <TargetFrameworkProfile />
+    <PublishUrl>发布\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;NET_4_5_1</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Release\2015\</OutputPath>
+    <DefineConstants>TRACE;NET_4_6</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>..\Release\2015\Buffalo.Storage.XML</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dll\dll\Net4.6\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AliCloud.OssAPI\Commands\AbortMultipartUploadCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Commands\AppendObjectCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Commands\CompleteMultipartUploadCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Commands\CopyObjectCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Commands\CreateBucketCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Commands\CreateSymlinkCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Commands\DeleteBucketCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Commands\DeleteBucketCorsCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Commands\DeleteBucketLifecycleCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Commands\DeleteBucketLoggingCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Commands\DeleteBucketWebsiteCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Commands\DeleteObjectCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Commands\DeleteObjectsCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Commands\GetBucketAclCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Commands\GetBucketCorsCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Commands\GetBucketInfoCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Commands\GetBucketLifecycleCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Commands\GetBucketLocationCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Commands\GetBucketLoggingCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Commands\GetBucketMetadataCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Commands\GetBucketRefererCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Commands\GetBucketStatCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Commands\GetBucketStorageCapacityCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Commands\GetBucketWebsiteCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Commands\GetObjectAclCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Commands\GetObjectCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Commands\GetObjectMetadataCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Commands\GetSymlinkCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Commands\HeadObjectCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Commands\InitiateMultipartUploadCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Commands\ListBucketsCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Commands\ListMultipartUploadsCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Commands\ListObjectsCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Commands\ListPartsCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Commands\OssCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Commands\PutObjectCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Commands\RestoreObjectCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Commands\SetBucketAclCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Commands\SetBucketCorsCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Commands\SetBucketLifecycleCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Commands\SetBucketLoggingCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Commands\SetBucketRefererCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Commands\SetBucketStorageCapacityCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Commands\SetBucketWebsiteCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Commands\SetObjectAclCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Commands\UploadPartCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Commands\UploadPartCopyCommand.cs" />
+    <Compile Include="AliCloud.OssAPI\Common\Authentication\DefaultCredentials.cs" />
+    <Compile Include="AliCloud.OssAPI\Common\Authentication\DefaultCredentialsProvider.cs" />
+    <Compile Include="AliCloud.OssAPI\Common\Authentication\HmacSHA1Signature.cs" />
+    <Compile Include="AliCloud.OssAPI\Common\Authentication\ICredentials.cs" />
+    <Compile Include="AliCloud.OssAPI\Common\Authentication\ICredentialsProvider.cs" />
+    <Compile Include="AliCloud.OssAPI\Common\Authentication\IRequestSigner.cs" />
+    <Compile Include="AliCloud.OssAPI\Common\Authentication\ServiceSignature.cs" />
+    <Compile Include="AliCloud.OssAPI\Common\ClientConfiguration.cs" />
+    <Compile Include="AliCloud.OssAPI\Common\ClientException.cs" />
+    <Compile Include="AliCloud.OssAPI\Common\Communication\ExecutionContext.cs" />
+    <Compile Include="AliCloud.OssAPI\Common\Communication\HttpMethod.cs" />
+    <Compile Include="AliCloud.OssAPI\Common\Communication\IServiceClient.cs" />
+    <Compile Include="AliCloud.OssAPI\Common\Communication\RetryableServiceClient.cs" />
+    <Compile Include="AliCloud.OssAPI\Common\Communication\ServiceClient.cs" />
+    <Compile Include="AliCloud.OssAPI\Common\Communication\ServiceClientImpl.cs" />
+    <Compile Include="AliCloud.OssAPI\Common\Communication\ServiceMessage.cs" />
+    <Compile Include="AliCloud.OssAPI\Common\Communication\ServiceRequest.cs" />
+    <Compile Include="AliCloud.OssAPI\Common\Communication\ServiceResponse.cs" />
+    <Compile Include="AliCloud.OssAPI\Common\Handlers\CallbackResponseHandler.cs" />
+    <Compile Include="AliCloud.OssAPI\Common\Handlers\CompleteMultipartUploadCrc64Handler.cs" />
+    <Compile Include="AliCloud.OssAPI\Common\Handlers\Crc64CheckHandler.cs" />
+    <Compile Include="AliCloud.OssAPI\Common\Handlers\ErrorResponseHandler.cs" />
+    <Compile Include="AliCloud.OssAPI\Common\Handlers\IResponseHandler.cs" />
+    <Compile Include="AliCloud.OssAPI\Common\Handlers\MD5DigestCheckHandler.cs" />
+    <Compile Include="AliCloud.OssAPI\Common\Handlers\ResponseHandler.cs" />
+    <Compile Include="AliCloud.OssAPI\Common\Internal\Crc64HashAlgorithm.cs" />
+    <Compile Include="AliCloud.OssAPI\Common\Internal\EventStream.cs" />
+    <Compile Include="AliCloud.OssAPI\Common\Internal\HashingWrapper.cs" />
+    <Compile Include="AliCloud.OssAPI\Common\Internal\HashStream.cs" />
+    <Compile Include="AliCloud.OssAPI\Common\Internal\IHashingWrapper.cs" />
+    <Compile Include="AliCloud.OssAPI\Common\Internal\PartialWrapperStream.cs" />
+    <Compile Include="AliCloud.OssAPI\Common\Internal\StreamReadTracker.cs" />
+    <Compile Include="AliCloud.OssAPI\Common\Internal\StreamTransferTracker.cs" />
+    <Compile Include="AliCloud.OssAPI\Common\Internal\WrapperStream.cs" />
+    <Compile Include="AliCloud.OssAPI\Common\OssErrorCode.cs" />
+    <Compile Include="AliCloud.OssAPI\Common\OssException.cs" />
+    <Compile Include="AliCloud.OssAPI\Common\ResumableDownloadManager.cs" />
+    <Compile Include="AliCloud.OssAPI\Common\ResumableUploadManager.cs" />
+    <Compile Include="AliCloud.OssAPI\Common\ServiceException.cs" />
+    <Compile Include="AliCloud.OssAPI\Common\ThirdParty\MD5Core.cs" />
+    <Compile Include="AliCloud.OssAPI\Common\ThirdParty\MD5Managed.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\AbortMultipartUploadRequest.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\AccessControlList.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\AppendObjectRequest.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\AppendObjectResult.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\Bucket.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\BucketInfo.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\BucketLocationResult.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\BucketLoggingResult.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\BucketMetadata.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\BucketStat.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\BucketWebsiteResult.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\CompleteMultipartUploadRequest.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\CompleteMultipartUploadResult.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\CopyObjectRequest.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\CopyObjectResult.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\CORSRule.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\CreateSymlinkRequest.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\DeleteObjectsRequest.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\DeleteObjectsResult.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\DownloadObjectRequest.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\GeneratePresignedUriRequest.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\GetBucketStorageCapacityResult.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\GetObjectRequest.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\Grant.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\GroupGrantee.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\IGrantee.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\InitiateMultipartUploadRequest.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\InitiateMultipartUploadResult.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\LifecycleRule.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\ListBucketsRequest.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\ListBucketsResult.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\ListMultipartUploadsRequest.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\ListObjectsRequest.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\ListPartsRequest.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\MultipartUpload.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\MultipartUploadListing.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\ObjectListing.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\ObjectMetadata.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\OssObject.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\OssObjectSummary.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\OssSymlink.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\Owner.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\Part.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\PartEtag.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\PartListing.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\PolicyConditions.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\PutObjectRequest.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\PutObjectResult.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\RefererConfiguration.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\ResponseHeaderOverrides.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\ResumableContext.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\SetBucketAclRequest.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\SetBucketCorsRequest.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\SetBucketLifecycleRequest.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\SetBucketLoggingRequest.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\SetBucketRefererRequest.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\SetBucketStorageCapacityRequest.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\SetBucketWebsiteRequest.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\SetObjectAclRequest.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\UploadObjectRequest.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\UploadPartCopyRequest.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\UploadPartCopyResult.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\UploadPartRequest.cs" />
+    <Compile Include="AliCloud.OssAPI\Domain\UploadPartResult.cs" />
+    <Compile Include="AliCloud.OssAPI\Enums\CannedAccessControlList.cs" />
+    <Compile Include="AliCloud.OssAPI\Enums\Permission.cs" />
+    <Compile Include="AliCloud.OssAPI\Enums\Protocol.cs" />
+    <Compile Include="AliCloud.OssAPI\Enums\SignHttpMethod.cs" />
+    <Compile Include="AliCloud.OssAPI\Enums\StorageClass.cs" />
+    <Compile Include="AliCloud.OssAPI\IOss.cs" />
+    <Compile Include="AliCloud.OssAPI\Model\AccessControlPolicy.cs" />
+    <Compile Include="AliCloud.OssAPI\Model\BucketStorageCapacityModel.cs" />
+    <Compile Include="AliCloud.OssAPI\Model\CompleteMultipartUploadRequestModel.cs" />
+    <Compile Include="AliCloud.OssAPI\Model\CompleteMultipartUploadResultModel.cs" />
+    <Compile Include="AliCloud.OssAPI\Model\CopyObjectResultModel.cs" />
+    <Compile Include="AliCloud.OssAPI\Model\CreateBucketRequestModel.cs" />
+    <Compile Include="AliCloud.OssAPI\Model\DeleteObjectsRequestModel.cs" />
+    <Compile Include="AliCloud.OssAPI\Model\ErrorResult.cs" />
+    <Compile Include="AliCloud.OssAPI\Model\GenericResult.cs" />
+    <Compile Include="AliCloud.OssAPI\Model\InitiateMultipartResult.cs" />
+    <Compile Include="AliCloud.OssAPI\Model\LifecycleConfiguration.cs" />
+    <Compile Include="AliCloud.OssAPI\Model\ListAllMyBucketsResult.cs" />
+    <Compile Include="AliCloud.OssAPI\Model\ListBucketResult.cs" />
+    <Compile Include="AliCloud.OssAPI\Model\ListMultipartUploadsResult.cs" />
+    <Compile Include="AliCloud.OssAPI\Model\ListPartsResult.cs" />
+    <Compile Include="AliCloud.OssAPI\Model\RestoreObjectResult.cs" />
+    <Compile Include="AliCloud.OssAPI\Model\SetBucketCorsRequestModel.cs" />
+    <Compile Include="AliCloud.OssAPI\Model\SetBucketLoggingRequestModel.cs" />
+    <Compile Include="AliCloud.OssAPI\Model\SetBucketWebsiteRequestModel.cs" />
+    <Compile Include="AliCloud.OssAPI\Model\StreamResult.cs" />
+    <Compile Include="AliCloud.OssAPI\Model\StreamUploadProgressArgs.cs" />
+    <Compile Include="AliCloud.OssAPI\Model\UploadPartCopyRequestModel.cs" />
+    <Compile Include="AliCloud.OssAPI\OSSAdapter.cs" />
+    <Compile Include="AliCloud.OssAPI\OssClient.cs" />
+    <Compile Include="AliCloud.OssAPI\Transform\AppendObjectResponseDeserializer.cs" />
+    <Compile Include="AliCloud.OssAPI\Transform\CompleteMultipartUploadRequestSerializer.cs" />
+    <Compile Include="AliCloud.OssAPI\Transform\CompleteMultipartUploadResultDeserializer.cs" />
+    <Compile Include="AliCloud.OssAPI\Transform\CopyObjectResultDeserializer.cs" />
+    <Compile Include="AliCloud.OssAPI\Transform\CreateBucketRequestSerializer.cs" />
+    <Compile Include="AliCloud.OssAPI\Transform\DeleteObjectsRequestSerializer.cs" />
+    <Compile Include="AliCloud.OssAPI\Transform\DeleteObjectsResultDeserializer.cs" />
+    <Compile Include="AliCloud.OssAPI\Transform\DeserializerFactory.cs" />
+    <Compile Include="AliCloud.OssAPI\Transform\GetAclResponseDeserializer.cs" />
+    <Compile Include="AliCloud.OssAPI\Transform\GetBucketInfoDeserializer.cs" />
+    <Compile Include="AliCloud.OssAPI\Transform\GetBucketLifecycleDeserializer.cs" />
+    <Compile Include="AliCloud.OssAPI\Transform\GetBucketLocationResultDeserializer.cs" />
+    <Compile Include="AliCloud.OssAPI\Transform\GetBucketLoggingResultDeserializer.cs" />
+    <Compile Include="AliCloud.OssAPI\Transform\GetBucketMetadataResponseDeserializer.cs" />
+    <Compile Include="AliCloud.OssAPI\Transform\GetBucketStatDeserializer.cs" />
+    <Compile Include="AliCloud.OssAPI\Transform\GetBucketStorageCapacityResultDeserializer.cs" />
+    <Compile Include="AliCloud.OssAPI\Transform\GetBucketWebSiteResultDeserializer.cs" />
+    <Compile Include="AliCloud.OssAPI\Transform\GetCorsResponseDeserializer.cs" />
+    <Compile Include="AliCloud.OssAPI\Transform\GetObjectMetadataResponseDeserializer.cs" />
+    <Compile Include="AliCloud.OssAPI\Transform\GetObjectResponseDeserializer.cs" />
+    <Compile Include="AliCloud.OssAPI\Transform\GetSymlinkResultDeserializer.cs" />
+    <Compile Include="AliCloud.OssAPI\Transform\IDeserializer.cs" />
+    <Compile Include="AliCloud.OssAPI\Transform\InitiateMultipartUploadResultDeserializer.cs" />
+    <Compile Include="AliCloud.OssAPI\Transform\ISerializer.cs" />
+    <Compile Include="AliCloud.OssAPI\Transform\ListBucketsResultDeserializer.cs" />
+    <Compile Include="AliCloud.OssAPI\Transform\ListMultipartUploadsResponseDeserializer.cs" />
+    <Compile Include="AliCloud.OssAPI\Transform\ListObjectsResponseDeserializer.cs" />
+    <Compile Include="AliCloud.OssAPI\Transform\ListPartsResultDeserializer.cs" />
+    <Compile Include="AliCloud.OssAPI\Transform\PutObjectResponseDeserializer.cs" />
+    <Compile Include="AliCloud.OssAPI\Transform\RequestSerializationException.cs" />
+    <Compile Include="AliCloud.OssAPI\Transform\RequestSerializer.cs" />
+    <Compile Include="AliCloud.OssAPI\Transform\ResponseDeserializationException.cs" />
+    <Compile Include="AliCloud.OssAPI\Transform\ResponseDeserializer.cs" />
+    <Compile Include="AliCloud.OssAPI\Transform\RestoreObjectResultDeserializer.cs" />
+    <Compile Include="AliCloud.OssAPI\Transform\SerializerFactory.cs" />
+    <Compile Include="AliCloud.OssAPI\Transform\SetBucketCorsRequestSerializer.cs" />
+    <Compile Include="AliCloud.OssAPI\Transform\SetBucketLifecycleRequestSerializer.cs" />
+    <Compile Include="AliCloud.OssAPI\Transform\SetBucketLoggingRequestSerializer.cs" />
+    <Compile Include="AliCloud.OssAPI\Transform\SetBucketRefererRequestSerializer.cs" />
+    <Compile Include="AliCloud.OssAPI\Transform\SetBucketStorageCapacityRequestSerializer.cs" />
+    <Compile Include="AliCloud.OssAPI\Transform\SetBucketWebsiteRequestSerializer.cs" />
+    <Compile Include="AliCloud.OssAPI\Transform\SimpleResponseDeserializer.cs" />
+    <Compile Include="AliCloud.OssAPI\Transform\UploadPartCopyResponseDeserializer.cs" />
+    <Compile Include="AliCloud.OssAPI\Transform\UploadPartResponseDeserializer.cs" />
+    <Compile Include="AliCloud.OssAPI\Transform\XmlStreamDeserializer.cs" />
+    <Compile Include="AliCloud.OssAPI\Transform\XmlStreamSerializer.cs" />
+    <Compile Include="AliCloud.OssAPI\Util\AsyncResult.cs" />
+    <Compile Include="AliCloud.OssAPI\Util\CallbackHeaderBuilder.cs" />
+    <Compile Include="AliCloud.OssAPI\Util\Crc64.cs" />
+    <Compile Include="AliCloud.OssAPI\Util\DateUtils.cs" />
+    <Compile Include="AliCloud.OssAPI\Util\EnumUtils.cs" />
+    <Compile Include="AliCloud.OssAPI\Util\ExceptionFactory.cs" />
+    <Compile Include="AliCloud.OssAPI\Util\ExecutionContextBuilder.cs" />
+    <Compile Include="AliCloud.OssAPI\Util\HttpHeaders.cs" />
+    <Compile Include="AliCloud.OssAPI\Util\HttpUtils.cs" />
+    <Compile Include="AliCloud.OssAPI\Util\IOUtils.cs" />
+    <Compile Include="AliCloud.OssAPI\Util\OssHeaders.cs" />
+    <Compile Include="AliCloud.OssAPI\Util\OssRequestSigner.cs" />
+    <Compile Include="AliCloud.OssAPI\Util\OssUtils.cs" />
+    <Compile Include="AliCloud.OssAPI\Util\RequestParameters.cs" />
+    <Compile Include="AliCloud.OssAPI\Util\ServiceClientFactory.cs" />
+    <Compile Include="AliCloud.OssAPI\Util\SignUtils.cs" />
+    <Compile Include="AliCloud.OssAPI\Util\StringValueAttribute.cs" />
+    <Compile Include="FileInfoBase.cs" />
+    <Compile Include="HW.OBS\HWOBSAdapter.cs" />
+    <Compile Include="HW.OBS\HWOBSAdapter.Upload.cs" />
+    <Compile Include="HW.OBS\OBSSDK\AuthTypeEnum.cs" />
+    <Compile Include="HW.OBS\OBSSDK\ErrorType.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Internal\Auth\AbstractSigner.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Internal\Auth\ObsSigner.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Internal\Auth\Signer.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Internal\Auth\V2Signer.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Internal\Auth\V4Signer.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Internal\CommonParser.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Internal\CommonUtil.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Internal\Constants.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Internal\EnumAdaptor.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Internal\HttpClient.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Internal\HttpContext.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Internal\HttpRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Internal\HttpResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Internal\HttpResponseHandler.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Internal\HttpWebRequestFactory.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Internal\IConvertor.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Internal\IHeaders.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Internal\IParser.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Internal\Log\LoggerMgr.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Internal\MergeResponseHeaderHandler.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Internal\ObsConvertor.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Internal\ObsHeaders.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Internal\ObsParser.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Internal\SecurityProvider.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Internal\StringValueAttribute.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Internal\TransContentDelegate.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Internal\V2Convertor.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Internal\V2Headers.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Internal\V2Parser.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\AbortMultipartUploadRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\AbortMultipartUploadResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\AbstractAccessControlList.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\AccessControlList.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\AppendObjectRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\AppendObjectResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\ByteRange.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\CannedAclEnum.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\CanonicalGrantee.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\CompleteMultipartUploadRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\CompleteMultipartUploadResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\Condition.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\CopyObjectRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\CopyObjectResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\CopyPartRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\CopyPartResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\CorsConfiguration.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\CorsRule.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\CreateBucketRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\CreateBucketResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\CreatePostSignatureRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\CreatePostSignatureResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\CreateTemporarySignatureRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\CreateTemporarySignatureResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\CreateV4PostSignatureResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\DeleteBucketCorsRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\DeleteBucketCorsResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\DeleteBucketLifecycleRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\DeleteBucketLifecycleResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\DeleteBucketPolicyRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\DeleteBucketPolicyResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\DeleteBucketReplicationRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\DeleteBucketReplicationResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\DeleteBucketRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\DeleteBucketResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\DeleteBucketTaggingRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\DeleteBucketTaggingResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\DeleteBucketWebsiteRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\DeleteBucketWebsiteResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\DeletedObject.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\DeleteError.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\DeleteObjectRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\DeleteObjectResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\DeleteObjectsRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\DeleteObjectsResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\DownloadFileRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\EventTypeEnum.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\Expiration.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\ExpirationDetail.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\ExtensionBucketPermissionEnum.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\ExtensionObjectPermissionEnum.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\FilterNameEnum.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\FilterRule.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\GetBucketAclRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\GetBucketAclResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\GetBucketCorsRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\GetBucketCorsResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\GetBucketLifecycleRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\GetBucketLifecycleResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\GetBucketLocationRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\GetBucketLocationResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\GetBucketLoggingRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\GetBucketLoggingResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\GetBucketMetadataRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\GetBucketMetadataResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\GetBucketNotificationReponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\GetBucketNotificationRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\GetBucketPolicyRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\GetBucketPolicyResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\GetBucketQuotaRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\GetBucketQuotaResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\GetBucketReplicationRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\GetBucketReplicationResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\GetBucketStorageInfoRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\GetBucketStorageInfoResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\GetBucketStoragePolicyRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\GetBucketStoragePolicyResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\GetBucketTaggingRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\GetBucketTaggingResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\GetBucketVersioningRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\GetBucketVersioningResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\GetBucketWebsiteRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\GetBucketWebsiteResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\GetObjectAclRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\GetObjectAclResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\GetObjectMetadataRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\GetObjectMetadataResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\GetObjectRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\GetObjectResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\Grant.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\Grantee.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\GroupGrantee.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\GroupGranteeEnum.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\HeadBucketRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\HttpVerb.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\InitiateMultipartUploadRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\InitiateMultipartUploadResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\Initiator.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\KeyVersion.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\LifecycleConfiguration.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\LifecycleRule.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\ListBucketsRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\ListBucketsResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\ListMultipartUploadsRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\ListMultipartUploadsResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\ListObjectsRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\ListObjectsResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\ListPartsRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\ListPartsResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\ListVersionsRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\ListVersionsResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\LoggingConfiguration.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\MetadataCollection.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\MetadataDirectiveEnum.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\MultipartUpload.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\NoncurrentVersionExpiration.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\NoncurrentVersionTransition.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\NotificationConfiguration.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\ObsBucket.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\ObsObject.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\ObsObjectVersion.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\Owner.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\PartDetail.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\PartETag.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\PermissionEnum.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\ProtocolEnum.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\PutObjectBasicRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\PutObjectRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\PutObjectResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\Redirect.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\RedirectBasic.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\ReplicationConfiguration.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\ReplicationRule.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\ResponseHeaderOverrides.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\RestoreObjectRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\RestoreObjectResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\RestoreStatus.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\RestoreTierEnum.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\RoutingRule.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\RuleStatusEnum.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\SetBucketAclRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\SetBucketAclResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\SetBucketCorsRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\SetBucketCorsResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\SetBucketLifecycleRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\SetBucketLifecycleResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\SetBucketLoggingRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\SetBucketLoggingResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\SetBucketNotificationRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\SetBucketNotificationResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\SetBucketPolicyRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\SetBucketPolicyResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\SetBucketQuotaRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\SetBucketQuotaResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\SetBucketReplicationRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\SetBucketReplicationResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\SetBucketStoragePolicyRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\SetBucketStoragePolicyResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\SetBucketTaggingRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\SetBucketTaggingResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\SetBucketVersioningRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\SetBucketVersioningResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\SetBucketWebsiteRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\SetBucketWebsiteResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\SetObjectAclRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\SetObjectAclResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\SseCAlgorithmEnum.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\SseCHeader.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\SseHeader.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\SseKmsAlgorithmEnum.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\SseKmsHeader.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\StorageClassEnum.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\SubResourceEnum.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\Tag.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\TopicConfiguration.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\Transition.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\UploadFileRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\UploadPartRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\UploadPartResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\VersioningConfiguration.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\VersionStatusEnum.cs" />
+    <Compile Include="HW.OBS\OBSSDK\Model\WebsiteConfiguration.cs" />
+    <Compile Include="HW.OBS\OBSSDK\ObsBucketWebServiceRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\ObsClient.cs" />
+    <Compile Include="HW.OBS\OBSSDK\ObsConfig.cs" />
+    <Compile Include="HW.OBS\OBSSDK\ObsException.cs" />
+    <Compile Include="HW.OBS\OBSSDK\ObsWebServiceRequest.cs" />
+    <Compile Include="HW.OBS\OBSSDK\ObsWebServiceResponse.cs" />
+    <Compile Include="HW.OBS\OBSSDK\ServiceException.cs" />
+    <Compile Include="LocalFileManager\LocalFileInfo.cs" />
+    <Compile Include="Properties\OssResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OssResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="QCloud.CosApi\Api\CosCloud.cs" />
+    <Compile Include="QCloud.CosApi\Api\CosCloud.extends.cs" />
+    <Compile Include="QCloud.CosApi\Common\CosParameters.cs" />
+    <Compile Include="QCloud.CosApi\Common\CosSha1Pure.cs" />
+    <Compile Include="QCloud.CosApi\Common\Extension.cs" />
+    <Compile Include="QCloud.CosApi\Common\HttpUtils.cs" />
+    <Compile Include="QCloud.CosApi\Common\Request.cs" />
+    <Compile Include="QCloud.CosApi\Common\SHA1.cs" />
+    <Compile Include="QCloud.CosApi\Common\Sign.cs" />
+    <Compile Include="QCloud.CosApi\Enums\CosParameters.cs" />
+    <Compile Include="FSCreater.cs" />
+    <Compile Include="IFileStorage.cs" />
+    <Compile Include="LocalFileManager\NetResource.cs" />
+    <Compile Include="LocalFileManager\FileAPI.cs" />
+    <Compile Include="LocalFileManager\LocalFileAdapter.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QCloud.CosApi\QCloudAdapter.cs" />
+    <Compile Include="QCloud.CosApi\NetStorageFileInfo.cs" />
+    <Compile Include="StorageConnectExceptin.cs" />
+    <Compile Include="Win32\WinError.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\OssResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>OssResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AliCloud.OssAPI\Resources\MimeData.txt" />
+    <None Include="Resources\MimeData.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Buffalo.ArgCommon\Buffalo2015.ArgCommon.csproj">
+      <Project>{584f95b4-461a-4d50-8294-9147364e1945}</Project>
+      <Name>Buffalo2015.ArgCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Buffalo.Kernel\Buffalo2015.Kernel.csproj">
+      <Project>{6ec04216-a422-4751-aa81-1211dcb10bab}</Project>
+      <Name>Buffalo2015.Kernel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
