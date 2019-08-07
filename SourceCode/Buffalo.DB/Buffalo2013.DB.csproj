@@ -1,0 +1,323 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9B0043E4-883B-47BA-9A5A-5110C8583902}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Buffalo.DB</RootNamespace>
+    <AssemblyName>Buffalo.DB</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Debug\2013\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;NET_4_5_1</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\Debug\2013\Buffalo.DB.XML</DocumentationFile>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Release\2013\</OutputPath>
+    <DefineConstants>TRACE;NET_4_5_1</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\Release\2013\Buffalo.DB.XML</DocumentationFile>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BQLCommon\BQLConditionCommon\BQLConditionValueItem.cs" />
+    <Compile Include="BQLCommon\BQLConditionCommon\BQLTimeStampHandle.cs" />
+    <Compile Include="BQLCommon\BQLConditionCommon\IOperatorPriorityLevel.cs" />
+    <Compile Include="BQLCommon\BQLConditionCommon\OperatorPrecedenceUnit.cs" />
+    <Compile Include="BQLCommon\BQLKeyWordCommon\KeyWordAddPrimarykeyItem.cs" />
+    <Compile Include="BQLCommon\BQLKeyWordCommon\KeyWordCreateTableItem.cs" />
+    <Compile Include="BQLCommon\BQLKeyWordCommon\KeyWordTableParamItem.cs" />
+    <Compile Include="BQLCommon\BQLKeyWordCommon\KeyWordAlterTableItem.cs" />
+    <Compile Include="BQLCommon\BQLKeyWordCommon\KeyWordAddParamItem.cs" />
+    <Compile Include="BQLCommon\BQLKeyWordCommon\KeyWordAddForeignkeyItem.cs" />
+    <Compile Include="CacheManager\CacheUnit.cs" />
+    <Compile Include="CacheManager\DataSetCacheItem.cs" />
+    <Compile Include="CacheManager\ICacheAdaper.cs" />
+    <Compile Include="CacheManager\Memcached\MemCacheReader.cs" />
+    <Compile Include="CacheManager\MemoryAdaper.cs" />
+    <Compile Include="CacheManager\NetCacheBase.cs" />
+    <Compile Include="CacheManager\QueryCache.cs" />
+    <Compile Include="CacheManager\QueryViewConfig.cs" />
+    <Compile Include="CacheManager\WebCacheAdaper.cs" />
+    <Compile Include="CacheStorage\CacheStorageItem.cs" />
+    <Compile Include="CacheStorage\QueryStorageBase.cs" />
+    <Compile Include="CommBase\BH.cs" />
+    <Compile Include="CommBase\BusinessBases\BatchAction.cs" />
+    <Compile Include="CommBase\BusinessBases\BusinessModelBase.cs" />
+    <Compile Include="CommBase\BusinessBases\BusinessModelBaseForSelect.cs" />
+    <Compile Include="CommBase\BusinessBases\DBTransation.cs" />
+    <Compile Include="CommBase\BusinessBases\ModelContext.cs" />
+    <Compile Include="CommBase\BusinessBases\ThinModelBase.cs" />
+    <Compile Include="CommBase\DataAccessBases\AliasTableMappingManagers\AliasReaderMapping.cs" />
+    <Compile Include="CommBase\DataAccessBases\AliasTableMappingManagers\AliasTableMapping.cs" />
+    <Compile Include="CommBase\DataAccessBases\AliasTableMappingManagers\TableAliasNameManager.cs" />
+    <Compile Include="CommBase\DataAccessBases\DataAccessBase.cs" />
+    <Compile Include="CommBase\DataAccessBases\DataAccessBaseForSelect.cs" />
+    <Compile Include="CommBase\DataAccessBases\DataAccessCommon.cs" />
+    <Compile Include="CommBase\DataAccessBases\DataAccessModel.cs" />
+    <Compile Include="CommBase\DataAccessBases\DataAccessSetBase.cs" />
+    <Compile Include="CommBase\DataAccessBases\ExplainScope.cs" />
+    <Compile Include="CommBase\DataAccessBases\IDalAttribute.cs" />
+    <Compile Include="CommBase\DataAccessBases\IDataAccessModel.cs" />
+    <Compile Include="CommBase\DataAccessBases\IViewDataAccess.cs" />
+    <Compile Include="CommBase\DataAccessBases\VersionInfo.cs" />
+    <Compile Include="CommBase\EntityBase.cs" />
+    <Compile Include="CommBase\EntityBaseInfo.cs" />
+    <Compile Include="CommBase\StaticConnection.cs" />
+    <Compile Include="CommBase\UpdatePropertyInfo.cs" />
+    <Compile Include="ConfigXmlLoader.cs" />
+    <Compile Include="ContantSearchs\PropertyParamMapping.cs" />
+    <Compile Include="ContantSearchs\SearchConditionObject.cs" />
+    <Compile Include="BQLCommon\BQLAggregateFunctions\BQLAggregateFunction.cs" />
+    <Compile Include="BQLCommon\BQLBaseFunction\AliasTableCollection.cs" />
+    <Compile Include="BQLCommon\BQLBaseFunction\BQL.cs" />
+    <Compile Include="BQLCommon\BQLConditionCommon\AliasCollection.cs" />
+    <Compile Include="BQLCommon\BQLConditionCommon\AliasEnumerator.cs" />
+    <Compile Include="BQLCommon\BQLConditionCommon\AliasTabelParamHandle.cs" />
+    <Compile Include="BQLCommon\BQLConditionCommon\BQLAliasHandle.cs" />
+    <Compile Include="BQLCommon\BQLConditionCommon\BQLAliasParamHandle.cs" />
+    <Compile Include="BQLCommon\BQLConditionCommon\BQLCaseHandle.cs" />
+    <Compile Include="BQLCommon\BQLConditionCommon\BQLComparItem.cs" />
+    <Compile Include="BQLCommon\BQLConditionCommon\BQLCondition.cs" />
+    <Compile Include="BQLCommon\BQLConditionCommon\BQLDataBaseHandle.cs" />
+    <Compile Include="BQLCommon\BQLConditionCommon\BQLEntityHandle.cs" />
+    <Compile Include="BQLCommon\BQLConditionCommon\BQLEntityParamHandle.cs" />
+    <Compile Include="BQLCommon\BQLConditionCommon\BQLEntityTableHandle.cs" />
+    <Compile Include="BQLCommon\BQLConditionCommon\BQLNowDateHandle.cs" />
+    <Compile Include="BQLCommon\BQLConditionCommon\BQLOperatorHandle.cs" />
+    <Compile Include="BQLCommon\BQLConditionCommon\BQLOrderByHandle.cs" />
+    <Compile Include="BQLCommon\BQLConditionCommon\BQLOtherParamHandle.cs" />
+    <Compile Include="BQLCommon\BQLConditionCommon\BQLOtherTableHandle.cs" />
+    <Compile Include="BQLCommon\BQLConditionCommon\BQLParamHandle.cs" />
+    <Compile Include="BQLCommon\BQLConditionCommon\BQLTableHandle.cs" />
+    <Compile Include="BQLCommon\BQLConditionCommon\BQLValueItem.cs" />
+    <Compile Include="BQLCommon\BQLConditionCommon\BQLValueTypeItem.cs" />
+    <Compile Include="BQLCommon\BQLConditionCommon\FunctionManager.cs" />
+    <Compile Include="BQLCommon\BQLConditionCommon\ParamInfo.cs" />
+    <Compile Include="BQLCommon\BQLConditionCommon\QueryParamCollection.cs" />
+    <Compile Include="BQLCommon\BQLConditionCommon\QueryParamEnumerator.cs" />
+    <Compile Include="BQLCommon\BQLConditions\BQLConditionItem.cs" />
+    <Compile Include="BQLCommon\BQLConditions\BQLConditionManager.cs" />
+    <Compile Include="BQLCommon\BQLConditions\BQLConditionScope.cs" />
+    <Compile Include="BQLCommon\BQLConditions\BQLExplainScope.cs" />
+    <Compile Include="BQLCommon\BQLDataAccessBase.cs" />
+    <Compile Include="BQLCommon\BQLDbBase.cs" />
+    <Compile Include="BQLCommon\BQLExtendFunction\BQLCommonFunction.cs" />
+    <Compile Include="BQLCommon\BQLExtendFunction\BQLConvertFunction.cs" />
+    <Compile Include="BQLCommon\BQLExtendFunction\BQLCustomizeFunction.cs" />
+    <Compile Include="BQLCommon\BQLInfos.cs" />
+    <Compile Include="BQLCommon\BQLKeyWordCommon\BQLKeyWordManager.cs" />
+    <Compile Include="BQLCommon\BQLKeyWordCommon\BQLQuery.cs" />
+    <Compile Include="BQLCommon\BQLKeyWordCommon\KeyWordCaseElseItem.cs" />
+    <Compile Include="BQLCommon\BQLKeyWordCommon\KeyWordCaseItem.cs" />
+    <Compile Include="BQLCommon\BQLKeyWordCommon\KeyWordCaseThenItem.cs" />
+    <Compile Include="BQLCommon\BQLKeyWordCommon\KeyWordCaseWhenItem.cs" />
+    <Compile Include="BQLCommon\BQLKeyWordCommon\KeyWordDeleteItem.cs" />
+    <Compile Include="BQLCommon\BQLKeyWordCommon\KeyWordFromItem.cs" />
+    <Compile Include="BQLCommon\BQLKeyWordCommon\KeyWordGroupByItem.cs" />
+    <Compile Include="BQLCommon\BQLKeyWordCommon\KeyWordHavingItem.cs" />
+    <Compile Include="BQLCommon\BQLKeyWordCommon\KeyWordInserItem.cs" />
+    <Compile Include="BQLCommon\BQLKeyWordCommon\KeyWordInsertFieldItem.cs" />
+    <Compile Include="BQLCommon\BQLKeyWordCommon\KeyWordInsertQueryItem.cs" />
+    <Compile Include="BQLCommon\BQLKeyWordCommon\KeyWordInsertValueItem.cs" />
+    <Compile Include="BQLCommon\BQLKeyWordCommon\KeyWordJoinItem.cs" />
+    <Compile Include="BQLCommon\BQLKeyWordCommon\KeyWordLimitItem.cs" />
+    <Compile Include="BQLCommon\BQLKeyWordCommon\KeyWordLinkValueItemBase.cs" />
+    <Compile Include="BQLCommon\BQLKeyWordCommon\KeyWordOrderByItem.cs" />
+    <Compile Include="BQLCommon\BQLKeyWordCommon\KeyWordSelectItem.cs" />
+    <Compile Include="BQLCommon\BQLKeyWordCommon\KeyWordUpdateItem.cs" />
+    <Compile Include="BQLCommon\BQLKeyWordCommon\KeyWordUpdateSetItem.cs" />
+    <Compile Include="BQLCommon\BQLKeyWordCommon\KeyWordWhereItem.cs" />
+    <Compile Include="BQLCommon\BQLKeyWordCommon\UpdateSetParamItem.cs" />
+    <Compile Include="BQLCommon\BQLKeyWordCommon\UpdateSetParamItemList.cs" />
+    <Compile Include="BQLCommon\IdentityInfos\IdentityInfo.cs" />
+    <Compile Include="BQLCommon\KeyWordConver.cs" />
+    <Compile Include="BQLCommon\KeyWordInfomation.cs" />
+    <Compile Include="DataBaseAdapter\AccessAdapter\AdapterLoader.cs" />
+    <Compile Include="DataBaseAdapter\AccessAdapter\AggregateFunctions.cs" />
+    <Compile Include="DataBaseAdapter\AccessAdapter\CommonFunction.cs" />
+    <Compile Include="DataBaseAdapter\AccessAdapter\ConvertFunction.cs" />
+    <Compile Include="DataBaseAdapter\AccessAdapter\CutPageSqlCreater.cs" />
+    <Compile Include="DataBaseAdapter\AccessAdapter\DBAdapter.cs" />
+    <Compile Include="DataBaseAdapter\AccessAdapter\DBStructure.cs" />
+    <Compile Include="DataBaseAdapter\AccessAdapter\FormatCode.cs" />
+    <Compile Include="DataBaseAdapter\AccessAdapter\MathFunctions.cs" />
+    <Compile Include="DataBaseAdapter\AccessAdapter\RebuildParamInfo.cs" />
+    <Compile Include="DataBaseAdapter\ConfigInfo.cs" />
+    <Compile Include="DataBaseAdapter\DataAccessLoader.cs" />
+    <Compile Include="DataBaseAdapter\DBInfo.cs" />
+    <Compile Include="DataBaseAdapter\DBTableInfo.cs" />
+    <Compile Include="DataBaseAdapter\IDbAdapters\CheckEvent.cs" />
+    <Compile Include="DataBaseAdapter\IDbAdapters\IAggregateFunctions.cs" />
+    <Compile Include="DataBaseAdapter\IDbAdapters\ICommonFunction.cs" />
+    <Compile Include="DataBaseAdapter\IDbAdapters\IConvertFunction.cs" />
+    <Compile Include="DataBaseAdapter\IDbAdapters\IDBAdapter.cs" />
+    <Compile Include="DataBaseAdapter\IDbAdapters\IMathFunctions.cs" />
+    <Compile Include="DataBaseAdapter\LoadTypeInfo.cs" />
+    <Compile Include="DataBaseAdapter\Oracle9Adapter\AdapterLoader.cs" />
+    <Compile Include="DataBaseAdapter\Oracle9Adapter\AggregateFunctions.cs" />
+    <Compile Include="DataBaseAdapter\Oracle9Adapter\CommonFunction.cs" />
+    <Compile Include="DataBaseAdapter\Oracle9Adapter\ConvertFunction.cs" />
+    <Compile Include="DataBaseAdapter\Oracle9Adapter\CursorPageCutter.cs" />
+    <Compile Include="DataBaseAdapter\Oracle9Adapter\CutPageSqlCreater.cs" />
+    <Compile Include="DataBaseAdapter\Oracle9Adapter\DBAdapter.cs" />
+    <Compile Include="DataBaseAdapter\Oracle9Adapter\DBStructure.cs" />
+    <Compile Include="DataBaseAdapter\Oracle9Adapter\MathFunctions.cs" />
+    <Compile Include="DataBaseAdapter\Oracle9Adapter\SequenceManager.cs" />
+    <Compile Include="DataBaseAdapter\SqlServer2K12Adapter\AdapterLoader.cs" />
+    <Compile Include="DataBaseAdapter\SqlServer2K12Adapter\AggregateFunctions.cs" />
+    <Compile Include="DataBaseAdapter\SqlServer2K12Adapter\CutPageSqlCreater.cs" />
+    <Compile Include="DataBaseAdapter\SqlServer2K12Adapter\DBAdapter.cs" />
+    <Compile Include="DataBaseAdapter\SqlServer2K12Adapter\DBStructure.cs" />
+    <Compile Include="DataBaseAdapter\SqlServer2K5Adapter\AdapterLoader.cs" />
+    <Compile Include="DataBaseAdapter\SqlServer2K5Adapter\AggregateFunctions.cs" />
+    <Compile Include="DataBaseAdapter\SqlServer2K5Adapter\CutPageSqlCreater.cs" />
+    <Compile Include="DataBaseAdapter\SqlServer2K5Adapter\DBAdapter.cs" />
+    <Compile Include="DataBaseAdapter\SqlServer2K5Adapter\DBStructure.cs" />
+    <Compile Include="DataBaseAdapter\SqlServer2K8Adapter\AdapterLoader.cs" />
+    <Compile Include="DataBaseAdapter\SqlServer2K8Adapter\AggregateFunctions.cs" />
+    <Compile Include="DataBaseAdapter\SqlServer2K8Adapter\CutPageSqlCreater.cs" />
+    <Compile Include="DataBaseAdapter\SqlServer2K8Adapter\DBAdapter.cs" />
+    <Compile Include="DataBaseAdapter\SqlServer2K8Adapter\DBStructure.cs" />
+    <Compile Include="DataBaseAdapter\SqlServer2KAdapter\AdapterLoader.cs" />
+    <Compile Include="DataBaseAdapter\SqlServer2KAdapter\AggregateFunctions.cs" />
+    <Compile Include="DataBaseAdapter\SqlServer2KAdapter\CommonFunction.cs" />
+    <Compile Include="DataBaseAdapter\SqlServer2KAdapter\ConvertFunction.cs" />
+    <Compile Include="DataBaseAdapter\SqlServer2KAdapter\CursorPageCutter.cs" />
+    <Compile Include="DataBaseAdapter\SqlServer2KAdapter\CutPageSqlCreater.cs" />
+    <Compile Include="DataBaseAdapter\SqlServer2KAdapter\DBAdapter.cs" />
+    <Compile Include="DataBaseAdapter\SqlServer2KAdapter\DBStructure.cs" />
+    <Compile Include="DataBaseAdapter\SqlServer2KAdapter\FormatCode.cs" />
+    <Compile Include="DataBaseAdapter\IDbAdapters\IDBStructure.cs" />
+    <Compile Include="DataBaseAdapter\IDbAdapters\IAdapterLoader.cs" />
+    <Compile Include="DataBaseAdapter\SqlServer2KAdapter\MathFunctions.cs" />
+    <Compile Include="DataFillers\CacheReader.cs" />
+    <Compile Include="DataFillers\MappingContorl.cs" />
+    <Compile Include="DBCheckers\DBChecker.cs" />
+    <Compile Include="DBCheckers\TableChecker.cs" />
+    <Compile Include="DbCommon\DataBaseOperate.cs" />
+    <Compile Include="DbCommon\DBConn.cs" />
+    <Compile Include="DbCommon\DBParameter.cs" />
+    <Compile Include="DbCommon\LockDBItem.cs" />
+    <Compile Include="DbCommon\ParamList.cs" />
+    <Compile Include="DBFunction\DBAggregateFunction.cs" />
+    <Compile Include="DBFunction\DBCommonFunction.cs" />
+    <Compile Include="DBFunction\DBConvertFunction.cs" />
+    <Compile Include="DBFunction\DBMathFunction.cs" />
+    <Compile Include="EntityInfos\CH.cs" />
+    <Compile Include="EntityInfos\EntityConfigInfo.cs" />
+    <Compile Include="EntityInfos\EntityInfoHandle.cs" />
+    <Compile Include="EntityInfos\EntityInfoManager.cs" />
+    <Compile Include="EntityInfos\EntityMappingInfo.cs" />
+    <Compile Include="EntityInfos\EntityPropertyInfo.cs" />
+    <Compile Include="EntityInfos\MappingInfoCollection.cs" />
+    <Compile Include="EntityInfos\MappingInfoEnumerator.cs" />
+    <Compile Include="EntityInfos\PrimaryKeyInfo.cs" />
+    <Compile Include="EntityInfos\PropertyEnumerator.cs" />
+    <Compile Include="EntityInfos\PropertyInfoCollection.cs" />
+    <Compile Include="Exceptions\SQLRunningException.cs" />
+    <Compile Include="FaintnessSearchConditions\FullTextConfigManager.cs" />
+    <Compile Include="FaintnessSearchConditions\NoiseWord.cs" />
+    <Compile Include="ListExtends\CompareItem.cs" />
+    <Compile Include="ListExtends\CompareItemInfo.cs" />
+    <Compile Include="ListExtends\DataFilter.cs" />
+    <Compile Include="ListExtends\ListXMLExtends.cs" />
+    <Compile Include="ListExtends\SortCompartItem.cs" />
+    <Compile Include="ListExtends\XMLExtendsLoader.cs" />
+    <Compile Include="MessageOutPuters\DebugOutputer.cs" />
+    <Compile Include="MessageOutPuters\MessageInfo.cs" />
+    <Compile Include="MessageOutPuters\MessageOutput.cs" />
+    <Compile Include="MessageOutPuters\MessageOutputBase.cs" />
+    <Compile Include="MessageOutPuters\MessageType.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PropertyAttributes\AttributesGetter.cs" />
+    <Compile Include="PropertyAttributes\DataBaseAttribute.cs" />
+    <Compile Include="PropertyAttributes\EntityParam.cs" />
+    <Compile Include="PropertyAttributes\EntityPropertyType.cs" />
+    <Compile Include="PropertyAttributes\SequenceAttributes.cs" />
+    <Compile Include="PropertyAttributes\TableAttribute.cs" />
+    <Compile Include="PropertyAttributes\TableRelationAttribute.cs" />
+    <Compile Include="PropertyAttributes\ViewRelationTables.cs" />
+    <Compile Include="ProxyBuilder\EntityProxyBuilder.cs" />
+    <Compile Include="ProxyBuilder\IEntityProxy.cs" />
+    <Compile Include="QueryConditions\AbsCondition.cs" />
+    <Compile Include="QueryConditions\CreateTableCondition.cs" />
+    <Compile Include="QueryConditions\DeleteCondition.cs" />
+    <Compile Include="QueryConditions\InsertCondition.cs" />
+    <Compile Include="QueryConditions\PageContent.cs" />
+    <Compile Include="QueryConditions\Scope.cs" />
+    <Compile Include="QueryConditions\ScopeList.cs" />
+    <Compile Include="QueryConditions\ScopeXmlExtend.cs" />
+    <Compile Include="QueryConditions\SelectCondition.cs" />
+    <Compile Include="QueryConditions\ShowChildCollection.cs" />
+    <Compile Include="QueryConditions\ShowChildItem.cs" />
+    <Compile Include="QueryConditions\ShowEntityCollection.cs" />
+    <Compile Include="QueryConditions\ShowPropertyCollection.cs" />
+    <Compile Include="QueryConditions\Sort.cs" />
+    <Compile Include="QueryConditions\SortList.cs" />
+    <Compile Include="QueryConditions\SortType.cs" />
+    <Compile Include="QueryConditions\UpdateCondition.cs" />
+    <Compile Include="QueryConditions\AlterTableCondition.cs" />
+    <Compile Include="QueryConditions\ValueSetList.cs" />
+    <Compile Include="Resource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resource.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tableParam2000.sql" />
+    <None Include="Resources\tableParam2005.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Buffalo.Kernel\Buffalo2013.Kernel.csproj">
+      <Project>{6ec04216-a422-4751-aa81-1211dcb10bab}</Project>
+      <Name>Buffalo2013.Kernel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
