@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+
+    <configItems>
+      <item type="check"  name="CanQuery" summary="查询条件"></item>
+      <item type="check" name="CanAddNew" summary="可添加"></item>
+      <item type="check" name="CanEdit" summary="可编辑"></item>
+      <item type="combo" name="SumType" summary="统计类型" select="无:None,总相加:Sum,总条数:Count,平均:Avg,自定义:Custom"></item>
+      <item type="mtext" name="CustomCount" summary="自定义统计"></item>
+    </configItems>
+  <classItems>
+    <item type="text" name="Namespace" summary="命名空间"></item>
+    <item type="mtext" name="Using" summary="引用"></item>
+  </classItems>
+  <models>
+    <project name="Web界面">
+      <!--
+      <item path="{ProjectPath}\webmodel.model" type="code" target="{ClassName}Query.aspx">
+        <item path="{ProjectPath}\webmodel.cs.model" type="code" target="{ClassName}Query.aspx.cs">
+        </item>
+      </item>-->
+      <item path="{ProjectPath}\.bmodels\DataView.bm" type="code" target="{SelectProjectPath}\DataView\{ClassName}DataView.cs">
+      </item>
+    </project>
+  </models>
+</root>

@@ -1,0 +1,22 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Data;
+using Buffalo.DB.CommBase;
+using Buffalo.Kernel.Defaults;
+using Buffalo.DB.PropertyAttributes;
+using Buffalo.DB.CommBase.BusinessBases;
+namespace <%=EntityNamespace%>
+{
+	/// <summary>
+    /// <%=Summary%>
+    /// </summary>
+    public partial class <%=ClassName%>: <%=EntityBaseType%>
+    {
+<%=EntityFields%>
+
+<%=EntityRelations%>
+
+<%=EntityContext%>
+    }
+}

@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--appnamespace为数据访问层的命名空间，assembly为程序集，如果为空则自动查找实体实体所在的程序集 -->
+<config name="<%=DBName%>" appnamespace="<%=DataAccessNamespace%>.<%=DataBaseType%>" 
+		dbType="<%=DataBaseType%>" connectionString="<%=ConnectString%>"
+		>
+  <!-- classname为数据访问层的类名,interface为此数据访问层对应的接口 -->
+ <!-- <dataAccess classname="DataAccess.MyDB.DataAccess.Sql2K.UserDataAccess" interface="DataAccess.MyDB.IDataAccess.IUserDataAccess" />-->
+</config>
