@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{23BD2C55-980A-4D0F-953C-41BA6232AA1E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Buffalo.Winforms</RootNamespace>
+    <AssemblyName>Buffalo.Winforms</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DialogLib\InputModel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DialogLib\InputModel.designer.cs">
+      <DependentUpon>InputModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmMask.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmMask.Designer.cs">
+      <DependentUpon>FrmMask.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RoundClickButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UIHeader.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ClickButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DialogLib\DialogHelper.cs" />
+    <Compile Include="DialogLib\UCConfirm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DialogLib\UCConfirm.designer.cs">
+      <DependentUpon>UCConfirm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DialogLib\UCMessage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DialogLib\UCMessage.designer.cs">
+      <DependentUpon>UCMessage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormModelBase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FrmUIDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmUIDialog.designer.cs">
+      <DependentUpon>FrmUIDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HollowRoundButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ModelIDAttribute.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="RoundButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RoundLable.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RoundPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ToolBarButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ToolBarPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MedPagingBar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MedPagingBar.designer.cs">
+      <DependentUpon>MedPagingBar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UILoaderUnit\IShowLoading.cs" />
+    <Compile Include="UILoaderUnit\IShowToolTip.cs" />
+    <Compile Include="UILoaderUnit\UILoader.cs" />
+    <Compile Include="UILoaderUnit\UIMapID.cs" />
+    <Compile Include="UILoading.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UILoading.Designer.cs">
+      <DependentUpon>UILoading.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DialogLib\InputModel.resx">
+      <DependentUpon>InputModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DialogLib\UCConfirm.resx">
+      <DependentUpon>UCConfirm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DialogLib\UCMessage.resx">
+      <DependentUpon>UCMessage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormModelBase.resx">
+      <DependentUpon>FormModelBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmMask.resx">
+      <DependentUpon>FrmMask.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmUIDialog.resx">
+      <DependentUpon>FrmUIDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MedPagingBar.resx">
+      <DependentUpon>MedPagingBar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UILoading.resx">
+      <DependentUpon>UILoading.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\errorLogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\infoLogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\questionLogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\successlogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Previous.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Home.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Last.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Next.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\loading.gif" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
