@@ -1,0 +1,191 @@
+<#script type="linked">
+
+</#script>
+
+<#script type="using">
+
+</#script>
+
+<#script type="method">
+/// <summary>
+/// 获取查询控件
+/// </summary>
+/// <param name="pro">属性</param>
+/// <returns></returns>
+public string GetEditControl(Property pro)
+{
+	if(pro.RelInfo!=null)
+	{
+		return "System.Web.UI.WebControls.DropDownList "+GetControlName(pro)+";";
+	}
+	string type=pro.TypeName;
+	if(type=="string")
+	{
+		return "System.Web.UI.WebControls.TextBox "+GetControlName(pro)+";";
+	}
+	if(type=="bool")
+	{
+		return "System.Web.UI.WebControls.CheckBox "+GetControlName(pro)+";";
+	}
+	
+
+	return "System.Web.UI.WebControls.TextBox "+GetControlName(pro)+";";
+}
+
+/// <summary>
+/// 获取查询控件的控件名
+/// </summary>
+/// <param name="pro">属性</param>
+/// <returns></returns>
+private string GetControlName(Property pro)
+{
+	if(pro.RelInfo!=null)
+	{
+		return "ddl"+pro.PropertyName;
+	}
+	if(pro.TypeName=="bool")
+	{
+		return "chk"+pro.PropertyName;
+	}
+	if(pro.TypeName.IndexOf("DateTime")>=0)
+	{
+		return "txt"+pro.PropertyName;
+	}
+	return "txt"+pro.PropertyName;
+}
+/// <summary>
+/// 获取查询控件的控件名
+/// </summary>
+/// <param name="pro">属性</param>
+/// <returns></returns>
+private string GetControlValue(Property pro)
+{
+	if(pro.RelInfo!=null)
+	{
+		return "ddl"+pro.PropertyName+".SelectedValue";
+	}
+	if(pro.TypeName=="bool")
+	{
+		return "chk"+pro.PropertyName+".Checked";
+	}
+	if(pro.TypeName.IndexOf("DateTime")>=0)
+	{
+		return "txt"+pro.PropertyName+".CurrentDate";
+	}
+	return "txt"+pro.PropertyName+".Text";
+}
+
+/// <summary>
+/// 获取查询控件的控件名
+/// </summary>
+/// <param name="pro">属性</param>
+/// <returns></returns>
+private string GetProValue(Property pro)
+{
+	if(pro.RelInfo!=null)
+	{
+		return pro.RelInfo.SourceName.ToString();
+	}
+	if(pro.TypeName=="bool")
+	{
+		return pro.PropertyName;
+	}
+	if(pro.TypeName.IndexOf("DateTime")>=0)
+	{
+		return pro.PropertyName;
+	}
+	return pro.PropertyName+".ToString()";
+}
+/// <summary>
+/// 获取主键属性
+/// </summary>
+private string GetPrimaryProperty()
+{
+	foreach(Property pro in SelectedPropertys ) 
+	{
+		if(pro.TableInfo.IsPrimary)
+		{
+			return pro.PropertyName;
+		}
+	}
+	return "";
+}
+
+private string GetChangeTypeValue(Property pro)
+{
+	string tname=pro.TypeName.Trim('?',' ');
+	if(tname=="int" || tname=="Int32")
+	{
+		return "Convert.ToInt32("+GetControlValue(pro)+")";
+	}
+	if(tname=="uint" || tname=="UInt32")
+	{
+		return "Convert.ToUInt32("+GetControlValue(pro)+")";
+	}
+	if(tname=="long" || tname=="Int64")
+	{
+		return "Convert.ToInt64("+GetControlValue(pro)+")";
+	}
+	if(tname=="ulong" || tname=="UInt64")
+	{
+		return "Convert.ToUInt64("+GetControlValue(pro)+")";
+	}
+	if(tname=="short" || tname=="Int16")
+	{
+		return "Convert.ToInt16("+GetControlValue(pro)+")";
+	}
+	if(tname=="ushort" || tname=="UInt16")
+	{
+		return "Convert.ToUInt16("+GetControlValue(pro)+")";
+	}
+	if(tname=="byte" || tname=="Byte")
+	{
+		return "Convert.ToByte("+GetControlValue(pro)+")";
+	}
+	if(tname=="sbyte" || tname=="SByte")
+	{
+		return "Convert.ToSByte("+GetControlValue(pro)+")";
+	}
+	if(tname=="bool" || tname=="Boolean")
+	{
+		return "Convert.ToBoolean("+GetControlValue(pro)+")";
+	}
+	if(tname=="decimal" || tname=="Decimal")
+	{
+		return "Convert.ToDecimal("+GetControlValue(pro)+")";
+	}
+	/*if(tname=="DateTime" || tname=="System.DateTime" )
+	{
+		return "Convert.ToDateTime("+GetControlValue(pro)+")";
+	}*/
+	if(tname=="double" || tname=="Double")
+	{
+		return "Convert.ToDouble("+GetControlValue(pro)+")";
+	}
+	
+	if(tname=="float" || tname=="Single")
+	{
+		return "Convert.ToSingle("+GetControlValue(pro)+")";
+	}
+	if(tname=="string" || tname=="String")
+	{
+		return GetControlValue(pro)+".ToString()";
+	}
+	return GetControlValue(pro);
+}
+
+/// <summary>
+/// 获取字段名
+/// </summary>
+/// <param name="itemName"></param>
+/// <returns></returns>
+public string GetFieldName(string name)
+{
+	string retName=name.Substring(0, 1).ToLower()+name.Substring(1, name.Length - 1);
+	return retName;
+	
+}
+
+
+
+</#script>

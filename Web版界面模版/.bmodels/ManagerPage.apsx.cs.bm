@@ -1,0 +1,106 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Collections.Generic;
+using Buffalo.DB.QueryConditions;
+using <#=Entity.GetValue("Namespace")#>;
+using <#=Entity.GetValue("Namespace")#>.Business;
+using <#=Entity.GetValue("Namespace")#>.BQLEntity;
+using Models;
+namespace <#=Entity.GetValue("TargetNamespace")#>
+{
+    public partial class <#=Entity.ClassName #>Manager :UserPageBase
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!Page.IsPostBack)
+            {
+                GridBind();
+            }
+            LocationString = "[业务中心]-[<#=Entity.Summary #>管理]";
+            pbPaging.OnPageIndexChange += new Buffalo.WebKernel.WebCommons.PagerCommon.PageIndexChange(pbPaging_OnPageIndexChange);
+        }
+
+        void pbPaging_OnPageIndexChange(object sender, long currentIndex)
+        {
+            
+            GridBind();
+        }
+        protected override void GridBind()
+        {
+            <#=Entity.ClassName #>Business bo = new <#=Entity.ClassName #>Business();
+            ScopeList lstScope = new ScopeList();
+            lstScope.PageContent.PageSize = 20;
+            lstScope.PageContent.CurrentPage = pbPaging.CurrentPage;
+			FillScope(lstScope);
+            FillOrderBy(gvDetail.ClientID, lstScope.OrderBy);
+            List<<#=Entity.ClassName #>> lst = bo.SelectList(lstScope);
+            gvDetail.DataSource = lst;
+            SetGridViewStyle(gvDetail);
+            gvDetail.DataBind();
+            pbPaging.DataSource = lstScope.PageContent;
+            base.GridBind();
+            labSort.Text = GetGridViewOrderString(gvDetail);
+        }
+		
+		
+		private void FillScope(ScopeList lstScope)
+        {
+            /*
+			填充查询条件，如：
+			string name = ViewState["searchName"] as string;
+            if (!string.IsNullOrEmpty(name))
+            {
+				lstScope.Add(DB.Employee.Content.Like(name));
+			}
+			*/
+        }
+		
+		
+        protected void lbDelete_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtWillDelete.Value))
+            {
+                return;
+            }
+            string sid = txtWillDelete.Value;
+            txtWillDelete.Value = "";
+            int id = 0;
+            if (!int.TryParse(sid, out id))
+            {
+                ArtError("删除失败:找不到记录");
+                return;
+            }
+            <#=Entity.ClassName #>Business bo = new <#=Entity.ClassName #>Business();
+            
+
+            string err = bo.DeleteById(id) as string;
+            if (err != null)
+            {
+                
+                ArtError("删除失败:" + err);
+            }
+            else
+            {
+                ArtSuccess("删除完毕");
+                GridBind();
+            }
+        }
+		
+		protected void btnSearch_Click(object sender, EventArgs e)
+        {
+			/*查询条件放进ViewState,如:
+			ViewState["searchName"] = txtName.Text;
+			*/
+            pbPaging.CurrentPage = 0;
+            GridBind();
+        }
+    }
+}

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<root>
+
+    <configItems>
+		<item type="text" name="Lable" summary="名称" default="{PropertySummary}"></item>
+		<item type="check" name="CanView" summary="可查看" default="1"></item>
+		<item type="check" name="CanEdit" summary="可编辑" default="1"></item>
+    </configItems>
+    <classItems>
+
+      <item type="check"  name="CanQuery" summary="可查询" default="1"></item>
+      <item type="check" name="CanAddNew" summary="可添加" default="1"></item>
+      <item type="check" name="CanEdit" summary="可编辑" default="1"></item>
+      <item type="text" name="Namespace" summary="实体包" default="{ClassNamespace}"></item>
+      <item type="text" name="TargetNamespace" summary="目标包名" default="{SelectProjectName}.ManagerPage"></item>
+      <item type="mtext" name="Using" summary="引用"></item>
+  </classItems>
+  <models>
+    <project name="Web界面">
+      <item path="{ProjectPath}\.bmodels\ManagerPage.apsx.bm" type="file" target="{SelectProjectPath}\ManagerPage\{ClassName}Manager.aspx">
+        <item path="{ProjectPath}\.bmodels\ManagerPage.aspx.designer.cs.bm" type="code" target="{SelectProjectPath}\ManagerPage\{ClassName}Manager.aspx.designer.cs" ></item>
+        <item path="{ProjectPath}\.bmodels\ManagerPage.apsx.cs.bm" type="code" target="{SelectProjectPath}\ManagerPage\{ClassName}Manager.aspx.cs" >
+        </item>
+      </item>
+      
+      <item path="{ProjectPath}\.bmodels\EditPage.apsx.bm" type="file" target="{SelectProjectPath}\ManagerPage\{ClassName}Edit.aspx">
+        <item path="{ProjectPath}\.bmodels\EditPage.aspx.designer.cs.bm" type="code" target="{SelectProjectPath}\ManagerPage\{ClassName}Edit.aspx.designer.cs" ></item>
+        <item path="{ProjectPath}\.bmodels\EditPage.apsx.cs.bm" type="code" target="{SelectProjectPath}\ManagerPage\{ClassName}Edit.aspx.cs" >
+        </item>
+      </item>
+    </project>
+  </models>
+</root>

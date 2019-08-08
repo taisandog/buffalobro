@@ -1,0 +1,55 @@
+<%@ Page Title="" Language="C#" MasterPageFile="~/Models/EditModel.Master" AutoEventWireup="true" CodeBehind="<#=Entity.ClassName #>Edit.aspx.cs" Inherits="<#=Entity.GetValue("TargetNamespace")#>.<#=Entity.ClassName #>Edit" %>
+<%@ Register assembly="Buffalo.WebControls" namespace="Buffalo.WebControls.KimSoftWebCalendars" tagprefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="HeadContentPlace" runat="server">
+<script type="text/javascript">
+    var id=<%=string.IsNullOrEmpty(Request["id"])?"0":Request["id"] %>;
+    
+    
+</script>
+    <style type="text/css">
+        .style1
+        {
+            color: #03515d;
+            font-size: 12px;
+            height: 23px;
+        }
+        .style2
+        {
+            color: #03515d;
+            font-size: 12px;
+            height: 20px;
+        }
+    </style>
+</asp:Content>
+<asp:Content ID="Content2"  ContentPlaceHolderID="DetailContentPlace" runat="server">
+<table style="width:100%; border-width:1px; border-style:solid; margin-top:5px">
+	<# foreach(Property pro in SelectedPropertys ) {
+			if(!pro.HasItem("CanEdit"))
+			{
+				continue;
+			}
+		#>
+	<tr>
+		<td class="STYLE4" style="text-align:right">
+			<#=pro.GetValue("Lable")#>:
+		</td>
+		<td class="style1">
+			<#=GetEditControl(pro)#>
+		</td>
+	</tr>
+	<#}#>
+
+<tr>
+        <td></td>
+        <td>
+                <span>
+            <asp:Button ID="btnSave" runat="server" Text="±£´æ" Height="30px" Width="70px"
+                onclick="btnSave_Click" />
+                </span>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <input id="Button1" type="button" value="È¡Ïû" style=" width:70px; height:30px" onclick="window.parent.<%=ADialog.GetCloseDialogJS() %>;" />
+        </td>
+        </tr>
+
+</table>
+</asp:Content>
