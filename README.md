@@ -2,7 +2,7 @@
 
 
 
-Buffalo.DB：支持SQL Server、MySQL、Oracle、PostgreSQL、SQLite、Access
+Buffalo.DB：支持SQL Server、MySQL、Oracle、PostgreSQL、SQLite、Access、DB2
 
 Buffalo.QueryCache：支持:Redis、Memcached
 
