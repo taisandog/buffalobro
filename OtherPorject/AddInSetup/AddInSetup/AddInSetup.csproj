@@ -1,0 +1,276 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="14.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C609C74D-9385-48B1-9DB5-D53D0B476D3A}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AddInSetup</RootNamespace>
+    <AssemblyName>Setup</AssemblyName>
+    <ApplicationIcon>slogo.ico</ApplicationIcon>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Buffalo.ArgCommon">
+      <HintPath>..\dll\Buffalo.ArgCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="Buffalo.DB">
+      <HintPath>..\dll\Buffalo.DB.dll</HintPath>
+    </Reference>
+    <Reference Include="Buffalo.Kernel">
+      <HintPath>..\dll\Buffalo.Kernel.dll</HintPath>
+    </Reference>
+    <Reference Include="Buffalo.QueryCache">
+      <HintPath>..\dll\Buffalo.QueryCache.dll</HintPath>
+    </Reference>
+    <Reference Include="Buffalo.Storage">
+      <HintPath>..\dll\Buffalo.Storage.dll</HintPath>
+    </Reference>
+    <Reference Include="Buffalo.WebKernel">
+      <HintPath>..\dll\Buffalo.WebKernel.dll</HintPath>
+    </Reference>
+    <Reference Include="Buffalo.Win32Kernel">
+      <HintPath>..\dll\Buffalo.Win32Kernel.dll</HintPath>
+    </Reference>
+    <Reference Include="Enyim.Caching">
+      <HintPath>..\dll\Enyim.Caching.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\dll\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dll\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AddInInfo.cs" />
+    <Compile Include="ConnStringUI\UIConnBase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConnStringUI\UIConnBase.Designer.cs">
+      <DependentUpon>UIConnBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConnStringUI\UICOS.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConnStringUI\UICOS.Designer.cs">
+      <DependentUpon>UICOS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConnStringUI\UILocationStorage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConnStringUI\UILocationStorage.Designer.cs">
+      <DependentUpon>UILocationStorage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConnStringUI\UIMemcached.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConnStringUI\UIMemcached.Designer.cs">
+      <DependentUpon>UIMemcached.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConnStringUI\UIOBS.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConnStringUI\UIOBS.Designer.cs">
+      <DependentUpon>UIOBS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConnStringUI\UIOSS.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConnStringUI\UIOSS.Designer.cs">
+      <DependentUpon>UIOSS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConnStringUI\UIRedis.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConnStringUI\UIRedis.Designer.cs">
+      <DependentUpon>UIRedis.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConnStringUI\UIRedis2.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConnStringUI\UIRedis2.Designer.cs">
+      <DependentUpon>UIRedis2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConnStringUI\UISysMemory.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConnStringUI\UISysMemory.Designer.cs">
+      <DependentUpon>UISysMemory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConnStringUI\UIWebCache.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConnStringUI\UIWebCache.Designer.cs">
+      <DependentUpon>UIWebCache.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmConnString.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmConnString.Designer.cs">
+      <DependentUpon>FrmConnString.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmMain.Designer.cs">
+      <DependentUpon>FrmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmPutFile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmPutFile.Designer.cs">
+      <DependentUpon>FrmPutFile.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmUpdate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmUpdate.Designer.cs">
+      <DependentUpon>FrmUpdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UpdateInfo.cs" />
+    <EmbeddedResource Include="ConnStringUI\UIConnBase.resx">
+      <DependentUpon>UIConnBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConnStringUI\UICOS.resx">
+      <DependentUpon>UICOS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConnStringUI\UILocationStorage.resx">
+      <DependentUpon>UILocationStorage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConnStringUI\UIMemcached.resx">
+      <DependentUpon>UIMemcached.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConnStringUI\UIOBS.resx">
+      <DependentUpon>UIOBS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConnStringUI\UIOSS.resx">
+      <DependentUpon>UIOSS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConnStringUI\UIRedis.resx">
+      <DependentUpon>UIRedis.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConnStringUI\UIRedis2.resx">
+      <DependentUpon>UIRedis2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConnStringUI\UISysMemory.resx">
+      <DependentUpon>UISysMemory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConnStringUI\UIWebCache.resx">
+      <DependentUpon>UIWebCache.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmConnString.resx">
+      <DependentUpon>FrmConnString.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmMain.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmPutFile.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmPutFile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmUpdate.resx">
+      <DependentUpon>FrmUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="App.config" />
+    <None Include="doc\Buffalo.Cache.docx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="doc\Buffalo.DB.docx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="doc\Buffalo.Storage.docx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="doc\cos.docx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="doc\obs.docx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="doc\oss.docx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="DllVerInfo.cs" />
+    <Compile Include="DllItem.cs" />
+    <Compile Include="DllItemFile.cs" />
+    <Compile Include="ConfigLoader.cs" />
+    <Compile Include="ToolVersionInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AddInConfig.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Resources\DBTools.txt" />
+    <None Include="Resources\svnupdate.png" />
+    <Content Include="slogo.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Paths>
+
+  <Path source="Release\2005\" target="..\BuffaloSetup\AddIns\Net2.0\" igore="Buffalo.Data.Oracle11.;Buffalo.Data.Oracle12.;Oracle.DataAccess.;Mono.Security.;VJSharpCodeProvider.;System.;mscorcfg."></Path>
+  <Path source="Release\2008\" target="..\BuffaloSetup\AddIns\Net3.5\" igore="Buffalo.Data.Oracle11.;Buffalo.Data.Oracle12.;Oracle.DataAccess.;Mono.Security.;VJSharpCodeProvider.;System.;mscorcfg."></Path>
+  <Path source="Release\2010\" target="..\BuffaloSetup\AddIns\Net4.0\" igore="Buffalo.Data.Oracle11.;Buffalo.Data.Oracle12.;Oracle.DataAccess.;Mono.Security.;VJSharpCodeProvider.;System.;mscorcfg."></Path>
+  <Path source="Release\2012\" target="..\BuffaloSetup\AddIns\Net4.5\" igore="Buffalo.Data.Oracle11.;Buffalo.Data.Oracle12.;Oracle.DataAccess.;Mono.Security.;VJSharpCodeProvider.;System.;mscorcfg."></Path>
+  <Path source="Release\2013\" target="..\BuffaloSetup\AddIns\Net4.5.1\" igore="Buffalo.Data.Oracle11.;Buffalo.Data.Oracle12.;Oracle.DataAccess.;Mono.Security.;VJSharpCodeProvider.;System.;mscorcfg."></Path>
+  <Path source="Release\2015\" target="..\BuffaloSetup\AddIns\Net4.6\" igore="Buffalo.Data.Oracle11.;Buffalo.Data.Oracle12.;Oracle.DataAccess.;Mono.Security.;VJSharpCodeProvider.;System.;mscorcfg.;EnvDTE;Microsoft.;VSLangProj;VsWebSite.;Buffalo2015.DBToolsPackage"></Path>
+  <Path source="Release\2017\" target="..\BuffaloSetup\AddIns\Net4.6.2\" igore="Buffalo.Data.Oracle11.;Buffalo.Data.Oracle12.;Oracle.DataAccess.;Mono.Security.;VJSharpCodeProvider.;System.;mscorcfg.;EnvDTE;Microsoft.;VSLangProj;VsWebSite.;Buffalo.DBToolsPackage2017"></Path>
+
+
+  <Path source="..\dll\dll\SQLite.Interop\net20\x64\" target="..\BuffaloSetup\AddIns\Net2.0\x64\"></Path>
+  <Path source="..\dll\dll\SQLite.Interop\net20\x86\" target="..\BuffaloSetup\AddIns\Net2.0\x86\"></Path>
+
+  <Path source="..\dll\dll\SQLite.Interop\net20\x64\" target="..\BuffaloSetup\AddIns\Net3.5\x64\"></Path>
+  <Path source="..\dll\dll\SQLite.Interop\net20\x86\" target="..\BuffaloSetup\AddIns\Net3.5\x86\"></Path>
+
+  <Path source="..\dll\dll\SQLite.Interop\net40\x64\" target="..\BuffaloSetup\AddIns\Net4.0\x64\"></Path>
+  <Path source="..\dll\dll\SQLite.Interop\net40\x86\" target="..\BuffaloSetup\AddIns\Net4.0\x86\"></Path>
+
+  <Path source="..\dll\dll\SQLite.Interop\net45\x64\" target="..\BuffaloSetup\AddIns\Net4.5\x64\"></Path>
+  <Path source="..\dll\dll\SQLite.Interop\net45\x86\" target="..\BuffaloSetup\AddIns\Net4.5\x86\"></Path>
+
+  <Path source="..\dll\dll\SQLite.Interop\net451\x64\" target="..\BuffaloSetup\AddIns\Net4.5.1\x64\"></Path>
+  <Path source="..\dll\dll\SQLite.Interop\net451\x86\" target="..\BuffaloSetup\AddIns\Net4.5.1\x86\"></Path>
+
+  <Path source="..\dll\dll\SQLite.Interop\net46\x64\" target="..\BuffaloSetup\AddIns\Net4.6\x64\"></Path>
+  <Path source="..\dll\dll\SQLite.Interop\net46\x86\" target="..\BuffaloSetup\AddIns\Net4.6\x86\"></Path>
+
+  <Path source="..\dll\dll\SQLite.Interop\net462\x64\" target="..\BuffaloSetup\AddIns\Net4.6.2\x64\"></Path>
+  <Path source="..\dll\dll\SQLite.Interop\net462\x86\" target="..\BuffaloSetup\AddIns\Net4.6.2\x86\"></Path>
+
+  <Path source="Release\2005\Oracle11\" target="..\BuffaloSetup\AddIns\Net2.0\Oracle11\" igore="Buffalo.DB.;Buffalo.Kernel."></Path>
+  <Path source="Release\2008\Oracle11\" target="..\BuffaloSetup\AddIns\Net3.5\Oracle11\" igore="Buffalo.DB.;Buffalo.Kernel."></Path>
+  <Path source="Release\2010\Oracle11\" target="..\BuffaloSetup\AddIns\Net4.0\Oracle11\" igore="Buffalo.DB.;Buffalo.Kernel."></Path>
+  <Path source="Release\2012\Oracle11\" target="..\BuffaloSetup\AddIns\Net4.5\Oracle11\" igore="Buffalo.DB.;Buffalo.Kernel."></Path>
+  <Path source="Release\2013\Oracle11\" target="..\BuffaloSetup\AddIns\Net4.5.1\Oracle11\" igore="Buffalo.DB.;Buffalo.Kernel."></Path>
+  <Path source="Release\2015\Oracle11\" target="..\BuffaloSetup\AddIns\Net4.6\Oracle11\" igore="Buffalo.DB.;Buffalo.Kernel."></Path>
+  <Path source="Release\2017\Oracle11\" target="..\BuffaloSetup\AddIns\Net4.6.2\Oracle11\" igore="Buffalo.DB.;Buffalo.Kernel."></Path>
+
+
+  <Path source="Release\2005\Oracle11\X64\" target="..\BuffaloSetup\AddIns\Net2.0\Oracle11\X64\" igore="Buffalo.DB.;Buffalo.Kernel."></Path>
+  <Path source="Release\2008\Oracle11\X64\" target="..\BuffaloSetup\AddIns\Net3.5\Oracle11\X64\" igore="Buffalo.DB.;Buffalo.Kernel."></Path>
+  <Path source="Release\2010\Oracle11\X64\" target="..\BuffaloSetup\AddIns\Net4.0\Oracle11\X64\" igore="Buffalo.DB.;Buffalo.Kernel."></Path>
+  <Path source="Release\2012\Oracle11\X64\" target="..\BuffaloSetup\AddIns\Net4.5\Oracle11\X64\" igore="Buffalo.DB.;Buffalo.Kernel."></Path>
+  <Path source="Release\2013\Oracle11\X64\" target="..\BuffaloSetup\AddIns\Net4.5.1\Oracle11\X64\" igore="Buffalo.DB.;Buffalo.Kernel."></Path>
+  <Path source="Release\2015\Oracle11\X64\" target="..\BuffaloSetup\AddIns\Net4.6\Oracle11\X64\" igore="Buffalo.DB.;Buffalo.Kernel."></Path>
+  <Path source="Release\2017\Oracle11\X64\" target="..\BuffaloSetup\AddIns\Net4.6.2\Oracle11\X64\" igore="Buffalo.DB.;Buffalo.Kernel."></Path>
+
+
+  <Path source="Release\2005\Oracle12\" target="..\BuffaloSetup\AddIns\Net2.0\Oracle12\" igore="Buffalo.DB.;Buffalo.Kernel."></Path>
+  <Path source="Release\2008\Oracle12\" target="..\BuffaloSetup\AddIns\Net3.5\Oracle12\" igore="Buffalo.DB.;Buffalo.Kernel."></Path>
+  <Path source="Release\2010\Oracle12\" target="..\BuffaloSetup\AddIns\Net4.0\Oracle12\" igore="Buffalo.DB.;Buffalo.Kernel."></Path>
+  <Path source="Release\2012\Oracle12\" target="..\BuffaloSetup\AddIns\Net4.5\Oracle12\" igore="Buffalo.DB.;Buffalo.Kernel."></Path>
+  <Path source="Release\2013\Oracle12\" target="..\BuffaloSetup\AddIns\Net4.5.1\Oracle12\" igore="Buffalo.DB.;Buffalo.Kernel."></Path>
+  <Path source="Release\2015\Oracle12\" target="..\BuffaloSetup\AddIns\Net4.6\Oracle12\" igore="Buffalo.DB.;Buffalo.Kernel."></Path>
+  <Path source="Release\2017\Oracle12\" target="..\BuffaloSetup\AddIns\Net4.6.2\Oracle12\" igore="Buffalo.DB.;Buffalo.Kernel."></Path>
+
+
+  <Path source="Release\2005\Oracle12\X64\" target="..\BuffaloSetup\AddIns\Net2.0\Oracle12\X64\" igore="Buffalo.DB.;Buffalo.Kernel."></Path>
+  <Path source="Release\2008\Oracle12\X64\" target="..\BuffaloSetup\AddIns\Net3.5\Oracle12\X64\" igore="Buffalo.DB.;Buffalo.Kernel."></Path>
+  <Path source="Release\2010\Oracle12\X64\" target="..\BuffaloSetup\AddIns\Net4.0\Oracle12\X64\" igore="Buffalo.DB.;Buffalo.Kernel."></Path>
+  <Path source="Release\2012\Oracle12\X64\" target="..\BuffaloSetup\AddIns\Net4.5\Oracle12\X64\" igore="Buffalo.DB.;Buffalo.Kernel."></Path>
+  <Path source="Release\2013\Oracle12\X64\" target="..\BuffaloSetup\AddIns\Net4.5.1\Oracle12\X64\" igore="Buffalo.DB.;Buffalo.Kernel."></Path>
+  <Path source="Release\2015\Oracle12\X64\" target="..\BuffaloSetup\AddIns\Net4.6\Oracle12\X64\" igore="Buffalo.DB.;Buffalo.Kernel."></Path>
+  <Path source="Release\2017\Oracle12\X64\" target="..\BuffaloSetup\AddIns\Net4.6.2\Oracle12\X64\" igore="Buffalo.DB.;Buffalo.Kernel."></Path>
+
+
+
+</Paths>
