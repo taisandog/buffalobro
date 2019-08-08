@@ -16,3 +16,7 @@ https://github.com/taisandog/buffalobro.git/trunk/BuffaloSetup
 # 安装教程
 
 https://github.com/taisandog/buffalodownload
+
+# Oracle需要的ODAC库：
+
+http://www.oracle.com/technetwork/topics/dotnet/downloads/index.html
