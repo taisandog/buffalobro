@@ -1,2 +1,2 @@
-AddInSetup:²å¼ş°²×°Æ÷
-UpdateHelper£ºÉı¼¶¸´ÖÆÆ÷
+__AddInSetup__:æ’ä»¶å®‰è£…å™¨
+__UpdateHelper__ï¼šå‡çº§å¤åˆ¶å™¨
