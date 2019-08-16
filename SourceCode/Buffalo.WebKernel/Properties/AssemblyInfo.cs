@@ -26,6 +26,8 @@ using System.Runtime.InteropServices;
     
 #elif (NET_4_6_2)
 [assembly: AssemblyTitle("BuffaloWebKernel for .NET Framework 4.6.2")]
+#elif (NET_4_7_2)
+[assembly: AssemblyTitle("BuffaloWebKernel for .NET Framework 4.7.2")]
 #elif (NETCF_1_0)
 [assembly: AssemblyTitle("BuffaloWebKernel for .NET Compact Framework 1.0")]
 #elif (NETCF_2_0)

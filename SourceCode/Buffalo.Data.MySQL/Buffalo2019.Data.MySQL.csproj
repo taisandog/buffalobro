@@ -56,9 +56,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MySql.Data">
-      <HintPath>..\..\dll\dll\Net4.5.1\MySql.Data.dll</HintPath>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-      <Private>True</Private>
+      <HintPath>..\..\dll\dll\Net4.7.2\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -116,13 +114,17 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Buffalo.DB\Buffalo2017.DB.csproj">
-      <Project>{9b0043e4-883b-47ba-9a5a-5110c8583902}</Project>
-      <Name>Buffalo2017.DB</Name>
+    <ProjectReference Include="..\Buffalo.ArgCommon\Buffalo2019.ArgCommon.csproj">
+      <Project>{584f95b4-461a-4d50-8294-9147364e1945}</Project>
+      <Name>Buffalo2019.ArgCommon</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Buffalo.Kernel\Buffalo2017.Kernel.csproj">
+    <ProjectReference Include="..\Buffalo.DB\Buffalo2019.DB.csproj">
+      <Project>{9b0043e4-883b-47ba-9a5a-5110c8583902}</Project>
+      <Name>Buffalo2019.DB</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Buffalo.Kernel\Buffalo2019.Kernel.csproj">
       <Project>{6ec04216-a422-4751-aa81-1211dcb10bab}</Project>
-      <Name>Buffalo2017.Kernel</Name>
+      <Name>Buffalo2019.Kernel</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

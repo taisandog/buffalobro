@@ -28,12 +28,21 @@ namespace Buffalo.QueryCache
         private static RedisValue ByteToValue(object value)
         {
             byte val = (byte)value;
+            
+#if NET_4_7_2
+            return (int)val;
+#else
             return val;
+#endif
         }
         private static RedisValue CharToValue(object value)
         {
             char val = (char)value;
+#if NET_4_7_2
+            return val.ToString();
+#else
             return val;
+#endif
         }
         private static RedisValue DateTimeToValue(object value)
         {
@@ -78,9 +87,13 @@ namespace Buffalo.QueryCache
         private static RedisValue UshortToValue(object value)
         {
             ushort val = (ushort)value;
+#if NET_4_7_2
+            return (uint)val;
+#else
             return val;
+#endif
         }
-        
+
         private static RedisValue UintToValue(object value)
         {
             uint val = (uint)value;
@@ -97,8 +110,8 @@ namespace Buffalo.QueryCache
             byte[] val = (byte[])value;
             return val;
         }
-        #endregion
-        #region RedisValue 转实际类型函数
+#endregion
+#region RedisValue 转实际类型函数
         private static object ValueToInt(RedisValue value)
         {
             //if (value.IsNull) 
@@ -121,7 +134,12 @@ namespace Buffalo.QueryCache
             //{
             //    return (byte)0;
             //}
+#if NET_4_7_2
+            return (byte)((int)value);
+#else
             return (byte)value;
+#endif
+
         }
         private static object ValueToChar(RedisValue value)
         {
@@ -129,7 +147,12 @@ namespace Buffalo.QueryCache
             //{
             //    return '\0';
             //}
+            //return (char)value;
+#if NET_4_7_2
+            return ((string)value)[0];
+#else
             return (char)value;
+#endif
         }
         private static object ValueToDateTime(RedisValue value)
         {
@@ -223,7 +246,7 @@ namespace Buffalo.QueryCache
             return (byte[])value;
         }
 
-        #endregion
+#endregion
         /// <summary>
         /// 允许转换的类型
         /// </summary>

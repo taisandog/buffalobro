@@ -97,6 +97,20 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Buffalo.ArgCommon\Buffalo2019.ArgCommon.csproj">
+      <Project>{584f95b4-461a-4d50-8294-9147364e1945}</Project>
+      <Name>Buffalo2019.ArgCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Buffalo.DB\Buffalo2019.DB.csproj">
+      <Project>{9b0043e4-883b-47ba-9a5a-5110c8583902}</Project>
+      <Name>Buffalo2019.DB</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Buffalo.Kernel\Buffalo2019.Kernel.csproj">
+      <Project>{6ec04216-a422-4751-aa81-1211dcb10bab}</Project>
+      <Name>Buffalo2019.Kernel</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

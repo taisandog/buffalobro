@@ -57,9 +57,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.SQLite, Version=1.0.93.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\dll\dll\Net4.6\SQLite\System.Data.SQLite.dll</HintPath>
+    <Reference Include="System.Data.SQLite">
+      <HintPath>..\..\dll\dll\Net4.7.2\SQLite\System.Data.SQLite.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -88,13 +87,17 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Buffalo.DB\Buffalo2017.DB.csproj">
-      <Project>{9b0043e4-883b-47ba-9a5a-5110c8583902}</Project>
-      <Name>Buffalo2017.DB</Name>
+    <ProjectReference Include="..\Buffalo.ArgCommon\Buffalo2019.ArgCommon.csproj">
+      <Project>{584f95b4-461a-4d50-8294-9147364e1945}</Project>
+      <Name>Buffalo2019.ArgCommon</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Buffalo.Kernel\Buffalo2017.Kernel.csproj">
+    <ProjectReference Include="..\Buffalo.DB\Buffalo2019.DB.csproj">
+      <Project>{9b0043e4-883b-47ba-9a5a-5110c8583902}</Project>
+      <Name>Buffalo2019.DB</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Buffalo.Kernel\Buffalo2019.Kernel.csproj">
       <Project>{6ec04216-a422-4751-aa81-1211dcb10bab}</Project>
-      <Name>Buffalo2017.Kernel</Name>
+      <Name>Buffalo2019.Kernel</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
