@@ -5,3 +5,4 @@ E:\CSharpTest\GitProjects\Buffalo\SourceCode\Buffalo.GeneratorInfo\obj\Debug\Buf
 E:\CSharpTest\GitProjects\Buffalo\SourceCode\Buffalo.GeneratorInfo\obj\Debug\Buffalo2019.GeneratorInfo.csproj.CopyComplete
 E:\CSharpTest\GitProjects\Buffalo\SourceCode\Buffalo.GeneratorInfo\obj\Debug\Buffalo.GeneratorInfo.dll
 E:\CSharpTest\GitProjects\Buffalo\SourceCode\Buffalo.GeneratorInfo\obj\Debug\Buffalo.GeneratorInfo.pdb
+E:\CSharpTest\GitProjects\Buffalo\SourceCode\Buffalo.GeneratorInfo\obj\Debug\Buffalo2019.GeneratorInfo.csprojAssemblyReference.cache
