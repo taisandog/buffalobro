@@ -24,7 +24,9 @@ using System.Runtime.InteropServices;
 #elif (NET_4_6)
 [assembly: AssemblyTitle("Buffalo.Data.MySQL for .NET Framework 4.6")]
 #elif (NET_4_6_2)
-[assembly: AssemblyTitle("Buffalo.Data.MySQL for .NET 4.6.2")]
+[assembly: AssemblyTitle("Buffalo.Data.MySQL for .NET Framework 4.6.2")]
+#elif (NET_4_7_2)
+[assembly: AssemblyTitle("Buffalo.Data.MySQL for .NET Framework 4.7.2")]
 
 #elif (NETCF_1_0)
 [assembly: AssemblyTitle("Buffalo.Data.MySQL for .NET Compact Framework 1.0")]

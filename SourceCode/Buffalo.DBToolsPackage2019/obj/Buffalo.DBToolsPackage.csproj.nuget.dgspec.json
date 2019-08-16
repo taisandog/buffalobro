@@ -1,0 +1,62 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DBToolsPackage2019\\Buffalo.DBToolsPackage.csproj": {}
+  },
+  "projects": {
+    "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DBToolsPackage2019\\Buffalo.DBToolsPackage.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DBToolsPackage2019\\Buffalo.DBToolsPackage.csproj",
+        "projectName": "Buffalo.DBToolsPackage",
+        "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DBToolsPackage2019\\Buffalo.DBToolsPackage.csproj",
+        "packagesPath": "C:\\Users\\taisandog\\.nuget\\packages\\",
+        "outputPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DBToolsPackage2019\\obj\\",
+        "projectStyle": "PackageReference",
+        "skipContentFileWrite": true,
+        "configFilePaths": [
+          "C:\\Users\\taisandog\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net472"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net472": {
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "net472": {
+          "dependencies": {
+            "Microsoft.VSSDK.BuildTools": {
+              "target": "Package",
+              "version": "[16.2.3073, )"
+            },
+            "Microsoft.VisualStudio.SDK": {
+              "include": "Compile, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "target": "Package",
+              "version": "[16.0.200, )"
+            }
+          }
+        }
+      },
+      "runtimes": {
+        "win": {
+          "#import": []
+        },
+        "win-x64": {
+          "#import": []
+        },
+        "win-x86": {
+          "#import": []
+        }
+      }
+    }
+  }
+}
