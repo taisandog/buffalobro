@@ -22,12 +22,12 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\Debug\2017\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NET_4_6_2</DefineConstants>
+    <OutputPath>..\Debug\2019\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;NET_4_7_2</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DocumentationFile>..\Debug\2017\Buffalo.QueryCache.xml</DocumentationFile>
+    <DocumentationFile>..\Debug\2019\Buffalo.QueryCache.xml</DocumentationFile>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>

@@ -1,0 +1,7 @@
+E:\CSharpTest\GitProjects\Buffalo\SourceCode\Debug\2017\Buffalo.Kernel.XML
+E:\CSharpTest\GitProjects\Buffalo\SourceCode\Debug\2017\Buffalo.Kernel.dll
+E:\CSharpTest\GitProjects\Buffalo\SourceCode\Debug\2017\Buffalo.Kernel.pdb
+E:\CSharpTest\GitProjects\Buffalo\SourceCode\Buffalo.Kernel\obj\Debug\Buffalo2019.Kernel.csproj.CoreCompileInputs.cache
+E:\CSharpTest\GitProjects\Buffalo\SourceCode\Buffalo.Kernel\obj\Debug\Buffalo2019.Kernel.csproj.CopyComplete
+E:\CSharpTest\GitProjects\Buffalo\SourceCode\Buffalo.Kernel\obj\Debug\Buffalo.Kernel.dll
+E:\CSharpTest\GitProjects\Buffalo\SourceCode\Buffalo.Kernel\obj\Debug\Buffalo.Kernel.pdb
