@@ -47,11 +47,11 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\Release\2015\</OutputPath>
-    <DefineConstants>TRACE;NET_4_6</DefineConstants>
+    <OutputPath>..\Release\2017\</OutputPath>
+    <DefineConstants>TRACE;NET_4_6_2</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\Release\2015\Buffalo.Data.MySQL.XML</DocumentationFile>
+    <DocumentationFile>..\Release\2017\Buffalo.Data.MySQL.XML</DocumentationFile>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>

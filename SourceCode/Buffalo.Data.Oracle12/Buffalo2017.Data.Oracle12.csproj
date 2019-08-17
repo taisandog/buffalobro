@@ -49,12 +49,12 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\Release\2015\Oracle12\</OutputPath>
+    <OutputPath>..\Release\2017\Oracle12\</OutputPath>
     <DefineConstants>TRACE;NET_4_6_2;X86;Ora12</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
-    <DocumentationFile>..\Release\2015\Oracle12\Buffalo.Data.Oracle12.XML</DocumentationFile>
+    <DocumentationFile>..\Release\2017\Oracle12\Buffalo.Data.Oracle12.XML</DocumentationFile>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
