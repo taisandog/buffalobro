@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<root date="2019-08-06 14:38:00">
+<root date="2019-08-17 11:30:00">
 <AddIns>
   <AddIn file="AddIns\Net2.0\Buffalo.DBTools.dll" version="8.0" addin="Visual Studio 2005"></AddIn>
   <AddIn file="AddIns\Net3.5\Buffalo.DBTools.dll" version="9.0" addin="Visual Studio 2008"></AddIn>
@@ -8,6 +8,7 @@
   <AddIn file="AddIns\Net4.5.1\Buffalo.DBTools.dll" version="12.0" addin="Visual Studio 2013"></AddIn>
   <AddIn file="AddIns\Net4.6\Buffalo2015.DBToolsPackage.vsix" version="14.0" addin="Visual Studio 2015" isvsix="1"></AddIn>
   <AddIn file="AddIns\Net4.6.2\Buffalo.DBToolsPackage2017.vsix" version="15.0" addin="Visual Studio 2017" isvsix="1"></AddIn>
+  <AddIn file="AddIns\Net4.7.2\Buffalo.DBToolsPackage2019.vsix" version="16.0" addin="Visual Studio 2019" isvsix="1"></AddIn>
 </AddIns>
   <DllVer>
     <net ver="2.0" path="AddIns\Net2.0\"></net>
@@ -17,6 +18,7 @@
     <net ver="4.5.1" path="AddIns\Net4.5.1\"></net>
     <net ver="4.6" path="AddIns\Net4.6\"></net>
     <net ver="4.6.2" path="AddIns\Net4.6.2\"></net>
+	<net ver="4.7.2" path="AddIns\Net4.7.2\"></net>
   </DllVer>
   <Dlls>
     <item des="核心库" name="Buffalo.Kernel" selected="1">
@@ -30,6 +32,8 @@
 	<item des="Json化的参数值库"  name="Buffalo.ArgCommon" selected="0">
 		<file path="Buffalo.ArgCommon.dll" main="1"></file>
 		<file path="Buffalo.ArgCommon.xml"></file>
+		<file path="Newtonsoft.Json.dll"></file>
+		<file path="Newtonsoft.Json.xml"></file>
     </item>
     <item des="Web工具库"  name="Buffalo.WebKernel" selected="0">
       <file path="Buffalo.WebKernel.dll" main="1"></file>
@@ -67,6 +71,11 @@
       <file path="Buffalo.Data.MySQL.dll" main="1"></file>
       <file path="Buffalo.Data.MySQL.XML"></file>
       <file path="MySql.Data.dll"></file>
+	  <file path="Google.Protobuf.dll"></file>
+	  <file path="Google.Protobuf.xml"></file>
+	  <file path="BouncyCastle.Crypto.dll"></file>
+	  <file path="Renci.SshNet.dll"></file>
+	  <file path="Renci.SshNet.xml"></file>
     </item>
     <item des="DB2支持"  name="Buffalo.Data.DB2" isDB="1" selected="0">
       <file path="Buffalo.Data.DB2.dll" main="1"></file>
