@@ -346,6 +346,11 @@ namespace Buffalo.DB.EntityInfos
                 {
                     ep.Description = att.InnerText;
                 }
+                att = node.Attributes["DefaultValue"];
+                if (att != null)
+                {
+                    ep.DefaultValue = att.InnerText;
+                }
                 ep.AllowNull = true;
 
                 dicParam[ep.FieldName] = ep;
