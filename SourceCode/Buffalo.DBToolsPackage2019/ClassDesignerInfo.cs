@@ -6,6 +6,7 @@ using EnvDTE;
 using Microsoft.VisualStudio.EnterpriseTools.ClassDesigner;
 using System.IO;
 using Buffalo.DBTools.HelperKernel;
+using System.Xml;
 
 namespace Buffalo.DBTools
 {
@@ -29,7 +30,10 @@ namespace Buffalo.DBTools
         /// </summary>
         public Project CurrentProject
         {
-            get { return _currentProject; }
+            get
+            {
+                return _currentProject;
+            }
         }
         
         ClassDesignerDocView _selectDocView;
@@ -51,7 +55,14 @@ namespace Buffalo.DBTools
             return docFile.DirectoryName;
         }
 
-
+        private bool _isFramework=true;
+        /// <summary>
+        /// 是否.net Framework类库
+        /// </summary>
+        public bool IsNetFrameworkLib
+        {
+            get { return _isFramework; }
+        }
 
 
         /// <summary>
@@ -83,7 +94,37 @@ namespace Buffalo.DBTools
             _selectedDiagram = selectedDiagram;
             _currentProject = currentProject;
             _selectDocView = selectDocView;
+
+            _isFramework = GetIsFramework(_currentProject);
         }
 
+        /// <summary>
+        /// 是否Framework类库
+        /// </summary>
+        /// <param name="currentProject"></param>
+        /// <returns></returns>
+        private bool GetIsFramework(Project currentProject)
+        {
+            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
+            string fileName = currentProject.FileName;
+            XmlDocument doc = new XmlDocument();
+            doc.Load(fileName);
+            XmlNodeList lstPropertyGroup = doc.GetElementsByTagName("PropertyGroup");
+            foreach(XmlNode nodePropertyGroup in lstPropertyGroup)
+            {
+                foreach (XmlNode nodechild in nodePropertyGroup.ChildNodes)
+                {
+                    if (string.Equals(nodechild.Name, "TargetFramework"))
+                    {
+                        return false;
+                    }
+                    if (string.Equals(nodechild.Name, "TargetFrameworkVersion"))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
     }
 }

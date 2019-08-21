@@ -7,6 +7,7 @@ using Buffalo.DBTools.ROMHelper;
 using EnvDTE;
 using Buffalo.Win32Kernel;
 using Buffalo.DBTools.UIHelper;
+using Buffalo.DBToolsPackage;
 
 namespace Buffalo.DBTools.HelperKernel
 {
@@ -35,6 +36,7 @@ namespace Buffalo.DBTools.HelperKernel
         /// <param name="entity"></param>
         public void GenerateBusiness() 
         {
+            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             FileInfo info = new FileInfo(ClassDesignerFileName);
             
 
@@ -99,8 +101,8 @@ namespace Buffalo.DBTools.HelperKernel
                     }
                 }
             }
-            
             CodeFileHelper.SaveFile(fileName, codes);
+            
             EnvDTE.ProjectItem newit = DesignerInfo.CurrentProject.ProjectItems.AddFromFile(fileName);
             newit.Properties.Item("BuildAction").Value = (int)BuildAction.Code;
         }
@@ -207,23 +209,10 @@ namespace Buffalo.DBTools.HelperKernel
 #elif (NET_4_6_2)
         private static string version = "4.6.2";
         private static string orcVer = "4.0";
+#elif (NET_4_7_2)
+        private static string version = "4.7.2";
+        private static string orcVer = "4.0";
 #endif
-        /// <summary>
-        /// 获取Oracle数据库的备注
-        /// </summary>
-        /// <param name="oracleVersion">oracle版本</param>
-        /// <returns></returns>
-        private static string GetOracle9Summary()
-        {
-            StringBuilder sbRet = new StringBuilder();
-            sbRet.AppendLine("此操作使用OracleClient操作Oracle9或以上的数据库(例如:Oracle10、Oracle11、Oracle12)");
-            sbRet.AppendLine("请先安装Oracle连接客户端，然后在Net Configuration Assistant配置好 本地网络服务名");
-            sbRet.AppendLine("然后把服务名填进参考连接字符串中的Data Source项");
-            sbRet.AppendLine("最后填上用户名密码即可");
-            sbRet.AppendLine("Oracle连接客户端下载:");
-            sbRet.AppendLine("http://www.oracle.com/technetwork/database/features/instant-client/index-097480.html");
-            return sbRet.ToString();
-        }
         /// <summary>
         /// 获取Oracle数据库的备注
         /// </summary>
@@ -293,6 +282,7 @@ namespace Buffalo.DBTools.HelperKernel
             item.Tag = new ComboBoxItem("Provider=Microsoft.Jet.OLEDB.4.0; Data Source=c:\\db.mdb; Jet OLEDB:Database Password=pwd", null);
             types.Add(item);
 
+
             return types;
         }
 
@@ -311,7 +301,22 @@ namespace Buffalo.DBTools.HelperKernel
 
             return tiers;
         }
-
+        /// <summary>
+        /// 获取Oracle数据库的备注
+        /// </summary>
+        /// <param name="oracleVersion">oracle版本</param>
+        /// <returns></returns>
+        private static string GetOracle9Summary()
+        {
+            StringBuilder sbRet = new StringBuilder();
+            sbRet.AppendLine("此操作使用OracleClient操作Oracle9或以上的数据库(例如:Oracle10、Oracle11、Oracle12)");
+            sbRet.AppendLine("请先安装Oracle连接客户端，然后在Net Configuration Assistant配置好 本地网络服务名");
+            sbRet.AppendLine("然后把服务名填进参考连接字符串中的Data Source项");
+            sbRet.AppendLine("最后填上用户名密码即可");
+            sbRet.AppendLine("Oracle连接客户端下载:");
+            sbRet.AppendLine("http://www.oracle.com/technetwork/database/features/instant-client/index-097480.html");
+            return sbRet.ToString();
+        }
 
         /// <summary>
         /// 生成数据层
@@ -319,6 +324,7 @@ namespace Buffalo.DBTools.HelperKernel
         /// <param name="entity"></param>
         public void GenerateDataAccess()
         {
+            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             //FileInfo info = new FileInfo(EntityFileName);
 
 
@@ -374,6 +380,7 @@ namespace Buffalo.DBTools.HelperKernel
         /// <param name="entity"></param>
         public void GenerateIDataAccess() 
         {
+            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             FileInfo info = new FileInfo(ClassDesignerFileName);
             string dicPath = info.DirectoryName + "\\DataAccess";
             if (!Directory.Exists(dicPath))
@@ -414,6 +421,7 @@ namespace Buffalo.DBTools.HelperKernel
         /// </summary>
         public void GenerateBQLDataAccess() 
         {
+            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             FileInfo info = new FileInfo(ClassDesignerFileName);
             string dicPath = info.DirectoryName + "\\DataAccess";
             if (!Directory.Exists(dicPath))

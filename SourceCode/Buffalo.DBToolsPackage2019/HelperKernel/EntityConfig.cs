@@ -1405,16 +1405,30 @@ namespace Buffalo.DBTools.HelperKernel
                 }
             }
         }
-
+        static string _frameworkExName = ".extend.cs";
+        static string _standardExName = ".Designer.cs";
         /// <summary>
         /// 生成扩展类代码文件
         /// </summary>
         private void GenerateExtendCode()
         {
+            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
+            
+            string exName = _frameworkExName;
+            if (!DesignerInfo.IsNetFrameworkLib)//项目文件清单没有主代码项，则为Core或Standard项目，需要另一个扩展名
+            {
+                exName = _standardExName;
+            }
             FileInfo fileInfo = new FileInfo(FileName);
-            string fileName = fileInfo.DirectoryName + "\\" + fileInfo.Name.Replace(".cs", ".extend.cs");
+            EnvDTE.ProjectItem classItem = GetProjectItemByFileName(DesignerInfo, _cp.FileName);
+            string fileName = fileInfo.DirectoryName + "\\" + fileInfo.Name.Replace(".cs", exName);
             if (File.Exists(fileName)) 
             {
+                if (DesignerInfo.IsNetFrameworkLib && !ExistsExtendCode(classItem, fileName))
+                {
+                    EnvDTE.ProjectItem newit = classItem.ProjectItems.AddFromFile(fileName);
+                    newit.Properties.Item("BuildAction").Value = (int)BuildAction.Code;
+                }
                 return;
             }
 
@@ -1444,12 +1458,32 @@ namespace Buffalo.DBTools.HelperKernel
                 }
             }
             CodeFileHelper.SaveFile(fileName, codes);
-            EnvDTE.ProjectItem classItem = GetProjectItemByFileName(DesignerInfo, _cp.FileName);
-            //DTEHelper.AddFileToProjectItem(item, NHBFilePath, 3);
-            EnvDTE.ProjectItem newit = classItem.ProjectItems.AddFromFile(fileName);
-            //EnvDTE.ProjectItem newit = _currentProject.ProjectItems.AddFromFile(fileName);
+
             
-            newit.Properties.Item("BuildAction").Value = (int)BuildAction.Code;
+            if (DesignerInfo.IsNetFrameworkLib)
+            {
+                
+                EnvDTE.ProjectItem newit = classItem.ProjectItems.AddFromFile(fileName);
+                newit.Properties.Item("BuildAction").Value = (int)BuildAction.Code;
+            }
+        }
+        /// <summary>
+        /// 判断扩展文件是否已存在
+        /// </summary>
+        /// <param name="classItem"></param>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        private bool ExistsExtendCode(EnvDTE.ProjectItem classItem,string fileName)
+        {
+            foreach (EnvDTE.ProjectItem item in classItem.ProjectItems)
+            {
+                if (string.Equals(item.get_FileNames(0), fileName, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    return true;
+                }
+            }
+            
+            return false;
         }
 
         /// <summary>
@@ -1460,6 +1494,7 @@ namespace Buffalo.DBTools.HelperKernel
         /// <returns></returns>
         public static EnvDTE.ProjectItem GetProjectItemByFileName(ClassDesignerInfo info, string fileName)
         {
+            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             Project project = info.CurrentProject;
             foreach (EnvDTE.ProjectItem item in project.ProjectItems)
             {
@@ -1479,6 +1514,7 @@ namespace Buffalo.DBTools.HelperKernel
         /// <returns></returns>
         public static EnvDTE.ProjectItem GetProjectItemByFileName(EnvDTE.ProjectItem item, string fileName)
         {
+            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             if (item.get_FileNames(0).ToLower() == fileName.ToLower()) return item;
             if (item.ProjectItems.Count == 0) return null;
             foreach (EnvDTE.ProjectItem i in item.ProjectItems)

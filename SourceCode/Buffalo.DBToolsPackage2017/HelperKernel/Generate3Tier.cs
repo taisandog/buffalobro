@@ -7,7 +7,7 @@ using Buffalo.DBTools.ROMHelper;
 using EnvDTE;
 using Buffalo.Win32Kernel;
 using Buffalo.DBTools.UIHelper;
-
+using Buffalo.DBToolsPackage;
 
 namespace Buffalo.DBTools.HelperKernel
 {
@@ -36,6 +36,7 @@ namespace Buffalo.DBTools.HelperKernel
         /// <param name="entity"></param>
         public void GenerateBusiness() 
         {
+            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             FileInfo info = new FileInfo(ClassDesignerFileName);
             
 
@@ -100,8 +101,8 @@ namespace Buffalo.DBTools.HelperKernel
                     }
                 }
             }
-            
             CodeFileHelper.SaveFile(fileName, codes);
+            
             EnvDTE.ProjectItem newit = DesignerInfo.CurrentProject.ProjectItems.AddFromFile(fileName);
             newit.Properties.Item("BuildAction").Value = (int)BuildAction.Code;
         }
@@ -207,6 +208,9 @@ namespace Buffalo.DBTools.HelperKernel
         private static string orcVer = "4.0";
 #elif (NET_4_6_2)
         private static string version = "4.6.2";
+        private static string orcVer = "4.0";
+#elif (NET_4_7_2)
+        private static string version = "4.7.2";
         private static string orcVer = "4.0";
 #endif
         /// <summary>
@@ -320,6 +324,7 @@ namespace Buffalo.DBTools.HelperKernel
         /// <param name="entity"></param>
         public void GenerateDataAccess()
         {
+            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             //FileInfo info = new FileInfo(EntityFileName);
 
 
@@ -375,6 +380,7 @@ namespace Buffalo.DBTools.HelperKernel
         /// <param name="entity"></param>
         public void GenerateIDataAccess() 
         {
+            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             FileInfo info = new FileInfo(ClassDesignerFileName);
             string dicPath = info.DirectoryName + "\\DataAccess";
             if (!Directory.Exists(dicPath))
@@ -415,6 +421,7 @@ namespace Buffalo.DBTools.HelperKernel
         /// </summary>
         public void GenerateBQLDataAccess() 
         {
+            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             FileInfo info = new FileInfo(ClassDesignerFileName);
             string dicPath = info.DirectoryName + "\\DataAccess";
             if (!Directory.Exists(dicPath))

@@ -31,6 +31,7 @@ namespace Buffalo.DBTools.HelperKernel
         /// </summary>
         public void GenerateBQLEntityDB() 
         {
+            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             //FileInfo info = new FileInfo(EntityFileName);
             string dicPath = GenerateBasePath + "\\BQLEntity";
             if (!Directory.Exists(dicPath))
@@ -63,6 +64,7 @@ namespace Buffalo.DBTools.HelperKernel
         /// </summary>
         public void GenerateBQLEntity()
         {
+            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             TagManager tag=new TagManager();
             //FileInfo info = new FileInfo(EntityFileName);
             string dicPath = GenerateBasePath + "\\BQLEntity";

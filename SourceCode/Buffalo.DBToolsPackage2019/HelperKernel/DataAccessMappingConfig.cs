@@ -90,7 +90,9 @@ namespace Buffalo.DBTools.HelperKernel
         /// <param name="entity"></param>
         public void SaveXML()
         {
+            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             EntityMappingConfig.SaveXML(_fileName, _doc);
+            
             EnvDTE.ProjectItem newit = DesignerInfo.CurrentProject.ProjectItems.AddFromFile(_fileName);
             newit.Properties.Item("BuildAction").Value = (int)BuildAction.Resource;
         }
