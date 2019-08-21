@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Buffalo.DBTools {
+namespace Buffalo.DBToolsPackage {
     using System;
     
     
@@ -19,7 +19,7 @@ namespace Buffalo.DBTools {
     // 类通过类似于 ResGen 或 Visual Studio 的工具自动生成的。
     // 若要添加或移除成员，请编辑 .ResX 文件，然后重新运行 ResGen
     // (以 /str 作为命令选项)，或重新生成 VS 项目。
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Models {
@@ -39,7 +39,7 @@ namespace Buffalo.DBTools {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Buffalo.DBTools.Models", typeof(Models).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Buffalo.DBToolsPackage.Models", typeof(Models).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -47,7 +47,7 @@ namespace Buffalo.DBTools {
         }
         
         /// <summary>
-        ///   使用此强类型资源类，为所有资源查找
+        ///   重写当前线程的 CurrentUICulture 属性
         ///   重写当前线程的 CurrentUICulture 属性。
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -134,26 +134,6 @@ namespace Buffalo.DBTools {
         internal static string bqlentity {
             get {
                 return ResourceManager.GetString("bqlentity", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap BuffaloToolCDCommand {
-            get {
-                object obj = ResourceManager.GetObject("BuffaloToolCDCommand", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Icon BuffaloToolsPackage {
-            get {
-                object obj = ResourceManager.GetObject("BuffaloToolsPackage", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
             }
         }
         

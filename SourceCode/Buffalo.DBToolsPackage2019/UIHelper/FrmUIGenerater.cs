@@ -18,7 +18,7 @@ using System.Security.AccessControl;
 using Buffalo.DBTools.UIHelper.ModelLoader;
 using System.Reflection;
 using Buffalo.Win32Kernel;
-
+using Buffalo.DBToolsPackage;
 
 namespace Buffalo.DBTools.UIHelper
 {

@@ -128,7 +128,11 @@
     <Compile Include="HelperKernel\GrneraterBase.cs" />
     <Compile Include="HelperKernel\TagManager.cs" />
     <Compile Include="HelperKernel\ToolConfig.cs" />
-    <Compile Include="Models.Designer.cs" />
+    <Compile Include="Models.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Models.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ROMHelper\DBEntityInfo.cs" />
     <Compile Include="ToolVersionInfo.cs" />
@@ -167,6 +171,11 @@
     <Compile Include="UIHelper\UIProject.cs" />
     <Compile Include="UIHelper\UIProjectItem.cs" />
     <Compile Include="Units\FileEncodingInfo.cs" />
+    <Compile Include="VSPackage.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VSPackage.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />
@@ -257,7 +266,10 @@
     <EmbeddedResource Include="FrmProcess.resx">
       <DependentUpon>FrmProcess.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Models.resx" />
+    <EmbeddedResource Include="Models.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Models.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="UIHelper\FrmCompileResault.resx">
       <DependentUpon>FrmCompileResault.cs</DependentUpon>
     </EmbeddedResource>
@@ -265,8 +277,8 @@
       <DependentUpon>FrmUIGenerater.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="VSPackage.resx">
-      <MergeWithCTO>true</MergeWithCTO>
-      <ManifestResourceName>VSPackage</ManifestResourceName>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>VSPackage.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
