@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<root>
+  <dataaccess name="TestDB">
+    <item type="TestApp.DataAccess.Sql2K12.TEUserDataAccess" interface="TestApp.DataAccess.IDataAccess.ITEUserDataAccess" />
+    <item type="TestApp.DataAccess.Sql2K12.TEAdminDataAccess" interface="TestApp.DataAccess.IDataAccess.ITEAdminDataAccess" />
+    <item type="TestApp.DataAccess.Sql2K12.TERuleDataAccess" interface="TestApp.DataAccess.IDataAccess.ITERuleDataAccess" />
+  </dataaccess>
+  <business>
+    <item type="TestApp.Business.TEUserBusiness" class="TestApp.TEUser" />
+    <item type="TestApp.Business.TEAdminBusiness" class="TestApp.TEAdmin" />
+    <item type="TestApp.Business.TERuleBusiness" class="TestApp.TERule" />
+  </business>
+</root>

@@ -6,11 +6,34 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="BEM\TEAdmin.ETM.xml" />
+    <None Remove="BEM\TEBase.ETM.xml" />
+    <None Remove="BEM\TERule.ETM.xml" />
+    <None Remove="BEM\TestDB.BDM.xml" />
+    <None Remove="BEM\TEUser.ETM.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="BEM\TEAdmin.ETM.xml" />
+    <EmbeddedResource Include="BEM\TEBase.ETM.xml" />
+    <EmbeddedResource Include="BEM\TERule.ETM.xml" />
+    <EmbeddedResource Include="BEM\TestDB.BDM.xml" />
+    <EmbeddedResource Include="BEM\TEUser.ETM.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.5.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Buffalo.DB\Buffalo.DB.csproj" />
     <ProjectReference Include="..\Buffalo.Kernel\Buffalo.Kernel.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="TestDB.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
