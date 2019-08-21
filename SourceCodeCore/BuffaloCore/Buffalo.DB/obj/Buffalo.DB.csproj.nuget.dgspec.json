@@ -1,0 +1,116 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.DB\\Buffalo.DB.csproj": {}
+  },
+  "projects": {
+    "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.DB\\Buffalo.DB.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.DB\\Buffalo.DB.csproj",
+        "projectName": "Buffalo.DB",
+        "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.DB\\Buffalo.DB.csproj",
+        "packagesPath": "C:\\Users\\taisandog\\.nuget\\packages\\",
+        "outputPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.DB\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\taisandog\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.0": {
+            "projectReferences": {
+              "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\Buffalo.Kernel.csproj": {
+                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\Buffalo.Kernel.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netstandard2.0": {
+          "dependencies": {
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461"
+          ],
+          "assetTargetFallback": true,
+          "warn": true
+        }
+      }
+    },
+    "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\Buffalo.Kernel.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\Buffalo.Kernel.csproj",
+        "projectName": "Buffalo.Kernel",
+        "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\Buffalo.Kernel.csproj",
+        "packagesPath": "C:\\Users\\taisandog\\.nuget\\packages\\",
+        "outputPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\taisandog\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.0": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netstandard2.0": {
+          "dependencies": {
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461"
+          ],
+          "assetTargetFallback": true,
+          "warn": true
+        }
+      }
+    }
+  }
+}

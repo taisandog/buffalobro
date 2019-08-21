@@ -1,0 +1,73 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="CacheManager\WebCacheAdaper.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Buffalo.Kernel\Buffalo.Kernel.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.AspNetCore.Hosting.Abstractions">
+      <HintPath>..\..\dll\netstandard2.0\Microsoft.AspNetCore.Hosting.Abstractions.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http.Abstractions">
+      <HintPath>..\..\dll\netstandard2.0\Microsoft.AspNetCore.Http.Abstractions.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="System.Configuration.ConfigurationManager">
+      <HintPath>..\..\dll\netstandard2.0\System.Configuration.ConfigurationManager.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="System.Data.SqlClient">
+      <HintPath>..\..\dll\netstandard2.0\System.Data.SqlClient.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="System.Drawing.Common">
+      <HintPath>..\..\dll\netstandard2.0\System.Drawing.Common.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="System.Reflection.Emit">
+      <HintPath>..\..\dll\netstandard2.0\System.Reflection.Emit.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="System.Reflection.Emit.ILGeneration">
+      <HintPath>..\..\dll\netstandard2.0\System.Reflection.Emit.ILGeneration.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="System.Reflection.Emit.Lightweight">
+      <HintPath>..\..\dll\netstandard2.0\System.Reflection.Emit.Lightweight.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="System.Reflection.Metadata">
+      <HintPath>..\..\dll\netstandard2.0\System.Reflection.Metadata.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="System.Reflection.TypeExtensions">
+      <HintPath>..\..\dll\netstandard2.0\System.Reflection.TypeExtensions.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>
