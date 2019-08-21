@@ -2,41 +2,18 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>taisandog</Authors>
+    <Product>Buffalo.Kernel</Product>
+    <Description>Buffalo.DB for .Net Standard 2.0</Description>
+    <Copyright>taisandog</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="Microsoft.AspNetCore.Hosting.Abstractions">
-      <HintPath>..\..\dll\netstandard2.0\Microsoft.AspNetCore.Hosting.Abstractions.dll</HintPath>
-      <Private>true</Private>
-    </Reference>
-    <Reference Include="Microsoft.AspNetCore.Http.Abstractions">
-      <HintPath>..\..\dll\netstandard2.0\Microsoft.AspNetCore.Http.Abstractions.dll</HintPath>
-      <Private>true</Private>
-    </Reference>
-    <Reference Include="System.Drawing.Common">
-      <HintPath>..\..\dll\netstandard2.0\System.Drawing.Common.dll</HintPath>
-      <Private>true</Private>
-    </Reference>
-    <Reference Include="System.Reflection.Emit">
-      <HintPath>..\..\dll\netstandard2.0\System.Reflection.Emit.dll</HintPath>
-      <Private>true</Private>
-    </Reference>
-    <Reference Include="System.Reflection.Emit.ILGeneration">
-      <HintPath>..\..\dll\netstandard2.0\System.Reflection.Emit.ILGeneration.dll</HintPath>
-      <Private>true</Private>
-    </Reference>
-    <Reference Include="System.Reflection.Emit.Lightweight">
-      <HintPath>..\..\dll\netstandard2.0\System.Reflection.Emit.Lightweight.dll</HintPath>
-      <Private>true</Private>
-    </Reference>
-    <Reference Include="System.Reflection.Metadata">
-      <HintPath>..\..\dll\netstandard2.0\System.Reflection.Metadata.dll</HintPath>
-      <Private>true</Private>
-    </Reference>
-    <Reference Include="System.Reflection.TypeExtensions">
-      <HintPath>..\..\dll\netstandard2.0\System.Reflection.TypeExtensions.dll</HintPath>
-      <Private>true</Private>
-    </Reference>
+    <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />
+    <PackageReference Include="System.Drawing.Common" Version="4.5.1" />
+    <PackageReference Include="System.Reflection.Emit" Version="4.3.0" />
+    <PackageReference Include="System.Reflection.Emit.ILGeneration" Version="4.3.0" />
+    <PackageReference Include="System.Reflection.Emit.Lightweight" Version="4.3.0" />
   </ItemGroup>
 
 </Project>

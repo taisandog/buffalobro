@@ -2,6 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>taisandog</Authors>
+    <Product>Buffalo.DB for .Net Standard 2.0</Product>
+    <Description>Buffalo.DB for .Net Standard 2.0</Description>
+    <PackageProjectUrl>https://github.com/taisandog</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
@@ -9,50 +13,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Buffalo.Kernel\Buffalo.Kernel.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.5.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.6.1" />
+    <PackageReference Include="System.Reflection.Emit" Version="4.3.0" />
+    <PackageReference Include="System.Reflection.Emit.ILGeneration" Version="4.3.0" />
+    <PackageReference Include="System.Reflection.Emit.Lightweight" Version="4.3.0" />
+    <PackageReference Include="System.Reflection.Primitives" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="Microsoft.AspNetCore.Hosting.Abstractions">
-      <HintPath>..\..\dll\netstandard2.0\Microsoft.AspNetCore.Hosting.Abstractions.dll</HintPath>
-      <Private>true</Private>
-    </Reference>
-    <Reference Include="Microsoft.AspNetCore.Http.Abstractions">
-      <HintPath>..\..\dll\netstandard2.0\Microsoft.AspNetCore.Http.Abstractions.dll</HintPath>
-      <Private>true</Private>
-    </Reference>
-    <Reference Include="System.Configuration.ConfigurationManager">
-      <HintPath>..\..\dll\netstandard2.0\System.Configuration.ConfigurationManager.dll</HintPath>
-      <Private>true</Private>
-    </Reference>
-    <Reference Include="System.Data.SqlClient">
-      <HintPath>..\..\dll\netstandard2.0\System.Data.SqlClient.dll</HintPath>
-      <Private>true</Private>
-    </Reference>
-    <Reference Include="System.Drawing.Common">
-      <HintPath>..\..\dll\netstandard2.0\System.Drawing.Common.dll</HintPath>
-      <Private>true</Private>
-    </Reference>
-    <Reference Include="System.Reflection.Emit">
-      <HintPath>..\..\dll\netstandard2.0\System.Reflection.Emit.dll</HintPath>
-      <Private>true</Private>
-    </Reference>
-    <Reference Include="System.Reflection.Emit.ILGeneration">
-      <HintPath>..\..\dll\netstandard2.0\System.Reflection.Emit.ILGeneration.dll</HintPath>
-      <Private>true</Private>
-    </Reference>
-    <Reference Include="System.Reflection.Emit.Lightweight">
-      <HintPath>..\..\dll\netstandard2.0\System.Reflection.Emit.Lightweight.dll</HintPath>
-      <Private>true</Private>
-    </Reference>
-    <Reference Include="System.Reflection.Metadata">
-      <HintPath>..\..\dll\netstandard2.0\System.Reflection.Metadata.dll</HintPath>
-      <Private>true</Private>
-    </Reference>
-    <Reference Include="System.Reflection.TypeExtensions">
-      <HintPath>..\..\dll\netstandard2.0\System.Reflection.TypeExtensions.dll</HintPath>
-      <Private>true</Private>
-    </Reference>
+    <ProjectReference Include="..\Buffalo.Kernel\Buffalo.Kernel.csproj" />
   </ItemGroup>
 
   <ItemGroup>
