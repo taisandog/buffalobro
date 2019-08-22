@@ -1405,8 +1405,8 @@ namespace Buffalo.DBTools.HelperKernel
                 }
             }
         }
-        static string _frameworkExName = ".extend.cs";
-        static string _standardExName = ".Designer.cs";
+        public static readonly string FrameworkExName = ".extend.cs";
+        public static readonly string StandardExName = ".Designer.cs";
         /// <summary>
         /// 生成扩展类代码文件
         /// </summary>
@@ -1414,10 +1414,10 @@ namespace Buffalo.DBTools.HelperKernel
         {
             Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             
-            string exName = _frameworkExName;
+            string exName = FrameworkExName;
             if (!DesignerInfo.IsNetFrameworkLib)//项目文件清单没有主代码项，则为Core或Standard项目，需要另一个扩展名
             {
-                exName = _standardExName;
+                exName = StandardExName;
             }
             FileInfo fileInfo = new FileInfo(FileName);
             EnvDTE.ProjectItem classItem = GetProjectItemByFileName(DesignerInfo, _cp.FileName);
@@ -1473,7 +1473,7 @@ namespace Buffalo.DBTools.HelperKernel
         /// <param name="classItem"></param>
         /// <param name="fileName"></param>
         /// <returns></returns>
-        private bool ExistsExtendCode(EnvDTE.ProjectItem classItem,string fileName)
+        public static bool ExistsExtendCode(EnvDTE.ProjectItem classItem,string fileName)
         {
             foreach (EnvDTE.ProjectItem item in classItem.ProjectItems)
             {

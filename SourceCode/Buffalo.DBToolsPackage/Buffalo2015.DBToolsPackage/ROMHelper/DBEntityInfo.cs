@@ -17,6 +17,7 @@ using Buffalo.DBTools.UIHelper;
 using Microsoft.VisualStudio.EnterpriseTools.ArtifactModel.Clr;
 using Buffalo.Kernel;
 using Buffalo2015.DBToolsPackage;
+using Buffalo.DBToolsPackage;
 
 namespace Buffalo.DBTools.ROMHelper
 {
@@ -283,7 +284,7 @@ namespace Buffalo.DBTools.ROMHelper
         /// <param name="tiers">层数</param>
         public void GreanCode(XmlDocument doc) 
         {
-            string model = Buffalo.DBTools.Models.entity;
+            string model = Models.entity;
 
             string baseType = BaseType;
 
@@ -826,13 +827,34 @@ namespace Buffalo.DBTools.ROMHelper
         /// </summary>
         private void GenerateExtendCode()
         {
+            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             string eFileName = GetEntityFileName(FileName);
+            EnvDTE.ProjectItem classItem = EntityConfig.GetProjectItemByFileName(DesignerInfo, eFileName);
+
             FileInfo fileInfo = new FileInfo(eFileName);
-            string fileName = fileInfo.DirectoryName + "\\" + fileInfo.Name.Replace(".cs", ".extend.cs");
+
+            string exName = EntityConfig.FrameworkExName;
+            if (!DesignerInfo.IsNetFrameworkLib)//项目文件清单没有主代码项，则为Core或Standard项目，需要另一个扩展名
+            {
+                exName = EntityConfig.StandardExName;
+            }
+
+            string fileName = fileInfo.DirectoryName + "\\" + fileInfo.Name.Replace(".cs", exName);
             if (File.Exists(fileName))
             {
                 return;
             }
+            EnvDTE.ProjectItem newit = null;
+            if (File.Exists(fileName))
+            {
+                if (DesignerInfo.IsNetFrameworkLib && !EntityConfig.ExistsExtendCode(classItem, fileName))
+                {
+                    newit = classItem.ProjectItems.AddFromFile(fileName);
+                    newit.Properties.Item("BuildAction").Value = (int)BuildAction.Code;
+                }
+                return;
+            }
+
 
             string model = Models.userentity;
             List<string> codes = new List<string>();
@@ -853,12 +875,8 @@ namespace Buffalo.DBTools.ROMHelper
             }
             
             CodeFileHelper.SaveFile(fileName, codes);
-
-            EnvDTE.ProjectItem classItem = EntityConfig.GetProjectItemByFileName(DesignerInfo, eFileName);
-            EnvDTE.ProjectItem newit = classItem.ProjectItems.AddFromFile(fileName);
+            newit = classItem.ProjectItems.AddFromFile(fileName);
             newit.Properties.Item("BuildAction").Value = (int)BuildAction.Code;
-            //EnvDTE.ProjectItem newit = _currentProject.ProjectItems.AddFromFile(fileName);
-            //newit.Properties.Item("BuildAction").Value = 1;
         }
     }
 }

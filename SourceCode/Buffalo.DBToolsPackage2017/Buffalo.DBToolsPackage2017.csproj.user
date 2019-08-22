@@ -10,6 +10,7 @@
     <StartAction>Program</StartAction>
     <StartProgram>D:\Program Files %28x86%29\Microsoft Visual Studio\2017\Professional\Common7\IDE\devenv.exe</StartProgram>
     <StartArguments>/rootsuffix Exp</StartArguments>
+    <DeployTargetInstanceId />
   </PropertyGroup>
   <PropertyGroup>
     <ProjectView>ShowAllFiles</ProjectView>
