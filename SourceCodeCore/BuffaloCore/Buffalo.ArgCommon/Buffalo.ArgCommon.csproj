@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>taisandog</Authors>
+    <Product>Buffalo.ArgCommon  for .Net Standard 2.0</Product>
+    <PackageProjectUrl>https://github.com/taisandog</PackageProjectUrl>
+    <Company>dogcom</Company>
+    <Description>Buffalo.ArgCommon  for .Net Standard 2.0</Description>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.ArgCommon\Buffalo.ArgCommon.xml</DocumentationFile>
+    <OutputPath>..\..\..\SourceCode\Release\NetStandard2</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Buffalo.Kernel\Buffalo.Kernel.csproj" />
+  </ItemGroup>
+
+</Project>
