@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Company>dogcom</Company>
+    <Authors>taisandog</Authors>
+    <Description>Buffalo.DB for .Net Standard 2.0</Description>
+    <PackageProjectUrl>https://github.com/taisandog</PackageProjectUrl>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\..\..\SourceCode\Release\NetStandard2</OutputPath>
+    <DocumentationFile>..\..\..\SourceCode\Release\NetStandard2\Buffalo.Data.MySQL.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MySql.Data" Version="8.0.17" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Buffalo.DB\Buffalo.DB.csproj" />
+    <ProjectReference Include="..\Buffalo.Kernel\Buffalo.Kernel.csproj" />
+  </ItemGroup>
+
+</Project>
