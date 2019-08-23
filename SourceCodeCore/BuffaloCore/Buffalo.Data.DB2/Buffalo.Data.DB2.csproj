@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>taisandog</Authors>
+    <Product>Buffalo.Data.DB2  for .Net Standard 2.0</Product>
+    <Description>Buffalo.Data.DB2  for .Net Standard 2.0</Description>
+    <PackageProjectUrl>https://github.com/taisandog</PackageProjectUrl>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\..\..\SourceCode\Release\NetStandard2</OutputPath>
+    <DocumentationFile>..\..\..\SourceCode\Release\NetStandard2\Buffalo.Data.DB2.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="IBM.Data.DB2.Core" Version="1.3.0.100" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Buffalo.DB\Buffalo.DB.csproj" />
+    <ProjectReference Include="..\Buffalo.Kernel\Buffalo.Kernel.csproj" />
+  </ItemGroup>
+
+  
+
+</Project>
