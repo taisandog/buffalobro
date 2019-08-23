@@ -6,6 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Form1.cs" />
+    <Compile Remove="Form1.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="BEM\TEAdmin.ETM.xml" />
     <None Remove="BEM\TEBase.ETM.xml" />
     <None Remove="BEM\TERule.ETM.xml" />
@@ -26,8 +31,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Buffalo.DB\Buffalo.DB.csproj" />
-    <ProjectReference Include="..\Buffalo.Kernel\Buffalo.Kernel.csproj" />
+    <Reference Include="Buffalo.DB">
+      <HintPath>..\Buffalo.DB\bin\Release\netstandard2.0\Buffalo.DB.dll</HintPath>
+    </Reference>
+    <Reference Include="Buffalo.Kernel">
+      <HintPath>..\Buffalo.DB\bin\Release\netstandard2.0\Buffalo.Kernel.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>

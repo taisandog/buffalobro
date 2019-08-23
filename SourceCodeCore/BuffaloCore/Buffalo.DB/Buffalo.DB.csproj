@@ -8,6 +8,11 @@
     <PackageProjectUrl>https://github.com/taisandog</PackageProjectUrl>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\..\..\SourceCode\Release\NetStandard2</OutputPath>
+    <DocumentationFile>..\..\..\SourceCode\Release\NetStandard2\Buffalo.DB.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="CacheManager\WebCacheAdaper.cs" />
   </ItemGroup>

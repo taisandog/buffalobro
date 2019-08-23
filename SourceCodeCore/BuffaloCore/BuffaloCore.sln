@@ -9,6 +9,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Buffalo.Kernel", "Buffalo.K
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Buffalo.DB", "Buffalo.DB\Buffalo.DB.csproj", "{ABE70DAA-718B-467D-9FA8-5E041BC84A87}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buffalo.ArgCommon", "Buffalo.ArgCommon\Buffalo.ArgCommon.csproj", "{EFA79903-1CC3-4CBB-AD4D-2A6CDD5C2409}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Buffalo.Data", "Buffalo.Data", "{5EB49FC6-2CE5-4B66-A8F9-C3E91E1EA712}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buffalo.Data.DB2", "Buffalo.Data.DB2\Buffalo.Data.DB2.csproj", "{BA50FC73-D46C-4D5F-B6FA-8EE9A1B28A8F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buffalo.Data.MySQL", "Buffalo.Data.MySQL\Buffalo.Data.MySQL.csproj", "{5A098095-8856-4E91-85D0-B3849BFCC9BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,9 +35,25 @@ Global
 		{ABE70DAA-718B-467D-9FA8-5E041BC84A87}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ABE70DAA-718B-467D-9FA8-5E041BC84A87}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ABE70DAA-718B-467D-9FA8-5E041BC84A87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFA79903-1CC3-4CBB-AD4D-2A6CDD5C2409}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFA79903-1CC3-4CBB-AD4D-2A6CDD5C2409}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFA79903-1CC3-4CBB-AD4D-2A6CDD5C2409}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFA79903-1CC3-4CBB-AD4D-2A6CDD5C2409}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA50FC73-D46C-4D5F-B6FA-8EE9A1B28A8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA50FC73-D46C-4D5F-B6FA-8EE9A1B28A8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA50FC73-D46C-4D5F-B6FA-8EE9A1B28A8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA50FC73-D46C-4D5F-B6FA-8EE9A1B28A8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A098095-8856-4E91-85D0-B3849BFCC9BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A098095-8856-4E91-85D0-B3849BFCC9BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A098095-8856-4E91-85D0-B3849BFCC9BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A098095-8856-4E91-85D0-B3849BFCC9BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BA50FC73-D46C-4D5F-B6FA-8EE9A1B28A8F} = {5EB49FC6-2CE5-4B66-A8F9-C3E91E1EA712}
+		{5A098095-8856-4E91-85D0-B3849BFCC9BF} = {5EB49FC6-2CE5-4B66-A8F9-C3E91E1EA712}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {66C8D9AB-6D90-4580-B7F5-6918517BCF14}
