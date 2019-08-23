@@ -65,8 +65,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MongoAutoIncrement.cs" />
+    <Compile Include="MongoConnection.cs" />
     <Compile Include="MongoDBManager.cs" />
     <Compile Include="MongoDBOperate.extend.cs" />
+    <Compile Include="MongoTransaction.cs" />
     <Compile Include="ProxyBase\MongoEntityBaseInfo.cs" />
     <Compile Include="ProxyBase\MongoPropertyInfo.cs" />
     <Compile Include="MongoLiquidUnit.cs" />

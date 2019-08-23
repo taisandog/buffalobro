@@ -27,6 +27,7 @@ namespace Buffalo.MongoDB
         private MongoEntityInfo _entityInfo;
 
         private IMongoDatabase _db = null;
+        private MongoConnection _connection = null;
         /// <summary>
         /// 数据库操作类
         /// </summary>
@@ -36,7 +37,10 @@ namespace Buffalo.MongoDB
         {
             _dbInfo = dbInfo;
             _entityInfo = entityInfo;
-            _db= MongoDBManager.GetMongoClient(_dbInfo.DBKey);
+            _connection = MongoDBManager.GetMongoClient(_dbInfo.DBKey);
+            _db = _connection.DB;
+
+
         }
         /// <summary>
         /// 插入数据
@@ -62,6 +66,15 @@ namespace Buffalo.MongoDB
             col.InsertOne(entity);
             
         }
+        /// <summary>
+        /// 开启事务
+        /// </summary>
+        /// <returns></returns>
+        public MongoTransaction StartTransaction()
+        {
+
+        }
+
         /// <summary>
         /// 插入数据
         /// </summary>

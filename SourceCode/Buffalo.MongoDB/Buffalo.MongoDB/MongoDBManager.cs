@@ -3,6 +3,7 @@ using Buffalo.Kernel;
 using Buffalo.MongoDB.ProxyBase;
 using MongoDB.Driver;
 using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,24 @@ namespace Buffalo.MongoDB
         private static readonly string MongoDBKey = "_?MDB.Conn.Key.";
 
         private static readonly string LiquidName = "Buffalo_Liquid_Sequence";
+
+        /// <summary>
+        /// Mongo的集合
+        /// </summary>
+        private static Hashtable MongoDBCollection
+        {
+            get
+            {
+                Hashtable hs = ContextValue.Current[MongoDBKey] as Hashtable;
+                if (hs == null)
+                {
+                    hs = new Hashtable();
+                    ContextValue.Current[MongoDBKey] = hs;
+                }
+                return hs;
+            }
+        }
+
         /// <summary>
         /// 添加配置
         /// </summary>
@@ -49,10 +68,10 @@ namespace Buffalo.MongoDB
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public static IMongoDatabase GetMongoClient(string key)
+        public static MongoConnection GetMongoClient(string key)
         {
-            string skey = MongoDBKey + key;
-            IMongoDatabase db = ContextValue.Current[skey] as IMongoDatabase;
+            
+            MongoConnection db = MongoDBCollection[key] as MongoConnection;
             if (db == null)
             {
                 MongoDBInfo conn = null;
@@ -61,8 +80,8 @@ namespace Buffalo.MongoDB
                     throw new KeyNotFoundException("找不到标识为：" + key + "的配置");
                 }
 
-                db = conn.CreateConnection();
-                ContextValue.Current[skey] = db;
+                db = new MongoConnection(conn.CreateConnection());
+                MongoDBCollection[key] = db;
             }
             return db;
         }
@@ -76,7 +95,7 @@ namespace Buffalo.MongoDB
             Type baseType = typeof(MongoEntityBase);
             string dbKey = null;
             string collectionName = null;
-            IMongoDatabase dbconnection = GetMongoClient(dbInfo.DBKey);
+            IMongoDatabase dbconnection = GetMongoClient(dbInfo.DBKey).DB;
             foreach (Type entityType in assembly.GetTypes())
             {
                 if (!entityType.IsSubclassOf(baseType))
