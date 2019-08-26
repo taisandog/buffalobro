@@ -1,0 +1,2 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<config connectionString="server=192.168.1.35;database=TestDB;uid=sa;pwd=vsdognet2010--" roconnectionString="" dbType="Sql2K12" appnamespace="TestApp.DataAccess.Sql2K12" assembly="" name="TestDB" cache="" cacheConnString="" allCache="0" lazy="2" />
