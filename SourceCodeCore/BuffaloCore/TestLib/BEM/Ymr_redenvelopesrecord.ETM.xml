@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<class TableName="ymr_redenvelopesrecord" ClassName="TestLib.Ymr_redenvelopesrecord" IsTable="1" BelongDB="YMRDB" UseCache="0" Description="" Lazy="1">
+  <property FieldName="_id" PropertyName="Id" DbType="Int32" Length="0" EntityPropertyType="10" ParamName="id" ReadOnly="0" Description="ID" DefaultValue="" AllowNull="0" />
+  <property FieldName="_createDate" PropertyName="CreateDate" DbType="DateTime" Length="0" EntityPropertyType="1" ParamName="createDate" ReadOnly="0" Description="创建时间" DefaultValue="" AllowNull="1" />
+  <property FieldName="_lastDate" PropertyName="LastDate" DbType="DateTime" Length="0" EntityPropertyType="1" ParamName="lastDate" ReadOnly="0" Description="最后更新时间" DefaultValue="" AllowNull="1" />
+  <property FieldName="_alreadyRobbedUserIDs" PropertyName="AlreadyRobbedUserIDs" DbType="String" Length="4294967295" EntityPropertyType="1" ParamName="alreadyRobbedUserIDs" ReadOnly="0" Description="已经抢包玩家id列表" DefaultValue="" AllowNull="1" />
+  <property FieldName="_noRobberyUserIDs" PropertyName="NoRobberyUserIDs" DbType="String" Length="4294967295" EntityPropertyType="1" ParamName="noRobberyUserIDs" ReadOnly="0" Description="未抢包玩家id列表" DefaultValue="" AllowNull="1" />
+  <property FieldName="_redEnvelopesMoney" PropertyName="RedEnvelopesMoney" DbType="String" Length="4294967295" EntityPropertyType="1" ParamName="redEnvelopesMoney" ReadOnly="0" Description="所有包金额" DefaultValue="" AllowNull="1" />
+  <property FieldName="_redEnvelopesSumGold" PropertyName="RedEnvelopesSumGold" DbType="Int64" Length="0" EntityPropertyType="1" ParamName="redEnvelopesSumGold" ReadOnly="0" Description="红包总金额" DefaultValue="" AllowNull="0" />
+  <property FieldName="_roomLevel" PropertyName="RoomLevel" DbType="Int32" Length="0" EntityPropertyType="1" ParamName="roomLevel" ReadOnly="0" Description="房间等级" DefaultValue="" AllowNull="1" />
+</class>

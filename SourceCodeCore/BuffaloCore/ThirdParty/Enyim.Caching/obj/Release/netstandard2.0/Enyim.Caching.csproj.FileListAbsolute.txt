@@ -1,0 +1,9 @@
+D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\ThirdParty\Enyim.Caching\bin\Release\netstandard2.0\EnyimMemcachedCore.deps.json
+D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\ThirdParty\Enyim.Caching\bin\Release\netstandard2.0\EnyimMemcachedCore.dll
+D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\ThirdParty\Enyim.Caching\bin\Release\netstandard2.0\EnyimMemcachedCore.pdb
+D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\ThirdParty\Enyim.Caching\obj\Release\netstandard2.0\Enyim.Caching.csprojAssemblyReference.cache
+D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\ThirdParty\Enyim.Caching\obj\Release\netstandard2.0\Enyim.Caching.csproj.CoreCompileInputs.cache
+D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\ThirdParty\Enyim.Caching\obj\Release\netstandard2.0\Enyim.Caching.AssemblyInfoInputs.cache
+D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\ThirdParty\Enyim.Caching\obj\Release\netstandard2.0\Enyim.Caching.AssemblyInfo.cs
+D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\ThirdParty\Enyim.Caching\obj\Release\netstandard2.0\EnyimMemcachedCore.dll
+D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\ThirdParty\Enyim.Caching\obj\Release\netstandard2.0\EnyimMemcachedCore.pdb

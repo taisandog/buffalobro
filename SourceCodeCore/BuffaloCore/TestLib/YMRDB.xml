@@ -1,0 +1,2 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<config connectionString="User ID=admindba;Password=mcnet4800@mcnet4800;Host=39.108.90.111;Port=3306;Database=ymrdb;" roconnectionString="" dbType="Buffalo.Data.MySQL" appnamespace="TestLib.DataAccess.Buffalo.Data.MySQL" assembly="" name="YMRDB" cache="" cacheConnString="" allCache="0" lazy="2" />

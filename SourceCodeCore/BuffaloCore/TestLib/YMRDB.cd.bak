@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="TestLib.YMRBase">
+    <Position X="2.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAEAAAAAAAAABAAAAAAAAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>YMRBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TestLib.Gdloginoutlog">
+    <Position X="1.5" Y="3.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAgAYAwAAQAACAEAwBECBIxAAgAgBgFJAABgKgABAIA=</HashCode>
+      <FileName>Entity\Gdloginoutlog.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TestLib.Gduser">
+    <Position X="6.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIQQAAAAACAEAYBkAAAxAAAAgAgFIAAAkIgABAAA=</HashCode>
+      <FileName>Entity\Gduser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TestLib.Ymr_insidemodifyrecord">
+    <Position X="8.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAAAAIAAAAAAAAAAAAAABEBAAAAgAAAAAAA=</HashCode>
+      <FileName>Entity\Ymr_insidemodifyrecord.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TestLib.Ymr_redenvelopesrecord">
+    <Position X="10.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAAAAAAAACCAKABkAAABAAAAgAAABAAE=</HashCode>
+      <FileName>Entity\Ymr_redenvelopesrecord.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TestLib.Ymrfishconfig">
+    <Position X="12.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAEAAADAAQgEABQEgAQAAAABAAABQokEgkAAAAgw=</HashCode>
+      <FileName>Entity\Ymrfishconfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TestLib.Ymrgamepool">
+    <Position X="14.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACUAgAgAAJIJAAI4uCQwBQCAAAiaAPBJBBBgJAIAAAI=</HashCode>
+      <FileName>Entity\Ymrgamepool.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TestLib.Ymrinsideconfig">
+    <Position X="16.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAEAAAABAAEAEAAEIAAQAAAABAwAAgBAABAAA=</HashCode>
+      <FileName>Entity\Ymrinsideconfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TestLib.Ymrrankinglist">
+    <Position X="18.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAggAAAAAAggAAAAAAABIAAAgAFAAAAA=</HashCode>
+      <FileName>Entity\Ymrrankinglist.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TestLib.Ymrrobotconfig">
+    <Position X="20.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BUKkMAAgAoACgAEJASgICOAAiQCAiAxQAAUiAVVGMAA=</HashCode>
+      <FileName>Entity\Ymrrobotconfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TestLib.Ymrrobotfishconfig">
+    <Position X="22.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>GQAAAEAQBABAAggUCAAAAAAAQAAAAABAEAAgEAQCQAA=</HashCode>
+      <FileName>Entity\Ymrrobotfishconfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TestLib.Ymrrobotroomdata">
+    <Position X="24.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>KgAIEACADBAQAEQAIAEAlAQElAkAEARAAAEgAEAAAAI=</HashCode>
+      <FileName>Entity\Ymrrobotroomdata.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TestLib.Yqsrobotconfig">
+    <Position X="26.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BUKkMAAgAoACgAEJASgICOAAiQCAiAxQAAUiAVVGMAA=</HashCode>
+      <FileName>Entity\Yqsrobotconfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TestLib.Yqsrobotfishconfig">
+    <Position X="28.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>GQAAAAAQBABAAAgUCAAAAAAAQAAAAABAEAAgEAQCQAA=</HashCode>
+      <FileName>Entity\Yqsrobotfishconfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TestLib.Yqsrobotroomdata">
+    <Position X="30.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>KgAIEACADBAQAEQAIAEAlAQElAkAEARAAAEgAEAAAAI=</HashCode>
+      <FileName>Entity\Yqsrobotroomdata.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>

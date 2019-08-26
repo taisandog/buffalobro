@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  
+
+  <ItemGroup>
+    <EmbeddedResource Include="BEM\Gdloginoutlog.ETM.xml" />
+    <EmbeddedResource Include="BEM\Gduser.ETM.xml" />
+    <EmbeddedResource Include="BEM\YMRBase.ETM.xml" />
+    <EmbeddedResource Include="BEM\YMRDB.BDM.xml" />
+    <EmbeddedResource Include="BEM\Ymrfishconfig.ETM.xml" />
+    <EmbeddedResource Include="BEM\Ymrgamepool.ETM.xml" />
+    <EmbeddedResource Include="BEM\Ymrinsideconfig.ETM.xml" />
+    <EmbeddedResource Include="BEM\Ymrrankinglist.ETM.xml" />
+    <EmbeddedResource Include="BEM\Ymrrobotconfig.ETM.xml" />
+    <EmbeddedResource Include="BEM\Ymrrobotfishconfig.ETM.xml" />
+    <EmbeddedResource Include="BEM\Ymrrobotroomdata.ETM.xml" />
+    <EmbeddedResource Include="BEM\Ymr_insidemodifyrecord.ETM.xml" />
+    <EmbeddedResource Include="BEM\Ymr_redenvelopesrecord.ETM.xml" />
+    <EmbeddedResource Include="BEM\Yqsrobotconfig.ETM.xml" />
+    <EmbeddedResource Include="BEM\Yqsrobotfishconfig.ETM.xml" />
+    <EmbeddedResource Include="BEM\Yqsrobotroomdata.ETM.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Buffalo.Data.MySQL\Buffalo.Data.MySQL.csproj" />
+    <ProjectReference Include="..\Buffalo.DB\Buffalo.DB.csproj" />
+    <ProjectReference Include="..\Buffalo.Kernel\Buffalo.Kernel.csproj" />
+  </ItemGroup>
+
+</Project>

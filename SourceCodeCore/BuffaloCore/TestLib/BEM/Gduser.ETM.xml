@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<class TableName="gduser" ClassName="TestLib.Gduser" IsTable="1" BelongDB="YMRDB" UseCache="0" Description="" Lazy="1">
+  <property FieldName="_id" PropertyName="Id" DbType="Int32" Length="0" EntityPropertyType="10" ParamName="id" ReadOnly="0" Description="ID" DefaultValue="" AllowNull="0" />
+  <property FieldName="_userId" PropertyName="UserId" DbType="Int32" Length="0" EntityPropertyType="1" ParamName="userId" ReadOnly="0" Description="玩家ID" DefaultValue="" AllowNull="1" />
+  <property FieldName="_name" PropertyName="Name" DbType="String" Length="768" EntityPropertyType="1" ParamName="name" ReadOnly="0" Description="用户名" DefaultValue="" AllowNull="1" />
+  <property FieldName="_nickName" PropertyName="NickName" DbType="String" Length="768" EntityPropertyType="1" ParamName="nickName" ReadOnly="0" Description="昵称" DefaultValue="" AllowNull="1" />
+  <property FieldName="_token" PropertyName="Token" DbType="String" Length="768" EntityPropertyType="1" ParamName="token" ReadOnly="0" Description="用户标识" DefaultValue="" AllowNull="1" />
+  <property FieldName="_agents" PropertyName="Agents" DbType="Int32" Length="0" EntityPropertyType="1" ParamName="agents" ReadOnly="0" Description="推荐人" DefaultValue="" AllowNull="1" />
+  <property FieldName="_isLoginin" PropertyName="IsLoginin" DbType="Boolean" Length="0" EntityPropertyType="1" ParamName="isLoginin" ReadOnly="0" Description="是否已经登入" DefaultValue="" AllowNull="1" />
+  <property FieldName="_loginCoin" PropertyName="LoginCoin" DbType="Int64" Length="0" EntityPropertyType="1" ParamName="loginCoin" ReadOnly="0" Description="登陆时候的金币" DefaultValue="" AllowNull="1" />
+  <property FieldName="_loginDiamond" PropertyName="LoginDiamond" DbType="Int32" Length="0" EntityPropertyType="1" ParamName="loginDiamond" ReadOnly="0" Description="登陆时候的钻石" DefaultValue="" AllowNull="1" />
+  <property FieldName="_server" PropertyName="Server" DbType="String" Length="384" EntityPropertyType="1" ParamName="server" ReadOnly="0" Description="所在服务器(多服务器)" DefaultValue="" AllowNull="1" />
+  <property FieldName="_createDate" PropertyName="CreateDate" DbType="DateTime" Length="0" EntityPropertyType="1" ParamName="createDate" ReadOnly="0" Description="创建时间" DefaultValue="" AllowNull="1" />
+  <property FieldName="_lastDate" PropertyName="LastDate" DbType="DateTime" Length="0" EntityPropertyType="1" ParamName="lastDate" ReadOnly="0" Description="最后更新时间" DefaultValue="" AllowNull="1" />
+  <property FieldName="_room" PropertyName="Room" DbType="String" Length="384" EntityPropertyType="1" ParamName="room" ReadOnly="0" Description="所在房间" DefaultValue="" AllowNull="1" />
+  <property FieldName="_boundCoins" PropertyName="BoundCoins" DbType="Int64" Length="0" EntityPropertyType="1" ParamName="boundCoins" ReadOnly="0" Description="币数" DefaultValue="" AllowNull="1" />
+</class>
