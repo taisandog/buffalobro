@@ -9,13 +9,25 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Buffalo.Kernel", "Buffalo.K
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Buffalo.DB", "Buffalo.DB\Buffalo.DB.csproj", "{ABE70DAA-718B-467D-9FA8-5E041BC84A87}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buffalo.ArgCommon", "Buffalo.ArgCommon\Buffalo.ArgCommon.csproj", "{EFA79903-1CC3-4CBB-AD4D-2A6CDD5C2409}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Buffalo.ArgCommon", "Buffalo.ArgCommon\Buffalo.ArgCommon.csproj", "{EFA79903-1CC3-4CBB-AD4D-2A6CDD5C2409}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Buffalo.Data", "Buffalo.Data", "{5EB49FC6-2CE5-4B66-A8F9-C3E91E1EA712}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buffalo.Data.DB2", "Buffalo.Data.DB2\Buffalo.Data.DB2.csproj", "{BA50FC73-D46C-4D5F-B6FA-8EE9A1B28A8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Buffalo.Data.DB2", "Buffalo.Data.DB2\Buffalo.Data.DB2.csproj", "{BA50FC73-D46C-4D5F-B6FA-8EE9A1B28A8F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buffalo.Data.MySQL", "Buffalo.Data.MySQL\Buffalo.Data.MySQL.csproj", "{5A098095-8856-4E91-85D0-B3849BFCC9BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Buffalo.Data.MySQL", "Buffalo.Data.MySQL\Buffalo.Data.MySQL.csproj", "{5A098095-8856-4E91-85D0-B3849BFCC9BF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestLib", "TestLib\TestLib.csproj", "{8D0E1FE3-6F93-4ECD-BABE-B3A69FE8EA07}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestForm", "TestForm\TestForm.csproj", "{F506BEC3-311E-48F7-9655-68A1D2A2755C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Buffalo.Data.Oracle", "Buffalo.Data.Oracle\Buffalo.Data.Oracle.csproj", "{C420D772-B9B1-4FEC-A138-1F37E9C76132}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buffalo.Data.PostgreSQL", "Buffalo.Data.PostgreSQL\Buffalo.Data.PostgreSQL.csproj", "{7A4A96CE-2AA5-468C-BF6F-73C5DC969606}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buffalo.Data.SQLite", "Buffalo.Data.SQLite\Buffalo.Data.SQLite.csproj", "{5CD4B2C4-22AC-4F24-B519-0C7724CF3D9A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buffalo.QueryCache", "Buffalo.QueryCache\Buffalo.QueryCache.csproj", "{28D5E8B9-6AC2-4F15-8032-EFF80C18641D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +59,30 @@ Global
 		{5A098095-8856-4E91-85D0-B3849BFCC9BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A098095-8856-4E91-85D0-B3849BFCC9BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A098095-8856-4E91-85D0-B3849BFCC9BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D0E1FE3-6F93-4ECD-BABE-B3A69FE8EA07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D0E1FE3-6F93-4ECD-BABE-B3A69FE8EA07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D0E1FE3-6F93-4ECD-BABE-B3A69FE8EA07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D0E1FE3-6F93-4ECD-BABE-B3A69FE8EA07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F506BEC3-311E-48F7-9655-68A1D2A2755C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F506BEC3-311E-48F7-9655-68A1D2A2755C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F506BEC3-311E-48F7-9655-68A1D2A2755C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F506BEC3-311E-48F7-9655-68A1D2A2755C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C420D772-B9B1-4FEC-A138-1F37E9C76132}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C420D772-B9B1-4FEC-A138-1F37E9C76132}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C420D772-B9B1-4FEC-A138-1F37E9C76132}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C420D772-B9B1-4FEC-A138-1F37E9C76132}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A4A96CE-2AA5-468C-BF6F-73C5DC969606}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A4A96CE-2AA5-468C-BF6F-73C5DC969606}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A4A96CE-2AA5-468C-BF6F-73C5DC969606}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A4A96CE-2AA5-468C-BF6F-73C5DC969606}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CD4B2C4-22AC-4F24-B519-0C7724CF3D9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CD4B2C4-22AC-4F24-B519-0C7724CF3D9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CD4B2C4-22AC-4F24-B519-0C7724CF3D9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CD4B2C4-22AC-4F24-B519-0C7724CF3D9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28D5E8B9-6AC2-4F15-8032-EFF80C18641D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28D5E8B9-6AC2-4F15-8032-EFF80C18641D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28D5E8B9-6AC2-4F15-8032-EFF80C18641D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28D5E8B9-6AC2-4F15-8032-EFF80C18641D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -54,6 +90,9 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{BA50FC73-D46C-4D5F-B6FA-8EE9A1B28A8F} = {5EB49FC6-2CE5-4B66-A8F9-C3E91E1EA712}
 		{5A098095-8856-4E91-85D0-B3849BFCC9BF} = {5EB49FC6-2CE5-4B66-A8F9-C3E91E1EA712}
+		{C420D772-B9B1-4FEC-A138-1F37E9C76132} = {5EB49FC6-2CE5-4B66-A8F9-C3E91E1EA712}
+		{7A4A96CE-2AA5-468C-BF6F-73C5DC969606} = {5EB49FC6-2CE5-4B66-A8F9-C3E91E1EA712}
+		{5CD4B2C4-22AC-4F24-B519-0C7724CF3D9A} = {5EB49FC6-2CE5-4B66-A8F9-C3E91E1EA712}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {66C8D9AB-6D90-4580-B7F5-6918517BCF14}

@@ -58,6 +58,10 @@ namespace Buffalo.Data.DB2
                 return new DBStructure();
             }
         }
-
+        private string _version;
+        public void SetDBVersion(string version)
+        {
+            _version = version;
+        }
     }
 }

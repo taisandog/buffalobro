@@ -58,6 +58,10 @@ namespace Buffalo.Data.MySQL
                 return new DBStructure();
             }
         }
-
+        private string _version;
+        public void SetDBVersion(string version)
+        {
+            _version = version;
+        }
     }
 }

@@ -8,7 +8,7 @@ namespace Buffalo.Kernel.FastReflection
 {
     public static class CallContext
     {
-        static ConcurrentDictionary<string, AsyncLocal<object>> _state = new ConcurrentDictionary<string, AsyncLocal<object>>();
+        static ConcurrentDictionary<string, ThreadLocal<object>> _state = new ConcurrentDictionary<string, ThreadLocal<object>>();
 
         /// <summary>
         /// Stores a given object and associates it with the specified name.
@@ -17,7 +17,7 @@ namespace Buffalo.Kernel.FastReflection
         /// <param name="data">The object to store in the call context.</param>
         public static void SetData(string name, object data)
         {
-            AsyncLocal<object> item = new AsyncLocal<object>();
+            ThreadLocal<object> item = new ThreadLocal<object>();
             item.Value = data;
             _state[name] = item;
         }
@@ -29,7 +29,7 @@ namespace Buffalo.Kernel.FastReflection
         /// <returns>The object in the call context associated with the specified name, or <see langword="null"/> if not found.</returns>
         public static object GetData(string name)
         {
-            AsyncLocal<object> data = null;
+            ThreadLocal<object> data = null;
             if(!_state.TryGetValue(name, out data))
             {
                 return false;

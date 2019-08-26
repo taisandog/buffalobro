@@ -168,8 +168,16 @@ namespace Buffalo.DB.DataBaseAdapter
             //}
             else 
             {
-                Type loaderType = GetAdapterLoader(key);
+                string[] items = key.Split(':');
+                string lib = items[0];
+                string version = null;
+                if (items.Length > 1)
+                {
+                    version = items[1];
+                }
+                Type loaderType = GetAdapterLoader(lib);
                 ret = Activator.CreateInstance(loaderType) as IAdapterLoader;
+                ret.SetDBVersion(version);
             }
             return ret;
         }

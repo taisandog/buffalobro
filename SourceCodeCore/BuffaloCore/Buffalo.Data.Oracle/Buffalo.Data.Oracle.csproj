@@ -2,6 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>taisandog</Authors>
+    <Company>dogcom</Company>
+    <Description>Buffalo.Data.Oracle for .Net Standard 2.0</Description>
+    <PackageProjectUrl>https://github.com/taisandog</PackageProjectUrl>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\..\..\SourceCode\Release\NetStandard2</OutputPath>
+    <DocumentationFile>..\..\..\SourceCode\Release\NetStandard2\Buffalo.Data.Oracle.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

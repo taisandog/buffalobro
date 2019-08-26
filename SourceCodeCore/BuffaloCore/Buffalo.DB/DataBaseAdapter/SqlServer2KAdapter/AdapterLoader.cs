@@ -58,6 +58,10 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter
                 return new DBStructure();
             }
         }
-
+        private string _version;
+        public void SetDBVersion(string version)
+        {
+            _version = version;
+        }
     }
 }

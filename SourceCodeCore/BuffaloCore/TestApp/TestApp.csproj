@@ -31,6 +31,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Buffalo.Data.MySQL\Buffalo.Data.MySQL.csproj" />
+    <ProjectReference Include="..\Buffalo.DB\Buffalo.DB.csproj">
+      <Private>true</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Buffalo.Kernel\Buffalo.Kernel.csproj">
+      <Private>true</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\TestLib\TestLib.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="Buffalo.DB">
       <HintPath>..\Buffalo.DB\bin\Release\netstandard2.0\Buffalo.DB.dll</HintPath>
     </Reference>
@@ -40,6 +51,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="configs\TestDB.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="configs\YMRDB.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="TestDB.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
