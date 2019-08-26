@@ -254,11 +254,11 @@ namespace Buffalo.DBTools.HelperKernel
             item.Tag = new ComboBoxItem("Data Source=ORCL;user id=username;password=pwd", GetOracle9Summary());
             types.Add(item);
 
-            item = new ComboBoxItem("Oracle 11 ODAC", "Buffalo.Data.Oracle11");
+            item = new ComboBoxItem("Oracle 9 或以上 ODP.Net", "Buffalo.Data.Oracle:9");
             item.Tag = new ComboBoxItem("user id=system;password=123456;data source=//127.0.0.1:1521/orcl", GetOracleSummary("11", "11w"));
             types.Add(item);
 
-            item = new ComboBoxItem("Oracle 12 ODAC", "Buffalo.Data.Oracle12");
+            item = new ComboBoxItem("Oracle 11 或以上 ODP.Net", "Buffalo.Data.Oracle:11");
             item.Tag = new ComboBoxItem("user id=system;password=123456;data source=//127.0.0.1:1521/orcl", GetOracleSummary("12", "12"));
             types.Add(item);
 

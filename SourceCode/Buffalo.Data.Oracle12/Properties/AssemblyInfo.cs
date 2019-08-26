@@ -6,58 +6,51 @@ using System.Runtime.InteropServices;
 // 控制。更改这些属性值可修改
 // 与程序集关联的信息。
 #if (NET_1_0)
-[assembly: AssemblyTitle("Buffalo.Data.Oracle12 for .NET 1.0")]
+[assembly: AssemblyTitle("Buffalo.Data.Oracle for .NET 1.0")]
 #elif (NET_1_1)
-[assembly: AssemblyTitle("Buffalo.Data.Oracle12 for .NET 1.1")]
+[assembly: AssemblyTitle("Buffalo.Data.Oracle for .NET 1.1")]
 #elif (NET_2_0)
-[assembly: AssemblyTitle("Buffalo.Data.Oracle12 for .NET 2.0")]
+[assembly: AssemblyTitle("Buffalo.Data.Oracle for .NET 2.0")]
 #elif (NET_3_0)
-[assembly: AssemblyTitle("Buffalo.Data.Oracle12 for .NET 3.0")]
+[assembly: AssemblyTitle("Buffalo.Data.Oracle for .NET 3.0")]
 #elif (NET_3_5)
-[assembly: AssemblyTitle("Buffalo.Data.Oracle12 for .NET 3.5")]
+[assembly: AssemblyTitle("Buffalo.Data.Oracle for .NET 3.5")]
 #elif (NET_4_0)
-[assembly: AssemblyTitle("Buffalo.Data.Oracle12 for .NET 4.0")]
+[assembly: AssemblyTitle("Buffalo.Data.Oracle for .NET 4.0")]
 #elif (NET_4_5)
-[assembly: AssemblyTitle("Buffalo.Data.Oracle12 for .NET 4.5")]
+[assembly: AssemblyTitle("Buffalo.Data.Oracle for .NET 4.5")]
 #elif (NET_4_5_1)
-[assembly: AssemblyTitle("Buffalo.Data.Oracle12 for .NET 4.5.1")]
+[assembly: AssemblyTitle("Buffalo.Data.Oracle for .NET 4.5.1")]
 #elif (NET_4_6)
-[assembly: AssemblyTitle("Buffalo.Data.Oracle12 for .NET 4.6")]
+[assembly: AssemblyTitle("Buffalo.Data.Oracle for .NET 4.6")]
 #elif (NET_4_6_2)
-[assembly: AssemblyTitle("Buffalo.Data.Oracle12 for .NET 4.6.2")]
+[assembly: AssemblyTitle("Buffalo.Data.Oracle for .NET 4.6.2")]
 #elif (NET_4_7_2)
-[assembly: AssemblyTitle("Buffalo.Data.Oracle12 for .NET 4.7.2")]
+[assembly: AssemblyTitle("Buffalo.Data.Oracle for .NET 4.7.2")]
 #elif (NETCF_1_0)
-[assembly: AssemblyTitle("Buffalo.Data.Oracle12 for .NET Compact 1.0")]
+[assembly: AssemblyTitle("Buffalo.Data.Oracle for .NET Compact 1.0")]
 #elif (NETCF_2_0)
-[assembly: AssemblyTitle("Buffalo.Data.Oracle12 for .NET Compact 2.0")]
+[assembly: AssemblyTitle("Buffalo.Data.Oracle for .NET Compact 2.0")]
 #elif (MONO_1_0)
-[assembly: AssemblyTitle("Buffalo.Data.Oracle12 for Mono 1.0")]
+[assembly: AssemblyTitle("Buffalo.Data.Oracle for Mono 1.0")]
 #elif (MONO_2_0)
-[assembly: AssemblyTitle("Buffalo.Data.Oracle12 for Mono 2.0")]
+[assembly: AssemblyTitle("Buffalo.Data.Oracle for Mono 2.0")]
 #else
-[assembly: AssemblyTitle("Buffalo.Data.Oracle12")]
+[assembly: AssemblyTitle("Buffalo.Data.Oracle")]
 #endif
 
-[assembly: AssemblyDescription("Buffalo.Data.Oracle12Library")]
+[assembly: AssemblyDescription("Buffalo.Data.Oracle Library")]
 #if DEBUG
 [assembly: AssemblyConfiguration("Debug")]
 
-#if X64
-            [assembly: AssemblyProduct("Buffalo.Data.Oracle12.X64(Debug)")]
+[assembly: AssemblyProduct("Buffalo.Data.Oracle")]
 
-#else
-          [assembly: AssemblyProduct("Buffalo.Data.Oracle12(Debug)")]
-#endif
 
 #else
 
 [assembly: AssemblyConfiguration("Release")]
-#if X64
-[assembly: AssemblyProduct("Buffalo.Data.Oracle12(X64)")]
-#else
-             [assembly: AssemblyProduct("Buffalo.Data.Oracle12")]
-#endif
+[assembly: AssemblyProduct("Buffalo.Data.Oracle")]
+
 #endif
 [assembly: AssemblyCompany("Buffalo")]
 
@@ -81,5 +74,5 @@ using System.Runtime.InteropServices;
 //
 // 可以指定所有这些值，也可以使用“修订号”和“内部版本号”的默认值，
 // 方法是按如下所示使用“*”:
-[assembly: AssemblyVersion("1.0.0.12")]
-[assembly: AssemblyFileVersion("1.0.0.12")]
+[assembly: AssemblyVersion("1.0.1.0")]
+[assembly: AssemblyFileVersion("1.0.1.0")]

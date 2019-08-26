@@ -200,14 +200,6 @@
       <Project>{687614c3-2681-403a-998a-ada65e02ea64}</Project>
       <Name>Buffalo2019.Data.MySQL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Buffalo.Data.Oracle12\Buffalo2019.Data.Oracle11.csproj">
-      <Project>{c38522e1-35ba-40f7-a1e9-716d52bb6c04}</Project>
-      <Name>Buffalo2019.Data.Oracle11</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Buffalo.Data.Oracle12\Buffalo2019.Data.Oracle12.csproj">
-      <Project>{481a477b-af05-48f7-adf3-34ff703d8366}</Project>
-      <Name>Buffalo2019.Data.Oracle12</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Buffalo.Data.PostgreSQL\Buffalo2019.Data.PostgreSQL.csproj">
       <Project>{ef96ea11-c57a-4de0-97f7-1ab7e20ca0bd}</Project>
       <Name>Buffalo2019.Data.PostgreSQL</Name>

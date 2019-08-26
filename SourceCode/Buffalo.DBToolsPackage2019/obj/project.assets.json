@@ -1544,34 +1544,6 @@
           "bin/placeholder/Buffalo2019.Data.MySQL.dll": {}
         }
       },
-      "Buffalo2019.Data.Oracle11/1.0.0": {
-        "type": "project",
-        "dependencies": {
-          "Buffalo2019.ArgCommon": "1.0.0",
-          "Buffalo2019.DB": "1.0.0",
-          "Buffalo2019.Kernel": "1.0.0"
-        },
-        "compile": {
-          "bin/placeholder/Buffalo2019.Data.Oracle11.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/Buffalo2019.Data.Oracle11.dll": {}
-        }
-      },
-      "Buffalo2019.Data.Oracle12/1.0.0": {
-        "type": "project",
-        "dependencies": {
-          "Buffalo2019.ArgCommon": "1.0.0",
-          "Buffalo2019.DB": "1.0.0",
-          "Buffalo2019.Kernel": "1.0.0"
-        },
-        "compile": {
-          "bin/placeholder/Buffalo2019.Data.Oracle12.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/Buffalo2019.Data.Oracle12.dll": {}
-        }
-      },
       "Buffalo2019.Data.PostgreSQL/1.0.0": {
         "type": "project",
         "dependencies": {
@@ -3200,34 +3172,6 @@
         },
         "runtime": {
           "bin/placeholder/Buffalo2019.Data.MySQL.dll": {}
-        }
-      },
-      "Buffalo2019.Data.Oracle11/1.0.0": {
-        "type": "project",
-        "dependencies": {
-          "Buffalo2019.ArgCommon": "1.0.0",
-          "Buffalo2019.DB": "1.0.0",
-          "Buffalo2019.Kernel": "1.0.0"
-        },
-        "compile": {
-          "bin/placeholder/Buffalo2019.Data.Oracle11.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/Buffalo2019.Data.Oracle11.dll": {}
-        }
-      },
-      "Buffalo2019.Data.Oracle12/1.0.0": {
-        "type": "project",
-        "dependencies": {
-          "Buffalo2019.ArgCommon": "1.0.0",
-          "Buffalo2019.DB": "1.0.0",
-          "Buffalo2019.Kernel": "1.0.0"
-        },
-        "compile": {
-          "bin/placeholder/Buffalo2019.Data.Oracle12.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/Buffalo2019.Data.Oracle12.dll": {}
         }
       },
       "Buffalo2019.Data.PostgreSQL/1.0.0": {
@@ -4860,34 +4804,6 @@
           "bin/placeholder/Buffalo2019.Data.MySQL.dll": {}
         }
       },
-      "Buffalo2019.Data.Oracle11/1.0.0": {
-        "type": "project",
-        "dependencies": {
-          "Buffalo2019.ArgCommon": "1.0.0",
-          "Buffalo2019.DB": "1.0.0",
-          "Buffalo2019.Kernel": "1.0.0"
-        },
-        "compile": {
-          "bin/placeholder/Buffalo2019.Data.Oracle11.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/Buffalo2019.Data.Oracle11.dll": {}
-        }
-      },
-      "Buffalo2019.Data.Oracle12/1.0.0": {
-        "type": "project",
-        "dependencies": {
-          "Buffalo2019.ArgCommon": "1.0.0",
-          "Buffalo2019.DB": "1.0.0",
-          "Buffalo2019.Kernel": "1.0.0"
-        },
-        "compile": {
-          "bin/placeholder/Buffalo2019.Data.Oracle12.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/Buffalo2019.Data.Oracle12.dll": {}
-        }
-      },
       "Buffalo2019.Data.PostgreSQL/1.0.0": {
         "type": "project",
         "dependencies": {
@@ -6516,34 +6432,6 @@
         },
         "runtime": {
           "bin/placeholder/Buffalo2019.Data.MySQL.dll": {}
-        }
-      },
-      "Buffalo2019.Data.Oracle11/1.0.0": {
-        "type": "project",
-        "dependencies": {
-          "Buffalo2019.ArgCommon": "1.0.0",
-          "Buffalo2019.DB": "1.0.0",
-          "Buffalo2019.Kernel": "1.0.0"
-        },
-        "compile": {
-          "bin/placeholder/Buffalo2019.Data.Oracle11.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/Buffalo2019.Data.Oracle11.dll": {}
-        }
-      },
-      "Buffalo2019.Data.Oracle12/1.0.0": {
-        "type": "project",
-        "dependencies": {
-          "Buffalo2019.ArgCommon": "1.0.0",
-          "Buffalo2019.DB": "1.0.0",
-          "Buffalo2019.Kernel": "1.0.0"
-        },
-        "compile": {
-          "bin/placeholder/Buffalo2019.Data.Oracle12.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/Buffalo2019.Data.Oracle12.dll": {}
         }
       },
       "Buffalo2019.Data.PostgreSQL/1.0.0": {
@@ -9172,16 +9060,6 @@
       "path": "../Buffalo.Data.MySQL/Buffalo2019.Data.MySQL.csproj",
       "msbuildProject": "../Buffalo.Data.MySQL/Buffalo2019.Data.MySQL.csproj"
     },
-    "Buffalo2019.Data.Oracle11/1.0.0": {
-      "type": "project",
-      "path": "../Buffalo.Data.Oracle12/Buffalo2019.Data.Oracle11.csproj",
-      "msbuildProject": "../Buffalo.Data.Oracle12/Buffalo2019.Data.Oracle11.csproj"
-    },
-    "Buffalo2019.Data.Oracle12/1.0.0": {
-      "type": "project",
-      "path": "../Buffalo.Data.Oracle12/Buffalo2019.Data.Oracle12.csproj",
-      "msbuildProject": "../Buffalo.Data.Oracle12/Buffalo2019.Data.Oracle12.csproj"
-    },
     "Buffalo2019.Data.PostgreSQL/1.0.0": {
       "type": "project",
       "path": "../Buffalo.Data.PostgreSQL/Buffalo2019.Data.PostgreSQL.csproj",
@@ -9239,8 +9117,6 @@
       "Buffalo2019.DB >= 1.0.0",
       "Buffalo2019.Data.DB2 >= 1.0.0",
       "Buffalo2019.Data.MySQL >= 1.0.0",
-      "Buffalo2019.Data.Oracle11 >= 1.0.0",
-      "Buffalo2019.Data.Oracle12 >= 1.0.0",
       "Buffalo2019.Data.PostgreSQL >= 1.0.0",
       "Buffalo2019.Data.SQLite >= 1.0.0",
       "Buffalo2019.GeneratorInfo >= 1.0.0",
@@ -9289,12 +9165,6 @@
             },
             "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.MySQL\\Buffalo2019.Data.MySQL.csproj": {
               "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.MySQL\\Buffalo2019.Data.MySQL.csproj"
-            },
-            "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.Oracle12\\Buffalo2019.Data.Oracle11.csproj": {
-              "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.Oracle12\\Buffalo2019.Data.Oracle11.csproj"
-            },
-            "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.Oracle12\\Buffalo2019.Data.Oracle12.csproj": {
-              "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.Oracle12\\Buffalo2019.Data.Oracle12.csproj"
             },
             "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.PostgreSQL\\Buffalo2019.Data.PostgreSQL.csproj": {
               "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.PostgreSQL\\Buffalo2019.Data.PostgreSQL.csproj"

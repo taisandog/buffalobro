@@ -12,13 +12,9 @@ using Buffalo.DB.PropertyAttributes;
 using Buffalo.DB.CommBase.DataAccessBases;
 using Buffalo.DB.BQLCommon.BQLKeyWordCommon;
 using Buffalo.DB.DataBaseAdapter;
-using Oracle.DataAccess.Client;
+using Oracle.ManagedDataAccess.Client;
 
-#if Ora11
-namespace Buffalo.Data.Oracle11
-#elif Ora12
-namespace Buffalo.Data.Oracle12
-#endif
+namespace Buffalo.Data.Oracle
 {
     public class DBAdapter : Buffalo.DB.DataBaseAdapter.Oracle9Adapter.DBAdapter
     {

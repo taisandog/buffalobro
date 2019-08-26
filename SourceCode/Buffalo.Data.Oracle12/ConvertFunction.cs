@@ -3,11 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Data;
 
-#if Ora11
-namespace Buffalo.Data.Oracle11
-#elif Ora12
-namespace Buffalo.Data.Oracle12
-#endif
+namespace Buffalo.Data.Oracle
 {
     /// <summary>
     /// 数值转换函数

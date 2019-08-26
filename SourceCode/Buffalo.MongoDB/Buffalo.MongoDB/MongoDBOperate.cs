@@ -47,14 +47,14 @@ namespace Buffalo.MongoDB
         /// </summary>
         /// <param name="collectionName">集合名</param>
         /// <param name="entity">实体</param>
-
-        public void Insert(string collectionName, TDocument entity)
+        /// <param name="hasIdentity">是否有自增长</param>
+        public void Insert(string collectionName, TDocument entity,bool hasIdentity=true)
         {
             //entity.ToBsonDocument();
             IMongoCollection<TDocument> col = _db.GetCollection<TDocument>(collectionName);
             MongoEntityInfo info = MongoEntityInfoManager.GetEntityHandle(entity.GetType());
             MongoLiquidUnit liquid = info.DBInfo.Liquid;
-            if (liquid != null)
+            if (hasIdentity && liquid != null)
             {
                 foreach (MongoPropertyInfo pinfo in info.IdentityPropertyInfo)
                 {
@@ -72,30 +72,39 @@ namespace Buffalo.MongoDB
         /// <returns></returns>
         public MongoTransaction StartTransaction()
         {
-
+            MongoConnection conn = null;
+            bool isStart = _connection.StartTransaction();//开启成功
+            
+            if (isStart)
+            {
+                conn = _connection;
+            }
+            return new MongoTransaction(conn);
         }
 
         /// <summary>
         /// 插入数据
         /// </summary>
         /// <param name="entity">实体</param>
-        public void Insert(TDocument entity)
+        /// <param name="hasIdentity">是否有自增长</param>
+        public void Insert(TDocument entity, bool hasIdentity = true)
         {
 
             if (string.IsNullOrWhiteSpace(_entityInfo.CollectionName))
             {
                 throw new Exception("找不到实体对应的集合名");
             }
-            Insert(_entityInfo.CollectionName, entity);
+            Insert(_entityInfo.CollectionName, entity,hasIdentity);
         }
 
         /// <summary>
         /// 插入批量数据
         /// </summary>
         /// <param name="collectionName">集合名</param>
-        /// <param name="entity">实体</param>
+        /// <param name="lstEntity">实体</param>
+        /// <param name="hasIdentity">是否有自增长</param>
 
-        public void InsertList(string collectionName, IEnumerable lstEntity)
+        public void InsertList(string collectionName, IEnumerable lstEntity, bool hasIdentity = true)
         {
             IMongoCollection<BsonDocument> col = _db.GetCollection<BsonDocument>(collectionName);
             List<BsonDocument> lst = new List<BsonDocument>();
@@ -109,7 +118,7 @@ namespace Buffalo.MongoDB
                 {
                     continue;
                 }
-                if (liquid != null)
+                if (hasIdentity && liquid != null)
                 {
                     foreach (MongoPropertyInfo pinfo in info.IdentityPropertyInfo)
                     {
@@ -128,8 +137,9 @@ namespace Buffalo.MongoDB
         /// <summary>
         /// 插入批量数据
         /// </summary>
-        /// <param name="entity">实体</param>
-        public void InsertList(IEnumerable lstEntity)
+        /// <param name="lstEntity">实体</param>
+        /// <param name="hasIdentity">是否有自增长</param>
+        public void InsertList(IEnumerable lstEntity, bool hasIdentity = true)
         {
 
             if (string.IsNullOrWhiteSpace(_entityInfo.CollectionName))
@@ -138,7 +148,7 @@ namespace Buffalo.MongoDB
             }
 
 
-            InsertList(_entityInfo.CollectionName, lstEntity);
+            InsertList(_entityInfo.CollectionName, lstEntity,hasIdentity);
         }
         /// <summary>
         /// 移除指定的数据

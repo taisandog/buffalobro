@@ -76,58 +76,6 @@
         "net472": {}
       }
     },
-    "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.Oracle12\\Buffalo2019.Data.Oracle11.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.Oracle12\\Buffalo2019.Data.Oracle11.csproj",
-        "projectName": "Buffalo2019.Data.Oracle11",
-        "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.Oracle12\\Buffalo2019.Data.Oracle11.csproj",
-        "frameworks": {
-          "net472": {
-            "projectReferences": {
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.ArgCommon\\Buffalo2019.ArgCommon.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.ArgCommon\\Buffalo2019.ArgCommon.csproj"
-              },
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DB\\Buffalo2019.DB.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DB\\Buffalo2019.DB.csproj"
-              },
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj"
-              }
-            }
-          }
-        }
-      },
-      "frameworks": {
-        "net472": {}
-      }
-    },
-    "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.Oracle12\\Buffalo2019.Data.Oracle12.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.Oracle12\\Buffalo2019.Data.Oracle12.csproj",
-        "projectName": "Buffalo2019.Data.Oracle12",
-        "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.Oracle12\\Buffalo2019.Data.Oracle12.csproj",
-        "frameworks": {
-          "net472": {
-            "projectReferences": {
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.ArgCommon\\Buffalo2019.ArgCommon.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.ArgCommon\\Buffalo2019.ArgCommon.csproj"
-              },
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DB\\Buffalo2019.DB.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DB\\Buffalo2019.DB.csproj"
-              },
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj"
-              }
-            }
-          }
-        }
-      },
-      "frameworks": {
-        "net472": {}
-      }
-    },
     "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.PostgreSQL\\Buffalo2019.Data.PostgreSQL.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -212,12 +160,6 @@
               },
               "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.MySQL\\Buffalo2019.Data.MySQL.csproj": {
                 "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.MySQL\\Buffalo2019.Data.MySQL.csproj"
-              },
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.Oracle12\\Buffalo2019.Data.Oracle11.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.Oracle12\\Buffalo2019.Data.Oracle11.csproj"
-              },
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.Oracle12\\Buffalo2019.Data.Oracle12.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.Oracle12\\Buffalo2019.Data.Oracle12.csproj"
               },
               "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.PostgreSQL\\Buffalo2019.Data.PostgreSQL.csproj": {
                 "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.PostgreSQL\\Buffalo2019.Data.PostgreSQL.csproj"

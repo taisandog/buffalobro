@@ -20,8 +20,8 @@ namespace Buffalo.MongoDB
         /// <returns></returns>
         public List<TDocument> SelectList(ConditionList<TDocument> query, string collectionName)
         {
-            IMongoDatabase db = MongoDBManager.GetMongoClient(_dbInfo.DBKey);
-            IMongoCollection<TDocument> mc = db.GetCollection<TDocument>(collectionName);
+            //IMongoDatabase db = MongoDBManager.GetMongoClient(_dbInfo.DBKey);
+            IMongoCollection<TDocument> mc = _db.GetCollection<TDocument>(collectionName);
             FilterDefinition<TDocument> qu = null;
             if (query.Count > 0)
             {
@@ -57,8 +57,8 @@ namespace Buffalo.MongoDB
         /// <param name="indexSort">排序</param>
         public string CreateIndex(string propertyName, string collectionName, MGSortType indexSort)
         {
-            IMongoDatabase db = MongoDBManager.GetMongoClient(_dbInfo.DBKey);
-            IMongoCollection<TDocument> mc = db.GetCollection<TDocument>(collectionName);
+            //IMongoDatabase db = MongoDBManager.GetMongoClient(_dbInfo.DBKey);
+            IMongoCollection<TDocument> mc = _db.GetCollection<TDocument>(collectionName);
             IndexKeysDefinitionBuilder<TDocument> index = ConditionList<TDocument>.Index;
             IndexKeysDefinition<TDocument> definition = null;
             if (indexSort == MGSortType.ASC)
@@ -110,8 +110,8 @@ namespace Buffalo.MongoDB
         /// <returns></returns>
         public TDocument GetUnique(ConditionList<TDocument> query, string collectionName)
         {
-            IMongoDatabase db = MongoDBManager.GetMongoClient(_dbInfo.DBKey);
-            IMongoCollection<TDocument> mc = db.GetCollection<TDocument>(collectionName);
+            //IMongoDatabase db = MongoDBManager.GetMongoClient(_dbInfo.DBKey);
+            IMongoCollection<TDocument> mc = _db.GetCollection<TDocument>(collectionName);
             FilterDefinition<TDocument> qu = null;
             if (query.Count > 0)
             {
@@ -212,8 +212,8 @@ namespace Buffalo.MongoDB
         /// <returns></returns>
         private List<BsonDocument> SelectGroupBy(string collectionName, FilterDefinition<TDocument> dbMatch, ProjectionDefinition<TDocument, BsonDocument> dbGroup)
         {
-            IMongoDatabase db = MongoDBManager.GetMongoClient(_dbInfo.DBKey);
-            IMongoCollection<TDocument> mc = db.GetCollection<TDocument>(collectionName);
+            //IMongoDatabase db = MongoDBManager.GetMongoClient(_dbInfo.DBKey);
+            IMongoCollection<TDocument> mc = _db.GetCollection<TDocument>(collectionName);
             IAggregateFluent<TDocument> query = mc.Aggregate();
             if (dbMatch != null)
             {

@@ -7,6 +7,7 @@ using Buffalo.DBTools.ROMHelper;
 using EnvDTE;
 using Buffalo.Win32Kernel;
 using Buffalo.DBTools.UIHelper;
+using Buffalo.DBToolsPackage;
 
 namespace Buffalo.DBTools.HelperKernel
 {
@@ -35,6 +36,7 @@ namespace Buffalo.DBTools.HelperKernel
         /// <param name="entity"></param>
         public void GenerateBusiness() 
         {
+            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             FileInfo info = new FileInfo(ClassDesignerFileName);
             
 
@@ -50,7 +52,7 @@ namespace Buffalo.DBTools.HelperKernel
             }
 
 
-            string model = Models.Business;
+            string model = Models.business;
             
             string baseClass = null;
             
@@ -99,8 +101,8 @@ namespace Buffalo.DBTools.HelperKernel
                     }
                 }
             }
-            
             CodeFileHelper.SaveFile(fileName, codes);
+            
             EnvDTE.ProjectItem newit = DesignerInfo.CurrentProject.ProjectItems.AddFromFile(fileName);
             newit.Properties.Item("BuildAction").Value = (int)BuildAction.Code;
         }
@@ -204,42 +206,25 @@ namespace Buffalo.DBTools.HelperKernel
 #elif (NET_4_6)
         private static string version = "4.6";
         private static string orcVer = "4.0";
+#elif (NET_4_6_2)
+        private static string version = "4.6.2";
+        private static string orcVer = "4.0";
+#elif (NET_4_7_2)
+        private static string version = "4.7.2";
+        private static string orcVer = "4.0";
 #endif
-
         /// <summary>
         /// 获取Oracle数据库的备注
         /// </summary>
         /// <param name="oracleVersion">oracle版本</param>
         /// <returns></returns>
-        private static string GetOracleSummary(string oracleVersion, string oraOps)
+        private static string GetOracleSummary(string oracleVersion,string oraOps) 
         {
             StringBuilder sbRet = new StringBuilder();
-            sbRet.AppendLine("本插件如使用ODP.NET操作Oracle");
+            sbRet.AppendLine("本插件如使用ODAC操作Oracle");
             sbRet.AppendLine("则需要把 BuffaloCode\\dll\\Buffalo\\Net" + version + "\\Oracle" + oracleVersion + "\\ 目录下的 Buffalo.Data.Oracle" + oracleVersion + ".dll、Oracle.DataAccess.dll和 OraOps" + oraOps + ".dll");
             sbRet.AppendLine("还有 BuffaloResource\\OracleODAC\\Oracle" + oracleVersion + "\\X86\\ 目录下的 oci.dll 和oraociei" + oracleVersion + ".dll");
             sbRet.AppendLine("拷贝到 BuffaloCode\\Tools\\AddInSetup\\AddIns\\Net" + version + "\\ 目录下");
-
-            sbRet.AppendLine("ODP.NET下载:");
-            sbRet.AppendLine("32bit:  http://www.oracle.com/technetwork/topics/dotnet/utilsoft-086879.html");
-            sbRet.AppendLine("64bit:  http://www.oracle.com/technetwork/database/windows/downloads/index-090165.html");
-
-
-            return sbRet.ToString();
-        }
-        /// <summary>
-        /// 获取Oracle数据库的备注
-        /// </summary>
-        /// <param name="oracleVersion">oracle版本</param>
-        /// <returns></returns>
-        private static string GetOracle9Summary()
-        {
-            StringBuilder sbRet = new StringBuilder();
-            sbRet.AppendLine("此操作使用OracleClient操作Oracle9或以上的数据库(例如:Oracle10、Oracle11、Oracle12)");
-            sbRet.AppendLine("请先安装Oracle连接客户端，然后在Net Configuration Assistant配置好 本地网络服务名");
-            sbRet.AppendLine("然后把服务名填进参考连接字符串中的Data Source项");
-            sbRet.AppendLine("最后填上用户名密码即可");
-            sbRet.AppendLine("Oracle连接客户端下载:");
-            sbRet.AppendLine("http://www.oracle.com/technetwork/database/features/instant-client/index-097480.html");
             return sbRet.ToString();
         }
         /// <summary>
@@ -250,7 +235,7 @@ namespace Buffalo.DBTools.HelperKernel
         {
             ComboBoxItemCollection types = new ComboBoxItemCollection();
             ComboBoxItem item = new ComboBoxItem("SQL Server 2000", "Sql2K");
-            item.Tag =new ComboBoxItem("server=127.0.0.1;database=mydb;uid=sa;pwd=sa",null);
+            item.Tag = new ComboBoxItem("server=127.0.0.1;database=mydb;uid=sa;pwd=sa", null);
             types.Add(item);
 
             item = new ComboBoxItem("SQL Server 2005", "Sql2K5");
@@ -269,12 +254,12 @@ namespace Buffalo.DBTools.HelperKernel
             item.Tag = new ComboBoxItem("Data Source=ORCL;user id=username;password=pwd", GetOracle9Summary());
             types.Add(item);
 
-            item = new ComboBoxItem("Oracle 11 ODAC", "Buffalo.Data.Oracle11");
-            item.Tag = new ComboBoxItem("user id=system;password=123456;data source=//127.0.0.1:1521/orcl", GetOracleSummary("11","11w"));
+            item = new ComboBoxItem("Oracle 9 或以上 ODP.Net", "Buffalo.Data.Oracle:9");
+            item.Tag = new ComboBoxItem("user id=system;password=123456;data source=//127.0.0.1:1521/orcl", GetOracleSummary("11", "11w"));
             types.Add(item);
 
-            item = new ComboBoxItem("Oracle 12 ODAC", "Buffalo.Data.Oracle12");
-            item.Tag = new ComboBoxItem("user id=system;password=123456;data source=//127.0.0.1:1521/orcl",  GetOracleSummary("12","12"));
+            item = new ComboBoxItem("Oracle 11 或以上 ODP.Net", "Buffalo.Data.Oracle:11");
+            item.Tag = new ComboBoxItem("user id=system;password=123456;data source=//127.0.0.1:1521/orcl", GetOracleSummary("12", "12"));
             types.Add(item);
 
             item = new ComboBoxItem("MySQL 5.0 或以上", "Buffalo.Data.MySQL");
@@ -297,6 +282,7 @@ namespace Buffalo.DBTools.HelperKernel
             item.Tag = new ComboBoxItem("Provider=Microsoft.Jet.OLEDB.4.0; Data Source=c:\\db.mdb; Jet OLEDB:Database Password=pwd", null);
             types.Add(item);
 
+
             return types;
         }
 
@@ -315,7 +301,22 @@ namespace Buffalo.DBTools.HelperKernel
 
             return tiers;
         }
-
+        /// <summary>
+        /// 获取Oracle数据库的备注
+        /// </summary>
+        /// <param name="oracleVersion">oracle版本</param>
+        /// <returns></returns>
+        private static string GetOracle9Summary()
+        {
+            StringBuilder sbRet = new StringBuilder();
+            sbRet.AppendLine("此操作使用OracleClient操作Oracle9或以上的数据库(例如:Oracle10、Oracle11、Oracle12)");
+            sbRet.AppendLine("请先安装Oracle连接客户端，然后在Net Configuration Assistant配置好 本地网络服务名");
+            sbRet.AppendLine("然后把服务名填进参考连接字符串中的Data Source项");
+            sbRet.AppendLine("最后填上用户名密码即可");
+            sbRet.AppendLine("Oracle连接客户端下载:");
+            sbRet.AppendLine("http://www.oracle.com/technetwork/database/features/instant-client/index-097480.html");
+            return sbRet.ToString();
+        }
 
         /// <summary>
         /// 生成数据层
@@ -323,6 +324,7 @@ namespace Buffalo.DBTools.HelperKernel
         /// <param name="entity"></param>
         public void GenerateDataAccess()
         {
+            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             //FileInfo info = new FileInfo(EntityFileName);
 
 
@@ -331,7 +333,7 @@ namespace Buffalo.DBTools.HelperKernel
             {
                 Directory.CreateDirectory(dicPath);
             }
-            string dal = Models.DataAccess;
+            string dal = Models.dataaccess;
             foreach (ComboBoxItem itype in DataAccessTypes) 
             {
                 if (!this.BbConfig.IsAllDal && !this.BbConfig.DbType.Equals(itype.Value)) 
@@ -378,6 +380,7 @@ namespace Buffalo.DBTools.HelperKernel
         /// <param name="entity"></param>
         public void GenerateIDataAccess() 
         {
+            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             FileInfo info = new FileInfo(ClassDesignerFileName);
             string dicPath = info.DirectoryName + "\\DataAccess";
             if (!Directory.Exists(dicPath))
@@ -394,7 +397,7 @@ namespace Buffalo.DBTools.HelperKernel
             {
                 return;
             }
-            string idal = Models.IDataAccess;
+            string idal = Models.idataaccess;
             List<string> codes = new List<string>();
             using (StringReader reader = new StringReader(idal))
             {
@@ -418,6 +421,7 @@ namespace Buffalo.DBTools.HelperKernel
         /// </summary>
         public void GenerateBQLDataAccess() 
         {
+            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             FileInfo info = new FileInfo(ClassDesignerFileName);
             string dicPath = info.DirectoryName + "\\DataAccess";
             if (!Directory.Exists(dicPath))
@@ -435,7 +439,7 @@ namespace Buffalo.DBTools.HelperKernel
             {
                 return;
             }
-            string idal = Models.BQLDataAccess;
+            string idal = Models.bqldataaccess;
             List<string> codes = new List<string>();
             using (StringReader reader = new StringReader(idal))
             {
