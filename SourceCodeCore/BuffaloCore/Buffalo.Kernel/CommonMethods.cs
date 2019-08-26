@@ -32,8 +32,25 @@ namespace Buffalo.Kernel
 
         }
         private static string _baseRoot = null;//基目录
+
         /// <summary>
-        /// 获取基路径
+        /// 路径连接符
+        /// </summary>
+        private static readonly char PathCombine = GetPathCombine();
+        /// <summary>
+        /// 获取路径连接符
+        /// </summary>
+        /// <returns></returns>
+        private static char GetPathCombine()
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                return '\\';
+            }
+            return '/';
+        }
+        /// <summary>
+        /// 获取基路径,web程序需要在Configure调用CommonMethods.ConfigureServices
         /// </summary>
         /// <param name="configRoot"></param>
         /// <returns></returns>
@@ -44,10 +61,11 @@ namespace Buffalo.Kernel
             {
                 if (IsWebContext)
                 {
-                    _baseRoot = _httpHandle.WebRootPath ;
+                    _baseRoot = _hostingEnvironment.ContentRootPath ;
                 }
                 else
                 {
+                    
                     _baseRoot = AppDomain.CurrentDomain.BaseDirectory;
                 }
 
@@ -55,7 +73,7 @@ namespace Buffalo.Kernel
                 {
                     _baseRoot = _baseRoot.Trim();
                     _baseRoot = _baseRoot.TrimEnd('\\','/');
-                    _baseRoot += "\\";
+                    _baseRoot += PathCombine;
                 }
             }
             if (Path.IsPathRooted(configRoot)) 
@@ -140,19 +158,42 @@ namespace Buffalo.Kernel
 
             return patternIndex >= pattern.Length ? true : false;
 
-        }//end mehtod
-        private static IHostingEnvironment _httpHandle = null;
+        }
+
+        private static IHostingEnvironment _hostingEnvironment;
+
+        private static IHttpContextAccessor _accessor;
         /// <summary>
-        /// 检测是否Web程序
+        /// 检测是否Web程序,web程序需要在Configure调用CommonMethods.ConfigureServices
         /// </summary>
         public static bool IsWebContext
         {
             get
             {
-                return (_httpHandle != null);
+                return (_accessor != null);
             }
         }
-
+        
+        /// <summary>
+        /// 设置Http上下文
+        /// </summary>
+        /// <param name="accessor"></param>
+        /// 
+        public static void ConfigureServices(IHttpContextAccessor accessor, IHostingEnvironment hostingEnvironment)
+        {
+            _accessor = accessor;
+            _hostingEnvironment = hostingEnvironment;
+        }
+        /// <summary>
+        /// 当前的HttpContext
+        /// </summary>
+        public static Microsoft.AspNetCore.Http.HttpContext Current
+        {
+            get
+            {
+                return _accessor.HttpContext;
+            }
+        }
 
         /// <summary>
         /// 获取应用程序的基目录

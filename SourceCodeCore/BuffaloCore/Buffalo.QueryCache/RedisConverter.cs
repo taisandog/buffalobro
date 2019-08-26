@@ -83,11 +83,9 @@ namespace Buffalo.QueryCache
         private static RedisValue UshortToValue(object value)
         {
             ushort val = (ushort)value;
-#if NET_4_7_2
+
             return (uint)val;
-#else
-            return val;
-#endif
+
         }
 
         private static RedisValue UintToValue(object value)
@@ -118,37 +116,21 @@ namespace Buffalo.QueryCache
         }
         private static object ValueToBool(RedisValue value)
         {
-            //if (value.IsNull)
-            //{
-            //    return false;
-            //}
+
             return (bool)value;
         }
         private static object ValueToByte(RedisValue value)
         {
-            //if (value.IsNull)
-            //{
-            //    return (byte)0;
-            //}
-#if NET_4_7_2
+           
             return (byte)((int)value);
-#else
-            return (byte)value;
-#endif
+
 
         }
         private static object ValueToChar(RedisValue value)
         {
-            //if (value.IsNull)
-            //{
-            //    return '\0';
-            //}
-            //return (char)value;
-#if NET_4_7_2
+
             return ((string)value)[0];
-#else
-            return (char)value;
-#endif
+
         }
         private static object ValueToDateTime(RedisValue value)
         {

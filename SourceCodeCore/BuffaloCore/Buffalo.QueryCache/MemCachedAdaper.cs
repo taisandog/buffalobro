@@ -72,8 +72,6 @@ namespace Buffalo.QueryCache
                 part = lpart.Trim();
                 if (part.IndexOf(serverString, StringComparison.CurrentCultureIgnoreCase) == 0)
                 {
-                    //string serverStr = part.Substring(serverString.Length);
-                    //serverStr = System.Web.HttpUtility.UrlDecode(serverStr);
                     string serverStr = CacheUnit.CutString(part, serverString.Length);
                     string[] parts = serverStr.Split(',');
                     foreach (string sser in parts) 
@@ -173,7 +171,7 @@ namespace Buffalo.QueryCache
             _config.Protocol = MemcachedProtocol.Binary;
             _config.SocketPool.MaxPoolSize = poolSize;
              //使用默认的数据桶
-            _client = new MemcachedClient(_config);
+            _client = new MemcachedClient(_loggerFacotry, _config);
             
         }
         /// <summary>
@@ -231,10 +229,10 @@ namespace Buffalo.QueryCache
         /// <returns></returns>
         public override IEnumerable<string> GetAllKeys(string pattern, MemcachedConnection client)
         {
-            IList<IPEndPoint> serverList = _config.Servers;
+            IList<EndPoint> serverList = _config.Servers;
             
             Dictionary<string, bool> dic = new Dictionary<string,bool>();
-            foreach (IPEndPoint ip in serverList)
+            foreach (EndPoint ip in serverList)
             {
                 FillAllKeys(dic,ip);
             }
@@ -256,7 +254,7 @@ namespace Buffalo.QueryCache
         /// <param name="serverIP"></param>
         /// <param name="pattern"></param>
         /// <returns></returns>
-        private void FillAllKeys(Dictionary<string, bool> allKeydic,IPEndPoint serverIP)
+        private void FillAllKeys(Dictionary<string, bool> allKeydic,EndPoint serverIP)
         {
            
             //var ipString = "127.0.0.1";
@@ -473,7 +471,7 @@ namespace Buffalo.QueryCache
 
         protected override IDictionary<string, object> GetValues(string[] keys, MemcachedConnection client)
         {
-            return client.Client.Get(keys);
+            return client.Client.Get<object>(keys);
         }
        
 

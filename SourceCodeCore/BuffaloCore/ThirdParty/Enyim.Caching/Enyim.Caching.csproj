@@ -5,14 +5,20 @@
     <Authors>cnblogs.com</Authors>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <AssemblyName>EnyimMemcachedCore</AssemblyName>
-    <PackageId>EnyimMemcachedCore</PackageId>
+    <AssemblyName>Enyim.Caching</AssemblyName>
+    <PackageId>EnyimMemcached</PackageId>
     <PackageTags>memcached;cache</PackageTags>
     <PackageProjectUrl>https://github.com/cnblogs/EnyimMemcachedCore</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/cnblogs/EnyimMemcachedCore</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <LangVersion>latest</LangVersion>
+    <Product>EnyimMemcached for .Net Standard 2.0</Product>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\..\..\SourceCode\Release\NetStandard2</OutputPath>
+    <DocumentationFile>..\..\..\SourceCode\Release\NetStandard2\EnyimMemcachedCore.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

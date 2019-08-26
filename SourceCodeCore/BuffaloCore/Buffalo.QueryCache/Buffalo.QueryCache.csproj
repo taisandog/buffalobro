@@ -6,6 +6,8 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <OutputPath>..\..\..\SourceCode\Release\NetStandard2</OutputPath>
+    <DocumentationFile>..\..\..\SourceCode\Release\NetStandard2\Buffalo.QueryCache.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

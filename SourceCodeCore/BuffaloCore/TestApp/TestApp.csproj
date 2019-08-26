@@ -38,6 +38,7 @@
     <ProjectReference Include="..\Buffalo.Kernel\Buffalo.Kernel.csproj">
       <Private>true</Private>
     </ProjectReference>
+    <ProjectReference Include="..\Buffalo.QueryCache\Buffalo.QueryCache.csproj" />
     <ProjectReference Include="..\TestLib\TestLib.csproj" />
   </ItemGroup>
 
