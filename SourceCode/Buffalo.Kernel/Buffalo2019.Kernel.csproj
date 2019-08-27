@@ -64,6 +64,7 @@
     <Compile Include="ClassProxyBuilder\IInterceptor.cs" />
     <Compile Include="CommonMethods.cs" />
     <Compile Include="ConnStringFilter.cs" />
+    <Compile Include="LockObjects.cs" />
     <Compile Include="NestedLock.cs" />
     <Compile Include="ContextValue.cs" />
     <Compile Include="CSVReader.cs" />

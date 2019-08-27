@@ -5,6 +5,7 @@ using Buffalo.DB.QueryConditions;
 using Buffalo.Kernel;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using TestApp.BQLEntity;
 using TestApp.Business;
 using TestLib;
@@ -18,7 +19,7 @@ namespace TestApp
         static void Main(string[] args)
         {
             InitDB();
-            TestSelectTE();
+            TestWebCache();
 
 
         }
@@ -73,6 +74,16 @@ namespace TestApp
             string connString = "server=192.168.1.26:11211;throw=0;";
             QueryCache cache = CacheUnit.CreateCache(BuffaloCacheTypes.Memcached, connString);
             Console.WriteLine(cache.SetValue("Key4", "shit", SetValueType.AddNew, 30));
+            Console.WriteLine(cache.SetValue("Key4", "shit1", SetValueType.AddNew, 30));
+            Console.WriteLine(cache.GetValue<string>("Key4"));
+        }
+        private static void TestWebCache()
+        {
+            string connString = "expir=1";
+            QueryCache cache = CacheUnit.CreateCache(BuffaloCacheTypes.Web, connString);
+            Console.WriteLine(cache.SetValue("Key4", "shit", SetValueType.AddNew, 30));
+            Console.WriteLine(cache.SetValue("Key4", "shit1", SetValueType.AddNew, 30));
+            Thread.Sleep(60 * 1000);
             Console.WriteLine(cache.SetValue("Key4", "shit1", SetValueType.AddNew, 30));
             Console.WriteLine(cache.GetValue<string>("Key4"));
         }

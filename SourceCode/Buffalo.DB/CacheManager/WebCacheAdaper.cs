@@ -22,6 +22,10 @@ namespace Buffalo.DB.CacheManager
         /// </summary>
         protected TimeSpan _expiration = TimeSpan.MinValue;
         /// <summary>
+        /// 锁对象
+        /// </summary>
+        protected LockObjects<string> _lockObjects = new LockObjects<string>();
+        /// <summary>
         /// 过期时间(分钟)
         /// </summary>
         public TimeSpan Expiration
@@ -164,7 +168,7 @@ namespace Buffalo.DB.CacheManager
             }
             if (_info.SqlOutputer.HasOutput)
             {
-                OutPutMessage(QueryCache.CommandSetDataSet, sql,oper);
+                OutPutMessage(QueryCacheCommand.CommandSetDataSet, sql,oper);
             }
             TimeSpan ts = _expiration;
             if (expirSeconds > 0)
@@ -236,7 +240,7 @@ namespace Buffalo.DB.CacheManager
             string key = GetKey(sql);
             if (_info.SqlOutputer.HasOutput)
             {
-                OutPutMessage(QueryCache.CommandGetDataSet, sql,oper);
+                OutPutMessage(QueryCacheCommand.CommandGetDataSet, sql,oper);
             }
             return CurCache.Get(key) as DataSet;
         }
@@ -252,7 +256,7 @@ namespace Buffalo.DB.CacheManager
             CurCache.Remove(key);
             if (_info.SqlOutputer.HasOutput)
             {
-                OutPutMessage(QueryCache.CommandDeleteSQL, sql,oper);
+                OutPutMessage(QueryCacheCommand.CommandDeleteSQL, sql,oper);
             }
 
         }
@@ -281,7 +285,7 @@ namespace Buffalo.DB.CacheManager
             }
             if (_info.SqlOutputer.HasOutput)
             {
-                OutPutMessage(QueryCache.CommandDeleteTable, tableName,oper);
+                OutPutMessage(QueryCacheCommand.CommandDeleteTable, tableName,oper);
             }
         }
 
@@ -326,35 +330,38 @@ namespace Buffalo.DB.CacheManager
             {
                 ts = TimeSpan.FromSeconds(expirSeconds);
             }
-
-            switch (type)
+            object lok = _lockObjects.GetObject(key);
+            lock (lok)
             {
-                case SetValueType.AddNew:
-                    if (CurCache.Get(key) != null)
-                    {
-                        return false;
-                    }
+                switch (type)
+                {
+                    case SetValueType.AddNew:
+                        if (CurCache.Get(key) != null)
+                        {
+                            return false;
+                        }
 
-                    break;
-                case SetValueType.Replace:
-                    if (CurCache.Get(key) == null)
-                    {
-                        return false;
-                    }
+                        break;
+                    case SetValueType.Replace:
+                        if (CurCache.Get(key) == null)
+                        {
+                            return false;
+                        }
 
-                    break;
-                default:
-                    break;
-            }
+                        break;
+                    default:
+                        break;
+                }
 
 
-            if (ts > TimeSpan.MinValue)
-            {
-                CurCache.Insert(key, value, null, DateTime.MaxValue, ts);
-            }
-            else
-            {
-                CurCache.Insert(key, value);
+                if (ts > TimeSpan.MinValue)
+                {
+                    CurCache.Insert(key, value, null, DateTime.MaxValue, ts);
+                }
+                else
+                {
+                    CurCache.Insert(key, value);
+                }
             }
             return true;
         }
@@ -366,45 +373,51 @@ namespace Buffalo.DB.CacheManager
 
         public long DoIncrement(string key, ulong inc, DataBaseOperate oper)
         {
-            
-            object oval = CurCache.Get(key);
-            if (oval == null)
+            object lok = _lockObjects.GetObject(key);
+            lock (lok)
             {
-                oval = 1;
+                object oval = CurCache.Get(key);
+                if (oval == null)
+                {
+                    oval = 1;
+                }
+                long value = ValueConvertExtend.ConvertValue<long>(oval);
+                value += (long)inc;
+                //_cache[key] = value;
+                if (_expiration > TimeSpan.MinValue)
+                {
+                    CurCache.Insert(key, value, null, DateTime.MaxValue, _expiration);
+                }
+                else
+                {
+                    CurCache.Insert(key, value);
+                }
+                return value;
             }
-            long value = ValueConvertExtend.ConvertValue<long>(oval);
-            value += (long)inc;
-            //_cache[key] = value;
-            if (_expiration > TimeSpan.MinValue)
-            {
-                CurCache.Insert(key, value, null, DateTime.MaxValue, _expiration);
-            }
-            else
-            {
-                CurCache.Insert(key, value);
-            }
-            return value;
         }
         public long DoDecrement(string key, ulong dec, DataBaseOperate oper)
         {
-
-            object oval = CurCache.Get(key);
-            if (oval == null)
+            object lok = _lockObjects.GetObject(key);
+            lock (lok)
             {
-                oval = 1;
+                object oval = CurCache.Get(key);
+                if (oval == null)
+                {
+                    oval = 1;
+                }
+                long value = ValueConvertExtend.ConvertValue<long>(oval);
+                value -= (long)dec;
+                //_cache[key] = value;
+                if (_expiration > TimeSpan.MinValue)
+                {
+                    CurCache.Insert(key, value, null, DateTime.MaxValue, _expiration);
+                }
+                else
+                {
+                    CurCache.Insert(key, value);
+                }
+                return value;
             }
-            long value = ValueConvertExtend.ConvertValue<long>(oval);
-            value -= (long)dec;
-            //_cache[key] = value;
-            if (_expiration > TimeSpan.MinValue)
-            {
-                CurCache.Insert(key, value, null, DateTime.MaxValue, _expiration);
-            }
-            else
-            {
-                CurCache.Insert(key, value);
-            }
-            return value;
         }
         #endregion
 
@@ -413,7 +426,7 @@ namespace Buffalo.DB.CacheManager
         {
             if (_info.SqlOutputer.HasOutput)
             {
-                OutPutMessage(QueryCache.CommandGetList, key, oper);
+                OutPutMessage(QueryCacheCommand.CommandGetList, key, oper);
             }
             return CurCache.Get(key) as IList;
         }

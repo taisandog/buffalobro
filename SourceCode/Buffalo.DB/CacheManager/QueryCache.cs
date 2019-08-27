@@ -4,9 +4,7 @@ using System.Text;
 using System.Collections;
 using System.Threading;
 
-using System.Data.SqlClient;
 using System.Web;
-using System.Web.Caching;
 using Buffalo.DB.DataBaseAdapter;
 using Buffalo.DB.DbCommon;
 using System.Data;
@@ -24,16 +22,7 @@ namespace Buffalo.DB.CacheManager
     public class QueryCache
     {
 
-        internal const string CommandDeleteSQL = "DeleteSQL";
-        internal const string CommandDeleteTable = "DeleteTable";
-        internal const string CommandSetDataSet = "SetDataSet";
-        internal const string CommandGetDataSet = "GetDataSet";
-        internal const string CommandGetList = "GetList";
-        internal const string CommandSetList = "SetList";
-        internal const string CommandGetValues = "GetValues";
-        internal const string CommandSetValues = "SetValues";
-        internal const string CommandDeleteValues = "DeleteValues";
-        internal const string CommandIncrement = "Increment";
+        
         private DBInfo _db;
 
         private Dictionary<string, bool> _dicAllowCache = new Dictionary<string, bool>();
@@ -105,10 +94,10 @@ namespace Buffalo.DB.CacheManager
             {
                 return new MemoryAdaper(info);
             }
-            if (dtype.Equals("web", StringComparison.CurrentCultureIgnoreCase))//ASP.net Cache
-            {
-                return new WebCacheAdaper(info, connectionString);
-            }
+            //if (dtype.Equals("web", StringComparison.CurrentCultureIgnoreCase))//ASP.net Cache
+            //{
+            //    return new WebCacheAdaper(info, connectionString);
+            //}
             ICacheAdaper cache = GetAssemblyCache(info, dtype, connectionString);
             if (cache != null) 
             {
@@ -601,5 +590,22 @@ namespace Buffalo.DB.CacheManager
         {
             return _cache.SetEntityList(key, lstEntiity, -1, _db.DefaultOperate);
         }
+    }
+
+    /// <summary>
+    /// ª∫¥Ê÷∏¡Ó
+    /// </summary>
+    public class QueryCacheCommand
+    {
+        public const string CommandDeleteSQL = "DeleteSQL";
+        public const string CommandDeleteTable = "DeleteTable";
+        public const string CommandSetDataSet = "SetDataSet";
+        public const string CommandGetDataSet = "GetDataSet";
+        public const string CommandGetList = "GetList";
+        public const string CommandSetList = "SetList";
+        public const string CommandGetValues = "GetValues";
+        public const string CommandSetValues = "SetValues";
+        public const string CommandDeleteValues = "DeleteValues";
+        public const string CommandIncrement = "Increment";
     }
 }

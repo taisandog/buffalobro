@@ -19,6 +19,10 @@ namespace Buffalo.DB.CacheManager
         {
             _info = info;
         }
+        /// <summary>
+        /// Ëø¶ÔÏó
+        /// </summary>
+        protected LockObjects<string> _lockObjects = new LockObjects<string>();
 
         private Hashtable _cache = Hashtable.Synchronized(new Hashtable());
         private Hashtable _hsToKey = Hashtable.Synchronized(new Hashtable());
@@ -59,7 +63,7 @@ namespace Buffalo.DB.CacheManager
             }
             if (_info.SqlOutputer.HasOutput)
             {
-                OutPutMessage(QueryCache.CommandSetDataSet, sql,oper);
+                OutPutMessage(QueryCacheCommand.CommandSetDataSet, sql,oper);
             }
             _cache[key] = ds;
             
@@ -117,7 +121,7 @@ namespace Buffalo.DB.CacheManager
             string key = GetKey(sql);
             if (_info.SqlOutputer.HasOutput)
             {
-                OutPutMessage(QueryCache.CommandGetDataSet, sql,oper);
+                OutPutMessage(QueryCacheCommand.CommandGetDataSet, sql,oper);
             }
             return _cache[key] as DataSet;
         }
@@ -133,7 +137,7 @@ namespace Buffalo.DB.CacheManager
             _cache.Remove(key);
             if (_info.SqlOutputer.HasOutput)
             {
-                OutPutMessage(QueryCache.CommandDeleteSQL, sql,oper);
+                OutPutMessage(QueryCacheCommand.CommandDeleteSQL, sql,oper);
             }
 
         }
@@ -162,7 +166,7 @@ namespace Buffalo.DB.CacheManager
             }
             if (_info.SqlOutputer.HasOutput)
             {
-                OutPutMessage(QueryCache.CommandDeleteTable, tableName,oper);
+                OutPutMessage(QueryCacheCommand.CommandDeleteTable, tableName,oper);
             }
         }
 
@@ -228,7 +232,8 @@ namespace Buffalo.DB.CacheManager
 
         public long DoIncrement(string key, ulong inc, DataBaseOperate oper)
         {
-            lock (_cache)
+            object lok = _lockObjects.GetObject(key);
+            lock (lok)
             {
                 object oval = _cache[key];
 
@@ -240,7 +245,8 @@ namespace Buffalo.DB.CacheManager
         }
         public long DoDecrement(string key, ulong dec, DataBaseOperate oper)
         {
-            lock (_cache)
+            object lok = _lockObjects.GetObject(key);
+            lock (lok)
             {
                 object oval = _cache[key];
                 long value = ValueConvertExtend.ConvertValue<long>(oval);
@@ -256,7 +262,7 @@ namespace Buffalo.DB.CacheManager
         {
             if (_info.SqlOutputer.HasOutput)
             {
-                OutPutMessage(QueryCache.CommandGetList, key, oper);
+                OutPutMessage(QueryCacheCommand.CommandGetList, key, oper);
             }
             return _cache[key] as IList;
         }

@@ -75,7 +75,7 @@ namespace Buffalo.DB.CacheManager
         {
             try
             {
-                using (T client = CreateClient(true, QueryCache.CommandGetDataSet))
+                using (T client = CreateClient(true, QueryCacheCommand.CommandGetDataSet))
                 {
                     //client.PrimitiveAsString = true;
                     string sqlMD5 = GetSQLMD5(sql);
@@ -95,7 +95,7 @@ namespace Buffalo.DB.CacheManager
 
                     if (_info.SqlOutputer.HasOutput)
                     {
-                        OutPutMessage(QueryCache.CommandGetDataSet, sql, oper);
+                        OutPutMessage(QueryCacheCommand.CommandGetDataSet, sql, oper);
                     }
 
                     return dataItem.Data;
@@ -310,7 +310,7 @@ namespace Buffalo.DB.CacheManager
         /// <returns></returns>
         public bool ExistsKey(string key, DataBaseOperate oper)
         {
-            using (T client = CreateClient(false, QueryCache.CommandGetValues))
+            using (T client = CreateClient(false, QueryCacheCommand.CommandGetValues))
             {
                 return DoExistsKey(key, client);
             }
@@ -324,7 +324,7 @@ namespace Buffalo.DB.CacheManager
         /// <returns></returns>
         public E GetValue<E>(string key, E defaultValue, DataBaseOperate oper)
         {
-            using (T client = CreateClient(false, QueryCache.CommandGetValues))
+            using (T client = CreateClient(false, QueryCacheCommand.CommandGetValues))
             {
                 return GetValue<E>(key, defaultValue, client);
             }
@@ -338,7 +338,7 @@ namespace Buffalo.DB.CacheManager
         /// <returns></returns>
         public object GetValue(string key, DataBaseOperate oper)
         {
-            using (T client = CreateClient(false, QueryCache.CommandGetValues))
+            using (T client = CreateClient(false, QueryCacheCommand.CommandGetValues))
             {
                 return GetValue(key, client);
             }
@@ -474,7 +474,7 @@ namespace Buffalo.DB.CacheManager
         {
             try
             {
-                using (T client = CreateClient(false, QueryCache.CommandDeleteSQL))
+                using (T client = CreateClient(false, QueryCacheCommand.CommandDeleteSQL))
                 {
 
                     //client.PrimitiveAsString = true;
@@ -487,7 +487,7 @@ namespace Buffalo.DB.CacheManager
                     }
                     if (_info.SqlOutputer.HasOutput)
                     {
-                        OutPutMessage(QueryCache.CommandDeleteSQL, sql, oper);
+                        OutPutMessage(QueryCacheCommand.CommandDeleteSQL, sql, oper);
                     }
                 }
             }
@@ -516,7 +516,7 @@ namespace Buffalo.DB.CacheManager
             try
             {
                 string key = GetTableName(tableName);
-                using (T client = CreateClient(false, QueryCache.CommandDeleteTable))
+                using (T client = CreateClient(false, QueryCacheCommand.CommandDeleteTable))
                 {
                     //client.PrimitiveAsString = true;
                     int val = ValueConvertExtend.ConvertValue<int>(GetValue<object>(key,-1, client));
@@ -532,7 +532,7 @@ namespace Buffalo.DB.CacheManager
                     }
                     if (_info.SqlOutputer.HasOutput)
                     {
-                        OutPutMessage(QueryCache.CommandDeleteTable, tableName, oper);
+                        OutPutMessage(QueryCacheCommand.CommandDeleteTable, tableName, oper);
                     }
                 }
             }
@@ -561,7 +561,7 @@ namespace Buffalo.DB.CacheManager
         {
             try
             {
-                using (T client = CreateClient(false, QueryCache.CommandSetDataSet))
+                using (T client = CreateClient(false, QueryCacheCommand.CommandSetDataSet))
                 {
                     //client.PrimitiveAsString = true;
                     string md5 = GetSQLMD5(sql);
@@ -570,7 +570,7 @@ namespace Buffalo.DB.CacheManager
 
                     if (_info.SqlOutputer.HasOutput)
                     {
-                        OutPutMessage(QueryCache.CommandSetDataSet, sql, oper);
+                        OutPutMessage(QueryCacheCommand.CommandSetDataSet, sql, oper);
                     }
                     //SetValue<string>(verKey, verValue, expirSeconds, client);
                     //return DoSetDataSet(md5, ds, expirSeconds, client);
@@ -618,7 +618,7 @@ namespace Buffalo.DB.CacheManager
         {
             try
             {
-                using (T client = CreateClient(false, QueryCache.CommandGetValues))
+                using (T client = CreateClient(false, QueryCacheCommand.CommandGetValues))
                 {
                     IDictionary<string, object> ret=GetValues(keys, client);
                     if (_info.SqlOutputer.HasOutput)
@@ -635,7 +635,7 @@ namespace Buffalo.DB.CacheManager
                             sbKeys.Remove(sbKeys.Length-1, 1);
                         }
                         sbKeys.Append("}");
-                        OutPutMessage(QueryCache.CommandGetValues, sbKeys.ToString(), oper);
+                        OutPutMessage(QueryCacheCommand.CommandGetValues, sbKeys.ToString(), oper);
                     }
                     return ret;
                 }
@@ -668,12 +668,12 @@ namespace Buffalo.DB.CacheManager
             bool ret = false;
             try
             {
-                using (T client = CreateClient(false, QueryCache.CommandSetValues))
+                using (T client = CreateClient(false, QueryCacheCommand.CommandSetValues))
                 {
                     ret = SetValue<E>(key, value,type,expirSeconds, client);
                     if (_info.SqlOutputer.HasOutput)
                     {
-                        OutPutMessage(QueryCache.CommandSetValues, "key="+key, oper);
+                        OutPutMessage(QueryCacheCommand.CommandSetValues, "key="+key, oper);
                     }
                 }
             }
@@ -706,12 +706,12 @@ namespace Buffalo.DB.CacheManager
             bool ret = false;
             try
             {
-                using (T client = CreateClient(false, QueryCache.CommandSetValues))
+                using (T client = CreateClient(false, QueryCacheCommand.CommandSetValues))
                 {
                     ret = SetValue(key, value,type, expirSeconds, client);
                     if (_info.SqlOutputer.HasOutput)
                     {
-                        OutPutMessage(QueryCache.CommandSetValues, "key=" + key, oper);
+                        OutPutMessage(QueryCacheCommand.CommandSetValues, "key=" + key, oper);
                     }
                 }
             }
@@ -739,12 +739,12 @@ namespace Buffalo.DB.CacheManager
         {
             try
             {
-                using (T client = CreateClient(false, QueryCache.CommandDeleteSQL))
+                using (T client = CreateClient(false, QueryCacheCommand.CommandDeleteSQL))
                 {
                     DeleteValue(key, client);
                     if (_info.SqlOutputer.HasOutput)
                     {
-                        OutPutMessage(QueryCache.CommandDeleteValues, "key="+key, oper);
+                        OutPutMessage(QueryCacheCommand.CommandDeleteValues, "key="+key, oper);
                     }
                 }
             }
@@ -772,12 +772,12 @@ namespace Buffalo.DB.CacheManager
             long ret = 0;
             try
             {
-                using (T client = CreateClient(false, QueryCache.CommandIncrement))
+                using (T client = CreateClient(false, QueryCacheCommand.CommandIncrement))
                 {
                     ret = DoIncrement(key, inc, client);
                     if (_info.SqlOutputer.HasOutput)
                     {
-                        OutPutMessage(QueryCache.CommandIncrement, "key=" + key + ";inc=" + inc, oper);
+                        OutPutMessage(QueryCacheCommand.CommandIncrement, "key=" + key + ";inc=" + inc, oper);
                     }
                 }
             }
@@ -806,12 +806,12 @@ namespace Buffalo.DB.CacheManager
             long ret = 0;
             try
             {
-                using (T client = CreateClient(false, QueryCache.CommandIncrement))
+                using (T client = CreateClient(false, QueryCacheCommand.CommandIncrement))
                 {
                     ret=DoDecrement(key, dec, client);
                     if (_info.SqlOutputer.HasOutput)
                     {
-                        OutPutMessage(QueryCache.CommandIncrement, "key=" + key + ";dec=" + dec, oper);
+                        OutPutMessage(QueryCacheCommand.CommandIncrement, "key=" + key + ";dec=" + dec, oper);
                     }
                 }
             }
@@ -845,13 +845,13 @@ namespace Buffalo.DB.CacheManager
         {
             try
             {
-                using (T client = CreateClient(false, QueryCache.CommandSetList))
+                using (T client = CreateClient(false, QueryCacheCommand.CommandSetList))
                 {
 
                     bool ret = DoSetEntityList(key, lst, expirSeconds, client);
                     if (_info.SqlOutputer.HasOutput)
                     {
-                        OutPutMessage(QueryCache.CommandSetList, "key=" + key, oper);
+                        OutPutMessage(QueryCacheCommand.CommandSetList, "key=" + key, oper);
                     }
                     return ret;
                 }
@@ -881,12 +881,12 @@ namespace Buffalo.DB.CacheManager
         {
             try
             {
-                using (T client = CreateClient(true, QueryCache.CommandGetList))
+                using (T client = CreateClient(true, QueryCacheCommand.CommandGetList))
                 {
                     IList ret=DoGetEntityList(key, entityType, client);
                     if (_info.SqlOutputer.HasOutput)
                     {
-                        OutPutMessage(QueryCache.CommandGetList, "key=" + key, oper);
+                        OutPutMessage(QueryCacheCommand.CommandGetList, "key=" + key, oper);
                     }
                     return ret;
                 }
@@ -913,7 +913,7 @@ namespace Buffalo.DB.CacheManager
         /// <returns></returns>
         public void ClearAll()
         {
-            using (T client = CreateClient(false, QueryCache.CommandGetValues))
+            using (T client = CreateClient(false, QueryCacheCommand.CommandGetValues))
             {
                 ClearAll(client);
             }
@@ -924,7 +924,7 @@ namespace Buffalo.DB.CacheManager
         /// <param name="pattern"></param>
         public IEnumerable<string> GetAllKeys(string pattern)
         {
-            using (T client = CreateClient(false, QueryCache.CommandGetValues))
+            using (T client = CreateClient(false, QueryCacheCommand.CommandGetValues))
             {
                 return GetAllKeys(pattern, client);
             }
