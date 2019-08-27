@@ -31,7 +31,7 @@ namespace Buffalo.QueryCache
             }
             else if (dtype.Equals("web", StringComparison.CurrentCultureIgnoreCase))//redis
             {
-                return new RedisAdaperByStackExchange(connectionString, info);
+                return new WebMemoryAdaper(connectionString, info);
             }
             return null;
         }
