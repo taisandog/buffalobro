@@ -10,7 +10,7 @@
   <Class Name="TestApp.TEUser">
     <Position X="5" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAIAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAIAAAAAAAAAAAAAAADAQAAAAAAAAQAAAACAAAAAA=</HashCode>
       <FileName>TEUser.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -22,7 +22,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="TestApp.TERule">
-    <Position X="8" Y="2.25" Width="1.5" />
+    <Position X="8.25" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAQAAAAAAACAAAAAAAAEAAAAAAAAAAAAABAAAA=</HashCode>
       <FileName>TERule.cs</FileName>

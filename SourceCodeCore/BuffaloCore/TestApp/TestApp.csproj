@@ -32,6 +32,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Buffalo.Data.MySQL\Buffalo.Data.MySQL.csproj" />
+    <ProjectReference Include="..\Buffalo.Data.Oracle\Buffalo.Data.Oracle.csproj" />
     <ProjectReference Include="..\Buffalo.DB\Buffalo.DB.csproj">
       <Private>true</Private>
     </ProjectReference>
@@ -59,7 +60,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="TestDB.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="YMRDB.xml">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 

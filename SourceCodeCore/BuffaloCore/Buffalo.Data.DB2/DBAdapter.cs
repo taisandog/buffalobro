@@ -615,5 +615,9 @@ namespace Buffalo.Data.DB2
         {
             return null;
         }
+        public virtual bool KeyWordDEFAULTFront()
+        {
+            return true;
+        }
     }
 }

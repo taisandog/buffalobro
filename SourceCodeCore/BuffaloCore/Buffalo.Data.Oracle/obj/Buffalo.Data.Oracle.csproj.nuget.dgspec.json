@@ -5,7 +5,7 @@
   },
   "projects": {
     "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Data.Oracle\\Buffalo.Data.Oracle.csproj": {
-      "version": "1.0.0",
+      "version": "1.0.2",
       "restore": {
         "projectUniqueName": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Data.Oracle\\Buffalo.Data.Oracle.csproj",
         "projectName": "Buffalo.Data.Oracle",
@@ -65,7 +65,7 @@
       }
     },
     "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.DB\\Buffalo.DB.csproj": {
-      "version": "1.0.0",
+      "version": "1.0.2",
       "restore": {
         "projectUniqueName": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.DB\\Buffalo.DB.csproj",
         "projectName": "Buffalo.DB",

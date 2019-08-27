@@ -530,7 +530,7 @@
           "ref/netstandard1.3/System.Threading.Tasks.dll": {}
         }
       },
-      "Buffalo.DB/1.0.0": {
+      "Buffalo.DB/1.0.2": {
         "type": "project",
         "framework": ".NETStandard,Version=v2.0",
         "dependencies": {
@@ -2023,7 +2023,7 @@
         "system.threading.tasks.nuspec"
       ]
     },
-    "Buffalo.DB/1.0.0": {
+    "Buffalo.DB/1.0.2": {
       "type": "project",
       "path": "../Buffalo.DB/Buffalo.DB.csproj",
       "msbuildProject": "../Buffalo.DB/Buffalo.DB.csproj"
@@ -2036,7 +2036,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETStandard,Version=v2.0": [
-      "Buffalo.DB >= 1.0.0",
+      "Buffalo.DB >= 1.0.2",
       "NETStandard.Library >= 2.0.3",
       "Oracle.ManagedDataAccess.Core >= 2.19.31"
     ]
@@ -2046,7 +2046,7 @@
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
-    "version": "1.0.0",
+    "version": "1.0.2",
     "restore": {
       "projectUniqueName": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Data.Oracle\\Buffalo.Data.Oracle.csproj",
       "projectName": "Buffalo.Data.Oracle",

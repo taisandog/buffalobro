@@ -313,5 +313,11 @@ namespace Buffalo.DB.DataBaseAdapter.IDbAdapters
         /// <param name="info"></param>
         /// <returns></returns>
         string CreateTableSQLEnd(DBInfo info) ;
+
+        /// <summary>
+        /// Default的关键字是否在NotNull前边
+        /// </summary>
+        /// <returns></returns>
+        bool KeyWordDEFAULTFront();
     }
 }

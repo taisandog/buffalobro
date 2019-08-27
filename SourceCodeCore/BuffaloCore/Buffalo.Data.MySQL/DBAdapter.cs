@@ -568,5 +568,9 @@ namespace Buffalo.Data.MySQL
         {
             return " ENGINE=InnoDB";
         }
+        public virtual bool KeyWordDEFAULTFront()
+        {
+            return false;
+        }
     }
 }

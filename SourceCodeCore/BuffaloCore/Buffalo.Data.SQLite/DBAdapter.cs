@@ -550,5 +550,9 @@ namespace Buffalo.Data.SQLite
         {
             return null;
         }
+        public virtual bool KeyWordDEFAULTFront()
+        {
+            return false;
+        }
     }
 }

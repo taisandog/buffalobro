@@ -549,5 +549,9 @@ namespace Buffalo.Data.PostgreSQL
         {
             return null;
         }
+        public virtual bool KeyWordDEFAULTFront()
+        {
+            return false;
+        }
     }
 }

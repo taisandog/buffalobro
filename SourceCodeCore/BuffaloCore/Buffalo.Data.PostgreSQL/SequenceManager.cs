@@ -20,10 +20,13 @@ namespace Buffalo.Data.PostgreSQL
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        public static string GetSequenceName(EntityPropertyInfo info) 
+        public static string GetSequenceName(EntityPropertyInfo info)
         {
-
-            return Buffalo.DB.DataBaseAdapter.Oracle9Adapter.SequenceManager.GetSequenceName(info);
+            if (!string.IsNullOrEmpty(info.ParamInfo.SequenceName))
+            {
+                return info.ParamInfo.SequenceName;
+            }
+            return GetDefaultName(info.BelongInfo.TableName, info.ParamInfo.ParamName);
         }
 
 
@@ -33,11 +36,20 @@ namespace Buffalo.Data.PostgreSQL
         /// <param name="tableName">±í</param>
         /// <param name="paramName">×Ö¶Î</param>
         /// <returns></returns>
-        internal static string GetDefaultName(string tableName, string paramName)
+        public static string GetDefaultName(string tableName, string paramName)
         {
-
-
-            return Buffalo.DB.DataBaseAdapter.Oracle9Adapter.SequenceManager.GetDefaultName(tableName,paramName);
+            StringBuilder sbSeqName = new StringBuilder(20);
+            //sbSeqName.Append("s_");
+            sbSeqName.Append(tableName);
+            sbSeqName.Append("_");
+            sbSeqName.Append(paramName);
+            sbSeqName.Replace(" ", "");
+            string str = sbSeqName.ToString();
+            if (str.Length > 30)
+            {
+                str = str.Substring(0, 30);
+            }
+            return str;
         }
 
         /// <summary>

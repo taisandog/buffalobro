@@ -26,6 +26,30 @@ namespace TestApp
             get{ return _name; }
             set{ _name=value; }
         }
-       
+        /// <summary>
+        /// 币数
+        /// </summary>
+        protected long _coins;
+
+        /// <summary>
+        /// 总充值
+        /// </summary>
+        protected long _buyCoins;
+        /// <summary>
+        /// 币数
+        /// </summary>
+        public virtual long Coins
+        {
+            get{ return _coins; }
+            set{ _coins=value; }
+        }
+        /// <summary>
+        /// 总充值
+        /// </summary>
+        public virtual long BuyCoins
+        {
+            get{ return _buyCoins; }
+            set{ _buyCoins=value; }
+        }
     }
 }

@@ -4,6 +4,7 @@
     <item type="TestApp.DataAccess.Sql2K12.TEUserDataAccess" interface="TestApp.DataAccess.IDataAccess.ITEUserDataAccess" />
     <item type="TestApp.DataAccess.Sql2K12.TEAdminDataAccess" interface="TestApp.DataAccess.IDataAccess.ITEAdminDataAccess" />
     <item type="TestApp.DataAccess.Sql2K12.TERuleDataAccess" interface="TestApp.DataAccess.IDataAccess.ITERuleDataAccess" />
+    <item type="TestApp.DataAccess.Buffalo.Data.Oracle.v9.TEUserDataAccess" interface="TestApp.DataAccess.IDataAccess.ITEUserDataAccess" />
   </dataaccess>
   <business>
     <item type="TestApp.Business.TEUserBusiness" class="TestApp.TEUser" />

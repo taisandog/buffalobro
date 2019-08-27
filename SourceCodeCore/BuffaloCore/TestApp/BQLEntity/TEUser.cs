@@ -37,6 +37,28 @@ namespace TestApp.BQLEntity
                 return _name;
             }
          }
+        private BQLEntityParamHandle _coins = null;
+        /// <summary>
+        ///±ÒÊý
+        /// </summary>
+        public BQLEntityParamHandle Coins
+        {
+            get
+            {
+                return _coins;
+            }
+         }
+        private BQLEntityParamHandle _buyCoins = null;
+        /// <summary>
+        ///×Ü³äÖµ
+        /// </summary>
+        public BQLEntityParamHandle BuyCoins
+        {
+            get
+            {
+                return _buyCoins;
+            }
+         }
 
 
 
@@ -59,6 +81,8 @@ namespace TestApp.BQLEntity
         :base(entityType,parent,propertyName)
         {
             _name=CreateProperty("Name");
+            _coins=CreateProperty("Coins");
+            _buyCoins=CreateProperty("BuyCoins");
 
         }
         

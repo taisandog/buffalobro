@@ -710,5 +710,10 @@ namespace Buffalo.Data.Oracle
         {
             return null;
         }
+
+        public virtual bool KeyWordDEFAULTFront()
+        {
+            return true;
+        }
     }
 }

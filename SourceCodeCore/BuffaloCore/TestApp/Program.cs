@@ -17,23 +17,62 @@ namespace TestApp
     {
         static void Main(string[] args)
         {
-            //DataAccessLoader.AppendModelAssembly(typeof(YMRDB).Assembly);
-            //DataAccessLoader.AppendModelAssembly(typeof(TestDB).Assembly);
-            //TestDB.InitDB();
-            //YMRDB.InitDB();
-            //YmrrankinglistBusiness bo = new YmrrankinglistBusiness();
-            //ScopeList lstScope = new ScopeList();
-            //lstScope.OrderBy.Add(YMRDB.Ymrrankinglist.Id.DESC);
-            //lstScope.PageContent.PageSize = 20;
-            //lstScope.PageContent.CurrentPage = 0;
-            //List<Ymrrankinglist> lst = bo.SelectList(lstScope);
-            //foreach (Ymrrankinglist obj in lst)
-            //{
-            //    Console.WriteLine(obj.Id+","+obj.FishName);
-            //}
+            InitDB();
+            TestSelectTE();
+
+
+        }
+
+        private static void InitDB()
+        {
+            DataAccessLoader.AppendModelAssembly(typeof(YMRDB).Assembly);
+            DataAccessLoader.AppendModelAssembly(typeof(TestDB).Assembly);
+            TestDB.InitDB();
+            YMRDB.InitDB();
+        }
+        private static void TestSelectTE()
+        {
+
+            TEUserBusiness bo = new TEUserBusiness();
+            List<TEUser> lst = bo.SelectList(new ScopeList());
+            foreach(TEUser user in lst)
+            {
+                Console.WriteLine(user.Id + "," + user.Name+","+ user.CreateDate.ToString("yyyy-MM-dd HH:mm:ss"));
+            }
+        }
+        private static void TestInsertTE()
+        {
+
+            TEUserBusiness bo = new TEUserBusiness();
+            for(int i = 0; i < 10; i++)
+            {
+                TEUser obj = CH.Create<TEUser>();
+                obj.Name = "user" + i;
+                bo.Insert(obj, true);
+                Console.WriteLine(obj.Id + "," + obj.Name);
+            }
+        }
+
+        private static void TestYMR()
+        {
+            
+            YmrrankinglistBusiness bo = new YmrrankinglistBusiness();
+            ScopeList lstScope = new ScopeList();
+            lstScope.OrderBy.Add(YMRDB.Ymrrankinglist.Id.DESC);
+            lstScope.PageContent.PageSize = 20;
+            lstScope.PageContent.CurrentPage = 0;
+            List<Ymrrankinglist> lst = bo.SelectList(lstScope);
+            foreach (Ymrrankinglist obj in lst)
+            {
+                Console.WriteLine(obj.Id + "," + obj.FishName);
+            }
+        }
+
+        private static void TestMemcached()
+        {
             string connString = "server=192.168.1.26:11211;throw=0;";
             QueryCache cache = CacheUnit.CreateCache(BuffaloCacheTypes.Memcached, connString);
-            Console.WriteLine(cache.SetValue("Key4", "shit",SetValueType.AddNew,30));
+            Console.WriteLine(cache.SetValue("Key4", "shit", SetValueType.AddNew, 30));
             Console.WriteLine(cache.SetValue("Key4", "shit1", SetValueType.AddNew, 30));
             Console.WriteLine(cache.GetValue<string>("Key4"));
         }

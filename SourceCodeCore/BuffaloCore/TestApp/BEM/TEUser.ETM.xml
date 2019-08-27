@@ -1,4 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <class TableName="TEUser" ClassName="TestApp.TEUser" IsTable="1" BelongDB="TestDB" UseCache="0" Description="用户" DefaultValue="" Lazy="1">
   <property FieldName="_name" PropertyName="Name" DbType="AnsiString" Length="256" EntityPropertyType="1" ParamName="name" ReadOnly="0" Description=" 用户名" DefaultValue="" AllowNull="1" />
+  <property FieldName="_coins" PropertyName="Coins" DbType="Int64" Length="0" EntityPropertyType="1" ParamName="coins" ReadOnly="0" Description="币数" DefaultValue="0" AllowNull="0" />
+  <property FieldName="_buyCoins" PropertyName="BuyCoins" DbType="Int64" Length="0" EntityPropertyType="1" ParamName="buyCoins" ReadOnly="0" Description="总充值" DefaultValue="0" AllowNull="0" />
 </class>

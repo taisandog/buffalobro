@@ -279,7 +279,7 @@ namespace Buffalo.DB.PropertyAttributes
             bool isPrimary = EnumUnit.ContainerValue((int)_propertyType, (int)EntityPropertyType.PrimaryKey);
             bool isAutoIdentity = EnumUnit.ContainerValue((int)_propertyType, (int)EntityPropertyType.Identity);
 
-            
+
             bool needIdentity = false;
             bool putType = true;
             sb.Append(idba.FormatParam(ParamName) + " ");
@@ -304,10 +304,10 @@ namespace Buffalo.DB.PropertyAttributes
                 CheckLength();
                 sb.Append(idba.DBTypeToSQL(SqlType, Length, allowNULL) + " ");
             }
-            
-            
+
+            string nullValueSql = "";
             //主键
-            if (isPrimary && info.PrimaryKeys==1)
+            if (isPrimary && info.PrimaryKeys == 1)
             {
                 sb.Append(" PRIMARY KEY ");
             }
@@ -315,18 +315,19 @@ namespace Buffalo.DB.PropertyAttributes
             {
                 if (allowNULL)
                 {
-                    sb.Append("NULL ");
+                    nullValueSql = "NULL ";
                 }
                 else
                 {
-                    sb.Append("NOT NULL ");
+                    nullValueSql = "NOT NULL ";
                 }
+
             }
 
-           
-            
-            
-            if (needIdentity&&isAutoIdentity && TableChecker.IsIdentityType(SqlType))
+
+            StringBuilder strDefault = new StringBuilder();
+
+            if (needIdentity && isAutoIdentity && TableChecker.IsIdentityType(SqlType))
             {
 
                 sb.Append(idba.DBIdentity(tableName, _paramName));
@@ -334,16 +335,32 @@ namespace Buffalo.DB.PropertyAttributes
             else if (!string.IsNullOrEmpty(_defaultValue)) //默认值
             {
                 string defValue = GetDefaultValue(idba, SqlType, _defaultValue);
-                sb.Append(" DEFAULT ");
-                sb.Append(defValue);
-                sb.Append(" ");
+                strDefault.Append(" DEFAULT ");
+                strDefault.Append(defValue);
+                strDefault.Append(" ");
+
             }
-            string comment=idba.GetColumnDescriptionSQL(this,info.DBInfo);
-            if (!string.IsNullOrEmpty(comment)) 
+
+            //组装NULL和Default
+            if (idba.KeyWordDEFAULTFront())//Default在前
+            {
+                sb.Append(strDefault.ToString());
+                sb.Append(nullValueSql);
+            }
+            else
+            {
+                sb.Append(nullValueSql);
+                sb.Append(strDefault.ToString());
+            }
+
+
+            string comment = idba.GetColumnDescriptionSQL(this, info.DBInfo);
+            if (!string.IsNullOrEmpty(comment))
             {
                 sb.Append(" ");
                 sb.Append(comment);
             }
+
 
             return sb.ToString();
         }
