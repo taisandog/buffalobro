@@ -304,8 +304,8 @@ namespace Buffalo.DB.PropertyAttributes
                 CheckLength();
                 sb.Append(idba.DBTypeToSQL(SqlType, Length, allowNULL) + " ");
             }
-            
-            
+
+            string nullValueSql = "";
             //主键
             if (isPrimary && info.PrimaryKeys==1)
             {
@@ -315,16 +315,17 @@ namespace Buffalo.DB.PropertyAttributes
             {
                 if (allowNULL)
                 {
-                    sb.Append("NULL ");
+                    nullValueSql = "NULL ";
                 }
                 else
                 {
-                    sb.Append("NOT NULL ");
+                    nullValueSql = "NOT NULL ";
                 }
+
             }
 
-           
-            
+
+            StringBuilder strDefault = new StringBuilder();
             
             if (needIdentity&&isAutoIdentity && TableChecker.IsIdentityType(SqlType))
             {
@@ -334,17 +335,33 @@ namespace Buffalo.DB.PropertyAttributes
             else if (!string.IsNullOrEmpty(_defaultValue)) //默认值
             {
                 string defValue = GetDefaultValue(idba, SqlType, _defaultValue);
-                sb.Append(" DEFAULT ");
-                sb.Append(defValue);
-                sb.Append(" ");
+                strDefault.Append(" DEFAULT ");
+                strDefault.Append(defValue);
+                strDefault.Append(" ");
+
             }
-            string comment=idba.GetColumnDescriptionSQL(this,info.DBInfo);
+
+            //组装NULL和Default
+            if (idba.KeyWordDEFAULTFront())//Default在前
+            {
+                sb.Append(strDefault.ToString());
+                sb.Append(nullValueSql);
+            }
+            else
+            {
+                sb.Append(nullValueSql);
+                sb.Append(strDefault.ToString());
+            }
+
+
+            string comment =idba.GetColumnDescriptionSQL(this,info.DBInfo);
             if (!string.IsNullOrEmpty(comment)) 
             {
                 sb.Append(" ");
                 sb.Append(comment);
             }
 
+           
             return sb.ToString();
         }
         /// <summary>

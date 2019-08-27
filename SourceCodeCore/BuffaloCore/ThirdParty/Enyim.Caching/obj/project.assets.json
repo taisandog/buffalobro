@@ -883,7 +883,7 @@
     "version": "1.0.0",
     "restore": {
       "projectUniqueName": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\ThirdParty\\Enyim.Caching\\Enyim.Caching.csproj",
-      "projectName": "EnyimMemcachedCore",
+      "projectName": "EnyimMemcached",
       "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\ThirdParty\\Enyim.Caching\\Enyim.Caching.csproj",
       "packagesPath": "C:\\Users\\taisandog\\.nuget\\packages\\",
       "outputPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\ThirdParty\\Enyim.Caching\\obj\\",

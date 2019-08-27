@@ -858,5 +858,9 @@ namespace Buffalo.DB.DataBaseAdapter.AccessAdapter
         {
             return null;
         }
+        public virtual bool KeyWordDEFAULTFront()
+        {
+            return false;
+        }
     }
 }

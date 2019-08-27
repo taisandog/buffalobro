@@ -28,6 +28,10 @@ namespace Buffalo.Data.DB2
                 return false;
             }
         }
+        public virtual bool KeyWordDEFAULTFront()
+        {
+            return true;
+        }
         /// <summary>
         /// Çå¿Õ±í
         /// </summary>

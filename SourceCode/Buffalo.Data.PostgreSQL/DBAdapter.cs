@@ -31,6 +31,10 @@ namespace Buffalo.Data.PostgreSQL
         {
             get { return false; }
         }
+        public virtual bool KeyWordDEFAULTFront()
+        {
+            return false;
+        }
         // <summary>
         /// Çå¿Õ±í
         /// </summary>

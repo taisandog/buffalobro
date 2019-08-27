@@ -676,5 +676,10 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter
         {
             return null;
         }
+
+        public virtual bool KeyWordDEFAULTFront()
+        {
+            return false;
+        }
     }
 }

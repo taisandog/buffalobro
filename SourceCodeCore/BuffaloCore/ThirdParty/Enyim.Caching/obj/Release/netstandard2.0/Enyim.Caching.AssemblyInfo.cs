@@ -18,8 +18,8 @@ using System.Reflection;
     "Client into constructor.")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
-[assembly: System.Reflection.AssemblyProductAttribute("EnyimMemcachedCore")]
-[assembly: System.Reflection.AssemblyTitleAttribute("EnyimMemcachedCore")]
+[assembly: System.Reflection.AssemblyProductAttribute("EnyimMemcached for .Net Standard 2.0")]
+[assembly: System.Reflection.AssemblyTitleAttribute("Enyim.Caching")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
 
 // 由 MSBuild WriteCodeFragment 类生成。

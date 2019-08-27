@@ -25,7 +25,7 @@ namespace Buffalo.DBTools.HelperKernel
             DataAccessMappingConfig dalconfig = new DataAccessMappingConfig(entity);
             foreach (ComboBoxItem itype in Generate3Tier.DataAccessTypes)
             {
-                string type = itype.Value.ToString();
+                string type =Generate3Tier.GetDicName(itype.Value.ToString());
                 string dalPath = dicPath + "\\" + type;
                 fileName = dalPath + "\\" + entity.ClassName + "DataAccess.cs";
                 RemoveFromProject(fileName, entity.DesignerInfo);

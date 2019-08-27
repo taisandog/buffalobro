@@ -317,6 +317,11 @@ namespace Buffalo.DBTools.HelperKernel
             sbRet.AppendLine("http://www.oracle.com/technetwork/database/features/instant-client/index-097480.html");
             return sbRet.ToString();
         }
+        
+        public static string GetDicName(string type)
+        {
+            return type.Replace(":", ".v");
+        }
 
         /// <summary>
         /// 生成数据层
@@ -340,7 +345,7 @@ namespace Buffalo.DBTools.HelperKernel
                 {
                     continue;
                 }
-                string type = itype.Value.ToString();
+                string type = GetDicName(itype.Value.ToString());
                 string dalPath = dicPath + "\\" + type;
                 if (!Directory.Exists(dalPath))
                 {

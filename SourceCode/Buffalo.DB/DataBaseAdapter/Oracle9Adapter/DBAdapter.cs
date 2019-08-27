@@ -697,5 +697,9 @@ namespace Buffalo.DB.DataBaseAdapter.Oracle9Adapter
         {
             return null;
         }
+        public virtual bool KeyWordDEFAULTFront()
+        {
+            return true;
+        }
     }
 }

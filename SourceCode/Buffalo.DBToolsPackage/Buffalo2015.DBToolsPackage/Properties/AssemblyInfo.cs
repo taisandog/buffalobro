@@ -2,58 +2,32 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-
-#if (NET_4_6)
-[assembly: AssemblyTitle("BuffaloDBToolsPackage for .NET Framework 4.6")]
-#elif(NET_4_6_2)
-[assembly: AssemblyTitle("BuffaloDBToolsPackage for .NET Framework 4.6.2")]
-#endif
-
-[assembly: AssemblyDescription("BuffaloCodeToolsPackage")]
-#if DEBUG
-[assembly: AssemblyConfiguration("Debug")]
-[assembly: AssemblyProduct("Buffalo.DBTools(Debug)")]
-#else
-[assembly: AssemblyConfiguration("Release")]
+// General Information about an assembly is controlled through the following 
+// set of attributes. Change these attribute values to modify the information
+// associated with an assembly.
+[assembly: AssemblyTitle("Buffalo.DBToolsPackage")]
+[assembly: AssemblyDescription("")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Buffalo.DBToolsPackage")]
-#endif
-
-[assembly: AssemblyCompany("Buffalo")]
-
-[assembly: AssemblyCopyright("版权所有 (C) Buffalo 2012")]
-[assembly: AssemblyTrademark("BuffaloLibrary")]
+[assembly: AssemblyCopyright("")]
+[assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-//
-// 程序集的版本信息由下面四个值组成:
-//
-//      主版本
-//      次版本
-//      修订号
-//      内部版本号
-//
-// 您可以指定所有这些值，也可以按照如下所示通过使用“*”来使用
-// “修订号”和“内部版本号”的默认值:
 
-[assembly: AssemblyVersion("1.0.0.1")]
-[assembly: AssemblyFileVersion("1.0.0.1")]
+// Setting ComVisible to false makes the types in this assembly not visible 
+// to COM components.  If you need to access a type in this assembly from 
+// COM, set the ComVisible attribute to true on that type.
+[assembly: ComVisible(false)]
+
+// Version information for an assembly consists of the following four values:
 //
-// 要对程序集进行签名，必须指定要使用的密钥。有关程序集签名的更多信息，请参考
-// Microsoft .NET Framework 文档。
+//      Major Version
+//      Minor Version 
+//      Build Number
+//      Revision
 //
-// 使用下面的属性控制用于签名的密钥。
-//
-// 注意:
-//   (*) 如果未指定任何密钥，则无法对程序集签名。
-//   (*) KeyName 是指计算机上的加密服务
-//       提供程序(CSP)中已经安装的密钥。
-//   (*) 如果密钥文件和密钥名称属性都已指定，则
-//       按如下方式进行处理:
-//       (1) 如果可在 CSP 中找到 KeyName，则使用该密钥。
-//       (2) 如果 KeyName 不存在而 KeyFile 存在，
-//           则在 CSP 中安装并使用该文件中的密钥。
-//   (*) “延迟签名”是一个高级选项 - 有关它的更多信息，
-//       请参阅 Microsoft .NET Framework 文档。
-//
-[assembly: AssemblyDelaySign(false)]
-[assembly: AssemblyKeyFile("")]
-[assembly: AssemblyKeyName("")]
+// You can specify all the values or you can default the Build and Revision Numbers 
+// by using the '*' as shown below:
+// [assembly: AssemblyVersion("1.0.*")]
+[assembly: AssemblyVersion("1.0.0.6")]
+[assembly: AssemblyFileVersion("1.0.0.6")]

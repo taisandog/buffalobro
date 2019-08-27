@@ -61,7 +61,6 @@ namespace Buffalo.QueryCache
             string part = null;
             MemcachedClientOptions options = new MemcachedClientOptions();
             
-            //List<string> lstServers = new List<string>();
             _config = new MemcachedClientConfiguration(_loggerFacotry, options);
             foreach (string lpart in conStrs)
             {
@@ -102,8 +101,6 @@ namespace Buffalo.QueryCache
                 }
                 else if (part.IndexOf(sizeString, StringComparison.CurrentCultureIgnoreCase) == 0)
                 {
-                    //string maxsizeStr = part.Substring(sizeString.Length);
-                    //maxsizeStr = System.Web.HttpUtility.UrlDecode(maxsizeStr);
                     string maxsizeStr = CacheUnit.CutString(part, sizeString.Length);
 
                     if (!int.TryParse(maxsizeStr, out poolSize))
@@ -124,10 +121,6 @@ namespace Buffalo.QueryCache
                 
                 else if (part.IndexOf(uid, StringComparison.CurrentCultureIgnoreCase) == 0)
                 {
-                    
-                    //config.Authentication.Parameters["userName"] = part.Substring(uid.Length);
-
-                    //string valname = part.Substring(uid.Length);
                     string valname = CacheUnit.CutString(part, uid.Length);
                     if (string.IsNullOrEmpty(valname))
                     {
@@ -139,7 +132,6 @@ namespace Buffalo.QueryCache
                 }
                 else if (part.IndexOf(pwd, StringComparison.CurrentCultureIgnoreCase) == 0)
                 {
-                    //string valpwd= part.Substring(pwd.Length);
                     string valpwd = CacheUnit.CutString(part, pwd.Length);
                     if (string.IsNullOrEmpty(valpwd))
                     {
@@ -148,8 +140,6 @@ namespace Buffalo.QueryCache
                 }
                 else if (part.IndexOf(expirString, StringComparison.CurrentCultureIgnoreCase) == 0)
                 {
-                    //string expirStr = part.Substring(expirString.Length);
-                    //expirStr = System.Web.HttpUtility.UrlDecode(expirStr);
                     string expirStr = CacheUnit.CutString(part, expirString.Length);
                     double mins = 30;
                     if (!double.TryParse(expirStr, out mins))

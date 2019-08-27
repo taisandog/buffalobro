@@ -26,7 +26,10 @@ namespace Buffalo.Data.SQLite
                 return false;
             }
         }
-
+        public virtual bool KeyWordDEFAULTFront()
+        {
+            return false;
+        }
         /// <summary>
         /// Çå¿Õ±í
         /// </summary>
