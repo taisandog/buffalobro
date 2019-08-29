@@ -182,6 +182,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="SQLite.Interop.dll">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <Content Include="x64\SQLite.Interop.dll">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>

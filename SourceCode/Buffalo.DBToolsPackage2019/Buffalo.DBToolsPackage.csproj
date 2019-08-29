@@ -278,6 +278,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="SQLite.Interop.dll">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <None Include="Resources\userentity.txt" />
     <None Include="Resources\uiconfigitem.xml" />
     <None Include="Resources\pic0501.png" />

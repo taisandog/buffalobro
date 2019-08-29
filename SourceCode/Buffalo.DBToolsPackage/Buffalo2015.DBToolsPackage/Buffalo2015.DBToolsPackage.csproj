@@ -15,6 +15,10 @@
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>
+    </ApplicationIcon>
+  </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -187,6 +191,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="SQLite.Interop.dll">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <Content Include="x64\SQLite.Interop.dll">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
@@ -202,7 +209,10 @@
     <None Include="Resources\bqldb.txt" />
     <None Include="Resources\bqlentity.txt" />
     <Content Include="Resources\BuffaloToolCDCommand.png" />
-    <Content Include="Resources\BuffaloToolsPackage.ico" />
+    <Content Include="Resources\BuffaloToolsPackage.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <None Include="Resources\business.txt" />
     <None Include="Resources\classdiagram.txt" />
     <None Include="Resources\dataaccess.txt" />
@@ -220,7 +230,10 @@
     <None Include="Resources\pic0400.png" />
     <None Include="Resources\pic0401.png" />
     <None Include="Resources\pic0500.png" />
-    <None Include="Resources\pic0501.png" />
+    <Content Include="Resources\pic0501.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <Content Include="slogo.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
