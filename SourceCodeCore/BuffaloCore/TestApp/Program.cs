@@ -3,6 +3,7 @@ using Buffalo.DB.DataBaseAdapter;
 using Buffalo.DB.EntityInfos;
 using Buffalo.DB.QueryConditions;
 using Buffalo.Kernel;
+using Buffalo.Storage;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -16,10 +17,11 @@ namespace TestApp
 {
     class Program
     {
+        static string strOSS = "Server=oss-cn-shenzhen.aliyuncs.com;SecretId=LTAIPM7uERWhDShn;SecretKey=YZiGsJMxUSxEQYeDJHmuSkgQp8HG9z;BucketName=mcnetgamedownload;InternetUrl=http%3a%2f%2fcdndomain.ttaqy.com;LanUrl=http%3a%2f%2fmcnetgamedownload.oss-cn-shenzhen-internal.aliyuncs.com;NeedHash=1;timeout=60000;";
         static void Main(string[] args)
         {
             InitDB();
-            
+            TestStorage();
 
 
         }
@@ -31,6 +33,15 @@ namespace TestApp
             TestDB.InitDB();
             YMRDB.InitDB();
         }
+        private static void TestStorage()
+        {
+            
+            IFileStorage storage = FSCreater.Create("OSS", strOSS);
+            storage.Open();
+            storage.SaveFile("D:\\HQGJ1.0.6.zip", "ttaqytest/HQGJ1.0.6.zip");
+            storage.Close();
+        }
+
         private static void TestSelectTE()
         {
 

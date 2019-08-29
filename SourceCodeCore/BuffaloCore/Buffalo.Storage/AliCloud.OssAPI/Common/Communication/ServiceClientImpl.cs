@@ -466,26 +466,38 @@ namespace Aliyun.OSS.Common.Communication
             // HTTP headers should be encoded to iso-8859-1,
             // however it will be encoded automatically by HttpWebRequest in mono.
             if (_isMonoPlatform == false)
-                // Encode headers for win platforms.
+            {
                 value = HttpUtils.Reencode(value, HttpUtils.Utf8Charset, HttpUtils.Iso88591Charset);
-
+            }
             if (_addInternalMethod == null)
             {
                 // Specify the internal method name for adding headers
                 // mono: AddWithoutValidate
                 // win: AddInternal
-                var internalMethodName = (_isMonoPlatform == true) ? "AddWithoutValidate" : "AddInternal";
+                //string internalMethodName = (_isMonoPlatform == true) ? "AddWithoutValidate" : "AddInternal";
+                string internalMethodName = "AddInternal";
 
-                var mi = typeof(WebHeaderCollection).GetMethod(
+                MethodInfo mi = typeof(WebHeaderCollection).GetMethod(
                     internalMethodName,
                     BindingFlags.NonPublic | BindingFlags.Instance,
                     null,
                     new Type[] { typeof(string), typeof(string) },
                     null);
+                if (mi == null)
+                {
+                    internalMethodName = "AddWithoutValidate";
+                    mi = typeof(WebHeaderCollection).GetMethod(
+                    internalMethodName,
+                    BindingFlags.NonPublic | BindingFlags.Instance,
+                    null,
+                    new Type[] { typeof(string), typeof(string) },
+                    null);
+                }
                 _addInternalMethod = mi;
             }
-
+            
             _addInternalMethod.Invoke(headers, new object[] { key, value });
+
         }
     }
 }

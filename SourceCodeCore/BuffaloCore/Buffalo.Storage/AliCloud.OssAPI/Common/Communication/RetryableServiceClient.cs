@@ -75,7 +75,7 @@ namespace Aliyun.OSS.Common.Communication
                 }
 
                 // Rethrow
-                throw;
+                throw ex;
             }
         }
 
