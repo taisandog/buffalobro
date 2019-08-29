@@ -30,7 +30,7 @@
     <item des="数据操作库"  name="Buffalo.DB" selected="1">
       <file path="Buffalo.DB.dll" main="1"></file>
       <file path="Buffalo.DB.XML"></file>
-	  <file path="Buffalo.Kernel.deps.json"></file>
+	  <file path="Buffalo.DB.deps.json"></file>
     </item>
 	<item des="Json化的参数值库"  name="Buffalo.ArgCommon" selected="0">
 		<file path="Buffalo.ArgCommon.dll" main="1"></file>
