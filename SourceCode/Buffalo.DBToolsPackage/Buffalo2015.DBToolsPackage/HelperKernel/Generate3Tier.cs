@@ -7,7 +7,7 @@ using Buffalo.DBTools.ROMHelper;
 using EnvDTE;
 using Buffalo.Win32Kernel;
 using Buffalo.DBTools.UIHelper;
-using Buffalo.DBToolsPackage;
+
 
 namespace Buffalo.DBTools.HelperKernel
 {

@@ -380,6 +380,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\dll\dll\Net4.5.1\MySql.Data.dll</HintPath>
     </Reference>
+    <Reference Include="Oracle.ManagedDataAccess">
+      <HintPath>..\..\..\dll\dll\Net4.0\Oracle.ManagedDataAccess.dll</HintPath>
+    </Reference>
     <Reference Include="stdole, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
@@ -437,13 +440,9 @@
       <Project>{687614c3-2681-403a-998a-ada65e02ea64}</Project>
       <Name>Buffalo2015.Data.MySQL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Buffalo.Data.Oracle12\Buffalo2015.Data.Oracle11.csproj">
+    <ProjectReference Include="..\..\Buffalo.Data.Oracle12\Buffalo2015.Data.Oracle.csproj">
       <Project>{c38522e1-35ba-40f7-a1e9-716d52bb6c04}</Project>
-      <Name>Buffalo2015.Data.Oracle11</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Buffalo.Data.Oracle12\Buffalo2015.Data.Oracle12.csproj">
-      <Project>{481a477b-af05-48f7-adf3-34ff703d8366}</Project>
-      <Name>Buffalo2015.Data.Oracle12</Name>
+      <Name>Buffalo2015.Data.Oracle</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Buffalo.Data.PostgreSQL\Buffalo2015.Data.PostgreSQL.csproj">
       <Project>{ef96ea11-c57a-4de0-97f7-1ab7e20ca0bd}</Project>

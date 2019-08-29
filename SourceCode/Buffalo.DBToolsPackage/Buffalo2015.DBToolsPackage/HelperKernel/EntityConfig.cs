@@ -20,7 +20,7 @@ using Buffalo.DB.DataBaseAdapter;
 using Buffalo.DB.DBCheckers;
 using Buffalo.DBTools.ROMHelper;
 using Buffalo.DBTools.UIHelper;
-using Buffalo.DBToolsPackage;
+
 
 namespace Buffalo.DBTools.HelperKernel
 {

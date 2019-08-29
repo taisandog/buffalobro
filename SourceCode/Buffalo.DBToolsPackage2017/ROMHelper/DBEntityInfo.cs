@@ -17,7 +17,7 @@ using Buffalo.DBTools.UIHelper;
 using Microsoft.VisualStudio.EnterpriseTools.ArtifactModel.Clr;
 using Buffalo.Kernel;
 using Buffalo2015.DBToolsPackage;
-using Buffalo.DBToolsPackage;
+
 
 namespace Buffalo.DBTools.ROMHelper
 {

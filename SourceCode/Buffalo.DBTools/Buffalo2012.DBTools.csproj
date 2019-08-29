@@ -298,6 +298,26 @@
     <Content Include="Resources\UserEntity.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Buffalo.Data.DB2\Buffalo2012.Data.DB2.csproj">
+      <Project>{421a6af4-de30-47d4-9aa1-4b573a31c5f3}</Project>
+      <Name>Buffalo2012.Data.DB2</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Buffalo.Data.MySQL\Buffalo2012.Data.MySQL.csproj">
+      <Project>{687614c3-2681-403a-998a-ada65e02ea64}</Project>
+      <Name>Buffalo2012.Data.MySQL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Buffalo.Data.Oracle12\Buffalo2012.Data.Oracle.csproj">
+      <Project>{3c96896e-d0f5-4a57-be6e-7d0e4ca16728}</Project>
+      <Name>Buffalo2012.Data.Oracle</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Buffalo.Data.PostgreSQL\Buffalo2012.Data.PostgreSQL.csproj">
+      <Project>{ef96ea11-c57a-4de0-97f7-1ab7e20ca0bd}</Project>
+      <Name>Buffalo2012.Data.PostgreSQL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Buffalo.Data.SQLite\Buffalo2012.Data.SQLite.csproj">
+      <Project>{d7ca14c3-1869-4928-91e4-3584de3823c2}</Project>
+      <Name>Buffalo2012.Data.SQLite</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Buffalo.DB\Buffalo2012.DB.csproj">
       <Project>{9b0043e4-883b-47ba-9a5a-5110c8583902}</Project>
       <Name>Buffalo2012.DB</Name>

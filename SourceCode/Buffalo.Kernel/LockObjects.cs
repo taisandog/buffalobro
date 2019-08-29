@@ -22,11 +22,18 @@ namespace Buffalo.Kernel
         /// 为某个值提供锁对象的管理
         /// </summary>
         /// <param name="cleanSeconds">自动检测清理的秒数</param>
-        public LockObjects(int cleanSeconds=60)
+        public LockObjects(int cleanSeconds)
         {
             _dic = new Dictionary<T, LockItem<T>>();
             _lastClean = DateTime.Now;
             _cleanSeconds = cleanSeconds;
+        }/// <summary>
+        /// 为某个值提供锁对象的管理
+        /// </summary>
+        /// <param name="cleanSeconds">自动检测清理的秒数</param>
+        public LockObjects():this(60)
+        {
+            
         }
         /// <summary>
         /// 获取要锁的对象

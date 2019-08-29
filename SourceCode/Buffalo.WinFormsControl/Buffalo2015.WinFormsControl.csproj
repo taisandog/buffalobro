@@ -34,11 +34,11 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\Release\2013\</OutputPath>
+    <OutputPath>..\Release\2015\</OutputPath>
     <DefineConstants>TRACE;NET_4_5_1</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\Release\2013\Buffalo.WinFormsControl.XML</DocumentationFile>
+    <DocumentationFile>..\Release\2015\Buffalo.WinFormsControl.XML</DocumentationFile>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Prefer32Bit>false</Prefer32Bit>

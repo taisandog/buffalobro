@@ -8,8 +8,8 @@
     <ProjectGuid>{C38522E1-35BA-40F7-A1E9-716D52BB6C04}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Buffalo.Data.Oracle11</RootNamespace>
-    <AssemblyName>Buffalo.Data.Oracle11</AssemblyName>
+    <RootNamespace>Buffalo.Data.Oracle</RootNamespace>
+    <AssemblyName>Buffalo.Data.Oracle</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -41,7 +41,7 @@
     <DefineConstants>TRACE;DEBUG;NET_4_6;X86;Ora11</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\Debug\2015\Oracle11\Buffalo.Data.Oracle11.XML</DocumentationFile>
+    <DocumentationFile>..\Debug\2015\Oracle11\Buffalo.Data.Oracle.xml</DocumentationFile>
     <PlatformTarget>x86</PlatformTarget>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
@@ -49,19 +49,18 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\Release\2015\Oracle11\</OutputPath>
-    <DefineConstants>TRACE;NET_4_6;X86;Ora11</DefineConstants>
+    <OutputPath>..\Release\2015\</OutputPath>
+    <DefineConstants>TRACE;NET_4_6</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
-    <DocumentationFile>..\Release\2015\Oracle11\Buffalo.Data.Oracle11.XML</DocumentationFile>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DocumentationFile>..\Release\2015\Buffalo.Data.Oracle.xml</DocumentationFile>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Oracle.DataAccess, Version=4.121.2.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\dll\dll\Oracle\Oracle11\X86\.net4.0\Oracle.DataAccess.dll</HintPath>
+    <Reference Include="Oracle.ManagedDataAccess">
+      <HintPath>..\..\dll\dll\Net4.0\Oracle.ManagedDataAccess.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

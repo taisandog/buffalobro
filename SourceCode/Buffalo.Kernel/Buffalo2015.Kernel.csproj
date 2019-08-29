@@ -88,6 +88,7 @@
     <Compile Include="FastReflection\FieldInfoHandle.cs" />
     <Compile Include="FastReflection\PropertyInfoHandle.cs" />
     <Compile Include="Lock.cs" />
+    <Compile Include="LockObjects.cs" />
     <Compile Include="MassBase.cs" />
     <Compile Include="MassManager.cs" />
     <Compile Include="PasswordHash.cs" />

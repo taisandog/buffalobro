@@ -323,10 +323,6 @@
     <Content Include="Resources\DBconfig.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Buffalo.Data.Oracle12\Buffalo.Data.Oracle11.csproj">
-      <Project>{8544FC00-4410-46C1-A977-562D273E64F1}</Project>
-      <Name>Buffalo.Data.Oracle11</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Buffalo.DB\Buffalo.DB.csproj">
       <Project>{9B0043E4-883B-47BA-9A5A-5110C8583902}</Project>
       <Name>Buffalo.DB</Name>
