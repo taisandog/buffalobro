@@ -19,19 +19,23 @@
     <net ver="4.6" path="AddIns\Net4.6\"></net>
     <net ver="4.6.2" path="AddIns\Net4.6.2\"></net>
 	<net ver="4.7.2" path="AddIns\Net4.7.2\"></net>
+	<net ver="Standard 2.0" path="AddIns\netstandard2.0\"></net>
   </DllVer>
   <Dlls>
     <item des="核心库" name="Buffalo.Kernel" selected="1">
       <file path="Buffalo.Kernel.dll" main="1"></file>
-      <file path="Buffalo.Kernel.XML"></file>
+	  <file path="Buffalo.Kernel.XML"></file>
+      <file path="Buffalo.Kernel.deps.json"></file>
     </item>
     <item des="数据操作库"  name="Buffalo.DB" selected="1">
       <file path="Buffalo.DB.dll" main="1"></file>
       <file path="Buffalo.DB.XML"></file>
+	  <file path="Buffalo.Kernel.deps.json"></file>
     </item>
 	<item des="Json化的参数值库"  name="Buffalo.ArgCommon" selected="0">
 		<file path="Buffalo.ArgCommon.dll" main="1"></file>
 		<file path="Buffalo.ArgCommon.xml"></file>
+		<file path="Buffalo.ArgCommon.deps.json"></file>
 		<file path="Newtonsoft.Json.dll"></file>
 		<file path="Newtonsoft.Json.xml"></file>
     </item>
@@ -48,8 +52,10 @@
     <item des="缓存支持(Memcached/Redis)"  name="Buffalo.QueryCache" ignore="2.0" selected="0">
       <file path="Buffalo.QueryCache.dll" main="1"></file>
       <file path="Buffalo.QueryCache.XML"></file>
+	  <file path="Buffalo.QueryCache.deps.json"></file>
       <file path="Enyim.Caching.dll"></file>
       <file path="Enyim.Caching.xml"></file>
+	  <file path="Enyim.Caching.deps.json"></file>
       <file path="ServiceStack.Common.dll"></file>
       <file path="ServiceStack.Common.xml"></file>
       <file path="ServiceStack.Interfaces.dll"></file>
@@ -63,13 +69,16 @@
     </item>
 	<item des="对象存储支持"  name="Buffalo.Storage" ignore="2.0,3.5" selected="0">
 		  <file path="Buffalo.Storage.dll" main="1"></file>
+		  <file path="Buffalo.Storage.deps.json"></file>
 		  <file path="Buffalo.Storage.XML"></file>
 		  <file path="Buffalo.ArgCommon.dll"></file>
 		  <file path="Buffalo.ArgCommon.xml"></file>
+		  <file path="Buffalo.ArgCommon.deps.json"></file>
     </item>
     <item des="MySQL支持"  name="Buffalo.Data.MySQL" isDB="1" selected="0">
       <file path="Buffalo.Data.MySQL.dll" main="1"></file>
       <file path="Buffalo.Data.MySQL.XML"></file>
+	  <file path="Buffalo.Data.MySQL.deps.json"></file>
       <file path="MySql.Data.dll"></file>
 	  <file path="Google.Protobuf.dll"></file>
 	  <file path="Google.Protobuf.xml"></file>
@@ -80,11 +89,13 @@
     <item des="DB2支持"  name="Buffalo.Data.DB2" isDB="1" selected="0">
       <file path="Buffalo.Data.DB2.dll" main="1"></file>
       <file path="Buffalo.Data.DB2.XML"></file>
+	  <file path="Buffalo.Data.DB2.deps.json"></file>
       <file path="IBM.Data.DB2.dll"></file>
     </item>
     <item des="PostgreSQL支持"  name="Buffalo.Data.PostgreSQL" isDB="1" selected="0">
       <file path="Buffalo.Data.PostgreSQL.dll" main="1"></file>
       <file path="Buffalo.Data.PostgreSQL.XML"></file>
+	  <file path="Buffalo.Data.PostgreSQL.deps.json"></file>
       <file path="Npgsql.dll"></file>
       <file path="Npgsql.xml"></file>
 	  <file path="Mono.Security.dll"></file>
@@ -93,14 +104,16 @@
     <item des="SQLite支持"  name="Buffalo.Data.SQLite" isDB="1" selected="0">
       <file path="Buffalo.Data.SQLite.dll" main="1"></file>
       <file path="Buffalo.Data.SQLite.XML"></file>
+	  <file path="Buffalo.Data.SQLite.deps.json"></file>
       <file path="System.Data.SQLite.dll"></file>
       <file path="System.Data.SQLite.XML"></file>
       <file path="x86\SQLite.Interop.dll"></file>
       <file path="x64\SQLite.Interop.dll"></file>
     </item>
-    <item des="Oracle(OPD.NET)"  name="Buffalo.Data.Oracle" isDB="1" selected="0">
-      <file path="Buffalo.Data.Oracle11.dll" main="1"></file>
-      <file path="Buffalo.Data.Oracle11.XML"></file>
+    <item des="Oracle支持(OPD.NET)"  name="Buffalo.Data.Oracle" isDB="1" selected="0">
+      <file path="Buffalo.Data.Oracle.dll" main="1"></file>
+      <file path="Buffalo.Data.Oracle.XML"></file>
+	  <file path="Buffalo.Data.Oracle.deps.json"></file>
       <file path="Oracle.ManagedDataAccess.dll"></file>
 
     </item>
