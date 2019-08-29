@@ -33,6 +33,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enyim.Caching", "ThirdParty
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ThirdParty", "ThirdParty", "{B2A3B9A5-DF44-4912-88AF-373A244B4604}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buffalo.Storage", "Buffalo.Storage\Buffalo.Storage.csproj", "{BE9561D5-9624-4DB9-AFBE-DD394820D5EE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,6 +93,10 @@ Global
 		{F13FBBFD-97EE-4682-9CF7-46AB1C08F663}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F13FBBFD-97EE-4682-9CF7-46AB1C08F663}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F13FBBFD-97EE-4682-9CF7-46AB1C08F663}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE9561D5-9624-4DB9-AFBE-DD394820D5EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE9561D5-9624-4DB9-AFBE-DD394820D5EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE9561D5-9624-4DB9-AFBE-DD394820D5EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE9561D5-9624-4DB9-AFBE-DD394820D5EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

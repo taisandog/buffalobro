@@ -4,8 +4,9 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>taisandog</Authors>
     <Product>Buffalo.Kernel</Product>
-    <Description>Buffalo.DB for .Net Standard 2.0</Description>
+    <Description>Buffalo.Kernel for .Net Standard 2.0</Description>
     <Copyright>taisandog</Copyright>
+    <PackageProjectUrl>https://github.com/taisandog</PackageProjectUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

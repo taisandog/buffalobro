@@ -31,8 +31,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Buffalo.ArgCommon\Buffalo.ArgCommon.csproj" />
+    <ProjectReference Include="..\Buffalo.Data.DB2\Buffalo.Data.DB2.csproj" />
     <ProjectReference Include="..\Buffalo.Data.MySQL\Buffalo.Data.MySQL.csproj" />
     <ProjectReference Include="..\Buffalo.Data.Oracle\Buffalo.Data.Oracle.csproj" />
+    <ProjectReference Include="..\Buffalo.Data.PostgreSQL\Buffalo.Data.PostgreSQL.csproj" />
+    <ProjectReference Include="..\Buffalo.Data.SQLite\Buffalo.Data.SQLite.csproj" />
     <ProjectReference Include="..\Buffalo.DB\Buffalo.DB.csproj">
       <Private>true</Private>
     </ProjectReference>
@@ -40,7 +44,9 @@
       <Private>true</Private>
     </ProjectReference>
     <ProjectReference Include="..\Buffalo.QueryCache\Buffalo.QueryCache.csproj" />
+    <ProjectReference Include="..\Buffalo.Storage\Buffalo.Storage.csproj" />
     <ProjectReference Include="..\TestLib\TestLib.csproj" />
+    <ProjectReference Include="..\ThirdParty\Enyim.Caching\Enyim.Caching.csproj" />
   </ItemGroup>
 
   <ItemGroup>

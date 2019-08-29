@@ -19,7 +19,7 @@ namespace TestApp
         static void Main(string[] args)
         {
             InitDB();
-            TestWebCache();
+            
 
 
         }
