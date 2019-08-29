@@ -3,9 +3,10 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>taisandog</Authors>
-    <Description>Buffalo.Storage for .Net Standard 2.0</Description>
+    <Description>Buffalo存储包(支持阿里云OSS、腾讯云COS、华为云OBS)</Description>
     <Copyright>taisandog</Copyright>
     <PackageProjectUrl>https://github.com/taisandog</PackageProjectUrl>
+    <Product>Buffalo.Storage for .Net Standard 2.0</Product>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

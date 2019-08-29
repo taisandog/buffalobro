@@ -4,9 +4,10 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>taisandog</Authors>
     <Company>dogcom</Company>
-    <Description>Buffalo.Data.PostgreSQL for .Net Standard 2.0</Description>
+    <Description>Buffalo.DB的PostgreSQL支持</Description>
     <PackageProjectUrl>https://github.com/taisandog</PackageProjectUrl>
     <Version>1.0.2</Version>
+    <Product>Buffalo.Data.PostgreSQL for .Net Standard 2.0</Product>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

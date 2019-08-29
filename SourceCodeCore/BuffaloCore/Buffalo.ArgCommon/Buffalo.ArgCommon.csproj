@@ -6,11 +6,11 @@
     <Product>Buffalo.ArgCommon  for .Net Standard 2.0</Product>
     <PackageProjectUrl>https://github.com/taisandog</PackageProjectUrl>
     <Company>dogcom</Company>
-    <Description>Buffalo.ArgCommon  for .Net Standard 2.0</Description>
+    <Description>Buffalo的参数包</Description>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.ArgCommon\Buffalo.ArgCommon.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\SourceCode\Release\NetStandard2\Buffalo.ArgCommon.xml</DocumentationFile>
     <OutputPath>..\..\..\SourceCode\Release\NetStandard2</OutputPath>
   </PropertyGroup>
 

@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29201.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestApp", "TestApp\TestApp.csproj", "{CC2D67D7-F76C-4E11-BF93-3A50DB65B77A}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Buffalo.Kernel", "Buffalo.Kernel\Buffalo.Kernel.csproj", "{9C4AC141-D7F1-4F3A-A56D-FD23BBDFB85E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Buffalo.DB", "Buffalo.DB\Buffalo.DB.csproj", "{ABE70DAA-718B-467D-9FA8-5E041BC84A87}"
@@ -16,10 +14,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Buffalo.Data.DB2", "Buffalo.Data.DB2\Buffalo.Data.DB2.csproj", "{BA50FC73-D46C-4D5F-B6FA-8EE9A1B28A8F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Buffalo.Data.MySQL", "Buffalo.Data.MySQL\Buffalo.Data.MySQL.csproj", "{5A098095-8856-4E91-85D0-B3849BFCC9BF}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestLib", "TestLib\TestLib.csproj", "{8D0E1FE3-6F93-4ECD-BABE-B3A69FE8EA07}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestForm", "TestForm\TestForm.csproj", "{F506BEC3-311E-48F7-9655-68A1D2A2755C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Buffalo.Data.Oracle", "Buffalo.Data.Oracle\Buffalo.Data.Oracle.csproj", "{C420D772-B9B1-4FEC-A138-1F37E9C76132}"
 EndProject
@@ -33,7 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enyim.Caching", "ThirdParty
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ThirdParty", "ThirdParty", "{B2A3B9A5-DF44-4912-88AF-373A244B4604}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buffalo.Storage", "Buffalo.Storage\Buffalo.Storage.csproj", "{BE9561D5-9624-4DB9-AFBE-DD394820D5EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Buffalo.Storage", "Buffalo.Storage\Buffalo.Storage.csproj", "{BE9561D5-9624-4DB9-AFBE-DD394820D5EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +35,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{CC2D67D7-F76C-4E11-BF93-3A50DB65B77A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CC2D67D7-F76C-4E11-BF93-3A50DB65B77A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CC2D67D7-F76C-4E11-BF93-3A50DB65B77A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CC2D67D7-F76C-4E11-BF93-3A50DB65B77A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9C4AC141-D7F1-4F3A-A56D-FD23BBDFB85E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9C4AC141-D7F1-4F3A-A56D-FD23BBDFB85E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C4AC141-D7F1-4F3A-A56D-FD23BBDFB85E}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -65,14 +55,6 @@ Global
 		{5A098095-8856-4E91-85D0-B3849BFCC9BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A098095-8856-4E91-85D0-B3849BFCC9BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A098095-8856-4E91-85D0-B3849BFCC9BF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8D0E1FE3-6F93-4ECD-BABE-B3A69FE8EA07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8D0E1FE3-6F93-4ECD-BABE-B3A69FE8EA07}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8D0E1FE3-6F93-4ECD-BABE-B3A69FE8EA07}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8D0E1FE3-6F93-4ECD-BABE-B3A69FE8EA07}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F506BEC3-311E-48F7-9655-68A1D2A2755C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F506BEC3-311E-48F7-9655-68A1D2A2755C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F506BEC3-311E-48F7-9655-68A1D2A2755C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F506BEC3-311E-48F7-9655-68A1D2A2755C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C420D772-B9B1-4FEC-A138-1F37E9C76132}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C420D772-B9B1-4FEC-A138-1F37E9C76132}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C420D772-B9B1-4FEC-A138-1F37E9C76132}.Release|Any CPU.ActiveCfg = Release|Any CPU

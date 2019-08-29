@@ -17,8 +17,8 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>..\..\..\SourceCode\Release\NetStandard2</OutputPath>
-    <DocumentationFile>..\..\..\SourceCode\Release\NetStandard2\EnyimMemcachedCore.xml</DocumentationFile>
+    <OutputPath>..\..\..\..\SourceCode\Release\NetStandard2</OutputPath>
+    <DocumentationFile>..\..\..\..\SourceCode\Release\NetStandard2\Enyim.Caching.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

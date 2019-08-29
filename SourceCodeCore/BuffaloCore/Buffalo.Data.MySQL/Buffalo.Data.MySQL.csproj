@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Company>dogcom</Company>
     <Authors>taisandog</Authors>
-    <Description>Buffalo.DB for .Net Standard 2.0</Description>
+    <Description>Buffalo.DB的MySQL支持</Description>
     <PackageProjectUrl>https://github.com/taisandog</PackageProjectUrl>
     <AssemblyVersion>1.0.2.0</AssemblyVersion>
     <Version>1.0.2</Version>

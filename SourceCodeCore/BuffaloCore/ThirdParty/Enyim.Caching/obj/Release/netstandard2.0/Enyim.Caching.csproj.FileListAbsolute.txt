@@ -11,3 +11,16 @@ D:\workspace\GitProjects\Buffalo\SourceCodeCore\SourceCode\Release\NetStandard2\
 D:\workspace\GitProjects\Buffalo\SourceCodeCore\SourceCode\Release\NetStandard2\netstandard2.0\EnyimMemcachedCore.xml
 D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\ThirdParty\Enyim.Caching\obj\Release\netstandard2.0\Enyim.Caching.dll
 D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\ThirdParty\Enyim.Caching\obj\Release\netstandard2.0\Enyim.Caching.pdb
+E:\CSharpTest\GitProjects\Buffalo\SourceCodeCore\SourceCode\Release\NetStandard2\netstandard2.0\Enyim.Caching.deps.json
+E:\CSharpTest\GitProjects\Buffalo\SourceCodeCore\SourceCode\Release\NetStandard2\netstandard2.0\Enyim.Caching.dll
+E:\CSharpTest\GitProjects\Buffalo\SourceCodeCore\SourceCode\Release\NetStandard2\netstandard2.0\Enyim.Caching.pdb
+E:\CSharpTest\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\ThirdParty\Enyim.Caching\obj\Release\netstandard2.0\Enyim.Caching.csproj.CoreCompileInputs.cache
+E:\CSharpTest\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\ThirdParty\Enyim.Caching\obj\Release\netstandard2.0\Enyim.Caching.AssemblyInfoInputs.cache
+E:\CSharpTest\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\ThirdParty\Enyim.Caching\obj\Release\netstandard2.0\Enyim.Caching.AssemblyInfo.cs
+E:\CSharpTest\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\ThirdParty\Enyim.Caching\obj\Release\netstandard2.0\Enyim.Caching.dll
+E:\CSharpTest\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\ThirdParty\Enyim.Caching\obj\Release\netstandard2.0\Enyim.Caching.pdb
+E:\CSharpTest\GitProjects\Buffalo\SourceCode\Release\NetStandard2\netstandard2.0\Enyim.Caching.deps.json
+E:\CSharpTest\GitProjects\Buffalo\SourceCode\Release\NetStandard2\netstandard2.0\Enyim.Caching.dll
+E:\CSharpTest\GitProjects\Buffalo\SourceCode\Release\NetStandard2\netstandard2.0\Enyim.Caching.pdb
+E:\CSharpTest\GitProjects\Buffalo\SourceCode\Release\NetStandard2\netstandard2.0\Enyim.Caching.xml
+E:\CSharpTest\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\ThirdParty\Enyim.Caching\obj\Release\netstandard2.0\Enyim.Caching.csprojAssemblyReference.cache

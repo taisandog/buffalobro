@@ -4,9 +4,11 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>taisandog</Authors>
     <Company>dogcom</Company>
-    <Description>Buffalo.Data.SQLite for .Net Standard 2.0</Description>
+    <Description>Buffalo.DB的SQLite支持</Description>
     <PackageProjectUrl>https://github.com/taisandog</PackageProjectUrl>
     <Version>1.0.2</Version>
+    <Product>Buffalo.Data.SQLite  for .Net Standard 2.0</Product>
+    <PackageReleaseNotes></PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
