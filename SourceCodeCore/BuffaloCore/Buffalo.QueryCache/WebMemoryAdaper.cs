@@ -158,19 +158,36 @@ namespace Buffalo.QueryCache
             {
                 OutPutMessage(QueryCacheCommand.CommandSetDataSet, sql, oper);
             }
+            
+
+            DoSetValue<DataSet>(key, ds, expirSeconds);
+
+
+            return true;
+        }
+
+        /// <summary>
+        /// 设置值
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="expirSeconds"></param>
+        /// <returns></returns>
+        private E DoSetValue<E>(string key,E value,  int expirSeconds)
+        {
             TimeSpan ts = _expiration;
             if (expirSeconds > 0)
             {
                 ts = TimeSpan.FromSeconds(expirSeconds);
             }
-
-            MemoryCacheEntryOptions option = new MemoryCacheEntryOptions();
-
-            _curCache.Set(key, ds, option);
-
-
-            return ExistsKey(key, oper);
+            if (ts > TimeSpan.MinValue)
+            {
+                return _curCache.Set<E>(key, value, ts);
+            }
+            return _curCache.Set<E>(key, value);
         }
+
         /// <summary>
         /// 获取表名
         /// </summary>
@@ -308,11 +325,7 @@ namespace Buffalo.QueryCache
         public bool SetValue<E>(string key, E value, SetValueType type, int expirSeconds, DataBaseOperate oper)
         {
             //_cache[key] = value;
-            TimeSpan ts = _expiration;
-            if (expirSeconds > 0)
-            {
-                ts = TimeSpan.FromSeconds(expirSeconds);
-            }
+            
             object lok = _lockObjects.GetObject(key);
             lock (lok)
             {
@@ -335,7 +348,7 @@ namespace Buffalo.QueryCache
                     default:
                         break;
                 }
-                _curCache.Set<E>(key, value);
+                DoSetValue<E>(key, value, expirSeconds);
             }
             return true;
         }
@@ -357,7 +370,7 @@ namespace Buffalo.QueryCache
                 }
                 long value = ValueConvertExtend.ConvertValue<long>(oval);
                 value += (long)inc;
-                _curCache.Set<long>(key, value);
+                DoSetValue<long>(key, value, 0);
                 return value;
             }
         }
@@ -372,8 +385,8 @@ namespace Buffalo.QueryCache
                     oval = 1;
                 }
                 long value = ValueConvertExtend.ConvertValue<long>(oval);
-                value += (long)dec;
-                _curCache.Set<long>(key, value);
+                value -= (long)dec;
+                DoSetValue<long>(key, value, 0);
                 return value;
             }
         }
