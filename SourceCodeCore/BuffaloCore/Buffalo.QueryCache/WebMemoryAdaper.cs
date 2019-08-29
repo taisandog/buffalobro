@@ -43,7 +43,7 @@ namespace Buffalo.QueryCache
                 return _curCache;
             }
         }
-        public WebMemoryAdaper(DBInfo info, string connStr)
+        public WebMemoryAdaper(string connStr,DBInfo info)
         {
             _info = info;
 
