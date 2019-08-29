@@ -17,7 +17,7 @@ namespace TestApp
 {
     class Program
     {
-        static string strOSS = "Server=oss-cn-shenzhen.aliyuncs.com;SecretId=LTAIPM7uERWhDShn;SecretKey=YZiGsJMxUSxEQYeDJHmuSkgQp8HG9z;BucketName=mcnetgamedownload;InternetUrl=http%3a%2f%2fcdndomain.ttaqy.com;LanUrl=http%3a%2f%2fmcnetgamedownload.oss-cn-shenzhen-internal.aliyuncs.com;NeedHash=1;timeout=60000;";
+        static string strOSS = "";
         static void Main(string[] args)
         {
             InitDB();
