@@ -10,7 +10,6 @@
   <Path source="Release\2017\" target="..\BuffaloSetup\AddIns\Net4.6.2\" igore="Buffalo.Data.Oracle11.;Buffalo.Data.Oracle12.;Oracle.DataAccess.;VJSharpCodeProvider.;System.dll;mscorcfg.;EnvDTE;Microsoft.;VSLangProj;VsWebSite.;Buffalo.DBToolsPackage2017"></Path>
   <Path source="Release\2019\" target="..\BuffaloSetup\AddIns\Net4.7.2\" igore="Buffalo.Data.Oracle11.;Buffalo.Data.Oracle12.;Oracle.DataAccess.;VJSharpCodeProvider.;System.dll;mscorcfg.;EnvDTE;Microsoft.;VSLangProj;VsWebSite.;Buffalo.DBToolsPackage2017"></Path>
   
-  <Path source="Release\NetStandard2\netstandard2.0" target="..\BuffaloSetup\AddIns\netstandard2.0\" igore=""></Path>
 
   <Path source="..\dll\dll\SQLite.Interop\net20\x64\" target="..\BuffaloSetup\AddIns\Net2.0\x64\"></Path>
   <Path source="..\dll\dll\SQLite.Interop\net20\x86\" target="..\BuffaloSetup\AddIns\Net2.0\x86\"></Path>

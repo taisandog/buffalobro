@@ -4,7 +4,7 @@
     <Identity Id="Buffalo.DBToolsPackage.3dd9153c-5c3f-4810-b6f0-34f2b8a50aca" Version="1.0.1.1" Language="zh-CN" Publisher="taisandog" />
     <DisplayName>Buffalo的实体配置工具</DisplayName>
     <Description xml:space="preserve">Buffalo的实体配置工具</Description>
-    <MoreInfo>https://sourceforge.net/projects/buffalobro/</MoreInfo>
+    <MoreInfo>https://github.com/taisandog</MoreInfo>
     <Icon>slogo.ico</Icon>
   </Metadata>
   <Installation>
