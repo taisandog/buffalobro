@@ -7,6 +7,8 @@ using Buffalo.DBTools.ROMHelper;
 using EnvDTE;
 using Microsoft.VisualStudio.EnterpriseTools.ArtifactModel.Clr;
 using Buffalo.DBTools.UIHelper;
+using Buffalo2015.DBToolsPackage;
+using Buffalo.DBToolsPackage;
 
 namespace Buffalo.DBTools.HelperKernel
 {
@@ -29,6 +31,7 @@ namespace Buffalo.DBTools.HelperKernel
         /// </summary>
         public void GenerateBQLEntityDB() 
         {
+            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             //FileInfo info = new FileInfo(EntityFileName);
             string dicPath = GenerateBasePath + "\\BQLEntity";
             if (!Directory.Exists(dicPath))
@@ -37,7 +40,7 @@ namespace Buffalo.DBTools.HelperKernel
             }
             string fileName = dicPath + "\\" + DBName + ".cs";
             
-            string model = Models.BQLDB;
+            string model = Models.bqldb;
 
             List<string> codes = new List<string>();
             using (StringReader reader = new StringReader(model))
@@ -61,6 +64,7 @@ namespace Buffalo.DBTools.HelperKernel
         /// </summary>
         public void GenerateBQLEntity()
         {
+            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             TagManager tag=new TagManager();
             //FileInfo info = new FileInfo(EntityFileName);
             string dicPath = GenerateBasePath + "\\BQLEntity";
@@ -70,8 +74,8 @@ namespace Buffalo.DBTools.HelperKernel
             }
 
             string fileName = dicPath + "\\"+ ClassName + ".cs";
-            
-            string idal = Models.BQLEntity;
+
+            string idal = Models.bqlentity;
             List<string> codes = new List<string>();
             string baseType = null;
             if (EntityConfig.IsSystemTypeName(EntityBaseTypeName))
@@ -160,7 +164,7 @@ namespace Buffalo.DBTools.HelperKernel
             {
                 return null;
             }
-            List<ClrClass> lstcls = Connect.GetAllClass(DesignerInfo.SelectedDiagram);
+            List<ClrClass> lstcls = BuffaloToolCDCommand.GetAllClass(DesignerInfo.SelectedDiagram);
             Dictionary<string, ClrClass> dic = new Dictionary<string, ClrClass>();
             StringBuilder sbType=new StringBuilder();
             foreach (ClrClass cls in lstcls) 

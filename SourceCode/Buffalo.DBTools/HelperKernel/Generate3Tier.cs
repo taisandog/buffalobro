@@ -7,6 +7,7 @@ using Buffalo.DBTools.ROMHelper;
 using EnvDTE;
 using Buffalo.Win32Kernel;
 using Buffalo.DBTools.UIHelper;
+using Buffalo.DBToolsPackage;
 
 namespace Buffalo.DBTools.HelperKernel
 {
@@ -35,7 +36,7 @@ namespace Buffalo.DBTools.HelperKernel
         /// <param name="entity"></param>
         public void GenerateBusiness() 
         {
-            //Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
+            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             FileInfo info = new FileInfo(ClassDesignerFileName);
             
 
@@ -51,7 +52,7 @@ namespace Buffalo.DBTools.HelperKernel
             }
 
 
-            string model = Models.Business;
+            string model = Models.business;
             
             string baseClass = null;
             
@@ -270,7 +271,7 @@ namespace Buffalo.DBTools.HelperKernel
             types.Add(item);
 
             item = new ComboBoxItem("IBM DB2 v9或以上", "Buffalo.Data.DB2");
-            item.Tag = new ComboBoxItem("server=127.0.0.1:50000;DATABASE =mydb;UID=DB2Admin;PWD=pwd", null);
+            item.Tag = new ComboBoxItem("server=127.0.0.1:50000;DATABASE =mydb;UID=DB2Admin;PWD=pwd", "需要把clidriver.zip放到IBM.Data.DB2.dll的同目录");
             types.Add(item);
 
             item = new ComboBoxItem("Postgresql9或以上", "Buffalo.Data.PostgreSQL");
@@ -328,7 +329,7 @@ namespace Buffalo.DBTools.HelperKernel
         /// <param name="entity"></param>
         public void GenerateDataAccess()
         {
-            //Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
+            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             //FileInfo info = new FileInfo(EntityFileName);
 
 
@@ -337,7 +338,7 @@ namespace Buffalo.DBTools.HelperKernel
             {
                 Directory.CreateDirectory(dicPath);
             }
-            string dal = Models.DataAccess;
+            string dal = Models.dataaccess;
             foreach (ComboBoxItem itype in DataAccessTypes) 
             {
                 if (!this.BbConfig.IsAllDal && !this.BbConfig.DbType.Equals(itype.Value)) 
@@ -384,7 +385,7 @@ namespace Buffalo.DBTools.HelperKernel
         /// <param name="entity"></param>
         public void GenerateIDataAccess() 
         {
-            //Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
+            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             FileInfo info = new FileInfo(ClassDesignerFileName);
             string dicPath = info.DirectoryName + "\\DataAccess";
             if (!Directory.Exists(dicPath))
@@ -401,7 +402,7 @@ namespace Buffalo.DBTools.HelperKernel
             {
                 return;
             }
-            string idal = Models.IDataAccess;
+            string idal = Models.idataaccess;
             List<string> codes = new List<string>();
             using (StringReader reader = new StringReader(idal))
             {
@@ -425,7 +426,7 @@ namespace Buffalo.DBTools.HelperKernel
         /// </summary>
         public void GenerateBQLDataAccess() 
         {
-            //Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
+            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             FileInfo info = new FileInfo(ClassDesignerFileName);
             string dicPath = info.DirectoryName + "\\DataAccess";
             if (!Directory.Exists(dicPath))
@@ -443,7 +444,7 @@ namespace Buffalo.DBTools.HelperKernel
             {
                 return;
             }
-            string idal = Models.BQLDataAccess;
+            string idal = Models.bqldataaccess;
             List<string> codes = new List<string>();
             using (StringReader reader = new StringReader(idal))
             {

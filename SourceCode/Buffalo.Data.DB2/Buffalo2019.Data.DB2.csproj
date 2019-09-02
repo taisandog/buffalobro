@@ -61,6 +61,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\dll\dll\Net4.5.1\DB2\x86\IBM.Data.DB2.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\..\dll\dll\Net4.7.2\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -101,6 +104,10 @@
     <ProjectReference Include="..\Buffalo.Kernel\Buffalo2019.Kernel.csproj">
       <Project>{6ec04216-a422-4751-aa81-1211dcb10bab}</Project>
       <Name>Buffalo2019.Kernel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Buffalo.WebKernel\Buffalo2019.WebKernel.csproj">
+      <Project>{cbd39541-7a26-4c92-a369-0f2df5d13030}</Project>
+      <Name>Buffalo2019.WebKernel</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

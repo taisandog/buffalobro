@@ -83,35 +83,7 @@ namespace Buffalo.DBTools
             cmbTier.ValueMember = "Value";
             cmbTier.DataSource = Generate3Tier.Tiers;
         }
-        /// <summary>
-        /// ≥ı ºªØDB2
-        /// </summary>
-        private void InitDB2()
-        {
-            string dbType = cmbType.SelectedValue as string;
-            if (dbType == null)
-            {
-                return;
-            }
-            if (dbType.IndexOf(".DB2.",StringComparison.CurrentCultureIgnoreCase)<0)
-            {
-                return;
-            }
-            string path = this.GetType().Assembly.Location;
-            FileInfo finfo = new FileInfo(path);
-            string dicBase = finfo.DirectoryName.TrimEnd('\\') + "\\";
-            string dic = dicBase + "clidriver\\";
-            if (Directory.Exists(dic))
-            {
-                return;
-            }
-            string zipFile = dicBase + "clidriver.zip";
-            using (FileStream file = new FileStream(zipFile, FileMode.Open, FileAccess.Read))
-            {
-                SharpUnZipFile zip = new SharpUnZipFile(file);
-                zip.UnZipFiles(dicBase);
-            }
-        }
+        
 
         Size _maxSize = Size.Empty;
         private void FrmDBSetting_Load(object sender, EventArgs e)
@@ -243,7 +215,6 @@ namespace Buffalo.DBTools
             {
                 if (FillInfo())
                 {
-                    InitDB2();
                     this.DialogResult = DialogResult.OK;
                 }
             }
@@ -341,7 +312,6 @@ namespace Buffalo.DBTools
         {
             try
             {
-                InitDB2();
                 if (!FillInfo())
                 {
                     return;

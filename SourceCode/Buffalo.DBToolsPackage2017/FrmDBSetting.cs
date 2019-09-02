@@ -17,6 +17,8 @@ using Buffalo.DB.CommBase;
 using Buffalo.Win32Kernel;
 using Microsoft.VisualStudio.EnterpriseTools.ArtifactModel.Clr;
 using Buffalo.DBTools.UIHelper;
+using System.IO;
+using Buffalo.Kernel.ZipUnit;
 
 namespace Buffalo.DBTools
 {
@@ -81,9 +83,12 @@ namespace Buffalo.DBTools
             cmbTier.ValueMember = "Value";
             cmbTier.DataSource = Generate3Tier.Tiers;
         }
+        
+
         Size _maxSize = Size.Empty;
         private void FrmDBSetting_Load(object sender, EventArgs e)
         {
+            
             _maxSize = this.Size;
             InitTiers();
             InitDBType();

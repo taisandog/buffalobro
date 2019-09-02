@@ -7,6 +7,7 @@ using Buffalo.DBTools.ROMHelper;
 using EnvDTE;
 using Buffalo.Win32Kernel;
 using Buffalo.DBTools.UIHelper;
+using Buffalo.DBToolsPackage;
 
 namespace Buffalo.DBTools.HelperKernel
 {
@@ -270,7 +271,7 @@ namespace Buffalo.DBTools.HelperKernel
             types.Add(item);
 
             item = new ComboBoxItem("IBM DB2 v9或以上", "Buffalo.Data.DB2");
-            item.Tag = new ComboBoxItem("server=127.0.0.1:50000;DATABASE =mydb;UID=DB2Admin;PWD=pwd", null);
+            item.Tag = new ComboBoxItem("server=127.0.0.1:50000;DATABASE =mydb;UID=DB2Admin;PWD=pwd", "需要把clidriver.zip放到IBM.Data.DB2.dll的同目录");
             types.Add(item);
 
             item = new ComboBoxItem("Postgresql9或以上", "Buffalo.Data.PostgreSQL");
