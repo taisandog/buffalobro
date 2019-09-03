@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DBToolsPackage2019\\Buffalo.DBToolsPackage.csproj": {}
+    "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DBToolsPackage2019\\Buffalo.DBToolsPackage.csproj": {}
   },
   "projects": {
-    "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.ArgCommon\\Buffalo2019.ArgCommon.csproj": {
+    "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.ArgCommon\\Buffalo2019.ArgCommon.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.ArgCommon\\Buffalo2019.ArgCommon.csproj",
+        "projectUniqueName": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.ArgCommon\\Buffalo2019.ArgCommon.csproj",
         "projectName": "Buffalo2019.ArgCommon",
-        "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.ArgCommon\\Buffalo2019.ArgCommon.csproj",
+        "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.ArgCommon\\Buffalo2019.ArgCommon.csproj",
         "frameworks": {
           "net472": {
             "projectReferences": {
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj"
+              "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj": {
+                "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj"
               }
             }
           }
@@ -24,26 +24,26 @@
         "net472": {}
       }
     },
-    "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.DB2\\Buffalo2019.Data.DB2.csproj": {
+    "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.DB2\\Buffalo2019.Data.DB2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.DB2\\Buffalo2019.Data.DB2.csproj",
+        "projectUniqueName": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.DB2\\Buffalo2019.Data.DB2.csproj",
         "projectName": "Buffalo2019.Data.DB2",
-        "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.DB2\\Buffalo2019.Data.DB2.csproj",
+        "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.DB2\\Buffalo2019.Data.DB2.csproj",
         "frameworks": {
           "net472": {
             "projectReferences": {
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.ArgCommon\\Buffalo2019.ArgCommon.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.ArgCommon\\Buffalo2019.ArgCommon.csproj"
+              "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.ArgCommon\\Buffalo2019.ArgCommon.csproj": {
+                "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.ArgCommon\\Buffalo2019.ArgCommon.csproj"
               },
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DB\\Buffalo2019.DB.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DB\\Buffalo2019.DB.csproj"
+              "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DB\\Buffalo2019.DB.csproj": {
+                "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DB\\Buffalo2019.DB.csproj"
               },
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj"
+              "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj": {
+                "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj"
               },
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.WebKernel\\Buffalo2019.WebKernel.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.WebKernel\\Buffalo2019.WebKernel.csproj"
+              "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.WebKernel\\Buffalo2019.WebKernel.csproj": {
+                "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.WebKernel\\Buffalo2019.WebKernel.csproj"
               }
             }
           }
@@ -53,23 +53,23 @@
         "net472": {}
       }
     },
-    "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.MySQL\\Buffalo2019.Data.MySQL.csproj": {
+    "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.MySQL\\Buffalo2019.Data.MySQL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.MySQL\\Buffalo2019.Data.MySQL.csproj",
+        "projectUniqueName": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.MySQL\\Buffalo2019.Data.MySQL.csproj",
         "projectName": "Buffalo2019.Data.MySQL",
-        "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.MySQL\\Buffalo2019.Data.MySQL.csproj",
+        "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.MySQL\\Buffalo2019.Data.MySQL.csproj",
         "frameworks": {
           "net472": {
             "projectReferences": {
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.ArgCommon\\Buffalo2019.ArgCommon.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.ArgCommon\\Buffalo2019.ArgCommon.csproj"
+              "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.ArgCommon\\Buffalo2019.ArgCommon.csproj": {
+                "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.ArgCommon\\Buffalo2019.ArgCommon.csproj"
               },
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DB\\Buffalo2019.DB.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DB\\Buffalo2019.DB.csproj"
+              "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DB\\Buffalo2019.DB.csproj": {
+                "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DB\\Buffalo2019.DB.csproj"
               },
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj"
+              "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj": {
+                "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj"
               }
             }
           }
@@ -79,23 +79,23 @@
         "net472": {}
       }
     },
-    "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.Oracle12\\Buffalo2019.Data.Oracle.csproj": {
+    "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.Oracle12\\Buffalo2019.Data.Oracle.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.Oracle12\\Buffalo2019.Data.Oracle.csproj",
+        "projectUniqueName": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.Oracle12\\Buffalo2019.Data.Oracle.csproj",
         "projectName": "Buffalo2019.Data.Oracle",
-        "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.Oracle12\\Buffalo2019.Data.Oracle.csproj",
+        "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.Oracle12\\Buffalo2019.Data.Oracle.csproj",
         "frameworks": {
           "net472": {
             "projectReferences": {
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.ArgCommon\\Buffalo2019.ArgCommon.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.ArgCommon\\Buffalo2019.ArgCommon.csproj"
+              "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.ArgCommon\\Buffalo2019.ArgCommon.csproj": {
+                "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.ArgCommon\\Buffalo2019.ArgCommon.csproj"
               },
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DB\\Buffalo2019.DB.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DB\\Buffalo2019.DB.csproj"
+              "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DB\\Buffalo2019.DB.csproj": {
+                "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DB\\Buffalo2019.DB.csproj"
               },
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj"
+              "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj": {
+                "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj"
               }
             }
           }
@@ -105,23 +105,23 @@
         "net472": {}
       }
     },
-    "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.PostgreSQL\\Buffalo2019.Data.PostgreSQL.csproj": {
+    "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.PostgreSQL\\Buffalo2019.Data.PostgreSQL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.PostgreSQL\\Buffalo2019.Data.PostgreSQL.csproj",
+        "projectUniqueName": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.PostgreSQL\\Buffalo2019.Data.PostgreSQL.csproj",
         "projectName": "Buffalo2019.Data.PostgreSQL",
-        "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.PostgreSQL\\Buffalo2019.Data.PostgreSQL.csproj",
+        "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.PostgreSQL\\Buffalo2019.Data.PostgreSQL.csproj",
         "frameworks": {
           "net472": {
             "projectReferences": {
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.ArgCommon\\Buffalo2019.ArgCommon.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.ArgCommon\\Buffalo2019.ArgCommon.csproj"
+              "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.ArgCommon\\Buffalo2019.ArgCommon.csproj": {
+                "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.ArgCommon\\Buffalo2019.ArgCommon.csproj"
               },
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DB\\Buffalo2019.DB.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DB\\Buffalo2019.DB.csproj"
+              "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DB\\Buffalo2019.DB.csproj": {
+                "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DB\\Buffalo2019.DB.csproj"
               },
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj"
+              "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj": {
+                "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj"
               }
             }
           }
@@ -131,23 +131,23 @@
         "net472": {}
       }
     },
-    "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.SQLite\\Buffalo2019.Data.SQLite.csproj": {
+    "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.SQLite\\Buffalo2019.Data.SQLite.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.SQLite\\Buffalo2019.Data.SQLite.csproj",
+        "projectUniqueName": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.SQLite\\Buffalo2019.Data.SQLite.csproj",
         "projectName": "Buffalo2019.Data.SQLite",
-        "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.SQLite\\Buffalo2019.Data.SQLite.csproj",
+        "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.SQLite\\Buffalo2019.Data.SQLite.csproj",
         "frameworks": {
           "net472": {
             "projectReferences": {
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.ArgCommon\\Buffalo2019.ArgCommon.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.ArgCommon\\Buffalo2019.ArgCommon.csproj"
+              "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.ArgCommon\\Buffalo2019.ArgCommon.csproj": {
+                "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.ArgCommon\\Buffalo2019.ArgCommon.csproj"
               },
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DB\\Buffalo2019.DB.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DB\\Buffalo2019.DB.csproj"
+              "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DB\\Buffalo2019.DB.csproj": {
+                "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DB\\Buffalo2019.DB.csproj"
               },
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj"
+              "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj": {
+                "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj"
               }
             }
           }
@@ -157,18 +157,18 @@
         "net472": {}
       }
     },
-    "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DBToolsPackage2019\\Buffalo.DBToolsPackage.csproj": {
+    "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DBToolsPackage2019\\Buffalo.DBToolsPackage.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DBToolsPackage2019\\Buffalo.DBToolsPackage.csproj",
+        "projectUniqueName": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DBToolsPackage2019\\Buffalo.DBToolsPackage.csproj",
         "projectName": "Buffalo.DBToolsPackage",
-        "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DBToolsPackage2019\\Buffalo.DBToolsPackage.csproj",
-        "packagesPath": "C:\\Users\\taisandog\\.nuget\\packages\\",
-        "outputPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DBToolsPackage2019\\obj\\",
+        "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DBToolsPackage2019\\Buffalo.DBToolsPackage.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DBToolsPackage2019\\obj\\",
         "projectStyle": "PackageReference",
         "skipContentFileWrite": true,
         "configFilePaths": [
-          "C:\\Users\\taisandog\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -176,52 +176,53 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "E:\\CSharpTest\\BuffaloSetup\\AddIns\\netstandard2.0": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net472": {
             "projectReferences": {
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.ArgCommon\\Buffalo2019.ArgCommon.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.ArgCommon\\Buffalo2019.ArgCommon.csproj"
+              "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.ArgCommon\\Buffalo2019.ArgCommon.csproj": {
+                "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.ArgCommon\\Buffalo2019.ArgCommon.csproj"
               },
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.DB2\\Buffalo2019.Data.DB2.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.DB2\\Buffalo2019.Data.DB2.csproj"
+              "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.DB2\\Buffalo2019.Data.DB2.csproj": {
+                "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.DB2\\Buffalo2019.Data.DB2.csproj"
               },
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.MySQL\\Buffalo2019.Data.MySQL.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.MySQL\\Buffalo2019.Data.MySQL.csproj"
+              "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.MySQL\\Buffalo2019.Data.MySQL.csproj": {
+                "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.MySQL\\Buffalo2019.Data.MySQL.csproj"
               },
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.Oracle12\\Buffalo2019.Data.Oracle.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.Oracle12\\Buffalo2019.Data.Oracle.csproj"
+              "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.Oracle12\\Buffalo2019.Data.Oracle.csproj": {
+                "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.Oracle12\\Buffalo2019.Data.Oracle.csproj"
               },
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.PostgreSQL\\Buffalo2019.Data.PostgreSQL.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.PostgreSQL\\Buffalo2019.Data.PostgreSQL.csproj"
+              "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.PostgreSQL\\Buffalo2019.Data.PostgreSQL.csproj": {
+                "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.PostgreSQL\\Buffalo2019.Data.PostgreSQL.csproj"
               },
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.SQLite\\Buffalo2019.Data.SQLite.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.SQLite\\Buffalo2019.Data.SQLite.csproj"
+              "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.SQLite\\Buffalo2019.Data.SQLite.csproj": {
+                "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Data.SQLite\\Buffalo2019.Data.SQLite.csproj"
               },
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DB\\Buffalo2019.DB.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DB\\Buffalo2019.DB.csproj"
+              "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DB\\Buffalo2019.DB.csproj": {
+                "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DB\\Buffalo2019.DB.csproj"
               },
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.GeneratorInfo\\Buffalo2019.GeneratorInfo.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.GeneratorInfo\\Buffalo2019.GeneratorInfo.csproj"
+              "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.GeneratorInfo\\Buffalo2019.GeneratorInfo.csproj": {
+                "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.GeneratorInfo\\Buffalo2019.GeneratorInfo.csproj"
               },
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj"
+              "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj": {
+                "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj"
               },
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.QueryCache\\Buffalo2019.QueryCache.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.QueryCache\\Buffalo2019.QueryCache.csproj"
+              "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.QueryCache\\Buffalo2019.QueryCache.csproj": {
+                "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.QueryCache\\Buffalo2019.QueryCache.csproj"
               },
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Storage\\Buffalo2019.Storage.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Storage\\Buffalo2019.Storage.csproj"
+              "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Storage\\Buffalo2019.Storage.csproj": {
+                "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Storage\\Buffalo2019.Storage.csproj"
               },
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.WebKernel\\Buffalo2019.WebKernel.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.WebKernel\\Buffalo2019.WebKernel.csproj"
+              "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.WebKernel\\Buffalo2019.WebKernel.csproj": {
+                "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.WebKernel\\Buffalo2019.WebKernel.csproj"
               },
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Win32Kernel\\Buffalo2019.Win32Kernel.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Win32Kernel\\Buffalo2019.Win32Kernel.csproj"
+              "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Win32Kernel\\Buffalo2019.Win32Kernel.csproj": {
+                "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Win32Kernel\\Buffalo2019.Win32Kernel.csproj"
               },
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.WinFormsControl\\Buffalo2019.WinFormsControl.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.WinFormsControl\\Buffalo2019.WinFormsControl.csproj"
+              "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.WinFormsControl\\Buffalo2019.WinFormsControl.csproj": {
+                "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.WinFormsControl\\Buffalo2019.WinFormsControl.csproj"
               }
             }
           }
@@ -254,17 +255,17 @@
         }
       }
     },
-    "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DB\\Buffalo2019.DB.csproj": {
+    "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DB\\Buffalo2019.DB.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DB\\Buffalo2019.DB.csproj",
+        "projectUniqueName": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DB\\Buffalo2019.DB.csproj",
         "projectName": "Buffalo2019.DB",
-        "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DB\\Buffalo2019.DB.csproj",
+        "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DB\\Buffalo2019.DB.csproj",
         "frameworks": {
           "net472": {
             "projectReferences": {
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj"
+              "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj": {
+                "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj"
               }
             }
           }
@@ -274,42 +275,42 @@
         "net472": {}
       }
     },
-    "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.GeneratorInfo\\Buffalo2019.GeneratorInfo.csproj": {
+    "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.GeneratorInfo\\Buffalo2019.GeneratorInfo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.GeneratorInfo\\Buffalo2019.GeneratorInfo.csproj",
+        "projectUniqueName": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.GeneratorInfo\\Buffalo2019.GeneratorInfo.csproj",
         "projectName": "Buffalo2019.GeneratorInfo",
-        "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.GeneratorInfo\\Buffalo2019.GeneratorInfo.csproj"
+        "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.GeneratorInfo\\Buffalo2019.GeneratorInfo.csproj"
       },
       "frameworks": {
         "net472": {}
       }
     },
-    "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj": {
+    "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj",
+        "projectUniqueName": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj",
         "projectName": "Buffalo2019.Kernel",
-        "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj"
+        "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj"
       },
       "frameworks": {
         "net472": {}
       }
     },
-    "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.QueryCache\\Buffalo2019.QueryCache.csproj": {
+    "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.QueryCache\\Buffalo2019.QueryCache.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.QueryCache\\Buffalo2019.QueryCache.csproj",
+        "projectUniqueName": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.QueryCache\\Buffalo2019.QueryCache.csproj",
         "projectName": "Buffalo2019.QueryCache",
-        "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.QueryCache\\Buffalo2019.QueryCache.csproj",
+        "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.QueryCache\\Buffalo2019.QueryCache.csproj",
         "frameworks": {
           "net472": {
             "projectReferences": {
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DB\\Buffalo2019.DB.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DB\\Buffalo2019.DB.csproj"
+              "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DB\\Buffalo2019.DB.csproj": {
+                "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DB\\Buffalo2019.DB.csproj"
               },
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj"
+              "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj": {
+                "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj"
               }
             }
           }
@@ -319,20 +320,20 @@
         "net472": {}
       }
     },
-    "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Storage\\Buffalo2019.Storage.csproj": {
+    "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Storage\\Buffalo2019.Storage.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Storage\\Buffalo2019.Storage.csproj",
+        "projectUniqueName": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Storage\\Buffalo2019.Storage.csproj",
         "projectName": "Buffalo2019.Storage",
-        "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Storage\\Buffalo2019.Storage.csproj",
+        "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Storage\\Buffalo2019.Storage.csproj",
         "frameworks": {
           "net472": {
             "projectReferences": {
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.ArgCommon\\Buffalo2019.ArgCommon.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.ArgCommon\\Buffalo2019.ArgCommon.csproj"
+              "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.ArgCommon\\Buffalo2019.ArgCommon.csproj": {
+                "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.ArgCommon\\Buffalo2019.ArgCommon.csproj"
               },
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj"
+              "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj": {
+                "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj"
               }
             }
           }
@@ -342,20 +343,20 @@
         "net472": {}
       }
     },
-    "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.WebKernel\\Buffalo2019.WebKernel.csproj": {
+    "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.WebKernel\\Buffalo2019.WebKernel.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.WebKernel\\Buffalo2019.WebKernel.csproj",
+        "projectUniqueName": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.WebKernel\\Buffalo2019.WebKernel.csproj",
         "projectName": "Buffalo2019.WebKernel",
-        "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.WebKernel\\Buffalo2019.WebKernel.csproj",
+        "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.WebKernel\\Buffalo2019.WebKernel.csproj",
         "frameworks": {
           "net472": {
             "projectReferences": {
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DB\\Buffalo2019.DB.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DB\\Buffalo2019.DB.csproj"
+              "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DB\\Buffalo2019.DB.csproj": {
+                "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.DB\\Buffalo2019.DB.csproj"
               },
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj"
+              "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj": {
+                "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj"
               }
             }
           }
@@ -365,17 +366,17 @@
         "net472": {}
       }
     },
-    "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Win32Kernel\\Buffalo2019.Win32Kernel.csproj": {
+    "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Win32Kernel\\Buffalo2019.Win32Kernel.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Win32Kernel\\Buffalo2019.Win32Kernel.csproj",
+        "projectUniqueName": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Win32Kernel\\Buffalo2019.Win32Kernel.csproj",
         "projectName": "Buffalo2019.Win32Kernel",
-        "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Win32Kernel\\Buffalo2019.Win32Kernel.csproj",
+        "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Win32Kernel\\Buffalo2019.Win32Kernel.csproj",
         "frameworks": {
           "net472": {
             "projectReferences": {
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj"
+              "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj": {
+                "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj"
               }
             }
           }
@@ -385,20 +386,20 @@
         "net472": {}
       }
     },
-    "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.WinFormsControl\\Buffalo2019.WinFormsControl.csproj": {
+    "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.WinFormsControl\\Buffalo2019.WinFormsControl.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.WinFormsControl\\Buffalo2019.WinFormsControl.csproj",
+        "projectUniqueName": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.WinFormsControl\\Buffalo2019.WinFormsControl.csproj",
         "projectName": "Buffalo2019.WinFormsControl",
-        "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.WinFormsControl\\Buffalo2019.WinFormsControl.csproj",
+        "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.WinFormsControl\\Buffalo2019.WinFormsControl.csproj",
         "frameworks": {
           "net472": {
             "projectReferences": {
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj"
+              "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj": {
+                "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Kernel\\Buffalo2019.Kernel.csproj"
               },
-              "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Win32Kernel\\Buffalo2019.Win32Kernel.csproj": {
-                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Win32Kernel\\Buffalo2019.Win32Kernel.csproj"
+              "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Win32Kernel\\Buffalo2019.Win32Kernel.csproj": {
+                "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCode\\Buffalo.Win32Kernel\\Buffalo2019.Win32Kernel.csproj"
               }
             }
           }

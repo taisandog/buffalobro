@@ -18,7 +18,6 @@ using Buffalo.Win32Kernel;
 using Microsoft.VisualStudio.EnterpriseTools.ArtifactModel.Clr;
 using Buffalo.DBTools.UIHelper;
 using System.IO;
-using Buffalo.Kernel.ZipUnit;
 
 namespace Buffalo.DBTools
 {

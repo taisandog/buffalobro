@@ -339,6 +339,11 @@
       <Name>Buffalo2012.WinFormsControl</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="clidriver.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
   <PropertyGroup>
     <PreBuildEvent>
