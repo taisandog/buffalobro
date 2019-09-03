@@ -9,14 +9,10 @@ Buffalo.QueryCache：支持:Redis、Memcached
 Buffalo.Storage:支持：本地/局域网文件、阿里云OSS、腾讯云COS、华为云OBS
 
 
-__免下源码安装包git/SVN地址：__
+__免下源码安装包SVN地址：__
 
 https://github.com/taisandog/buffalobro.git/trunk/BuffaloSetup
 
 __安装教程__
 
 https://github.com/taisandog/buffalodownload
-
-__Oracle需要的ODAC库__
-
-http://www.oracle.com/technetwork/topics/dotnet/downloads/index.html
