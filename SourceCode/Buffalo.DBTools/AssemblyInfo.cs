@@ -59,8 +59,8 @@ using System.Runtime.InteropServices;
 // 您可以指定所有这些值，也可以按照如下所示通过使用“*”来使用
 // “修订号”和“内部版本号”的默认值:
 
-[assembly: AssemblyVersion("1.1.0.0")]
-[assembly: AssemblyFileVersion("1.1.0.0")]
+[assembly: AssemblyVersion("1.1.0.1")]
+[assembly: AssemblyFileVersion("1.1.0.1")]
 //
 // 要对程序集进行签名，必须指定要使用的密钥。有关程序集签名的更多信息，请参考
 // Microsoft .NET Framework 文档。

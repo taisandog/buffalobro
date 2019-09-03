@@ -91,6 +91,12 @@
       <file path="Buffalo.Data.DB2.XML"></file>
 	  <file path="Buffalo.Data.DB2.deps.json"></file>
       <file path="IBM.Data.DB2.dll"></file>
+	  <file path="Buffalo.WebKernel.dll"></file>
+      <file path="Buffalo.WebKernel.XML"></file>
+      <file path="ICSharpCode.SharpZipLib.dll"></file>
+      <file path="ICSharpCode.SharpZipLib.XML"></file>
+	  <file path="ICSharpCode.SharpZipLib.XML"></file>
+	  <file path="x64\IBM.Data.DB2.dll"></file>
     </item>
     <item des="PostgreSQL支持"  name="Buffalo.Data.PostgreSQL" isDB="1" selected="0">
       <file path="Buffalo.Data.PostgreSQL.dll" main="1"></file>

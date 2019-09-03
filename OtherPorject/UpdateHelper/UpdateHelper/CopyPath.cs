@@ -151,14 +151,14 @@ namespace UpdateHelper
                             {
                                 string tarxml = tPath + "\\" + fInfo.Name;
                                 tarxml = tarxml.Substring(0, tarxml.Length - 4) + ".xml";
-                                File.Copy(xml, tarxml);
+                                File.Copy(xml, tarxml,true);
                             }
                             xml = file.Substring(0, file.Length - 4) + ".deps.json";
                             if (File.Exists(xml))
                             {
                                 string tarxml = tPath + "\\" + fInfo.Name;
                                 tarxml = tarxml.Substring(0, tarxml.Length - 4) + ".deps.json";
-                                File.Copy(xml, tarxml);
+                                File.Copy(xml, tarxml,true);
                             }
                         }
                         

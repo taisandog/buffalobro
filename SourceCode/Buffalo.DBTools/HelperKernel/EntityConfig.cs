@@ -20,7 +20,6 @@ using Buffalo.DB.DataBaseAdapter;
 using Buffalo.DB.DBCheckers;
 using Buffalo.DBTools.ROMHelper;
 using Buffalo.DBTools.UIHelper;
-using Buffalo.DBToolsPackage;
 
 namespace Buffalo.DBTools.HelperKernel
 {
@@ -1412,7 +1411,7 @@ namespace Buffalo.DBTools.HelperKernel
         /// </summary>
         private void GenerateExtendCode()
         {
-            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
+            //Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             
             string exName = FrameworkExName;
             if (!DesignerInfo.IsNetFrameworkLib)//项目文件清单没有主代码项，则为Core或Standard项目，需要另一个扩展名
@@ -1432,7 +1431,7 @@ namespace Buffalo.DBTools.HelperKernel
                 return;
             }
 
-            string model = Models.userentity;
+            string model = Models.UserEntity;
             List<string> codes = new List<string>();
             using (StringReader reader = new StringReader(model)) 
             {
@@ -1494,7 +1493,7 @@ namespace Buffalo.DBTools.HelperKernel
         /// <returns></returns>
         public static EnvDTE.ProjectItem GetProjectItemByFileName(ClassDesignerInfo info, string fileName)
         {
-            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
+            //Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             Project project = info.CurrentProject;
             foreach (EnvDTE.ProjectItem item in project.ProjectItems)
             {
@@ -1514,7 +1513,7 @@ namespace Buffalo.DBTools.HelperKernel
         /// <returns></returns>
         public static EnvDTE.ProjectItem GetProjectItemByFileName(EnvDTE.ProjectItem item, string fileName)
         {
-            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
+            //Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             if (item.get_FileNames(0).ToLower() == fileName.ToLower()) return item;
             if (item.ProjectItems.Count == 0) return null;
             foreach (EnvDTE.ProjectItem i in item.ProjectItems)

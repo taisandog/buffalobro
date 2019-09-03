@@ -95,6 +95,10 @@
       <Project>{6ec04216-a422-4751-aa81-1211dcb10bab}</Project>
       <Name>Buffalo2013.Kernel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Buffalo.WebKernel\Buffalo2013.WebKernel.csproj">
+      <Project>{cbd39541-7a26-4c92-a369-0f2df5d13030}</Project>
+      <Name>Buffalo2013.WebKernel</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

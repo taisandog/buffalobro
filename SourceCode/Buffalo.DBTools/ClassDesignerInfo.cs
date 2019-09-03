@@ -6,6 +6,7 @@ using EnvDTE;
 using Microsoft.VisualStudio.EnterpriseTools.ClassDesigner;
 using System.IO;
 using Buffalo.DBTools.HelperKernel;
+using System.Xml;
 
 namespace Buffalo.DBTools
 {
@@ -31,7 +32,14 @@ namespace Buffalo.DBTools
         {
             get { return _currentProject; }
         }
-        
+        private bool _isFramework = true;
+        /// <summary>
+        /// 是否.net Framework类库
+        /// </summary>
+        public bool IsNetFrameworkLib
+        {
+            get { return _isFramework; }
+        }
         ClassDesignerDocView _selectDocView;
         /// <summary>
         /// 选择的文档
@@ -83,7 +91,34 @@ namespace Buffalo.DBTools
             _selectedDiagram = selectedDiagram;
             _currentProject = currentProject;
             _selectDocView = selectDocView;
+            _isFramework = GetIsFramework(_currentProject);
         }
-
+        /// <summary>
+        /// 是否Framework类库
+        /// </summary>
+        /// <param name="currentProject"></param>
+        /// <returns></returns>
+        private bool GetIsFramework(Project currentProject)
+        {
+            string fileName = currentProject.FileName;
+            XmlDocument doc = new XmlDocument();
+            doc.Load(fileName);
+            XmlNodeList lstPropertyGroup = doc.GetElementsByTagName("PropertyGroup");
+            foreach (XmlNode nodePropertyGroup in lstPropertyGroup)
+            {
+                foreach (XmlNode nodechild in nodePropertyGroup.ChildNodes)
+                {
+                    if (string.Equals(nodechild.Name, "TargetFramework"))
+                    {
+                        return false;
+                    }
+                    if (string.Equals(nodechild.Name, "TargetFrameworkVersion"))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
     }
 }

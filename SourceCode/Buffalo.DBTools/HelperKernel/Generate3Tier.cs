@@ -7,7 +7,7 @@ using Buffalo.DBTools.ROMHelper;
 using EnvDTE;
 using Buffalo.Win32Kernel;
 using Buffalo.DBTools.UIHelper;
-using Buffalo.DBToolsPackage;
+
 
 namespace Buffalo.DBTools.HelperKernel
 {
@@ -36,7 +36,7 @@ namespace Buffalo.DBTools.HelperKernel
         /// <param name="entity"></param>
         public void GenerateBusiness() 
         {
-            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
+            //Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             FileInfo info = new FileInfo(ClassDesignerFileName);
             
 
@@ -52,7 +52,7 @@ namespace Buffalo.DBTools.HelperKernel
             }
 
 
-            string model = Models.business;
+            string model = Models.Business;
             
             string baseClass = null;
             
@@ -329,7 +329,7 @@ namespace Buffalo.DBTools.HelperKernel
         /// <param name="entity"></param>
         public void GenerateDataAccess()
         {
-            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
+            //Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             //FileInfo info = new FileInfo(EntityFileName);
 
 
@@ -338,7 +338,7 @@ namespace Buffalo.DBTools.HelperKernel
             {
                 Directory.CreateDirectory(dicPath);
             }
-            string dal = Models.dataaccess;
+            string dal = Models.DataAccess;
             foreach (ComboBoxItem itype in DataAccessTypes) 
             {
                 if (!this.BbConfig.IsAllDal && !this.BbConfig.DbType.Equals(itype.Value)) 
@@ -385,7 +385,7 @@ namespace Buffalo.DBTools.HelperKernel
         /// <param name="entity"></param>
         public void GenerateIDataAccess() 
         {
-            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
+            //Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             FileInfo info = new FileInfo(ClassDesignerFileName);
             string dicPath = info.DirectoryName + "\\DataAccess";
             if (!Directory.Exists(dicPath))
@@ -402,7 +402,7 @@ namespace Buffalo.DBTools.HelperKernel
             {
                 return;
             }
-            string idal = Models.idataaccess;
+            string idal = Models.IDataAccess;
             List<string> codes = new List<string>();
             using (StringReader reader = new StringReader(idal))
             {
@@ -426,7 +426,7 @@ namespace Buffalo.DBTools.HelperKernel
         /// </summary>
         public void GenerateBQLDataAccess() 
         {
-            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
+            //Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             FileInfo info = new FileInfo(ClassDesignerFileName);
             string dicPath = info.DirectoryName + "\\DataAccess";
             if (!Directory.Exists(dicPath))
@@ -444,7 +444,7 @@ namespace Buffalo.DBTools.HelperKernel
             {
                 return;
             }
-            string idal = Models.bqldataaccess;
+            string idal = Models.BQLDataAccess;
             List<string> codes = new List<string>();
             using (StringReader reader = new StringReader(idal))
             {

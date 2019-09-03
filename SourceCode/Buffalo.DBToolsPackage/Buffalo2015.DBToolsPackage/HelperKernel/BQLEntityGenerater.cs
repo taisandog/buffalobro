@@ -8,7 +8,6 @@ using EnvDTE;
 using Microsoft.VisualStudio.EnterpriseTools.ArtifactModel.Clr;
 using Buffalo.DBTools.UIHelper;
 using Buffalo2015.DBToolsPackage;
-using Buffalo.DBToolsPackage;
 
 namespace Buffalo.DBTools.HelperKernel
 {
