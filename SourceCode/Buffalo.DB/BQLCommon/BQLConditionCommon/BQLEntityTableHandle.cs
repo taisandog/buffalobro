@@ -96,9 +96,7 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
             return _parentTable; 
         }
 
-        public BQLEntityTableHandle()
-        {
-        }
+
 
         public BQLEntityTableHandle(EntityInfoHandle entityInfo)
             :this(entityInfo,null,null)

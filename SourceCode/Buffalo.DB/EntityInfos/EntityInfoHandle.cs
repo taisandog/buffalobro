@@ -165,6 +165,10 @@ namespace Buffalo.DB.EntityInfos
         {
             get 
             {
+                if (_propertyInfoHandles == null)
+                {
+                    InitInfo();
+                }
                 return _propertyInfoHandles;
             }
         }
@@ -236,6 +240,10 @@ namespace Buffalo.DB.EntityInfos
         {
             get
             {
+                if (_primaryProperty == null)
+                {
+                    InitInfo();
+                }
                 return _primaryProperty;
             }
 
