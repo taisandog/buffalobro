@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using System.Diagnostics;
 
 namespace AddInSetup
 {
@@ -16,7 +17,7 @@ namespace AddInSetup
             InitializeComponent();
         }
         DllVerInfo _selectVer = null;
-
+        string _docLink = null;
         /// <summary>
         /// œ‘ æ ‰≥ˆ¥∞ÃÂ
         /// </summary>
@@ -27,6 +28,16 @@ namespace AddInSetup
             {
                 frm._selectVer = selectVer;
                 frm.Text = "Buffalo for "+selectVer.VerName;
+                if (!string.IsNullOrWhiteSpace(selectVer.HelpText))
+                {
+                    frm.labHelp.Visible = true;
+                    frm.labHelp.Text = selectVer.HelpText;
+                    frm._docLink = Path.Combine(ConfigLoader.BasePath, selectVer.HelpDoc);
+                }
+                else
+                {
+                    frm.labHelp.Visible = false;
+                }
                 frm.ShowDialog();
             }
         }
@@ -137,7 +148,7 @@ namespace AddInSetup
                 }
                 try
                 {
-                    item.PutFiles(_selectVer.CurPath, targetPath);
+                    item.PutFiles(_selectVer, targetPath);
                 }
                 catch (Exception ex)
                 {
@@ -171,6 +182,12 @@ namespace AddInSetup
         private void gvFile_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
         {
             ClearSelect(gvFile);
+        }
+
+        private void labHelp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            string path = _docLink;
+            Process.Start(path);
         }
     }
 }

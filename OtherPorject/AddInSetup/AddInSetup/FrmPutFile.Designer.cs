@@ -44,6 +44,7 @@
             this.ColVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.fbd = new System.Windows.Forms.FolderBrowserDialog();
+            this.labHelp = new System.Windows.Forms.LinkLabel();
             this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -69,6 +70,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.labHelp);
             this.panel1.Controls.Add(this.panel2);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel1.Location = new System.Drawing.Point(3, 48);
@@ -203,6 +205,17 @@
             this.ColDescription.HeaderText = "备注名";
             this.ColDescription.Name = "ColDescription";
             // 
+            // labHelp
+            // 
+            this.labHelp.AutoSize = true;
+            this.labHelp.Location = new System.Drawing.Point(11, 14);
+            this.labHelp.Name = "labHelp";
+            this.labHelp.Size = new System.Drawing.Size(66, 17);
+            this.labHelp.TabIndex = 2;
+            this.labHelp.TabStop = true;
+            this.labHelp.Text = "linkLabel1";
+            this.labHelp.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.labHelp_LinkClicked);
+            // 
             // FrmPutFile
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -220,6 +233,7 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gvFile)).EndInit();
@@ -244,5 +258,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ColName;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColVersion;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColDescription;
+        private System.Windows.Forms.LinkLabel labHelp;
     }
 }

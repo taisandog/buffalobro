@@ -135,8 +135,9 @@ namespace AddInSetup
         /// </summary>
         /// <param name="verPath">版本目录</param>
         /// <param name="outputPath">输出目录</param>
-        public void PutFiles(string verPath, string outputPath) 
+        public void PutFiles(DllVerInfo verInfo, string outputPath) 
         {
+            string verPath = verInfo.CurPath;
             if (verPath[verPath.Length-1] != '\\') 
             {
                 verPath += '\\';
@@ -147,13 +148,22 @@ namespace AddInSetup
             }
             foreach (DllItemFile fileInfo in _lstFiles) 
             {
-                
-                string sourceFile = verPath + fileInfo.Path;
+                if (fileInfo.Ignore.ContainsKey(verInfo.NetVersion))
+                {
+                    continue;
+                }
+                string sourceFile =Path.Combine(verPath, fileInfo.Path);
                 if (!File.Exists(sourceFile))
                 {
                     continue;
                 }
-                string targetFile = outputPath + fileInfo.Path;
+
+                string tpath = fileInfo.TargetPath;
+                if (string.IsNullOrWhiteSpace(tpath))
+                {
+                    tpath = fileInfo.Path;
+                }
+                string targetFile = Path.Combine(outputPath, tpath);
                 FileInfo finfo = new FileInfo(targetFile);
                 if (!finfo.Directory.Exists) 
                 {

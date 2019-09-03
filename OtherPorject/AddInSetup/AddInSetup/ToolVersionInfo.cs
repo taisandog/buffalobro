@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Reflection;
 using System.Diagnostics;
+using System.IO;
 
 namespace AddInSetup
 {
@@ -38,8 +39,53 @@ namespace AddInSetup
         /// <returns></returns>
         public static string GetVersion(string fileName) 
         {
+            string[] names = fileName.Split('.');
+            if (string.Equals(names[names.Length-1], "nupkg"))
+            {
+                StringBuilder sbVer = new StringBuilder();
+                
+                string tmp = null;
+                foreach(string namePart in names)
+                {
+                    
+                    tmp = namePart.Trim();
+                    if (!IsNumber(tmp))
+                    {
+                        continue;
+                    }
+                    sbVer.Append(tmp);
+                    sbVer.Append(".");
+                }
+                if (sbVer.Length > 0)
+                {
+                    sbVer.Remove(sbVer.Length - 1, 1);
+                }
+                return sbVer.ToString();
+            }
+
             FileVersionInfo sourceVersionInfo = FileVersionInfo.GetVersionInfo(fileName);
             return sourceVersionInfo.FileVersion.ToString();
+        }
+
+        /// <summary>
+        /// 字符串是否数字
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        private static bool IsNumber(string str)
+        {
+            if (string.IsNullOrEmpty(str))
+            {
+                return false;
+            }
+            foreach(char chr in str)
+            {
+                if (!char.IsDigit(chr))
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }

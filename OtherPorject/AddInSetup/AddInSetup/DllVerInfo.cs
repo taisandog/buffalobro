@@ -56,6 +56,29 @@ namespace AddInSetup
                 return ".Net Framework " + _netVersion;
             }
         }
+
+        /// <summary>
+        /// 帮助按钮文字
+        /// </summary>
+        private string _helpText;
+        /// <summary>
+        /// 帮助按钮文字
+        /// </summary>
+        public string HelpText
+        {
+            get { return _helpText; }
+        }
+        /// <summary>
+        /// 帮助文档
+        /// </summary>
+        private string _helpDoc;
+        /// <summary>
+        /// 帮助文档
+        /// </summary>
+        public string HelpDoc
+        {
+            get { return _helpDoc; }
+        }
         /// <summary>
         /// 从XML节点读取类
         /// </summary>
@@ -73,6 +96,16 @@ namespace AddInSetup
             if (att != null)
             {
                 info._path = att.InnerText;
+            }
+            att = node.Attributes["helptext"];
+            if (att != null)
+            {
+                info._helpText = att.InnerText;
+            }
+            att = node.Attributes["helpdoc"];
+            if (att != null)
+            {
+                info._helpDoc = att.InnerText;
             }
             return info;
         }

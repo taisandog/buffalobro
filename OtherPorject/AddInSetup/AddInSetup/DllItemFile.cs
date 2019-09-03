@@ -24,6 +24,26 @@ namespace AddInSetup
         {
             get { return _path; }
         }
+        /// <summary>
+        /// 输出的文件路径
+        /// </summary>
+        private string _targetPath;
+        /// <summary>
+        /// 输出的文件路径
+        /// </summary>
+        public string TargetPath
+        {
+            get { return _targetPath; }
+        }
+
+        private Dictionary<string, bool> _dicIgnore = new Dictionary<string, bool>(StringComparer.CurrentCultureIgnoreCase);
+        /// <summary>
+        /// 此项要忽略的版本
+        /// </summary>
+        public Dictionary<string, bool> Ignore
+        {
+            get { return _dicIgnore; }
+        }
 
         private bool _isMain=false;
         /// <summary>
@@ -51,6 +71,29 @@ namespace AddInSetup
             {
                 info._isMain = att.InnerText=="1";
             }
+            att = node.Attributes["target"];
+            if (att != null)
+            {
+                info._targetPath = att.InnerText ;
+            }
+            att = node.Attributes["ignore"];
+            if (att != null)
+            {
+                string ignore=att.InnerText;
+                if (!string.IsNullOrWhiteSpace(ignore))
+                {
+                    string[] arrIgnore = ignore.Split('|');
+                    foreach(string str in arrIgnore)
+                    {
+                        if (string.IsNullOrWhiteSpace(str))
+                        {
+                            continue;
+                        }
+                        info._dicIgnore[str.Trim()] = true;
+                    }
+                }
+            }
+
             return info;
         }
     }
