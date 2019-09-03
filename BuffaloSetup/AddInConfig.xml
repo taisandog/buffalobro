@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<root date="2019-08-30 0:28:00">
+<root date="2019-09-04 2:08:00">
 <AddIns>
   <AddIn file="AddIns\Net2.0\Buffalo.DBTools.dll" version="8.0" addin="Visual Studio 2005"></AddIn>
   <AddIn file="AddIns\Net3.5\Buffalo.DBTools.dll" version="9.0" addin="Visual Studio 2008"></AddIn>
