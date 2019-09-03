@@ -19,18 +19,20 @@
     <net ver="4.6" path="AddIns\Net4.6\"></net>
     <net ver="4.6.2" path="AddIns\Net4.6.2\"></net>
 	<net ver="4.7.2" path="AddIns\Net4.7.2\"></net>
-	<net ver="Standard 2.0" path="AddIns\netstandard2.0\"></net>
+	<net ver="Standard 2.0" path="AddIns\netstandard2.0\" helptext="如何使用此包?" helpdoc="doc\UseTheNupkg.docx"></net>
   </DllVer>
   <Dlls>
     <item des="核心库" name="Buffalo.Kernel" selected="1">
       <file path="Buffalo.Kernel.dll" main="1"></file>
 	  <file path="Buffalo.Kernel.XML"></file>
       <file path="Buffalo.Kernel.deps.json"></file>
+	  <file path="Buffalo.Kernel.1.0.0.nupkg"  main="1"></file>
     </item>
     <item des="数据操作库"  name="Buffalo.DB" selected="1">
       <file path="Buffalo.DB.dll" main="1"></file>
       <file path="Buffalo.DB.XML"></file>
 	  <file path="Buffalo.DB.deps.json"></file>
+	  <file path="Buffalo.DB.1.0.2.nupkg" main="1"></file>
     </item>
 	<item des="Json化的参数值库"  name="Buffalo.ArgCommon" selected="0">
 		<file path="Buffalo.ArgCommon.dll" main="1"></file>
@@ -38,12 +40,15 @@
 		<file path="Buffalo.ArgCommon.deps.json"></file>
 		<file path="Newtonsoft.Json.dll"></file>
 		<file path="Newtonsoft.Json.xml"></file>
+		<file path="Buffalo.ArgCommon.1.0.0.nupkg" main="1"></file>
+
     </item>
     <item des="Web工具库"  name="Buffalo.WebKernel" selected="0">
       <file path="Buffalo.WebKernel.dll" main="1"></file>
       <file path="Buffalo.WebKernel.XML"></file>
       <file path="ICSharpCode.SharpZipLib.dll"></file>
       <file path="ICSharpCode.SharpZipLib.XML"></file>
+
     </item>
     <item des="Win32工具库"  name="Buffalo.Win32Kernel" selected="0">
       <file path="Buffalo.Win32Kernel.dll" main="1"></file>
@@ -66,6 +71,7 @@
       <file path="ServiceStack.Text.xml"></file>
 	  <file path="StackExchange.Redis.dll"></file>
       <file path="StackExchange.Redis.xml"></file>
+	  <file path="Buffalo.QueryCache.1.0.0.nupkg" main="1"></file>
     </item>
 	<item des="对象存储支持"  name="Buffalo.Storage" ignore="2.0,3.5" selected="0">
 		  <file path="Buffalo.Storage.dll" main="1"></file>
@@ -74,6 +80,7 @@
 		  <file path="Buffalo.ArgCommon.dll"></file>
 		  <file path="Buffalo.ArgCommon.xml"></file>
 		  <file path="Buffalo.ArgCommon.deps.json"></file>
+		  <file path="Buffalo.Storage.1.0.0.nupkg" main="1"></file>
     </item>
     <item des="MySQL支持"  name="Buffalo.Data.MySQL" isDB="1" selected="0">
       <file path="Buffalo.Data.MySQL.dll" main="1"></file>
@@ -85,6 +92,7 @@
 	  <file path="BouncyCastle.Crypto.dll"></file>
 	  <file path="Renci.SshNet.dll"></file>
 	  <file path="Renci.SshNet.xml"></file>
+	  <file path="Buffalo.Data.MySQL.1.0.2.nupkg" main="1"></file>
     </item>
     <item des="DB2支持"  name="Buffalo.Data.DB2" isDB="1" selected="0">
       <file path="Buffalo.Data.DB2.dll" main="1"></file>
@@ -97,6 +105,8 @@
       <file path="ICSharpCode.SharpZipLib.XML"></file>
 	  <file path="ICSharpCode.SharpZipLib.XML"></file>
 	  <file path="x64\IBM.Data.DB2.dll"></file>
+	  <file path="..\Resource\DB2\Windows\clidriver.zip" target="clidriver.zip" ignore="Standard 2.0"></file>
+	  <file path="Buffalo.Data.DB2.1.0.2.nupkg" main="1"></file>
     </item>
     <item des="PostgreSQL支持"  name="Buffalo.Data.PostgreSQL" isDB="1" selected="0">
       <file path="Buffalo.Data.PostgreSQL.dll" main="1"></file>
@@ -105,6 +115,7 @@
       <file path="Npgsql.dll"></file>
       <file path="Npgsql.xml"></file>
 	  <file path="Mono.Security.dll"></file>
+	  <file path="Buffalo.Data.PostgreSQL.1.0.2.nupkg" main="1"></file>
     </item>
 
     <item des="SQLite支持"  name="Buffalo.Data.SQLite" isDB="1" selected="0">
@@ -115,13 +126,14 @@
       <file path="System.Data.SQLite.XML"></file>
       <file path="x86\SQLite.Interop.dll"></file>
       <file path="x64\SQLite.Interop.dll"></file>
+	  <file path="Buffalo.Data.SQLite.1.0.2.nupkg" main="1"></file>
     </item>
     <item des="Oracle支持(OPD.NET)"  name="Buffalo.Data.Oracle" isDB="1" selected="0">
       <file path="Buffalo.Data.Oracle.dll" main="1"></file>
       <file path="Buffalo.Data.Oracle.XML"></file>
 	  <file path="Buffalo.Data.Oracle.deps.json"></file>
       <file path="Oracle.ManagedDataAccess.dll"></file>
-
+	<file path="Buffalo.Data.Oracle.1.0.2.nupkg" main="1"></file>
     </item>
 
   </Dlls>
