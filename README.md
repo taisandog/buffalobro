@@ -13,6 +13,6 @@ __免下源码安装包SVN地址：__
 
 https://svn.code.sf.net/p/buffalobro/svn/
 
-__安装教程__
+__安装使用教程__
 
 https://github.com/taisandog/buffalodownload
