@@ -11,7 +11,7 @@ Buffalo.Storage:支持：本地/局域网文件、阿里云OSS、腾讯云COS、
 
 __免下源码安装包SVN地址：__
 
-https://github.com/taisandog/buffalobro.git/trunk/BuffaloSetup
+https://svn.code.sf.net/p/buffalobro/svn/
 
 __安装教程__
 
