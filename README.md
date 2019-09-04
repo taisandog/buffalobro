@@ -8,6 +8,7 @@ Buffalo.QueryCache：支持:Redis、Memcached
 
 Buffalo.Storage:支持：本地/局域网文件、阿里云OSS、腾讯云COS、华为云OBS
 
+支持 .net framework 2.0 - .net framework 4.7.2  、 .Net Standard 2.0
 
 __免下源码安装包SVN地址：__
 
