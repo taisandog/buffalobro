@@ -49,15 +49,29 @@ namespace AddInSetup
         {
             get { return _selected; }
         }
-
-        private DllItemFile _mainFile;
         /// <summary>
-        /// 主文件
+        /// 查找主文件
         /// </summary>
-        public DllItemFile MainFile
+        /// <param name="info"></param>
+        /// <returns></returns>
+        private DllItemFile FindMainFile(DllVerInfo info)
         {
-            get { return _mainFile; }
+            string verPath = info.CurPath;
+            foreach (DllItemFile file in _lstFiles)
+            {
+                if (!file.IsMain)
+                {
+                    continue;
+                }
+                string path = Path.Combine(verPath, file.Path);
+                if (File.Exists(path))
+                {
+                    return file;
+                }
+            }
+            return null;
         }
+
         /// <summary>
         /// 获取主文件版本号
         /// </summary>
@@ -65,9 +79,10 @@ namespace AddInSetup
         /// <returns></returns>
         public string GetMainVersion(DllVerInfo info) 
         {
-            if (_mainFile == null)
+            DllItemFile mainFile = FindMainFile(info);
+            if (mainFile == null)
             {
-                return "没有主文件";
+                return "主文件不存在";
             }
             string verPath = info.CurPath;
             if (verPath[verPath.Length - 1] != '\\')
@@ -75,7 +90,7 @@ namespace AddInSetup
                 verPath += '\\';
             }
             
-            string sourceFile = verPath + _mainFile.Path;
+            string sourceFile = verPath + mainFile.Path;
             if (!File.Exists(sourceFile)) 
             {
                 return "主文件不存在";
@@ -91,7 +106,9 @@ namespace AddInSetup
         /// <returns></returns>
         public bool ExistsFile(DllVerInfo info)
         {
-            if (_mainFile == null)
+            DllItemFile mainFile = FindMainFile(info);
+            
+            if (mainFile == null)
             {
                 return false;
             }
@@ -101,7 +118,7 @@ namespace AddInSetup
                 verPath += '\\';
             }
 
-            string sourceFile = verPath + _mainFile.Path;
+            string sourceFile =Path.Combine(verPath ,mainFile.Path);
             if (!File.Exists(sourceFile))
             {
                 return false;
@@ -211,10 +228,7 @@ namespace AddInSetup
                 DllItemFile file = DllItemFile.LoadForNode(fileNode);
 
                 info._lstFiles.Add(file);
-                if (file.IsMain) 
-                {
-                    info._mainFile = file;
-                }
+                
             }
             return info;
         }
