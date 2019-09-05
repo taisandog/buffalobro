@@ -1,4 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<class TableName="TEAdmin" ClassName="TestApp.TEAdmin" IsTable="1" BelongDB="TestDB" UseCache="0" Description="" DefaultValue="" Lazy="1">
-  <property FieldName="_name" PropertyName="Name" DbType="AnsiString" Length="32" EntityPropertyType="1" ParamName="name" ReadOnly="0" Description=" 用户名" DefaultValue="" AllowNull="1" />
-</class>

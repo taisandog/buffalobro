@@ -1,4 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<class TableName="TERule" ClassName="TestApp.TERule" IsTable="1" BelongDB="TestDB" UseCache="0" Description=" " DefaultValue="" Lazy="1">
-  <property FieldName="_grouprule" PropertyName="Grouprule" DbType="String" Length="50" EntityPropertyType="1" ParamName="grouprule" ReadOnly="0" Description="" DefaultValue="" AllowNull="1" />
-</class>

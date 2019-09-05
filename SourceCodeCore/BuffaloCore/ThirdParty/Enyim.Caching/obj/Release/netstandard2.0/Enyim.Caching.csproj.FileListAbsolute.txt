@@ -24,3 +24,7 @@ E:\CSharpTest\GitProjects\Buffalo\SourceCode\Release\NetStandard2\netstandard2.0
 E:\CSharpTest\GitProjects\Buffalo\SourceCode\Release\NetStandard2\netstandard2.0\Enyim.Caching.pdb
 E:\CSharpTest\GitProjects\Buffalo\SourceCode\Release\NetStandard2\netstandard2.0\Enyim.Caching.xml
 E:\CSharpTest\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\ThirdParty\Enyim.Caching\obj\Release\netstandard2.0\Enyim.Caching.csprojAssemblyReference.cache
+D:\workspace\GitProjects\Buffalo\SourceCode\Release\NetStandard2\netstandard2.0\Enyim.Caching.deps.json
+D:\workspace\GitProjects\Buffalo\SourceCode\Release\NetStandard2\netstandard2.0\Enyim.Caching.dll
+D:\workspace\GitProjects\Buffalo\SourceCode\Release\NetStandard2\netstandard2.0\Enyim.Caching.pdb
+D:\workspace\GitProjects\Buffalo\SourceCode\Release\NetStandard2\netstandard2.0\Enyim.Caching.xml

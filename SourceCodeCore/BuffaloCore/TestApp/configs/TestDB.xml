@@ -1,2 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<config connectionString="user id=Studysa;password=stu2019;data source=//103.96.75.178:1521/orcl" roconnectionString="" dbType="Buffalo.Data.Oracle:9" appnamespace="TestApp.DataAccess.Sql2K12" assembly="" name="TestDB" cache="" cacheConnString="" allCache="0" lazy="2" />

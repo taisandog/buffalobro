@@ -1,2 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<config connectionString="Data Source=D:\db.s3db" roconnectionString="" dbType="Buffalo.Data.SQLite" appnamespace="TestApp.DataAccess.Sql2K12" assembly="" name="TestDB" cache="" cacheConnString="" allCache="0" lazy="2" />

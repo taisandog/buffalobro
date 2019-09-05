@@ -1,5 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<class TableName="" ClassName="TestApp.TEBase" IsTable="1" BelongDB="TestDB" UseCache="0" Description="" DefaultValue="" Lazy="1">
-  <property FieldName="_id" PropertyName="Id" DbType="Int32" Length="0" EntityPropertyType="10" ParamName="id" ReadOnly="0" Description="ID" DefaultValue="" AllowNull="0" />
-  <property FieldName="_createDate" PropertyName="CreateDate" DbType="DateTime" Length="0" EntityPropertyType="1" ParamName="createDate" ReadOnly="0" Description="创建日期" DefaultValue="" AllowNull="0" />
-</class>
