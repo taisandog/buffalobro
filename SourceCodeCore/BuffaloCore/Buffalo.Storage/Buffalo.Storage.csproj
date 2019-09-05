@@ -5,8 +5,9 @@
     <Authors>taisandog</Authors>
     <Description>Buffalo存储包(支持阿里云OSS、腾讯云COS、华为云OBS)</Description>
     <Copyright>taisandog</Copyright>
-    <PackageProjectUrl>https://github.com/taisandog</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/taisandog/buffalobro</PackageProjectUrl>
     <Product>Buffalo.Storage for .Net Standard 2.0</Product>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
