@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<root date="2019-09-04 2:08:00">
+<root date="2019-09-05 12:08:00">
 <AddIns>
   <AddIn file="AddIns\Net2.0\Buffalo.DBTools.dll" version="8.0" addin="Visual Studio 2005"></AddIn>
   <AddIn file="AddIns\Net3.5\Buffalo.DBTools.dll" version="9.0" addin="Visual Studio 2008"></AddIn>
@@ -72,6 +72,7 @@
 	  <file path="StackExchange.Redis.dll"></file>
       <file path="StackExchange.Redis.xml"></file>
 	  <file path="Buffalo.QueryCache.1.0.0.nupkg" main="1"></file>
+	  <file path="EnyimMemcached.1.0.0.nupkg"></file>
     </item>
 	<item des="对象存储支持"  name="Buffalo.Storage" ignore="2.0,3.5" selected="0">
 		  <file path="Buffalo.Storage.dll" main="1"></file>
