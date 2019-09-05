@@ -48,7 +48,7 @@ namespace Buffalo.MongoDB
         /// <param name="dbName">数据库名</param>
         /// <param name="cache">关联自增长缓存</param>
         /// <param name="assembly">程序集</param>
-        public static void AddConfig(string key, string connectionString, string dbName, Assembly assembly)
+        public static void AddConfig(string key, string connectionString, string dbName,params Assembly[] assembly)
         {
             MongoLiquidUnit liquid = null;
 
@@ -90,39 +90,42 @@ namespace Buffalo.MongoDB
         /// 初始化程序集
         /// </summary>
         /// <param name="assembly"></param>
-        public static void InitAssembly(Assembly assembly, MongoDBInfo dbInfo)
+        public static void InitAssembly(IEnumerable<Assembly> lstassembly, MongoDBInfo dbInfo)
         {
             Type baseType = typeof(MongoEntityBase);
             string dbKey = null;
             string collectionName = null;
             IMongoDatabase dbconnection = GetMongoClient(dbInfo.DBKey).DB;
-            foreach (Type entityType in assembly.GetTypes())
+            foreach (Assembly assembly in lstassembly)
             {
-                if (!entityType.IsSubclassOf(baseType))
+                foreach (Type entityType in assembly.GetTypes())
                 {
-                    continue;
-                }
+                    if (!entityType.IsSubclassOf(baseType))
+                    {
+                        continue;
+                    }
 
-                object[] arr = entityType.GetCustomAttributes(typeof(MGCollection), false);
-                if (arr == null || arr.Length <= 0)
-                {
-                    continue;
-                }
+                    object[] arr = entityType.GetCustomAttributes(typeof(MGCollection), false);
+                    if (arr == null || arr.Length <= 0)
+                    {
+                        continue;
+                    }
 
-                MGCollection coll = arr[0] as MGCollection;
-                if (coll == null)
-                {
-                    continue;
-                }
-                collectionName = coll.CollectionName;
-                dbKey = coll.DBKey;
-                if (!string.Equals(dbKey, dbInfo.DBKey))
-                {
-                    continue;
-                }
-                MongoEntityInfo info = MongoEntityInfoManager.SetEntityHandle(entityType, collectionName, dbInfo);
-                dbInfo.Liquid.InitLiquid(dbconnection, info);
+                    MGCollection coll = arr[0] as MGCollection;
+                    if (coll == null)
+                    {
+                        continue;
+                    }
+                    collectionName = coll.CollectionName;
+                    dbKey = coll.DBKey;
+                    if (!string.Equals(dbKey, dbInfo.DBKey))
+                    {
+                        continue;
+                    }
+                    MongoEntityInfo info = MongoEntityInfoManager.SetEntityHandle(entityType, collectionName, dbInfo);
+                    dbInfo.Liquid.InitLiquid(dbconnection, info);
 
+                }
             }
             dbInfo.Liquid.InitLiquidIndex(dbconnection);
         }
