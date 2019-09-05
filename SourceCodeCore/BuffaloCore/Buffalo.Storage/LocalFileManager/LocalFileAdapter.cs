@@ -50,9 +50,9 @@ namespace Buffalo.Storage.LocalFileManager
             if (!string.IsNullOrEmpty(_fileRoot)) 
             {
                 _fileRoot = GetRealRoot(_fileRoot);
-                if(!_fileRoot.EndsWith("\\"))
+                if(!_fileRoot.EndsWith(CommonMethods.PathCombine.ToString()))
                 {
-                    _fileRoot=_fileRoot+"\\";
+                    _fileRoot=_fileRoot+ CommonMethods.PathCombine;
                 }
             }
             _userName = hs.GetMapValue<string>("user");
@@ -102,13 +102,13 @@ namespace Buffalo.Storage.LocalFileManager
         private string GetRealRoot(string root) 
         {
             char start=root[0];
-            if (root[0] == '\\' && root[1] == '\\') 
+            if (root[0] == CommonMethods.PathCombine && root[1] == CommonMethods.PathCombine) 
             {
                 return root;
             }
             if (start=='.' || start=='\\' || start=='/') 
             {
-                string mroot = CommonMethods.GetBaseRoot()+"\\" + root;
+                string mroot =Path.Combine(CommonMethods.GetBaseRoot(), root);
                 DirectoryInfo dir = new DirectoryInfo(mroot);
                 return dir.FullName;
             }
@@ -232,7 +232,7 @@ namespace Buffalo.Storage.LocalFileManager
         {
             string curpath = GetLocal(path);
             CheckDirectory(curpath);
-            curpath = curpath.TrimEnd('\\');
+            curpath = curpath.TrimEnd(CommonMethods.PathCombine);
             using (FileStream file = new FileStream(curpath, FileMode.Create, FileAccess.Write))
             {
                 //file.Seek(postion, SeekOrigin.End);
@@ -250,7 +250,7 @@ namespace Buffalo.Storage.LocalFileManager
         {
             string curpath = GetLocal(targetPath);
             CheckDirectory(curpath);
-            curpath = curpath.TrimEnd('\\');
+            curpath = curpath.TrimEnd(CommonMethods.PathCombine);
             File.Copy(sourcePath, curpath);
             return ApiCommon.GetSuccess();
         }
@@ -332,9 +332,9 @@ namespace Buffalo.Storage.LocalFileManager
             foreach (string spath in files)
             {
                 string curPath = spath.Substring(_fileRoot.Length);
-                if (curPath[0] != '\\')
+                if (curPath[0] != CommonMethods.PathCombine)
                 {
-                    curPath = '\\' + curPath;
+                    curPath = CommonMethods.PathCombine + curPath;
                 }
                 ret.Add(curPath);
             }

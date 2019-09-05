@@ -34,9 +34,9 @@ namespace Buffalo.Kernel
         private static string _baseRoot = null;//基目录
 
         /// <summary>
-        /// 路径连接符
+        /// 文件夹路径连接符
         /// </summary>
-        private static readonly char PathCombine = GetPathCombine();
+        public static readonly char PathCombine = GetPathCombine();
         /// <summary>
         /// 获取路径连接符
         /// </summary>
