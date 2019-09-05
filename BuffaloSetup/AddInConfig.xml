@@ -81,7 +81,7 @@
 		  <file path="Buffalo.ArgCommon.dll"></file>
 		  <file path="Buffalo.ArgCommon.xml"></file>
 		  <file path="Buffalo.ArgCommon.deps.json"></file>
-		  <file path="Buffalo.Storage.1.0.0.nupkg" main="1"></file>
+		  <file path="Buffalo.Storage.1.0.1.nupkg" main="1"></file>
     </item>
     <item des="MySQL支持"  name="Buffalo.Data.MySQL" isDB="1" selected="0">
       <file path="Buffalo.Data.MySQL.dll" main="1"></file>
