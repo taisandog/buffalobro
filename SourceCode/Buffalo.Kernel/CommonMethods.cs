@@ -49,16 +49,16 @@ namespace Buffalo.Kernel
                 {
                     _baseRoot = AppDomain.CurrentDomain.BaseDirectory;
                 }
-                if (!string.IsNullOrEmpty(_baseRoot))
-                {
-                    _baseRoot = _baseRoot.Trim().TrimEnd('\\') + "\\";
-                }
+                //if (!string.IsNullOrEmpty(_baseRoot))
+                //{
+                //    _baseRoot = _baseRoot.Trim().TrimEnd('\\') + "\\";
+                //}
             }
             if (Path.IsPathRooted(configRoot)) 
             {
                 return configRoot;
             }
-            string retRoot = _baseRoot + configRoot;
+            string retRoot = Path.Combine(_baseRoot,configRoot);
             return retRoot;
         }
 

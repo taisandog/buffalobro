@@ -69,18 +69,18 @@ namespace Buffalo.Kernel
                     _baseRoot = AppDomain.CurrentDomain.BaseDirectory;
                 }
 
-                if (!string.IsNullOrEmpty(_baseRoot))
-                {
-                    _baseRoot = _baseRoot.Trim();
-                    _baseRoot = _baseRoot.TrimEnd('\\','/');
-                    _baseRoot += PathCombine;
-                }
+                //if (!string.IsNullOrEmpty(_baseRoot))
+                //{
+                //    _baseRoot = _baseRoot.Trim();
+                //    _baseRoot = _baseRoot.TrimEnd('\\','/');
+                //    _baseRoot += PathCombine;
+                //}
             }
             if (Path.IsPathRooted(configRoot)) 
             {
                 return configRoot;
             }
-            string retRoot = _baseRoot + configRoot;
+            string retRoot =Path.Combine( _baseRoot,configRoot);
             return retRoot;
         }
         /*
