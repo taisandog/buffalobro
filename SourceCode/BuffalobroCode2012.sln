@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buffalo2012.Storage", "Buff
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buffalo2012.Data.Oracle", "Buffalo.Data.Oracle12\Buffalo2012.Data.Oracle.csproj", "{3C96896E-D0F5-4A57-BE6E-7D0E4CA16728}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buffalo2012.MongoDB", "Buffalo.MongoDB\Buffalo2012.MongoDB.csproj", "{BE4AF0E1-9426-4F0A-9344-CDCB578C8B7C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +101,10 @@ Global
 		{3C96896E-D0F5-4A57-BE6E-7D0E4CA16728}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C96896E-D0F5-4A57-BE6E-7D0E4CA16728}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C96896E-D0F5-4A57-BE6E-7D0E4CA16728}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE4AF0E1-9426-4F0A-9344-CDCB578C8B7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE4AF0E1-9426-4F0A-9344-CDCB578C8B7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE4AF0E1-9426-4F0A-9344-CDCB578C8B7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE4AF0E1-9426-4F0A-9344-CDCB578C8B7C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

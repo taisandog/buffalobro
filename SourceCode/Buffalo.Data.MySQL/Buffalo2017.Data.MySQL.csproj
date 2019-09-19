@@ -62,9 +62,7 @@
       <HintPath>..\..\dll\dll\Net4.6\Google.Protobuf.dll</HintPath>
     </Reference>
     <Reference Include="MySql.Data">
-      <HintPath>..\..\dll\dll\Net4.5.1\MySql.Data.dll</HintPath>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-      <Private>True</Private>
+      <HintPath>..\..\dll\dll\Net4.6\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="Renci.SshNet">
       <HintPath>..\..\dll\dll\Net4.6\Renci.SshNet.dll</HintPath>
