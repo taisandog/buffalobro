@@ -156,6 +156,7 @@
             全文搜索时候排序字段是否显示表达式
             </summary>
         </member>
+        <!-- Badly formed XML comment ignored for member "M:Buffalo.Data.MySQL.DBAdapter.GetTruncateTable(System.String)" -->
         <member name="M:Buffalo.Data.MySQL.DBAdapter.GetNowDate(System.Data.DbType)">
             <summary>
             获取当前时间
@@ -352,7 +353,7 @@
             </summary>
             <returns></returns>
         </member>
-        <!-- 对于成员“M:Buffalo.Data.MySQL.DBAdapter.GetIdentityParamName(Buffalo.DB.EntityInfos.EntityPropertyInfo)”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:Buffalo.Data.MySQL.DBAdapter.GetIdentityParamName(Buffalo.DB.EntityInfos.EntityPropertyInfo)" -->
         <member name="M:Buffalo.Data.MySQL.DBAdapter.GetInsertPKParamValue(Buffalo.DB.EntityInfos.EntityPropertyInfo)">
             <summary>
             插入时候的主键字段值
@@ -456,7 +457,7 @@
             <param name="tableNames"></param>
             <returns></returns>
         </member>
-        <!-- 对于成员“M:Buffalo.Data.MySQL.DBStructure.FillParam(Buffalo.DB.DataBaseAdapter.DBTableInfo,System.Data.IDataReader)”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:Buffalo.Data.MySQL.DBStructure.FillParam(Buffalo.DB.DataBaseAdapter.DBTableInfo,System.Data.IDataReader)" -->
         <member name="M:Buffalo.Data.MySQL.DBStructure.GetDbType(System.String,System.Boolean)">
             <summary>
             获取数据库类型

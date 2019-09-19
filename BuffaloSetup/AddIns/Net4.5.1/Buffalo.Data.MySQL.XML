@@ -151,6 +151,7 @@
             <param name="list">变量列表</param>
             <param name="oper">通用类</param>
         </member>
+        <!-- 对于成员“M:Buffalo.Data.MySQL.DBAdapter.GetTruncateTable(System.String)”忽略有格式错误的 XML 注释 -->
         <member name="M:Buffalo.Data.MySQL.DBAdapter.GetNowDate(System.Data.DbType)">
             <summary>
             获取当前时间
