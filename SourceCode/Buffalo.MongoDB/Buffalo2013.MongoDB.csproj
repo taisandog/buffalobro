@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{BE4AF0E1-9426-4F0A-9344-CDCB578C8B7C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Buffalo.MongoDB</RootNamespace>
+    <AssemblyName>Buffalo.MongoDB</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Release\2013\</OutputPath>
+    <DefineConstants>TRACE;NET_4_5_1</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\Release\2013\Buffalo.MongoDB.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Crc32C.NET">
+      <HintPath>..\..\dll\dll\Net4.5\Crc32C.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="DnsClient">
+      <HintPath>..\..\dll\dll\Net4.5\DnsClient.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Bson">
+      <HintPath>..\..\dll\dll\Net4.5\MongoDB.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver">
+      <HintPath>..\..\dll\dll\Net4.5\MongoDB.Driver.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver.Core">
+      <HintPath>..\..\dll\dll\Net4.5\MongoDB.Driver.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver.GridFS">
+      <HintPath>..\..\dll\dll\Net4.5\MongoDB.Driver.GridFS.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpCompress">
+      <HintPath>..\..\dll\dll\Net4.5\SharpCompress.dll</HintPath>
+    </Reference>
+    <Reference Include="Snappy.NET">
+      <HintPath>..\..\dll\dll\Net4.5\Snappy.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation">
+      <HintPath>..\..\dll\dll\Net4.5\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MongoAutoIncrement.cs" />
+    <Compile Include="MongoConnection.cs" />
+    <Compile Include="MongoDBConnect.cs" />
+    <Compile Include="MongoDBManager.cs" />
+    <Compile Include="MongoDBOperate.extend.cs" />
+    <Compile Include="MongoTransaction.cs" />
+    <Compile Include="ProxyBase\MongoEntityBaseInfo.cs" />
+    <Compile Include="ProxyBase\MongoPropertyInfo.cs" />
+    <Compile Include="MongoLiquidUnit.cs" />
+    <Compile Include="ProxyBase\MCH.cs" />
+    <Compile Include="ProxyBase\MongoEntityInfo.cs" />
+    <Compile Include="ProxyBase\MongoEntityInfoManager.cs" />
+    <Compile Include="ProxyBase\PropertyInfoHandleCollection.cs" />
+    <Compile Include="QueryCondition\ConditionList.cs" />
+    <Compile Include="MGCollection.cs" />
+    <Compile Include="MongoDBInfo.cs" />
+    <Compile Include="MongoDBOperate.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ProxyBase\MongoEntityProxyBuilder.cs" />
+    <Compile Include="QueryCondition\MGAggregateType.cs" />
+    <Compile Include="QueryCondition\MGSort.cs" />
+    <Compile Include="QueryCondition\MGSortList.cs" />
+    <Compile Include="QueryCondition\MGSortType.cs" />
+    <Compile Include="QueryCondition\MGPageContent.cs" />
+    <Compile Include="ProxyBase\MongoEntityBase.cs" />
+    <Compile Include="QueryCondition\UpdateList.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Buffalo.DB\Buffalo2013.DB.csproj">
+      <Project>{9b0043e4-883b-47ba-9a5a-5110c8583902}</Project>
+      <Name>Buffalo2013.DB</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Buffalo.Kernel\Buffalo2013.Kernel.csproj">
+      <Project>{6ec04216-a422-4751-aa81-1211dcb10bab}</Project>
+      <Name>Buffalo2013.Kernel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
