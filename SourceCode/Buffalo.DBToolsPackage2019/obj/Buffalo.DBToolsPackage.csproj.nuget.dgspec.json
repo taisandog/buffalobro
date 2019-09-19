@@ -176,7 +176,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "E:\\CSharpTest\\BuffaloSetup\\AddIns\\netstandard2.0": {},
+          "D:\\myPackage": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
