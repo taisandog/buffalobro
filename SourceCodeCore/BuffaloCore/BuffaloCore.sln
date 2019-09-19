@@ -29,6 +29,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ThirdParty", "ThirdParty", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Buffalo.Storage", "Buffalo.Storage\Buffalo.Storage.csproj", "{BE9561D5-9624-4DB9-AFBE-DD394820D5EE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buffalo.MongoDB", "Buffalo.MongoDB\Buffalo.MongoDB.csproj", "{662748CE-43D3-4A9C-9F96-762829D5690D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +81,10 @@ Global
 		{BE9561D5-9624-4DB9-AFBE-DD394820D5EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE9561D5-9624-4DB9-AFBE-DD394820D5EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE9561D5-9624-4DB9-AFBE-DD394820D5EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{662748CE-43D3-4A9C-9F96-762829D5690D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{662748CE-43D3-4A9C-9F96-762829D5690D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{662748CE-43D3-4A9C-9F96-762829D5690D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{662748CE-43D3-4A9C-9F96-762829D5690D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
