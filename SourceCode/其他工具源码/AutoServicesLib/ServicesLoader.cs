@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Reflection;
 using Buffalo.Kernel.Defaults;
+using Library;
 
 namespace Buffalo.Kernel.AutoServicesLib
 {
@@ -19,13 +20,57 @@ namespace Buffalo.Kernel.AutoServicesLib
     public class ServicesLoader
     {
         Dictionary<string, AbsServicesHandle> _dicServices = new Dictionary<string, AbsServicesHandle>();
-
+        /// <summary>
+        /// 所属服务
+        /// </summary>
+        private AutoServicesRun _belongServices;
+        /// <summary>
+        /// 自动服务的容器
+        /// </summary>
+        /// <param name="message"></param>
+        public ServicesLoader(AutoServicesRun belongServices)
+        {
+            _belongServices = belongServices;
+        }
         /// <summary>
         /// 服务集合
         /// </summary>
         public Dictionary<string, AbsServicesHandle> Services
         {
             get { return _dicServices; }
+        }
+        
+        private List<AbsServicesHandle> _lstHandle;
+        /// <summary>
+        /// 自动服务单元
+        /// </summary>
+        public List<AbsServicesHandle> ServicesHandles 
+        {
+            get
+            {
+                if (_lstHandle == null)
+                {
+                    _lstHandle = new List<AbsServicesHandle>();
+                    foreach (KeyValuePair<string, AbsServicesHandle> kvp in _dicServices)
+                    {
+                        _lstHandle.Add(kvp.Value);
+                    }
+                    AbsServicesHandle tmp = null;
+                    for (int i = 0; i < _lstHandle.Count - 1; i++) 
+                    {
+                        for (int j = i+1; j < _lstHandle.Count ; j++)
+                        {
+                            if (_lstHandle[i].Order < _lstHandle[j].Order) 
+                            {
+                                tmp = _lstHandle[i];
+                                _lstHandle[i] = _lstHandle[j];
+                                _lstHandle[j] = tmp;
+                            }
+                        }
+                    }
+                }
+                return _lstHandle;
+            }
         }
 
         /// <summary>
@@ -36,28 +81,55 @@ namespace Buffalo.Kernel.AutoServicesLib
         /// <summary>
         /// 运行自动服务
         /// </summary>
-        public List<ServicesMessage> DoTick() 
+        public void DoTick()
         {
-            List<ServicesMessage> lstMessage = new List<ServicesMessage>(_dicServices.Count);
-            foreach (KeyValuePair<string, AbsServicesHandle> kvp in _dicServices) 
+            //List<ServicesMessage> lstMessage = new List<ServicesMessage>(_dicServices.Count);
+            List<AbsServicesHandle> lstHandles = ServicesHandles;
+            IStatePanel _panel = _belongServices.StatePanel;
+            foreach (AbsServicesHandle handle in lstHandles)
             {
                 try
                 {
-                    ServicesMessage mess=kvp.Value.CheckRun();
-                    if (mess != null) 
+                    if (_panel != null)
                     {
-                        lstMessage.Add(mess);
+                        _panel.ShowState(handle.ServicesName,(int)ShowStateType.AutoTask);
+                    }
+                    ServicesMessage mess = handle.CheckRun();
+                    if (_panel != null)
+                    {
+                        _panel.ShowState("", (int)ShowStateType.AutoTask);
                     }
                 }
-                catch (Exception ex) 
+                catch (Exception ex)
                 {
-                    if (OnThrowException != null) 
+                    if (OnThrowException != null)
                     {
-                        OnThrowException(kvp.Value, ex);
+                        OnThrowException(handle, ex);
                     }
                 }
             }
-            return lstMessage;
+            //return lstMessage;
+        }
+        /// <summary>
+        /// 清理所有异步线程
+        /// </summary>
+        public void ClearAnyc()
+        {
+            List<AbsServicesHandle> lstHandles = ServicesHandles;IStatePanel _panel = _belongServices.StatePanel;
+            foreach (AbsServicesHandle handle in lstHandles)
+            {
+                try
+                {
+                    handle.ClearAnyc();
+                }
+                catch (Exception ex)
+                {
+                    if (OnThrowException != null)
+                    {
+                        OnThrowException(handle, ex);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -79,6 +151,7 @@ namespace Buffalo.Kernel.AutoServicesLib
             {
                 _dicServices[key] = handle;
             }
+            _lstHandle = null;
         }
 
         /// <summary>
@@ -104,6 +177,7 @@ namespace Buffalo.Kernel.AutoServicesLib
                 {
                     continue;
                 }
+                handle.MessageShow = _belongServices.Message;
                 AddServices(handle);
             }
         }
