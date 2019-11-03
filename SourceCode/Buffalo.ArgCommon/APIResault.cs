@@ -143,13 +143,22 @@ namespace Buffalo.ArgCommon
         /// 序列化成Json
         /// </summary>
         /// <returns></returns>
-        public string ToJson()
+        public string ToJson(Formatting format)
         {
             Dictionary<string, object> ret = new Dictionary<string, object>();
             ret["state"] = (int)_resault;
             ret["message"] = _message;
             ret["data"] = _data;
-            return JsonConvert.SerializeObject(ret, Formatting.None);
+            return JsonConvert.SerializeObject(ret, format);
+        }
+        /// <summary>
+        /// 序列化成Json
+        /// </summary>
+        /// <returns></returns>
+        public string ToJson()
+        {
+            
+            return ToJson(Formatting.None);
         }
         /// <summary>
         /// 序列化成Json
