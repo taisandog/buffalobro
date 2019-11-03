@@ -352,7 +352,7 @@
             <param name="tableHandle">要插入的表</param>
             <param name="previous">上一个关键字</param>
         </member>
-        <member name="M:Buffalo.DB.BQLCommon.BQLKeyWordCommon.KeyWordCreateTableItem.Param(System.String,System.Data.DbType,System.Boolean,Buffalo.DB.PropertyAttributes.EntityPropertyType,System.Int32)">
+        <member name="M:Buffalo.DB.BQLCommon.BQLKeyWordCommon.KeyWordCreateTableItem.Param(System.String,System.Data.DbType,System.Boolean,Buffalo.DB.PropertyAttributes.EntityPropertyType,System.Int32,System.String)">
             <summary>
             字段
             </summary>
@@ -361,6 +361,7 @@
             <param name="allowNull">允许空</param>
             <param name="type">类型</param>
             <param name="length">长度</param>
+            <param name="defaultValue">默认值</param>
             <returns></returns>
         </member>
         <member name="M:Buffalo.DB.BQLCommon.BQLKeyWordCommon.KeyWordCreateTableItem.Param(System.Collections.Generic.List{Buffalo.DB.PropertyAttributes.EntityParam})">
@@ -398,7 +399,7 @@
             <param name="paramHandles">字段集合</param>
             <param name="previous">上一个关键字</param>
         </member>
-        <member name="M:Buffalo.DB.BQLCommon.BQLKeyWordCommon.KeyWordTableParamItem._(System.String,System.Data.DbType,System.Boolean,Buffalo.DB.PropertyAttributes.EntityPropertyType,System.Int32)">
+        <member name="M:Buffalo.DB.BQLCommon.BQLKeyWordCommon.KeyWordTableParamItem._(System.String,System.Data.DbType,System.Boolean,Buffalo.DB.PropertyAttributes.EntityPropertyType,System.Int32,System.String)">
             <summary>
             添加字段
             </summary>
@@ -407,6 +408,7 @@
             <param name="allowNull">允许空</param>
             <param name="type">类型</param>
             <param name="length">长度</param>
+            <param name="defaultValue">默认值</param>
             <returns></returns>
         </member>
         <member name="M:Buffalo.DB.BQLCommon.BQLKeyWordCommon.KeyWordTableParamItem._(System.Collections.Generic.List{Buffalo.DB.PropertyAttributes.EntityParam})">
@@ -447,14 +449,19 @@
             关系集合
             </summary>
         </member>
+        <member name="T:Buffalo.DB.BQLCommon.BQLKeyWordCommon.KeyWordAlterTableItem">
+            <summary>
+            alert table项
+            </summary>
+        </member>
         <member name="M:Buffalo.DB.BQLCommon.BQLKeyWordCommon.KeyWordAlterTableItem.#ctor(System.String,Buffalo.DB.BQLCommon.BQLKeyWordCommon.BQLQuery)">
             <summary>
-            Insert关键字项
+            alert table项
             </summary>
-            <param name="tableHandle">要插入的表</param>
-            <param name="previous">上一个关键字</param>
+            <param name="tableName">表名</param>
+            <param name="previous">上一级</param>
         </member>
-        <member name="M:Buffalo.DB.BQLCommon.BQLKeyWordCommon.KeyWordAlterTableItem.AddParam(System.String,System.Data.DbType,System.Boolean,Buffalo.DB.PropertyAttributes.EntityPropertyType,System.Int32)">
+        <member name="M:Buffalo.DB.BQLCommon.BQLKeyWordCommon.KeyWordAlterTableItem.AddParam(System.String,System.Data.DbType,System.Boolean,Buffalo.DB.PropertyAttributes.EntityPropertyType,System.Int32,System.String)">
             <summary>
             字段
             </summary>
@@ -463,38 +470,40 @@
             <param name="allowNull">允许空</param>
             <param name="type">类型</param>
             <param name="length">长度</param>
+            <param name="defaultValue">默认值</param>
             <returns></returns>
         </member>
         <member name="M:Buffalo.DB.BQLCommon.BQLKeyWordCommon.KeyWordAlterTableItem.AddParam(Buffalo.DB.PropertyAttributes.EntityParam)">
             <summary>
-            字段
+            添加字段
             </summary>
-            <param name="paramName">字段名</param>
-            <param name="dbType">数据库类型</param>
-            <param name="allowNull">允许空</param>
-            <param name="type">类型</param>
-            <param name="length">长度</param>
+            <param name="info">字段信息</param>
             <returns></returns>
         </member>
         <member name="M:Buffalo.DB.BQLCommon.BQLKeyWordCommon.KeyWordAlterTableItem.AddForeignkey(Buffalo.DB.PropertyAttributes.TableRelationAttribute)">
             <summary>
-            添加约束
+            添加外键
             </summary>
-            <param name="info"></param>
+            <param name="info">外键信息</param>
             <returns></returns>
         </member>
         <member name="M:Buffalo.DB.BQLCommon.BQLKeyWordCommon.KeyWordAlterTableItem.AddPrimaryKey(System.Collections.Generic.IEnumerable{System.String},System.String)">
             <summary>
-            添加约束
+            添加主键
             </summary>
-            <param name="info"></param>
+            <param name="pkParams">主键集合</param>
+            <param name="name">名称</param>
             <returns></returns>
         </member>
         <member name="M:Buffalo.DB.BQLCommon.BQLKeyWordCommon.KeyWordAlterTableItem.AddConstraint(System.String,System.String,System.String,System.String,System.String)">
             <summary>
             添加约束
             </summary>
-            <param name="info"></param>
+            <param name="name">约束名</param>
+            <param name="parentTable">主表</param>
+            <param name="childTable">子表</param>
+            <param name="parentParam">主表键</param>
+            <param name="childParam">子表键</param>
             <returns></returns>
         </member>
         <member name="P:Buffalo.DB.BQLCommon.BQLKeyWordCommon.KeyWordAlterTableItem.TableName">
@@ -654,6 +663,26 @@
             Redis
             </summary>
         </member>
+        <member name="T:Buffalo.DB.CacheManager.SetValueType">
+            <summary>
+            设置值的方式
+            </summary>
+        </member>
+        <member name="F:Buffalo.DB.CacheManager.SetValueType.Set">
+            <summary>
+            新增或覆盖，任何时候都设置成功
+            </summary>
+        </member>
+        <member name="F:Buffalo.DB.CacheManager.SetValueType.Replace">
+            <summary>
+            覆盖模式，当存在此Key时候才能覆盖成功
+            </summary>
+        </member>
+        <member name="F:Buffalo.DB.CacheManager.SetValueType.AddNew">
+            <summary>
+            新增模式，当不存在此Key时候才能新增成功
+            </summary>
+        </member>
         <member name="T:Buffalo.DB.CacheManager.DataSetCacheItem">
             <summary>
             缓存的DataSet项
@@ -698,24 +727,34 @@
             <param name="oper">连接</param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.ICacheAdaper.SetValue``1(System.String,``0,System.Int32,Buffalo.DB.DbCommon.DataBaseOperate)">
+        <member name="M:Buffalo.DB.CacheManager.ICacheAdaper.SetValue``1(System.String,``0,Buffalo.DB.CacheManager.SetValueType,System.Int32,Buffalo.DB.DbCommon.DataBaseOperate)">
             <summary>
             设置值
             </summary>
             <param name="key">键</param>
             <param name="value">值</param>
+            <param name="type">设置值方式</param>
             <param name="oper">连接</param>
             <param name="expirSeconds">过期时间</param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.ICacheAdaper.SetValue(System.String,System.Object,System.Int32,Buffalo.DB.DbCommon.DataBaseOperate)">
+        <member name="M:Buffalo.DB.CacheManager.ICacheAdaper.SetValue(System.String,System.Object,Buffalo.DB.CacheManager.SetValueType,System.Int32,Buffalo.DB.DbCommon.DataBaseOperate)">
             <summary>
             设置值
             </summary>
             <param name="key">键</param>
             <param name="value">值</param>
+            <param name="type">设置值方式</param>
             <param name="oper">连接</param>
             <param name="expirSeconds">过期时间</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.ICacheAdaper.ExistsKey(System.String,Buffalo.DB.DbCommon.DataBaseOperate)">
+            <summary>
+            Key是否存在
+            </summary>
+            <param name="key"></param>
+            <param name="oper"></param>
             <returns></returns>
         </member>
         <member name="M:Buffalo.DB.CacheManager.ICacheAdaper.ClearAll">
@@ -731,7 +770,7 @@
             <param name="oper">连接</param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.ICacheAdaper.DoIncrement(System.String,System.UInt32,Buffalo.DB.DbCommon.DataBaseOperate)">
+        <member name="M:Buffalo.DB.CacheManager.ICacheAdaper.DoIncrement(System.String,System.UInt64,Buffalo.DB.DbCommon.DataBaseOperate)">
             <summary>
             自增
             </summary>
@@ -739,7 +778,7 @@
             <param name="inc"></param>
             <param name="oper">连接</param>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.ICacheAdaper.DoDecrement(System.String,System.UInt32,Buffalo.DB.DbCommon.DataBaseOperate)">
+        <member name="M:Buffalo.DB.CacheManager.ICacheAdaper.DoDecrement(System.String,System.UInt64,Buffalo.DB.DbCommon.DataBaseOperate)">
             <summary>
             自减
             </summary>
@@ -785,6 +824,11 @@
         <member name="T:Buffalo.DB.CacheManager.MemoryAdaper">
             <summary>
             系统内存的缓存适配器
+            </summary>
+        </member>
+        <member name="F:Buffalo.DB.CacheManager.MemoryAdaper._lockObjects">
+            <summary>
+            锁对象
             </summary>
         </member>
         <member name="M:Buffalo.DB.CacheManager.MemoryAdaper.SetData(System.Collections.Generic.IDictionary{System.String,System.Boolean},System.String,System.Data.DataSet,System.Int32,Buffalo.DB.DbCommon.DataBaseOperate)">
@@ -841,6 +885,14 @@
             <summary>
             所有键
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.MemoryAdaper.ExistsKey(System.String,Buffalo.DB.DbCommon.DataBaseOperate)">
+            <summary>
+            Key是否存在
+            </summary>
+            <param name="key"></param>
+            <param name="oper"></param>
             <returns></returns>
         </member>
         <member name="P:Buffalo.DB.CacheManager.MemoryAdaper.Info">
@@ -923,6 +975,15 @@
             <param name="client">客户端</param>
             <returns></returns>
         </member>
+        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.DoExistsKey(System.String,`0)">
+            <summary>
+            获取值
+            </summary>
+            <param name="key">键</param>
+            <param name="valueType">值类型</param>
+            <param name="client">客户端</param>
+            <returns></returns>
+        </member>
         <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.GetValues(System.String[],`0)">
             <summary>
             获取值
@@ -932,21 +993,25 @@
             <param name="client">客户端</param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.SetValue``1(System.String,``0,System.Int32,`0)">
+        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.SetValue``1(System.String,``0,Buffalo.DB.CacheManager.SetValueType,System.Int32,`0)">
             <summary>
             设置值
             </summary>
             <param name="key">键</param>
             <param name="value">值</param>
+            <param name="type">设置方式</param>
+            <param name="expirSeconds">超时秒数</param>
             <param name="client">客户端</param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.SetValue(System.String,System.Object,System.Int32,`0)">
+        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.SetValue(System.String,System.Object,Buffalo.DB.CacheManager.SetValueType,System.Int32,`0)">
             <summary>
             设置值
             </summary>
             <param name="key">键</param>
             <param name="value">值</param>
+            <param name="type">设置方式</param>
+            <param name="expirSeconds">超时秒数</param>
             <param name="client">客户端</param>
             <returns></returns>
         </member>
@@ -975,7 +1040,7 @@
             <param name="client">客户端</param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.DoIncrement(System.String,System.UInt32,`0)">
+        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.DoIncrement(System.String,System.UInt64,`0)">
             <summary>
             自增
             </summary>
@@ -983,7 +1048,7 @@
             <param name="inc">自增值</param>
             <param name="client"></param>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.DoDecrement(System.String,System.UInt32,`0)">
+        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.DoDecrement(System.String,System.UInt64,`0)">
             <summary>
             自减
             </summary>
@@ -1019,6 +1084,15 @@
             </summary>
             <param name="key"></param>
             <param name="lstEntity"></param>
+            <param name="oper"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.ExistsKey(System.String,Buffalo.DB.DbCommon.DataBaseOperate)">
+            <summary>
+            获取值
+            </summary>
+            <typeparam name="E"></typeparam>
+            <param name="key"></param>
             <param name="oper"></param>
             <returns></returns>
         </member>
@@ -1089,17 +1163,18 @@
             <param name="ds"></param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.SetValue``1(System.String,``0,System.Int32,Buffalo.DB.DbCommon.DataBaseOperate)">
+        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.SetValue``1(System.String,``0,Buffalo.DB.CacheManager.SetValueType,System.Int32,Buffalo.DB.DbCommon.DataBaseOperate)">
             <summary>
             设置值
             </summary>
             <typeparam name="E"></typeparam>
             <param name="key">键</param>
             <param name="value">值</param>
+            <param name="type">设置值方式</param>
             <param name="expirSeconds">过期时间(-1为默认)</param>
             <param name="oper">连接</param>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.SetValue(System.String,System.Object,System.Int32,Buffalo.DB.DbCommon.DataBaseOperate)">
+        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.SetValue(System.String,System.Object,Buffalo.DB.CacheManager.SetValueType,System.Int32,Buffalo.DB.DbCommon.DataBaseOperate)">
             <summary>
             设置值
             </summary>
@@ -1116,7 +1191,7 @@
             <param name="key">键</param>
             <param name="oper"></param>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.DoIncrement(System.String,System.UInt32,Buffalo.DB.DbCommon.DataBaseOperate)">
+        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.DoIncrement(System.String,System.UInt64,Buffalo.DB.DbCommon.DataBaseOperate)">
             <summary>
             增加值
             </summary>
@@ -1124,7 +1199,7 @@
             <param name="inc"></param>
             <param name="oper"></param>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.DoDecrement(System.String,System.UInt32,Buffalo.DB.DbCommon.DataBaseOperate)">
+        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.DoDecrement(System.String,System.UInt64,Buffalo.DB.DbCommon.DataBaseOperate)">
             <summary>
             增减值
             </summary>
@@ -1332,6 +1407,13 @@
             <param name="key">键</param>
             <returns></returns>
         </member>
+        <member name="M:Buffalo.DB.CacheManager.QueryCache.ExistsKey(System.String)">
+            <summary>
+            Key是否存在
+            </summary>
+            <param name="key">键</param>
+            <returns></returns>
+        </member>
         <member name="M:Buffalo.DB.CacheManager.QueryCache.Clear">
             <summary>
             清空所有缓存值
@@ -1344,15 +1426,27 @@
             </summary>
             <param name="key">键</param>
             <param name="value">值</param>
-            <returns></returns>
+            <returns>是否设置成功</returns>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.QueryCache.SetValue(System.String,System.Int32,System.Object)">
+        <member name="M:Buffalo.DB.CacheManager.QueryCache.SetValue``1(System.String,``0,Buffalo.DB.CacheManager.SetValueType,System.Int32)">
             <summary>
             设置值
             </summary>
             <param name="key">键</param>
+            <param name="expirSeconds">超时秒数</param>
             <param name="value">值</param>
-            <returns></returns>
+            <param name="type">设置值方式</param>
+            <returns>是否设置成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.QueryCache.SetValue(System.String,System.Object,Buffalo.DB.CacheManager.SetValueType,System.Int32)">
+            <summary>
+            设置值
+            </summary>
+            <param name="key">键</param>
+            <param name="expirSeconds">超时秒数</param>
+            <param name="value">值</param>
+            <param name="type">设置值方式</param>
+            <returns>是否设置成功</returns>
         </member>
         <member name="M:Buffalo.DB.CacheManager.QueryCache.SetValue(System.String,System.Object)">
             <summary>
@@ -1360,22 +1454,13 @@
             </summary>
             <param name="key">键</param>
             <param name="value">值</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.QueryCache.SetValue``1(System.String,System.Int32,``0)">
-            <summary>
-            设置值
-            </summary>
-            <param name="key">键</param>
-            <param name="value">值</param>
-            <returns></returns>
+            <returns>是否设置成功</returns>
         </member>
         <member name="M:Buffalo.DB.CacheManager.QueryCache.DeleteValue(System.String)">
             <summary>
             删除值
             </summary>
             <param name="key">键</param>
-            <param name="client">客户端</param>
             <returns></returns>
         </member>
         <member name="M:Buffalo.DB.CacheManager.QueryCache.DoIncrement(System.String)">
@@ -1384,7 +1469,7 @@
             </summary>
             <param name="key"></param>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.QueryCache.DoIncrement(System.String,System.UInt32)">
+        <member name="M:Buffalo.DB.CacheManager.QueryCache.DoIncrement(System.String,System.UInt64)">
             <summary>
             自增1
             </summary>
@@ -1396,7 +1481,7 @@
             </summary>
             <param name="key"></param>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.QueryCache.DoDecrement(System.String,System.UInt32)">
+        <member name="M:Buffalo.DB.CacheManager.QueryCache.DoDecrement(System.String,System.UInt64)">
             <summary>
             自减
             </summary>
@@ -1479,6 +1564,11 @@
         <member name="P:Buffalo.DB.CacheManager.QueryCache.HasCache">
             <summary>
             是否使用了缓存
+            </summary>
+        </member>
+        <member name="T:Buffalo.DB.CacheManager.QueryCacheCommand">
+            <summary>
+            缓存指令
             </summary>
         </member>
         <member name="T:Buffalo.DB.CacheStorage.QueryStorageBase`1">
@@ -1580,6 +1670,11 @@
             过期时间(分钟)
             </summary>
         </member>
+        <member name="F:Buffalo.DB.CacheManager.WebCacheAdaper._lockObjects">
+            <summary>
+            锁对象
+            </summary>
+        </member>
         <member name="M:Buffalo.DB.CacheManager.WebCacheAdaper.GetAllKeys(System.String)">
             <summary>
             所有键
@@ -1642,6 +1737,14 @@
             通过表名删除关联项
             </summary>
             <param name="sql"></param>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.WebCacheAdaper.ExistsKey(System.String,Buffalo.DB.DbCommon.DataBaseOperate)">
+            <summary>
+            Key是否存在
+            </summary>
+            <param name="key"></param>
+            <param name="oper"></param>
+            <returns></returns>
         </member>
         <member name="P:Buffalo.DB.CacheManager.WebCacheAdaper.Expiration">
             <summary>
@@ -1914,117 +2017,117 @@
             <param name="oper">数据链接对象</param>
             <returns>没有存在就返回null，否则返回一个值</returns>
         </member>
+        <member name="F:Buffalo.DB.CommBase.BusinessBases.BusinessModelBase`1._affectedRows">
+            <summary>
+             此次执行的影响行数
+            </summary>
+        </member>
         <member name="M:Buffalo.DB.CommBase.BusinessBases.BusinessModelBase`1.Update(`0)">
             <summary>
             更新
             </summary>
             <param name="entity">对象</param>
-            <returns>大于0:更新完毕,小于0:更新失败</returns>
+            <returns>null:更新完毕,不为null:更新失败</returns>
         </member>
-        <member name="M:Buffalo.DB.CommBase.BusinessBases.BusinessModelBase`1.Update(`0,Buffalo.DB.QueryConditions.ScopeList)">
+        <member name="M:Buffalo.DB.CommBase.BusinessBases.BusinessModelBase`1.Update(`0,System.Boolean)">
             <summary>
             更新
             </summary>
             <param name="entity">对象</param>
-            <param name="scorpList">范围更新的列表</param>
-            <returns>大于0:更新完毕,小于0:更新失败</returns>
+            <param name="optimisticConcurrency">是否使用并发控制并发控制</param>
+            <returns>null:更新完毕,不为null:更新失败</returns>
         </member>
         <member name="M:Buffalo.DB.CommBase.BusinessBases.BusinessModelBase`1.Update(`0,Buffalo.DB.QueryConditions.ScopeList,Buffalo.DB.QueryConditions.ValueSetList,System.Boolean)">
             <summary>
-            更新
+            更新(慎用)
             </summary>
             <param name="entity">对象</param>
-            <param name="scorpList">范围更新的列表</param>
-            <param name="lstValue">set实体</param>
+            <param name="scorpList">范围更新的列表 不为null时候 entity.主键 条件无效</param>
+            <param name="lstValue">set实体 此列表的更新值优先于entity</param>
             <param name="optimisticConcurrency">并发控制</param>
-            <returns></returns>
+            <returns>null:更新完毕,不为null:更新失败</returns>
         </member>
         <member name="M:Buffalo.DB.CommBase.BusinessBases.BusinessModelBase`1.Update(`0,Buffalo.DB.QueryConditions.ScopeList,Buffalo.DB.QueryConditions.ValueSetList)">
             <summary>
-            更新
+            更新(慎用)
             </summary>
             <param name="entity">对象</param>
+            <param name="scorpList">范围更新的列表 不为null时候 entity.主键 条件无效</param>
+            <param name="lstValue">set实体 此列表的更新值优先于entity</param>
+            <returns>null:更新完毕,不为null:更新失败</returns>
+        </member>
+        <member name="M:Buffalo.DB.CommBase.BusinessBases.BusinessModelBase`1.Update(Buffalo.DB.QueryConditions.ScopeList,Buffalo.DB.QueryConditions.ValueSetList)">
+            <summary>
+            更新
+            </summary>
             <param name="scorpList">范围更新的列表</param>
-            <returns>大于0:更新完毕,小于0:更新失败</returns>
+            <param name="lstValue">set数值</param>
+            <returns>null:更新完毕,不为null:更新失败</returns>
         </member>
         <member name="M:Buffalo.DB.CommBase.BusinessBases.BusinessModelBase`1.Update(System.Collections.Generic.List{`0})">
             <summary>
             批量更新
             </summary>
-            <param name="entity">对象</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CommBase.BusinessBases.BusinessModelBase`1.Update(System.Collections.Generic.List{`0},Buffalo.DB.QueryConditions.ScopeList)">
-            <summary>
-            批量更新
-            </summary>
-            <param name="lst">要更新的实体集合</param>
-            <param name="scorpList"></param>
-            <returns></returns>
+            <param name="lst">对象列表</param>
+            <returns>null:更新完毕,不为null:更新失败</returns>
         </member>
         <member name="M:Buffalo.DB.CommBase.BusinessBases.BusinessModelBase`1.Insert(`0)">
             <summary>
             插入一条数据
             </summary>
             <param name="entity">对象</param>
-            <returns>大于0:插入完毕,小于0:插入失败</returns>
+            <returns>null:插入完毕,不为null:插入失败</returns>
         </member>
         <member name="M:Buffalo.DB.CommBase.BusinessBases.BusinessModelBase`1.Insert(`0,System.Boolean)">
             <summary>
             插入一条数据
             </summary>
             <param name="entity">对象</param>
-            <returns>大于0:插入完毕,小于0:插入失败</returns>
+            <param name="fillIdentity">是否填充自增长属性</param>
+            <returns>null:插入完毕,不为null:插入失败</returns>
         </member>
-        <!-- 对于成员“M:Buffalo.DB.CommBase.BusinessBases.BusinessModelBase`1.Insert(`0,Buffalo.DB.QueryConditions.ValueSetList,System.Boolean)”忽略有格式错误的 XML 注释 -->
-        <member name="M:Buffalo.DB.CommBase.BusinessBases.BusinessModelBase`1.Insert(System.Collections.Generic.List{`0},System.Boolean)">
+        <member name="M:Buffalo.DB.CommBase.BusinessBases.BusinessModelBase`1.Insert(`0,Buffalo.DB.QueryConditions.ValueSetList,System.Boolean)">
             <summary>
-            插入一组数据
+            插入一条数据
             </summary>
-            <param name="lst">对象</param>
-            <returns>大于0:插入完毕,小于0:插入失败</returns>
-        </member>
-        <member name="M:Buffalo.DB.CommBase.BusinessBases.BusinessModelBase`1.Insert(System.Collections.Generic.List{`0})">
-            <summary>
-            插入一组数据
-            </summary>
-            <param name="lst">对象</param>
-            <returns>大于0:插入完毕,小于0:插入失败</returns>
+            <param name="entity">对象</param>
+            <param name="setList">set数值</param>
+            <param name="fillIdentity">是否填充自增长属性</param>
+            <returns>null:插入完毕,不为null:插入失败</returns>
         </member>
         <member name="M:Buffalo.DB.CommBase.BusinessBases.BusinessModelBase`1.Delete(`0,System.Boolean)">
             <summary>
             删除
             </summary>
             <param name="entity">对象</param>
-            <returns></returns>
+            <param name="isConcurrency">是否处理并发</param>
+            <returns>null:删除完毕,不为null:删除失败</returns>
         </member>
         <member name="M:Buffalo.DB.CommBase.BusinessBases.BusinessModelBase`1.Delete(`0)">
             <summary>
             删除
             </summary>
-            <param name="entity">对象</param>
-            <returns></returns>
+            <param name="entity">要删除的对象</param>
+            <returns>null:删除完毕,不为null:删除失败</returns>
+        </member>
+        <member name="M:Buffalo.DB.CommBase.BusinessBases.BusinessModelBase`1.TruncateTable">
+            <summary>
+            清空表
+            </summary>
         </member>
         <member name="M:Buffalo.DB.CommBase.BusinessBases.BusinessModelBase`1.DeleteById(System.Object)">
             <summary>
             根据ID删除记录
             </summary>
             <param name="id">要删除的记录ID</param>
-            <returns></returns>
+            <returns>null:删除完毕,不为null:删除失败</returns>
         </member>
         <member name="M:Buffalo.DB.CommBase.BusinessBases.BusinessModelBase`1.Delete(Buffalo.DB.QueryConditions.ScopeList)">
             <summary>
             删除
             </summary>
             <param name="lstScope">批量删除的条件集合</param>
-            <returns>大于0:删除完毕,小于0:删除失败</returns>
-        </member>
-        <member name="M:Buffalo.DB.CommBase.BusinessBases.BusinessModelBase`1.Delete(Buffalo.DB.QueryConditions.ScopeList,System.Boolean)">
-            <summary>
-            删除
-            </summary>
-            <param name="lstScope">批量删除的条件集合</param>
-            <returns>大于0:删除完毕,小于0:删除失败</returns>
+            <returns>null:删除完毕,不为null:删除失败</returns>
         </member>
         <member name="M:Buffalo.DB.CommBase.BusinessBases.BusinessModelBase`1.Delete(System.Collections.Generic.List{`0})">
             <summary>
@@ -2540,6 +2643,19 @@
             数据层基类
             </summary>
             <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Buffalo.DB.CommBase.DataAccessBases.DataAccessSetBase.TruncateTable(System.String)">
+            <summary>
+            清空表
+            </summary>
+            <param name="tableName">要清空的表名</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CommBase.DataAccessBases.DataAccessSetBase.TruncateTable">
+            <summary>
+            清空表
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:Buffalo.DB.CommBase.DataAccessBases.DataAccessSetBase.Update(Buffalo.DB.CommBase.EntityBase,Buffalo.DB.QueryConditions.ScopeList,Buffalo.DB.QueryConditions.ValueSetList,System.Boolean)">
             <summary>
@@ -3506,11 +3622,18 @@
             配置加载器
             </summary>
         </member>
-        <member name="M:Buffalo.DB.ConfigXmlLoader.LoadXml(System.String)">
+        <member name="M:Buffalo.DB.ConfigXmlLoader.LoadXmlContent(System.Collections.Generic.IEnumerable{System.String})">
             <summary>
             获取配置XML
             </summary>
-            <param name="appRoot">配置路径的键</param>
+            <param name="configContent">配置路径的文件</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.ConfigXmlLoader.LoadXml(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            获取配置XML
+            </summary>
+            <param name="configPaths">配置路径集合</param>
             <returns></returns>
         </member>
         <member name="T:Buffalo.DB.ContantSearchs.PropertyParamMapping">
@@ -4077,6 +4200,11 @@
             初始化数据库
             </summary>
         </member>
+        <member name="M:Buffalo.DB.BQLCommon.BQLConditionCommon.BQLDataBaseHandle`1.InitDB(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            初始化数据库
+            </summary>
+        </member>
         <member name="M:Buffalo.DB.BQLCommon.BQLConditionCommon.BQLDataBaseHandle`1.SetOperatorPrecedenceEnable(System.Boolean)">
             <summary>
             设置生成的SQL语句进行运算符优先级优化可读性
@@ -4127,7 +4255,7 @@
             <param name="entityType"></param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.BQLCommon.BQLConditionCommon.BQLDataBaseHandle`1.GetDB">
+        <member name="M:Buffalo.DB.BQLCommon.BQLConditionCommon.BQLDataBaseHandle`1.GetDB(System.Collections.Generic.IEnumerable{System.String})">
             <summary>
             获取当前类关联的DB信息
             </summary>
@@ -5733,6 +5861,12 @@
             适配器加载器
             </summary>
         </member>
+        <member name="M:Buffalo.DB.DataBaseAdapter.IDbAdapters.IAdapterLoader.SetDBVersion(System.String)">
+            <summary>
+            数据库版本
+            </summary>
+            <param name="version"></param>
+        </member>
         <member name="P:Buffalo.DB.DataBaseAdapter.AccessAdapter.AdapterLoader.DbAdapter">
             <summary>
             当前数据库适配器
@@ -5900,6 +6034,13 @@
             重建参数集合(Access需要)
             </summary>
             <param name="lstPrm"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.DataBaseAdapter.IDbAdapters.IDBAdapter.GetTruncateTable(System.String)">
+            <summary>
+            获取清空表的SQL
+            </summary>
+            <param name="tableName"></param>
             <returns></returns>
         </member>
         <member name="M:Buffalo.DB.DataBaseAdapter.IDbAdapters.IDBAdapter.GetNowDate(System.Data.DbType)">
@@ -6162,6 +6303,12 @@
             <param name="info"></param>
             <returns></returns>
         </member>
+        <member name="M:Buffalo.DB.DataBaseAdapter.IDbAdapters.IDBAdapter.KeyWordDEFAULTFront">
+            <summary>
+            Default的关键字是否在NotNull前边
+            </summary>
+            <returns></returns>
+        </member>
         <member name="P:Buffalo.DB.DataBaseAdapter.IDbAdapters.IDBAdapter.IsShowExpression">
             <summary>
             全文搜索时候排序字段是否显示表达式
@@ -6177,6 +6324,13 @@
             <summary>
             是否记录自增长字段作手动处理
             </summary>
+        </member>
+        <member name="M:Buffalo.DB.DataBaseAdapter.AccessAdapter.DBAdapter.GetTruncateTable(System.String)">
+            <summary>
+            清空表
+            </summary>
+            <param name="tableName"></param>
+            <returns></returns>
         </member>
         <member name="M:Buffalo.DB.DataBaseAdapter.AccessAdapter.DBAdapter.GetColumnDescriptionSQL(Buffalo.DB.PropertyAttributes.EntityParam,Buffalo.DB.DataBaseAdapter.DBInfo)">
             <summary>
@@ -6822,6 +6976,11 @@
             数据访问层的加载读取类
             </summary>
         </member>
+        <member name="F:Buffalo.DB.DataBaseAdapter.DataAccessLoader._configdocs">
+            <summary>
+            配置内容
+            </summary>
+        </member>
         <member name="M:Buffalo.DB.DataBaseAdapter.DataAccessLoader.GetDBInfo(System.String)">
             <summary>
             获取数据库信息
@@ -6841,7 +7000,19 @@
             </summary>
             <param name="dbinfo"></param>
         </member>
-        <member name="M:Buffalo.DB.DataBaseAdapter.DataAccessLoader.InitConfig">
+        <member name="M:Buffalo.DB.DataBaseAdapter.DataAccessLoader.AddDBConfig(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            添加数据库配置文件
+            </summary>
+            <param name="configPath">文件路径集合</param>
+        </member>
+        <member name="M:Buffalo.DB.DataBaseAdapter.DataAccessLoader.AddDBConfigContent(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            添加数据库配置内容
+            </summary>
+            <param name="configContent">配置内容</param>
+        </member>
+        <member name="M:Buffalo.DB.DataBaseAdapter.DataAccessLoader.InitConfig(System.Collections.Generic.IEnumerable{System.String})">
             <summary>
             初始化配置
             </summary>
@@ -7421,6 +7592,13 @@
             <param name="part">查询条件</param>
             <param name="list">变量列表</param>
             <param name="oper">通用类</param>
+        </member>
+        <member name="M:Buffalo.DB.DataBaseAdapter.Oracle9Adapter.DBAdapter.GetTruncateTable(System.String)">
+            <summary>
+            清空表
+            </summary>
+            <param name="tableName"></param>
+            <returns></returns>
         </member>
         <member name="M:Buffalo.DB.DataBaseAdapter.Oracle9Adapter.DBAdapter.GetColumnDescriptionSQL(Buffalo.DB.PropertyAttributes.EntityParam,Buffalo.DB.DataBaseAdapter.DBInfo)">
             <summary>
@@ -8003,6 +8181,13 @@
             把DBType类型转成对应的SQLType
             </summary>
             <param name="dbType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter.DBAdapter.GetTruncateTable(System.String)">
+            <summary>
+            清空表
+            </summary>
+            <param name="tableName"></param>
             <returns></returns>
         </member>
         <member name="M:Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter.DBAdapter.ToRealDbType(System.Data.DbType,System.Int64)">
@@ -9548,12 +9733,15 @@
             <summary>
             类的信息
             </summary>
-            <param name="entityType">实体类型</param>
-            <param name="createInstanceHandler">实例化类的句柄</param>
-            <param name="propertyInfoHandles">属性集合</param>
-            <param name="tableName">对应的表名</param>
-            <param name="baseListInfo">此对象的查询缓存集合句柄</param>
-            <param name="connectionKey">连接字符串的键</param>
+            <param name="entityType">类的类型</param>
+            <param name="createInstanceHandler">创建类的反射信息</param>
+            <param name="tableInfo">关联表信息</param>
+            <param name="db">关联数据库信息</param>
+        </member>
+        <member name="M:Buffalo.DB.EntityInfos.EntityInfoHandle.InitPrimaryProperty">
+            <summary>
+            初始化主键信息
+            </summary>
         </member>
         <member name="M:Buffalo.DB.EntityInfos.EntityInfoHandle.GetNeedLazy">
             <summary>
@@ -9563,11 +9751,15 @@
         </member>
         <member name="M:Buffalo.DB.EntityInfos.EntityInfoHandle.SetInfoHandles(System.Collections.Generic.Dictionary{System.String,Buffalo.DB.EntityInfos.EntityPropertyInfo},System.Collections.Generic.Dictionary{System.String,Buffalo.DB.EntityInfos.EntityMappingInfo})">
             <summary>
-            设置属性和映射信息
+            设置属性信息和关联映射信息
             </summary>
             <param name="propertyInfoHandles">属性信息集合</param>
-            <param name="mappingInfoHandles">映射信息集合</param>
-            <param name="baseListInfo">所属的基集合</param>
+            <param name="mappingInfoHandles">关联映射信息集合</param>
+        </member>
+        <member name="M:Buffalo.DB.EntityInfos.EntityInfoHandle.InitInfo">
+            <summary>
+            初始化信息
+            </summary>
         </member>
         <member name="M:Buffalo.DB.EntityInfos.EntityInfoHandle.InitProxyType(Buffalo.DB.ProxyBuilder.EntityProxyBuilder)">
             <summary>
@@ -9631,10 +9823,8 @@
         </member>
         <member name="P:Buffalo.DB.EntityInfos.EntityInfoHandle.MappingInfo">
             <summary>
-            获取映射的信息
+            映射信息集合
             </summary>
-            <param name="propertyName">属性名</param>
-            <returns></returns>
         </member>
         <member name="P:Buffalo.DB.EntityInfos.EntityInfoHandle.ProxyType">
             <summary>
@@ -10440,24 +10630,35 @@
             实体字段标识
             </summary>
         </member>
-        <member name="M:Buffalo.DB.PropertyAttributes.EntityParam.#ctor(System.String,System.String,System.String,System.Data.DbType,Buffalo.DB.PropertyAttributes.EntityPropertyType,System.String)">
+        <member name="M:Buffalo.DB.PropertyAttributes.EntityParam.#ctor(System.String,System.String,System.String,System.Data.DbType,Buffalo.DB.PropertyAttributes.EntityPropertyType,System.String,System.String)">
             <summary>
             实体字段标识
             </summary>
+            <param name="fieldName">字段名</param>
             <param name="paramName">数据库字段名</param>
-            <param name="propertyName">本字段对应的属性名</param>
-            <param name="sqlType">对应的SQL数据类型</param>
+            <param name="propertyName">属性名</param>
+            <param name="sqlType">Sql类型</param>
             <param name="propertyType">属性类型</param>
-        </member>
-        <member name="M:Buffalo.DB.PropertyAttributes.EntityParam.#ctor(System.String,System.String,System.String,System.Data.DbType,Buffalo.DB.PropertyAttributes.EntityPropertyType,System.String,System.Int32,System.Boolean,System.Boolean)">
-            <summary>
-            实体字段标识
-            </summary>
-            <param name="paramName">数据库字段名</param>
-            <param name="propertyName">本字段对应的属性名</param>
-            <param name="sqlType">对应的SQL数据类型</param>
-            <param name="propertyType">属性类型</param>
+            <param name="description">备注</param>
             <param name="length">长度</param>
+            <param name="allowNull">允许空</param>
+            <param name="isReadOnly">只读</param>
+            <param name="defaultValue">默认值</param>
+        </member>
+        <member name="M:Buffalo.DB.PropertyAttributes.EntityParam.#ctor(System.String,System.String,System.String,System.Data.DbType,Buffalo.DB.PropertyAttributes.EntityPropertyType,System.String,System.Int32,System.Boolean,System.Boolean,System.String)">
+            <summary>
+            实体字段标识
+            </summary>
+            <param name="fieldName">字段名</param>
+            <param name="paramName">数据库字段名</param>
+            <param name="propertyName">属性名</param>
+            <param name="sqlType">Sql类型</param>
+            <param name="propertyType">属性类型</param>
+            <param name="description">备注</param>
+            <param name="length">长度</param>
+            <param name="allowNull">允许空</param>
+            <param name="isReadOnly">只读</param>
+            <param name="defaultValue">默认值</param>
         </member>
         <member name="M:Buffalo.DB.PropertyAttributes.EntityParam.CheckLength">
             <summary>
@@ -10470,6 +10671,15 @@
             </summary>
             <param name="info"></param>
             <param name="tableName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.PropertyAttributes.EntityParam.GetDefaultValue(Buffalo.DB.DataBaseAdapter.IDbAdapters.IDBAdapter,System.Data.DbType,System.String)">
+            <summary>
+            获取默认值
+            </summary>
+            <param name="idba">数据库适配器</param>
+            <param name="type">数据类型</param>
+            <param name="value">值</param>
             <returns></returns>
         </member>
         <member name="P:Buffalo.DB.PropertyAttributes.EntityParam.FieldName">
@@ -10485,6 +10695,11 @@
         <member name="P:Buffalo.DB.PropertyAttributes.EntityParam.Description">
             <summary>
             字段注释
+            </summary>
+        </member>
+        <member name="P:Buffalo.DB.PropertyAttributes.EntityParam.DefaultValue">
+            <summary>
+            默认值
             </summary>
         </member>
         <member name="P:Buffalo.DB.PropertyAttributes.EntityParam.SequenceName">
@@ -12058,7 +12273,7 @@
         </member>
         <member name="P:Buffalo.DB.Resource.Culture">
             <summary>
-              使用此强类型资源类，为所有资源查找
+              重写当前线程的 CurrentUICulture 属性
               重写当前线程的 CurrentUICulture 属性。
             </summary>
         </member>

@@ -2986,6 +2986,11 @@
             系统内存的缓存适配器
             </summary>
         </member>
+        <member name="F:Buffalo.DB.CacheManager.MemoryAdaper._lockObjects">
+            <summary>
+            锁对象
+            </summary>
+        </member>
         <member name="P:Buffalo.DB.CacheManager.MemoryAdaper.Info">
             <summary>
             数据库信息
@@ -3721,6 +3726,11 @@
             <param name="lstEntiity">实体集合</param>
             <returns></returns>
         </member>
+        <member name="T:Buffalo.DB.CacheManager.QueryCacheCommand">
+            <summary>
+            缓存指令
+            </summary>
+        </member>
         <member name="M:Buffalo.DB.CacheManager.QueryViewConfig.RegisterView(System.Type)">
             <summary>
             登记视图
@@ -3743,6 +3753,11 @@
         <member name="F:Buffalo.DB.CacheManager.WebCacheAdaper._expiration">
             <summary>
             过期时间(分钟)
+            </summary>
+        </member>
+        <member name="F:Buffalo.DB.CacheManager.WebCacheAdaper._lockObjects">
+            <summary>
+            锁对象
             </summary>
         </member>
         <member name="P:Buffalo.DB.CacheManager.WebCacheAdaper.Expiration">
@@ -7355,6 +7370,12 @@
             <param name="info"></param>
             <returns></returns>
         </member>
+        <member name="M:Buffalo.DB.DataBaseAdapter.IDbAdapters.IDBAdapter.KeyWordDEFAULTFront">
+            <summary>
+            Default的关键字是否在NotNull前边
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Buffalo.DB.DataBaseAdapter.IDbAdapters.IDBStructure.GetAllTableName(Buffalo.DB.DbCommon.DataBaseOperate,Buffalo.DB.DataBaseAdapter.DBInfo)">
             <summary>
             获取所有表名
@@ -7392,6 +7413,12 @@
             <param name="dbInfo">数据库类型</param>
             <param name="type">检查类型</param>
             <param name="lstSQL">SQL语句</param>
+        </member>
+        <member name="M:Buffalo.DB.DataBaseAdapter.IDbAdapters.IAdapterLoader.SetDBVersion(System.String)">
+            <summary>
+            数据库版本
+            </summary>
+            <param name="version"></param>
         </member>
         <member name="T:Buffalo.DB.DataBaseAdapter.LoadTypeInfo">
             <summary>
