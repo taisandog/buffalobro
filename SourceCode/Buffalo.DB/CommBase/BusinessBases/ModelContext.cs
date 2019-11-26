@@ -197,6 +197,11 @@ namespace Buffalo.DB.CommBase.BusinessBases
             PrimaryKeyInfo info = id as PrimaryKeyInfo;
             if (info == null)
             {
+                if (CurEntityInfo.PrimaryProperty.Count <= 0)
+                {
+                    throw new MissingPrimaryKeyException("找不到：" + CurEntityInfo.EntityType.FullName + "的关联主键");
+                }
+
                 lstScope.AddEqual(CurEntityInfo.PrimaryProperty[0].PropertyName, id);
             }
             else 

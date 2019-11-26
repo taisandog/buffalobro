@@ -692,6 +692,11 @@ namespace Buffalo.DB.BQLCommon
                 _oper.DBInfo.ThrowNotFondTable(eType);
             }
             List<BQLParamHandle> lstParams = new List<BQLParamHandle>();
+            if (table.GetEntityInfo().PrimaryProperty.Count<=0)
+            {
+                throw new MissingPrimaryKeyException("找不到：" + eType.FullName + "的关联主键");
+            }
+
             lstParams.Add(table[table.GetEntityInfo().PrimaryProperty[0].PropertyName]);
                 
             BQLCondition where = BQLCondition.TrueValue;
