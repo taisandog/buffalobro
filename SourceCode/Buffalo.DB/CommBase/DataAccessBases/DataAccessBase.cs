@@ -433,6 +433,11 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             PrimaryKeyInfo pkInfo = id as PrimaryKeyInfo;
             if (pkInfo == null)
             {
+                if (CurEntityInfo.PrimaryProperty.Count <= 0)
+                {
+                    throw new MissingPrimaryKeyException("找不到：" + CurEntityInfo.EntityType.FullName + "的关联主键");
+                }
+
                 lstScope.AddEqual(CurEntityInfo.PrimaryProperty[0].PropertyName, id);
             }
             else 

@@ -640,6 +640,10 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             PrimaryKeyInfo pkInfo = id as PrimaryKeyInfo;
             if (pkInfo == null)
             {
+                if (EntityInfo.PrimaryProperty.Count <= 0)
+                {
+                    throw new MissingPrimaryKeyException("找不到：" + EntityInfo.EntityType.FullName + "的关联主键");
+                }
                 lstScope.AddEqual(EntityInfo.PrimaryProperty[0].PropertyName, id);
             }
             else
