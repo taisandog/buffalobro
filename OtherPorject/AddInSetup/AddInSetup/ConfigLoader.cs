@@ -32,6 +32,14 @@ namespace AddInSetup
         {
             get { return _lstAddInInfos; }
         }
+        private List<HelpDocItem> _lstDocItems;
+        /// <summary>
+        /// 帮助文档项
+        /// </summary>
+        public List<HelpDocItem> LstDocItems
+        {
+            get { return _lstDocItems; }
+        }
 
         private List<DllVerInfo> _lstDllVerInfo;
         /// <summary>
@@ -96,7 +104,7 @@ namespace AddInSetup
             }
             XmlDocument doc = new XmlDocument();
             doc.Load(infoFile);
-
+            
             _version = GetVersion(doc);
             //插件
             XmlNodeList addinNodes = doc.GetElementsByTagName("AddIns");
@@ -138,6 +146,19 @@ namespace AddInSetup
                 }
             }
 
+            //帮助文档
+            XmlNodeList docNodes = doc.GetElementsByTagName("Docs");
+            _lstDocItems = new List<HelpDocItem>();
+            if (docNodes.Count > 0)
+            {
+                XmlNode docNode = docNodes[0];
+                foreach (XmlNode node in docNode.ChildNodes)
+                {
+
+                    HelpDocItem info = HelpDocItem.LoadForNode(node);
+                    _lstDocItems.Add(info);
+                }
+            }
         }
     }
 }

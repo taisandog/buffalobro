@@ -52,7 +52,7 @@ namespace AddInSetup
             RefreashDisplay();
             ClearSelect(gvAddIns);
             ClearSelect(gvDllVer);
-
+            LoadDocItem();
             _thd = new Thread(new ThreadStart(CheckUpdate));
             _thd.Start();
         }
@@ -182,11 +182,7 @@ namespace AddInSetup
             ClearSelect(gvDllVer);
         }
 
-        private void txDoc_Click(object sender, EventArgs e)
-        {
-            string path = ConfigLoader.BasePath + "\\doc\\Buffalo.DB.docx";
-            Process.Start(path);
-        }
+       
 
         private void tsIndex_Click(object sender, EventArgs e)
         {
@@ -244,16 +240,32 @@ namespace AddInSetup
             }
         }
 
-        private void tsCache_Click(object sender, EventArgs e)
+        private void tsDoc_Click(object sender, EventArgs e)
         {
-            string path = ConfigLoader.BasePath + "\\doc\\Buffalo.Cache.docx";
+            ToolStripMenuItem item = sender as ToolStripMenuItem;
+            if (item == null)
+            {
+                return;
+            }
+            string path = ConfigLoader.BasePath + (item.Tag as string);
             Process.Start(path);
         }
 
-        private void tsStorage_Click(object sender, EventArgs e)
+        private void LoadDocItem()
         {
-            string path = ConfigLoader.BasePath + "\\doc\\Buffalo.Storage.docx";
-            Process.Start(path);
+            int index = 0;
+            List<ToolStripMenuItem> items = new List<ToolStripMenuItem>();
+            foreach (HelpDocItem item in _loader.LstDocItems)
+            {
+                ToolStripMenuItem ts = new ToolStripMenuItem();
+                ts.Name = "tsDoc_"+index;
+                ts.Size = new System.Drawing.Size(180, 22);
+                ts.Text = item.Title;
+                ts.Tag = item.Path;
+                ts.Click += new System.EventHandler(this.tsDoc_Click);
+                items.Add(ts);
+            }
+            this.tsHelp.DropDownItems.AddRange(items.ToArray());
         }
     }
 }

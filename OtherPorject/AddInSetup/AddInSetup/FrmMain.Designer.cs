@@ -47,12 +47,9 @@
             this.tsIndex = new System.Windows.Forms.ToolStripMenuItem();
             this.tsConn = new System.Windows.Forms.ToolStripMenuItem();
             this.tsVedio = new System.Windows.Forms.ToolStripMenuItem();
-            this.txDoc = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.tsNew = new System.Windows.Forms.ToolStripMenuItem();
             this.timCheck = new System.Windows.Forms.Timer(this.components);
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
-            this.tsCache = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsStorage = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.gvAddIns)).BeginInit();
             this.gpAddIn.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -220,10 +217,7 @@
             this.tsIndex,
             this.tsConn,
             this.tsVedio,
-            this.toolStripMenuItem2,
-            this.txDoc,
-            this.tsCache,
-            this.tsStorage});
+            this.toolStripMenuItem2});
             this.tsHelp.Name = "tsHelp";
             this.tsHelp.Size = new System.Drawing.Size(61, 21);
             this.tsHelp.Text = "帮助(&H)";
@@ -231,30 +225,28 @@
             // tsIndex
             // 
             this.tsIndex.Name = "tsIndex";
-            this.tsIndex.Size = new System.Drawing.Size(190, 22);
+            this.tsIndex.Size = new System.Drawing.Size(180, 22);
             this.tsIndex.Text = "Buffalo主页";
             this.tsIndex.Click += new System.EventHandler(this.tsIndex_Click);
             // 
             // tsConn
             // 
             this.tsConn.Name = "tsConn";
-            this.tsConn.Size = new System.Drawing.Size(190, 22);
+            this.tsConn.Size = new System.Drawing.Size(180, 22);
             this.tsConn.Text = "连接字符串";
             this.tsConn.Click += new System.EventHandler(this.tsConn_Click);
             // 
             // tsVedio
             // 
             this.tsVedio.Name = "tsVedio";
-            this.tsVedio.Size = new System.Drawing.Size(190, 22);
+            this.tsVedio.Size = new System.Drawing.Size(180, 22);
             this.tsVedio.Text = "使用视频";
             this.tsVedio.Click += new System.EventHandler(this.tsVedio_Click);
             // 
-            // txDoc
+            // toolStripMenuItem2
             // 
-            this.txDoc.Name = "txDoc";
-            this.txDoc.Size = new System.Drawing.Size(190, 22);
-            this.txDoc.Text = "Buffalo.DB文档";
-            this.txDoc.Click += new System.EventHandler(this.txDoc_Click);
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 6);
             // 
             // tsNew
             // 
@@ -268,25 +260,6 @@
             // 
             this.timCheck.Interval = 1000;
             this.timCheck.Tick += new System.EventHandler(this.timCheck_Tick);
-            // 
-            // toolStripMenuItem2
-            // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(187, 6);
-            // 
-            // tsCache
-            // 
-            this.tsCache.Name = "tsCache";
-            this.tsCache.Size = new System.Drawing.Size(190, 22);
-            this.tsCache.Text = "Buffalo.Cache 文档";
-            this.tsCache.Click += new System.EventHandler(this.tsCache_Click);
-            // 
-            // tsStorage
-            // 
-            this.tsStorage.Name = "tsStorage";
-            this.tsStorage.Size = new System.Drawing.Size(190, 22);
-            this.tsStorage.Text = "Buffalo.Storage文档";
-            this.tsStorage.Click += new System.EventHandler(this.tsStorage_Click);
             // 
             // FrmMain
             // 
@@ -333,14 +306,11 @@
         private System.Windows.Forms.ToolStripMenuItem tsExit;
         private System.Windows.Forms.ToolStripMenuItem tsHelp;
         private System.Windows.Forms.ToolStripMenuItem tsIndex;
-        private System.Windows.Forms.ToolStripMenuItem txDoc;
         private System.Windows.Forms.ToolStripMenuItem tsVedio;
         private System.Windows.Forms.ToolStripMenuItem tsNew;
         private System.Windows.Forms.Timer timCheck;
         private System.Windows.Forms.ToolStripMenuItem tsConn;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
-        private System.Windows.Forms.ToolStripMenuItem tsCache;
-        private System.Windows.Forms.ToolStripMenuItem tsStorage;
     }
 }
 
