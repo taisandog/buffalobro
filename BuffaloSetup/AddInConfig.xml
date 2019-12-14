@@ -10,6 +10,13 @@
   <AddIn file="AddIns\Net4.6.2\Buffalo.DBToolsPackage2017.vsix" version="15.0" addin="Visual Studio 2017" isvsix="1"></AddIn>
   <AddIn file="AddIns\Net4.7.2\Buffalo.DBToolsPackage2019.vsix" version="16.0" addin="Visual Studio 2019" isvsix="1"></AddIn>
 </AddIns>
+  <Docs>
+    <dic title="Buffalo.DB文档" path="\doc\Buffalo.DB.docx"></dic>
+    <dic title="Buffalo.Cache 文档" path="\doc\Buffalo.Cache.docx"></dic>
+    <dic title="Buffalo.Storage文档" path="\doc\Buffalo.Storage.docx"></dic>
+    <dic title="Buffalo.MongoDB文档" path="\doc\BuffaloMongo.docx"></dic>
+    
+  </Docs>
   <DllVer>
     <net ver="2.0" path="AddIns\Net2.0\"></net>
     <net ver="3.5" path="AddIns\Net3.5\"></net>
