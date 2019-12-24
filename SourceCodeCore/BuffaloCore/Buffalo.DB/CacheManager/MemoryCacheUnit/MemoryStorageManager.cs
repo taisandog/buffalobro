@@ -31,7 +31,9 @@ namespace Buffalo.DB.CacheManager.MemoryCacheUnit
         private void OnError(string title, Exception Ex)
         {
             if (Error != null)
+            {
                 Error(title, Ex);
+            }
         }
         /// <summary>
         /// 用于管理数据内存缓存的管理器.
@@ -59,10 +61,11 @@ namespace Buffalo.DB.CacheManager.MemoryCacheUnit
                 {
                     cacheItem.FreeData();
                 }
-
-                cacheItem = new MemoryStorageItem();
-                _cachePool[key] = cacheItem;
-
+                else
+                {
+                    cacheItem = new MemoryStorageItem();
+                    _cachePool[key] = cacheItem;
+                }
                 cacheItem.Data = data;
                 if (periodMilliseconds > 0)
                 {
@@ -162,9 +165,6 @@ namespace Buffalo.DB.CacheManager.MemoryCacheUnit
             }
             try
             {
-                string[] keyArray = new string[_cachePool.Count];
-                _cachePool.Keys.CopyTo(keyArray, 0);
-
                 List<string> lstNeedRemove = new List<string>();
                 foreach (KeyValuePair<string, MemoryStorageItem> kvp in _cachePool)
                 {
