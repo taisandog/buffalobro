@@ -94,10 +94,10 @@ namespace Buffalo.DB.CacheManager
             {
                 return new MemoryAdaper(info);
             }
-            //if (dtype.Equals("web", StringComparison.CurrentCultureIgnoreCase))//ASP.net Cache
-            //{
-            //    return new WebCacheAdaper(info, connectionString);
-            //}
+            if (dtype.Equals("web", StringComparison.CurrentCultureIgnoreCase))//ASP.net Cache
+            {
+                return new WebCacheAdaper(info, connectionString);
+            }
             ICacheAdaper cache = GetAssemblyCache(info, dtype, connectionString);
             if (cache != null) 
             {

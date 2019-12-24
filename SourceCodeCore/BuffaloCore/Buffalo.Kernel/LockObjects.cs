@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Buffalo.Kernel
 {
     /// <summary>
-    /// 为某个值提供锁对象的管理（等于锁一个对象）
+    /// 为某个值提供锁对象的管理器
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class LockObjects<T>
@@ -17,16 +17,15 @@ namespace Buffalo.Kernel
         /// <summary>
         /// 清理间隔(秒)
         /// </summary>
-        private int _cleanSeconds = 60;
+        private const int CleanSeconds = 60;
         /// <summary>
-        /// 为某个值提供锁对象的管理
+        /// 内存锁定记录
         /// </summary>
-        /// <param name="cleanSeconds">自动检测清理的秒数</param>
-        public LockObjects(int cleanSeconds=60)
+        /// <param name="timeoutMillisecond">超时时间(毫秒数)</param>
+        public LockObjects()
         {
             _dic = new Dictionary<T, LockItem<T>>();
             _lastClean = DateTime.Now;
-            _cleanSeconds = cleanSeconds;
         }
         /// <summary>
         /// 获取要锁的对象
@@ -39,10 +38,9 @@ namespace Buffalo.Kernel
             lock (_dic)
             {
                 DateTime nowDate = DateTime.Now;
-                if (nowDate.Subtract(_lastClean).TotalSeconds >= _cleanSeconds)//自动清理很久不用的变量
-                {
-                    ClearTimeout();
-                }
+                ClearTimeout(nowDate);
+                    
+                
 
                 if (!_dic.TryGetValue(key, out ret))
                 {
@@ -61,13 +59,17 @@ namespace Buffalo.Kernel
         /// <summary>
         /// 清除超时
         /// </summary>
-        private void ClearTimeout()
+        private void ClearTimeout(DateTime nowDate)
         {
+            if (nowDate.Subtract(_lastClean).TotalSeconds < CleanSeconds)//自动清理很久不用的变量
+            {
+                return;
+            }
             Queue<T> queNeedDelete = new Queue<T>();
             DateTime dt = DateTime.Now;
             foreach (KeyValuePair<T, LockItem<T>> kvp in _dic)
             {
-                if (dt.Subtract(kvp.Value.LastTime).TotalSeconds >= _cleanSeconds)
+                if (dt.Subtract(kvp.Value.LastTime).TotalSeconds >= CleanSeconds)
                 {
                     queNeedDelete.Enqueue(kvp.Key);
                 }
@@ -76,6 +78,7 @@ namespace Buffalo.Kernel
             {
                 _dic.Remove(key);
             }
+            _lastClean = DateTime.Now;
         }
 
         /// <summary>

@@ -143,7 +143,7 @@ namespace Buffalo.MongoDB
             MongoEntityInfo info = MongoEntityInfoManager.GetEntityHandle(t);
             if (info == null)
             {
-                throw new NotSupportedException("实体" + t.FullName + "并非MongoEntityBase的子类");
+                throw new NotSupportedException("实体" + t.FullName + "并未初始化");
             }
             
             if (info.CollectionName==null)
