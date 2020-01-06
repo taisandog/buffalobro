@@ -171,7 +171,7 @@ namespace Buffalo.Storage.LocalFileManager
         /// <param name="path">Â·¾¶</param>
         /// <param name="postion">Î»ÖÃ</param>
         /// <returns></returns>
-        public override Stream GetFileStream(string path,long postion)
+        public override Stream GetFileStream(string path,long postion, long length)
         {
             FileStream fs = new FileStream(GetLocal(path), FileMode.Open);
             fs.Position = postion;
@@ -207,7 +207,7 @@ namespace Buffalo.Storage.LocalFileManager
             {
                 //file.Seek(postion, SeekOrigin.End);
                 file.Position = postion;
-                CommonMethods.CopyStreamData(content, file);
+                CommonMethods.CopyStreamData(content, file,-1,null);
                 //file.Write(content, 0, content.Length);
             }
             return ApiCommon.GetSuccess();

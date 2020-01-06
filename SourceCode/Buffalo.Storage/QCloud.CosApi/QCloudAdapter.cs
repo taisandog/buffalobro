@@ -194,7 +194,7 @@ namespace Buffalo.Storage.QCloud.CosApi
             return stm;
         }
 
-        public override System.IO.Stream GetFileStream(string path, long postion)
+        public override System.IO.Stream GetFileStream(string path, long postion, long length)
         {
             FileInfoBase info = GetFileInfo(path);
             if (info == null)
@@ -208,7 +208,7 @@ namespace Buffalo.Storage.QCloud.CosApi
                 using (Stream readStream = myWebResponse.GetResponseStream())
                 {
                     SkipToPostion(readStream, postion);
-                    CommonMethods.CopyStreamData(readStream, stm);
+                    CommonMethods.CopyStreamData(readStream, stm, length, null);
                 }
             }
             stm.Position = 0;

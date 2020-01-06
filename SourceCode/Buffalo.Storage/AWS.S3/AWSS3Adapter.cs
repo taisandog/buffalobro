@@ -5,6 +5,8 @@ using Amazon.S3.Model;
 using Amazon.S3.Transfer;
 using Buffalo.ArgCommon;
 using Buffalo.Kernel;
+using Buffalo.Storage.AliCloud.OssAPI;
+using Buffalo.Storage.QCloud.CosApi;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -152,8 +154,30 @@ namespace Buffalo.Storage.AWS.S3
         /// <returns></returns>
         public override FileInfoBase GetFileInfo(string path)
         {
-            throw new NotImplementedException();
+            path = FormatKey(path);
+            try
+            {
+                GetObjectMetadataRequest request = new GetObjectMetadataRequest()
+                {
+                    BucketName = _bucketName,
+                    Key = path
+                };
+                GetObjectMetadataResponse response = _client.GetObjectMetadata(request);
+                string url = OSSAdapter.GetUrl(_internetUrl, request.Key);
+                string accessUrl = OSSAdapter.GetUrl(_internetUrl, request.Key);
+
+                NetStorageFileInfo info = new NetStorageFileInfo(response.LastModified, response.LastModified,
+                path , url, accessUrl, response.ETag, response.ContentLength);
+
+                return info;
+
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
+        
         /// <summary>
         /// 文件是否存在
         /// </summary>
@@ -161,10 +185,30 @@ namespace Buffalo.Storage.AWS.S3
         /// <returns></returns>
         public override bool ExistsFile(string path)
         {
-            throw new NotImplementedException();
+            path = FormatKey(path);
+            try
+            {
+
+                S3FileInfo file = new S3FileInfo(_client, _bucketName, path);
+                return file.Exists;
+
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
         public override APIResault Close()
         {
+           
+            if (_client != null)
+            {
+                try
+                {
+                    _client.Dispose();
+                }
+                catch { };
+            }
             _client = null;
             return ApiCommon.GetSuccess();
         }
@@ -176,7 +220,21 @@ namespace Buffalo.Storage.AWS.S3
         /// <returns></returns>
         public override List<string> GetDirectories(string path, System.IO.SearchOption searchOption)
         {
-            throw new NotImplementedException();
+            path = FormatPathKey(path);
+            ListObjectsRequest request = new ListObjectsRequest();
+            request.BucketName=_bucketName;
+            request.Prefix= path;
+            request.Delimiter = "/";
+            
+            ListObjectsResponse response = _client.ListObjects(request);
+
+
+            List<string> lstRet = new List<string>();
+            foreach (S3Object obj in response.S3Objects)
+            {
+                lstRet.Add(obj.Key);
+            }
+            return lstRet;
         }
         /// <summary>
         /// 获取文件流
@@ -185,12 +243,35 @@ namespace Buffalo.Storage.AWS.S3
         /// <returns></returns>
         public override System.IO.Stream GetFileStream(string path)
         {
-            throw new NotImplementedException();
+            path = FormatKey(path);
+            GetObjectRequest request = new GetObjectRequest();
+            request.BucketName = _bucketName;
+            request.Key = path;
+
+            GetObjectResponse response = _client.GetObject(request);
+            return response.ResponseStream;
         }
 
-        public override System.IO.Stream GetFileStream(string path, long postion)
+        public override System.IO.Stream GetFileStream(string path, long postion,long length)
         {
-            throw new NotImplementedException();
+            path = FormatKey(path);
+            FileInfoBase info = GetFileInfo(path);
+            if (info == null)
+            {
+                return null;
+            }
+            
+            long end = FileInfoBase.GetRangeEnd(postion, length, info.Length);
+            ByteRange byteRange = new ByteRange(postion, end);
+
+            GetObjectRequest request = new GetObjectRequest();
+            request.BucketName = _bucketName;
+            request.Key = path;
+            request.ByteRange = byteRange;
+            GetObjectResponse response = _client.GetObject(request);
+            Stream stmRet=response.ResponseStream;
+            return stmRet;
+
         }
         private static readonly DateTime DefaultDate = new DateTime(1970, 1, 1);
 
@@ -266,7 +347,52 @@ namespace Buffalo.Storage.AWS.S3
         /// <returns></returns>
         public override List<FileInfoBase> GetFiles(string path, System.IO.SearchOption searchOption)
         {
-            throw new NotImplementedException();
+            path = FormatPathKey(path);
+
+
+            ListObjectsRequest request = new ListObjectsRequest()
+            {
+                BucketName = _bucketName,
+                Prefix = path,
+
+            };
+            if (searchOption == SearchOption.TopDirectoryOnly)
+            {
+                request.Delimiter = "/";
+            }
+            ListObjectsResponse response = null;
+            List<FileInfoBase> lst = new List<FileInfoBase>();
+            request.MaxKeys = 50;
+            string url = null;
+            string accessUrl = null;
+            List<string> lstRet = new List<string>();
+            do
+            {
+                response = _client.ListObjects(request);
+
+
+                
+                foreach (S3Object entry in response.S3Objects)
+                {
+                    if (entry.Key.EndsWith("/"))
+                    {
+                        continue;
+                    }
+                    url = OSSAdapter.GetUrl(_internetUrl, entry.Key);
+                    accessUrl = OSSAdapter.GetUrl(_internetUrl, entry.Key);
+                    NetStorageFileInfo info = new NetStorageFileInfo(entry.LastModified, entry.LastModified,
+                            entry.Key, url, accessUrl, entry.ETag, entry.Size);
+                    lst.Add(info);
+
+                }
+
+                
+                request.Marker = response.NextMarker;
+            }
+            while (response.IsTruncated);
+
+            return lst;
+
         }
 
 
@@ -300,8 +426,40 @@ namespace Buffalo.Storage.AWS.S3
 
         public override APIResault RenameFile(string source, string target)
         {
+            source = FormatKey(source);
+            target = FormatKey(target);
+            GetACLRequest aclRequest = new GetACLRequest();
+            aclRequest.BucketName = _bucketName;
+            aclRequest.Key = source;
+            GetACLResponse getAclResponse = _client.GetACL(aclRequest);
 
-            throw new System.NotSupportedException("AWS不支持重命名文件");
+
+            CopyObjectRequest copyRequest = new CopyObjectRequest();
+            copyRequest.SourceBucket = _bucketName;
+            copyRequest.DestinationBucket = _bucketName;
+            copyRequest.SourceKey = source;
+            copyRequest.DestinationKey = target;
+            CopyObjectResponse copyResponse = _client.CopyObject(copyRequest);
+
+            // set the acl of the newly created object
+            PutACLRequest setAclRequest = new PutACLRequest();
+            setAclRequest.BucketName = _bucketName;
+            setAclRequest.Key = target;
+            setAclRequest.AccessControlList = getAclResponse.AccessControlList;
+
+
+            PutACLResponse setAclRespone = _client.PutACL(setAclRequest);
+
+            DeleteObjectRequest deleteRequest = new DeleteObjectRequest();
+            deleteRequest.BucketName = _bucketName;
+            deleteRequest.Key = source;
+
+            DeleteObjectResponse deleteResponse = _client.DeleteObject(deleteRequest);
+            if (deleteResponse.HttpStatusCode == HttpStatusCode.OK)
+            {
+                return ApiCommon.GetSuccess();
+            }
+            return ApiCommon.GetFault(null, deleteResponse.HttpStatusCode);
         }
 
         /// <summary>
@@ -411,10 +569,7 @@ namespace Buffalo.Storage.AWS.S3
         public override bool ExistDirectory(string folder)
         {
             folder = FormatPathKey(folder);
-            GetObjectRequest request = new GetObjectRequest();
-
-            request.BucketName = _bucketName;
-            request.Key = folder;
+           
             try
             {
 
@@ -435,12 +590,39 @@ namespace Buffalo.Storage.AWS.S3
         /// <returns></returns>
         public override APIResault CreateDirectory(string folder)
         {
-            throw new NotImplementedException();
+            folder = FormatPathKey(folder);
+            PutObjectRequest request = new PutObjectRequest()
+            {
+                BucketName = _bucketName,
+                Key = folder,
+
+            };
+            PutObjectResponse response = _client.PutObject(request);
+            return ApiCommon.GetSuccess();
         }
 
         public override void ReadFileToStream(string path, Stream stm, long postion, long length)
         {
-            throw new NotImplementedException();
+            path = FormatKey(path);
+            FileInfoBase info = GetFileInfo(path);
+            if (info == null)
+            {
+                throw new FileNotFoundException(path + " 不存在");
+            }
+            long end = FileInfoBase.GetRangeEnd(postion, length, info.Length);
+            ByteRange byteRange = new ByteRange(postion, end);
+
+            GetObjectRequest request = new GetObjectRequest()
+            {
+                BucketName = _bucketName,
+                Key = path,
+                ByteRange = byteRange
+            };
+
+            using (GetObjectResponse response = _client.GetObject(request))
+            {
+                CommonMethods.CopyStreamData(response.ResponseStream, stm);
+            }
         }
     }
 }

@@ -225,7 +225,7 @@ namespace Buffalo.Storage.HW.OBS
             return stm;
         }
 
-        public override Stream GetFileStream(string path, long postion)
+        public override Stream GetFileStream(string path, long postion, long length)
         {
             path = GetFilePath(path);
             FileInfoBase info = GetFileInfo(path);
@@ -233,7 +233,7 @@ namespace Buffalo.Storage.HW.OBS
             {
                 return null;
             }
-            long end = FileInfoBase.GetRangeEnd(postion, -1, info.Length);
+            long end = FileInfoBase.GetRangeEnd(postion, length, info.Length);
             ByteRange byteRange = new ByteRange(postion, end);
             GetObjectRequest request = new GetObjectRequest()
             {

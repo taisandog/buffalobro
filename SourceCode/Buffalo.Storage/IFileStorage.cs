@@ -53,9 +53,10 @@ namespace Buffalo.Storage
         /// 获取文件流
         /// </summary>
         /// <param name="path">路径</param>
-        /// <param name="postion">位置</param>
+        /// <param name="postion">起始获取位置</param>
+        /// <param name="length">要下多大(0则一直下完位置)</param>
         /// <returns></returns>
-        public abstract System.IO.Stream GetFileStream(string path, long postion);
+        public abstract System.IO.Stream GetFileStream(string path, long postion,long length);
         /// <summary>
         /// 把文件读取到流
         /// </summary>
