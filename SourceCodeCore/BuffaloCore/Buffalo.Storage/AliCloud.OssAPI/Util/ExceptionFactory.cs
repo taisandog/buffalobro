@@ -5,7 +5,7 @@
  */
 
 using System;
-using Buffalo.Storage;
+using Buffalo.Storage.Properties;
 using Aliyun.OSS.Common;
 
 namespace Aliyun.OSS.Util

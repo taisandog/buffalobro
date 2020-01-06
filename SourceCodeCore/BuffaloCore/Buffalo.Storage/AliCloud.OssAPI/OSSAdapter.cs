@@ -263,19 +263,19 @@ namespace Buffalo.Storage.AliCloud.OssAPI
             return obj.Content;
         }
 
-        public override System.IO.Stream GetFileStream(string path, long postion)
+        public override System.IO.Stream GetFileStream(string path, long postion,long length)
         {
             path = FormatKey(path);
             long filelength = GetFileLength(path);
 
-            long end = FileInfoBase.GetRangeEnd(postion, -1, filelength);
+            long end = FileInfoBase.GetRangeEnd(postion, length, filelength);
 
             GetObjectRequest getObjectRequest = new GetObjectRequest(_bucketName, path);
             getObjectRequest.SetRange(postion, end);
             using (OssObject obj = _cloud.GetObject(getObjectRequest))
             {
                 MemoryStream stm = new MemoryStream();
-                CommonMethods.CopyStreamData(obj.Content, stm);
+                CommonMethods.CopyStreamData(obj.Content, stm, -1, null);
                 return stm;
             }
         }

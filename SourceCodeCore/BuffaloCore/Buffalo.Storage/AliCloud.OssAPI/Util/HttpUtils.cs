@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using System;
-using Buffalo.Storage;
+using Buffalo.Storage.Properties;
 
 namespace Aliyun.OSS.Util
 {

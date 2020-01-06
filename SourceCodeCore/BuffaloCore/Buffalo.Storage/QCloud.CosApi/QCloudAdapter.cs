@@ -16,10 +16,7 @@ using System.Security.Cryptography;
 
 namespace Buffalo.Storage.QCloud.CosApi
 {
-    //APPID:1251039330
-//SecretId: AKID16AFMW1nu1IatBHnxbBev691prwr7PGz
-//SecretKey: 01rdj6KMCuTt9GYnqmiV8ZxGN1Yu46fA
-    //"http://" + local + ".file.myqcloud.com/files/v2/";
+
 
     /// <summary>
     /// 腾讯云适配器
@@ -194,7 +191,7 @@ namespace Buffalo.Storage.QCloud.CosApi
             return stm;
         }
 
-        public override System.IO.Stream GetFileStream(string path, long postion)
+        public override System.IO.Stream GetFileStream(string path, long postion, long length)
         {
             FileInfoBase info = GetFileInfo(path);
             if (info == null)
@@ -208,7 +205,7 @@ namespace Buffalo.Storage.QCloud.CosApi
                 using (Stream readStream = myWebResponse.GetResponseStream())
                 {
                     SkipToPostion(readStream, postion);
-                    CommonMethods.CopyStreamData(readStream, stm);
+                    CommonMethods.CopyStreamData(readStream, stm, length, null);
                 }
             }
             stm.Position = 0;
@@ -555,7 +552,7 @@ namespace Buffalo.Storage.QCloud.CosApi
                     SkipToPostion(readStream, postion);
 
 
-                    CommonMethods.CopyStreamData(readStream, stm, length);
+                    CommonMethods.CopyStreamData(readStream, stm, length, null);
 
                 }
             }

@@ -7,13 +7,18 @@
     <Copyright>taisandog</Copyright>
     <PackageProjectUrl>https://github.com/taisandog/buffalobro</PackageProjectUrl>
     <Product>Buffalo.Storage for .Net Standard 2.0</Product>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath>..\..\..\SourceCode\Release\NetStandard2</OutputPath>
     <DocumentationFile>..\..\..\SourceCode\Release\NetStandard2\Buffalo.Storage.xml</DocumentationFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AWSSDK.Core" Version="3.3.104.12" />
+    <PackageReference Include="AWSSDK.S3" Version="3.3.110.8" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Buffalo.ArgCommon\Buffalo.ArgCommon.csproj" />

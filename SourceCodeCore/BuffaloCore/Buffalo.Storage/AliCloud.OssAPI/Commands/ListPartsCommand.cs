@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using Aliyun.OSS.Common.Communication;
 using Aliyun.OSS.Util;
 using Aliyun.OSS.Transform;
-using Buffalo.Storage;
+using Buffalo.Storage.Properties;
 
 namespace Aliyun.OSS.Commands
 {

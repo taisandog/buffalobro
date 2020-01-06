@@ -50,9 +50,9 @@ namespace Buffalo.Storage.LocalFileManager
             if (!string.IsNullOrEmpty(_fileRoot)) 
             {
                 _fileRoot = GetRealRoot(_fileRoot);
-                if(!_fileRoot.EndsWith(CommonMethods.PathCombine.ToString()))
+                if(!_fileRoot.EndsWith("\\"))
                 {
-                    _fileRoot=_fileRoot+ CommonMethods.PathCombine;
+                    _fileRoot=_fileRoot+"\\";
                 }
             }
             _userName = hs.GetMapValue<string>("user");
@@ -102,13 +102,13 @@ namespace Buffalo.Storage.LocalFileManager
         private string GetRealRoot(string root) 
         {
             char start=root[0];
-            if (root[0] == CommonMethods.PathCombine && root[1] == CommonMethods.PathCombine) 
+            if (root[0] == '\\' && root[1] == '\\') 
             {
                 return root;
             }
             if (start=='.' || start=='\\' || start=='/') 
             {
-                string mroot =Path.Combine(CommonMethods.GetBaseRoot(), root);
+                string mroot = CommonMethods.GetBaseRoot()+"\\" + root;
                 DirectoryInfo dir = new DirectoryInfo(mroot);
                 return dir.FullName;
             }
@@ -171,7 +171,7 @@ namespace Buffalo.Storage.LocalFileManager
         /// <param name="path">Â·¾¶</param>
         /// <param name="postion">Î»ÖÃ</param>
         /// <returns></returns>
-        public override Stream GetFileStream(string path,long postion)
+        public override Stream GetFileStream(string path,long postion, long length)
         {
             FileStream fs = new FileStream(GetLocal(path), FileMode.Open);
             fs.Position = postion;
@@ -207,7 +207,7 @@ namespace Buffalo.Storage.LocalFileManager
             {
                 //file.Seek(postion, SeekOrigin.End);
                 file.Position = postion;
-                CommonMethods.CopyStreamData(content, file);
+                CommonMethods.CopyStreamData(content, file,-1,null);
                 //file.Write(content, 0, content.Length);
             }
             return ApiCommon.GetSuccess();
@@ -232,7 +232,7 @@ namespace Buffalo.Storage.LocalFileManager
         {
             string curpath = GetLocal(path);
             CheckDirectory(curpath);
-            curpath = curpath.TrimEnd(CommonMethods.PathCombine);
+            curpath = curpath.TrimEnd('\\');
             using (FileStream file = new FileStream(curpath, FileMode.Create, FileAccess.Write))
             {
                 //file.Seek(postion, SeekOrigin.End);
@@ -250,7 +250,7 @@ namespace Buffalo.Storage.LocalFileManager
         {
             string curpath = GetLocal(targetPath);
             CheckDirectory(curpath);
-            curpath = curpath.TrimEnd(CommonMethods.PathCombine);
+            curpath = curpath.TrimEnd('\\');
             File.Copy(sourcePath, curpath);
             return ApiCommon.GetSuccess();
         }
@@ -332,9 +332,9 @@ namespace Buffalo.Storage.LocalFileManager
             foreach (string spath in files)
             {
                 string curPath = spath.Substring(_fileRoot.Length);
-                if (curPath[0] != CommonMethods.PathCombine)
+                if (curPath[0] != '\\')
                 {
-                    curPath = CommonMethods.PathCombine + curPath;
+                    curPath = '\\' + curPath;
                 }
                 ret.Add(curPath);
             }
@@ -390,7 +390,7 @@ namespace Buffalo.Storage.LocalFileManager
                 {
                     length = -1;
                 }
-                CommonMethods.CopyStreamData(fs, stm, length);
+                CommonMethods.CopyStreamData(fs, stm, length, null);
             }
         }
     }

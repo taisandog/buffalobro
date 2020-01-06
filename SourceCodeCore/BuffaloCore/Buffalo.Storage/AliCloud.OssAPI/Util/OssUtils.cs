@@ -15,7 +15,7 @@ using Aliyun.OSS.Common;
 using Aliyun.OSS.Common.Communication;
 using Aliyun.OSS.Commands;
 //using Aliyun.OSS.Domain;
-using Buffalo.Storage;
+using Buffalo.Storage.Properties;
 using Aliyun.OSS.Common.Internal;
 
 namespace Aliyun.OSS.Util
