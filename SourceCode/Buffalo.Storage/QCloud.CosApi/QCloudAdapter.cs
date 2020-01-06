@@ -16,10 +16,7 @@ using System.Security.Cryptography;
 
 namespace Buffalo.Storage.QCloud.CosApi
 {
-    //APPID:1251039330
-//SecretId: AKID16AFMW1nu1IatBHnxbBev691prwr7PGz
-//SecretKey: 01rdj6KMCuTt9GYnqmiV8ZxGN1Yu46fA
-    //"http://" + local + ".file.myqcloud.com/files/v2/";
+
 
     /// <summary>
     /// 腾讯云适配器
