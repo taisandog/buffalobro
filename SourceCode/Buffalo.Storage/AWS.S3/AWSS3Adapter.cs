@@ -81,7 +81,7 @@ namespace Buffalo.Storage.AWS.S3
         /// <param name="path">路径</param>
         public override APIResault RemoveDirectory(string path)
         {
-            path = FormatPathKey(path);
+            path = OSSAdapter.FormatPathKey(path);
 
 
             ListObjectsRequest request = new ListObjectsRequest()
@@ -214,7 +214,7 @@ namespace Buffalo.Storage.AWS.S3
         /// <returns></returns>
         public override List<string> GetDirectories(string path, System.IO.SearchOption searchOption)
         {
-            path = FormatPathKey(path);
+            path = OSSAdapter.FormatPathKey(path);
             ListObjectsRequest request = new ListObjectsRequest();
             request.BucketName=_bucketName;
             request.Prefix= path;
@@ -316,23 +316,7 @@ namespace Buffalo.Storage.AWS.S3
             }
             return url.TrimStart(' ', '/', '\\');
         }
-        // <summary>
-        /// 格式化Key
-        /// </summary>
-        /// <param name="url"></param>
-        private static string FormatPathKey(string url)
-        {
-            if (string.IsNullOrWhiteSpace(url))
-            {
-                return "/";
-            }
-            url = url.TrimStart(' ', '/', '\\');
-            if (url[url.Length - 1] != '/')
-            {
-                url = url + "/";
-            }
-            return url;
-        }
+        
         /// <summary>
         /// 获取文件
         /// </summary>
@@ -341,7 +325,7 @@ namespace Buffalo.Storage.AWS.S3
         /// <returns></returns>
         public override List<FileInfoBase> GetFiles(string path, System.IO.SearchOption searchOption)
         {
-            path = FormatPathKey(path);
+            path = OSSAdapter.FormatPathKey(path);
 
 
             ListObjectsRequest request = new ListObjectsRequest()
@@ -599,7 +583,7 @@ namespace Buffalo.Storage.AWS.S3
         /// <returns></returns>
         public override bool ExistDirectory(string folder)
         {
-            folder = FormatPathKey(folder);
+            folder = OSSAdapter.FormatPathKey(folder);
            
             try
             {
@@ -621,7 +605,7 @@ namespace Buffalo.Storage.AWS.S3
         /// <returns></returns>
         public override APIResault CreateDirectory(string folder)
         {
-            folder = FormatPathKey(folder);
+            folder = OSSAdapter.FormatPathKey(folder);
             PutObjectRequest request = new PutObjectRequest()
             {
                 BucketName = _bucketName,

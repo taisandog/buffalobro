@@ -297,14 +297,17 @@ namespace Buffalo.Storage.AliCloud.OssAPI
         /// 格式化Key
         /// </summary>
         /// <param name="url"></param>
-        private static string FormatPathKey(string url)
+        internal static string FormatPathKey(string url)
         {
             if (string.IsNullOrWhiteSpace(url))
             {
                 return "/";
             }
-            url= url.TrimStart(' ', '/', '\\');
-            if (url[url.Length - 1] != '/')
+            if (url.Length > 1)
+            {
+                url = url.TrimStart(' ', '/', '\\');
+            }
+            if (url.Length<1 || url[url.Length - 1] != '/')
             {
                 url = url + "/";
             }
