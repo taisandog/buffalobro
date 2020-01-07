@@ -54,6 +54,12 @@
     <DocumentationFile>..\Release\2015\Buffalo.Storage.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AWSSDK.Core">
+      <HintPath>..\..\dll\dll\Net4.5\AWSSDK.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="AWSSDK.S3">
+      <HintPath>..\..\dll\dll\Net4.5\AWSSDK.S3.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\dll\dll\Net4.6\Newtonsoft.Json.dll</HintPath>
@@ -309,6 +315,7 @@
     <Compile Include="AliCloud.OssAPI\Util\ServiceClientFactory.cs" />
     <Compile Include="AliCloud.OssAPI\Util\SignUtils.cs" />
     <Compile Include="AliCloud.OssAPI\Util\StringValueAttribute.cs" />
+    <Compile Include="AWS.S3\AWSS3Adapter.cs" />
     <Compile Include="FileInfoBase.cs" />
     <Compile Include="HW.OBS\HWOBSAdapter.cs" />
     <Compile Include="HW.OBS\HWOBSAdapter.Upload.cs" />

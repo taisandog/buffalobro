@@ -109,7 +109,39 @@ namespace Buffalo.Storage.AWS.S3
         /// <param name="path">路径</param>
         public override APIResault RemoveDirectory(string path)
         {
-            throw new NotImplementedException();
+            path = FormatPathKey(path);
+
+
+            ListObjectsRequest request = new ListObjectsRequest()
+            {
+                BucketName = _bucketName,
+                Prefix = path,
+
+            };
+
+            ListObjectsResponse response = null;
+            List<FileInfoBase> lst = new List<FileInfoBase>();
+            request.MaxKeys = 20;
+            do
+            {
+                response = _client.ListObjects(request);
+
+                DeleteObjectsRequest drequest = new DeleteObjectsRequest();
+                drequest.BucketName = _bucketName;
+                drequest.Quiet = true;
+
+
+                foreach (S3Object entry in response.S3Objects)
+                {
+                    drequest.AddKey(entry.Key);
+                }
+                DeleteObjectsResponse dresponse = _client.DeleteObjects(drequest);
+                request.Marker = response.NextMarker;
+            }
+            while (response.IsTruncated);
+
+
+            return ApiCommon.GetSuccess();
         }
 
         /// <summary>
@@ -121,7 +153,7 @@ namespace Buffalo.Storage.AWS.S3
         /// <returns></returns>
         public override APIResault AppendFile(string path, Stream content, long postion)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException("AWS S3无法追加文件");
 
         }
         /// <summary>
@@ -132,20 +164,10 @@ namespace Buffalo.Storage.AWS.S3
         /// <returns></returns>
         public override APIResault AppendFile(string path, Stream content)
         {
-            path = FormatKey(path);
-
-            return AppendFile(path, content, GetFileLength(path));
+            throw new NotSupportedException("AWS S3无法追加文件");
         }
 
-        /// <summary>
-        /// 获取文件长度
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        private long GetFileLength(string path)
-        {
-            throw new NotImplementedException();
-        }
+        
 
         /// <summary>
         /// 获取文件信息

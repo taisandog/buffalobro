@@ -6,6 +6,7 @@ using Buffalo.Storage.LocalFileManager;
 using Buffalo.Storage.QCloud.CosApi;
 using Buffalo.Storage.AliCloud.OssAPI;
 using Buffalo.Storage.HW.OBS;
+using Buffalo.Storage.AWS.S3;
 
 namespace Buffalo.Storage
 {
@@ -36,6 +37,10 @@ namespace Buffalo.Storage
             else if (type.Equals("OBS", StringComparison.CurrentCultureIgnoreCase))
             {
                 return new HWOBSAdapter(connString);
+            }
+            else if (type.Equals("AWSS3", StringComparison.CurrentCultureIgnoreCase))
+            {
+                return new AWSS3Adapter(connString);
             }
             throw new Exception("不支持:" + type + "的存储类型");
         }
