@@ -5,13 +5,16 @@ using Amazon.S3.Model;
 using Amazon.S3.Transfer;
 using Buffalo.ArgCommon;
 using Buffalo.Kernel;
+using Buffalo.Kernel.FastReflection;
 using Buffalo.Storage.AliCloud.OssAPI;
+using Buffalo.Storage.HW.OBS;
 using Buffalo.Storage.QCloud.CosApi;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,7 +33,7 @@ namespace Buffalo.Storage.AWS.S3
         /// </summary>
         private S3CannedACL _acl;
 
-   
+        private RegionEndpoint _endpoint;
         /// <summary>
         /// 亚马逊适配
         /// </summary>
@@ -39,7 +42,10 @@ namespace Buffalo.Storage.AWS.S3
         {
             Dictionary<string, string> hs = ConnStringFilter.GetConnectInfo(connString);
             FillBaseConfig(hs);
-            
+            if (!_server.StartsWith("http"))
+            {
+                _endpoint = GetRegionEndpoint(_server);
+            }
             _acl = GetACL(hs.GetMapValue<string>("acl"));
             
         }
@@ -81,7 +87,7 @@ namespace Buffalo.Storage.AWS.S3
         /// <param name="path">路径</param>
         public override APIResault RemoveDirectory(string path)
         {
-            path = OSSAdapter.FormatPathKey(path);
+            path = HWOBSAdapter.GetPath(path);
 
 
             ListObjectsRequest request = new ListObjectsRequest()
@@ -214,21 +220,26 @@ namespace Buffalo.Storage.AWS.S3
         /// <returns></returns>
         public override List<string> GetDirectories(string path, System.IO.SearchOption searchOption)
         {
-            path = OSSAdapter.FormatPathKey(path);
-            ListObjectsRequest request = new ListObjectsRequest();
-            request.BucketName=_bucketName;
-            request.Prefix= path;
-            request.Delimiter = "/";
-            
-            ListObjectsResponse response = _client.ListObjects(request);
+            List<string> lst = new List<string>();
+            ListObjectsRequest listObjectsRequest = new ListObjectsRequest();
+            string curPath = HWOBSAdapter.GetPath(path);
 
 
-            List<string> lstRet = new List<string>();
-            foreach (S3Object obj in response.S3Objects)
+            string nextMarker = string.Empty;
+            listObjectsRequest.Prefix = curPath;
+            listObjectsRequest.Delimiter = "/";
+            listObjectsRequest.BucketName = _bucketName;
+
+            ListObjectsResponse result = _client.ListObjects(listObjectsRequest);
+
+            foreach (string prefix in result.CommonPrefixes)
             {
-                lstRet.Add(obj.Key);
+
+                lst.Add(prefix);
             }
-            return lstRet;
+
+
+            return lst;
         }
         /// <summary>
         /// 获取文件流
@@ -325,7 +336,7 @@ namespace Buffalo.Storage.AWS.S3
         /// <returns></returns>
         public override List<FileInfoBase> GetFiles(string path, System.IO.SearchOption searchOption)
         {
-            path = OSSAdapter.FormatPathKey(path);
+            path = HWOBSAdapter.GetPath(path);
 
 
             ListObjectsRequest request = new ListObjectsRequest()
@@ -373,13 +384,43 @@ namespace Buffalo.Storage.AWS.S3
 
         }
 
+        /// <summary>
+        /// 获取所有的区域
+        /// </summary>
+        /// <returns></returns>
+        public static List<string> GetAllRegionEndpoint()
+        {
+            FieldInfo[] finfos=typeof(RegionEndpoint).GetFields(BindingFlags.Static| BindingFlags.Public);
+            List<string> lstRegions = new List<string>(finfos.Length);
+            foreach (FieldInfo finfo in finfos)
+            {
+                lstRegions.Add(finfo.Name);
+            }
+            return lstRegions;
+        }
 
-
+        /// <summary>
+        /// 获取区域的信息
+        /// </summary>
+        /// <returns></returns>
+        public static RegionEndpoint GetRegionEndpoint(string name)
+        {
+            FieldInfo finfos = typeof(RegionEndpoint).GetField(name,BindingFlags.Static | BindingFlags.Public);
+            RegionEndpoint ret= finfos.GetValue(null) as RegionEndpoint;
+            return ret;
+        }
 
         public override APIResault Open()
         {
             AmazonS3Config config = new AmazonS3Config();
-            config.ServiceURL = _server;
+            if (_endpoint != null)
+            {
+                config.RegionEndpoint = _endpoint;
+            }
+            else
+            {
+                config.ServiceURL = _server;
+            }
             if (_timeout > 0)
             {
                 config.Timeout = TimeSpan.FromMilliseconds(_timeout);
@@ -583,7 +624,7 @@ namespace Buffalo.Storage.AWS.S3
         /// <returns></returns>
         public override bool ExistDirectory(string folder)
         {
-            folder = OSSAdapter.FormatPathKey(folder);
+            folder = HWOBSAdapter.GetPath(folder);
            
             try
             {
@@ -605,7 +646,7 @@ namespace Buffalo.Storage.AWS.S3
         /// <returns></returns>
         public override APIResault CreateDirectory(string folder)
         {
-            folder = OSSAdapter.FormatPathKey(folder);
+            folder = HWOBSAdapter.GetPath(folder);
             PutObjectRequest request = new PutObjectRequest()
             {
                 BucketName = _bucketName,

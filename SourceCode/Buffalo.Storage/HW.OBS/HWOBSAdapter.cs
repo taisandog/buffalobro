@@ -276,7 +276,7 @@ namespace Buffalo.Storage.HW.OBS
                 return null;
             }
         }
-        private static string GetPath(string path)
+        internal static string GetPath(string path)
         {
             path = path.TrimStart('/', '\\', ' ');
             if (!string.IsNullOrWhiteSpace(path))
