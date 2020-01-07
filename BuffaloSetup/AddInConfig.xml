@@ -90,6 +90,10 @@
 		  <file path="Buffalo.Storage.XML"></file>
 		  <file path="Buffalo.ArgCommon.dll"></file>
 		  <file path="Buffalo.ArgCommon.xml"></file>
+		  <file path="AWSSDK.Core.dll"></file>
+		  <file path="AWSSDK.Core.xml"></file>
+		  <file path="AWSSDK.S3.dll"></file>
+		  <file path="AWSSDK.S3.xml"></file>
 		  <file path="Buffalo.ArgCommon.deps.json"></file>
 		  <file path="Buffalo.Storage.1.0.1.nupkg" main="1"></file>
     </item>
