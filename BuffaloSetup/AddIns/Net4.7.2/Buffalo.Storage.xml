@@ -6109,7 +6109,6 @@
             </summary>
             <param name="url"></param>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:Buffalo.Storage.AWS.S3.AWSS3Adapter.FormatPathKey(System.String)" -->
         <member name="M:Buffalo.Storage.AWS.S3.AWSS3Adapter.GetFiles(System.String,System.IO.SearchOption)">
             <summary>
             获取文件

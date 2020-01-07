@@ -6109,7 +6109,6 @@
             </summary>
             <param name="url"></param>
         </member>
-        <!-- 对于成员“M:Buffalo.Storage.AWS.S3.AWSS3Adapter.FormatPathKey(System.String)”忽略有格式错误的 XML 注释 -->
         <member name="M:Buffalo.Storage.AWS.S3.AWSS3Adapter.GetFiles(System.String,System.IO.SearchOption)">
             <summary>
             获取文件
