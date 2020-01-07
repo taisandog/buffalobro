@@ -21,40 +21,16 @@ namespace Buffalo.Storage.AWS.S3
     public class AWSS3Adapter : IFileStorage
     {
         /// <summary>
-        /// 服务器地址
-        /// </summary>
-        private string _server;
-        /// <summary>
         /// 客户端
         /// </summary>
         private AmazonS3Client _client;
-        /// <summary>
-        /// 安全ID
-        /// </summary>
-        private string _secretKey;
-        /// <summary>
-        /// 安全Key
-        /// </summary>
-        private string _accessKey;
-        /// <summary>
-        /// 超时(毫秒)
-        /// </summary>
-        private int _timeout = 0;
-        /// <summary>
-        /// BucketName
-        /// </summary>
-        private string _bucketName;
-        /// <summary>
-        /// 外网访问地址
-        /// </summary>
-        private string _internetUrl;
-        /// <summary>
-        /// 内网访问地址
-        /// </summary>
-        private string _lanUrl;
 
-
+        /// <summary>
+        /// 权限
+        /// </summary>
         private S3CannedACL _acl;
+
+   
         /// <summary>
         /// 亚马逊适配
         /// </summary>
@@ -62,14 +38,10 @@ namespace Buffalo.Storage.AWS.S3
         public AWSS3Adapter(string connString)
         {
             Dictionary<string, string> hs = ConnStringFilter.GetConnectInfo(connString);
-            _server = hs.GetMapValue<string>("Server");
-            _accessKey = hs.GetMapValue<string>("AccessKey");
-            _secretKey = hs.GetMapValue<string>("SecretKey");
-            _bucketName = hs.GetMapValue<string>("BucketName");
-            _internetUrl = hs.GetMapValue<string>("InternetUrl");
-            _lanUrl = hs.GetMapValue<string>("LanUrl");
-            _timeout = hs.GetMapValue<int>("timeout", 1000);
+            FillBaseConfig(hs);
+            
             _acl = GetACL(hs.GetMapValue<string>("acl"));
+            
         }
         private S3CannedACL GetACL(string acl)
         {
@@ -424,7 +396,21 @@ namespace Buffalo.Storage.AWS.S3
         {
             AmazonS3Config config = new AmazonS3Config();
             config.ServiceURL = _server;
-            _client = new AmazonS3Client(_accessKey,_secretKey,config);
+            if (_timeout > 0)
+            {
+                config.Timeout = TimeSpan.FromMilliseconds(_timeout);
+            }
+            if (!string.IsNullOrWhiteSpace(_proxyHost))
+            {
+                config.ProxyHost = _proxyHost;
+                config.ProxyPort = _proxyPort;
+                if (!string.IsNullOrWhiteSpace(_proxyUser))
+                {
+                    config.ProxyCredentials = new NetworkCredential(_proxyUser, _proxyPass);
+                }
+            }
+
+            _client = new AmazonS3Client(_secretId,_secretKey,config);
 
             return ApiCommon.GetSuccess();
         }
@@ -495,6 +481,7 @@ namespace Buffalo.Storage.AWS.S3
             targetPath = FormatKey(targetPath);
             using (FileStream file = new FileStream(sourcePath,FileMode.Open))
             {
+                
                 long len = file.Length;
                 if (len < FileInfoBase.SLICE_UPLOAD_FILE_SIZE)
                 {
@@ -506,6 +493,19 @@ namespace Buffalo.Storage.AWS.S3
                 }
             }
             return ApiCommon.GetSuccess();
+        }
+        public static string GetMD5HashFromStream(Stream stream)
+        {
+
+            MD5 md5 = new MD5CryptoServiceProvider();
+            byte[] retVal = md5.ComputeHash(stream);
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < retVal.Length; i++)
+            {
+                sb.Append(retVal[i].ToString("x2"));
+            }
+            return sb.ToString();
         }
 
         /// <summary>
@@ -522,6 +522,12 @@ namespace Buffalo.Storage.AWS.S3
             request.Key = path;
             request.InputStream = stream;
             request.CannedACL = _acl;
+            if (_needHash)
+            {
+                string md5 = GetMD5HashFromStream(stream);
+                stream.Position = 0;
+                request.MD5Digest = md5;
+            }
             PutObjectResponse res = _client.PutObject(request);
             if (res.HttpStatusCode == HttpStatusCode.OK)
             {
@@ -529,6 +535,8 @@ namespace Buffalo.Storage.AWS.S3
             }
             return ApiCommon.GetFault(null, res.HttpStatusCode);
         }
+
+
         /// <summary>
         /// 分块大小
         /// </summary>
@@ -548,6 +556,7 @@ namespace Buffalo.Storage.AWS.S3
             uploadMultipartRequest.InputStream = stream;
             uploadMultipartRequest.PartSize = PartSize;
             uploadMultipartRequest.CannedACL = _acl;
+
             using (TransferUtility transferUtility = new TransferUtility(_client))
             {
                 transferUtility.Upload(uploadMultipartRequest);
