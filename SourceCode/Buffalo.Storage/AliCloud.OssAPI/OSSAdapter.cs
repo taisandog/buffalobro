@@ -17,7 +17,6 @@ using Buffalo.Kernel;
 
 namespace Buffalo.Storage.AliCloud.OssAPI
 {
-    //SecretId=LTAIPM7uERWhDShn;SecretKey=YZiGsJMxUSxEQYeDJHmuSkgQp8HG9z
     public class OSSAdapter : IFileStorage
     {
 
