@@ -88,6 +88,10 @@
 		  <file path="Buffalo.Storage.dll" main="1"></file>
 		  <file path="Buffalo.Storage.deps.json"></file>
 		  <file path="Buffalo.Storage.XML"></file>
+		  <file path="AWSSDK.Core.dll"></file>
+		  <file path="AWSSDK.Core.XML"></file>
+		  <file path="AWSSDK.S3.dll"></file>
+		  <file path="AWSSDK.S3.XML"></file>
 		  <file path="Buffalo.ArgCommon.dll"></file>
 		  <file path="Buffalo.ArgCommon.xml"></file>
 		  <file path="Buffalo.ArgCommon.deps.json"></file>
