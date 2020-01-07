@@ -39,6 +39,12 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AWSSDK.Core">
+      <HintPath>..\dll\AWSSDK.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="AWSSDK.S3">
+      <HintPath>..\dll\AWSSDK.S3.dll</HintPath>
+    </Reference>
     <Reference Include="Buffalo.ArgCommon">
       <HintPath>..\dll\Buffalo.ArgCommon.dll</HintPath>
     </Reference>
@@ -70,6 +76,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\dll\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="StackExchange.Redis, Version=1.2.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dll\StackExchange.Redis.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
@@ -81,6 +91,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddInInfo.cs" />
+    <Compile Include="ConnStringUI\UIAWS.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConnStringUI\UIAWS.Designer.cs">
+      <DependentUpon>UIAWS.cs</DependentUpon>
+    </Compile>
     <Compile Include="ConnStringUI\UIConnBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -169,6 +185,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UpdateInfo.cs" />
+    <EmbeddedResource Include="ConnStringUI\UIAWS.resx">
+      <DependentUpon>UIAWS.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ConnStringUI\UIConnBase.resx">
       <DependentUpon>UIConnBase.cs</DependentUpon>
     </EmbeddedResource>

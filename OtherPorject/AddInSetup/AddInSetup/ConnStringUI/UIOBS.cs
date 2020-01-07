@@ -66,7 +66,7 @@ namespace AddInSetup.ConnStringUI
             sbStr.Append("Server=");
             sbStr.Append(HttpUtility.UrlEncode(txtServer.Text));
             sbStr.Append(";");
-            sbStr.Append("AccessKey=");
+            sbStr.Append("SecretId=");
             sbStr.Append(HttpUtility.UrlEncode(txtAccessKey.Text));
             sbStr.Append(";");
             sbStr.Append("SecretKey=");
@@ -84,6 +84,7 @@ namespace AddInSetup.ConnStringUI
             sbStr.Append("Timeout=");
             sbStr.Append(txtTimeout.Value.ToString());
             sbStr.Append(";");
+            FillProxyInfo(sbStr);
             return sbStr.ToString();
         }
     }

@@ -37,6 +37,8 @@
             this.tbCOS = new System.Windows.Forms.TabPage();
             this.uicos1 = new AddInSetup.ConnStringUI.UICOS();
             this.tbOBS = new System.Windows.Forms.TabPage();
+            this.uiobs1 = new AddInSetup.ConnStringUI.UIOBS();
+            this.tbAWS = new System.Windows.Forms.TabPage();
             this.tbLocal = new System.Windows.Forms.TabPage();
             this.uiLocationStorage1 = new AddInSetup.ConnStringUI.UILocationStorage();
             this.tabCache = new System.Windows.Forms.TabPage();
@@ -51,13 +53,14 @@
             this.uiWebCache1 = new AddInSetup.ConnStringUI.UIWebCache();
             this.tbMemory = new System.Windows.Forms.TabPage();
             this.uiSysMemory1 = new AddInSetup.ConnStringUI.UISysMemory();
-            this.uiobs1 = new AddInSetup.ConnStringUI.UIOBS();
+            this.uiaws1 = new AddInSetup.ConnStringUI.UIAWS();
             this.tbItems.SuspendLayout();
             this.tpOSS.SuspendLayout();
             this.tabStorage.SuspendLayout();
             this.tbOSS.SuspendLayout();
             this.tbCOS.SuspendLayout();
             this.tbOBS.SuspendLayout();
+            this.tbAWS.SuspendLayout();
             this.tbLocal.SuspendLayout();
             this.tabCache.SuspendLayout();
             this.tbCache.SuspendLayout();
@@ -95,6 +98,7 @@
             this.tabStorage.Controls.Add(this.tbOSS);
             this.tabStorage.Controls.Add(this.tbCOS);
             this.tabStorage.Controls.Add(this.tbOBS);
+            this.tabStorage.Controls.Add(this.tbAWS);
             this.tabStorage.Controls.Add(this.tbLocal);
             this.tabStorage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabStorage.Location = new System.Drawing.Point(3, 3);
@@ -155,6 +159,26 @@
             this.tbOBS.TabIndex = 3;
             this.tbOBS.Text = "华为云OBS";
             this.tbOBS.UseVisualStyleBackColor = true;
+            // 
+            // uiobs1
+            // 
+            this.uiobs1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.uiobs1.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.uiobs1.Location = new System.Drawing.Point(3, 3);
+            this.uiobs1.Margin = new System.Windows.Forms.Padding(5);
+            this.uiobs1.Name = "uiobs1";
+            this.uiobs1.Size = new System.Drawing.Size(923, 613);
+            this.uiobs1.TabIndex = 0;
+            // 
+            // tbAWS
+            // 
+            this.tbAWS.Controls.Add(this.uiaws1);
+            this.tbAWS.Location = new System.Drawing.Point(4, 30);
+            this.tbAWS.Name = "tbAWS";
+            this.tbAWS.Size = new System.Drawing.Size(929, 619);
+            this.tbAWS.TabIndex = 4;
+            this.tbAWS.Text = "AWS S3";
+            this.tbAWS.UseVisualStyleBackColor = true;
             // 
             // tbLocal
             // 
@@ -303,15 +327,15 @@
             this.uiSysMemory1.Size = new System.Drawing.Size(923, 613);
             this.uiSysMemory1.TabIndex = 0;
             // 
-            // uiobs1
+            // uiaws1
             // 
-            this.uiobs1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.uiobs1.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.uiobs1.Location = new System.Drawing.Point(3, 3);
-            this.uiobs1.Margin = new System.Windows.Forms.Padding(5);
-            this.uiobs1.Name = "uiobs1";
-            this.uiobs1.Size = new System.Drawing.Size(923, 613);
-            this.uiobs1.TabIndex = 0;
+            this.uiaws1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.uiaws1.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.uiaws1.Location = new System.Drawing.Point(0, 0);
+            this.uiaws1.Margin = new System.Windows.Forms.Padding(8, 9, 8, 9);
+            this.uiaws1.Name = "uiaws1";
+            this.uiaws1.Size = new System.Drawing.Size(929, 619);
+            this.uiaws1.TabIndex = 0;
             // 
             // FrmConnString
             // 
@@ -330,6 +354,7 @@
             this.tbOSS.ResumeLayout(false);
             this.tbCOS.ResumeLayout(false);
             this.tbOBS.ResumeLayout(false);
+            this.tbAWS.ResumeLayout(false);
             this.tbLocal.ResumeLayout(false);
             this.tabCache.ResumeLayout(false);
             this.tbCache.ResumeLayout(false);
@@ -367,5 +392,7 @@
         private ConnStringUI.UIRedis2 uiRedis21;
         private System.Windows.Forms.TabPage tbOBS;
         private ConnStringUI.UIOBS uiobs1;
+        private System.Windows.Forms.TabPage tbAWS;
+        private ConnStringUI.UIAWS uiaws1;
     }
 }

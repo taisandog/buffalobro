@@ -86,6 +86,7 @@ namespace AddInSetup.ConnStringUI
             sbStr.Append("timeout=");
             sbStr.Append(txtTimeout.Value.ToString());
             sbStr.Append(";");
+            FillProxyInfo(sbStr);
             return sbStr.ToString();
         }
     }

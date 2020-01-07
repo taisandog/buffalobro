@@ -67,6 +67,7 @@
             this.gpSetting.Controls.Add(this.txtServer);
             this.gpSetting.Controls.Add(this.label1);
             this.gpSetting.Size = new System.Drawing.Size(714, 381);
+            this.gpSetting.Enter += new System.EventHandler(this.GpSetting_Enter);
             // 
             // txtLanUrl
             // 
