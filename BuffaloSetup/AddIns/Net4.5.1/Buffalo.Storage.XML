@@ -5184,12 +5184,13 @@
             <param name="postion"></param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.Storage.IFileStorage.GetFileStream(System.String,System.Int64)">
+        <member name="M:Buffalo.Storage.IFileStorage.GetFileStream(System.String,System.Int64,System.Int64)">
             <summary>
             获取文件流
             </summary>
             <param name="path">路径</param>
-            <param name="postion">位置</param>
+            <param name="postion">起始获取位置</param>
+            <param name="length">要下多大(0则一直下完位置)</param>
             <returns></returns>
         </member>
         <member name="M:Buffalo.Storage.IFileStorage.ReadFileToStream(System.String,System.IO.Stream,System.Int64,System.Int64)">
@@ -6205,6 +6206,214 @@
             <param name="args"></param>
             <param name="sender"></param>
         </member>
+        <member name="F:Buffalo.Storage.AWS.S3.AWSS3Adapter.PartSize">
+            <summary>
+            分块大小
+            </summary>
+        </member>
+        <member name="F:Buffalo.Storage.AWS.S3.AWSS3Adapter._server">
+            <summary>
+            服务器地址
+            </summary>
+        </member>
+        <member name="F:Buffalo.Storage.AWS.S3.AWSS3Adapter._client">
+            <summary>
+            客户端
+            </summary>
+        </member>
+        <member name="F:Buffalo.Storage.AWS.S3.AWSS3Adapter._secretKey">
+            <summary>
+            安全ID
+            </summary>
+        </member>
+        <member name="F:Buffalo.Storage.AWS.S3.AWSS3Adapter._accessKey">
+            <summary>
+            安全Key
+            </summary>
+        </member>
+        <member name="F:Buffalo.Storage.AWS.S3.AWSS3Adapter._timeout">
+            <summary>
+            超时(毫秒)
+            </summary>
+        </member>
+        <member name="F:Buffalo.Storage.AWS.S3.AWSS3Adapter._bucketName">
+            <summary>
+            BucketName
+            </summary>
+        </member>
+        <member name="F:Buffalo.Storage.AWS.S3.AWSS3Adapter._internetUrl">
+            <summary>
+            外网访问地址
+            </summary>
+        </member>
+        <member name="F:Buffalo.Storage.AWS.S3.AWSS3Adapter._lanUrl">
+            <summary>
+            内网访问地址
+            </summary>
+        </member>
+        <member name="M:Buffalo.Storage.AWS.S3.AWSS3Adapter.#ctor(System.String)">
+            <summary>
+            亚马逊适配
+            </summary>
+            <param name="connString"></param>
+        </member>
+        <member name="M:Buffalo.Storage.AWS.S3.AWSS3Adapter.GetHash">
+            <summary>
+            获取哈希类
+            </summary>
+        </member>
+        <member name="M:Buffalo.Storage.AWS.S3.AWSS3Adapter.RemoveDirectory(System.String)">
+            <summary>
+            删除文件夹
+            </summary>
+            <param name="path">路径</param>
+        </member>
+        <member name="M:Buffalo.Storage.AWS.S3.AWSS3Adapter.AppendFile(System.String,System.IO.Stream,System.Int64)">
+            <summary>
+            指定位置追加文件内容
+            </summary>
+            <param name="path"></param>
+            <param name="content"></param>
+            <param name="postion"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Storage.AWS.S3.AWSS3Adapter.AppendFile(System.String,System.IO.Stream)">
+            <summary>
+            追加到末尾
+            </summary>
+            <param name="path"></param>
+            <param name="content"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Storage.AWS.S3.AWSS3Adapter.GetFileLength(System.String)">
+            <summary>
+            获取文件长度
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Storage.AWS.S3.AWSS3Adapter.GetFileInfo(System.String)">
+            <summary>
+            获取文件信息
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Storage.AWS.S3.AWSS3Adapter.ExistsFile(System.String)">
+            <summary>
+            文件是否存在
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Storage.AWS.S3.AWSS3Adapter.GetDirectories(System.String,System.IO.SearchOption)">
+            <summary>
+            获取文件夹
+            </summary>
+            <param name="path"></param>
+            <param name="searchOption"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Storage.AWS.S3.AWSS3Adapter.GetFileStream(System.String)">
+            <summary>
+            获取文件流
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Storage.AWS.S3.AWSS3Adapter.GetUrl(System.String,System.String)">
+            <summary>
+            获取地址
+            </summary>
+            <param name="url"></param>
+            <param name="file"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Storage.AWS.S3.AWSS3Adapter.FormatKey(System.String)">
+            <summary>
+            格式化Key
+            </summary>
+            <param name="url"></param>
+        </member>
+        <!-- 对于成员“M:Buffalo.Storage.AWS.S3.AWSS3Adapter.FormatPathKey(System.String)”忽略有格式错误的 XML 注释 -->
+        <member name="M:Buffalo.Storage.AWS.S3.AWSS3Adapter.GetFiles(System.String,System.IO.SearchOption)">
+            <summary>
+            获取文件
+            </summary>
+            <param name="path"></param>
+            <param name="searchOption"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Storage.AWS.S3.AWSS3Adapter.RemoveFile(System.String)">
+            <summary>
+            删除文件
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Storage.AWS.S3.AWSS3Adapter.SaveFile(System.String,System.String)">
+            <summary>
+            保存文件
+            </summary>
+            <param name="sourcePath">原路径</param>
+            <param name="targetPath">目标路径</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Storage.AWS.S3.AWSS3Adapter.SaveFileSingle(System.String,System.IO.Stream,System.Int64)">
+            <summary>
+            单线上传文件
+            </summary>
+            <param name="path">目标目录</param>
+            <param name="stream">流</param>
+            <param name="contentLength">内容</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Storage.AWS.S3.AWSS3Adapter.SaveFileMultipart(System.String,System.IO.Stream,System.Int64)">
+            <summary>
+            多块上传文件
+            </summary>
+            <param name="path">目标目录</param>
+            <param name="stream">流</param>
+            <param name="contentLength">内容</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Storage.AWS.S3.AWSS3Adapter.SaveFile(System.String,System.IO.Stream,System.Int64)">
+            <summary>
+            保存文件
+            </summary>
+            <param name="path"></param>
+            <param name="stream"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Storage.AWS.S3.AWSS3Adapter.ExistDirectory(System.String)">
+            <summary>
+            文件夹是否存在
+            </summary>
+            <param name="folder"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Storage.AWS.S3.AWSS3Adapter.CreateDirectory(System.String)">
+            <summary>
+            创建文件夹
+            </summary>
+            <param name="folder"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Buffalo.Storage.AWS.S3.AWSS3Adapter.HashName">
+            <summary>
+            哈希类型
+            </summary>
+        </member>
+        <member name="P:Buffalo.Storage.AWS.S3.AWSS3Adapter.InternetUrl">
+            <summary>
+            互联网地址
+            </summary>
+        </member>
+        <member name="P:Buffalo.Storage.AWS.S3.AWSS3Adapter.LanUrl">
+            <summary>
+            局域网地址
+            </summary>
+        </member>
         <member name="T:Buffalo.Storage.FileInfoBase">
             <summary>
             文件信息
@@ -6436,7 +6645,7 @@
         </member>
         <member name="P:Buffalo.Storage.Properties.OssResources.Culture">
             <summary>
-              使用此强类型资源类，为所有资源查找
+              重写当前线程的 CurrentUICulture 属性
               重写当前线程的 CurrentUICulture 属性。
             </summary>
         </member>
@@ -6470,7 +6679,7 @@
         </member>
         <member name="P:Buffalo.Storage.Properties.Resource.Culture">
             <summary>
-              使用此强类型资源类，为所有资源查找
+              重写当前线程的 CurrentUICulture 属性
               重写当前线程的 CurrentUICulture 属性。
             </summary>
         </member>
@@ -6502,7 +6711,7 @@
             ppsx    application/vnd.openxmlformats-officedocument.presentationml.slideshow
             pptx    application/vnd.openxmlformats-officedocument.presentationml.presentation
             sldx    application/vnd.openxmlformats-officedocument.presentationml.slide
-            docx    application/vnd.openxmlformats-officedo [字符串的其余部分被截断]&quot;; 的本地化字符串。
+            docx    application/vnd.openxmlformats-of [字符串的其余部分被截断]&quot;; 的本地化字符串。
              </summary>
         </member>
         <member name="M:QCloud.CosApi.Api.CosCloud.#ctor(System.Int32,System.String,System.String,System.String,System.Int32)">
@@ -7002,7 +7211,7 @@
             <param name="path"></param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.Storage.LocalFileManager.LocalFileAdapter.GetFileStream(System.String,System.Int64)">
+        <member name="M:Buffalo.Storage.LocalFileManager.LocalFileAdapter.GetFileStream(System.String,System.Int64,System.Int64)">
             <summary>
             获取文件流
             </summary>
