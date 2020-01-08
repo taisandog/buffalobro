@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\ThirdParty\\Enyim.Caching\\Enyim.Caching.csproj": {}
+    "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\ThirdParty\\Enyim.Caching\\Enyim.Caching.csproj": {}
   },
   "projects": {
-    "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\ThirdParty\\Enyim.Caching\\Enyim.Caching.csproj": {
+    "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\ThirdParty\\Enyim.Caching\\Enyim.Caching.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\ThirdParty\\Enyim.Caching\\Enyim.Caching.csproj",
+        "projectUniqueName": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\ThirdParty\\Enyim.Caching\\Enyim.Caching.csproj",
         "projectName": "EnyimMemcached",
-        "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\ThirdParty\\Enyim.Caching\\Enyim.Caching.csproj",
-        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\ThirdParty\\Enyim.Caching\\obj\\",
+        "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\ThirdParty\\Enyim.Caching\\Enyim.Caching.csproj",
+        "packagesPath": "C:\\Users\\taisandog\\.nuget\\packages\\",
+        "outputPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\ThirdParty\\Enyim.Caching\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\taisandog\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -25,7 +25,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "D:\\myPackage": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {

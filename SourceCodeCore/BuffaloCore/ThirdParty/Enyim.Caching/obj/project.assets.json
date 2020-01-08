@@ -398,11 +398,12 @@
       ]
     },
     "Microsoft.NETCore.Platforms/1.1.0": {
-      "sha512": "kz0PEW2lhqygehI/d6XsPCQzD7ff7gUJaVGPVETX611eadGsA3A877GdSlU0LRVMCTH/+P3o2iDTak+S08V2+A==",
+      "sha512": "OW9dS9//Pe/LDmDz84FsU7ZlKQ9GzwpxGvVlduwipeav3aesDaso516x2W+RI59SF0syw6OSUaSvtX0/8pd3dA==",
       "type": "package",
       "path": "microsoft.netcore.platforms/1.1.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/netstandard1.0/_._",
@@ -876,23 +877,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Administrator\\.nuget\\packages\\": {},
+    "C:\\Users\\taisandog\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\ThirdParty\\Enyim.Caching\\Enyim.Caching.csproj",
+      "projectUniqueName": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\ThirdParty\\Enyim.Caching\\Enyim.Caching.csproj",
       "projectName": "EnyimMemcached",
-      "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\ThirdParty\\Enyim.Caching\\Enyim.Caching.csproj",
-      "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-      "outputPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\ThirdParty\\Enyim.Caching\\obj\\",
+      "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\ThirdParty\\Enyim.Caching\\Enyim.Caching.csproj",
+      "packagesPath": "C:\\Users\\taisandog\\.nuget\\packages\\",
+      "outputPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\ThirdParty\\Enyim.Caching\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\taisandog\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -900,7 +901,6 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "D:\\myPackage": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {

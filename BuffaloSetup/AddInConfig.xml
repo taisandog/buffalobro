@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<root date="2019-08-30 0:28:00">
+<root date="2020-1-08 14:55:00">
   <AddIns>
     <AddIn file="AddIns\Net2.0\Buffalo.DBTools.dll" version="8.0" addin="Visual Studio 2005"></AddIn>
     <AddIn file="AddIns\Net3.5\Buffalo.DBTools.dll" version="9.0" addin="Visual Studio 2008"></AddIn>
@@ -78,6 +78,10 @@
       <file path="Buffalo.Storage.dll" main="1"></file>
       <file path="Buffalo.Storage.deps.json"></file>
       <file path="Buffalo.Storage.XML"></file>
+	  <file path="AWSSDK.Core.dll"></file>
+      <file path="AWSSDK.Core.xml"></file>
+	  <file path="AWSSDK.S3.dll"></file>
+      <file path="AWSSDK.S3.xml"></file>
       <file path="Buffalo.ArgCommon.dll"></file>
       <file path="Buffalo.ArgCommon.xml"></file>
       <file path="Buffalo.ArgCommon.deps.json"></file>

@@ -22,7 +22,7 @@ namespace AddInSetup.ConnStringUI
         }
         protected override void OnHelp()
         {
-            Process.Start(BasePath + "OBS.docx");
+            Process.Start(BasePath + "aws.docx");
         }
         protected override void OnTest()
         {

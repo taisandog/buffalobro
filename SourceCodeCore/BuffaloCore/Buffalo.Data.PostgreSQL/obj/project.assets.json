@@ -557,11 +557,11 @@
           "lib/netstandard2.0/_._": {}
         }
       },
-      "Buffalo.DB/1.0.2": {
+      "Buffalo.DB/1.0.3": {
         "type": "project",
         "framework": ".NETStandard,Version=v2.0",
         "dependencies": {
-          "Buffalo.Kernel": "1.0.0",
+          "Buffalo.Kernel": "1.0.1",
           "Microsoft.AspNetCore.Hosting.Abstractions": "2.2.0",
           "System.Configuration.ConfigurationManager": "4.5.0",
           "System.Data.SqlClient": "4.6.1",
@@ -577,7 +577,7 @@
           "bin/placeholder/Buffalo.DB.dll": {}
         }
       },
-      "Buffalo.Kernel/1.0.0": {
+      "Buffalo.Kernel/1.0.1": {
         "type": "project",
         "framework": ".NETStandard,Version=v2.0",
         "dependencies": {
@@ -728,11 +728,12 @@
       ]
     },
     "Microsoft.NETCore.Platforms/1.1.0": {
-      "sha512": "kz0PEW2lhqygehI/d6XsPCQzD7ff7gUJaVGPVETX611eadGsA3A877GdSlU0LRVMCTH/+P3o2iDTak+S08V2+A==",
+      "sha512": "OW9dS9//Pe/LDmDz84FsU7ZlKQ9GzwpxGvVlduwipeav3aesDaso516x2W+RI59SF0syw6OSUaSvtX0/8pd3dA==",
       "type": "package",
       "path": "microsoft.netcore.platforms/1.1.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/netstandard1.0/_._",
@@ -742,11 +743,12 @@
       ]
     },
     "Microsoft.NETCore.Targets/1.1.0": {
-      "sha512": "aOZA3BWfz9RXjpzt0sRJJMjAscAUm3Hoa4UWAfceV9UTYxgwZ1lZt5nO2myFf+/jetYQo4uTP7zS8sJY67BBxg==",
+      "sha512": "r4ND1E0np+ABkzzwN4NBbTzrh+dfGuy/PUn2hyW6O3EcOU89dMVvgrRMMaDgGXm4qRWSp1BCZhoAlVr9BCjAvg==",
       "type": "package",
       "path": "microsoft.netcore.targets/1.1.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/netstandard1.0/_._",
@@ -1327,7 +1329,7 @@
       ]
     },
     "System.Reflection/4.3.0": {
-      "sha512": "KMiAFoW7MfJGa9nDFNcfu+FpEdiHpWgTcS2HdMpDvt9saK3y/G4GwprPyzqjFH9NTaGPQeWNHU+iDlDILj96aQ==",
+      "sha512": "9RcDie+xN1kJD+FkpkiDqJDbwHa5hnF35sqbdDjmtFoabqAxO2MuqaMAG+BeLJVgED5p1808QcgwKHRy7MyyyQ==",
       "type": "package",
       "path": "system.reflection/4.3.0",
       "files": [
@@ -1442,11 +1444,12 @@
       ]
     },
     "System.Reflection.Emit.ILGeneration/4.3.0": {
-      "sha512": "59tBslAk9733NXLrUJrwNZEzbMAcu8k344OYo+wfSVygcgZ9lgBdGIzH/nrg3LYhXceynyvTc8t5/GD4Ri0/ng==",
+      "sha512": "eHuLrpgz98Ht0A5qVWenPmzrGgPwoZ88e1nYb5gaYyZQ2nwN8AP69u7wGjy1H4plKSFNDZeGUgQDExKBBcPF9Q==",
       "type": "package",
       "path": "system.reflection.emit.ilgeneration/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -1486,11 +1489,12 @@
       ]
     },
     "System.Reflection.Emit.Lightweight/4.3.0": {
-      "sha512": "oadVHGSMsTmZsAF864QYN1t1QzZjIcuKU3l2S9cZOwDdDueNTrqq1yRj7koFfIGEnKpt6NjpL3rOzRhs4ryOgA==",
+      "sha512": "KUOhjQYBX9cvlnEvP+Jh/AkKqK4QyW6e5XYDW9ypSxvSTsUt2WVeIk/ydbU97TS7C/OQ/neR8oAa9EDCKc2+mw==",
       "type": "package",
       "path": "system.reflection.emit.lightweight/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -1530,7 +1534,7 @@
       ]
     },
     "System.Reflection.Primitives/4.3.0": {
-      "sha512": "5RXItQz5As4xN2/YUDxdpsEkMhvw3e6aNveFXUn4Hl/udNTCNhnKp8lT9fnc3MhvGKh1baak5CovpuQUXHAlIA==",
+      "sha512": "vRjNxJShnCwT6Lwnz6oyvbXpSTQZEDTod1iBSMTQIBrIMt77NkiDCPtFPhXhMqlGzsKqs4ObxnaKdyyNKB5jGw==",
       "type": "package",
       "path": "system.reflection.primitives/4.3.0",
       "files": [
@@ -1849,7 +1853,7 @@
       ]
     },
     "System.Text.Encoding/4.3.0": {
-      "sha512": "BiIg+KWaSDOITze6jGQynxg64naAPtqGHBwDrLaCtixsa5bKiR8dpPOHA7ge3C0JJQizJE+sfkz1wV+BAKAYZw==",
+      "sha512": "51N0Ayw0u3RT7ja++zP2OF5LGLFNWKfHphxxLhTQ292k6wQpdlmAMfnOEsl0ZVPUW3UpBdNrQfghIfPUIU1Jjg==",
       "type": "package",
       "path": "system.text.encoding/4.3.0",
       "files": [
@@ -1983,7 +1987,7 @@
       ]
     },
     "System.Threading.Tasks/4.3.0": {
-      "sha512": "LbSxKEdOUhVe8BezB/9uOGGppt+nZf6e1VFyw6v3DN6lqitm0OSn2uXMOdtP0M3W4iMcqcivm2J6UgqiwwnXiA==",
+      "sha512": "LdnfgN1/HvyD3/iqhNOD2O/GGU7S1OpkkA+x2r5kkeNXLG4QoRosBNX5pvFj2K03JFHUF17HQI+ggqIEJXaGBw==",
       "type": "package",
       "path": "system.threading.tasks/4.3.0",
       "files": [
@@ -2128,12 +2132,12 @@
         "version.txt"
       ]
     },
-    "Buffalo.DB/1.0.2": {
+    "Buffalo.DB/1.0.3": {
       "type": "project",
       "path": "../Buffalo.DB/Buffalo.DB.csproj",
       "msbuildProject": "../Buffalo.DB/Buffalo.DB.csproj"
     },
-    "Buffalo.Kernel/1.0.0": {
+    "Buffalo.Kernel/1.0.1": {
       "type": "project",
       "path": "../Buffalo.Kernel/Buffalo.Kernel.csproj",
       "msbuildProject": "../Buffalo.Kernel/Buffalo.Kernel.csproj"
@@ -2141,30 +2145,30 @@
   },
   "projectFileDependencyGroups": {
     ".NETStandard,Version=v2.0": [
-      "Buffalo.DB >= 1.0.2",
-      "Buffalo.Kernel >= 1.0.0",
+      "Buffalo.DB >= 1.0.3",
+      "Buffalo.Kernel >= 1.0.1",
       "NETStandard.Library >= 2.0.3",
       "Npgsql >= 4.0.9"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Administrator\\.nuget\\packages\\": {},
+    "C:\\Users\\taisandog\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.2",
     "restore": {
-      "projectUniqueName": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Data.PostgreSQL\\Buffalo.Data.PostgreSQL.csproj",
+      "projectUniqueName": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Data.PostgreSQL\\Buffalo.Data.PostgreSQL.csproj",
       "projectName": "Buffalo.Data.PostgreSQL",
-      "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Data.PostgreSQL\\Buffalo.Data.PostgreSQL.csproj",
-      "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-      "outputPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Data.PostgreSQL\\obj\\",
+      "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Data.PostgreSQL\\Buffalo.Data.PostgreSQL.csproj",
+      "packagesPath": "C:\\Users\\taisandog\\.nuget\\packages\\",
+      "outputPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Data.PostgreSQL\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\taisandog\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -2172,17 +2176,16 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "D:\\myPackage": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "netstandard2.0": {
           "projectReferences": {
-            "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.DB\\Buffalo.DB.csproj": {
-              "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.DB\\Buffalo.DB.csproj"
+            "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.DB\\Buffalo.DB.csproj": {
+              "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.DB\\Buffalo.DB.csproj"
             },
-            "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\Buffalo.Kernel.csproj": {
-              "projectPath": "E:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\Buffalo.Kernel.csproj"
+            "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\Buffalo.Kernel.csproj": {
+              "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\Buffalo.Kernel.csproj"
             }
           }
         }
