@@ -5204,6 +5204,18 @@
             <param name="searchOption"></param>
             <returns></returns>
         </member>
+        <member name="M:Buffalo.Storage.AWS.S3.AWSS3Adapter.GetAllRegionEndpoint">
+            <summary>
+            获取所有的区域
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Storage.AWS.S3.AWSS3Adapter.GetRegionEndpoint(System.String)">
+            <summary>
+            获取区域的信息
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Buffalo.Storage.AWS.S3.AWSS3Adapter.RemoveFile(System.String)">
             <summary>
             删除文件
