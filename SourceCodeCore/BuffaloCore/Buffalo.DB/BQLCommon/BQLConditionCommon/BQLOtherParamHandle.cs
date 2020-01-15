@@ -28,10 +28,14 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
             IDBAdapter idba = info.DBInfo.CurrentDbAdapter;
             if (paramName == "*")//查询全部字段时候
             {
-                return table.DisplayValue(info) + ".*";
+                if (!CommonMethods.IsNull(table))
+                {
+                    return table.DisplayValue(info) + ".*";
+                }
+                return "*";
             }
             StringBuilder sb = new StringBuilder();
-            if (!CommonMethods.IsNull(table) )
+            if (!CommonMethods.IsNull(table) && !CommonMethods.IsNull(info.AliasManager))
             {
                 BQLAliasHandle handle = info.AliasManager.GetPrimaryAliasHandle(table);
                 if (Buffalo.Kernel.CommonMethods.IsNull(handle))

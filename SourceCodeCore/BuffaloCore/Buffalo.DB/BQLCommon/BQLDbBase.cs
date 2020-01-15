@@ -62,9 +62,9 @@ namespace Buffalo.DB.BQLCommon
         /// <param name="lstScope">条件</param>
         /// <param name="vParams">字段列表</param>
         /// <returns></returns>
-        public virtual DataSet SelectTable(string tableName, ScopeList lstScope)
+        public virtual DataSet SelectTable(string tableName, ScopeList lstScope, Type entityType)
         {
-            return SelectTable(BQL.ToTable(tableName), lstScope);
+            return SelectTable(BQL.ToTable(tableName), lstScope, entityType);
         }
 
 
@@ -165,7 +165,7 @@ namespace Buffalo.DB.BQLCommon
         /// <param name="lstSort">排序类型</param>
         /// <param name="objPage">分页对象</param>
         /// <returns></returns>
-        public DataSet SelectTable(BQLOtherTableHandle table, ScopeList lstScope)
+        public DataSet SelectTable(BQLOtherTableHandle table, ScopeList lstScope,Type entityType)
         {
             List<BQLParamHandle> lstParams = GetParam(table, lstScope);
 
@@ -186,7 +186,7 @@ namespace Buffalo.DB.BQLCommon
             }
 
             BQLCondition where = BQLCondition.TrueValue;
-            where = FillCondition(where, table, lstScope, null);
+            where = FillCondition(where, table, lstScope, entityType);
 
             BQLQuery bql = BQL.Select(lstParams.ToArray()).From(table).Where(where).OrderBy(lstOrders.ToArray());
 
@@ -692,6 +692,11 @@ namespace Buffalo.DB.BQLCommon
                 _oper.DBInfo.ThrowNotFondTable(eType);
             }
             List<BQLParamHandle> lstParams = new List<BQLParamHandle>();
+            if (table.GetEntityInfo().PrimaryProperty.Count<=0)
+            {
+                throw new MissingPrimaryKeyException("找不到：" + eType.FullName + "的关联主键");
+            }
+
             lstParams.Add(table[table.GetEntityInfo().PrimaryProperty[0].PropertyName]);
                 
             BQLCondition where = BQLCondition.TrueValue;
