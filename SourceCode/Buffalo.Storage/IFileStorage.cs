@@ -185,6 +185,128 @@ namespace Buffalo.Storage
         /// 代理服务的用户名
         /// </summary>
         protected string _proxyPass;
+
+        /// <summary>
+        /// 互联网地址
+        /// </summary>
+        public string InternetUrl
+        {
+            get
+            {
+                return _internetUrl;
+            }
+        }
+        /// <summary>
+        /// 局域网地址
+        /// </summary>
+        public string LanUrl
+        {
+            get
+            {
+                return _lanUrl;
+            }
+        }
+        /// <summary>
+        /// 服务器
+        /// </summary>
+        public string Server
+        {
+            get
+            {
+                return _server;
+            }
+        }
+        /// <summary>
+        /// 安全账号
+        /// </summary>
+        public string SecretId
+        {
+            get
+            {
+                return _secretId;
+            }
+        }
+        /// <summary>
+        /// 安全Key
+        /// </summary>
+        public string SecretKey
+        {
+            get
+            {
+                return _secretKey;
+            }
+        }
+        /// <summary>
+        /// 超时(毫秒)
+        /// </summary>
+        public int Timeout
+        {
+            get
+            {
+                return _timeout;
+            }
+        }
+        /// <summary>
+        /// 桶
+        /// </summary>
+        public string BucketName
+        {
+            get
+            {
+                return _bucketName;
+            }
+        }
+        /// <summary>
+        /// 需要哈希
+        /// </summary>
+        public bool NeedHash
+        {
+            get
+            {
+                return _needHash;
+            }
+        }
+        /// <summary>
+        /// 代理
+        /// </summary>
+        public string ProxyHost
+        {
+            get
+            {
+                return _proxyHost;
+            }
+        }
+        /// <summary>
+        /// 登录代理密码
+        /// </summary>
+        public string ProxyPass
+        {
+            get
+            {
+                return _proxyPass;
+            }
+        }
+        /// <summary>
+        /// 代理端口
+        /// </summary>
+        public int ProxyPort
+        {
+            get
+            {
+                return _proxyPort;
+            }
+        }
+        /// <summary>
+        /// 登录代理用户
+        /// </summary>
+        public string ProxyUser
+        {
+            get
+            {
+                return _proxyUser;
+            }
+        }
+       
         /// <summary>
         /// 把文件读取到流
         /// </summary>

@@ -246,26 +246,7 @@ namespace Buffalo.Storage.AliCloud.OssAPI
         }
         private static readonly DateTime DefaultDate = new DateTime(1970, 1, 1);
 
-        /// <summary>
-        /// 互联网地址
-        /// </summary>
-        public string InternetUrl
-        {
-            get
-            {
-                return _internetUrl;
-            }
-        }
-        /// <summary>
-        /// 局域网地址
-        /// </summary>
-        public string LanUrl
-        {
-            get
-            {
-                return _lanUrl;
-            }
-        }
+        
 
         /// <summary>
         /// 获取地址
