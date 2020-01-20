@@ -80,7 +80,7 @@ namespace Buffalo.MongoDB
                     throw new KeyNotFoundException("找不到标识为：" + key + "的配置");
                 }
 
-                db = new MongoConnection(conn.CreateConnection());
+                db = new MongoConnection(conn.CreateConnection(), conn.HasTransaction);
                 MongoDBCollection[key] = db;
             }
             return db;

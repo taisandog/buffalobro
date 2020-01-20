@@ -59,6 +59,25 @@ namespace Buffalo.MongoDB
 
         }
         /// <summary>
+        /// 是否支持事务
+        /// </summary>
+        private bool _hasTransaction=true;
+
+        /// <summary>
+        /// 是否支持事务
+        /// </summary>
+        public bool HasTransaction
+        {
+            get
+            {
+                return _hasTransaction;
+            }
+            set
+            {
+                _hasTransaction = value;
+            }
+        }
+        /// <summary>
         /// mongoDB连接器
         /// </summary>
         /// <param name="connectionString">连接字符串</param>
