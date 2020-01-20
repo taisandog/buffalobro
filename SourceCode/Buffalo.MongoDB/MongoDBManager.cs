@@ -46,9 +46,9 @@ namespace Buffalo.MongoDB
         /// <param name="key">此连接的标识</param>
         /// <param name="connectionString">连接字符串</param>
         /// <param name="dbName">数据库名</param>
-        /// <param name="cache">关联自增长缓存</param>
+        /// <param name="hasTransaction">是否有事务</param>
         /// <param name="assembly">程序集</param>
-        public static void AddConfig(string key, string connectionString, string dbName,params Assembly[] assembly)
+        public static MongoDBInfo AddConfig(string key, string connectionString, string dbName,bool hasTransaction, params Assembly[] assembly)
         {
             MongoLiquidUnit liquid = null;
 
@@ -56,10 +56,10 @@ namespace Buffalo.MongoDB
 
             liquid = new MongoLiquidUnit(LiquidName);
 
-            MongoDBInfo conn = new MongoDBInfo(key,connectionString, dbName, liquid);
+            MongoDBInfo conn = new MongoDBInfo(key,connectionString, dbName,hasTransaction, liquid);
             _dicConn[key] = conn;
             InitAssembly(assembly, conn);
-            
+            return conn;
         }
        
 

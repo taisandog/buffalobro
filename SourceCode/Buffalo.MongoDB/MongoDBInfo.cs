@@ -72,24 +72,22 @@ namespace Buffalo.MongoDB
             {
                 return _hasTransaction;
             }
-            set
-            {
-                _hasTransaction = value;
-            }
+           
         }
         /// <summary>
         /// mongoDB连接器
         /// </summary>
         /// <param name="connectionString">连接字符串</param>
         /// <param name="dbName">数据库名</param>
-        /// <param name="connName">此链接的标识</param>
-        public MongoDBInfo(string dbKey,string connectionString, string dbName, MongoLiquidUnit liquid)
+        /// <param name="liquid">自增长管理器</param>
+        /// <param name="hasTransaction">是否支持事务</param>
+        public MongoDBInfo(string dbKey,string connectionString, string dbName,  bool hasTransaction, MongoLiquidUnit liquid)
         {
             _dbKey = dbKey;
             _liquid = liquid;
             _connectionString = connectionString;
             _dbName = dbName;
-            
+            _hasTransaction = hasTransaction;
         }
         /// <summary>
         /// 创建连接
