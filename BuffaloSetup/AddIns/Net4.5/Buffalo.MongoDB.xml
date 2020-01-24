@@ -36,7 +36,12 @@
             Mongo连接
             </summary>
         </member>
-        <member name="M:Buffalo.MongoDB.MongoConnection.#ctor(MongoDB.Driver.IMongoDatabase)">
+        <member name="F:Buffalo.MongoDB.MongoConnection._hasTransaction">
+            <summary>
+            是否支持事务
+            </summary>
+        </member>
+        <member name="M:Buffalo.MongoDB.MongoConnection.#ctor(MongoDB.Driver.IMongoDatabase,System.Boolean)">
             <summary>
             Mongo连接
             </summary>
@@ -59,6 +64,11 @@
             开始事务
             </summary>
             <returns></returns>
+        </member>
+        <member name="P:Buffalo.MongoDB.MongoConnection.HasTransaction">
+            <summary>
+            是否支持事务
+            </summary>
         </member>
         <member name="P:Buffalo.MongoDB.MongoConnection.DB">
             <summary>
@@ -109,14 +119,14 @@
             Mongo连接管理
             </summary>
         </member>
-        <member name="M:Buffalo.MongoDB.MongoDBManager.AddConfig(System.String,System.String,System.String,System.Reflection.Assembly[])">
+        <member name="M:Buffalo.MongoDB.MongoDBManager.AddConfig(System.String,System.String,System.String,System.Boolean,System.Reflection.Assembly[])">
             <summary>
             添加配置
             </summary>
             <param name="key">此连接的标识</param>
             <param name="connectionString">连接字符串</param>
             <param name="dbName">数据库名</param>
-            <param name="cache">关联自增长缓存</param>
+            <param name="hasTransaction">是否有事务</param>
             <param name="assembly">程序集</param>
         </member>
         <member name="M:Buffalo.MongoDB.MongoDBManager.GetMongoClient(System.String)">
@@ -902,13 +912,19 @@
             数据库名
             </summary>
         </member>
-        <member name="M:Buffalo.MongoDB.MongoDBInfo.#ctor(System.String,System.String,System.String,Buffalo.MongoDB.MongoLiquidUnit)">
+        <member name="F:Buffalo.MongoDB.MongoDBInfo._hasTransaction">
+            <summary>
+            是否支持事务
+            </summary>
+        </member>
+        <member name="M:Buffalo.MongoDB.MongoDBInfo.#ctor(System.String,System.String,System.String,System.Boolean,Buffalo.MongoDB.MongoLiquidUnit)">
             <summary>
             mongoDB连接器
             </summary>
             <param name="connectionString">连接字符串</param>
             <param name="dbName">数据库名</param>
-            <param name="connName">此链接的标识</param>
+            <param name="liquid">自增长管理器</param>
+            <param name="hasTransaction">是否支持事务</param>
         </member>
         <member name="M:Buffalo.MongoDB.MongoDBInfo.CreateConnection">
             <summary>
@@ -934,6 +950,11 @@
         <member name="P:Buffalo.MongoDB.MongoDBInfo.DBKey">
             <summary>
              本数据库配置标记
+            </summary>
+        </member>
+        <member name="P:Buffalo.MongoDB.MongoDBInfo.HasTransaction">
+            <summary>
+            是否支持事务
             </summary>
         </member>
         <member name="P:Buffalo.MongoDB.MongoDBInfo.Liquid">

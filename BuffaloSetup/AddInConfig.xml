@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<root date="2019-08-30 0:28:00">
+<root date="2020-01-25 0:00:00">
   <AddIns>
     <AddIn file="AddIns\Net2.0\Buffalo.DBTools.dll" version="8.0" addin="Visual Studio 2005"></AddIn>
     <AddIn file="AddIns\Net3.5\Buffalo.DBTools.dll" version="9.0" addin="Visual Studio 2008"></AddIn>
@@ -37,7 +37,7 @@
     <item des="数据操作库"  name="Buffalo.DB" selected="1">
       <file path="Buffalo.DB.dll" main="1"></file>
       <file path="Buffalo.DB.XML"></file>
-      <file path="Buffalo.DB.1.0.3.nupkg" main="1"></file>
+      <file path="Buffalo.DB.1.0.5.nupkg" main="1"></file>
     </item>
     <item des="Json化的参数值库"  name="Buffalo.ArgCommon" selected="0">
       <file path="Buffalo.ArgCommon.dll" main="1"></file>
@@ -85,7 +85,7 @@
       <file path="AWSSDK.S3.XML"></file>
       <file path="Buffalo.ArgCommon.dll"></file>
       <file path="Buffalo.ArgCommon.xml"></file>
-      <file path="Buffalo.Storage.1.0.1.nupkg" main="1"></file>
+      <file path="Buffalo.Storage.1.0.3.nupkg" main="1"></file>
     </item>
     <item des="MySQL支持"  name="Buffalo.Data.MySQL" isDB="1" selected="0">
       <file path="Buffalo.Data.MySQL.dll" main="1"></file>
@@ -147,7 +147,7 @@
       <file path="Snappy.NET.dll"></file>
       <file path="Snappy.NET.xml"></file>
       <file path="System.Runtime.InteropServices.RuntimeInformation.dll"></file>
-      <file path="Buffalo.MongoDB.1.0.1.nupkg" main="1"></file>
+      <file path="Buffalo.MongoDB.1.0.2.nupkg" main="1"></file>
     </item>
     <item des="Oracle支持(OPD.NET)"  name="Buffalo.Data.Oracle" isDB="1" selected="0">
       <file path="Buffalo.Data.Oracle.dll" main="1"></file>
