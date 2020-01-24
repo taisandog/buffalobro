@@ -1,6 +1,6 @@
 ﻿using Amazon;
 using Amazon.S3;
-using Amazon.S3.IO;
+//using Amazon.S3.IO;
 using Amazon.S3.Model;
 using Amazon.S3.Transfer;
 using Buffalo.ArgCommon;
@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 
 namespace Buffalo.Storage.AWS.S3
 {
-    public class AWSS3Adapter : IFileStorage
+    public partial class AWSS3Adapter : IFileStorage
     {
         /// <summary>
         /// 服务器地址
@@ -210,9 +210,8 @@ namespace Buffalo.Storage.AWS.S3
             path = FormatKey(path);
             try
             {
-
-                S3FileInfo file = new S3FileInfo(_client, _bucketName, path);
-                return file.Exists;
+                
+                return ExistsMetadata(path);
 
             }
             catch (Exception ex)
@@ -599,8 +598,7 @@ namespace Buffalo.Storage.AWS.S3
             try
             {
 
-                S3FileInfo file = new S3FileInfo(_client, _bucketName, folder);
-                return file.Exists;
+                return ExistsMetadata(folder);
 
             }
             catch(Exception ex)
