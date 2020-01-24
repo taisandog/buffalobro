@@ -1,7 +1,9 @@
 ﻿using Amazon;
+using Amazon.Runtime;
 using Amazon.S3;
 using Amazon.S3.Model;
 using Amazon.S3.Transfer;
+using Amazon.Util;
 using Buffalo.ArgCommon;
 using Buffalo.Kernel;
 using Buffalo.Storage.AliCloud.OssAPI;
@@ -26,7 +28,7 @@ namespace Buffalo.Storage.AWS.S3
         /// <returns></returns>
         internal bool ExistsMetadata(string key)
         {
-            
+            key = EncodeKey(key);
             try
             {
                 GetObjectMetadataRequest request = new GetObjectMetadataRequest()
@@ -34,6 +36,7 @@ namespace Buffalo.Storage.AWS.S3
                     BucketName = _bucketName,
                     Key = key
                 };
+                ((Amazon.Runtime.Internal.IAmazonWebServiceRequest)request).AddBeforeRequestHandler(FileIORequestEventHandler);
                 GetObjectMetadataResponse response = _client.GetObjectMetadataAsync(request).Result;
                 return true;
             }
@@ -51,6 +54,22 @@ namespace Buffalo.Storage.AWS.S3
                 throw;
             }
         }
-
+        internal static void FileIORequestEventHandler(object sender, RequestEventArgs args)
+        {
+            WebServiceRequestEventArgs wsArgs = args as WebServiceRequestEventArgs;
+            if (wsArgs != null)
+            {
+                string currentUserAgent = wsArgs.Headers[AWSSDKUtils.UserAgentHeader];
+                wsArgs.Headers[AWSSDKUtils.UserAgentHeader] = currentUserAgent + " FileIO";
+            }
+        }
+        internal static string EncodeKey(string key)
+        {
+            return key.Replace('\\', '/');
+        }
+        internal static string DecodeKey(string key)
+        {
+            return key.Replace('/', '\\');
+        }
     }
 }

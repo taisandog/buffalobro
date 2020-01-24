@@ -17,43 +17,13 @@ using Buffalo.Kernel;
 
 namespace Buffalo.Storage.AliCloud.OssAPI
 {
-    //SecretId=LTAIPM7uERWhDShn;SecretKey=YZiGsJMxUSxEQYeDJHmuSkgQp8HG9z
     public class OSSAdapter : IFileStorage
     {
 
         private OssClient _cloud;
-        /// <summary>
-        /// 服务器地址
-        /// </summary>
-        private string _server;
-        /// <summary>
-        /// 安全ID
-        /// </summary>
-        private string _SECRETID;
-        /// <summary>
-        /// 安全Key
-        /// </summary>
-        private string _SECRETKEY;
-        /// <summary>
-        /// 超时(毫秒)
-        /// </summary>
-        private int _timeout = 0;
-        /// <summary>
-        /// BucketName
-        /// </summary>
-        private string _bucketName;
-        /// <summary>
-        /// 外网访问地址
-        /// </summary>
-        private string _internetUrl;
-        /// <summary>
-        /// 内网访问地址
-        /// </summary>
-        private string _lanUrl;
-        /// <summary>
-        /// 需要上传效验
-        /// </summary>
-        private bool _needHash;
+        
+        
+
         /// <summary> 
         /// 阿里云适配器
         /// </summary>
@@ -61,14 +31,9 @@ namespace Buffalo.Storage.AliCloud.OssAPI
         public OSSAdapter(string connString)
         {
             Dictionary<string, string> hs = ConnStringFilter.GetConnectInfo(connString);
-            _server = hs.GetMapValue<string>("Server");
-            _SECRETID = hs.GetMapValue<string>("SecretId");
-            _SECRETKEY = hs.GetMapValue<string>("SecretKey");
-            _bucketName = hs.GetMapValue<string>("bucketName");
-            _internetUrl= hs.GetMapValue<string>("InternetUrl");
-            _lanUrl = hs.GetMapValue<string>("LanUrl");
-            _needHash= hs.GetMapValue<int>("needHash")==1;
-            _timeout = hs.GetMapValue<int>("timeout",1000);
+            FillBaseConfig(hs);
+           
+            
         }
 
         /// <summary>
@@ -275,32 +240,13 @@ namespace Buffalo.Storage.AliCloud.OssAPI
             using (OssObject obj = _cloud.GetObject(getObjectRequest))
             {
                 MemoryStream stm = new MemoryStream();
-                CommonMethods.CopyStreamData(obj.Content, stm, -1, null);
+                CommonMethods.CopyStreamData(obj.Content, stm, -1);
                 return stm;
             }
         }
         private static readonly DateTime DefaultDate = new DateTime(1970, 1, 1);
 
-        /// <summary>
-        /// 互联网地址
-        /// </summary>
-        public string InternetUrl
-        {
-            get
-            {
-                return _internetUrl;
-            }
-        }
-        /// <summary>
-        /// 局域网地址
-        /// </summary>
-        public string LanUrl
-        {
-            get
-            {
-                return _lanUrl;
-            }
-        }
+        
 
         /// <summary>
         /// 获取地址
@@ -332,14 +278,17 @@ namespace Buffalo.Storage.AliCloud.OssAPI
         /// 格式化Key
         /// </summary>
         /// <param name="url"></param>
-        private static string FormatPathKey(string url)
+        internal static string FormatPathKey(string url)
         {
             if (string.IsNullOrWhiteSpace(url))
             {
                 return "/";
             }
-            url= url.TrimStart(' ', '/', '\\');
-            if (url[url.Length - 1] != '/')
+            if (url.Length > 1)
+            {
+                url = url.TrimStart(' ', '/', '\\');
+            }
+            if (url.Length<1 || url[url.Length - 1] != '/')
             {
                 url = url + "/";
             }
@@ -399,8 +348,18 @@ namespace Buffalo.Storage.AliCloud.OssAPI
             ClientConfiguration conf = new ClientConfiguration();
             conf.MaxErrorRetry = 3;
             conf.ConnectionTimeout = _timeout;
-            
-            _cloud = new OssClient(_server, _SECRETID, _SECRETKEY, conf);
+
+            if (!string.IsNullOrWhiteSpace(_proxyHost))
+            {
+                conf.ProxyHost = _proxyHost;
+                conf.ProxyPort = _proxyPort;
+                if (!string.IsNullOrWhiteSpace(_proxyUser))
+                {
+                    conf.ProxyUserName = _proxyUser;
+                    conf.ProxyPassword = _proxyPass;
+                }
+            }
+            _cloud = new OssClient(_server, _secretId, _secretKey, conf);
 
             
             return ApiCommon.GetSuccess();

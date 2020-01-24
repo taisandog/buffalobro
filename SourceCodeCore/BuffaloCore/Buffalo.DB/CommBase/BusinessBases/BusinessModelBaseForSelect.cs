@@ -102,7 +102,7 @@ namespace Buffalo.DB.CommBase.BusinessBases
         {
             OnSelect(lstScope);
             BQLDataAccessBase<T> dao = new BQLDataAccessBase<T>();
-            return dao.SelectTable(tableName, lstScope);
+            return dao.SelectTable(tableName, lstScope,typeof(T));
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace Buffalo.DB.CommBase.BusinessBases
         {
             OnSelect(lstScope);
             BQLDataAccessBase<T> dao = new BQLDataAccessBase<T>();
-            return dao.SelectTable(table, lstScope);
+            return dao.SelectTable(table, lstScope, typeof(T));
         }
         
         /// <summary>

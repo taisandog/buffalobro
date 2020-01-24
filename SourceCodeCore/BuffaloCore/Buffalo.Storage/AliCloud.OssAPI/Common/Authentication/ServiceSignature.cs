@@ -5,7 +5,7 @@
  */
 
 using System;
-using Buffalo.Storage.Properties;
+using Buffalo.Storage;
 
 namespace Aliyun.OSS.Common.Authentication
 {

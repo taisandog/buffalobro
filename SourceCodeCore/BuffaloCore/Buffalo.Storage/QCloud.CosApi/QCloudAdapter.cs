@@ -28,36 +28,7 @@ namespace Buffalo.Storage.QCloud.CosApi
         /// APP ID
         /// </summary>
         private int _APPID;
-        /// <summary>
-        /// 安全ID
-        /// </summary>
-        private string _SECRETID ;
-        /// <summary>
-        /// 安全Key
-        /// </summary>
-        private string _SECRETKEY ;
-        /// <summary>
-        /// BucketName
-        /// </summary>
-        private string _bucketName;
-
-        /// <summary>
-        /// 超时(毫秒)
-        /// </summary>
-        private int _timeout = 0;
-
-        /// <summary>
-        /// 外网访问地址
-        /// </summary>
-        private string _internetUrl;
-        /// <summary>
-        /// 内网访问地址
-        /// </summary>
-        private string _lanUrl;
-        /// <summary>
-        /// 服务器地址
-        /// </summary>
-        private string _server;
+        
         /// <summary> 
         /// 腾讯云适配器
         /// </summary>
@@ -66,21 +37,9 @@ namespace Buffalo.Storage.QCloud.CosApi
         {
             Dictionary<string, string> hs = ConnStringFilter.GetConnectInfo(connString);
             _APPID = hs.GetMapValue<int>("AppId");
-            _SECRETID = hs.GetMapValue<string>("SecretId");
-            _SECRETKEY = hs.GetMapValue<string>("SecretKey");
-            _timeout = hs.GetMapValue<int>("timeout",1000);
-            _bucketName = hs.GetMapValue<string>("bucketName");
-            _internetUrl = hs.GetMapValue<string>("InternetUrl");
-            if (!string.IsNullOrWhiteSpace(_internetUrl)) 
-            {
-                _internetUrl = _internetUrl.TrimEnd(' ', '\r', '\n', '/', '\\');
-            }
-            _lanUrl = hs.GetMapValue<string>("LanUrl");
-            if (!string.IsNullOrWhiteSpace(_lanUrl))
-            {
-                _lanUrl = _lanUrl.TrimEnd(' ', '\r', '\n', '/', '\\');
-            }
-            _server = hs.GetMapValue<string>("Server");
+            
+
+            FillBaseConfig(hs);
         }
         /// <summary>
         /// 删除文件夹
@@ -205,7 +164,7 @@ namespace Buffalo.Storage.QCloud.CosApi
                 using (Stream readStream = myWebResponse.GetResponseStream())
                 {
                     SkipToPostion(readStream, postion);
-                    CommonMethods.CopyStreamData(readStream, stm, length, null);
+                    CommonMethods.CopyStreamData(readStream, stm, length);
                 }
             }
             stm.Position = 0;
@@ -320,14 +279,24 @@ namespace Buffalo.Storage.QCloud.CosApi
         }
         public override APIResault Open()
         {
+            WebProxy proxy = null;
+            if (!string.IsNullOrWhiteSpace(_proxyHost))
+            {
+                proxy = new WebProxy();
+                proxy.Address = new Uri(_proxyHost + ":" + _proxyPort);
+               
+                if (!string.IsNullOrWhiteSpace(_proxyUser))
+                {
+                    proxy.Credentials = new NetworkCredential(_proxyUser, _proxyPass);
+                }
+            }
+
             if (_timeout <= 0)
             {
-                _cloud = new CosCloud(_APPID, _SECRETID, _SECRETKEY, _server, CosCloud.Default_HTTP_TIMEOUT_TIME);
+                _timeout = CosCloud.Default_HTTP_TIMEOUT_TIME;
             }
-            else 
-            {
-                _cloud = new CosCloud(_APPID, _SECRETID, _SECRETKEY, _server, _timeout);
-            }
+            _cloud = new CosCloud(_APPID, _secretId, _secretKey, _server, proxy, _timeout);
+
             return ApiCommon.GetSuccess();
         }
         /// <summary>
@@ -552,7 +521,7 @@ namespace Buffalo.Storage.QCloud.CosApi
                     SkipToPostion(readStream, postion);
 
 
-                    CommonMethods.CopyStreamData(readStream, stm, length, null);
+                    CommonMethods.CopyStreamData(readStream, stm, length);
 
                 }
             }

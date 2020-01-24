@@ -23,7 +23,7 @@ using Aliyun.OSS.Model;
 using Aliyun.OSS.Transform;
 using ExecutionContext = Aliyun.OSS.Common.Communication.ExecutionContext;
 using ICredentials = Aliyun.OSS.Common.Authentication.ICredentials;
-using Buffalo.Storage.Properties;
+using Buffalo.Storage;
 
 namespace Aliyun.OSS
 {

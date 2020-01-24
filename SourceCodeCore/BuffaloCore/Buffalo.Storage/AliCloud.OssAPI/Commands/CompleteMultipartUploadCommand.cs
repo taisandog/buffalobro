@@ -11,7 +11,7 @@ using Aliyun.OSS.Transform;
 using Aliyun.OSS.Common.Communication;
 using Aliyun.OSS.Common.Handlers;
 using Aliyun.OSS.Util;
-using Buffalo.Storage.Properties;
+using Buffalo.Storage;
 
 namespace Aliyun.OSS.Commands
 {

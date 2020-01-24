@@ -2,6 +2,7 @@
 using System.IO;
 using Buffalo.ArgCommon;
 using System.Security.Cryptography;
+using System.Collections.Generic;
 
 namespace Buffalo.Storage
 {
@@ -136,8 +137,176 @@ namespace Buffalo.Storage
         public abstract APIResault CreateDirectory(string folder);
 
         public abstract void Dispose();
+        /// <summary>
+        /// 服务器地址
+        /// </summary>
+        protected string _server;
+        /// <summary>
+        /// 安全账号
+        /// </summary>
+        protected string _secretId = null;
+        /// <summary>
+        /// 安全Key
+        /// </summary>
+        protected string _secretKey = null;
+        /// <summary>
+        /// 超时(毫秒)
+        /// </summary>
+        protected int _timeout = 0;
+        /// <summary>
+        /// BucketName
+        /// </summary>
+        protected string _bucketName;
+        /// <summary>
+        /// 外网访问地址
+        /// </summary>
+        protected string _internetUrl;
+        /// <summary>
+        /// 内网访问地址
+        /// </summary>
+        protected string _lanUrl;
+        /// <summary>
+        /// 需要上传效验
+        /// </summary>
+        protected bool _needHash;
+        /// <summary>
+        /// 代理服务
+        /// </summary>
+        protected string _proxyHost;
+        /// <summary>
+        /// 代理服务端口
+        /// </summary>
+        protected int _proxyPort;
+        /// <summary>
+        /// 代理服务的用户名
+        /// </summary>
+        protected string _proxyUser;
+        /// <summary>
+        /// 代理服务的用户名
+        /// </summary>
+        protected string _proxyPass;
 
-
+        /// <summary>
+        /// 互联网地址
+        /// </summary>
+        public string InternetUrl
+        {
+            get
+            {
+                return _internetUrl;
+            }
+        }
+        /// <summary>
+        /// 局域网地址
+        /// </summary>
+        public string LanUrl
+        {
+            get
+            {
+                return _lanUrl;
+            }
+        }
+        /// <summary>
+        /// 服务器
+        /// </summary>
+        public string Server
+        {
+            get
+            {
+                return _server;
+            }
+        }
+        /// <summary>
+        /// 安全账号
+        /// </summary>
+        public string SecretId
+        {
+            get
+            {
+                return _secretId;
+            }
+        }
+        /// <summary>
+        /// 安全Key
+        /// </summary>
+        public string SecretKey
+        {
+            get
+            {
+                return _secretKey;
+            }
+        }
+        /// <summary>
+        /// 超时(毫秒)
+        /// </summary>
+        public int Timeout
+        {
+            get
+            {
+                return _timeout;
+            }
+        }
+        /// <summary>
+        /// 桶
+        /// </summary>
+        public string BucketName
+        {
+            get
+            {
+                return _bucketName;
+            }
+        }
+        /// <summary>
+        /// 需要哈希
+        /// </summary>
+        public bool NeedHash
+        {
+            get
+            {
+                return _needHash;
+            }
+        }
+        /// <summary>
+        /// 代理
+        /// </summary>
+        public string ProxyHost
+        {
+            get
+            {
+                return _proxyHost;
+            }
+        }
+        /// <summary>
+        /// 登录代理密码
+        /// </summary>
+        public string ProxyPass
+        {
+            get
+            {
+                return _proxyPass;
+            }
+        }
+        /// <summary>
+        /// 代理端口
+        /// </summary>
+        public int ProxyPort
+        {
+            get
+            {
+                return _proxyPort;
+            }
+        }
+        /// <summary>
+        /// 登录代理用户
+        /// </summary>
+        public string ProxyUser
+        {
+            get
+            {
+                return _proxyUser;
+            }
+        }
+       
         /// <summary>
         /// 把文件读取到流
         /// </summary>
@@ -156,6 +325,52 @@ namespace Buffalo.Storage
         public void ReadFileToStream(string path, Stream stm,long postion)
         {
             ReadFileToStream(path, stm, postion, -1);
+        }
+
+        /// <summary>
+        /// 填充配置
+        /// </summary>
+        /// <param name="hs"></param>
+        protected void FillBaseConfig(Dictionary<string, string> hs)
+        {
+            _server = hs.GetMapValue<string>("Server");
+            _bucketName = hs.GetMapValue<string>("bucketName");
+            _internetUrl = hs.GetMapValue<string>("InternetUrl");
+            if (!string.IsNullOrWhiteSpace(_internetUrl))
+            {
+                _internetUrl = _internetUrl.TrimEnd(' ', '\r', '\n', '/', '\\');
+            }
+
+            _lanUrl = hs.GetMapValue<string>("LanUrl");
+            if (!string.IsNullOrWhiteSpace(_lanUrl))
+            {
+                _lanUrl = _lanUrl.TrimEnd(' ', '\r', '\n', '/', '\\');
+            }
+
+            _needHash = hs.GetMapValue<int>("needHash") == 1;
+            _secretId= GetAccessKey(hs);
+            _secretKey = hs.GetMapValue<string>("SecretKey");
+            _timeout = hs.GetMapValue<int>("timeout", 1000);
+            _proxyHost = hs.GetMapValue<string>("ProxyHost");
+            _proxyPort = hs.GetMapValue<int>("ProxyPort");
+            _proxyUser = hs.GetMapValue<string>("ProxyUser");
+            _proxyPass = hs.GetMapValue<string>("ProxyPass");
+        }
+        
+        private string GetAccessKey(Dictionary<string,string> hs)
+        {
+            string[] arrKeyName = { "SecretId", "AccessKey" };
+            string ret = null;
+            foreach (string arr in arrKeyName)
+            {
+                ret= hs.GetMapValue<string>(arr);
+                if (!string.IsNullOrWhiteSpace(ret))
+                {
+                    return ret;
+                }
+            }
+            return ret;
+
         }
     }
 }
