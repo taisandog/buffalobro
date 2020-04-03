@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using Aliyun.OSS.Util;
 using Aliyun.OSS.Common.Handlers;
-using Buffalo.Storage.Properties;
+using Buffalo.Storage;
 
 namespace Aliyun.OSS.Common.Communication
 {

@@ -19,13 +19,8 @@ namespace Buffalo.Storage.HW.OBS
     /// </summary>
     public partial class HWOBSAdapter : IFileStorage
     {
-        private string _endpoint = null;
-        private string _accessKey =null;
-        private string _secretKey = null;
-        private string _bucketName = null;
-        private string _internetUrl=null;
-        private bool _needHash = false;
-        private int _timeout = 1000;
+
+
         private ObsClient _client;
 
         /// <summary> 
@@ -35,13 +30,9 @@ namespace Buffalo.Storage.HW.OBS
         public HWOBSAdapter(string connString)
         {
             Dictionary<string, string> hs = ConnStringFilter.GetConnectInfo(connString);
-            _endpoint = hs.GetMapValue<string>("Server");
-            _accessKey = hs.GetMapValue<string>("AccessKey");
-            _secretKey = hs.GetMapValue<string>("SecretKey");
-            _bucketName = hs.GetMapValue<string>("BucketName");
-            _internetUrl = hs.GetMapValue<string>("InternetUrl");
-            _needHash = hs.GetMapValue<int>("NeedHash") == 1;
-            _timeout = hs.GetMapValue<int>("Timeout", 1000);
+            FillBaseConfig(hs);
+           
+            
         }
         /// <summary>
         /// 打开
@@ -51,8 +42,19 @@ namespace Buffalo.Storage.HW.OBS
         {
             ObsConfig config = new ObsConfig();
             config.Timeout = _timeout;
-            config.Endpoint = _endpoint;
-            _client = new ObsClient(_accessKey, _secretKey, config);
+            config.Endpoint = _server;
+            if (!string.IsNullOrWhiteSpace(_proxyHost))
+            {
+                config.ProxyHost = _proxyHost;
+                config.ProxyPort = _proxyPort;
+                if (!string.IsNullOrWhiteSpace(_proxyUser))
+                {
+                    config.ProxyUserName=_proxyUser;
+                    config.ProxyPassword = _proxyPass;
+                }
+            }
+
+            _client = new ObsClient(_secretId, _secretKey, config);
             return ApiCommon.GetSuccess();
         }
         /// <summary>
@@ -274,7 +276,7 @@ namespace Buffalo.Storage.HW.OBS
                 return null;
             }
         }
-        private static string GetPath(string path)
+        internal static string GetPath(string path)
         {
             path = path.TrimStart('/', '\\', ' ');
             if (!string.IsNullOrWhiteSpace(path))

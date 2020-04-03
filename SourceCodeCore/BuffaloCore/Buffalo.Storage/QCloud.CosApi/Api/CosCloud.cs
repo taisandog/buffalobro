@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Buffalo.Kernel;
 using Buffalo.Storage;
+using System.Net;
 
 namespace QCloud.CosApi.Api
 {
@@ -28,6 +29,7 @@ namespace QCloud.CosApi.Api
 		private string _secretKey;
 		private int _timeOut;
 		private Request _httpRequest;
+
 		/// <summary>
 		/// CosCloud 构造方法
 		/// </summary>
@@ -36,13 +38,14 @@ namespace QCloud.CosApi.Api
 		/// <param name="secretKey">授权secret key</param>
 		/// <param name="timeOut">网络超时,默认60秒</param>
         /// <param name="local">Bucket所在地域</param>
-		public CosCloud(int appId, string secretId, string secretKey,string server,int timeOut)
+		public CosCloud(int appId, string secretId, string secretKey,string server,WebProxy proxy,int timeOut)
 		{
 			this._appId = appId;
 			this._secretId = secretId;
 			this._secretKey = secretKey;
 			this._timeOut = timeOut ;
-			this._httpRequest = new Request();
+			this._httpRequest = new Request(proxy);
+            
             //COSAPI_CGI_URL = "http://" + local + ".file.myqcloud.com/files/v2/";
             COSAPI_CGI_URL = server;
 		} 

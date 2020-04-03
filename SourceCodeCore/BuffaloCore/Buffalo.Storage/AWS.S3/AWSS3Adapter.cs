@@ -1,60 +1,38 @@
 ﻿using Amazon;
 using Amazon.S3;
-using Amazon.S3.IO;
 using Amazon.S3.Model;
 using Amazon.S3.Transfer;
 using Buffalo.ArgCommon;
 using Buffalo.Kernel;
+using Buffalo.Kernel.FastReflection;
 using Buffalo.Storage.AliCloud.OssAPI;
+using Buffalo.Storage.HW.OBS;
 using Buffalo.Storage.QCloud.CosApi;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Buffalo.Storage.AWS.S3
 {
-    public class AWSS3Adapter : IFileStorage
+    public partial class AWSS3Adapter : IFileStorage
     {
-        /// <summary>
-        /// 服务器地址
-        /// </summary>
-        private string _server;
         /// <summary>
         /// 客户端
         /// </summary>
         private AmazonS3Client _client;
-        /// <summary>
-        /// 安全ID
-        /// </summary>
-        private string _secretKey;
-        /// <summary>
-        /// 安全Key
-        /// </summary>
-        private string _accessKey;
-        /// <summary>
-        /// 超时(毫秒)
-        /// </summary>
-        private int _timeout = 0;
-        /// <summary>
-        /// BucketName
-        /// </summary>
-        private string _bucketName;
-        /// <summary>
-        /// 外网访问地址
-        /// </summary>
-        private string _internetUrl;
-        /// <summary>
-        /// 内网访问地址
-        /// </summary>
-        private string _lanUrl;
 
-
+        /// <summary>
+        /// 权限
+        /// </summary>
         private S3CannedACL _acl;
+
+        private RegionEndpoint _endpoint;
         /// <summary>
         /// 亚马逊适配
         /// </summary>
@@ -62,14 +40,13 @@ namespace Buffalo.Storage.AWS.S3
         public AWSS3Adapter(string connString)
         {
             Dictionary<string, string> hs = ConnStringFilter.GetConnectInfo(connString);
-            _server = hs.GetMapValue<string>("Server");
-            _accessKey = hs.GetMapValue<string>("AccessKey");
-            _secretKey = hs.GetMapValue<string>("SecretKey");
-            _bucketName = hs.GetMapValue<string>("BucketName");
-            _internetUrl = hs.GetMapValue<string>("InternetUrl");
-            _lanUrl = hs.GetMapValue<string>("LanUrl");
-            _timeout = hs.GetMapValue<int>("timeout", 1000);
+            FillBaseConfig(hs);
+            if (!_server.StartsWith("http"))
+            {
+                _endpoint = GetRegionEndpoint(_server);
+            }
             _acl = GetACL(hs.GetMapValue<string>("acl"));
+            
         }
         private S3CannedACL GetACL(string acl)
         {
@@ -109,7 +86,7 @@ namespace Buffalo.Storage.AWS.S3
         /// <param name="path">路径</param>
         public override APIResault RemoveDirectory(string path)
         {
-            path = FormatPathKey(path);
+            path = HWOBSAdapter.GetPath(path);
 
 
             ListObjectsRequest request = new ListObjectsRequest()
@@ -211,8 +188,8 @@ namespace Buffalo.Storage.AWS.S3
             try
             {
 
-                S3FileInfo file = new S3FileInfo(_client, _bucketName, path);
-                return file.Exists;
+                
+                return ExistsMetadata(path);
 
             }
             catch (Exception ex)
@@ -242,21 +219,26 @@ namespace Buffalo.Storage.AWS.S3
         /// <returns></returns>
         public override List<string> GetDirectories(string path, System.IO.SearchOption searchOption)
         {
-            path = FormatPathKey(path);
-            ListObjectsRequest request = new ListObjectsRequest();
-            request.BucketName=_bucketName;
-            request.Prefix= path;
-            request.Delimiter = "/";
-            
-            ListObjectsResponse response = _client.ListObjectsAsync(request).Result;
+            List<string> lst = new List<string>();
+            ListObjectsRequest listObjectsRequest = new ListObjectsRequest();
+            string curPath = HWOBSAdapter.GetPath(path);
 
 
-            List<string> lstRet = new List<string>();
-            foreach (S3Object obj in response.S3Objects)
+            string nextMarker = string.Empty;
+            listObjectsRequest.Prefix = curPath;
+            listObjectsRequest.Delimiter = "/";
+            listObjectsRequest.BucketName = _bucketName;
+
+            ListObjectsResponse result = _client.ListObjectsAsync(listObjectsRequest).Result;
+
+            foreach (string prefix in result.CommonPrefixes)
             {
-                lstRet.Add(obj.Key);
+
+                lst.Add(prefix);
             }
-            return lstRet;
+
+
+            return lst;
         }
         /// <summary>
         /// 获取文件流
@@ -344,23 +326,7 @@ namespace Buffalo.Storage.AWS.S3
             }
             return url.TrimStart(' ', '/', '\\');
         }
-        // <summary>
-        /// 格式化Key
-        /// </summary>
-        /// <param name="url"></param>
-        private static string FormatPathKey(string url)
-        {
-            if (string.IsNullOrWhiteSpace(url))
-            {
-                return "/";
-            }
-            url = url.TrimStart(' ', '/', '\\');
-            if (url[url.Length - 1] != '/')
-            {
-                url = url + "/";
-            }
-            return url;
-        }
+        
         /// <summary>
         /// 获取文件
         /// </summary>
@@ -369,7 +335,7 @@ namespace Buffalo.Storage.AWS.S3
         /// <returns></returns>
         public override List<FileInfoBase> GetFiles(string path, System.IO.SearchOption searchOption)
         {
-            path = FormatPathKey(path);
+            path = HWOBSAdapter.GetPath(path);
 
 
             ListObjectsRequest request = new ListObjectsRequest()
@@ -417,14 +383,58 @@ namespace Buffalo.Storage.AWS.S3
 
         }
 
+        /// <summary>
+        /// 获取所有的区域
+        /// </summary>
+        /// <returns></returns>
+        public static List<string> GetAllRegionEndpoint()
+        {
+            FieldInfo[] finfos=typeof(RegionEndpoint).GetFields(BindingFlags.Static| BindingFlags.Public);
+            List<string> lstRegions = new List<string>(finfos.Length);
+            foreach (FieldInfo finfo in finfos)
+            {
+                lstRegions.Add(finfo.Name);
+            }
+            return lstRegions;
+        }
 
-
+        /// <summary>
+        /// 获取区域的信息
+        /// </summary>
+        /// <returns></returns>
+        public static RegionEndpoint GetRegionEndpoint(string name)
+        {
+            FieldInfo finfos = typeof(RegionEndpoint).GetField(name,BindingFlags.Static | BindingFlags.Public);
+            RegionEndpoint ret= finfos.GetValue(null) as RegionEndpoint;
+            return ret;
+        }
 
         public override APIResault Open()
         {
             AmazonS3Config config = new AmazonS3Config();
-            config.ServiceURL = _server;
-            _client = new AmazonS3Client(_accessKey,_secretKey,config);
+            if (_endpoint != null)
+            {
+                config.RegionEndpoint = _endpoint;
+            }
+            else
+            {
+                config.ServiceURL = _server;
+            }
+            if (_timeout > 0)
+            {
+                config.Timeout = TimeSpan.FromMilliseconds(_timeout);
+            }
+            if (!string.IsNullOrWhiteSpace(_proxyHost))
+            {
+                config.ProxyHost = _proxyHost;
+                config.ProxyPort = _proxyPort;
+                if (!string.IsNullOrWhiteSpace(_proxyUser))
+                {
+                    config.ProxyCredentials = new NetworkCredential(_proxyUser, _proxyPass);
+                }
+            }
+
+            _client = new AmazonS3Client(_secretId,_secretKey,config);
 
             return ApiCommon.GetSuccess();
         }
@@ -439,13 +449,12 @@ namespace Buffalo.Storage.AWS.S3
             DeleteObjectRequest request = new DeleteObjectRequest();
             request.BucketName = _bucketName;
             request.Key = path;
-            DeleteObjectResponse res=_client.DeleteObjectAsync(request).Result;
-
-            if (res.HttpStatusCode == HttpStatusCode.OK)
+            DeleteObjectResponse delRes=_client.DeleteObjectAsync(request).Result;
+            if (delRes.HttpStatusCode != HttpStatusCode.OK)
             {
-                return ApiCommon.GetSuccess();
+                return ApiCommon.GetFault(null, delRes.HttpStatusCode);
             }
-            return ApiCommon.GetFault(null, res.HttpStatusCode);
+            return ApiCommon.GetSuccess();
         }
 
 
@@ -457,7 +466,7 @@ namespace Buffalo.Storage.AWS.S3
             GetACLRequest aclRequest = new GetACLRequest();
             aclRequest.BucketName = _bucketName;
             aclRequest.Key = source;
-            GetACLResponse getAclResponse = _client.GetACLAsync(aclRequest).Result;
+            Task<GetACLResponse> getAclResponseTsk = _client.GetACLAsync(aclRequest);
 
 
             CopyObjectRequest copyRequest = new CopyObjectRequest();
@@ -465,7 +474,18 @@ namespace Buffalo.Storage.AWS.S3
             copyRequest.DestinationBucket = _bucketName;
             copyRequest.SourceKey = source;
             copyRequest.DestinationKey = target;
-            CopyObjectResponse copyResponse = _client.CopyObjectAsync(copyRequest).Result;
+            Task <CopyObjectResponse> copyResponseTsk = _client.CopyObjectAsync(copyRequest);
+
+            CopyObjectResponse copyResponse = copyResponseTsk.Result;
+            if (copyResponse.HttpStatusCode!= HttpStatusCode.OK)
+            {
+                return ApiCommon.GetFault(null, copyResponse.HttpStatusCode);
+            }
+            GetACLResponse getAclResponse = getAclResponseTsk.Result;
+            if (getAclResponse.HttpStatusCode != HttpStatusCode.OK)
+            {
+                return ApiCommon.GetFault(null, getAclResponse.HttpStatusCode);
+            }
 
             // set the acl of the newly created object
             PutACLRequest setAclRequest = new PutACLRequest();
@@ -475,17 +495,21 @@ namespace Buffalo.Storage.AWS.S3
 
 
             PutACLResponse setAclRespone = _client.PutACLAsync(setAclRequest).Result;
+            if (setAclRespone.HttpStatusCode != HttpStatusCode.OK)
+            {
+                return ApiCommon.GetFault(null, setAclRespone.HttpStatusCode);
+            }
 
             DeleteObjectRequest deleteRequest = new DeleteObjectRequest();
             deleteRequest.BucketName = _bucketName;
             deleteRequest.Key = source;
 
             DeleteObjectResponse deleteResponse = _client.DeleteObjectAsync(deleteRequest).Result;
-            if (deleteResponse.HttpStatusCode == HttpStatusCode.OK)
+            if (deleteResponse.HttpStatusCode != HttpStatusCode.OK)
             {
-                return ApiCommon.GetSuccess();
+                return ApiCommon.GetFault(null, deleteResponse.HttpStatusCode);
             }
-            return ApiCommon.GetFault(null, deleteResponse.HttpStatusCode);
+            return ApiCommon.GetSuccess();
         }
 
         /// <summary>
@@ -499,6 +523,7 @@ namespace Buffalo.Storage.AWS.S3
             targetPath = FormatKey(targetPath);
             using (FileStream file = new FileStream(sourcePath,FileMode.Open))
             {
+                
                 long len = file.Length;
                 if (len < FileInfoBase.SLICE_UPLOAD_FILE_SIZE)
                 {
@@ -510,6 +535,19 @@ namespace Buffalo.Storage.AWS.S3
                 }
             }
             return ApiCommon.GetSuccess();
+        }
+        public static string GetMD5HashFromStream(Stream stream)
+        {
+
+            MD5 md5 = new MD5CryptoServiceProvider();
+            byte[] retVal = md5.ComputeHash(stream);
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < retVal.Length; i++)
+            {
+                sb.Append(retVal[i].ToString("x2"));
+            }
+            return sb.ToString();
         }
 
         /// <summary>
@@ -526,6 +564,12 @@ namespace Buffalo.Storage.AWS.S3
             request.Key = path;
             request.InputStream = stream;
             request.CannedACL = _acl;
+            if (_needHash)
+            {
+                string md5 = GetMD5HashFromStream(stream);
+                stream.Position = 0;
+                request.MD5Digest = md5;
+            }
             PutObjectResponse res = _client.PutObjectAsync(request).Result;
             if (res.HttpStatusCode == HttpStatusCode.OK)
             {
@@ -533,6 +577,8 @@ namespace Buffalo.Storage.AWS.S3
             }
             return ApiCommon.GetFault(null, res.HttpStatusCode);
         }
+
+
         /// <summary>
         /// 分块大小
         /// </summary>
@@ -552,6 +598,7 @@ namespace Buffalo.Storage.AWS.S3
             uploadMultipartRequest.InputStream = stream;
             uploadMultipartRequest.PartSize = PartSize;
             uploadMultipartRequest.CannedACL = _acl;
+
             using (TransferUtility transferUtility = new TransferUtility(_client))
             {
                 transferUtility.Upload(uploadMultipartRequest);
@@ -594,13 +641,13 @@ namespace Buffalo.Storage.AWS.S3
         /// <returns></returns>
         public override bool ExistDirectory(string folder)
         {
-            folder = FormatPathKey(folder);
+            folder = HWOBSAdapter.GetPath(folder);
            
             try
             {
 
-                S3FileInfo file = new S3FileInfo(_client, _bucketName, folder);
-                return file.Exists;
+                
+                return ExistsMetadata(folder);
 
             }
             catch(Exception ex)
@@ -616,7 +663,7 @@ namespace Buffalo.Storage.AWS.S3
         /// <returns></returns>
         public override APIResault CreateDirectory(string folder)
         {
-            folder = FormatPathKey(folder);
+            folder = HWOBSAdapter.GetPath(folder);
             PutObjectRequest request = new PutObjectRequest()
             {
                 BucketName = _bucketName,

@@ -207,7 +207,7 @@ namespace Buffalo.Storage.LocalFileManager
             {
                 //file.Seek(postion, SeekOrigin.End);
                 file.Position = postion;
-                CommonMethods.CopyStreamData(content, file,-1,null);
+                CommonMethods.CopyStreamData(content, file,-1);
                 //file.Write(content, 0, content.Length);
             }
             return ApiCommon.GetSuccess();
@@ -390,7 +390,7 @@ namespace Buffalo.Storage.LocalFileManager
                 {
                     length = -1;
                 }
-                CommonMethods.CopyStreamData(fs, stm, length, null);
+                CommonMethods.CopyStreamData(fs, stm, length);
             }
         }
     }

@@ -17,12 +17,28 @@ namespace Buffalo.MongoDB
         private IMongoDatabase _db = null;
 
         /// <summary>
+        /// 是否支持事务
+        /// </summary>
+        private bool _hasTransaction;
+
+        /// <summary>
+        /// 是否支持事务
+        /// </summary>
+        public bool HasTransaction
+        {
+            get
+            {
+                return _hasTransaction;
+            }
+        }
+        /// <summary>
         /// Mongo连接
         /// </summary>
         /// <param name="db"></param>
-        public MongoConnection(IMongoDatabase db)
+        public MongoConnection(IMongoDatabase db,bool hasTransaction)
         {
             _db = db;
+            _hasTransaction = hasTransaction;
         }
         /// <summary>
         /// 连接对象
@@ -40,10 +56,15 @@ namespace Buffalo.MongoDB
         /// <returns></returns>
         public bool StartTransaction()
         {
+            if (!_hasTransaction)
+            {
+                return false;
+            }
             if (_session!=null)//已经有事务
             {
                 return false;
             }
+            
             try
             {
                 _session = _db.Client.StartSession();

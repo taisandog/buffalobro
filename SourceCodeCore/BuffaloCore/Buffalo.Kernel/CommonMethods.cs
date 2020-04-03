@@ -624,6 +624,7 @@ namespace Buffalo.Kernel
             } while (readed>0);
             
         }
+
         /// <summary>
         /// 流内容复制
         /// </summary>

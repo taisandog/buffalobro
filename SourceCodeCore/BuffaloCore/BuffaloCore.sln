@@ -29,7 +29,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ThirdParty", "ThirdParty", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Buffalo.Storage", "Buffalo.Storage\Buffalo.Storage.csproj", "{BE9561D5-9624-4DB9-AFBE-DD394820D5EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buffalo.MongoDB", "Buffalo.MongoDB\Buffalo.MongoDB.csproj", "{662748CE-43D3-4A9C-9F96-762829D5690D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Buffalo.MongoDB", "Buffalo.MongoDB\Buffalo.MongoDB.csproj", "{662748CE-43D3-4A9C-9F96-762829D5690D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

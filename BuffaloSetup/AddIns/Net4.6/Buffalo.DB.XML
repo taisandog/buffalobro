@@ -2440,7 +2440,7 @@
             </summary>
             <param name="oper"></param>
         </member>
-        <member name="M:Buffalo.DB.BQLCommon.BQLDbBase.SelectTable(System.String,Buffalo.DB.QueryConditions.ScopeList)">
+        <member name="M:Buffalo.DB.BQLCommon.BQLDbBase.SelectTable(System.String,Buffalo.DB.QueryConditions.ScopeList,System.Type)">
             <summary>
             直接查询数据库视图
             </summary>
@@ -2472,7 +2472,7 @@
             <param name="propertys"></param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.BQLCommon.BQLDbBase.SelectTable(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLOtherTableHandle,Buffalo.DB.QueryConditions.ScopeList)">
+        <member name="M:Buffalo.DB.BQLCommon.BQLDbBase.SelectTable(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLOtherTableHandle,Buffalo.DB.QueryConditions.ScopeList,System.Type)">
             <summary>
             直接查询数据库视图
             </summary>

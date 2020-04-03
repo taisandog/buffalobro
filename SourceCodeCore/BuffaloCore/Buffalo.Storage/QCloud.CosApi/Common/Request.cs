@@ -10,14 +10,19 @@ using QCloud.CosApi.Common;
 
 namespace QCloud.CosApi.Common
 {
-    enum HttpMethod { Get, Post};
+    public enum HttpMethod { Get, Post};
     /// <summary>
     /// 请求调用类
     /// </summary>
-    class Request
+    public class Request
     {
         HttpWebRequest request;
 
+        private WebProxy _proxy;
+        public Request(WebProxy proxy)
+        {
+            _proxy = proxy;
+        }
         /// <summary>
         /// 获取文件名
         /// </summary>
@@ -59,6 +64,10 @@ namespace QCloud.CosApi.Common
                 request.KeepAlive = true;
                 request.UserAgent = CosDefaultValue.USER_AGENT_VERSION;
                 request.Timeout = timeOut;
+                if (_proxy != null)
+                {
+                    request.Proxy = _proxy;
+                }
                 foreach (var key in header.Keys)
                 {
                     if (key == "Content-Type")
@@ -205,6 +214,10 @@ namespace QCloud.CosApi.Common
                 request.KeepAlive = true;
                 request.UserAgent = CosDefaultValue.USER_AGENT_VERSION;
                 request.Timeout = timeOut;
+                if (_proxy != null)
+                {
+                    request.Proxy = _proxy;
+                }
                 foreach (var key in header.Keys)
                 {
                     if(key == "Content-Type")
