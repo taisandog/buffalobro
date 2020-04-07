@@ -44,9 +44,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MQConnection.cs" />
     <Compile Include="MQMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RabbitMQ\RabbitMQAdapter.cs" />
+    <Compile Include="RabbitMQ\RabbitMQConnection.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Buffalo.ArgCommon\Buffalo2019.ArgCommon.csproj">
+      <Project>{584f95b4-461a-4d50-8294-9147364e1945}</Project>
+      <Name>Buffalo2019.ArgCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Buffalo.Kernel\Buffalo2019.Kernel.csproj">
+      <Project>{6ec04216-a422-4751-aa81-1211dcb10bab}</Project>
+      <Name>Buffalo2019.Kernel</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
