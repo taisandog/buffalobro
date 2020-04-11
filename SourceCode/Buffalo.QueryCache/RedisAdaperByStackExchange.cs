@@ -373,7 +373,6 @@ namespace Buffalo.QueryCache
         {
 
             IDatabase client = connection.DB;
-            
             byte[] content = client.StringGet(key);
             using (MemoryStream stm = new MemoryStream(content))
             {

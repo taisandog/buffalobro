@@ -1,5 +1,7 @@
 ﻿using Buffalo.ArgCommon;
+using Buffalo.MQ.KafkaMQ;
 using Buffalo.MQ.RabbitMQ;
+using Buffalo.MQ.RedisMQ;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +12,27 @@ namespace Buffalo.MQ
 {
     public delegate void DelOnMQReceived(MQConnection sender,string exchange, string routingKey, byte[] body);
 
+    public delegate void DelOnMQException(MQConnection sender, Exception ex);
+
     public abstract class MQConnection : IDisposable
     {
+        /// <summary>
+        /// 主题
+        /// </summary>
+        protected string _topic;
+        /// <summary>
+        /// 主题
+        /// </summary>
+        public string Topic
+        {
+            get
+            {
+                return _topic;
+            }
+        }
+        public event DelOnMQReceived OnMQReceived;
+
+        public event DelOnMQException OnMQException;
         /// <summary>
         /// 获取连接
         /// </summary>
@@ -24,10 +45,18 @@ namespace Buffalo.MQ
             {
                 return new RabbitMQConnection(connectString);
             }
+            if (string.Equals(mqType, "kafkaMQ", StringComparison.CurrentCultureIgnoreCase))
+            {
+                return new KafkaMQConnection(connectString);
+            }
+            if (string.Equals(mqType, "redisMQ", StringComparison.CurrentCultureIgnoreCase))
+            {
+                return new RedisMQConnection(connectString);
+            }
             return null;
         }
 
-        public event DelOnMQReceived OnMQReceived;
+        
 
 
 
@@ -38,17 +67,17 @@ namespace Buffalo.MQ
         /// <summary>
         /// 打开事件监听
         /// </summary>
-        public abstract void StartListend(IEnumerable<string> keys);
+        public abstract void StartListend();
 
         public abstract void Dispose();
 
         /// <summary>
         /// 发布内容
         /// </summary>
-        /// <param name="routingKey"></param>
-        /// <param name="body"></param>
+        /// <param name="key">键</param>
+        /// <param name="body">内容</param>
         /// <returns></returns>
-        public abstract APIResault BasicPublish(string routingKey, byte[] body);
+        public abstract APIResault SendMessage(string key, byte[] body);
 
         /// <summary>
         /// 删除队列(Rabbit可用)
@@ -59,7 +88,7 @@ namespace Buffalo.MQ
         /// 删除交换器
         /// </summary>
 
-        public abstract void DeleteExchange(bool ifUnused);
+        public abstract void DeleteTopic(bool ifUnused);
         /// <summary>
         /// 关闭连接
         /// </summary>
@@ -74,6 +103,18 @@ namespace Buffalo.MQ
                 return;
             }
             OnMQReceived(this, exchange,routingKey, body);
+        }
+
+        /// <summary>
+        /// 监听信息后回调
+        /// </summary>
+        protected void OnException(Exception ex)
+        {
+            if (OnMQException == null)
+            {
+                return;
+            }
+            OnMQException(this, ex);
         }
     }
 }

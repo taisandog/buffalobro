@@ -13,3 +13,4 @@ D:\workspace\GitProjects\Buffalo\SourceCode\Buffalo.Kernel\obj\Debug\Buffalo2019
 D:\workspace\GitProjects\Buffalo\SourceCode\Buffalo.Kernel\obj\Debug\Buffalo.Kernel.dll
 D:\workspace\GitProjects\Buffalo\SourceCode\Buffalo.Kernel\obj\Debug\Buffalo.Kernel.pdb
 E:\CSharpTest\GitProjects\Buffalo\SourceCode\Buffalo.Kernel\obj\Debug\Buffalo2019.Kernel.csprojAssemblyReference.cache
+D:\workspace\GitProjects\Buffalo\SourceCode\Buffalo.Kernel\obj\Debug\Buffalo2019.Kernel.csprojAssemblyReference.cache
