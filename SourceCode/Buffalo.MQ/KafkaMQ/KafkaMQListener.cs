@@ -24,14 +24,13 @@ namespace Buffalo.MQ.KafkaMQ
         private CancellationTokenSource _running =null;
         private AutoResetEvent _handle = null;
         private Thread _thd;
-        private IEnumerable<string> _lisTopic;
         public override void StartListend(IEnumerable<string> listenKeys)
         {
-            _lisTopic = listenKeys;
             _running = new CancellationTokenSource();
             _handle = new AutoResetEvent(true);
-            _thd = new Thread(new ThreadStart(OnListend));
-            _thd.Start();
+            _thd = new Thread(new ParameterizedThreadStart(OnListend));
+            
+            _thd.Start(listenKeys);
         }
 
         public override void Close()
@@ -43,20 +42,21 @@ namespace Buffalo.MQ.KafkaMQ
         /// <summary>
         /// 监听信息
         /// </summary>
-        private void OnListend()
+        private void OnListend(object arg)
         {
+            IEnumerable<string> topics = arg as IEnumerable<string>;
             ConsumerBuilder<string, byte[]> builder = _config.KConsumerBuilder;
 
             CancellationToken token = _running.Token;
-            List<TopicPartitionOffset> lst = new List<TopicPartitionOffset>();
-            foreach(string listop in _lisTopic)
-            {
-                lst.Add(new TopicPartitionOffset(listop, 0, 0));
-            }
+            //List<TopicPartitionOffset> lst = new List<TopicPartitionOffset>();
+            //foreach(string listop in _lisTopic)
+            //{
+            //    lst.Add(new TopicPartitionOffset(listop, 0, 0));
+            //}
             using (IConsumer<string, byte[]> consumer = builder.Build())
             {
 
-                consumer.Assign(lst);
+                consumer.Subscribe(topics);
 
                 while (!_running.IsCancellationRequested)
                 {
@@ -89,7 +89,7 @@ namespace Buffalo.MQ.KafkaMQ
                 }
                 catch { }
             }
-            _running = null;
+            
             if (_handle != null && _thd!=null)
             {
                 if (!_handle.WaitOne(1000))

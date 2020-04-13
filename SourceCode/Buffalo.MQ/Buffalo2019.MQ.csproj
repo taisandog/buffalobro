@@ -31,8 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Confluent.Kafka">
-      <HintPath>..\..\dll\dll\Net4.5\Confluent.Kafka.dll</HintPath>
+    <Reference Include="Confluent.Kafka, Version=1.4.0.0, Culture=neutral, PublicKeyToken=12c514ca49093d1e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dll\dll\Net4.6\Confluent.Kafka.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces">
       <HintPath>..\..\dll\dll\Net4.7.2\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>

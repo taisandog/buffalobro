@@ -104,6 +104,10 @@ namespace Buffalo.MQ.KafkaMQ
             KafkaMQConnection.SetBaseConfig(this.KConsumerConfig, hs);
 
             this.KConsumerConfig.GroupId = hs.GetDicValue<string, string>("groupId");
+            if (string.IsNullOrWhiteSpace(this.KConsumerConfig.GroupId))
+            {
+                this.KConsumerConfig.GroupId = CommonMethods.GuidToString(Guid.NewGuid());
+            }
             this.KConsumerConfig.EnableAutoCommit = hs.GetDicValue<string, string>("autoCommit") == "1";
 
 
@@ -113,17 +117,17 @@ namespace Buffalo.MQ.KafkaMQ
             {
                 statisticsIntervalMs = value.ConvertTo<int>(5000);
             }
-            //this.ConsumerConfig.ConsumeGroupRebalanceRetryIntervalMs = statisticsIntervalMs;
+            this.KConsumerConfig.StatisticsIntervalMs = statisticsIntervalMs;
 
             value = hs.GetDicValue<string, string>("sessionTimeout");
-            int sessionTimeoutMs = 5000;
+            int sessionTimeoutMs = 6000;
             if (!string.IsNullOrWhiteSpace(value))
             {
-                sessionTimeoutMs = value.ConvertTo<int>(5000);
+                sessionTimeoutMs = value.ConvertTo<int>(6000);
             }
             this.KConsumerConfig.SessionTimeoutMs = sessionTimeoutMs;
 
-
+            
 
             int offsetType = hs.GetDicValue<string, string>("offsetType").ConvertTo<int>((int)AutoOffsetReset.Earliest);
 
@@ -153,7 +157,7 @@ namespace Buffalo.MQ.KafkaMQ
             }
             ProducerConfig.StatisticsIntervalMs = statisticsIntervalMs;
 
-
+            
         }
 
         /// <summary>

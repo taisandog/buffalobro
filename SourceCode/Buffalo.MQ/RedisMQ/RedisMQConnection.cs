@@ -111,6 +111,7 @@ namespace Buffalo.MQ.RedisMQ
                 _redis.Dispose();
                 _redis = null;
             }
+            
             _subscriber = null;
         }
 

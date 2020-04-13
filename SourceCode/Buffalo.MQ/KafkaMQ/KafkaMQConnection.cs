@@ -17,7 +17,10 @@ namespace Buffalo.MQ.KafkaMQ
         private KafkaMQConfig _config;
 
         private IProducer<string, byte[]> _producer;
-
+        /// <summary>
+        /// 队列
+        /// </summary>
+        private Queue<Task<DeliveryResult<string, byte[]>>> _queResault = null;
         public override bool IsOpen
         {
             get
@@ -43,6 +46,7 @@ namespace Buffalo.MQ.KafkaMQ
         private void InitProducerConfig()
         {
             _producer = _config.ProducerBuilder.Build();
+            _queResault = new Queue<Task<DeliveryResult<string, byte[]>>>();
         }
         /// <summary>
         /// 读入基础配置
@@ -76,31 +80,46 @@ namespace Buffalo.MQ.KafkaMQ
             }
             
         }
-       
+        
         protected override APIResault SendMessage(string key, byte[] body)
         {
             Message<string, byte[]> message = new Message<string, byte[]>();
             message.Key = key;
             message.Value = body;
 
-            //Task<DeliveryResult<string, byte[]>> delRes=_producer.ProduceAsync(_topic, message);
-            //delRes.ContinueWith(task =>
-            //{
-
-            //});
-            _producer.Produce(key, message);
-            
+            Task<DeliveryResult<string, byte[]>> delRes = _producer.ProduceAsync(key, message);
+            //DeliveryResult<string, byte[]> re = delRes.Result;
+            //_producer.Produce(key, message);
+            _queResault.Enqueue(delRes);
             return ApiCommon.GetSuccess();
+        }
+        /// <summary>
+        /// 清空缓冲区
+        /// </summary>
+        private void DoFlush()
+        {
+            _producer.Flush(new TimeSpan(2000));
+            Queue<Task<DeliveryResult<string, byte[]>>> curQueue = _queResault;
+            if (curQueue == null)
+            {
+                return;
+            }
+            while (curQueue.Count > 0)
+            {
+                Task<DeliveryResult<string, byte[]>> delRes = curQueue.Dequeue();
+                DeliveryResult<string, byte[]> re = delRes.Result;
+            }
         }
 
         protected override void Close()
         {
             if (_producer!=null)
             {
-                _producer.Flush(new TimeSpan(10));
-               
+                DoFlush();
                 _producer.Dispose();
+                _producer = null;
             }
+            _queResault = null;
         }
 
         public override void DeleteTopic(bool ifUnused)

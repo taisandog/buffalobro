@@ -29,20 +29,7 @@ namespace Buffalo.MQ.RedisMQ
             _config = config;
         }
         
-        /// <summary>
-        /// 打开事件监听
-        /// </summary>
-        public void StartListend(string[] lisKeys)
-        {
-            Open();
-            
-            _subscriber = _redis.GetSubscriber();
-            foreach (string lis in lisKeys)
-            {
-                _subscriber.Subscribe(lis, OnRedisCallback, _config.CommanfFlags);
-            }
-
-        }
+       
         /// <summary>
         /// 打来连接
         /// </summary>
@@ -52,20 +39,23 @@ namespace Buffalo.MQ.RedisMQ
             {
                 _redis =RedisMQConnection.CreateManager(_config.Options);
             }
-            if (_subscriber == null)
-            {
-                _subscriber = _redis.GetSubscriber();
-            }
+            
         }
 
         private void OnRedisCallback(RedisChannel key, RedisValue value)
         {
-            CallBack(key.ToString(),"", (byte[])value);
+            CallBack(key.ToString(), key.ToString(), (byte[])value);
         }
 
         public override void StartListend(IEnumerable<string> listenKeys)
         {
-           
+            Open();
+
+            _subscriber = _redis.GetSubscriber();
+            foreach (string lis in listenKeys)
+            {
+                _subscriber.Subscribe(lis, OnRedisCallback, _config.CommanfFlags);
+            }
         }
 
         /// <summary>
