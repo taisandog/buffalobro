@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Buffalo.MQ.RabbitMQ
 {
-    //连接字符串:server=192.168.1.25;vhost="/";uid=admin;pwd=111111;exchange=fanout
+    
     /// <summary>
     /// RabbitMQ适配
     /// </summary>
@@ -53,7 +53,7 @@ namespace Buffalo.MQ.RabbitMQ
         /// <summary>
         /// 打来连接
         /// </summary>
-        public override void Open()
+        protected override void Open()
         {
             if (IsOpen)
             {

@@ -140,7 +140,7 @@ namespace Buffalo.MQ.KafkaMQ
 
         
 
-        public override void Open()
+        protected override void Open()
         {
             if (IsOpen)
             {

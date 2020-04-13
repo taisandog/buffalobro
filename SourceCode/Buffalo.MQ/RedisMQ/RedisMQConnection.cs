@@ -44,7 +44,7 @@ namespace Buffalo.MQ.RedisMQ
         /// <summary>
         /// 打来连接
         /// </summary>
-        public override void Open()
+        protected override void Open()
         {
             if (_redis == null)
             {

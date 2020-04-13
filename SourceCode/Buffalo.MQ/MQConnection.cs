@@ -14,10 +14,12 @@ namespace Buffalo.MQ
 {
 
 
-    public abstract class MQConnection : IDisposable
+    public abstract class MQConnection 
     {
         
-
+        /// <summary>
+        /// 是否开启
+        /// </summary>
         public abstract bool IsOpen
         {
             get;
@@ -125,14 +127,10 @@ namespace Buffalo.MQ
         /// <summary>
         /// 初始化发布者模式
         /// </summary>
-        public abstract void Open();
+        protected abstract void Open();
 
 
-        public void Dispose()
-        {
-
-        }
-
+        
 
 
         /// <summary>
@@ -156,7 +154,9 @@ namespace Buffalo.MQ
         /// 关闭连接
         /// </summary>
         protected abstract void Close();
-
+        /// <summary>
+        /// 自动关闭
+        /// </summary>
         public void AutoClose()
         {
             if(!_isBatch && !_isTran)
