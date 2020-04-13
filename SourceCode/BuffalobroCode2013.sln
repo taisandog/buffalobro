@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29201.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buffalo2013.DB", "Buffalo.DB\Buffalo2013.DB.csproj", "{9B0043E4-883B-47BA-9A5A-5110C8583902}"
 EndProject
@@ -36,6 +36,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buffalo2013.Data.Oracle", "Buffalo.Data.Oracle12\Buffalo2013.Data.Oracle.csproj", "{C38522E1-35BA-40F7-A1E9-716D52BB6C04}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buffalo2013.MongoDB", "Buffalo.MongoDB\Buffalo2013.MongoDB.csproj", "{BE4AF0E1-9426-4F0A-9344-CDCB578C8B7C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buffalo2013.MQ", "Buffalo.MQ\Buffalo2013.MQ.csproj", "{6CEDC1E6-BD83-4D69-8B52-F0534E16F688}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -207,6 +209,18 @@ Global
 		{BE4AF0E1-9426-4F0A-9344-CDCB578C8B7C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{BE4AF0E1-9426-4F0A-9344-CDCB578C8B7C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{BE4AF0E1-9426-4F0A-9344-CDCB578C8B7C}.Release|x86.ActiveCfg = Release|Any CPU
+		{6CEDC1E6-BD83-4D69-8B52-F0534E16F688}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CEDC1E6-BD83-4D69-8B52-F0534E16F688}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CEDC1E6-BD83-4D69-8B52-F0534E16F688}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{6CEDC1E6-BD83-4D69-8B52-F0534E16F688}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{6CEDC1E6-BD83-4D69-8B52-F0534E16F688}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6CEDC1E6-BD83-4D69-8B52-F0534E16F688}.Debug|x86.Build.0 = Debug|Any CPU
+		{6CEDC1E6-BD83-4D69-8B52-F0534E16F688}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CEDC1E6-BD83-4D69-8B52-F0534E16F688}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CEDC1E6-BD83-4D69-8B52-F0534E16F688}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{6CEDC1E6-BD83-4D69-8B52-F0534E16F688}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{6CEDC1E6-BD83-4D69-8B52-F0534E16F688}.Release|x86.ActiveCfg = Release|Any CPU
+		{6CEDC1E6-BD83-4D69-8B52-F0534E16F688}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -217,5 +231,8 @@ Global
 		{EF96EA11-C57A-4DE0-97F7-1AB7E20CA0BD} = {7F9975F0-7933-4353-BD9A-985E3FA049FE}
 		{D7CA14C3-1869-4928-91E4-3584DE3823C2} = {7F9975F0-7933-4353-BD9A-985E3FA049FE}
 		{C38522E1-35BA-40F7-A1E9-716D52BB6C04} = {7F9975F0-7933-4353-BD9A-985E3FA049FE}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F0E7134F-C3F2-4780-A080-9B9BBAADB9AD}
 	EndGlobalSection
 EndGlobal

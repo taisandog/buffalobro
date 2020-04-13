@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,55 +12,50 @@ namespace Buffalo.MQ.KafkaMQ
 {
     public partial class KafkaMQConnection : MQConnection
     {
-        
 
-        private ProducerConfig _pconfig;
 
-        private AdminClientConfig _adminconfig;
+        private KafkaMQConfig _config;
 
-        private string _connString;
         private IProducer<string, byte[]> _producer;
-        public KafkaMQConnection(string connString)
+
+        public override bool IsOpen
         {
-            _connString = connString;
-
+            get
+            {
+                return _producer != null;
+            }
         }
-
+        private TimeSpan _timeout;
+        public KafkaMQConnection(KafkaMQConfig config)
+        {
+            _config = config;
+            int to = _config.ProducerConfig.SocketTimeoutMs.GetValueOrDefault();
+            if (to < 100)
+            {
+                to = 2000;
+            }
+            _timeout = TimeSpan.FromMilliseconds(to);
+        }
         
         /// <summary>
         /// 初始化消费者配置
         /// </summary>
         private void InitProducerConfig()
         {
-            Dictionary<string, string> hs = ConnStringFilter.GetConnectInfo(_connString);
-            _pconfig = new ProducerConfig();
-            SetBaseConfig(_pconfig, hs);
-
-
-            string value = hs.GetDicValue<string, string>("interval");
-            int statisticsIntervalMs = 5000;
-            if (!string.IsNullOrWhiteSpace(value))
-            {
-                statisticsIntervalMs = value.ConvertTo<int>(5000);
-            }
-            _pconfig.StatisticsIntervalMs = statisticsIntervalMs;
-            
-
-            ProducerBuilder<string, byte[]> builder = new ProducerBuilder<string, byte[]>(_pconfig);
-            _producer = builder.Build();
+            _producer = _config.ProducerBuilder.Build();
         }
         /// <summary>
         /// 读入基础配置
         /// </summary>
         /// <param name="config"></param>
         /// <param name="hs"></param>
-        private void SetBaseConfig(ClientConfig config, Dictionary<string, string> hs)
+        internal static void SetBaseConfig(ClientConfig config, Dictionary<string, string> hs)
         {
-            _topic = hs.GetDicValue<string, string>("topic");
+            
             string server = hs.GetDicValue<string, string>("server");
             if (!server.Contains(':'))
             {
-                server += ":9093";
+                server += ":9092";
             }
             config.BootstrapServers = server;
 
@@ -78,77 +74,79 @@ namespace Buffalo.MQ.KafkaMQ
             {
                 config.SecurityProtocol = SecurityProtocol.Plaintext;
             }
+            
         }
-        /// <summary>
-        /// 初始化消费者配置
-        /// </summary>
-        private void InitAdminConfig()
-        {
-            Dictionary<string, string> hs = ConnStringFilter.GetConnectInfo(_connString);
-            _adminconfig = new AdminClientConfig();
-            SetBaseConfig(_adminconfig, hs);
-
-
-            string value = hs.GetDicValue<string, string>("interval");
-            int statisticsIntervalMs = 5000;
-            if (!string.IsNullOrWhiteSpace(value))
-            {
-                statisticsIntervalMs = value.ConvertTo<int>(5000);
-            }
-            _adminconfig.StatisticsIntervalMs = statisticsIntervalMs;
-
-           
-        }
-        public override APIResault SendMessage(string key, byte[] body)
+       
+        protected override APIResault SendMessage(string key, byte[] body)
         {
             Message<string, byte[]> message = new Message<string, byte[]>();
             message.Key = key;
             message.Value = body;
+
+            //Task<DeliveryResult<string, byte[]>> delRes=_producer.ProduceAsync(_topic, message);
+            //delRes.ContinueWith(task =>
+            //{
+
+            //});
+            _producer.Produce(key, message);
             
-            DeliveryResult<string,byte[]> res=_producer.ProduceAsync(_topic, message).Result;
-            _producer.Flush(new TimeSpan(10));
             return ApiCommon.GetSuccess();
         }
 
-        public override void Close()
+        protected override void Close()
         {
             if (_producer!=null)
             {
+                _producer.Flush(new TimeSpan(10));
+               
                 _producer.Dispose();
             }
-            CloseListener();
         }
 
         public override void DeleteTopic(bool ifUnused)
         {
-            if (_adminconfig == null)
-            {
-                InitAdminConfig();
-
-            }
-            AdminClientBuilder builder = new AdminClientBuilder(_adminconfig);
-            using (IAdminClient admin = builder.Build())
-            {
-                admin.DeleteTopicsAsync(new string[] { _topic }, null);
-                
-            }
+            
+            
+            
         }
 
         public override void DeleteQueue(IEnumerable<string> queueName, bool ifUnused, bool ifEmpty)
         {
-            
-        }
+            using (IAdminClient admin = _config.AdminBuilder.Build())
+            {
+                admin.DeleteTopicsAsync(queueName, null);
 
-        public override void Dispose()
-        {
-            Close();
-        }
-
-        public override void InitPublic()
-        {
-            InitProducerConfig();
+            }
         }
 
         
+
+        public override void Open()
+        {
+            if (IsOpen)
+            {
+                return;
+            }
+            InitProducerConfig();
+        }
+
+        protected override APIResault StartTran()
+        {
+            _producer.BeginTransaction();
+            return ApiCommon.GetSuccess();
+        }
+
+        protected override APIResault CommitTran()
+        {
+            
+            _producer.CommitTransaction(_timeout);
+            return ApiCommon.GetSuccess();
+        }
+
+        protected override APIResault RoolbackTran()
+        {
+            _producer.AbortTransaction(_timeout);
+            return ApiCommon.GetSuccess();
+        }
     }
 }

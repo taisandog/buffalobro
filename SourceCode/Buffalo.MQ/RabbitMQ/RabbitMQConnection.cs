@@ -16,26 +16,10 @@ namespace Buffalo.MQ.RabbitMQ
     /// </summary>
     public partial class RabbitMQConnection : MQConnection
     {
-        private ConnectionFactory _fac;
+       
         private IConnection _connection;
         private IModel _channel;
-        /// <summary>
-        /// 交换方式(direct,fanout,headers,topic;)
-        /// </summary>
-        private string _exchangeMode;
-        /// <summary>
-        /// 类型 1不持久化，2持久化
-        /// </summary>
-        private byte _deliveryMode;
-
-        /// <summary>
-        /// 队列名
-        /// </summary>
-        private string[] _queueName;
-        /// <summary>
-        /// 自动删除
-        /// </summary>
-        private bool _autoDelete;
+        private RabbitMQConfig _config;
         /// <summary>
         /// 信道
         /// </summary>
@@ -46,104 +30,66 @@ namespace Buffalo.MQ.RabbitMQ
                 return _channel;
             }
         }
-        /// <summary>
-        /// 监听的路由键
-        /// </summary>
-        private IEnumerable<string> _listeneKeys;
+
+        public override bool IsOpen
+        {
+            get
+            {
+                return _channel != null;
+            }
+
+           
+        }
+
+        
         /// <summary>
         /// RabbitMQ适配
         /// </summary>
         /// <param name="connString">连接字符串</param>
-        public RabbitMQConnection(string connString)
+        public RabbitMQConnection(RabbitMQConfig config)
         {
-
-            Dictionary<string, string> hs = ConnStringFilter.GetConnectInfo(connString);
-            _fac = new ConnectionFactory();
-            _fac.UserName = hs.GetDicValue<string, string>("uid");
-            _fac.VirtualHost = hs.GetDicValue<string, string>("vhost");
-            if (string.IsNullOrWhiteSpace(_fac.VirtualHost))
-            {
-                _fac.VirtualHost = "/";
-            }
-            _fac.Protocol = Protocols.DefaultProtocol;
-            _fac.HostName = hs.GetDicValue<string, string>("server");
-            _fac.Password = hs.GetDicValue<string, string>("pwd");
-            _exchangeMode = hs.GetDicValue<string, string>("exchangeMode");
-            _topic = hs.GetDicValue<string, string>("exchangeName");
-            _autoDelete = hs.GetDicValue<string, string>("autoDelete") == "1";
-            string queueName = hs.GetDicValue<string, string>("queueName");//队列名，用|隔开,只有Fanout模式可用
-            if (!string.IsNullOrWhiteSpace(queueName))
-            {
-                _queueName = queueName.Split('|');
-            }
-            string deliveryModeStr = hs.GetDicValue<string, string>("deliveryMode");//1不持久化，2持久化
-
-            if (deliveryModeStr == null)
-            {
-                _deliveryMode = 1;
-            }
-            else
-            {
-                _deliveryMode = deliveryModeStr.ConvertTo<byte>();
-            }
-            if (string.IsNullOrWhiteSpace(_exchangeMode))
-            {
-                _exchangeMode = ExchangeType.Direct;
-            }
-
-            string listeneKeys = hs.GetDicValue<string, string>("lisKeys");//监听的键,用|隔开
-            if (!string.IsNullOrWhiteSpace(listeneKeys))
-            {
-                _listeneKeys = listeneKeys.Split('|');
-            }
+            _config = config;
         }
         /// <summary>
         /// 打来连接
         /// </summary>
-        private void Open()
+        public override void Open()
         {
-            Close();
-            _connection = _fac.CreateConnection();
+            if (IsOpen)
+            {
+                return;
+            }
+            _connection = _config.Factory.CreateConnection();
             _channel = _connection.CreateModel();
             IBasicProperties properties = _channel.CreateBasicProperties();
-            properties.DeliveryMode = _deliveryMode;
+            properties.DeliveryMode = _config.DeliveryMode;
 
             //UInt32 prefetchSize,  每次取的长度
             //UInt16 prefetchCount,     每次取几条
             //Boolean global    是否对connection通用
             _channel.BasicQos(0, 1, true);
-            _channel.ExchangeDeclare(_topic, _exchangeMode, _deliveryMode == 2, _autoDelete, null);
-            
-        }
-        /// <summary>
-        /// 初始化发布者模式
-        /// </summary>
-        public override void InitPublic()
-        {
-            Open();
-            if (_queueName != null)
+            _channel.ExchangeDeclare(_config.ExchangeName, _config.ExchangeMode, _config.DeliveryMode == 2, _config.AutoDelete, null);
+            if (_config.QueueName != null)
             {
-                foreach (string name in _queueName)
+                foreach (string name in _config.QueueName)
                 {
-                    _channel.QueueDeclare(name, _deliveryMode == 2, false, _autoDelete, null);
-                    _channel.QueueBind(name, _topic, "", null);
+                    _channel.QueueDeclare(name, _config.DeliveryMode == 2, false, _config.AutoDelete, null);
+                    _channel.QueueBind(name, _config.ExchangeName, "", null);
                 }
             }
-        }
-        
 
-       
-        
+        }
+
         /// <summary>
         /// 发布内容
         /// </summary>
         /// <param name="routingKey"></param>
         /// <param name="body"></param>
         /// <returns></returns>
-        public override APIResault SendMessage(string routingKey,byte[] body)
+        protected override APIResault SendMessage(string routingKey,byte[] body)
         {
             
-            _channel.BasicPublish(_topic, routingKey, false,null, body);
+            _channel.BasicPublish(_config.ExchangeName, routingKey, false,null, body);
             return ApiCommon.GetSuccess();
         }
         /// <summary>
@@ -155,7 +101,7 @@ namespace Buffalo.MQ.RabbitMQ
             IEnumerable<string> curDelete = queueName;
             if (curDelete == null)
             {
-                curDelete = _queueName;
+                curDelete = _config.QueueName;
             }
             foreach (string delName in curDelete)
             {
@@ -168,13 +114,13 @@ namespace Buffalo.MQ.RabbitMQ
         
         public override void DeleteTopic(bool ifUnused)
         {
-            _channel.ExchangeDelete(_topic, ifUnused);
+            _channel.ExchangeDelete(_config.ExchangeName, ifUnused);
         }
-        
+
         /// <summary>
         /// 关闭连接
         /// </summary>
-        public override void Close()
+        protected override void Close()
         {
             if (_channel != null)
             {
@@ -188,14 +134,26 @@ namespace Buffalo.MQ.RabbitMQ
             }
         }
 
-        public override void Dispose()
+
+
+        protected override APIResault StartTran()
         {
-            Close();
+            _channel.TxSelect();
+            return ApiCommon.GetSuccess();
         }
-        ~RabbitMQConnection()
+
+        protected override APIResault CommitTran()
         {
-            Close();
-            GC.SuppressFinalize(this);
+            _channel.TxCommit();
+            return ApiCommon.GetSuccess();
         }
+
+        protected override APIResault RoolbackTran()
+        {
+            _channel.TxRollback();
+            return ApiCommon.GetSuccess();
+        }
+
+        
     }
 }

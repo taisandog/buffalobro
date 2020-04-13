@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29201.188
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buffalo2012.DB", "Buffalo.DB\Buffalo2012.DB.csproj", "{9B0043E4-883B-47BA-9A5A-5110C8583902}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buffalo2012.DBTools", "Buffalo.DBTools\Buffalo2012.DBTools.csproj", "{7A6773F7-7D53-4DF1-8BF4-D1E6634DB61B}"
@@ -34,6 +36,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buffalo2012.Data.Oracle", "Buffalo.Data.Oracle12\Buffalo2012.Data.Oracle.csproj", "{3C96896E-D0F5-4A57-BE6E-7D0E4CA16728}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buffalo2012.MongoDB", "Buffalo.MongoDB\Buffalo2012.MongoDB.csproj", "{BE4AF0E1-9426-4F0A-9344-CDCB578C8B7C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buffalo2012.MQ", "Buffalo.MQ\Buffalo2012.MQ.csproj", "{6CEDC1E6-BD83-4D69-8B52-F0534E16F688}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -105,6 +109,10 @@ Global
 		{BE4AF0E1-9426-4F0A-9344-CDCB578C8B7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE4AF0E1-9426-4F0A-9344-CDCB578C8B7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE4AF0E1-9426-4F0A-9344-CDCB578C8B7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CEDC1E6-BD83-4D69-8B52-F0534E16F688}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CEDC1E6-BD83-4D69-8B52-F0534E16F688}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CEDC1E6-BD83-4D69-8B52-F0534E16F688}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CEDC1E6-BD83-4D69-8B52-F0534E16F688}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -115,5 +123,8 @@ Global
 		{EF96EA11-C57A-4DE0-97F7-1AB7E20CA0BD} = {310BE026-0847-487F-B774-E3F38F9A6278}
 		{D7CA14C3-1869-4928-91E4-3584DE3823C2} = {310BE026-0847-487F-B774-E3F38F9A6278}
 		{3C96896E-D0F5-4A57-BE6E-7D0E4CA16728} = {310BE026-0847-487F-B774-E3F38F9A6278}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7987BBAD-A4A5-4612-9768-DD074431A5C4}
 	EndGlobalSection
 EndGlobal

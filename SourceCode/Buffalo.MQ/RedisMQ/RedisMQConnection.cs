@@ -14,124 +14,59 @@ namespace Buffalo.MQ.RedisMQ
 
         private ConnectionMultiplexer _redis = null;
         /// <summary>
-        /// 主服务器
-        /// </summary>
-        private string _mainServer;
-        /// <summary>
-        /// 只读服务器
-        /// </summary>
-        private string _roserver;
-        /// <summary>
-        /// 服务器数量
-        /// </summary>
-        int _serverCount = 0;
-        /// <summary>
-        /// 是否抛出异常
-        /// </summary>
-        bool _throwExcertion = false;
-        /// <summary>
-        /// 连接字符串
-        /// </summary>
-        Dictionary<string, string> _hs = null;
-        /// <summary>
         /// 发布者
         /// </summary>
         ISubscriber _subscriber;
         /// <summary>
-        /// 
+        /// 配置
         /// </summary>
-        CommandFlags _commanfFlags;
-        /// <summary>
-        /// 监听的key
-        /// </summary>
-        private string _listen;
+        RedisMQConfig _config;
         /// <summary>
         /// RabbitMQ适配
         /// </summary>
         /// <param name="connString">连接字符串</param>
-        public RedisMQConnection(string connString)
+        public RedisMQConnection(RedisMQConfig config)
         {
-            _hs = ConnStringFilter.GetConnectInfo(connString);
-            
+            _config = config;
         }
+        
+
         /// <summary>
         /// 创建连接池
         /// </summary>
         /// <param name="connectionString">连接字符串</param>
         /// <returns></returns>
-        private ConnectionMultiplexer CreateManager(Dictionary<string, string> hs)
+        internal static ConnectionMultiplexer CreateManager(ConfigurationOptions options)
         {
-            ConfigurationOptions options = new ConfigurationOptions();
-            //ConnectionMultiplexer config = new ConnectionMultiplexer();
-            string mainserver = "127.0.0.1:6379";
-
-
-            string server = hs.GetDicValue<string, string>("server");
-            List<string> servers = new List<string>();
-            if (!string.IsNullOrEmpty(server))
-            {
-                string[] parts = server.Split(',');
-                foreach (string sser in parts)
-                {
-                    string cur = sser;
-                    if (!string.IsNullOrEmpty(cur))
-                    {
-                        if (!cur.Contains(':'))
-                        {
-                            cur += ":6379";
-                        }
-                        servers.Add(cur);
-                    }
-                }
-            }
-
-            options.Password = hs.GetDicValue<string, string>("pwd");
-            options.Ssl = hs.GetDicValue<string, string>("ssl")=="1";
-            string throwStr = hs.GetDicValue<string, string>("throw") ;
-            _throwExcertion = (throwStr == "1");
-            if (servers.Count > 0)
-            {
-                mainserver = servers[0];
-            }
-            //options.EndPoints.Add(mainserver);
-            _mainServer = mainserver;
-
-            _serverCount = 1;
-            if (servers.Count > 0)
-            {
-                foreach (string strServer in servers)
-                {
-                    options.EndPoints.Add(strServer);
-                    _roserver = strServer;
-                }
-
-            }
-            _serverCount = servers.Count;
-            _listen = _hs.GetDicValue<string, string>("listen");
-            _commanfFlags = (CommandFlags)hs.GetDicValue<string, string>("commanfFlags").ConvertTo<int>((int)CommandFlags.None);
             return ConnectionMultiplexer.Connect(options);
         }
 
         /// <summary>
         /// 打来连接
         /// </summary>
-        private void Open()
+        public override void Open()
         {
-            Close();
-            _redis = CreateManager(_hs);
-
-        }
-        /// <summary>
-        /// 初始化发布者模式
-        /// </summary>
-        public override void InitPublic()
-        {
-            Open();
-            _subscriber = _redis.GetSubscriber();
+            if (_redis == null)
+            {
+                _redis = CreateManager(_config.Options);
+            }
+            if (_subscriber == null)
+            {
+                _subscriber = _redis.GetSubscriber();
+            }
         }
 
 
 
+        public override bool IsOpen
+        {
+            get
+            {
+                return _redis != null;
+            }
+
+
+        }
 
         /// <summary>
         /// 发布内容
@@ -139,7 +74,7 @@ namespace Buffalo.MQ.RedisMQ
         /// <param name="routingKey"></param>
         /// <param name="body"></param>
         /// <returns></returns>
-        public override APIResault SendMessage(string routingKey, byte[] body)
+        protected override APIResault SendMessage(string routingKey, byte[] body)
         {
             RedisValue value = body;
 
@@ -168,7 +103,7 @@ namespace Buffalo.MQ.RedisMQ
         /// <summary>
         /// 关闭连接
         /// </summary>
-        public override void Close()
+        protected override void Close()
         {
             if (_redis != null)
             {
@@ -176,16 +111,30 @@ namespace Buffalo.MQ.RedisMQ
                 _redis.Dispose();
                 _redis = null;
             }
+            _subscriber = null;
         }
 
-        public override void Dispose()
+
+
+        protected override APIResault StartTran()
         {
-            Close();
+            return ApiCommon.GetSuccess();
         }
+
+        protected override APIResault CommitTran()
+        {
+            return ApiCommon.GetSuccess();
+        }
+
+        protected override APIResault RoolbackTran()
+        {
+            return ApiCommon.GetSuccess();
+        }
+
         ~RedisMQConnection()
         {
             Close();
-            GC.SuppressFinalize(this);
+            
         }
     }
 }
