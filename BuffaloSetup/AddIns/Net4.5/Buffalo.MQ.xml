@@ -1,0 +1,494 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Buffalo.MQ</name>
+    </assembly>
+    <members>
+        <member name="T:Buffalo.MQ.KafkaMQ.KafkaMQConfig">
+            <summary>
+            Kafka根据字符串读取的配置
+            </summary>
+        </member>
+        <member name="F:Buffalo.MQ.KafkaMQ.KafkaMQConfig.ProducerConfig">
+            <summary>
+            生产者配置
+            </summary>
+        </member>
+        <member name="P:Buffalo.MQ.KafkaMQ.KafkaMQConfig.ProducerBuilder">
+            <summary>
+            生产者构造器
+            </summary>
+        </member>
+        <member name="F:Buffalo.MQ.KafkaMQ.KafkaMQConfig.AdminConfig">
+            <summary>
+            管理员配置
+            </summary>
+        </member>
+        <member name="P:Buffalo.MQ.KafkaMQ.KafkaMQConfig.AdminBuilder">
+            <summary>
+            管理员配置
+            </summary>
+        </member>
+        <member name="F:Buffalo.MQ.KafkaMQ.KafkaMQConfig.Topic">
+            <summary>
+            主题
+            </summary>
+        </member>
+        <member name="F:Buffalo.MQ.KafkaMQ.KafkaMQConfig.KConsumerConfig">
+            <summary>
+            消费者配置
+            </summary>
+        </member>
+        <member name="P:Buffalo.MQ.KafkaMQ.KafkaMQConfig.KConsumerBuilder">
+            <summary>
+            消费者构造器
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.KafkaMQ.KafkaMQConfig.InitConsumerConfig(System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            初始化消费者配置
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.KafkaMQ.KafkaMQConfig.InitProduceConfig(System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            初始化消费者配置
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.KafkaMQ.KafkaMQConfig.InitAdminConfig(System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            初始化消费者配置
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.KafkaMQ.KafkaMQConfig.SetBaseConfig(Confluent.Kafka.ClientConfig,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            读入基础配置
+            </summary>
+            <param name="config"></param>
+            <param name="hs"></param>
+        </member>
+        <member name="F:Buffalo.MQ.KafkaMQ.KafkaMQConnection._queResault">
+            <summary>
+            队列
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.KafkaMQ.KafkaMQConnection.InitProducerConfig">
+            <summary>
+            初始化消费者配置
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.KafkaMQ.KafkaMQConnection.SetBaseConfig(Confluent.Kafka.ClientConfig,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            读入基础配置
+            </summary>
+            <param name="config"></param>
+            <param name="hs"></param>
+        </member>
+        <member name="M:Buffalo.MQ.KafkaMQ.KafkaMQConnection.DoFlush">
+            <summary>
+            清空缓冲区
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.KafkaMQ.KafkaMQListener.OnListend(System.Object)">
+            <summary>
+            监听信息
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.KafkaMQ.KafkaMQListener.CloseListener">
+            <summary>
+            关闭监听
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.MQBatchAction.#ctor(Buffalo.MQ.MQConnection)">
+            <summary>
+            自释放事务类
+            </summary>
+            <param name="oper"></param>
+            <param name="runnow"></param>
+        </member>
+        <member name="P:Buffalo.MQ.MQBatchAction.Runnow">
+            <summary>
+            是否当前运行
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.MQBatchAction.Dispose">
+            <summary>
+            释放事务
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.MQBatchAction.EndBatch">
+            <summary>
+            结束批量操作
+            </summary>
+        </member>
+        <member name="T:Buffalo.MQ.MQConfigBase">
+            <summary>
+            队列配置基类
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.MQConfigBase.#ctor(System.String)">
+            <summary>
+            队列配置基类
+            </summary>
+            <param name="connectString">连接字符串</param>
+        </member>
+        <member name="P:Buffalo.MQ.MQConfigBase.Configs">
+            <summary>
+            配置
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.MQConfigBase.CreateConnection">
+            <summary>
+            创建连接
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.MQ.MQConfigBase.CreateListener">
+            <summary>
+            创建监听器
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Buffalo.MQ.MQConnection.IsOpen">
+            <summary>
+            是否开启
+            </summary>
+        </member>
+        <member name="P:Buffalo.MQ.MQConnection.IsTransaction">
+            <summary>
+            是否开启了事务
+            </summary>
+        </member>
+        <member name="P:Buffalo.MQ.MQConnection.IsBatch">
+            <summary>
+            是否在批量处理中
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.MQConnection.Send(System.String,System.Byte[])">
+            <summary>
+            发送信息
+            </summary>
+            <param name="key"></param>
+            <param name="body"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.MQ.MQConnection.StartTran">
+            <summary>
+            开启事务
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.MQ.MQConnection.CommitTran">
+            <summary>
+            提交事务
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.MQ.MQConnection.RoolbackTran">
+            <summary>
+            回滚事务
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.MQ.MQConnection.StartTransaction">
+            <summary>
+            开启事务
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.MQ.MQConnection.RoolbackTransaction">
+            <summary>
+            回滚事务
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.MQ.MQConnection.CommitTransaction">
+            <summary>
+            提交事务
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.MQ.MQConnection.StartBatchAction">
+            <summary>
+            开启批量处理
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.MQ.MQConnection.Open">
+            <summary>
+            初始化发布者模式
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.MQConnection.SendMessage(System.String,System.Byte[])">
+            <summary>
+            发布内容
+            </summary>
+            <param name="key">筛选的键</param>
+            <param name="body">内容</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.MQ.MQConnection.DeleteQueue(System.Collections.Generic.IEnumerable{System.String},System.Boolean,System.Boolean)">
+            <summary>
+            删除队列(Rabbit可用)
+            </summary>
+            <param name="queueName">队列名，如果为null则全删除</param>
+        </member>
+        <member name="M:Buffalo.MQ.MQConnection.DeleteTopic(System.Boolean)">
+            <summary>
+            删除交换器
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.MQConnection.Close">
+            <summary>
+            关闭连接
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.MQConnection.AutoClose">
+            <summary>
+            自动关闭
+            </summary>
+        </member>
+        <member name="T:Buffalo.MQ.MQInfoItem">
+            <summary>
+            队列信息
+            </summary>
+        </member>
+        <member name="F:Buffalo.MQ.MQInfoItem._config">
+            <summary>
+            配置
+            </summary>
+        </member>
+        <member name="P:Buffalo.MQ.MQInfoItem.Config">
+            <summary>
+            获取配置
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.MQ.MQInfoItem.#ctor(System.String,System.String,Buffalo.MQ.MQConfigBase)">
+            <summary>
+            队列信息
+            </summary>
+            <param name="name">名称</param>
+            <param name="type">类型</param>
+            <param name="connectString">连接字符串</param>
+        </member>
+        <member name="P:Buffalo.MQ.MQInfoItem.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Buffalo.MQ.MQInfoItem.MQType">
+            <summary>
+            队列类型
+            </summary>
+        </member>
+        <member name="E:Buffalo.MQ.MQListener.OnMQReceived">
+            <summary>
+            接收数据
+            </summary>
+        </member>
+        <member name="E:Buffalo.MQ.MQListener.OnMQException">
+            <summary>
+            发生异常
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.MQListener.StartListend(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            打开事件监听
+            </summary>
+            <param name="listenKeys">监听键</param>
+        </member>
+        <member name="M:Buffalo.MQ.MQListener.Close">
+            <summary>
+            关闭连接
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.MQListener.CallBack(System.String,System.String,System.Byte[])">
+            <summary>
+            监听信息后回调
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.MQListener.OnException(System.Exception)">
+            <summary>
+            监听信息后回调
+            </summary>
+        </member>
+        <member name="T:Buffalo.MQ.MQTransaction">
+            <summary>
+            数据库的自释放事务类
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.MQTransaction.#ctor(Buffalo.MQ.MQConnection)">
+            <summary>
+            自释放事务类
+            </summary>
+            <param name="oper"></param>
+            <param name="runnow"></param>
+        </member>
+        <member name="P:Buffalo.MQ.MQTransaction.Runnow">
+            <summary>
+            是否当前运行
+            </summary>
+        </member>
+        <member name="P:Buffalo.MQ.MQTransaction.IsCommit">
+            <summary>
+            是否已经提交
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.MQTransaction.Commit">
+            <summary>
+            提交事务
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.MQ.MQTransaction.Rollback">
+            <summary>
+            回滚事务
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.MQ.MQTransaction.Dispose">
+            <summary>
+            释放事务
+            </summary>
+        </member>
+        <member name="T:Buffalo.MQ.MQUnit">
+            <summary>
+            队列创建器
+            </summary>
+        </member>
+        <member name="F:Buffalo.MQ.MQUnit.Tag">
+            <summary>
+            线程变量名
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.MQUnit.GetStaticConnTable">
+            <summary>
+            获取本线程变量连接
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.MQ.MQUnit.AddMQInfo(System.String,System.String,System.String)">
+            <summary>
+            添加队列信息
+            </summary>
+            <param name="name">标记唯一的名字</param>
+            <param name="mqType">队列类型</param>
+            <param name="connectString">连接字符串</param>
+        </member>
+        <member name="M:Buffalo.MQ.MQUnit.GetMQConnection(System.String)">
+            <summary>
+            获取生产者的连接
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.MQ.MQUnit.GetMQListener(System.String)">
+            <summary>
+            获取消费者连接
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.MQ.MQUnit.GetConfig(System.String,System.String)">
+            <summary>
+            获取队列配置
+            </summary>
+            <param name="mqType"></param>
+            <param name="connectString"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Buffalo.MQ.RedisMQ.RedisMQConfig">
+            <summary>
+            Redis配置
+            </summary>
+        </member>
+        <member name="F:Buffalo.MQ.RedisMQ.RedisMQConfig.CommanfFlags">
+            <summary>
+            命令标记
+            </summary>
+        </member>
+        <member name="F:Buffalo.MQ.RedisMQ.RedisMQConfig.Options">
+            <summary>
+            配置
+            </summary>
+        </member>
+        <member name="F:Buffalo.MQ.RedisMQ.RedisMQConnection._subscriber">
+            <summary>
+            发布者
+            </summary>
+        </member>
+        <member name="F:Buffalo.MQ.RedisMQ.RedisMQConnection._config">
+            <summary>
+            配置
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.RedisMQ.RedisMQConnection.#ctor(Buffalo.MQ.RedisMQ.RedisMQConfig)">
+            <summary>
+            RabbitMQ适配
+            </summary>
+            <param name="connString">连接字符串</param>
+        </member>
+        <member name="M:Buffalo.MQ.RedisMQ.RedisMQConnection.CreateManager(StackExchange.Redis.ConfigurationOptions)">
+            <summary>
+            创建连接池
+            </summary>
+            <param name="connectionString">连接字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.MQ.RedisMQ.RedisMQConnection.Open">
+            <summary>
+            打来连接
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.RedisMQ.RedisMQConnection.SendMessage(System.String,System.Byte[])">
+            <summary>
+            发布内容
+            </summary>
+            <param name="routingKey"></param>
+            <param name="body"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.MQ.RedisMQ.RedisMQConnection.DeleteQueue(System.Collections.Generic.IEnumerable{System.String},System.Boolean,System.Boolean)">
+            <summary>
+            删除队列(Rabbit可用)
+            </summary>
+            <param name="queueName">队列名，如果为null则全删除</param>
+        </member>
+        <member name="M:Buffalo.MQ.RedisMQ.RedisMQConnection.DeleteTopic(System.Boolean)">
+            <summary>
+            删除交换器
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.RedisMQ.RedisMQConnection.Close">
+            <summary>
+            关闭连接
+            </summary>
+        </member>
+        <member name="F:Buffalo.MQ.RedisMQ.RedisMQListener._config">
+            <summary>
+            配置
+            </summary>
+        </member>
+        <member name="F:Buffalo.MQ.RedisMQ.RedisMQListener._subscriber">
+            <summary>
+            发布者
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.RedisMQ.RedisMQListener.#ctor(Buffalo.MQ.RedisMQ.RedisMQConfig)">
+            <summary>
+            RabbitMQ适配
+            </summary>
+            <param name="connString">连接字符串</param>
+        </member>
+        <member name="M:Buffalo.MQ.RedisMQ.RedisMQListener.Open">
+            <summary>
+            打来连接
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.RedisMQ.RedisMQListener.Close">
+            <summary>
+            关闭连接
+            </summary>
+        </member>
+    </members>
+</doc>

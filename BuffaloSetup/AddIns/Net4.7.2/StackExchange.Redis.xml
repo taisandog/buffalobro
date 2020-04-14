@@ -675,6 +675,15 @@
             <param name="key">The key of the sorted set to check.</param>
             <param name="length">The length the sorted set must be equal to.</param>
         </member>
+        <member name="M:StackExchange.Redis.Condition.SortedSetLengthEqual(StackExchange.Redis.RedisKey,System.Int64,System.Double,System.Double)">
+            <summary>
+            Enforces that the given sorted set contains a certain number of members with scores in the given range
+            </summary>
+            <param name="key">The key of the sorted set to check.</param>
+            <param name="length">The length the sorted set must be equal to.</param>
+            <param name="min">Minimum inclusive score.</param>
+            <param name="max">Maximum inclusive score.</param>
+        </member>
         <member name="M:StackExchange.Redis.Condition.SortedSetLengthLessThan(StackExchange.Redis.RedisKey,System.Int64)">
             <summary>
             Enforces that the given sorted set cardinality is less than a certain value
@@ -682,12 +691,30 @@
             <param name="key">The key of the sorted set to check.</param>
             <param name="length">The length the sorted set must be less than.</param>
         </member>
+        <member name="M:StackExchange.Redis.Condition.SortedSetLengthLessThan(StackExchange.Redis.RedisKey,System.Int64,System.Double,System.Double)">
+            <summary>
+            Enforces that the given sorted set contains less than a certain number of members with scores in the given range
+            </summary>
+            <param name="key">The key of the sorted set to check.</param>
+            <param name="length">The length the sorted set must be equal to.</param>
+            <param name="min">Minimum inclusive score.</param>
+            <param name="max">Maximum inclusive score.</param>
+        </member>
         <member name="M:StackExchange.Redis.Condition.SortedSetLengthGreaterThan(StackExchange.Redis.RedisKey,System.Int64)">
             <summary>
             Enforces that the given sorted set cardinality is greater than a certain value
             </summary>
             <param name="key">The key of the sorted set to check.</param>
             <param name="length">The length the sorted set must be greater than.</param>
+        </member>
+        <member name="M:StackExchange.Redis.Condition.SortedSetLengthGreaterThan(StackExchange.Redis.RedisKey,System.Int64,System.Double,System.Double)">
+            <summary>
+            Enforces that the given sorted set contains more than a certain number of members with scores in the given range
+            </summary>
+            <param name="key">The key of the sorted set to check.</param>
+            <param name="length">The length the sorted set must be equal to.</param>
+            <param name="min">Minimum inclusive score.</param>
+            <param name="max">Maximum inclusive score.</param>
         </member>
         <member name="M:StackExchange.Redis.Condition.SortedSetContains(StackExchange.Redis.RedisKey,StackExchange.Redis.RedisValue)">
             <summary>
@@ -801,6 +828,11 @@
             Automatically encodes and decodes channels
             </summary>
         </member>
+        <member name="P:StackExchange.Redis.ConfigurationOptions.CheckCertificateRevocation">
+            <summary>
+            A Boolean value that specifies whether the certificate revocation list is checked during authentication.
+            </summary>
+        </member>
         <member name="M:StackExchange.Redis.ConfigurationOptions.TrustIssuer(System.String)">
             <summary>
             Create a certificate validation check that checks against the supplied issuer even if not known by the machine
@@ -863,6 +895,11 @@
             Specifies the time in seconds at which connections should be pinged to ensure validity
             </summary>
         </member>
+        <member name="P:StackExchange.Redis.ConfigurationOptions.User">
+            <summary>
+            The user to use to authenticate with the server.
+            </summary>
+        </member>
         <member name="P:StackExchange.Redis.ConfigurationOptions.Password">
             <summary>
             The password to use to authenticate with the server.
@@ -903,8 +940,8 @@
         </member>
         <member name="P:StackExchange.Redis.ConfigurationOptions.SocketManager">
             <summary>
-            Gets or sets the SocketManager instance to be used with these options; if this is null a per-multiplexer
-            SocketManager is created automatically.
+            Gets or sets the SocketManager instance to be used with these options; if this is null a shared cross-multiplexer SocketManager
+            is used
             </summary>
         </member>
         <member name="P:StackExchange.Redis.ConfigurationOptions.Ssl">
@@ -1070,6 +1107,17 @@
             Contains information about a server connection failure
             </summary>
         </member>
+        <member name="M:StackExchange.Redis.ConnectionFailedEventArgs.#ctor(System.Object,System.Net.EndPoint,StackExchange.Redis.ConnectionType,StackExchange.Redis.ConnectionFailureType,System.Exception,System.String)">
+            <summary>
+            This constructor is only for testing purposes.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="endPoint">Redis endpoint.</param>
+            <param name="connectionType">Redis connection type.</param>
+            <param name="failureType">Redis connection failure type.</param>
+            <param name="exception">The exception occured.</param>
+            <param name="physicalName">Connection physical name.</param>
+        </member>
         <member name="P:StackExchange.Redis.ConnectionFailedEventArgs.ConnectionType">
             <summary>
             Gets the connection-type of the failing connection
@@ -1100,6 +1148,16 @@
             Represents an inter-related group of connections to redis servers
             </summary>
         </member>
+        <member name="M:StackExchange.Redis.ConnectionMultiplexer.SetFeatureFlag(System.String,System.Boolean)">
+            <summary>
+            Enables or disables a feature flag; this should only be used under support guidance, and should not be rapidly toggled
+            </summary>
+        </member>
+        <member name="M:StackExchange.Redis.ConnectionMultiplexer.GetFeatureFlag(System.String)">
+            <summary>
+            Returns the state of a feature flag; this should only be used under support guidance
+            </summary>
+        </member>
         <member name="F:StackExchange.Redis.ConnectionMultiplexer.AllowConnect">
             <summary>
             For debugging: when not enabled, servers cannot connect
@@ -1108,6 +1166,21 @@
         <member name="F:StackExchange.Redis.ConnectionMultiplexer.IgnoreConnect">
             <summary>
             For debugging: when not enabled, end-connect is silently ignored (to simulate a long-running connect)
+            </summary>
+        </member>
+        <member name="F:StackExchange.Redis.ConnectionMultiplexer._connectAttemptCount">
+            <summary>
+            Tracks overall connection multiplexer counts
+            </summary>
+        </member>
+        <member name="F:StackExchange.Redis.ConnectionMultiplexer._connectCompletedCount">
+            <summary>
+            Tracks overall connection multiplexer counts
+            </summary>
+        </member>
+        <member name="F:StackExchange.Redis.ConnectionMultiplexer._connectionCloseCount">
+            <summary>
+            Tracks overall connection multiplexer counts
             </summary>
         </member>
         <member name="P:StackExchange.Redis.ConnectionMultiplexer.Factory">
@@ -1339,6 +1412,30 @@
             Indicates whether any servers are currently trying to connect
             </summary>
         </member>
+        <member name="M:StackExchange.Redis.ConnectionMultiplexer.InitializeSentinel(StackExchange.Redis.ConnectionMultiplexer.LogProxy)">
+            <summary>
+            Initializes the connection as a Sentinel connection and adds
+            the necessary event handlers to track changes to the managed
+            masters.
+            </summary>
+            <param name="logProxy"></param>
+        </member>
+        <member name="M:StackExchange.Redis.ConnectionMultiplexer.GetSentinelMasterConnection(StackExchange.Redis.ConfigurationOptions,System.IO.TextWriter)">
+            <summary>
+            Returns a managed connection to the master server indicated by
+            the ServiceName in the config.
+            </summary>
+            <param name="config">the configuration to be used when connecting to the master</param>
+            <param name="log"></param>
+        </member>
+        <member name="M:StackExchange.Redis.ConnectionMultiplexer.SwitchMaster(System.Net.EndPoint,StackExchange.Redis.ConnectionMultiplexer,System.IO.TextWriter)">
+            <summary>
+            Switches the SentinelMasterConnection over to a new master.
+            </summary>
+            <param name="switchBlame">The endpoing responsible for the switch</param>
+            <param name="connection">The connection that should be switched over to a new master endpoint</param>
+            <param name="log">Log to write to, if any</param>
+        </member>
         <member name="M:StackExchange.Redis.ConnectionMultiplexer.Close(System.Boolean)">
             <summary>
             Close all connections and release all resources associated with this object
@@ -1410,6 +1507,56 @@
             </summary>
             <param name="profilingSessionProvider">The session provider to register.</param>
         </member>
+        <member name="T:StackExchange.Redis.CursorEnumerable`1">
+            <summary>
+            Provides the ability to iterate over a cursor-based sequence of redis data, synchronously or asynchronously
+            </summary>
+        </member>
+        <member name="M:StackExchange.Redis.CursorEnumerable`1.GetEnumerator">
+            <summary>
+            Gets an enumerator for the sequence
+            </summary>
+        </member>
+        <member name="M:StackExchange.Redis.CursorEnumerable`1.GetAsyncEnumerator(System.Threading.CancellationToken)">
+            <summary>
+            Gets an enumerator for the sequence
+            </summary>
+        </member>
+        <member name="T:StackExchange.Redis.CursorEnumerable`1.Enumerator">
+            <summary>
+            Provides the ability to iterate over a cursor-based sequence of redis data, synchronously or asynchronously
+            </summary>
+        </member>
+        <member name="P:StackExchange.Redis.CursorEnumerable`1.Enumerator.Current">
+            <summary>
+            Gets the current value of the enumerator
+            </summary>
+        </member>
+        <member name="M:StackExchange.Redis.CursorEnumerable`1.Enumerator.Dispose">
+            <summary>
+            Release all resources associated with this enumerator
+            </summary>
+        </member>
+        <member name="M:StackExchange.Redis.CursorEnumerable`1.Enumerator.DisposeAsync">
+            <summary>
+            Release all resources associated with this enumerator
+            </summary>
+        </member>
+        <member name="M:StackExchange.Redis.CursorEnumerable`1.Enumerator.MoveNext">
+            <summary>
+            Try to move to the next item in the sequence
+            </summary>
+        </member>
+        <member name="M:StackExchange.Redis.CursorEnumerable`1.Enumerator.MoveNextAsync">
+            <summary>
+            Try to move to the next item in the sequence
+            </summary>
+        </member>
+        <member name="M:StackExchange.Redis.CursorEnumerable`1.Enumerator.Reset">
+            <summary>
+            Reset the enumerator
+            </summary>
+        </member>
         <member name="T:StackExchange.Redis.EndPointCollection">
             <summary>
             A list of endpoints
@@ -1472,10 +1619,20 @@
             <param name="index">The index to replace an endpoint at.</param>
             <param name="item">The item to replace the existing endpoint at <paramref name="index"/>.</param>
         </member>
+        <member name="M:StackExchange.Redis.EndPointCollection.GetEnumerator">
+            <inheritdoc/>
+        </member>
         <member name="T:StackExchange.Redis.EndPointEventArgs">
             <summary>
             Event information related to redis endpoints
             </summary>
+        </member>
+        <member name="M:StackExchange.Redis.EndPointEventArgs.#ctor(System.Object,System.Net.EndPoint)">
+            <summary>
+            This constructor is only for testing purposes.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="endpoint">Redis endpoint.</param>
         </member>
         <member name="P:StackExchange.Redis.EndPointEventArgs.EndPoint">
             <summary>
@@ -2263,13 +2420,13 @@
         </member>
         <member name="M:StackExchange.Redis.RedisException.#ctor(System.String)">
             <summary>
-            Crerates a new <see cref="T:StackExchange.Redis.RedisException"/>.
+            Creates a new <see cref="T:StackExchange.Redis.RedisException"/>.
             </summary>
             <param name="message">The message for the exception.</param>
         </member>
         <member name="M:StackExchange.Redis.RedisException.#ctor(System.String,System.Exception)">
             <summary>
-            Crerates a new <see cref="T:StackExchange.Redis.RedisException"/>.
+            Creates a new <see cref="T:StackExchange.Redis.RedisException"/>.
             </summary>
             <param name="message">The message for the exception.</param>
             <param name="innerException">The inner exception.</param>
@@ -2693,6 +2850,15 @@
             <summary>
             The new endpoint for this hash-slot (if known)
             </summary>
+        </member>
+        <member name="M:StackExchange.Redis.HashSlotMovedEventArgs.#ctor(System.Object,System.Int32,System.Net.EndPoint,System.Net.EndPoint)">
+            <summary>
+            This constructor is only for testing purposes.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="hashSlot">Hash slot.</param>
+            <param name="old">Old endpoint.</param>
+            <param name="new">New endpoint.</param>
         </member>
         <member name="T:StackExchange.Redis.IBatch">
             <summary>
@@ -3315,6 +3481,16 @@
             <returns>1 if field is a new field in the hash and value was set. 0 if field already exists in the hash and the value was updated.</returns>
             <remarks>https://redis.io/commands/hset</remarks>
             <remarks>https://redis.io/commands/hsetnx</remarks>
+        </member>
+        <member name="M:StackExchange.Redis.IDatabase.HashStringLength(StackExchange.Redis.RedisKey,StackExchange.Redis.RedisValue,StackExchange.Redis.CommandFlags)">
+            <summary>
+            Returns the string length of the value associated with field in the hash stored at key.
+            </summary>
+            <param name="key">The key of the hash.</param>
+            <param name="hashField">The field containing the string</param>
+            <param name="flags">The flags to use for this operation.</param>
+            <returns>the length of the string at field, or 0 when key does not exist.</returns>
+            <remarks>https://redis.io/commands/hstrlen</remarks>
         </member>
         <member name="M:StackExchange.Redis.IDatabase.HashValues(StackExchange.Redis.RedisKey,StackExchange.Redis.CommandFlags)">
             <summary>
@@ -4506,6 +4682,18 @@
             <returns>True if the group was created.</returns>
             <remarks>https://redis.io/topics/streams-intro</remarks>
         </member>
+        <member name="M:StackExchange.Redis.IDatabase.StreamCreateConsumerGroup(StackExchange.Redis.RedisKey,StackExchange.Redis.RedisValue,System.Nullable{StackExchange.Redis.RedisValue},System.Boolean,StackExchange.Redis.CommandFlags)">
+            <summary>
+            Create a consumer group for the given stream.
+            </summary>
+            <param name="key">The key of the stream.</param>
+            <param name="groupName">The name of the group to create.</param>
+            <param name="position">The position to begin reading the stream. Defaults to <see cref="P:StackExchange.Redis.StreamPosition.NewMessages"/>.</param>
+            <param name="createStream">Create the stream if it does not already exist.</param>
+            <param name="flags">The flags to use for this operation.</param>
+            <returns>True if the group was created.</returns>
+            <remarks>https://redis.io/topics/streams-intro</remarks>
+        </member>
         <member name="M:StackExchange.Redis.IDatabase.StreamDelete(StackExchange.Redis.RedisKey,StackExchange.Redis.RedisValue[],StackExchange.Redis.CommandFlags)">
             <summary>
             Delete messages in the stream. This method does not delete the stream.
@@ -4637,6 +4825,20 @@
             <returns>Returns a value of <see cref="T:StackExchange.Redis.StreamEntry"/> for each message returned.</returns>
             <remarks>https://redis.io/commands/xreadgroup</remarks>
         </member>
+        <member name="M:StackExchange.Redis.IDatabase.StreamReadGroup(StackExchange.Redis.RedisKey,StackExchange.Redis.RedisValue,StackExchange.Redis.RedisValue,System.Nullable{StackExchange.Redis.RedisValue},System.Nullable{System.Int32},System.Boolean,StackExchange.Redis.CommandFlags)">
+            <summary>
+            Read messages from a stream into an associated consumer group.
+            </summary>
+            <param name="key">The key of the stream.</param>
+            <param name="groupName">The name of the consumer group.</param>
+            <param name="consumerName">The consumer name.</param>
+            <param name="position">The position from which to read the stream. Defaults to <see cref="P:StackExchange.Redis.StreamPosition.NewMessages"/> when null.</param>
+            <param name="count">The maximum number of messages to return.</param>
+            <param name="noAck">When true, the message will not be added to the pending message list.</param>
+            <param name="flags">The flags to use for this operation.</param>
+            <returns>Returns a value of <see cref="T:StackExchange.Redis.StreamEntry"/> for each message returned.</returns>
+            <remarks>https://redis.io/commands/xreadgroup</remarks>
+        </member>
         <member name="M:StackExchange.Redis.IDatabase.StreamReadGroup(StackExchange.Redis.StreamPosition[],StackExchange.Redis.RedisValue,StackExchange.Redis.RedisValue,System.Nullable{System.Int32},StackExchange.Redis.CommandFlags)">
             <summary>
             Read from multiple streams into the given consumer group. The consumer group with the given <paramref name="groupName"/>
@@ -4646,6 +4848,21 @@
             <param name="groupName">The name of the consumer group.</param>
             <param name="consumerName"></param>
             <param name="countPerStream">The maximum number of messages to return from each stream.</param>
+            <param name="flags">The flags to use for this operation.</param>
+            <returns>A value of <see cref="T:StackExchange.Redis.RedisStream"/> for each stream.</returns>
+            <remarks>Equivalent of calling XREADGROUP GROUP groupName consumerName COUNT countPerStream STREAMS stream1 stream2 id1 id2</remarks>
+            <remarks>https://redis.io/commands/xreadgroup</remarks>
+        </member>
+        <member name="M:StackExchange.Redis.IDatabase.StreamReadGroup(StackExchange.Redis.StreamPosition[],StackExchange.Redis.RedisValue,StackExchange.Redis.RedisValue,System.Nullable{System.Int32},System.Boolean,StackExchange.Redis.CommandFlags)">
+            <summary>
+            Read from multiple streams into the given consumer group. The consumer group with the given <paramref name="groupName"/>
+            will need to have been created for each stream prior to calling this method.
+            </summary>
+            <param name="streamPositions">Array of streams and the positions from which to begin reading for each stream.</param>
+            <param name="groupName">The name of the consumer group.</param>
+            <param name="consumerName"></param>
+            <param name="countPerStream">The maximum number of messages to return from each stream.</param>
+            <param name="noAck">When true, the message will not be added to the pending message list.</param>
             <param name="flags">The flags to use for this operation.</param>
             <returns>A value of <see cref="T:StackExchange.Redis.RedisStream"/> for each stream.</returns>
             <remarks>Equivalent of calling XREADGROUP GROUP groupName consumerName COUNT countPerStream STREAMS stream1 stream2 id1 id2</remarks>
@@ -4894,6 +5111,24 @@
             <param name="flags">The flags to use for this operation.</param>
             <returns>The length of the string after it was modified by the command.</returns>
             <remarks>https://redis.io/commands/setrange</remarks>
+        </member>
+        <member name="M:StackExchange.Redis.IDatabase.KeyTouch(StackExchange.Redis.RedisKey,StackExchange.Redis.CommandFlags)">
+            <summary>
+            Alters the last access time of a key.
+            </summary>
+            <param name="key">The key to touch.</param>
+            <param name="flags">The flags to use for this operation.</param>
+            <returns>True if the key was touched.</returns>
+            <remarks>https://redis.io/commands/touch</remarks>
+        </member>
+        <member name="M:StackExchange.Redis.IDatabase.KeyTouch(StackExchange.Redis.RedisKey[],StackExchange.Redis.CommandFlags)">
+            <summary>
+            Alters the last access time of a keys. A key is ignored if it does not exist.
+            </summary>
+            <param name="keys">The keys to touch.</param>
+            <param name="flags">The flags to use for this operation.</param>
+            <returns>The number of keys that were touched.</returns>
+            <remarks>https://redis.io/commands/touch</remarks>
         </member>
         <member name="T:StackExchange.Redis.IDatabaseAsync">
             <summary>
@@ -5190,6 +5425,19 @@
             <returns>The number of fields in the hash, or 0 when key does not exist.</returns>
             <remarks>https://redis.io/commands/hlen</remarks>
         </member>
+        <member name="M:StackExchange.Redis.IDatabaseAsync.HashScanAsync(StackExchange.Redis.RedisKey,StackExchange.Redis.RedisValue,System.Int32,System.Int64,System.Int32,StackExchange.Redis.CommandFlags)">
+            <summary>
+            The HSCAN command is used to incrementally iterate over a hash; note: to resume an iteration via <i>cursor</i>, cast the original enumerable or enumerator to <i>IScanningCursor</i>.
+            </summary>
+            <param name="key">The key of the hash.</param>
+            <param name="pattern">The pattern of keys to get entries for.</param>
+            <param name="pageSize">The page size to iterate by.</param>
+            <param name="cursor">The cursor position to start at.</param>
+            <param name="pageOffset">The page offset to start at.</param>
+            <param name="flags">The flags to use for this operation.</param>
+            <returns>Yields all elements of the hash matching the pattern.</returns>
+            <remarks>https://redis.io/commands/hscan</remarks>
+        </member>
         <member name="M:StackExchange.Redis.IDatabaseAsync.HashSetAsync(StackExchange.Redis.RedisKey,StackExchange.Redis.HashEntry[],StackExchange.Redis.CommandFlags)">
             <summary>
             Sets the specified fields to their respective values in the hash stored at key. This command overwrites any specified fields that already exist in the hash, leaving other unspecified fields untouched. If key does not exist, a new key holding a hash is created.
@@ -5211,6 +5459,16 @@
             <returns>1 if field is a new field in the hash and value was set. 0 if field already exists in the hash and the value was updated.</returns>
             <remarks>https://redis.io/commands/hset</remarks>
             <remarks>https://redis.io/commands/hsetnx</remarks>
+        </member>
+        <member name="M:StackExchange.Redis.IDatabaseAsync.HashStringLengthAsync(StackExchange.Redis.RedisKey,StackExchange.Redis.RedisValue,StackExchange.Redis.CommandFlags)">
+            <summary>
+            Returns the string length of the value associated with field in the hash stored at key.
+            </summary>
+            <param name="key">The key of the hash.</param>
+            <param name="hashField">The field containing the string</param>
+            <param name="flags">The flags to use for this operation.</param>
+            <returns>the length of the string at field, or 0 when key does not exist.</returns>
+            <remarks>https://redis.io/commands/hstrlen</remarks>
         </member>
         <member name="M:StackExchange.Redis.IDatabaseAsync.HashValuesAsync(StackExchange.Redis.RedisKey,StackExchange.Redis.CommandFlags)">
             <summary>
@@ -6215,6 +6473,32 @@
             <returns>the number of elements removed.</returns>
             <remarks>https://redis.io/commands/zremrangebylex</remarks>
         </member>
+        <member name="M:StackExchange.Redis.IDatabaseAsync.SetScanAsync(StackExchange.Redis.RedisKey,StackExchange.Redis.RedisValue,System.Int32,System.Int64,System.Int32,StackExchange.Redis.CommandFlags)">
+            <summary>
+            The SSCAN command is used to incrementally iterate over set; note: to resume an iteration via <i>cursor</i>, cast the original enumerable or enumerator to <i>IScanningCursor</i>.
+            </summary>
+            <param name="key">The key of the set.</param>
+            <param name="pattern">The pattern to match.</param>
+            <param name="pageSize">The page size to iterate by.</param>
+            <param name="cursor">The cursor position to start at.</param>
+            <param name="pageOffset">The page offset to start at.</param>
+            <param name="flags">The flags to use for this operation.</param>
+            <returns>Yields all matching elements of the set.</returns>
+            <remarks>https://redis.io/commands/sscan</remarks>
+        </member>
+        <member name="M:StackExchange.Redis.IDatabaseAsync.SortedSetScanAsync(StackExchange.Redis.RedisKey,StackExchange.Redis.RedisValue,System.Int32,System.Int64,System.Int32,StackExchange.Redis.CommandFlags)">
+            <summary>
+            The ZSCAN command is used to incrementally iterate over a sorted set
+            </summary>
+            <param name="key">The key of the sorted set.</param>
+            <param name="pattern">The pattern to match.</param>
+            <param name="pageSize">The page size to iterate by.</param>
+            <param name="flags">The flags to use for this operation.</param>
+            <param name="cursor">The cursor position to start at.</param>
+            <param name="pageOffset">The page offset to start at.</param>
+            <returns>Yields all matching elements of the sorted set.</returns>
+            <remarks>https://redis.io/commands/zscan</remarks>
+        </member>
         <member name="M:StackExchange.Redis.IDatabaseAsync.SortedSetScoreAsync(StackExchange.Redis.RedisKey,StackExchange.Redis.RedisValue,StackExchange.Redis.CommandFlags)">
             <summary>
             Returns the score of member in the sorted set at key; If member does not exist in the sorted set, or key does not exist, nil is returned.
@@ -6354,6 +6638,18 @@
             <returns>True if the group was created.</returns>
             <remarks>https://redis.io/topics/streams-intro</remarks>
         </member>
+        <member name="M:StackExchange.Redis.IDatabaseAsync.StreamCreateConsumerGroupAsync(StackExchange.Redis.RedisKey,StackExchange.Redis.RedisValue,System.Nullable{StackExchange.Redis.RedisValue},System.Boolean,StackExchange.Redis.CommandFlags)">
+            <summary>
+            Create a consumer group for the given stream. 
+            </summary>
+            <param name="key">The key of the stream.</param>
+            <param name="groupName">The name of the group to create.</param>
+            <param name="position">The position to begin reading the stream. Defaults to <see cref="P:StackExchange.Redis.StreamPosition.NewMessages"/>.</param>
+            <param name="createStream">Create the stream if it does not already exist.</param>
+            <param name="flags">The flags to use for this operation.</param>
+            <returns>True if the group was created.</returns>
+            <remarks>https://redis.io/topics/streams-intro</remarks>
+        </member>
         <member name="M:StackExchange.Redis.IDatabaseAsync.StreamDeleteAsync(StackExchange.Redis.RedisKey,StackExchange.Redis.RedisValue[],StackExchange.Redis.CommandFlags)">
             <summary>
             Delete messages in the stream. This method does not delete the stream.
@@ -6485,6 +6781,20 @@
             <returns>Returns a value of <see cref="T:StackExchange.Redis.StreamEntry"/> for each message returned.</returns>
             <remarks>https://redis.io/commands/xreadgroup</remarks>
         </member>
+        <member name="M:StackExchange.Redis.IDatabaseAsync.StreamReadGroupAsync(StackExchange.Redis.RedisKey,StackExchange.Redis.RedisValue,StackExchange.Redis.RedisValue,System.Nullable{StackExchange.Redis.RedisValue},System.Nullable{System.Int32},System.Boolean,StackExchange.Redis.CommandFlags)">
+            <summary>
+            Read messages from a stream into an associated consumer group.
+            </summary>
+            <param name="key">The key of the stream.</param>
+            <param name="groupName">The name of the consumer group.</param>
+            <param name="consumerName">The consumer name.</param>
+            <param name="position">The position from which to read the stream. Defaults to <see cref="P:StackExchange.Redis.StreamPosition.NewMessages"/> when null.</param>
+            <param name="count">The maximum number of messages to return.</param>
+            <param name="noAck">When true, the message will not be added to the pending message list.</param>
+            <param name="flags">The flags to use for this operation.</param>
+            <returns>Returns a value of <see cref="T:StackExchange.Redis.StreamEntry"/> for each message returned.</returns>
+            <remarks>https://redis.io/commands/xreadgroup</remarks>
+        </member>
         <member name="M:StackExchange.Redis.IDatabaseAsync.StreamReadGroupAsync(StackExchange.Redis.StreamPosition[],StackExchange.Redis.RedisValue,StackExchange.Redis.RedisValue,System.Nullable{System.Int32},StackExchange.Redis.CommandFlags)">
             <summary>
             Read from multiple streams into the given consumer group. The consumer group with the given <paramref name="groupName"/>
@@ -6494,6 +6804,21 @@
             <param name="groupName">The name of the consumer group.</param>
             <param name="consumerName"></param>
             <param name="countPerStream">The maximum number of messages to return from each stream.</param>
+            <param name="flags">The flags to use for this operation.</param>
+            <returns>A value of <see cref="T:StackExchange.Redis.RedisStream"/> for each stream.</returns>
+            <remarks>Equivalent of calling XREADGROUP GROUP groupName consumerName COUNT countPerStream STREAMS stream1 stream2 id1 id2</remarks>
+            <remarks>https://redis.io/commands/xreadgroup</remarks>
+        </member>
+        <member name="M:StackExchange.Redis.IDatabaseAsync.StreamReadGroupAsync(StackExchange.Redis.StreamPosition[],StackExchange.Redis.RedisValue,StackExchange.Redis.RedisValue,System.Nullable{System.Int32},System.Boolean,StackExchange.Redis.CommandFlags)">
+            <summary>
+            Read from multiple streams into the given consumer group. The consumer group with the given <paramref name="groupName"/>
+            will need to have been created for each stream prior to calling this method.
+            </summary>
+            <param name="streamPositions">Array of streams and the positions from which to begin reading for each stream.</param>
+            <param name="groupName">The name of the consumer group.</param>
+            <param name="consumerName"></param>
+            <param name="countPerStream">The maximum number of messages to return from each stream.</param>
+            <param name="noAck">When true, the message will not be added to the pending message list.</param>
             <param name="flags">The flags to use for this operation.</param>
             <returns>A value of <see cref="T:StackExchange.Redis.RedisStream"/> for each stream.</returns>
             <remarks>Equivalent of calling XREADGROUP GROUP groupName consumerName COUNT countPerStream STREAMS stream1 stream2 id1 id2</remarks>
@@ -6742,6 +7067,24 @@
             <param name="flags">The flags to use for this operation.</param>
             <returns>The length of the string after it was modified by the command.</returns>
             <remarks>https://redis.io/commands/setrange</remarks>
+        </member>
+        <member name="M:StackExchange.Redis.IDatabaseAsync.KeyTouchAsync(StackExchange.Redis.RedisKey,StackExchange.Redis.CommandFlags)">
+            <summary>
+            Touch the specified key. 
+            </summary>
+            <param name="key">The key to touch.</param>
+            <param name="flags">The flags to use for this operation.</param>
+            <returns>True if the key was touched.</returns>
+            <remarks>https://redis.io/commands/touch</remarks>
+        </member>
+        <member name="M:StackExchange.Redis.IDatabaseAsync.KeyTouchAsync(StackExchange.Redis.RedisKey[],StackExchange.Redis.CommandFlags)">
+            <summary>
+            Youch the specified keys. A key is ignored if it does not exist.
+            </summary>
+            <param name="keys">The keys to touch.</param>
+            <param name="flags">The flags to use for this operation.</param>
+            <returns>The number of keys that were touched.</returns>
+            <remarks>https://redis.io/commands/touch</remarks>
         </member>
         <member name="T:StackExchange.Redis.IReconnectRetryPolicy">
             <summary>
@@ -7198,6 +7541,20 @@
             <remarks>https://redis.io/commands/keys</remarks>
             <remarks>https://redis.io/commands/scan</remarks>
         </member>
+        <member name="M:StackExchange.Redis.IServer.KeysAsync(System.Int32,StackExchange.Redis.RedisValue,System.Int32,System.Int64,System.Int32,StackExchange.Redis.CommandFlags)">
+            <summary>
+            Returns all keys matching pattern; the KEYS or SCAN commands will be used based on the server capabilities; note: to resume an iteration via <i>cursor</i>, cast the original enumerable or enumerator to <i>IScanningCursor</i>.
+            </summary>
+            <param name="database">The database ID.</param>
+            <param name="pattern">The pattern to use.</param>
+            <param name="pageSize">The page size to iterate by.</param>
+            <param name="cursor">The cursor position to resume at.</param>
+            <param name="pageOffset">The page offset to start at.</param>
+            <param name="flags">The command flags to use.</param>
+            <remarks>Warning: consider KEYS as a command that should only be used in production environments with extreme care.</remarks>
+            <remarks>https://redis.io/commands/keys</remarks>
+            <remarks>https://redis.io/commands/scan</remarks>
+        </member>
         <member name="M:StackExchange.Redis.IServer.LastSave(StackExchange.Redis.CommandFlags)">
             <summary>
             Return the time of the last DB save executed with success. A client may check if a BGSAVE command succeeded reading the LASTSAVE value, then issuing a BGSAVE command and checking at regular intervals every N seconds if LASTSAVE changed.
@@ -7433,7 +7790,8 @@
         </member>
         <member name="M:StackExchange.Redis.IServer.Time(StackExchange.Redis.CommandFlags)">
             <summary>
-            The TIME command returns the current server time.
+            The TIME command returns the current server time in UTC format.
+            Use the DateTime.ToLocalTime() method to get local time.
             </summary>
             <param name="flags">The command flags to use.</param>
             <returns>The server's current time.</returns>
@@ -7441,11 +7799,108 @@
         </member>
         <member name="M:StackExchange.Redis.IServer.TimeAsync(StackExchange.Redis.CommandFlags)">
             <summary>
-            The TIME command returns the current server time.
+            The TIME command returns the current server time in UTC format.
+            Use the DateTime.ToLocalTime() method to get local time.
             </summary>
             <param name="flags">The command flags to use.</param>
             <returns>The server's current time.</returns>
             <remarks>https://redis.io/commands/time</remarks>
+        </member>
+        <member name="M:StackExchange.Redis.IServer.LatencyDoctorAsync(StackExchange.Redis.CommandFlags)">
+            <summary>
+            Gets a text-based latency diagnostic
+            </summary>
+            <remarks>https://redis.io/topics/latency-monitor</remarks>
+        </member>
+        <member name="M:StackExchange.Redis.IServer.LatencyDoctor(StackExchange.Redis.CommandFlags)">
+            <summary>
+            Gets a text-based latency diagnostic
+            </summary>
+            <remarks>https://redis.io/topics/latency-monitor</remarks>
+        </member>
+        <member name="M:StackExchange.Redis.IServer.LatencyResetAsync(System.String[],StackExchange.Redis.CommandFlags)">
+            <summary>
+            Resets the given events (or all if none are specified), discarding the currently logged latency spike events, and resetting the maximum event time register.
+            </summary>
+            <remarks>https://redis.io/topics/latency-monitor</remarks>
+        </member>
+        <member name="M:StackExchange.Redis.IServer.LatencyReset(System.String[],StackExchange.Redis.CommandFlags)">
+            <summary>
+            Resets the given events (or all if none are specified), discarding the currently logged latency spike events, and resetting the maximum event time register.
+            </summary>
+            <remarks>https://redis.io/topics/latency-monitor</remarks>
+        </member>
+        <member name="M:StackExchange.Redis.IServer.LatencyHistoryAsync(System.String,StackExchange.Redis.CommandFlags)">
+            <summary>
+            Fetch raw latency data from the event time series, as timestamp-latency pairs
+            </summary>
+            <remarks>https://redis.io/topics/latency-monitor</remarks>
+        </member>
+        <member name="M:StackExchange.Redis.IServer.LatencyHistory(System.String,StackExchange.Redis.CommandFlags)">
+            <summary>
+            Fetch raw latency data from the event time series, as timestamp-latency pairs
+            </summary>
+            <remarks>https://redis.io/topics/latency-monitor</remarks>
+        </member>
+        <member name="M:StackExchange.Redis.IServer.LatencyLatestAsync(StackExchange.Redis.CommandFlags)">
+            <summary>
+            Fetch raw latency data from the event time series, as timestamp-latency pairs
+            </summary>
+            <remarks>https://redis.io/topics/latency-monitor</remarks>
+        </member>
+        <member name="M:StackExchange.Redis.IServer.LatencyLatest(StackExchange.Redis.CommandFlags)">
+            <summary>
+            Fetch raw latency data from the event time series, as timestamp-latency pairs
+            </summary>
+            <remarks>https://redis.io/topics/latency-monitor</remarks>
+        </member>
+        <member name="M:StackExchange.Redis.IServer.MemoryDoctorAsync(StackExchange.Redis.CommandFlags)">
+            <summary>
+            Reports about different memory-related issues that the Redis server experiences, and advises about possible remedies.
+            </summary>
+            <remarks>https://redis.io/commands/memory-doctor</remarks>
+        </member>
+        <member name="M:StackExchange.Redis.IServer.MemoryDoctor(StackExchange.Redis.CommandFlags)">
+            <summary>
+            Reports about different memory-related issues that the Redis server experiences, and advises about possible remedies.
+            </summary>
+            <remarks>https://redis.io/commands/memory-doctor</remarks>
+        </member>
+        <member name="M:StackExchange.Redis.IServer.MemoryPurgeAsync(StackExchange.Redis.CommandFlags)">
+            <summary>
+            Attempts to purge dirty pages so these can be reclaimed by the allocator.
+            </summary>
+            <remarks>https://redis.io/commands/memory-purge</remarks>
+        </member>
+        <member name="M:StackExchange.Redis.IServer.MemoryPurge(StackExchange.Redis.CommandFlags)">
+            <summary>
+            Attempts to purge dirty pages so these can be reclaimed by the allocator.
+            </summary>
+            <remarks>https://redis.io/commands/memory-purge</remarks>
+        </member>
+        <member name="M:StackExchange.Redis.IServer.MemoryStatsAsync(StackExchange.Redis.CommandFlags)">
+            <summary>
+            Returns an array reply about the memory usage of the server.
+            </summary>
+            <remarks>https://redis.io/commands/memory-stats</remarks>
+        </member>
+        <member name="M:StackExchange.Redis.IServer.MemoryStats(StackExchange.Redis.CommandFlags)">
+            <summary>
+            Returns an array reply about the memory usage of the server.
+            </summary>
+            <remarks>https://redis.io/commands/memory-stats</remarks>
+        </member>
+        <member name="M:StackExchange.Redis.IServer.MemoryAllocatorStatsAsync(StackExchange.Redis.CommandFlags)">
+            <summary>
+            Provides an internal statistics report from the memory allocator.
+            </summary>
+            <remarks>https://redis.io/commands/memory-malloc-stats</remarks>
+        </member>
+        <member name="M:StackExchange.Redis.IServer.MemoryAllocatorStats(StackExchange.Redis.CommandFlags)">
+            <summary>
+            Provides an internal statistics report from the memory allocator.
+            </summary>
+            <remarks>https://redis.io/commands/memory-malloc-stats</remarks>
         </member>
         <member name="M:StackExchange.Redis.IServer.SentinelGetMasterAddressByName(System.String,StackExchange.Redis.CommandFlags)">
             <summary>
@@ -7467,6 +7922,24 @@
             <returns>the master ip and port</returns>
             <remarks>https://redis.io/topics/sentinel</remarks>
         </member>
+        <member name="M:StackExchange.Redis.IServer.SentinelGetSentinelAddresses(System.String,StackExchange.Redis.CommandFlags)">
+            <summary>
+            Returns the ip and port numbers of all known Sentinels
+            for the given service name.
+            </summary>
+            <param name="serviceName">the sentinel service name</param>
+            <param name="flags"></param>
+            <returns>a list of the sentinel ips and ports</returns>
+        </member>
+        <member name="M:StackExchange.Redis.IServer.SentinelGetSentinelAddressesAsync(System.String,StackExchange.Redis.CommandFlags)">
+            <summary>
+            Returns the ip and port numbers of all known Sentinels
+            for the given service name.
+            </summary>
+            <param name="serviceName">the sentinel service name</param>
+            <param name="flags"></param>
+            <returns>a list of the sentinel ips and ports</returns>
+        </member>
         <member name="M:StackExchange.Redis.IServer.SentinelMaster(System.String,StackExchange.Redis.CommandFlags)">
             <summary>
             Show the state and info of the specified master.
@@ -7478,8 +7951,7 @@
         </member>
         <member name="M:StackExchange.Redis.IServer.SentinelMasterAsync(System.String,StackExchange.Redis.CommandFlags)">
             <summary>
-            Force a failover as if the master was not reachable, and without asking for agreement to other Sentinels 
-            (however a new version of the configuration will be published so that the other Sentinels will update their configurations).
+            Show the state and info of the specified master.
             </summary>
             <param name="serviceName">The sentinel service name.</param>
             <param name="flags">The command flags to use.</param>
@@ -7553,6 +8025,46 @@
             <param name="serviceName">The sentinel service name.</param>
             <param name="flags">The command flags to use.</param>
             <remarks>https://redis.io/topics/sentinel</remarks>
+        </member>
+        <member name="T:StackExchange.Redis.LatencyHistoryEntry">
+            <summary>
+            A latency entry as reported by the built-in LATENCY HISTORY command
+            </summary>
+        </member>
+        <member name="P:StackExchange.Redis.LatencyHistoryEntry.Timestamp">
+            <summary>
+            The time at which this entry was recorded
+            </summary>
+        </member>
+        <member name="P:StackExchange.Redis.LatencyHistoryEntry.DurationMilliseconds">
+            <summary>
+            The latency recorded for this event
+            </summary>
+        </member>
+        <member name="T:StackExchange.Redis.LatencyLatestEntry">
+            <summary>
+            A latency entry as reported by the built-in LATENCY LATEST command
+            </summary>
+        </member>
+        <member name="P:StackExchange.Redis.LatencyLatestEntry.EventName">
+            <summary>
+            The name of this event
+            </summary>
+        </member>
+        <member name="P:StackExchange.Redis.LatencyLatestEntry.Timestamp">
+            <summary>
+            The time at which this entry was recorded
+            </summary>
+        </member>
+        <member name="P:StackExchange.Redis.LatencyLatestEntry.DurationMilliseconds">
+            <summary>
+            The latency recorded for this event
+            </summary>
+        </member>
+        <member name="P:StackExchange.Redis.LatencyLatestEntry.MaxDurationMilliseconds">
+            <summary>
+            The max latency recorded for all events
+            </summary>
         </member>
         <member name="M:StackExchange.Redis.IServerExtensions.SimulateConnectionFailure(StackExchange.Redis.IServer)">
             <summary>
@@ -7730,6 +8242,16 @@
             <summary>
             Describes internal errors (mainly intended for debugging)
             </summary>
+        </member>
+        <member name="M:StackExchange.Redis.InternalErrorEventArgs.#ctor(System.Object,System.Net.EndPoint,StackExchange.Redis.ConnectionType,System.Exception,System.String)">
+            <summary>
+            This constructor is only for testing purposes.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="endpoint"></param>
+            <param name="connectionType">Redis connection type.</param>
+            <param name="exception">The exception occured.</param>
+            <param name="origin">Origin.</param>
         </member>
         <member name="P:StackExchange.Redis.InternalErrorEventArgs.ConnectionType">
             <summary>
@@ -8451,6 +8973,14 @@
             Notification of errors from the redis server
             </summary>
         </member>
+        <member name="M:StackExchange.Redis.RedisErrorEventArgs.#ctor(System.Object,System.Net.EndPoint,System.String)">
+            <summary>
+            This constructor is only for testing purposes.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="endpoint">Redis endpoint.</param>
+            <param name="message">Error message.</param>
+        </member>
         <member name="P:StackExchange.Redis.RedisErrorEventArgs.EndPoint">
             <summary>
             The origin of the message
@@ -8492,6 +9022,11 @@
             Can EXPIRE be used to set expiration on a key that is already volatile (i.e. has an expiration)?
             </summary>
         </member>
+        <member name="P:StackExchange.Redis.RedisFeatures.HashStringLength">
+            <summary>
+            Is HSTRLEN available?
+            </summary>
+        </member>
         <member name="P:StackExchange.Redis.RedisFeatures.HashVaradicDelete">
             <summary>
             Does HDEL support varadic usage?
@@ -8512,9 +9047,19 @@
             Is LINSERT available?
             </summary>
         </member>
+        <member name="P:StackExchange.Redis.RedisFeatures.Memory">
+            <summary>
+            Is MEMORY available?
+            </summary>
+        </member>
         <member name="P:StackExchange.Redis.RedisFeatures.MillisecondExpiry">
             <summary>
             Indicates whether PEXPIRE and PTTL are supported
+            </summary>
+        </member>
+        <member name="P:StackExchange.Redis.RedisFeatures.Module">
+            <summary>
+            Is MODULE available?
             </summary>
         </member>
         <member name="P:StackExchange.Redis.RedisFeatures.MultipleRandom">
@@ -8617,6 +9162,11 @@
             The Redis version of the server
             </summary>
         </member>
+        <member name="P:StackExchange.Redis.RedisFeatures.KeyTouch">
+            <summary>
+            Are the Touch command available?
+            </summary>
+        </member>
         <member name="M:StackExchange.Redis.RedisFeatures.ToString">
             <summary>
             Create a string representation of the available features
@@ -8634,6 +9184,11 @@
         <member name="T:StackExchange.Redis.RedisKey">
             <summary>
             Represents a key that can be stored in redis
+            </summary>
+        </member>
+        <member name="M:StackExchange.Redis.RedisKey.#ctor(System.String)">
+            <summary>
+            Creates a <see cref="T:StackExchange.Redis.RedisKey"/> from a string.
             </summary>
         </member>
         <member name="M:StackExchange.Redis.RedisKey.op_Inequality(StackExchange.Redis.RedisKey,StackExchange.Redis.RedisKey)">
@@ -8970,6 +9525,11 @@
             </summary>
             <param name="result">The result to convert to a <see cref="T:RedisResult[]"/>.</param>
         </member>
+        <member name="M:StackExchange.Redis.RedisResult.ToDictionary(System.Collections.Generic.IEqualityComparer{System.String})">
+            <summary>
+            Interprets a multi-bulk result with successive key/name values as a dictionary keyed by name
+            </summary>
+        </member>
         <member name="M:StackExchange.Redis.RedisResult.Create(StackExchange.Redis.RedisKey)">
             <summary>
             Create a <see cref="T:StackExchange.Redis.RedisResult"/> from a key.
@@ -9005,6 +9565,11 @@
         <member name="T:StackExchange.Redis.RedisValue">
             <summary>
             Represents values that can be stored in redis
+            </summary>
+        </member>
+        <member name="M:StackExchange.Redis.RedisValue.#ctor(System.String)">
+            <summary>
+            Creates a <see cref="T:StackExchange.Redis.RedisValue"/> from a string.
             </summary>
         </member>
         <member name="M:StackExchange.Redis.RedisValue.Box">
@@ -9465,18 +10030,9 @@
         </member>
         <member name="M:StackExchange.Redis.SocketManager.#ctor(System.String)">
             <summary>
-            Creates a new (optionally named) <see cref="T:StackExchange.Redis.SocketManager"/> instance
+            Creates a new <see cref="T:StackExchange.Redis.SocketManager"/> instance
             </summary>
             <param name="name">The name for this <see cref="T:StackExchange.Redis.SocketManager"/>.</param>
-        </member>
-        <member name="P:StackExchange.Redis.SocketManager.Shared">
-            <summary>
-            Default / shared socket manager
-            </summary>
-        </member>
-        <member name="M:StackExchange.Redis.SocketManager.ToString">
-            <summary>Returns a string that represents the current object.</summary>
-            <returns>A string that represents the current object.</returns>
         </member>
         <member name="M:StackExchange.Redis.SocketManager.#ctor(System.String,System.Boolean)">
             <summary>
@@ -9484,6 +10040,56 @@
             </summary>
             <param name="name">The name for this <see cref="T:StackExchange.Redis.SocketManager"/>.</param>
             <param name="useHighPrioritySocketThreads">Whether this <see cref="T:StackExchange.Redis.SocketManager"/> should use high priority sockets.</param>
+        </member>
+        <member name="M:StackExchange.Redis.SocketManager.#ctor(System.String,System.Int32,System.Boolean)">
+            <summary>
+            Creates a new (optionally named) <see cref="T:StackExchange.Redis.SocketManager"/> instance
+            </summary>
+            <param name="name">The name for this <see cref="T:StackExchange.Redis.SocketManager"/>.</param>
+            <param name="workerCount">the number of dedicated workers for this <see cref="T:StackExchange.Redis.SocketManager"/>.</param>
+            <param name="useHighPrioritySocketThreads">Whether this <see cref="T:StackExchange.Redis.SocketManager"/> should use high priority sockets.</param>
+        </member>
+        <member name="T:StackExchange.Redis.SocketManager.SocketManagerOptions">
+            <summary>
+            Additional options for configuring the socket manager
+            </summary>
+        </member>
+        <member name="F:StackExchange.Redis.SocketManager.SocketManagerOptions.None">
+            <summary>
+            No additional options
+            </summary>
+        </member>
+        <member name="F:StackExchange.Redis.SocketManager.SocketManagerOptions.UseHighPrioritySocketThreads">
+            <summary>
+            Whether the <see cref="T:StackExchange.Redis.SocketManager"/> should use high priority sockets.
+            </summary>
+        </member>
+        <member name="F:StackExchange.Redis.SocketManager.SocketManagerOptions.UseThreadPool">
+            <summary>
+            Use the regular thread-pool for all scheduling
+            </summary>
+        </member>
+        <member name="M:StackExchange.Redis.SocketManager.#ctor(System.String,System.Int32,StackExchange.Redis.SocketManager.SocketManagerOptions)">
+            <summary>
+            Creates a new (optionally named) <see cref="T:StackExchange.Redis.SocketManager"/> instance
+            </summary>
+            <param name="name">The name for this <see cref="T:StackExchange.Redis.SocketManager"/>.</param>
+            <param name="workerCount">the number of dedicated workers for this <see cref="T:StackExchange.Redis.SocketManager"/>.</param>
+            <param name="options"></param>
+        </member>
+        <member name="P:StackExchange.Redis.SocketManager.Shared">
+            <summary>
+            Default / shared socket manager using a dedicated thread-pool
+            </summary>
+        </member>
+        <member name="P:StackExchange.Redis.SocketManager.ThreadPool">
+            <summary>
+            Shared socket manager using the main thread-pool
+            </summary>
+        </member>
+        <member name="M:StackExchange.Redis.SocketManager.ToString">
+            <summary>Returns a string that represents the current object.</summary>
+            <returns>A string that represents the current object.</returns>
         </member>
         <member name="M:StackExchange.Redis.SocketManager.Dispose">
             <summary>
@@ -9681,6 +10287,11 @@
         <member name="P:StackExchange.Redis.StreamEntry.Values">
             <summary>
             The values contained within the message.
+            </summary>
+        </member>
+        <member name="P:StackExchange.Redis.StreamEntry.Item(StackExchange.Redis.RedisValue)">
+            <summary>
+            Search for a specific field by name, returning the value
             </summary>
         </member>
         <member name="P:StackExchange.Redis.StreamEntry.IsNull">
