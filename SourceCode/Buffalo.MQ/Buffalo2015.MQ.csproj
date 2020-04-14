@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Buffalo.MQ</RootNamespace>
     <AssemblyName>Buffalo.MQ</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -25,60 +25,25 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <OutputPath>..\Release\2015\</OutputPath>
+    <DefineConstants>TRACE;NET_4_6</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\Release\2015\Buffalo.MQ.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Confluent.Kafka">
-      <HintPath>..\..\dll\dll\Net4.5\Confluent.Kafka.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Bcl.AsyncInterfaces">
-      <HintPath>..\..\dll\dll\Net4.7.2\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="Pipelines.Sockets.Unofficial">
-      <HintPath>..\..\dll\dll\Net4.7.2\Pipelines.Sockets.Unofficial.dll</HintPath>
+      <HintPath>..\..\dll\dll\Net4.6\Confluent.Kafka.dll</HintPath>
     </Reference>
     <Reference Include="RabbitMQ.Client">
       <HintPath>..\..\dll\dll\Net4.5.1\RabbitMQ.Client.dll</HintPath>
     </Reference>
     <Reference Include="StackExchange.Redis">
-      <HintPath>..\..\dll\dll\Net4.7.2\StackExchange.Redis.dll</HintPath>
+      <HintPath>..\..\dll\dll\Net4.6\StackExchange.Redis.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\dll\dll\Net4.7.2\System.Buffers.dll</HintPath>
-    </Reference>
     <Reference Include="System.Core" />
-    <Reference Include="System.Diagnostics.PerformanceCounter">
-      <HintPath>..\..\dll\dll\Net4.7.2\System.Diagnostics.PerformanceCounter.dll</HintPath>
-    </Reference>
     <Reference Include="System.IO.Compression" />
-    <Reference Include="System.IO.Pipelines, Version=4.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\dll\dll\Net4.7.2\System.IO.Pipelines.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Memory, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\dll\dll\Net4.7.2\System.Memory.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Numerics.Vectors, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\dll\dll\Net4.7.2\System.Numerics.Vectors.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime.CompilerServices.Unsafe">
-      <HintPath>..\..\dll\dll\Net4.7.2\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Threading.Channels, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\dll\dll\Net4.7.2\System.Threading.Channels.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\dll\dll\Net4.7.2\System.Threading.Tasks.Extensions.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -87,26 +52,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="KafkaMQ\KafkaMQConfig.cs" />
     <Compile Include="KafkaMQ\KafkaMQConnection.cs" />
-    <Compile Include="KafkaMQ\KafkaMQConnection.Listener.cs" />
+    <Compile Include="KafkaMQ\KafkaMQListener.cs" />
+    <Compile Include="MQBatchAction.cs" />
+    <Compile Include="MQConfigBase.cs" />
     <Compile Include="MQConnection.cs" />
-    <Compile Include="MQMessage.cs" />
+    <Compile Include="MQInfoItem.cs" />
+    <Compile Include="MQListener.cs" />
+    <Compile Include="MQTransation.cs" />
+    <Compile Include="MQUnit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RabbitMQ\RabbitMQConfig.cs" />
     <Compile Include="RabbitMQ\RabbitMQConnection.cs" />
-    <Compile Include="RabbitMQ\RabbitMQConnection.Listener.cs" />
+    <Compile Include="RabbitMQ\RabbitMQListener.cs" />
+    <Compile Include="RedisMQ\RedisMQConfig.cs" />
     <Compile Include="RedisMQ\RedisMQConnection.cs" />
-    <Compile Include="RedisMQ\RedisMQConnection.Listener.cs" />
+    <Compile Include="RedisMQ\RedisMQListener.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Buffalo.ArgCommon\Buffalo2019.ArgCommon.csproj">
+    <ProjectReference Include="..\Buffalo.ArgCommon\Buffalo2015.ArgCommon.csproj">
       <Project>{584f95b4-461a-4d50-8294-9147364e1945}</Project>
-      <Name>Buffalo2019.ArgCommon</Name>
+      <Name>Buffalo2015.ArgCommon</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Buffalo.Kernel\Buffalo2019.Kernel.csproj">
+    <ProjectReference Include="..\Buffalo.Kernel\Buffalo2015.Kernel.csproj">
       <Project>{6ec04216-a422-4751-aa81-1211dcb10bab}</Project>
-      <Name>Buffalo2019.Kernel</Name>
+      <Name>Buffalo2015.Kernel</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

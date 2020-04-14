@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Buffalo.MQ</RootNamespace>
     <AssemblyName>Buffalo.MQ</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -50,15 +50,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="KafkaMQ\KafkaMQConfig.cs" />
     <Compile Include="KafkaMQ\KafkaMQConnection.cs" />
-    <Compile Include="KafkaMQ\KafkaMQConnection.Listener.cs" />
+    <Compile Include="KafkaMQ\KafkaMQListener.cs" />
+    <Compile Include="MQBatchAction.cs" />
+    <Compile Include="MQConfigBase.cs" />
     <Compile Include="MQConnection.cs" />
-    <Compile Include="MQMessage.cs" />
+    <Compile Include="MQInfoItem.cs" />
+    <Compile Include="MQListener.cs" />
+    <Compile Include="MQTransation.cs" />
+    <Compile Include="MQUnit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RabbitMQ\RabbitMQConfig.cs" />
     <Compile Include="RabbitMQ\RabbitMQConnection.cs" />
-    <Compile Include="RabbitMQ\RabbitMQConnection.Listener.cs" />
+    <Compile Include="RabbitMQ\RabbitMQListener.cs" />
+    <Compile Include="RedisMQ\RedisMQConfig.cs" />
     <Compile Include="RedisMQ\RedisMQConnection.cs" />
-    <Compile Include="RedisMQ\RedisMQConnection.Listener.cs" />
+    <Compile Include="RedisMQ\RedisMQListener.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Buffalo.ArgCommon\Buffalo2013.ArgCommon.csproj">

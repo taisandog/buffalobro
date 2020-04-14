@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Buffalo.MQ</RootNamespace>
     <AssemblyName>Buffalo.MQ</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -64,13 +64,13 @@
     <Compile Include="RedisMQ\RedisMQListener.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Buffalo.ArgCommon\Buffalo2013.ArgCommon.csproj">
+    <ProjectReference Include="..\Buffalo.ArgCommon\Buffalo2012.ArgCommon.csproj">
       <Project>{584f95b4-461a-4d50-8294-9147364e1945}</Project>
-      <Name>Buffalo2013.ArgCommon</Name>
+      <Name>Buffalo2012.ArgCommon</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Buffalo.Kernel\Buffalo2013.Kernel.csproj">
+    <ProjectReference Include="..\Buffalo.Kernel\Buffalo2012.Kernel.csproj">
       <Project>{6ec04216-a422-4751-aa81-1211dcb10bab}</Project>
-      <Name>Buffalo2013.Kernel</Name>
+      <Name>Buffalo2012.Kernel</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
