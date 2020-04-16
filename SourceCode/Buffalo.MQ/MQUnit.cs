@@ -59,12 +59,12 @@ namespace Buffalo.MQ
         /// <param name="name">标记唯一的名字</param>
         /// <param name="mqType">队列类型</param>
         /// <param name="connectString">连接字符串</param>
-        public static void AddMQInfo(string name,string mqType,string connectString)
+        public static void SetMQInfo(string name,string mqType,string connectString)
         {
-            if (_dic.ContainsKey(name))
-            {
-                throw new ArgumentException(name+"的配置已经存在");
-            }
+            //if (_dic.ContainsKey(name))
+            //{
+            //    throw new ArgumentException(name+"的配置已经存在");
+            //}
             MQConfigBase config = GetConfig(mqType, connectString);
             MQInfoItem item = new MQInfoItem(name, mqType, config);
             _dic[name]=item;

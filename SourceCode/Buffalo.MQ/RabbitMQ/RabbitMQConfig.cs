@@ -46,7 +46,17 @@ namespace Buffalo.MQ.RabbitMQ
                 Factory.VirtualHost = "/";
             }
             Factory.Protocol = Protocols.DefaultProtocol;
-            Factory.HostName = _configs.GetDicValue<string, string>("server");
+            string server= _configs.GetDicValue<string, string>("server");
+            if (!string.IsNullOrWhiteSpace(server))
+            {
+                string[] serPart = server.Split(':');
+                Factory.HostName = serPart[0];
+                if (serPart.Length > 1)
+                {
+                    Factory.Port = serPart[1].ConvertTo<int>();
+                }
+            }
+            
             Factory.Password = _configs.GetDicValue<string, string>("pwd");
             ExchangeMode = _configs.GetDicValue<string, string>("exchangeMode");
             ExchangeName = _configs.GetDicValue<string, string>("exchangeName");
