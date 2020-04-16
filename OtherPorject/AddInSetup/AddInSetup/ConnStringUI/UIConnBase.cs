@@ -66,7 +66,20 @@ namespace AddInSetup.ConnStringUI
                 btnTech.Visible = value;
             }
         }
-
+        /// <summary>
+        /// 显示代理
+        /// </summary>
+        protected bool ShowProxy
+        {
+            get
+            {
+                return gbProxy.Visible;
+            }
+            set
+            {
+                gbProxy.Visible = value;
+            }
+        }
         protected virtual void OnConnOut()
         {
 

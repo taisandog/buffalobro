@@ -11,7 +11,7 @@
     <RootNamespace>AddInSetup</RootNamespace>
     <AssemblyName>Setup</AssemblyName>
     <ApplicationIcon>slogo.ico</ApplicationIcon>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
@@ -36,7 +36,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AWSSDK.Core">
@@ -54,6 +54,9 @@
     <Reference Include="Buffalo.Kernel">
       <HintPath>..\dll\Buffalo.Kernel.dll</HintPath>
     </Reference>
+    <Reference Include="Buffalo.MQ">
+      <HintPath>..\dll\Buffalo.MQ.dll</HintPath>
+    </Reference>
     <Reference Include="Buffalo.QueryCache">
       <HintPath>..\dll\Buffalo.QueryCache.dll</HintPath>
     </Reference>
@@ -66,6 +69,9 @@
     <Reference Include="Buffalo.Win32Kernel">
       <HintPath>..\dll\Buffalo.Win32Kernel.dll</HintPath>
     </Reference>
+    <Reference Include="Confluent.Kafka">
+      <HintPath>..\dll\Confluent.Kafka.dll</HintPath>
+    </Reference>
     <Reference Include="Enyim.Caching">
       <HintPath>..\dll\Enyim.Caching.dll</HintPath>
     </Reference>
@@ -75,6 +81,9 @@
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\dll\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="RabbitMQ.Client">
+      <HintPath>..\dll\RabbitMQ.Client.dll</HintPath>
     </Reference>
     <Reference Include="StackExchange.Redis, Version=1.2.6.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -133,6 +142,12 @@
     <Compile Include="ConnStringUI\UIOSS.Designer.cs">
       <DependentUpon>UIOSS.cs</DependentUpon>
     </Compile>
+    <Compile Include="ConnStringUI\UIRabbitMQ.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConnStringUI\UIRabbitMQ.Designer.cs">
+      <DependentUpon>UIRabbitMQ.cs</DependentUpon>
+    </Compile>
     <Compile Include="ConnStringUI\UIRedis.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -144,6 +159,12 @@
     </Compile>
     <Compile Include="ConnStringUI\UIRedis2.Designer.cs">
       <DependentUpon>UIRedis2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConnStringUI\UIRedisMQ.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConnStringUI\UIRedisMQ.Designer.cs">
+      <DependentUpon>UIRedisMQ.cs</DependentUpon>
     </Compile>
     <Compile Include="ConnStringUI\UISysMemory.cs">
       <SubType>UserControl</SubType>
@@ -184,6 +205,7 @@
     <Compile Include="HelpDocItem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Unit\MQHelper.cs" />
     <Compile Include="UpdateInfo.cs" />
     <EmbeddedResource Include="ConnStringUI\UIAWS.resx">
       <DependentUpon>UIAWS.cs</DependentUpon>
@@ -206,11 +228,17 @@
     <EmbeddedResource Include="ConnStringUI\UIOSS.resx">
       <DependentUpon>UIOSS.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ConnStringUI\UIRabbitMQ.resx">
+      <DependentUpon>UIRabbitMQ.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ConnStringUI\UIRedis.resx">
       <DependentUpon>UIRedis.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ConnStringUI\UIRedis2.resx">
       <DependentUpon>UIRedis2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConnStringUI\UIRedisMQ.resx">
+      <DependentUpon>UIRedisMQ.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ConnStringUI\UISysMemory.resx">
       <DependentUpon>UISysMemory.cs</DependentUpon>
@@ -285,7 +313,25 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="librdkafka.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="librdkafkacpp.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="libzstd.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="msvcp120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\DBTools.txt" />
+    <Content Include="zlib.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Resources\svnupdate.png" />
     <Content Include="slogo.ico" />
   </ItemGroup>

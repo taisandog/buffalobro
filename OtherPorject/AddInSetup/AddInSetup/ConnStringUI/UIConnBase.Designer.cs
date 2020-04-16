@@ -38,7 +38,7 @@
             this.txtOutCode = new System.Windows.Forms.RichTextBox();
             this.gpSetting = new System.Windows.Forms.GroupBox();
             this.pnlButton = new System.Windows.Forms.Panel();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.gbProxy = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
             this.txtProxyPass = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -48,8 +48,8 @@
             this.txtProxyHost = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.btnOut = new System.Windows.Forms.Button();
             this.btnTest = new System.Windows.Forms.Button();
+            this.btnOut = new System.Windows.Forms.Button();
             this.gpOutput.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scOut)).BeginInit();
             this.scOut.Panel1.SuspendLayout();
@@ -57,7 +57,7 @@
             this.scOut.SuspendLayout();
             this.cmsCopy.SuspendLayout();
             this.pnlButton.SuspendLayout();
-            this.groupBox1.SuspendLayout();
+            this.gbProxy.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtProxyPort)).BeginInit();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -157,7 +157,7 @@
             // 
             // pnlButton
             // 
-            this.pnlButton.Controls.Add(this.groupBox1);
+            this.pnlButton.Controls.Add(this.gbProxy);
             this.pnlButton.Controls.Add(this.panel2);
             this.pnlButton.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pnlButton.Location = new System.Drawing.Point(0, 379);
@@ -165,24 +165,24 @@
             this.pnlButton.Size = new System.Drawing.Size(659, 118);
             this.pnlButton.TabIndex = 2;
             // 
-            // groupBox1
+            // gbProxy
             // 
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.txtProxyPass);
-            this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.txtProxyUser);
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.txtProxyPort);
-            this.groupBox1.Controls.Add(this.txtProxyHost);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox1.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.groupBox1.Location = new System.Drawing.Point(186, 0);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(473, 118);
-            this.groupBox1.TabIndex = 4;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "代理";
+            this.gbProxy.Controls.Add(this.label4);
+            this.gbProxy.Controls.Add(this.txtProxyPass);
+            this.gbProxy.Controls.Add(this.label3);
+            this.gbProxy.Controls.Add(this.txtProxyUser);
+            this.gbProxy.Controls.Add(this.label2);
+            this.gbProxy.Controls.Add(this.txtProxyPort);
+            this.gbProxy.Controls.Add(this.txtProxyHost);
+            this.gbProxy.Controls.Add(this.label1);
+            this.gbProxy.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gbProxy.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.gbProxy.Location = new System.Drawing.Point(186, 0);
+            this.gbProxy.Name = "gbProxy";
+            this.gbProxy.Size = new System.Drawing.Size(473, 118);
+            this.gbProxy.TabIndex = 4;
+            this.gbProxy.TabStop = false;
+            this.gbProxy.Text = "代理";
             // 
             // label4
             // 
@@ -268,16 +268,6 @@
             this.panel2.Size = new System.Drawing.Size(186, 118);
             this.panel2.TabIndex = 3;
             // 
-            // btnOut
-            // 
-            this.btnOut.Location = new System.Drawing.Point(5, 70);
-            this.btnOut.Name = "btnOut";
-            this.btnOut.Size = new System.Drawing.Size(138, 39);
-            this.btnOut.TabIndex = 0;
-            this.btnOut.Text = "输出";
-            this.btnOut.UseVisualStyleBackColor = true;
-            this.btnOut.Click += new System.EventHandler(this.btnOut_Click);
-            // 
             // btnTest
             // 
             this.btnTest.Location = new System.Drawing.Point(3, 6);
@@ -287,6 +277,16 @@
             this.btnTest.Text = "测试";
             this.btnTest.UseVisualStyleBackColor = true;
             this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
+            // 
+            // btnOut
+            // 
+            this.btnOut.Location = new System.Drawing.Point(5, 70);
+            this.btnOut.Name = "btnOut";
+            this.btnOut.Size = new System.Drawing.Size(138, 39);
+            this.btnOut.TabIndex = 0;
+            this.btnOut.Text = "输出";
+            this.btnOut.UseVisualStyleBackColor = true;
+            this.btnOut.Click += new System.EventHandler(this.btnOut_Click);
             // 
             // UIConnBase
             // 
@@ -306,8 +306,8 @@
             this.scOut.ResumeLayout(false);
             this.cmsCopy.ResumeLayout(false);
             this.pnlButton.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.gbProxy.ResumeLayout(false);
+            this.gbProxy.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtProxyPort)).EndInit();
             this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -327,7 +327,6 @@
         private System.Windows.Forms.ContextMenuStrip cmsCopy;
         private System.Windows.Forms.ToolStripMenuItem tsCopy;
         private System.Windows.Forms.Button btnTech;
-        private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtProxyPass;
         private System.Windows.Forms.Label label3;
@@ -337,5 +336,6 @@
         private System.Windows.Forms.TextBox txtProxyHost;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panel2;
+        protected System.Windows.Forms.GroupBox gbProxy;
     }
 }

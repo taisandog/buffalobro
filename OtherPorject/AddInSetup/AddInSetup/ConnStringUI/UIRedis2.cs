@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Buffalo.DB.CacheManager;
+using System.Web;
 
 namespace AddInSetup.ConnStringUI
 {
@@ -69,7 +70,7 @@ namespace AddInSetup.ConnStringUI
         {
             StringBuilder sbStr = new StringBuilder();
             sbStr.Append("server=");
-            sbStr.Append(CacheUnit.EncodeString(txtServer.Text));
+            sbStr.Append(HttpUtility.UrlEncode(txtServer.Text));
             sbStr.Append(";");
             
             if (txtExpir.Value > 0)
@@ -81,7 +82,7 @@ namespace AddInSetup.ConnStringUI
             if (!string.IsNullOrWhiteSpace(txtPwd.Text))
             {
                 sbStr.Append("pwd=");
-                sbStr.Append(txtPwd.Text);
+                sbStr.Append(HttpUtility.UrlEncode(txtPwd.Text));
                 sbStr.Append(";");
             }
             if (chkSSL.Checked)

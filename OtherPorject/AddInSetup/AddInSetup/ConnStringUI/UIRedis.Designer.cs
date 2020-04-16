@@ -45,16 +45,20 @@
             // 
             // gpSetting
             // 
-            this.gpSetting.Controls.Add(this.label3);
             this.gpSetting.Controls.Add(this.txtRoServer);
             this.gpSetting.Controls.Add(this.label6);
             this.gpSetting.Controls.Add(this.chkThrow);
             this.gpSetting.Controls.Add(this.txtPoolsize);
-            this.gpSetting.Controls.Add(this.label2);
             this.gpSetting.Controls.Add(this.txtExpir);
             this.gpSetting.Controls.Add(this.label5);
             this.gpSetting.Controls.Add(this.txtServer);
-            this.gpSetting.Controls.Add(this.label1);
+            this.gpSetting.Controls.SetChildIndex(this.txtServer, 0);
+            this.gpSetting.Controls.SetChildIndex(this.label5, 0);
+            this.gpSetting.Controls.SetChildIndex(this.txtExpir, 0);
+            this.gpSetting.Controls.SetChildIndex(this.txtPoolsize, 0);
+            this.gpSetting.Controls.SetChildIndex(this.chkThrow, 0);
+            this.gpSetting.Controls.SetChildIndex(this.label6, 0);
+            this.gpSetting.Controls.SetChildIndex(this.txtRoServer, 0);
             // 
             // chkThrow
             // 
