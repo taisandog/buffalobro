@@ -118,6 +118,12 @@
     <Compile Include="ConnStringUI\UICOS.Designer.cs">
       <DependentUpon>UICOS.cs</DependentUpon>
     </Compile>
+    <Compile Include="ConnStringUI\UIKafkaMQ.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConnStringUI\UIKafkaMQ.Designer.cs">
+      <DependentUpon>UIKafkaMQ.cs</DependentUpon>
+    </Compile>
     <Compile Include="ConnStringUI\UILocationStorage.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -215,6 +221,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ConnStringUI\UICOS.resx">
       <DependentUpon>UICOS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConnStringUI\UIKafkaMQ.resx">
+      <DependentUpon>UIKafkaMQ.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ConnStringUI\UILocationStorage.resx">
       <DependentUpon>UILocationStorage.cs</DependentUpon>

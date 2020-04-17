@@ -69,8 +69,29 @@
       <file path="ServiceStack.Redis.xml"></file>
       <file path="ServiceStack.Text.dll"></file>
       <file path="ServiceStack.Text.xml"></file>
+      
       <file path="StackExchange.Redis.dll"></file>
       <file path="StackExchange.Redis.xml"></file>
+      <file path="Microsoft.Bcl.AsyncInterfaces.dll"></file>
+      <file path="Microsoft.Bcl.AsyncInterfaces.xml"></file>
+      <file path="System.Buffers.dll"></file>
+      <file path="System.Buffers.xml"></file>
+      <file path="System.Diagnostics.PerformanceCounter.dll"></file>
+      <file path="System.Diagnostics.PerformanceCounter.xml"></file>
+      <file path="System.IO.Pipelines.dll"></file>
+      <file path="System.IO.Pipelines.xml"></file>
+      <file path="System.Memory.dll"></file>
+      <file path="System.Memory.xml"></file>
+      <file path="System.Numerics.Vectors.dll"></file>
+      <file path="System.Numerics.Vectors.xml"></file>
+      <file path="System.Runtime.CompilerServices.Unsafe.dll"></file>
+      <file path="System.Runtime.CompilerServices.Unsafe.xml"></file>
+      <file path="System.Threading.Channels.dll"></file>
+      <file path="System.Threading.Channels.xml"></file>
+      <file path="System.Threading.Tasks.Extensions.dll"></file>
+      <file path="System.Threading.Tasks.Extensions.xml"></file>
+      
+      
       <file path="Newtonsoft.Json.dll"></file>
       <file path="Newtonsoft.Json.xml"></file>
       <file path="Buffalo.QueryCache.1.0.0.nupkg" main="1"></file>
@@ -151,6 +172,38 @@
       <file path="Oracle.ManagedDataAccess.dll"></file>
       <file path="Buffalo.Data.Oracle.1.0.2.nupkg" main="1"></file>
     </item>
+    
+    <item des="Buffalo.MQ队列"  name="Buffalo.MQ" ignore="2.0,3.5,4.0" selected="0">
+      <file path="Buffalo.MQ.dll" main="1"></file>
+      <file path="Buffalo.MQ.XML"></file>
+      
+      <file path="StackExchange.Redis.dll"></file>
+      <file path="StackExchange.Redis.xml"></file>
+      <file path="Microsoft.Bcl.AsyncInterfaces.dll"></file>
+      <file path="Microsoft.Bcl.AsyncInterfaces.xml"></file>
+      <file path="System.Buffers.dll"></file>
+      <file path="System.Buffers.xml"></file>
+      <file path="System.Diagnostics.PerformanceCounter.dll"></file>
+      <file path="System.Diagnostics.PerformanceCounter.xml"></file>
+      <file path="System.IO.Pipelines.dll"></file>
+      <file path="System.IO.Pipelines.xml"></file>
+      <file path="System.Memory.dll"></file>
+      <file path="System.Memory.xml"></file>
+      <file path="System.Numerics.Vectors.dll"></file>
+      <file path="System.Numerics.Vectors.xml"></file>
+      <file path="System.Runtime.CompilerServices.Unsafe.dll"></file>
+      <file path="System.Runtime.CompilerServices.Unsafe.xml"></file>
+      <file path="System.Threading.Channels.dll"></file>
+      <file path="System.Threading.Channels.xml"></file>
+      <file path="System.Threading.Tasks.Extensions.dll"></file>
+      <file path="System.Threading.Tasks.Extensions.xml"></file>
 
+      <file path="Confluent.Kafka.dll"></file>
+      <file path="Confluent.Kafka.xml"></file>
+
+      <file path="RabbitMQ.Client.dll"></file>
+      <file path="RabbitMQ.Client.xml"></file>
+    </item>
+    
   </Dlls>
 </root>
