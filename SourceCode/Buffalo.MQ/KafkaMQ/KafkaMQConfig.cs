@@ -195,20 +195,36 @@ namespace Buffalo.MQ.KafkaMQ
             }
             config.BootstrapServers = server;
 
-            string saslUsername = hs.GetDicValue<string, string>("sasluid");
 
-
-            if (!string.IsNullOrWhiteSpace(config.SaslUsername))
+            string value = hs.GetDicValue<string, string>("saslUsername");
+            if (!string.IsNullOrWhiteSpace(value))
             {
-                config.SaslUsername = saslUsername;
-                config.SaslPassword = hs.GetDicValue<string, string>("saslpwd");
-                config.SaslMechanism = (SaslMechanism)hs.GetDicValue<string, string>("saslMechanism").ConvertTo<int>(1);
-                config.SecurityProtocol = (SecurityProtocol)hs.GetDicValue<string, string>("securityProtocol").ConvertTo<int>(1);
-                config.SslCaLocation = hs.GetDicValue<string, string>("sslCaLocation");
+                config.SaslUsername = value;
+            }
+            value = hs.GetDicValue<string, string>("saslPassword");
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                config.SaslPassword = value;
+            }
+            value = hs.GetDicValue<string, string>("saslMechanism");
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                config.SaslMechanism = (SaslMechanism)value.ConvertTo<int>(1);
+            }
+            value = hs.GetDicValue<string, string>("securityProtocol");
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                config.SecurityProtocol = (SecurityProtocol)value.ConvertTo<int>(1);
             }
             else
             {
                 config.SecurityProtocol = SecurityProtocol.Plaintext;
+            }
+
+            value = hs.GetDicValue<string, string>("sslCaLocation");
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                config.SslCaLocation = value;
             }
 
         }
