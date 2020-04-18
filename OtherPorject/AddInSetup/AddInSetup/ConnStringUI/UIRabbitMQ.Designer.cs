@@ -171,6 +171,7 @@
             this.txtExchangeName.Name = "txtExchangeName";
             this.txtExchangeName.Size = new System.Drawing.Size(457, 29);
             this.txtExchangeName.TabIndex = 81;
+            this.txtExchangeName.Text = "MyExchange";
             // 
             // label10
             // 
@@ -207,6 +208,7 @@
             this.txtQueue.Name = "txtQueue";
             this.txtQueue.Size = new System.Drawing.Size(457, 29);
             this.txtQueue.TabIndex = 86;
+            this.txtQueue.Text = "myqueue";
             // 
             // label11
             // 

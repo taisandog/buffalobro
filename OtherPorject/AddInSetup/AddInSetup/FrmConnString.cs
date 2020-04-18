@@ -14,5 +14,10 @@ namespace AddInSetup
         {
             InitializeComponent();
         }
+
+        private void FrmConnString_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

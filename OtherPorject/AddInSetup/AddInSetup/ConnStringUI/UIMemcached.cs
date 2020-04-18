@@ -70,7 +70,7 @@ namespace AddInSetup.ConnStringUI
         {
             StringBuilder sbStr = new StringBuilder();
             sbStr.Append("server=");
-            sbStr.Append(CacheUnit.EncodeString(txtServer.Text));
+            sbStr.Append(HttpUtility.UrlEncode(txtServer.Text));
             sbStr.Append(";");
             if (txtExpir.Value > 0)
             {

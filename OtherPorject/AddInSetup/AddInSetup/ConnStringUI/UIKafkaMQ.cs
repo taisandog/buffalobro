@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using AddInSetup.Unit;
 using Buffalo.ArgCommon;
+using System.Web;
+using Buffalo.Kernel;
+using Confluent.Kafka;
 
 namespace AddInSetup.ConnStringUI
 {
@@ -17,7 +20,56 @@ namespace AddInSetup.ConnStringUI
         public UIKafkaMQ()
         {
             InitializeComponent();
+           
+
+        }
+        protected override void OnLoad(EventArgs e)
+        {
             ShowProxy = false;
+            nupInterval.Maximum = Int32.MaxValue;
+            nupSessionTimeout.Maximum = Int32.MaxValue;
+            InitAutoOffsetReset();
+            InitSecurityProtocol();
+            InitSaslMechanism();
+            base.OnLoad(e);
+        }
+        /// <summary>
+        /// 初始化AutoOffset
+        /// </summary>
+        protected void InitAutoOffsetReset()
+        {
+            List<EnumInfo> lstInfo = EnumUnit.GetEnumInfos(typeof(AutoOffsetReset));
+            cmbAutoOffsetReset.DisplayMember = "FieldName";
+            cmbAutoOffsetReset.ValueMember = "Value";
+            cmbAutoOffsetReset.DataSource = lstInfo;
+            cmbAutoOffsetReset.SelectedValue = AutoOffsetReset.Earliest;
+        }
+        /// <summary>
+        /// 初始化AutoOffset
+        /// </summary>
+        protected void InitSecurityProtocol()
+        {
+            List<EnumInfo> lstInfo = EnumUnit.GetEnumInfos(typeof(SecurityProtocol));
+            cmbSecurityProtocol.DisplayMember = "FieldName";
+            cmbSecurityProtocol.ValueMember = "Value";
+            cmbSecurityProtocol.DataSource = lstInfo;
+            cmbSecurityProtocol.SelectedValue = SecurityProtocol.Plaintext;
+
+        }
+        /// <summary>
+        /// 初始化AutoOffset
+        /// </summary>
+        protected void InitSaslMechanism()
+        {
+            List<EnumInfo> lstInfo = EnumUnit.GetEnumInfos(typeof(SaslMechanism));
+            EnumInfo info = new EnumInfo();
+            info.FieldName = "None";
+            info.Value = 0;
+            lstInfo.Insert(0, info);
+            cmbSaslMechanism.DisplayMember = "FieldName";
+            cmbSaslMechanism.ValueMember = "Value";
+            cmbSaslMechanism.DataSource = lstInfo;
+            cmbSaslMechanism.SelectedValue = 0;
         }
         protected override void OnHelp()
         {
@@ -27,10 +79,10 @@ namespace AddInSetup.ConnStringUI
         {
             string sbStr = GetConnectionString();
             string name = txtName.Text;
-            string key = "buffalo.testmq";
+            string key = "buffalotestmq";
             try
             {
-                APIResault res = MQHelper.TestMQ(name, key, "rabbitmq", sbStr);
+                APIResault res = MQHelper.TestMQ(name, key, "kafkamq", sbStr);
                 if (!res.IsSuccess)
                 {
                     MessageBox.Show(res.Message, "测试失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -61,7 +113,7 @@ namespace AddInSetup.ConnStringUI
             sbCode.Append("\";");
             sbCode.AppendLine("");
 
-            sbCode.Append("string type=\"redismq\"");
+            sbCode.Append("string type=\"kafkamq\"");
             sbCode.AppendLine("");
 
             sbCode.Append("MQUnit.SetMQInfo(name, type, connectString);;");
@@ -76,58 +128,97 @@ namespace AddInSetup.ConnStringUI
         private string GetConnectionString()
         {
             StringBuilder sbStr = new StringBuilder();
+
+            string svalue = txtServer.Text;
             sbStr.Append("server=");
-            sbStr.Append(HttpUtility.UrlEncode(txtServer.Text));
+            sbStr.Append(HttpUtility.UrlEncode(svalue));
             sbStr.Append(";");
 
-            if (!string.IsNullOrWhiteSpace(txtVirtualHost.Text))
+            svalue = txtSaslUsername.Text;
+            if (!string.IsNullOrWhiteSpace(svalue))
             {
-                sbStr.Append("vhost=");
-                sbStr.Append(HttpUtility.UrlEncode(txtVirtualHost.Text));
+                sbStr.Append("saslUsername=");
+                sbStr.Append(HttpUtility.UrlEncode(svalue));
                 sbStr.Append(";");
             }
 
-            if (!string.IsNullOrWhiteSpace(txtUid.Text))
+            svalue = txtSaslPassword.Text;
+            if (!string.IsNullOrWhiteSpace(svalue))
             {
-                sbStr.Append("uid=");
-                sbStr.Append(HttpUtility.UrlEncode(txtUid.Text));
+                sbStr.Append("saslPassword=");
+                sbStr.Append(HttpUtility.UrlEncode(svalue));
                 sbStr.Append(";");
             }
-            if (!string.IsNullOrWhiteSpace(txtPwd.Text))
+            
+            svalue = txtGroupId.Text;
+            if (!string.IsNullOrWhiteSpace(svalue))
             {
-                sbStr.Append("pwd=");
-                sbStr.Append(HttpUtility.UrlEncode(txtPwd.Text));
-                sbStr.Append(";");
-            }
-
-            if (!string.IsNullOrWhiteSpace(cmbExchangeMode.Text))
-            {
-                sbStr.Append("exchangeMode=");
-                sbStr.Append(cmbExchangeMode.Text);
+                sbStr.Append("groupId=");
+                sbStr.Append(HttpUtility.UrlEncode(svalue));
                 sbStr.Append(";");
             }
 
-            if (!string.IsNullOrWhiteSpace(txtExchangeName.Text))
+
+
+            object selected = cmbSaslMechanism.SelectedValue;
+            if (selected!=null)
             {
-                sbStr.Append("exchangeName=");
-                sbStr.Append(HttpUtility.UrlEncode(txtExchangeName.Text));
-                sbStr.Append(";");
+                int val = (int)selected;
+                if (val >= 0)
+                {
+                    sbStr.Append("saslMechanism=");
+                    sbStr.Append(val.ToString());
+                    sbStr.Append(";");
+                }
             }
 
-            sbStr.Append("autoDelete=");
-            sbStr.Append(chkAutoDelete.Checked ? "1" : "0");
+            selected = cmbSecurityProtocol.SelectedValue;
+            if (selected != null)
+            {
+                int val = (int)selected;
+                if (val >= 0)
+                {
+                    sbStr.Append("securityProtocol=");
+                    sbStr.Append(val.ToString());
+                    sbStr.Append(";");
+                }
+            }
+
+            selected = cmbAutoOffsetReset.SelectedValue;
+            if (selected != null)
+            {
+                int val = (int)selected;
+                if (val >= 0)
+                {
+                    sbStr.Append("offsetType=");
+                    sbStr.Append(val.ToString());
+                    sbStr.Append(";");
+                }
+            }
+
+            sbStr.Append("autoCommit=");
+            sbStr.Append(chkAutoCommit.Checked ? "1" : "0");
             sbStr.Append(";");
 
-            sbStr.Append("queueName=");
-            sbStr.Append(HttpUtility.UrlEncode(txtQueue.Text));
-            sbStr.Append(";");
 
 
-            sbStr.Append("deliveryMode=");
-            sbStr.Append(chkDeliveryMode.Checked ? "2" : "1");
-            sbStr.Append(";");
+            decimal dvalue = nupInterval.Value;
+            if (dvalue>0)
+            {
+                sbStr.Append("interval=");
+                sbStr.Append(dvalue.ToString());
+                sbStr.Append(";");
+            }
 
+            dvalue = nupSessionTimeout.Value;
+            if (dvalue > 0)
+            {
+                sbStr.Append("sessionTimeout=");
+                sbStr.Append(dvalue.ToString());
+                sbStr.Append(";");
+            }
 
+            
             return sbStr.ToString();
         }
 
