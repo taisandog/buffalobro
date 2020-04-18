@@ -71,7 +71,7 @@ namespace Buffalo.MQ.RabbitMQ
                 foreach (string name in _config.QueueName)
                 {
                     _channel.QueueDeclare(name, _config.DeliveryMode == 2, false, _config.AutoDelete, null);
-
+                    
                     foreach (string key in listenKeys)
                     {
 
@@ -84,13 +84,16 @@ namespace Buffalo.MQ.RabbitMQ
             }
             consumer.Received += Consumer_Received;
         }
-
+        public override void StartListend(IEnumerable<MQOffestInfo> listenKeys)
+        {
+            StartListend(MQUnit.GetLintenKeys(listenKeys));
+        }
         private void Consumer_Received(object sender, BasicDeliverEventArgs e)
         {
             byte[] bytes = e.Body;
             string key = e.RoutingKey;
             string exchange = e.Exchange;
-            CallBack(key, exchange, bytes);
+            CallBack(key, exchange, bytes,0,0);
             _channel.BasicAck(e.DeliveryTag, false);//手动应答
         }
 

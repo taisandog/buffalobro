@@ -18,17 +18,17 @@ namespace Buffalo.MQ.KafkaMQ
         /// </summary>
         public readonly ProducerConfig ProducerConfig;
 
-        private ProducerBuilder<string, byte[]> _producerBuilder;
+        private ProducerBuilder<byte[], byte[]> _producerBuilder;
         /// <summary>
         /// 生产者构造器
         /// </summary>
-        public ProducerBuilder<string, byte[]> ProducerBuilder
+        public ProducerBuilder<byte[], byte[]> ProducerBuilder
         {
             get
             {
                 if (_producerBuilder == null)
                 {
-                    _producerBuilder = new ProducerBuilder<string, byte[]>(ProducerConfig);
+                    _producerBuilder = new ProducerBuilder<byte[], byte[]>(ProducerConfig);
                 }
                 return _producerBuilder;
             }
@@ -53,27 +53,27 @@ namespace Buffalo.MQ.KafkaMQ
                 return _adminBuilder;
             }
         }
-        /// <summary>
-        /// 主题
-        /// </summary>
-        public readonly string Topic;
+        
 
         /// <summary>
         /// 消费者配置
         /// </summary>
         public readonly ConsumerConfig KConsumerConfig;
 
-        public ConsumerBuilder<string, byte[]> _consumerBuilder;
+        public ConsumerBuilder<Ignore, byte[]> _consumerBuilder;
         /// <summary>
         /// 消费者构造器
         /// </summary>
-        public ConsumerBuilder<string, byte[]> KConsumerBuilder
+        public ConsumerBuilder<Ignore, byte[]> KConsumerBuilder
         {
             get
             {
                 if (_consumerBuilder == null)
                 {
-                    _consumerBuilder = new ConsumerBuilder<string, byte[]>(KConsumerConfig);
+                    _consumerBuilder = new ConsumerBuilder<Ignore, byte[]>(KConsumerConfig);
+
+                    //_consumerBuilder.SetKeyDeserializer(new KafkaStringDeserializer());
+                    
                 }
                 return _consumerBuilder;
             }
@@ -82,7 +82,7 @@ namespace Buffalo.MQ.KafkaMQ
         public KafkaMQConfig(string connectString):base(connectString)
         {
             
-            Topic = _configs.GetDicValue<string, string>("topic");
+            
 
             ProducerConfig = new ProducerConfig();
             InitProduceConfig(_configs);
@@ -101,7 +101,7 @@ namespace Buffalo.MQ.KafkaMQ
         /// </summary>
         private void InitConsumerConfig(Dictionary<string, string> hs)
         {
-            KafkaMQConnection.SetBaseConfig(this.KConsumerConfig, hs);
+            SetBaseConfig(this.KConsumerConfig, hs);
 
             this.KConsumerConfig.GroupId = hs.GetDicValue<string, string>("groupId");
             if (string.IsNullOrWhiteSpace(this.KConsumerConfig.GroupId))

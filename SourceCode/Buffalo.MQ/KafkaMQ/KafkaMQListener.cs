@@ -1,14 +1,8 @@
-﻿using System;
+﻿using Confluent.Kafka;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using Buffalo.ArgCommon;
-using Buffalo.Kernel;
-using Confluent.Kafka;
 
 namespace Buffalo.MQ.KafkaMQ
 {
@@ -32,11 +26,20 @@ namespace Buffalo.MQ.KafkaMQ
             
             _thd.Start(listenKeys);
         }
+        public override void StartListend(IEnumerable<MQOffestInfo> listenKeys)
+        {
+            _running = new CancellationTokenSource();
+            _handle = new AutoResetEvent(true);
+            _thd = new Thread(new ParameterizedThreadStart(OnListend));
 
+            _thd.Start(listenKeys);
+        }
+        
         public override void Close()
         {
             CloseListener();
         }
+
         
 
         /// <summary>
@@ -44,33 +47,62 @@ namespace Buffalo.MQ.KafkaMQ
         /// </summary>
         private void OnListend(object arg)
         {
-            IEnumerable<string> topics = arg as IEnumerable<string>;
-            ConsumerBuilder<string, byte[]> builder = _config.KConsumerBuilder;
+            IEnumerable<string> topics = MQUnit.GetLintenKeys(arg);
+
+            IEnumerable<MQOffestInfo> topicsOffest = MQUnit.GetLintenOffest(arg);
+
+            ConsumerBuilder<Ignore, byte[]> builder = _config.KConsumerBuilder;
 
             CancellationToken token = _running.Token;
-            //List<TopicPartitionOffset> lst = new List<TopicPartitionOffset>();
-            //foreach(string listop in _lisTopic)
-            //{
-            //    lst.Add(new TopicPartitionOffset(listop, 0, 0));
-            //}
-            using (IConsumer<string, byte[]> consumer = builder.Build())
+
+            using (IConsumer<Ignore, byte[]> consumer = builder.Build())
             {
-
                 consumer.Subscribe(topics);
-
-                while (!_running.IsCancellationRequested)
+                 
+                if (topicsOffest != null)
                 {
-                    try
+                    
+                    foreach (MQOffestInfo info in topicsOffest)
                     {
-                        ConsumeResult<string, byte[]> res = consumer.Consume(token);
+                        for (int i = 0; i < 50; i++)
+                        {
+                            try
+                            {
+                                Thread.Sleep(300);
+                                
+                                consumer.Seek(new TopicPartitionOffset(new TopicPartition(info.Key, info.Partition), info.Offest));
+                                break;
+                            }
+                            catch(Exception ex)
+                            {
+                                Debug.WriteLine(ex.Message);
+                                continue;
+                            }
+                        }
 
-                        CallBack(res.Message.Key, res.Topic, res.Message.Value);
-                        consumer.Commit(res);
                     }
-                    catch (Exception ex)
+                }
+                
+                try
+                {
+                    while (!_running.IsCancellationRequested)
                     {
-                        OnException(ex);
+                        try
+                        {
+                            ConsumeResult<Ignore, byte[]> res = consumer.Consume(token);
+                            
+                            CallBack(res.Topic, res.Topic, res.Message.Value,res.Partition,res.Offset);
+                            consumer.Commit(res);
+                        }
+                        catch (Exception ex)
+                        {
+                            OnException(ex);
+                        }
                     }
+                }
+                finally
+                {
+                    consumer.Close();
                 }
             }
         }

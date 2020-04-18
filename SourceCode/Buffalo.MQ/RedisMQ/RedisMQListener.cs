@@ -44,7 +44,7 @@ namespace Buffalo.MQ.RedisMQ
 
         private void OnRedisCallback(RedisChannel key, RedisValue value)
         {
-            CallBack(key.ToString(), key.ToString(), (byte[])value);
+            CallBack(key.ToString(), key.ToString(), (byte[])value,0,0);
         }
 
         public override void StartListend(IEnumerable<string> listenKeys)
@@ -57,7 +57,10 @@ namespace Buffalo.MQ.RedisMQ
                 _subscriber.Subscribe(lis, OnRedisCallback, _config.CommanfFlags);
             }
         }
-
+        public override void StartListend(IEnumerable<MQOffestInfo> listenKeys)
+        {
+            StartListend(MQUnit.GetLintenKeys(listenKeys));
+        }
         /// <summary>
         /// 关闭连接
         /// </summary>
@@ -75,6 +78,9 @@ namespace Buffalo.MQ.RedisMQ
         {
             Close();
         }
+
+        
+
         ~RedisMQListener()
         {
             Close();

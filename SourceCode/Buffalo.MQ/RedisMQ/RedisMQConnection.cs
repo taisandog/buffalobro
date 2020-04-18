@@ -78,7 +78,7 @@ namespace Buffalo.MQ.RedisMQ
         {
             RedisValue value = body;
 
-            _subscriber.Publish(routingKey, value, CommandFlags.None);
+            _subscriber.Publish(routingKey, value, _config.CommanfFlags);
 
 
             return ApiCommon.GetSuccess();

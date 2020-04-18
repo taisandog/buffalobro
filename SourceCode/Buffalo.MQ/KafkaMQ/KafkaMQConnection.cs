@@ -16,11 +16,13 @@ namespace Buffalo.MQ.KafkaMQ
 
         private KafkaMQConfig _config;
 
-        private IProducer<string, byte[]> _producer;
+        private IProducer<byte[], byte[]> _producer;
+
+        private static Encoding DefaultEncoding = Encoding.UTF8;
         /// <summary>
         /// 队列
         /// </summary>
-        private Queue<Task<DeliveryResult<string, byte[]>>> _queResault = null;
+        private Queue<Task<DeliveryResult<byte[], byte[]>>> _queResault = null;
         public override bool IsOpen
         {
             get
@@ -46,48 +48,17 @@ namespace Buffalo.MQ.KafkaMQ
         private void InitProducerConfig()
         {
             _producer = _config.ProducerBuilder.Build();
-            _queResault = new Queue<Task<DeliveryResult<string, byte[]>>>();
+            _queResault = new Queue<Task<DeliveryResult<byte[], byte[]>>>();
         }
-        /// <summary>
-        /// 读入基础配置
-        /// </summary>
-        /// <param name="config"></param>
-        /// <param name="hs"></param>
-        internal static void SetBaseConfig(ClientConfig config, Dictionary<string, string> hs)
-        {
-            
-            string server = hs.GetDicValue<string, string>("server");
-            if (!server.Contains(':'))
-            {
-                server += ":9092";
-            }
-            config.BootstrapServers = server;
 
-            string saslUsername = hs.GetDicValue<string, string>("sasluid");
-
-
-            if (!string.IsNullOrWhiteSpace(config.SaslUsername))
-            {
-                config.SaslUsername = saslUsername;
-                config.SaslPassword = hs.GetDicValue<string, string>("saslpwd");
-                config.SaslMechanism = (SaslMechanism)hs.GetDicValue<string, string>("saslMechanism").ConvertTo<int>(1);
-                config.SecurityProtocol = (SecurityProtocol)hs.GetDicValue<string, string>("securityProtocol").ConvertTo<int>(1);
-                config.SslCaLocation = hs.GetDicValue<string, string>("sslCaLocation");
-            }
-            else
-            {
-                config.SecurityProtocol = SecurityProtocol.Plaintext;
-            }
-            
-        }
         
         protected override APIResault SendMessage(string key, byte[] body)
         {
-            Message<string, byte[]> message = new Message<string, byte[]>();
-            message.Key = key;
+            Message<byte[], byte[]> message = new Message<byte[], byte[]>();
+            message.Key = DefaultEncoding.GetBytes(key);
             message.Value = body;
-
-            Task<DeliveryResult<string, byte[]>> delRes = _producer.ProduceAsync(key, message);
+           
+            Task<DeliveryResult<byte[], byte[]>> delRes = _producer.ProduceAsync(key, message);
             //DeliveryResult<string, byte[]> re = delRes.Result;
             //_producer.Produce(key, message);
             _queResault.Enqueue(delRes);
@@ -99,15 +70,15 @@ namespace Buffalo.MQ.KafkaMQ
         private void DoFlush()
         {
             _producer.Flush(new TimeSpan(2000));
-            Queue<Task<DeliveryResult<string, byte[]>>> curQueue = _queResault;
+            Queue<Task<DeliveryResult<byte[], byte[]>>> curQueue = _queResault;
             if (curQueue == null)
             {
                 return;
             }
             while (curQueue.Count > 0)
             {
-                Task<DeliveryResult<string, byte[]>> delRes = curQueue.Dequeue();
-                DeliveryResult<string, byte[]> re = delRes.Result;
+                Task<DeliveryResult<byte[], byte[]>> delRes = curQueue.Dequeue();
+                DeliveryResult<byte[], byte[]> re = delRes.Result;
             }
         }
 

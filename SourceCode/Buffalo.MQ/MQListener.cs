@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Buffalo.MQ
 {
-    public delegate void DelOnMQReceived(MQListener sender, string exchange, string routingKey, byte[] body);
+    public delegate void DelOnMQReceived(MQListener sender, string exchange, string routingKey, byte[] body, int partition, long offset);
 
     public delegate void DelOnMQException(MQListener sender, Exception ex);
 
@@ -26,6 +26,11 @@ namespace Buffalo.MQ
         /// </summary>
         /// <param name="listenKeys">监听键</param>
         public abstract void StartListend(IEnumerable<string> listenKeys);
+        /// <summary>
+        /// 打开事件监听
+        /// </summary>
+        /// <param name="listenKeys">监听键</param>
+        public abstract void StartListend(IEnumerable<MQOffestInfo> listenKeys);
 
         public abstract void Dispose();
 
@@ -34,18 +39,19 @@ namespace Buffalo.MQ
         /// </summary>
         public abstract void Close();
 
+       
         /// <summary>
         /// 监听信息后回调
         /// </summary>
-        protected void CallBack(string routingKey, string exchange, byte[] body)
+        protected void CallBack(string routingKey, string exchange, byte[] body, int partition, long offset)
         {
             if (OnMQReceived == null)
             {
                 return;
             }
-            OnMQReceived(this, exchange, routingKey, body);
+            OnMQReceived(this, exchange, routingKey, body, partition, offset);
         }
-
+        
         /// <summary>
         /// 监听信息后回调
         /// </summary>
