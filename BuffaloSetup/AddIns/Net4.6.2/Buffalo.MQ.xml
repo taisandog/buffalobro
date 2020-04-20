@@ -29,11 +29,6 @@
             管理员配置
             </summary>
         </member>
-        <member name="F:Buffalo.MQ.KafkaMQ.KafkaMQConfig.Topic">
-            <summary>
-            主题
-            </summary>
-        </member>
         <member name="F:Buffalo.MQ.KafkaMQ.KafkaMQConfig.KConsumerConfig">
             <summary>
             消费者配置
@@ -75,13 +70,6 @@
             <summary>
             初始化消费者配置
             </summary>
-        </member>
-        <member name="M:Buffalo.MQ.KafkaMQ.KafkaMQConnection.SetBaseConfig(Confluent.Kafka.ClientConfig,System.Collections.Generic.Dictionary{System.String,System.String})">
-            <summary>
-            读入基础配置
-            </summary>
-            <param name="config"></param>
-            <param name="hs"></param>
         </member>
         <member name="M:Buffalo.MQ.KafkaMQ.KafkaMQConnection.DoFlush">
             <summary>
@@ -297,12 +285,18 @@
             </summary>
             <param name="listenKeys">监听键</param>
         </member>
+        <member name="M:Buffalo.MQ.MQListener.StartListend(System.Collections.Generic.IEnumerable{Buffalo.MQ.MQOffestInfo})">
+            <summary>
+            打开事件监听
+            </summary>
+            <param name="listenKeys">监听键</param>
+        </member>
         <member name="M:Buffalo.MQ.MQListener.Close">
             <summary>
             关闭连接
             </summary>
         </member>
-        <member name="M:Buffalo.MQ.MQListener.CallBack(System.String,System.String,System.Byte[])">
+        <member name="M:Buffalo.MQ.MQListener.CallBack(System.String,System.String,System.Byte[],System.Int32,System.Int64)">
             <summary>
             监听信息后回调
             </summary>
@@ -310,6 +304,49 @@
         <member name="M:Buffalo.MQ.MQListener.OnException(System.Exception)">
             <summary>
             监听信息后回调
+            </summary>
+        </member>
+        <member name="T:Buffalo.MQ.MQOffestInfo">
+            <summary>
+            队列位置信息
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.MQOffestInfo.#ctor(System.String,System.Int32,System.Int64)">
+            <summary>
+            监听
+            </summary>
+            <param name="key">监听键</param>
+            <param name="partition">分区</param>
+            <param name="offset">位置</param>
+        </member>
+        <member name="F:Buffalo.MQ.MQOffestInfo._key">
+            <summary>
+            监听键
+            </summary>
+        </member>
+        <member name="P:Buffalo.MQ.MQOffestInfo.Key">
+            <summary>
+            监听键
+            </summary>
+        </member>
+        <member name="F:Buffalo.MQ.MQOffestInfo._partition">
+            <summary>
+            分区
+            </summary>
+        </member>
+        <member name="P:Buffalo.MQ.MQOffestInfo.Partition">
+            <summary>
+            分区
+            </summary>
+        </member>
+        <member name="F:Buffalo.MQ.MQOffestInfo._offest">
+            <summary>
+            位置
+            </summary>
+        </member>
+        <member name="P:Buffalo.MQ.MQOffestInfo.Offest">
+            <summary>
+            分区
             </summary>
         </member>
         <member name="T:Buffalo.MQ.MQTransaction">
@@ -367,7 +404,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.MQ.MQUnit.AddMQInfo(System.String,System.String,System.String)">
+        <member name="M:Buffalo.MQ.MQUnit.SetMQInfo(System.String,System.String,System.String)">
             <summary>
             添加队列信息
             </summary>
@@ -395,6 +432,20 @@
             </summary>
             <param name="mqType"></param>
             <param name="connectString"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.MQ.MQUnit.GetLintenKeys(System.Object)">
+            <summary>
+            获取监听信息
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.MQ.MQUnit.GetLintenOffest(System.Object)">
+            <summary>
+            获取监听信息
+            </summary>
+            <param name="args"></param>
             <returns></returns>
         </member>
         <member name="F:Buffalo.MQ.RabbitMQ.RabbitMQConfig.ExchangeMode">

@@ -29,11 +29,6 @@
             管理员配置
             </summary>
         </member>
-        <member name="F:Buffalo.MQ.KafkaMQ.KafkaMQConfig.Topic">
-            <summary>
-            主题
-            </summary>
-        </member>
         <member name="F:Buffalo.MQ.KafkaMQ.KafkaMQConfig.KConsumerConfig">
             <summary>
             消费者配置
@@ -367,7 +362,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.MQ.MQUnit.AddMQInfo(System.String,System.String,System.String)">
+        <member name="M:Buffalo.MQ.MQUnit.SetMQInfo(System.String,System.String,System.String)">
             <summary>
             添加队列信息
             </summary>
