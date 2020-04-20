@@ -178,7 +178,7 @@
             <param name="mode">指定如何从 System.Data.DataSet 写入 XML 数据和关系架构</param>
             <returns></returns>
         </member>
-        <!-- 对于成员“M:Buffalo.Kernel.CommonMethods.DataSetToXML(System.Data.DataSet)”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:Buffalo.Kernel.CommonMethods.DataSetToXML(System.Data.DataSet)" -->
         <member name="M:Buffalo.Kernel.CommonMethods.XMLToDataSet(System.String,System.Data.XmlReadMode)">
             <summary>
             XML字符串转成DataSet
@@ -402,54 +402,6 @@
             <param name="comparer">比较器</param>
             <returns></returns>
         </member>
-        <member name="T:Buffalo.Kernel.NestedLock">
-            <summary>
-            上下文作用域的巢状锁
-            </summary>
-        </member>
-        <member name="F:Buffalo.Kernel.NestedLock._currentLock">
-            <summary>
-            当前锁
-            </summary>
-        </member>
-        <member name="F:Buffalo.Kernel.NestedLock._lockObject">
-            <summary>
-            当前锁了的对象
-            </summary>
-        </member>
-        <member name="F:Buffalo.Kernel.NestedLock.ContextKey">
-            <summary>
-            在上下文中的Key
-            </summary>
-        </member>
-        <member name="M:Buffalo.Kernel.NestedLock.GetThreadContext">
-            <summary>
-            获取线程上下文集合
-            </summary>
-        </member>
-        <member name="M:Buffalo.Kernel.NestedLock.#ctor(System.Object)">
-            <summary>
-            线程级巢状锁(不超时)
-            </summary>
-            <param name="obj">要锁的对象</param>
-        </member>
-        <member name="M:Buffalo.Kernel.NestedLock.#ctor(System.Object,System.Int32)">
-            <summary>
-            线程级巢状锁
-            </summary>
-            <param name="obj">要锁的对象</param>
-            <param name="timeout">超时时间(小于等于0则不超时，一直等待)</param>
-        </member>
-        <member name="P:Buffalo.Kernel.NestedLock.HasLock">
-            <summary>
-            是否有锁
-            </summary>
-        </member>
-        <member name="M:Buffalo.Kernel.NestedLock.Dispose">
-            <summary>
-            释放对象
-            </summary>
-        </member>
         <member name="T:Buffalo.Kernel.ContextGetHandle">
             <summary>
             获取值的句柄
@@ -480,68 +432,6 @@
             <summary>
             当前线程上下文
             </summary>
-        </member>
-        <member name="F:Buffalo.Kernel.ContextValue._gethandle">
-            <summary>
-            获取的方法
-            </summary>
-        </member>
-        <member name="F:Buffalo.Kernel.ContextValue._sethandle">
-            <summary>
-            设置的方法
-            </summary>
-        </member>
-        <member name="F:Buffalo.Kernel.ContextValue._deletehandle">
-            <summary>
-            设置的方法
-            </summary>
-        </member>
-        <member name="M:Buffalo.Kernel.ContextValue.#ctor">
-            <summary>
-            本线程上下文
-            </summary>
-        </member>
-        <member name="M:Buffalo.Kernel.ContextValue.WebGetValue(System.String)">
-            <summary>
-            Web形式获取值
-            </summary>
-            <param name="key"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Kernel.ContextValue.WebSetValue(System.String,System.Object)">
-            <summary>
-            Web形式设置值
-            </summary>
-            <param name="key"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Kernel.ContextValue.WebDeleteValue(System.String)">
-            <summary>
-            Web形式删除值
-            </summary>
-            <param name="key"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Kernel.ContextValue.AppGetValue(System.String)">
-            <summary>
-            Win程序形式获取值
-            </summary>
-            <param name="key"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Kernel.ContextValue.AppSetValue(System.String,System.Object)">
-            <summary>
-            Win程序形式设置值
-            </summary>
-            <param name="key"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Kernel.ContextValue.AppDeleteValue(System.String)">
-            <summary>
-            Win程序形式删除值
-            </summary>
-            <param name="key"></param>
-            <returns></returns>
         </member>
         <member name="P:Buffalo.Kernel.ContextValue.Item(System.String)">
             <summary>
@@ -1297,6 +1187,14 @@
             <param name="type">类型</param>
             <returns></returns>
         </member>
+        <member name="M:Buffalo.Kernel.FastReflection.FastValueGetSet.GetPropertyInfoHandleWithOutCache(System.Reflection.PropertyInfo)">
+            <summary>
+            获取属性的信息(不使用缓存)
+            </summary>
+            <param name="proName">属性名</param>
+            <param name="type">类型</param>
+            <returns></returns>
+        </member>
         <member name="M:Buffalo.Kernel.FastReflection.FastValueGetSet.GetPropertyInfoHandleWithOutCache(System.String,System.Type)">
             <summary>
             获取属性的信息(不使用缓存)
@@ -1574,6 +1472,62 @@
         <member name="P:Buffalo.Kernel.Lock.IsTimeout">
             <summary>
             获取在获取锁时是否发生等待超时
+            </summary>
+        </member>
+        <member name="T:Buffalo.Kernel.LockObjects`1">
+            <summary>
+            为某个值提供锁对象的管理器
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="F:Buffalo.Kernel.LockObjects`1._lastClean">
+            <summary>
+            最后清理时间
+            </summary>
+        </member>
+        <member name="F:Buffalo.Kernel.LockObjects`1.CleanSeconds">
+            <summary>
+            清理间隔(秒)
+            </summary>
+        </member>
+        <member name="M:Buffalo.Kernel.LockObjects`1.#ctor">
+            <summary>
+            内存锁定记录
+            </summary>
+            <param name="timeoutMillisecond">超时时间(毫秒数)</param>
+        </member>
+        <member name="M:Buffalo.Kernel.LockObjects`1.GetObject(`0)">
+            <summary>
+            获取要锁的对象
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Kernel.LockObjects`1.ClearTimeout(System.DateTime)">
+            <summary>
+            清除超时
+            </summary>
+        </member>
+        <member name="M:Buffalo.Kernel.LockObjects`1.DeleteObject(`0)">
+            <summary>
+            释放对象
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Buffalo.Kernel.LockItem`1">
+            <summary>
+            要锁的项
+            </summary>
+        </member>
+        <member name="F:Buffalo.Kernel.LockItem`1.LockObject">
+            <summary>
+            要锁的类
+            </summary>
+        </member>
+        <member name="F:Buffalo.Kernel.LockItem`1.LastTime">
+            <summary>
+            最后访问时间
             </summary>
         </member>
         <member name="T:Buffalo.Kernel.MassBase`1">

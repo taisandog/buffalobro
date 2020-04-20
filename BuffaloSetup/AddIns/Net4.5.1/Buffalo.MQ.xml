@@ -296,6 +296,31 @@
             关闭连接
             </summary>
         </member>
+        <member name="F:Buffalo.MQ.MQListener._startHandle">
+            <summary>
+            开启监听的句柄
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.MQListener.WaitStart(System.Int32)">
+            <summary>
+            等待监听开始
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.MQListener.ResetWait">
+            <summary>
+            重置等待
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.MQListener.SetWait">
+            <summary>
+            放行阻塞
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.MQListener.DisponseWait">
+            <summary>
+            清空阻塞
+            </summary>
+        </member>
         <member name="M:Buffalo.MQ.MQListener.CallBack(System.String,System.String,System.Byte[],System.Int32,System.Int64)">
             <summary>
             监听信息后回调

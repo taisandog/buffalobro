@@ -4,16 +4,16 @@
         <name>Buffalo.Kernel</name>
     </assembly>
     <members>
+        <member name="P:Buffalo.Kernel.CharCollectionEnumerator.CurIndex">
+            <summary>
+            当前索引
+            </summary>
+        </member>
         <member name="M:Buffalo.Kernel.CharCollectionEnumerator.#ctor(System.String)">
             <summary>
             字符集合的枚举器
             </summary>
             <param name="chrs"></param>
-        </member>
-        <member name="P:Buffalo.Kernel.CharCollectionEnumerator.CurIndex">
-            <summary>
-            当前索引
-            </summary>
         </member>
         <member name="P:Buffalo.Kernel.CharCollectionEnumerator.CurrentChar">
             <summary>
@@ -108,6 +108,11 @@
             <param name="pattern">通配符，允许使用的通配符：?，*，其中? 代表任意一个字符，* 代表零或多个任意字符</param>
             <returns></returns>
         </member>
+        <member name="P:Buffalo.Kernel.CommonMethods.IsWebContext">
+            <summary>
+            检测是否Web程序
+            </summary>
+        </member>
         <member name="M:Buffalo.Kernel.CommonMethods.GetBaseRoot">
             <summary>
             获取应用程序的基目录
@@ -173,7 +178,7 @@
             <param name="mode">指定如何从 System.Data.DataSet 写入 XML 数据和关系架构</param>
             <returns></returns>
         </member>
-        <!-- 对于成员“M:Buffalo.Kernel.CommonMethods.DataSetToXML(System.Data.DataSet)”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:Buffalo.Kernel.CommonMethods.DataSetToXML(System.Data.DataSet)" -->
         <member name="M:Buffalo.Kernel.CommonMethods.XMLToDataSet(System.String,System.Data.XmlReadMode)">
             <summary>
             XML字符串转成DataSet
@@ -376,11 +381,6 @@
             <param name="str">字符串</param>
             <returns></returns>
         </member>
-        <member name="P:Buffalo.Kernel.CommonMethods.IsWebContext">
-            <summary>
-            检测是否Web程序
-            </summary>
-        </member>
         <member name="T:Buffalo.Kernel.ConnStringFilter">
             <summary>
             连接字符串处理类
@@ -433,66 +433,11 @@
             当前线程上下文
             </summary>
         </member>
-        <member name="F:Buffalo.Kernel.ContextValue._gethandle">
+        <member name="P:Buffalo.Kernel.ContextValue.Item(System.String)">
             <summary>
-            获取的方法
+            上下文值
             </summary>
-        </member>
-        <member name="F:Buffalo.Kernel.ContextValue._sethandle">
-            <summary>
-            设置的方法
-            </summary>
-        </member>
-        <member name="F:Buffalo.Kernel.ContextValue._deletehandle">
-            <summary>
-            设置的方法
-            </summary>
-        </member>
-        <member name="M:Buffalo.Kernel.ContextValue.#ctor">
-            <summary>
-            本线程上下文
-            </summary>
-        </member>
-        <member name="M:Buffalo.Kernel.ContextValue.WebGetValue(System.String)">
-            <summary>
-            Web形式获取值
-            </summary>
-            <param name="key"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Kernel.ContextValue.WebSetValue(System.String,System.Object)">
-            <summary>
-            Web形式设置值
-            </summary>
-            <param name="key"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Kernel.ContextValue.WebDeleteValue(System.String)">
-            <summary>
-            Web形式删除值
-            </summary>
-            <param name="key"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Kernel.ContextValue.AppGetValue(System.String)">
-            <summary>
-            Win程序形式获取值
-            </summary>
-            <param name="key"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Kernel.ContextValue.AppSetValue(System.String,System.Object)">
-            <summary>
-            Win程序形式设置值
-            </summary>
-            <param name="key"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Kernel.ContextValue.AppDeleteValue(System.String)">
-            <summary>
-            Win程序形式删除值
-            </summary>
-            <param name="key"></param>
+            <param name="key">获取值的键</param>
             <returns></returns>
         </member>
         <member name="M:Buffalo.Kernel.ContextValue.DeleteValue(System.String)">
@@ -501,12 +446,10 @@
             </summary>
             <param name="key"></param>
         </member>
-        <member name="P:Buffalo.Kernel.ContextValue.Item(System.String)">
+        <member name="P:Buffalo.Kernel.CSVReader.IsEnd">
             <summary>
-            上下文值
+            是否已经读完
             </summary>
-            <param name="key">获取值的键</param>
-            <returns></returns>
         </member>
         <member name="M:Buffalo.Kernel.CSVReader.ReaderRow">
             <summary>
@@ -519,11 +462,6 @@
             读取值
             </summary>
             <returns></returns>
-        </member>
-        <member name="P:Buffalo.Kernel.CSVReader.IsEnd">
-            <summary>
-            是否已经读完
-            </summary>
         </member>
         <member name="M:Buffalo.Kernel.Defaults.DefaultType.GetCSharpVariableType(System.Data.DbType)">
             <summary>
@@ -747,13 +685,6 @@
             数据的默认值
             </summary>
         </member>
-        <member name="M:Buffalo.Kernel.EnumInfo.FindCustomerAttribute``1">
-            <summary>
-            查找其他标签
-            </summary>
-            <typeparam name="T"></typeparam>
-            <returns></returns>
-        </member>
         <member name="P:Buffalo.Kernel.EnumInfo.Value">
             <summary>
             值
@@ -778,6 +709,13 @@
             <summary>
             其他标签
             </summary>
+        </member>
+        <member name="M:Buffalo.Kernel.EnumInfo.FindCustomerAttribute``1">
+            <summary>
+            查找其他标签
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
         </member>
         <member name="T:Buffalo.Kernel.EnumUnit">
             <summary>
@@ -856,6 +794,11 @@
             程序集的类型加载器
             </summary>
         </member>
+        <member name="P:Buffalo.Kernel.FastReflection.AssemblyTypeLoader.Default">
+            <summary>
+            默认全部程序集的类型加载器
+            </summary>
+        </member>
         <member name="M:Buffalo.Kernel.FastReflection.AssemblyTypeLoader.#ctor(System.String[])">
             <summary>
             程序集的类型加载器
@@ -894,11 +837,6 @@
             获取加载的程序集中所有的类型
             </summary>
             <returns></returns>
-        </member>
-        <member name="P:Buffalo.Kernel.FastReflection.AssemblyTypeLoader.Default">
-            <summary>
-            默认全部程序集的类型加载器
-            </summary>
         </member>
         <member name="T:Buffalo.Kernel.FastReflection.ClassInfos.ClassPropertyEnumerator">
             <summary>
@@ -942,12 +880,6 @@
             <param name="propertyInfoHandles">属性集合</param>
             <param name="fieldInfoHandles">字段集合</param>
         </member>
-        <member name="M:Buffalo.Kernel.FastReflection.ClassInfos.ClassInfoHandle.CreateInstance">
-            <summary>
-            返回此类型的实例
-            </summary>
-            <returns></returns>
-        </member>
         <member name="P:Buffalo.Kernel.FastReflection.ClassInfos.ClassInfoHandle.ClassType">
             <summary>
             本类的类型
@@ -962,6 +894,12 @@
             <summary>
             获取字段的信息
             </summary>
+        </member>
+        <member name="M:Buffalo.Kernel.FastReflection.ClassInfos.ClassInfoHandle.CreateInstance">
+            <summary>
+            返回此类型的实例
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:Buffalo.Kernel.FastReflection.ClassInfos.ClassInfoManager">
             <summary>
@@ -1018,6 +956,11 @@
             远程程序集
             </summary>
         </member>
+        <member name="P:Buffalo.Kernel.FastReflection.ClassInfos.ProxyAssembly.Assembly">
+            <summary>
+            关联的程序集信息
+            </summary>
+        </member>
         <member name="M:Buffalo.Kernel.FastReflection.ClassInfos.ProxyAssembly.#ctor(System.String)">
             <summary>
             加载文件
@@ -1037,11 +980,6 @@
             <param name="typeName">类型名</param>
             <param name="args">构造函数参数</param>
             <returns></returns>
-        </member>
-        <member name="P:Buffalo.Kernel.FastReflection.ClassInfos.ProxyAssembly.Assembly">
-            <summary>
-            关联的程序集信息
-            </summary>
         </member>
         <member name="M:Buffalo.Kernel.FastReflection.ClassInfos.ProxyObject.#ctor(System.String,System.String,System.String,System.Object[])">
             <summary>
@@ -1249,6 +1187,14 @@
             <param name="type">类型</param>
             <returns></returns>
         </member>
+        <member name="M:Buffalo.Kernel.FastReflection.FastValueGetSet.GetPropertyInfoHandleWithOutCache(System.Reflection.PropertyInfo)">
+            <summary>
+            获取属性的信息(不使用缓存)
+            </summary>
+            <param name="proName">属性名</param>
+            <param name="type">类型</param>
+            <returns></returns>
+        </member>
         <member name="M:Buffalo.Kernel.FastReflection.FastValueGetSet.GetPropertyInfoHandleWithOutCache(System.String,System.Type)">
             <summary>
             获取属性的信息(不使用缓存)
@@ -1361,36 +1307,6 @@
             加载真正的数据类型
             </summary>
         </member>
-        <member name="M:Buffalo.Kernel.FastReflection.FieldInfoHandle.SetValue(System.Object,System.Object)">
-            <summary>
-            给对象设置值
-            </summary>
-            <param name="args">对象</param>
-            <param name="value">值</param>
-        </member>
-        <member name="M:Buffalo.Kernel.FastReflection.FieldInfoHandle.GetValue(System.Object)">
-            <summary>
-            获取对象值
-            </summary>
-            <param name="args">对象</param>
-            <param name="value">值</param>
-        </member>
-        <member name="M:Buffalo.Kernel.FastReflection.FieldInfoHandle.GetFieldInfos(System.Type,System.Reflection.BindingFlags,System.Boolean)">
-            <summary>
-            获取字段集合
-            </summary>
-            <param name="objType">类型</param>
-            <param name="inner">是否</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Kernel.FastReflection.FieldInfoHandle.FillFieldInfos(System.Type,System.Reflection.BindingFlags,System.Collections.Generic.List{Buffalo.Kernel.FastReflection.FieldInfoHandle},System.Collections.Generic.Dictionary{System.String,System.Boolean})">
-            <summary>
-            填充值
-            </summary>
-            <param name="objType"></param>
-            <param name="flags"></param>
-            <param name="fillBase"></param>
-        </member>
         <member name="P:Buffalo.Kernel.FastReflection.FieldInfoHandle.BelongFieldInfo">
             <summary>
             所属的字段反射信息
@@ -1426,6 +1342,20 @@
             获取属性的名字
             </summary>
         </member>
+        <member name="M:Buffalo.Kernel.FastReflection.FieldInfoHandle.SetValue(System.Object,System.Object)">
+            <summary>
+            给对象设置值
+            </summary>
+            <param name="args">对象</param>
+            <param name="value">值</param>
+        </member>
+        <member name="M:Buffalo.Kernel.FastReflection.FieldInfoHandle.GetValue(System.Object)">
+            <summary>
+            获取对象值
+            </summary>
+            <param name="args">对象</param>
+            <param name="value">值</param>
+        </member>
         <member name="P:Buffalo.Kernel.FastReflection.FieldInfoHandle.HasGetHandle">
             <summary>
             是否有Get方法
@@ -1435,6 +1365,22 @@
             <summary>
             是否有Set方法
             </summary>
+        </member>
+        <member name="M:Buffalo.Kernel.FastReflection.FieldInfoHandle.GetFieldInfos(System.Type,System.Reflection.BindingFlags,System.Boolean)">
+            <summary>
+            获取字段集合
+            </summary>
+            <param name="objType">类型</param>
+            <param name="inner">是否</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Kernel.FastReflection.FieldInfoHandle.FillFieldInfos(System.Type,System.Reflection.BindingFlags,System.Collections.Generic.List{Buffalo.Kernel.FastReflection.FieldInfoHandle},System.Collections.Generic.Dictionary{System.String,System.Boolean})">
+            <summary>
+            填充值
+            </summary>
+            <param name="objType"></param>
+            <param name="flags"></param>
+            <param name="fillBase"></param>
         </member>
         <member name="T:Buffalo.Kernel.FastReflection.PropertyInfoHandle">
             <summary>
@@ -1448,19 +1394,6 @@
             <param name="getHandle">get委托</param>
             <param name="setHandle">set委托</param>
             <param name="propertyType">属性数据类型</param>
-        </member>
-        <member name="M:Buffalo.Kernel.FastReflection.PropertyInfoHandle.SetValue(System.Object,System.Object)">
-            <summary>
-            给对象设置值
-            </summary>
-            <param name="args">对象</param>
-            <param name="value">值</param>
-        </member>
-        <member name="M:Buffalo.Kernel.FastReflection.PropertyInfoHandle.GetValue(System.Object)">
-            <summary>
-            获取对象值
-            </summary>
-            <param name="args">对象</param>
         </member>
         <member name="P:Buffalo.Kernel.FastReflection.PropertyInfoHandle.Belong">
             <summary>
@@ -1476,6 +1409,19 @@
             <summary>
             获取属性的名字
             </summary>
+        </member>
+        <member name="M:Buffalo.Kernel.FastReflection.PropertyInfoHandle.SetValue(System.Object,System.Object)">
+            <summary>
+            给对象设置值
+            </summary>
+            <param name="args">对象</param>
+            <param name="value">值</param>
+        </member>
+        <member name="M:Buffalo.Kernel.FastReflection.PropertyInfoHandle.GetValue(System.Object)">
+            <summary>
+            获取对象值
+            </summary>
+            <param name="args">对象</param>
         </member>
         <member name="P:Buffalo.Kernel.FastReflection.PropertyInfoHandle.HasGetHandle">
             <summary>
@@ -1526,6 +1472,62 @@
         <member name="P:Buffalo.Kernel.Lock.IsTimeout">
             <summary>
             获取在获取锁时是否发生等待超时
+            </summary>
+        </member>
+        <member name="T:Buffalo.Kernel.LockObjects`1">
+            <summary>
+            为某个值提供锁对象的管理器
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="F:Buffalo.Kernel.LockObjects`1._lastClean">
+            <summary>
+            最后清理时间
+            </summary>
+        </member>
+        <member name="F:Buffalo.Kernel.LockObjects`1.CleanSeconds">
+            <summary>
+            清理间隔(秒)
+            </summary>
+        </member>
+        <member name="M:Buffalo.Kernel.LockObjects`1.#ctor">
+            <summary>
+            内存锁定记录
+            </summary>
+            <param name="timeoutMillisecond">超时时间(毫秒数)</param>
+        </member>
+        <member name="M:Buffalo.Kernel.LockObjects`1.GetObject(`0)">
+            <summary>
+            获取要锁的对象
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Kernel.LockObjects`1.ClearTimeout(System.DateTime)">
+            <summary>
+            清除超时
+            </summary>
+        </member>
+        <member name="M:Buffalo.Kernel.LockObjects`1.DeleteObject(`0)">
+            <summary>
+            释放对象
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Buffalo.Kernel.LockItem`1">
+            <summary>
+            要锁的项
+            </summary>
+        </member>
+        <member name="F:Buffalo.Kernel.LockItem`1.LockObject">
+            <summary>
+            要锁的类
+            </summary>
+        </member>
+        <member name="F:Buffalo.Kernel.LockItem`1.LastTime">
+            <summary>
+            最后访问时间
             </summary>
         </member>
         <member name="T:Buffalo.Kernel.MassBase`1">
@@ -1839,6 +1841,51 @@
             <param name="stmImg">图片流</param>
             <param name="root">保存路径</param>
         </member>
+        <member name="P:Buffalo.Kernel.Commons.PropertyType.IntValue">
+            <summary>
+            整型值
+            </summary>
+        </member>
+        <member name="P:Buffalo.Kernel.Commons.PropertyType.CharValue">
+            <summary>
+            字符型
+            </summary>
+        </member>
+        <member name="P:Buffalo.Kernel.Commons.PropertyType.DoubleValue">
+            <summary>
+            双精度型
+            </summary>
+        </member>
+        <member name="P:Buffalo.Kernel.Commons.PropertyType.ShortValue">
+            <summary>
+            短整型
+            </summary>
+        </member>
+        <member name="P:Buffalo.Kernel.Commons.PropertyType.LongValue">
+            <summary>
+            长整型
+            </summary>
+        </member>
+        <member name="P:Buffalo.Kernel.Commons.PropertyType.FloatValue">
+            <summary>
+            浮点型
+            </summary>
+        </member>
+        <member name="P:Buffalo.Kernel.Commons.PropertyType.ULongValue">
+            <summary>
+            无符号长整型
+            </summary>
+        </member>
+        <member name="P:Buffalo.Kernel.Commons.PropertyType.UIntValue">
+            <summary>
+            无符号整型值
+            </summary>
+        </member>
+        <member name="P:Buffalo.Kernel.Commons.PropertyType.UShortValue">
+            <summary>
+            无符号短整型
+            </summary>
+        </member>
         <member name="M:Buffalo.Kernel.Commons.PropertyType.GetForLen(System.Byte[])">
             <summary>
             获取循环的长度
@@ -2061,51 +2108,6 @@
             返回一个布尔型，指示是否含有指定值
             </summary>
             <param name="value"></param>
-        </member>
-        <member name="P:Buffalo.Kernel.Commons.PropertyType.IntValue">
-            <summary>
-            整型值
-            </summary>
-        </member>
-        <member name="P:Buffalo.Kernel.Commons.PropertyType.CharValue">
-            <summary>
-            字符型
-            </summary>
-        </member>
-        <member name="P:Buffalo.Kernel.Commons.PropertyType.DoubleValue">
-            <summary>
-            双精度型
-            </summary>
-        </member>
-        <member name="P:Buffalo.Kernel.Commons.PropertyType.ShortValue">
-            <summary>
-            短整型
-            </summary>
-        </member>
-        <member name="P:Buffalo.Kernel.Commons.PropertyType.LongValue">
-            <summary>
-            长整型
-            </summary>
-        </member>
-        <member name="P:Buffalo.Kernel.Commons.PropertyType.FloatValue">
-            <summary>
-            浮点型
-            </summary>
-        </member>
-        <member name="P:Buffalo.Kernel.Commons.PropertyType.ULongValue">
-            <summary>
-            无符号长整型
-            </summary>
-        </member>
-        <member name="P:Buffalo.Kernel.Commons.PropertyType.UIntValue">
-            <summary>
-            无符号整型值
-            </summary>
-        </member>
-        <member name="P:Buffalo.Kernel.Commons.PropertyType.UShortValue">
-            <summary>
-            无符号短整型
-            </summary>
         </member>
         <member name="T:ValueConvertExtend">
             <summary>

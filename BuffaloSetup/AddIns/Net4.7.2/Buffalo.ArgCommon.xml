@@ -111,6 +111,12 @@
             获取值
             </summary>
         </member>
+        <member name="M:Buffalo.ArgCommon.APIResault.ToJson(Newtonsoft.Json.Formatting)">
+            <summary>
+            序列化成Json
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Buffalo.ArgCommon.APIResault.ToJson">
             <summary>
             序列化成Json

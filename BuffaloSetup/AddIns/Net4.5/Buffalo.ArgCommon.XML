@@ -40,7 +40,7 @@
             <param name="data"></param>
             <returns></returns>
         </member>
-        <!-- 对于成员“M:Buffalo.ArgCommon.ApiCommon.GetTimeout(System.String)”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:Buffalo.ArgCommon.ApiCommon.GetTimeout(System.String)" -->
         <member name="M:Buffalo.ArgCommon.ApiCommon.XmlToDictionary``1(System.Xml.XmlDocument)">
             <summary>
             XML转成字典
@@ -68,6 +68,26 @@
             API返回值
             </summary>
         </member>
+        <member name="P:Buffalo.ArgCommon.APIResault.Message">
+            <summary>
+            信息
+            </summary>
+        </member>
+        <member name="P:Buffalo.ArgCommon.APIResault.Resault">
+            <summary>
+            信息
+            </summary>
+        </member>
+        <member name="P:Buffalo.ArgCommon.APIResault.IsSuccess">
+            <summary>
+            调用是否成功
+            </summary>
+        </member>
+        <member name="P:Buffalo.ArgCommon.APIResault.ApiException">
+            <summary>
+            异常
+            </summary>
+        </member>
         <member name="M:Buffalo.ArgCommon.APIResault.GetValue``1">
             <summary>
             获取值[Data]
@@ -90,6 +110,12 @@
             <summary>
             获取值
             </summary>
+        </member>
+        <member name="M:Buffalo.ArgCommon.APIResault.ToJson(Newtonsoft.Json.Formatting)">
+            <summary>
+            序列化成Json
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:Buffalo.ArgCommon.APIResault.ToJson">
             <summary>
@@ -115,6 +141,14 @@
             只显示Data某些属性序列化成Json
             </summary>
             <param name="ignore">只显示属性集合</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.ArgCommon.APIResault.ParseJson(System.Collections.Generic.IEnumerable{System.String},Buffalo.ArgCommon.JsonParseType)">
+            <summary>
+            转换成Json
+            </summary>
+            <param name="propertys">属性集合</param>
+            <param name="type">显示或屏蔽这些属性</param>
             <returns></returns>
         </member>
         <member name="M:Buffalo.ArgCommon.APIResault.SetSuccess(System.String,System.Object)">
@@ -150,29 +184,29 @@
             </summary>
             <param name="json">json</param>
         </member>
-        <member name="P:Buffalo.ArgCommon.APIResault.Message">
+        <member name="T:Buffalo.ArgCommon.JsonParseType">
             <summary>
-            信息
+            Json转换开关
             </summary>
         </member>
-        <member name="P:Buffalo.ArgCommon.APIResault.Resault">
+        <member name="F:Buffalo.ArgCommon.JsonParseType.Show">
             <summary>
-            信息
+            显示列表中的属性
             </summary>
         </member>
-        <member name="P:Buffalo.ArgCommon.APIResault.IsSuccess">
+        <member name="F:Buffalo.ArgCommon.JsonParseType.Ignore">
             <summary>
-            调用是否成功
-            </summary>
-        </member>
-        <member name="P:Buffalo.ArgCommon.APIResault.ApiException">
-            <summary>
-            异常
+            跳过列表中的属性
             </summary>
         </member>
         <member name="T:Buffalo.ArgCommon.ArgValues">
             <summary>
             参数信息
+            </summary>
+        </member>
+        <member name="P:Buffalo.ArgCommon.ArgValues.Token">
+            <summary>
+            会话码
             </summary>
         </member>
         <member name="M:Buffalo.ArgCommon.ArgValues.GetObject(System.String)">
@@ -199,11 +233,6 @@
             获取信息
             </summary>
             <returns></returns>
-        </member>
-        <member name="P:Buffalo.ArgCommon.ArgValues.Token">
-            <summary>
-            会话码
-            </summary>
         </member>
         <member name="M:Buffalo.ArgCommon.ExcludePropertiesContractResolver.#ctor(System.Collections.Generic.IEnumerable{System.String},System.Boolean)">
             <summary>

@@ -40,7 +40,7 @@
             <param name="data"></param>
             <returns></returns>
         </member>
-        <!-- 对于成员“M:Buffalo.ArgCommon.ApiCommon.GetTimeout(System.String)”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:Buffalo.ArgCommon.ApiCommon.GetTimeout(System.String)" -->
         <member name="M:Buffalo.ArgCommon.ApiCommon.XmlToDictionary``1(System.Xml.XmlDocument)">
             <summary>
             XML转成字典
@@ -111,6 +111,12 @@
             获取值
             </summary>
         </member>
+        <member name="M:Buffalo.ArgCommon.APIResault.ToJson(Newtonsoft.Json.Formatting)">
+            <summary>
+            序列化成Json
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Buffalo.ArgCommon.APIResault.ToJson">
             <summary>
             序列化成Json
@@ -135,6 +141,14 @@
             只显示Data某些属性序列化成Json
             </summary>
             <param name="ignore">只显示属性集合</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.ArgCommon.APIResault.ParseJson(System.Collections.Generic.IEnumerable{System.String},Buffalo.ArgCommon.JsonParseType)">
+            <summary>
+            转换成Json
+            </summary>
+            <param name="propertys">属性集合</param>
+            <param name="type">显示或屏蔽这些属性</param>
             <returns></returns>
         </member>
         <member name="M:Buffalo.ArgCommon.APIResault.SetSuccess(System.String,System.Object)">
@@ -169,6 +183,21 @@
             设置json
             </summary>
             <param name="json">json</param>
+        </member>
+        <member name="T:Buffalo.ArgCommon.JsonParseType">
+            <summary>
+            Json转换开关
+            </summary>
+        </member>
+        <member name="F:Buffalo.ArgCommon.JsonParseType.Show">
+            <summary>
+            显示列表中的属性
+            </summary>
+        </member>
+        <member name="F:Buffalo.ArgCommon.JsonParseType.Ignore">
+            <summary>
+            跳过列表中的属性
+            </summary>
         </member>
         <member name="T:Buffalo.ArgCommon.ArgValues">
             <summary>
