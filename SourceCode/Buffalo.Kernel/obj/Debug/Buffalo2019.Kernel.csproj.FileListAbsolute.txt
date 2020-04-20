@@ -5,6 +5,7 @@ E:\CSharpTest\GitProjects\Buffalo\SourceCode\Buffalo.Kernel\obj\Debug\Buffalo201
 E:\CSharpTest\GitProjects\Buffalo\SourceCode\Buffalo.Kernel\obj\Debug\Buffalo2019.Kernel.csproj.CopyComplete
 E:\CSharpTest\GitProjects\Buffalo\SourceCode\Buffalo.Kernel\obj\Debug\Buffalo.Kernel.dll
 E:\CSharpTest\GitProjects\Buffalo\SourceCode\Buffalo.Kernel\obj\Debug\Buffalo.Kernel.pdb
+E:\CSharpTest\GitProjects\Buffalo\SourceCode\Buffalo.Kernel\obj\Debug\Buffalo2019.Kernel.csprojAssemblyReference.cache
 D:\workspace\GitProjects\Buffalo\SourceCode\Debug\2017\Buffalo.Kernel.XML
 D:\workspace\GitProjects\Buffalo\SourceCode\Debug\2017\Buffalo.Kernel.dll
 D:\workspace\GitProjects\Buffalo\SourceCode\Debug\2017\Buffalo.Kernel.pdb
@@ -12,5 +13,4 @@ D:\workspace\GitProjects\Buffalo\SourceCode\Buffalo.Kernel\obj\Debug\Buffalo2019
 D:\workspace\GitProjects\Buffalo\SourceCode\Buffalo.Kernel\obj\Debug\Buffalo2019.Kernel.csproj.CopyComplete
 D:\workspace\GitProjects\Buffalo\SourceCode\Buffalo.Kernel\obj\Debug\Buffalo.Kernel.dll
 D:\workspace\GitProjects\Buffalo\SourceCode\Buffalo.Kernel\obj\Debug\Buffalo.Kernel.pdb
-E:\CSharpTest\GitProjects\Buffalo\SourceCode\Buffalo.Kernel\obj\Debug\Buffalo2019.Kernel.csprojAssemblyReference.cache
 D:\workspace\GitProjects\Buffalo\SourceCode\Buffalo.Kernel\obj\Debug\Buffalo2019.Kernel.csprojAssemblyReference.cache

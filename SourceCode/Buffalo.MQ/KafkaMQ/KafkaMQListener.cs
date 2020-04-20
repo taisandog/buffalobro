@@ -22,6 +22,7 @@ namespace Buffalo.MQ.KafkaMQ
         {
             _running = new CancellationTokenSource();
             _handle = new AutoResetEvent(true);
+            ResetWait();
             _thd = new Thread(new ParameterizedThreadStart(OnListend));
             
             _thd.Start(listenKeys);
@@ -30,8 +31,9 @@ namespace Buffalo.MQ.KafkaMQ
         {
             _running = new CancellationTokenSource();
             _handle = new AutoResetEvent(true);
+            ResetWait();
             _thd = new Thread(new ParameterizedThreadStart(OnListend));
-
+            
             _thd.Start(listenKeys);
         }
         
@@ -68,16 +70,17 @@ namespace Buffalo.MQ.KafkaMQ
                         {
                             try
                             {
-                                Thread.Sleep(300);
+                                
                                 
                                 consumer.Seek(new TopicPartitionOffset(new TopicPartition(info.Key, info.Partition), info.Offest));
                                 break;
                             }
                             catch(Exception ex)
                             {
-                                Debug.WriteLine(ex.Message);
+                                Thread.Sleep(300);
                                 continue;
                             }
+                            
                         }
 
                     }
@@ -85,6 +88,7 @@ namespace Buffalo.MQ.KafkaMQ
                 
                 try
                 {
+                    SetWait();
                     while (!_running.IsCancellationRequested)
                     {
                         try
@@ -137,6 +141,7 @@ namespace Buffalo.MQ.KafkaMQ
                 }
             }
             _handle = null;
+            DisponseWait();
         }
 
         public override void Dispose()

@@ -49,6 +49,7 @@ namespace Buffalo.MQ.RedisMQ
 
         public override void StartListend(IEnumerable<string> listenKeys)
         {
+            ResetWait();
             Open();
 
             _subscriber = _redis.GetSubscriber();
@@ -56,6 +57,7 @@ namespace Buffalo.MQ.RedisMQ
             {
                 _subscriber.Subscribe(lis, OnRedisCallback, _config.CommanfFlags);
             }
+            SetWait();
         }
         public override void StartListend(IEnumerable<MQOffestInfo> listenKeys)
         {
@@ -72,6 +74,7 @@ namespace Buffalo.MQ.RedisMQ
                 _redis.Dispose();
                 _redis = null;
             }
+            DisponseWait();
         }
 
         public override void Dispose()

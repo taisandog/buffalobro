@@ -38,7 +38,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\Debug\2017\Oracle11\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NET_4_6_2;X86;Ora11</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NET_4_7_2</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\Debug\2017\Oracle11\Buffalo.Data.Oracle.xml</DocumentationFile>

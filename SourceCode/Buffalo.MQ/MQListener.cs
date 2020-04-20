@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Buffalo.MQ
@@ -39,7 +40,47 @@ namespace Buffalo.MQ
         /// </summary>
         public abstract void Close();
 
-       
+        /// <summary>
+        /// 开启监听的句柄
+        /// </summary>
+        private AutoResetEvent _startHandle = null;
+        /// <summary>
+        /// 等待监听开始
+        /// </summary>
+        public bool WaitStart(int millisecondsTimeout=2000)
+        {
+            if (_startHandle==null)
+            {
+                return true;
+            }
+            return _startHandle.WaitOne(millisecondsTimeout);
+        }
+        /// <summary>
+        /// 重置等待
+        /// </summary>
+        protected void ResetWait()
+        {
+            _startHandle = new AutoResetEvent(true);
+            _startHandle.Reset();
+        }
+        /// <summary>
+        /// 放行阻塞
+        /// </summary>
+        protected void SetWait()
+        {
+            _startHandle.Set();
+        }
+        /// <summary>
+        /// 清空阻塞
+        /// </summary>
+        protected void DisponseWait()
+        {
+            if (_startHandle != null)
+            {
+                _startHandle.Close();
+            }
+            _startHandle = null;
+        }
         /// <summary>
         /// 监听信息后回调
         /// </summary>

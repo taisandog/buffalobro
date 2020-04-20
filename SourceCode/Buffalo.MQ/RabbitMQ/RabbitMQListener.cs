@@ -39,12 +39,11 @@ namespace Buffalo.MQ.RabbitMQ
         /// </summary>
         private void Open()
         {
-            Close();
             _connection = _config.Factory.CreateConnection();
             _channel = _connection.CreateModel();
             IBasicProperties properties = _channel.CreateBasicProperties();
             properties.DeliveryMode = _config.DeliveryMode;
-
+            
             //UInt32 prefetchSize,  每次取的长度
             //UInt16 prefetchCount,     每次取几条
             //Boolean global    是否对connection通用
@@ -64,6 +63,7 @@ namespace Buffalo.MQ.RabbitMQ
         /// </summary>
         public override void StartListend(IEnumerable<string> listenKeys)
         {
+            ResetWait();
             Open();
             EventingBasicConsumer consumer = new EventingBasicConsumer(_channel);
             if (_config.QueueName != null)
@@ -83,6 +83,7 @@ namespace Buffalo.MQ.RabbitMQ
                 }
             }
             consumer.Received += Consumer_Received;
+            SetWait();
         }
         public override void StartListend(IEnumerable<MQOffestInfo> listenKeys)
         {
@@ -90,7 +91,7 @@ namespace Buffalo.MQ.RabbitMQ
         }
         private void Consumer_Received(object sender, BasicDeliverEventArgs e)
         {
-            byte[] bytes = e.Body;
+            byte[] bytes = e.Body.ToArray();
             string key = e.RoutingKey;
             string exchange = e.Exchange;
             CallBack(key, exchange, bytes,0,0);
@@ -116,6 +117,7 @@ namespace Buffalo.MQ.RabbitMQ
                 _connection.Close();
                 _connection = null;
             }
+            DisponseWait();
         }
     }
 }

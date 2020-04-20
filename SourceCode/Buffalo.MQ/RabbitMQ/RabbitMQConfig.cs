@@ -40,13 +40,13 @@ namespace Buffalo.MQ.RabbitMQ
             
             Factory = new ConnectionFactory();
             Factory.UserName = _configs.GetDicValue<string, string>("uid");
-            Factory.VirtualHost = _configs.GetDicValue<string, string>("vhost");
-            if (string.IsNullOrWhiteSpace(Factory.VirtualHost))
-            {
-                Factory.VirtualHost = "/";
-            }
+#if (NET_4_7_2 || NET_4_6_2)
+
+#else
             Factory.Protocol = Protocols.DefaultProtocol;
-            string server= _configs.GetDicValue<string, string>("server");
+#endif
+
+            string server = _configs.GetDicValue<string, string>("server");
             if (!string.IsNullOrWhiteSpace(server))
             {
                 string[] serPart = server.Split(':');
@@ -59,6 +59,14 @@ namespace Buffalo.MQ.RabbitMQ
             
             Factory.Password = _configs.GetDicValue<string, string>("pwd");
             ExchangeMode = _configs.GetDicValue<string, string>("exchangeMode");
+            if (string.Equals(ExchangeMode, "topic"))
+            {
+                Factory.VirtualHost = _configs.GetDicValue<string, string>("vhost");
+                if (string.IsNullOrWhiteSpace(Factory.VirtualHost))
+                {
+                    Factory.VirtualHost = "/";
+                }
+            }
             ExchangeName = _configs.GetDicValue<string, string>("exchangeName");
             AutoDelete = _configs.GetDicValue<string, string>("autoDelete") == "1";
             string queueName = _configs.GetDicValue<string, string>("queueName");//队列名，用|隔开,只有Fanout模式可用
