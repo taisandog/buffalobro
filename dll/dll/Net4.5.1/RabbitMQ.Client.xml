@@ -1003,6 +1003,39 @@
             x-priority header
             </summary>
         </member>
+        <member name="F:RabbitMQ.Client.Headers.XQueueMode">
+            <summary>
+            x-queue-mode header.
+            Available modes: "default" and "lazy"
+            </summary>
+        </member>
+        <member name="F:RabbitMQ.Client.Headers.XQueueType">
+            <summary>
+            x-queue-type header.
+            Available types: "quorum" and "classic"(default)
+            </summary>
+        </member>
+        <member name="F:RabbitMQ.Client.Headers.XQuorumInitialGroupSize">
+            <summary>
+            x-quorum-initial-group-size header.
+            Use to control the number of quorum queue members
+            </summary>
+        </member>
+        <member name="F:RabbitMQ.Client.Headers.XSingleActiveConsumer">
+            <summary>
+            x-single-active-consumer header.
+            Available modes: true and false(default).
+            Allows to have only one consumer at a time consuming from a queue
+            and to fail over to another registered consumer in case the active one is cancelled or dies
+             </summary>
+        </member>
+        <member name="F:RabbitMQ.Client.Headers.XOverflow">
+            <summary>
+            x-overflow header.
+            Available strategies: "reject-publish" and "drop-head"(default).
+            Allows to configure strategy when <see cref="F:RabbitMQ.Client.Headers.XMaxLength"/> or <see cref="F:RabbitMQ.Client.Headers.XMaxLengthInBytes"/> hits limits
+            </summary>
+        </member>
         <member name="P:RabbitMQ.Client.IAsyncBasicConsumer.Model">
             <summary>
             Retrieve the <see cref="T:RabbitMQ.Client.IModel"/> this consumer is associated with,
@@ -2612,9 +2645,7 @@
             existing usage of the ReplyTo field; the AMQP specifications
             0-8 and 0-9 do not define the format of the field, and do not
             define any format for the triple (exchange name, exchange
-            type, routing key) that could be used instead. Please see also
-            the way class RabbitMQ.Client.MessagePatterns.SimpleRpcServer
-            uses the ReplyTo field.
+            type, routing key) that could be used instead.
             </para>
             </remarks>
         </member>
