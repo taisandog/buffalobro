@@ -48,6 +48,10 @@ namespace Buffalo.MQ.KafkaMQ
         private void InitProducerConfig()
         {
             _producer = _config.ProducerBuilder.Build();
+            if (!string.IsNullOrWhiteSpace(_config.ProducerConfig.TransactionalId))
+            {
+                _producer.InitTransactions(TimeSpan.FromSeconds(10));
+            }
             _queResault = new Queue<Task<DeliveryResult<byte[], byte[]>>>();
         }
 
@@ -122,6 +126,8 @@ namespace Buffalo.MQ.KafkaMQ
 
         protected override APIResault StartTran()
         {
+            Open();
+            
             _producer.BeginTransaction();
             return ApiCommon.GetSuccess();
         }

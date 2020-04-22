@@ -21,6 +21,8 @@ namespace Buffalo.MQ.RedisMQ
         /// 配置
         /// </summary>
         RedisMQConfig _config;
+
+        private Queue<MQRedisMessage> _que = null;
         /// <summary>
         /// RabbitMQ适配
         /// </summary>
@@ -77,9 +79,17 @@ namespace Buffalo.MQ.RedisMQ
         protected override APIResault SendMessage(string routingKey, byte[] body)
         {
             RedisValue value = body;
-
-            _subscriber.Publish(routingKey, value, _config.CommanfFlags);
-
+            if (_que != null)
+            {
+                MQRedisMessage mess = new MQRedisMessage();
+                mess.RoutingKey = routingKey;
+                mess.Value = body;
+                _que.Enqueue(mess);
+            }
+            else
+            {
+                _subscriber.Publish(routingKey, value, _config.CommanfFlags);
+            }
 
             return ApiCommon.GetSuccess();
         }
@@ -111,7 +121,11 @@ namespace Buffalo.MQ.RedisMQ
                 _redis.Dispose();
                 _redis = null;
             }
-            
+            if (_que != null)
+            {
+                _que.Clear();
+            }
+            _que = null;
             _subscriber = null;
         }
 
@@ -119,16 +133,27 @@ namespace Buffalo.MQ.RedisMQ
 
         protected override APIResault StartTran()
         {
+            _que = new Queue<MQRedisMessage>();
             return ApiCommon.GetSuccess();
         }
 
         protected override APIResault CommitTran()
         {
+            if (_que != null)
+            {
+                MQRedisMessage mess = null;
+                while (_que.Count > 0)
+                {
+                    mess = _que.Dequeue();
+                    _subscriber.Publish(mess.RoutingKey, mess.Value, _config.CommanfFlags);
+                }
+            }
             return ApiCommon.GetSuccess();
         }
 
         protected override APIResault RoolbackTran()
         {
+            _que.Clear();
             return ApiCommon.GetSuccess();
         }
 

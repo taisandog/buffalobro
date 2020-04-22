@@ -29,6 +29,7 @@ namespace Buffalo.MQ.KafkaMQ
                 if (_producerBuilder == null)
                 {
                     _producerBuilder = new ProducerBuilder<byte[], byte[]>(ProducerConfig);
+                   
                 }
                 return _producerBuilder;
             }
@@ -147,9 +148,22 @@ namespace Buffalo.MQ.KafkaMQ
         {
 
             SetBaseConfig(ProducerConfig, hs);
-            
 
-            string value = hs.GetDicValue<string, string>("interval");
+
+
+
+            string value = hs.GetDicValue<string, string>("transactionalId");
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                ProducerConfig.TransactionalId = value;
+            }
+            int ivalue = hs.GetDicValue<string, string>("transactionTimeout").ConvertTo<int>(0);
+            if (ivalue>0)
+            {
+                ProducerConfig.TransactionTimeoutMs = ivalue;
+            }
+
+            value = hs.GetDicValue<string, string>("interval");
             int statisticsIntervalMs = 5000;
             if (!string.IsNullOrWhiteSpace(value))
             {

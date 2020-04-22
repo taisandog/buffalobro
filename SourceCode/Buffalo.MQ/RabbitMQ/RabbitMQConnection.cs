@@ -138,6 +138,7 @@ namespace Buffalo.MQ.RabbitMQ
 
         protected override APIResault StartTran()
         {
+            Open();
             _channel.TxSelect();
             return ApiCommon.GetSuccess();
         }
