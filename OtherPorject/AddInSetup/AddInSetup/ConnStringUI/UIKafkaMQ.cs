@@ -12,6 +12,7 @@ using Buffalo.ArgCommon;
 using System.Web;
 using Buffalo.Kernel;
 using Confluent.Kafka;
+using System.Diagnostics;
 
 namespace AddInSetup.ConnStringUI
 {
@@ -73,7 +74,7 @@ namespace AddInSetup.ConnStringUI
         }
         protected override void OnHelp()
         {
-            MessageBox.Show("请填入信息并按生成", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            Process.Start(BasePath + "Buffalo.MQ.docx");
         }
         protected override void OnTest()
         {
@@ -82,7 +83,7 @@ namespace AddInSetup.ConnStringUI
             string key = "buffalotestmq";
             try
             {
-                APIResault res = MQHelper.TestMQ(name, key, "kafkamq", sbStr);
+                APIResault res = MQHelper.TestMQ(name, key, "kafkamq",true, sbStr);
                 if (!res.IsSuccess)
                 {
                     MessageBox.Show(res.Message, "测试失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -222,7 +223,13 @@ namespace AddInSetup.ConnStringUI
             return sbStr.ToString();
         }
 
+        private void Labkafka_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            string path = CommonMethods.GetBaseRoot() + "\\AddIns\\Resource\\Kafka\\librdkafka.redist\\";
+            Process.Start(path);
+        }
 
+        
     }
 }
 

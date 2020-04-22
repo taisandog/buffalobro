@@ -53,14 +53,14 @@ namespace Buffalo.MQ.KafkaMQ
 
             IEnumerable<MQOffestInfo> topicsOffest = MQUnit.GetLintenOffest(arg);
 
-            ConsumerBuilder<Ignore, byte[]> builder = _config.KConsumerBuilder;
+            ConsumerBuilder<byte[], byte[]> builder = _config.KConsumerBuilder;
 
             CancellationToken token = _running.Token;
 
-            using (IConsumer<Ignore, byte[]> consumer = builder.Build())
+            using (IConsumer<byte[], byte[]> consumer = builder.Build())
             {
                 consumer.Subscribe(topics);
-                 
+                
                 if (topicsOffest != null)
                 {
                     
@@ -70,8 +70,6 @@ namespace Buffalo.MQ.KafkaMQ
                         {
                             try
                             {
-                                
-                                
                                 consumer.Seek(new TopicPartitionOffset(new TopicPartition(info.Key, info.Partition), info.Offest));
                                 break;
                             }
@@ -93,7 +91,7 @@ namespace Buffalo.MQ.KafkaMQ
                     {
                         try
                         {
-                            ConsumeResult<Ignore, byte[]> res = consumer.Consume(token);
+                            ConsumeResult<byte[], byte[]> res = consumer.Consume(token);
                             
                             CallBack(res.Topic, res.Topic, res.Message.Value,res.Partition,res.Offset);
                             consumer.Commit(res);

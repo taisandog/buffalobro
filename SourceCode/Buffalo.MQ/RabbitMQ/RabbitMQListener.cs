@@ -63,8 +63,9 @@ namespace Buffalo.MQ.RabbitMQ
         /// </summary>
         public override void StartListend(IEnumerable<string> listenKeys)
         {
-            ResetWait();
+            
             Open();
+            ResetWait();
             EventingBasicConsumer consumer = new EventingBasicConsumer(_channel);
             if (_config.QueueName != null)
             {

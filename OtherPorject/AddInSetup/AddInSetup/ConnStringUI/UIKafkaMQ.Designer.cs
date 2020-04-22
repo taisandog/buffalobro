@@ -52,6 +52,7 @@
             this.label15 = new System.Windows.Forms.Label();
             this.txtGroupId = new System.Windows.Forms.TextBox();
             this.chkAutoCommit = new System.Windows.Forms.CheckBox();
+            this.labkafka = new System.Windows.Forms.LinkLabel();
             this.gpSetting.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nupInterval)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nupSessionTimeout)).BeginInit();
@@ -60,6 +61,7 @@
             // 
             // gpSetting
             // 
+            this.gpSetting.Controls.Add(this.labkafka);
             this.gpSetting.Controls.Add(this.chkAutoCommit);
             this.gpSetting.Controls.Add(this.label15);
             this.gpSetting.Controls.Add(this.txtGroupId);
@@ -288,7 +290,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.label15.BackColor = System.Drawing.SystemColors.Control;
             this.label15.Font = new System.Drawing.Font("微软雅黑", 10F);
             this.label15.Location = new System.Drawing.Point(93, 122);
             this.label15.Name = "label15";
@@ -313,6 +315,17 @@
             this.chkAutoCommit.TabIndex = 116;
             this.chkAutoCommit.Text = "自动提交";
             this.chkAutoCommit.UseVisualStyleBackColor = true;
+            // 
+            // labkafka
+            // 
+            this.labkafka.AutoSize = true;
+            this.labkafka.Location = new System.Drawing.Point(351, 154);
+            this.labkafka.Name = "labkafka";
+            this.labkafka.Size = new System.Drawing.Size(233, 20);
+            this.labkafka.TabIndex = 117;
+            this.labkafka.TabStop = true;
+            this.labkafka.Text = "请把依赖包放进您的运行程序文件夹";
+            this.labkafka.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Labkafka_LinkClicked);
             // 
             // UIKafkaMQ
             // 
@@ -356,5 +369,6 @@
         private System.Windows.Forms.CheckBox chkAutoCommit;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.TextBox txtGroupId;
+        private System.Windows.Forms.LinkLabel labkafka;
     }
 }

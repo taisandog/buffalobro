@@ -200,7 +200,13 @@
 
       <file path="Confluent.Kafka.dll"></file>
       <file path="Confluent.Kafka.xml"></file>
-
+      <file path="Microsoft.Diagnostics.Tracing.EventSource.dll"></file>
+      <file path="Microsoft.Diagnostics.Tracing.EventSource.xml"></file>
+      <file path="System.Numerics.Vectors.dll"></file>
+      <file path="System.Numerics.Vectors.xml"></file>
+      <file path="System.Runtime.CompilerServices.Unsafe.dll"></file>
+      <file path="System.Runtime.CompilerServices.Unsafe.xml"></file>
+      
       <file path="RabbitMQ.Client.dll"></file>
       <file path="RabbitMQ.Client.xml"></file>
     </item>

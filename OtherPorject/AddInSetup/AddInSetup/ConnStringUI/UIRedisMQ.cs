@@ -12,6 +12,7 @@ using Buffalo.DB.CacheManager;
 using AddInSetup.Unit;
 using Buffalo.ArgCommon;
 using System.Web;
+using System.Diagnostics;
 
 namespace AddInSetup.ConnStringUI
 {
@@ -24,7 +25,7 @@ namespace AddInSetup.ConnStringUI
         }
         protected override void OnHelp()
         {
-            MessageBox.Show("请填入信息并按生成", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            Process.Start(BasePath + "Buffalo.MQ.docx");
         }
         protected override void OnTest()
         {
@@ -33,7 +34,7 @@ namespace AddInSetup.ConnStringUI
             string key = "buffalo.testmq";
             try
             {
-                APIResault res=MQHelper.TestMQ(name,key, "redismq", sbStr);
+                APIResault res=MQHelper.TestMQ(name,key, "redismq",false, sbStr);
                 if (!res.IsSuccess)
                 {
                     MessageBox.Show(res.Message, "测试失败", MessageBoxButtons.OK, MessageBoxIcon.Error);

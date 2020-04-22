@@ -60,20 +60,20 @@ namespace Buffalo.MQ.KafkaMQ
         /// </summary>
         public readonly ConsumerConfig KConsumerConfig;
 
-        public ConsumerBuilder<Ignore, byte[]> _consumerBuilder;
+        public ConsumerBuilder<byte[], byte[]> _consumerBuilder;
         /// <summary>
         /// 消费者构造器
         /// </summary>
-        public ConsumerBuilder<Ignore, byte[]> KConsumerBuilder
+        public ConsumerBuilder<byte[], byte[]> KConsumerBuilder
         {
             get
             {
                 if (_consumerBuilder == null)
                 {
-                    _consumerBuilder = new ConsumerBuilder<Ignore, byte[]>(KConsumerConfig);
+                    _consumerBuilder = new ConsumerBuilder<byte[], byte[]>(KConsumerConfig);
+                    //_consumerBuilder.SetKeyDeserializer(new MQKeyDeserializer());
+                    //_consumerBuilder.SetValueDeserializer(new MQKeyDeserializer());
 
-                    //_consumerBuilder.SetKeyDeserializer(new KafkaStringDeserializer());
-                    
                 }
                 return _consumerBuilder;
             }
@@ -137,7 +137,7 @@ namespace Buffalo.MQ.KafkaMQ
             if (!server.Contains(":"))
                 server = server + ":9092";
             this.KConsumerConfig.BootstrapServers = server;
-
+            
         }
 
         /// <summary>

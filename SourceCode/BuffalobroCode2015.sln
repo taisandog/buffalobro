@@ -41,7 +41,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buffalo2015.MongoDB", "Buff
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buffalo2015.MQ", "Buffalo.MQ\Buffalo2015.MQ.csproj", "{6CEDC1E6-BD83-4D69-8B52-F0534E16F688}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestForm", "..\..\TestForm\TestForm.csproj", "{145490C0-DA22-446B-8520-8F1206524A9C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestForm2015", "..\..\TestForm\TestForm2015.csproj", "{145490C0-DA22-446B-8520-8F1206524A9C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
