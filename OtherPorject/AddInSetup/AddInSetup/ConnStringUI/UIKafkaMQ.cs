@@ -165,7 +165,7 @@ namespace AddInSetup.ConnStringUI
             if (selected!=null)
             {
                 int val = (int)selected;
-                if (val >= 0)
+                if (val > 0)
                 {
                     sbStr.Append("saslMechanism=");
                     sbStr.Append(val.ToString());

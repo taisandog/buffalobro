@@ -37,7 +37,6 @@
             this.tsCopy = new System.Windows.Forms.ToolStripMenuItem();
             this.txtOutCode = new System.Windows.Forms.RichTextBox();
             this.gpSetting = new System.Windows.Forms.GroupBox();
-            this.pnlButton = new System.Windows.Forms.Panel();
             this.gbProxy = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
             this.txtProxyPass = new System.Windows.Forms.TextBox();
@@ -48,23 +47,23 @@
             this.txtProxyHost = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.btnTest = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.btnOut = new System.Windows.Forms.Button();
+            this.btnTest = new System.Windows.Forms.Button();
             this.gpOutput.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scOut)).BeginInit();
             this.scOut.Panel1.SuspendLayout();
             this.scOut.Panel2.SuspendLayout();
             this.scOut.SuspendLayout();
             this.cmsCopy.SuspendLayout();
-            this.pnlButton.SuspendLayout();
             this.gbProxy.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtProxyPort)).BeginInit();
             this.panel2.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // gpOutput
             // 
-            this.gpOutput.Controls.Add(this.btnTech);
             this.gpOutput.Controls.Add(this.scOut);
             this.gpOutput.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.gpOutput.Location = new System.Drawing.Point(0, 497);
@@ -80,10 +79,10 @@
             // btnTech
             // 
             this.btnTech.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnTech.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.btnTech.Location = new System.Drawing.Point(513, 1);
+            this.btnTech.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.btnTech.Location = new System.Drawing.Point(9, 8);
             this.btnTech.Name = "btnTech";
-            this.btnTech.Size = new System.Drawing.Size(138, 27);
+            this.btnTech.Size = new System.Drawing.Size(138, 39);
             this.btnTech.TabIndex = 2;
             this.btnTech.Text = "帮助";
             this.btnTech.UseVisualStyleBackColor = true;
@@ -150,20 +149,10 @@
             this.gpSetting.Font = new System.Drawing.Font("微软雅黑", 14.25F);
             this.gpSetting.Location = new System.Drawing.Point(0, 0);
             this.gpSetting.Name = "gpSetting";
-            this.gpSetting.Size = new System.Drawing.Size(659, 379);
+            this.gpSetting.Size = new System.Drawing.Size(659, 388);
             this.gpSetting.TabIndex = 1;
             this.gpSetting.TabStop = false;
             this.gpSetting.Text = "配置";
-            // 
-            // pnlButton
-            // 
-            this.pnlButton.Controls.Add(this.gbProxy);
-            this.pnlButton.Controls.Add(this.panel2);
-            this.pnlButton.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlButton.Location = new System.Drawing.Point(0, 379);
-            this.pnlButton.Name = "pnlButton";
-            this.pnlButton.Size = new System.Drawing.Size(659, 118);
-            this.pnlButton.TabIndex = 2;
             // 
             // gbProxy
             // 
@@ -175,11 +164,11 @@
             this.gbProxy.Controls.Add(this.txtProxyPort);
             this.gbProxy.Controls.Add(this.txtProxyHost);
             this.gbProxy.Controls.Add(this.label1);
-            this.gbProxy.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gbProxy.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.gbProxy.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.gbProxy.Location = new System.Drawing.Point(186, 0);
+            this.gbProxy.Location = new System.Drawing.Point(0, 388);
             this.gbProxy.Name = "gbProxy";
-            this.gbProxy.Size = new System.Drawing.Size(473, 118);
+            this.gbProxy.Size = new System.Drawing.Size(659, 59);
             this.gbProxy.TabIndex = 4;
             this.gbProxy.TabStop = false;
             this.gbProxy.Text = "代理";
@@ -195,15 +184,15 @@
             // 
             // txtProxyPass
             // 
-            this.txtProxyPass.Location = new System.Drawing.Point(63, 86);
+            this.txtProxyPass.Location = new System.Drawing.Point(543, 24);
             this.txtProxyPass.Name = "txtProxyPass";
-            this.txtProxyPass.Size = new System.Drawing.Size(241, 25);
+            this.txtProxyPass.Size = new System.Drawing.Size(108, 25);
             this.txtProxyPass.TabIndex = 10;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(20, 89);
+            this.label3.Location = new System.Drawing.Point(500, 27);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(40, 20);
             this.label3.TabIndex = 9;
@@ -211,15 +200,15 @@
             // 
             // txtProxyUser
             // 
-            this.txtProxyUser.Location = new System.Drawing.Point(63, 55);
+            this.txtProxyUser.Location = new System.Drawing.Point(374, 24);
             this.txtProxyUser.Name = "txtProxyUser";
-            this.txtProxyUser.Size = new System.Drawing.Size(241, 25);
+            this.txtProxyUser.Size = new System.Drawing.Size(120, 25);
             this.txtProxyUser.TabIndex = 8;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 58);
+            this.label2.Location = new System.Drawing.Point(317, 27);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(54, 20);
             this.label2.TabIndex = 6;
@@ -260,27 +249,27 @@
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.btnTest);
             this.panel2.Controls.Add(this.btnOut);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel2.Location = new System.Drawing.Point(0, 0);
+            this.panel2.Controls.Add(this.panel1);
+            this.panel2.Controls.Add(this.btnTest);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel2.Location = new System.Drawing.Point(0, 447);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(186, 118);
+            this.panel2.Size = new System.Drawing.Size(659, 50);
             this.panel2.TabIndex = 3;
             // 
-            // btnTest
+            // panel1
             // 
-            this.btnTest.Location = new System.Drawing.Point(3, 6);
-            this.btnTest.Name = "btnTest";
-            this.btnTest.Size = new System.Drawing.Size(138, 39);
-            this.btnTest.TabIndex = 1;
-            this.btnTest.Text = "测试";
-            this.btnTest.UseVisualStyleBackColor = true;
-            this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
+            this.panel1.Controls.Add(this.btnTech);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel1.Location = new System.Drawing.Point(504, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(155, 50);
+            this.panel1.TabIndex = 2;
             // 
             // btnOut
             // 
-            this.btnOut.Location = new System.Drawing.Point(5, 70);
+            this.btnOut.Location = new System.Drawing.Point(193, 8);
             this.btnOut.Name = "btnOut";
             this.btnOut.Size = new System.Drawing.Size(138, 39);
             this.btnOut.TabIndex = 0;
@@ -288,12 +277,23 @@
             this.btnOut.UseVisualStyleBackColor = true;
             this.btnOut.Click += new System.EventHandler(this.btnOut_Click);
             // 
+            // btnTest
+            // 
+            this.btnTest.Location = new System.Drawing.Point(5, 8);
+            this.btnTest.Name = "btnTest";
+            this.btnTest.Size = new System.Drawing.Size(138, 39);
+            this.btnTest.TabIndex = 1;
+            this.btnTest.Text = "测试";
+            this.btnTest.UseVisualStyleBackColor = true;
+            this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
+            // 
             // UIConnBase
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.gpSetting);
-            this.Controls.Add(this.pnlButton);
+            this.Controls.Add(this.gbProxy);
+            this.Controls.Add(this.panel2);
             this.Controls.Add(this.gpOutput);
             this.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.Margin = new System.Windows.Forms.Padding(5);
@@ -305,11 +305,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.scOut)).EndInit();
             this.scOut.ResumeLayout(false);
             this.cmsCopy.ResumeLayout(false);
-            this.pnlButton.ResumeLayout(false);
             this.gbProxy.ResumeLayout(false);
             this.gbProxy.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtProxyPort)).EndInit();
             this.panel2.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -319,7 +319,6 @@
         private System.Windows.Forms.GroupBox gpOutput;
         private System.Windows.Forms.SplitContainer scOut;
         public System.Windows.Forms.GroupBox gpSetting;
-        private System.Windows.Forms.Panel pnlButton;
         private System.Windows.Forms.Button btnTest;
         private System.Windows.Forms.Button btnOut;
         private System.Windows.Forms.RichTextBox txtOutConn;
@@ -337,5 +336,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panel2;
         protected System.Windows.Forms.GroupBox gbProxy;
+        private System.Windows.Forms.Panel panel1;
     }
 }

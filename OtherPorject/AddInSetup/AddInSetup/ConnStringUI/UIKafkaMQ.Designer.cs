@@ -53,14 +53,23 @@
             this.txtGroupId = new System.Windows.Forms.TextBox();
             this.chkAutoCommit = new System.Windows.Forms.CheckBox();
             this.labkafka = new System.Windows.Forms.LinkLabel();
+            this.mupTransactionTimeout = new System.Windows.Forms.NumericUpDown();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.txtTransactionalId = new System.Windows.Forms.TextBox();
             this.gpSetting.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nupInterval)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nupSessionTimeout)).BeginInit();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mupTransactionTimeout)).BeginInit();
             this.SuspendLayout();
             // 
             // gpSetting
             // 
+            this.gpSetting.Controls.Add(this.txtTransactionalId);
+            this.gpSetting.Controls.Add(this.mupTransactionTimeout);
+            this.gpSetting.Controls.Add(this.label16);
+            this.gpSetting.Controls.Add(this.label17);
             this.gpSetting.Controls.Add(this.labkafka);
             this.gpSetting.Controls.Add(this.chkAutoCommit);
             this.gpSetting.Controls.Add(this.label15);
@@ -81,7 +90,8 @@
             // 
             // gbProxy
             // 
-            this.gbProxy.Size = new System.Drawing.Size(479, 118);
+            this.gbProxy.Location = new System.Drawing.Point(0, 359);
+            this.gbProxy.Size = new System.Drawing.Size(665, 68);
             // 
             // label12
             // 
@@ -290,7 +300,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.BackColor = System.Drawing.SystemColors.Control;
+            this.label15.BackColor = System.Drawing.Color.Transparent;
             this.label15.Font = new System.Drawing.Font("微软雅黑", 10F);
             this.label15.Location = new System.Drawing.Point(93, 122);
             this.label15.Name = "label15";
@@ -305,11 +315,12 @@
             this.txtGroupId.Name = "txtGroupId";
             this.txtGroupId.Size = new System.Drawing.Size(183, 25);
             this.txtGroupId.TabIndex = 114;
+            this.txtGroupId.Text = "MyId";
             // 
             // chkAutoCommit
             // 
             this.chkAutoCommit.AutoSize = true;
-            this.chkAutoCommit.Location = new System.Drawing.Point(161, 150);
+            this.chkAutoCommit.Location = new System.Drawing.Point(161, 176);
             this.chkAutoCommit.Name = "chkAutoCommit";
             this.chkAutoCommit.Size = new System.Drawing.Size(84, 24);
             this.chkAutoCommit.TabIndex = 116;
@@ -319,13 +330,47 @@
             // labkafka
             // 
             this.labkafka.AutoSize = true;
-            this.labkafka.Location = new System.Drawing.Point(351, 154);
+            this.labkafka.Location = new System.Drawing.Point(351, 180);
             this.labkafka.Name = "labkafka";
             this.labkafka.Size = new System.Drawing.Size(233, 20);
             this.labkafka.TabIndex = 117;
             this.labkafka.TabStop = true;
             this.labkafka.Text = "请把依赖包放进您的运行程序文件夹";
             this.labkafka.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Labkafka_LinkClicked);
+            // 
+            // mupTransactionTimeout
+            // 
+            this.mupTransactionTimeout.Location = new System.Drawing.Point(444, 152);
+            this.mupTransactionTimeout.Name = "mupTransactionTimeout";
+            this.mupTransactionTimeout.Size = new System.Drawing.Size(182, 25);
+            this.mupTransactionTimeout.TabIndex = 121;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.label16.Location = new System.Drawing.Point(104, 154);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(53, 20);
+            this.label16.TabIndex = 119;
+            this.label16.Text = "事务Id:";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.label17.Location = new System.Drawing.Point(370, 154);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(68, 20);
+            this.label17.TabIndex = 118;
+            this.label17.Text = "事务超时:";
+            // 
+            // txtTransactionalId
+            // 
+            this.txtTransactionalId.Location = new System.Drawing.Point(162, 152);
+            this.txtTransactionalId.Name = "txtTransactionalId";
+            this.txtTransactionalId.Size = new System.Drawing.Size(183, 25);
+            this.txtTransactionalId.TabIndex = 122;
             // 
             // UIKafkaMQ
             // 
@@ -339,6 +384,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.nupSessionTimeout)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mupTransactionTimeout)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -370,5 +416,9 @@
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.TextBox txtGroupId;
         private System.Windows.Forms.LinkLabel labkafka;
+        private System.Windows.Forms.TextBox txtTransactionalId;
+        private System.Windows.Forms.NumericUpDown mupTransactionTimeout;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label17;
     }
 }
