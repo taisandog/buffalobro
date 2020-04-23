@@ -32,6 +32,10 @@
     <DocumentationFile>..\Release\2019\Buffalo.MQ.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Confluent.Kafka, Version=1.4.0.0, Culture=neutral, PublicKeyToken=12c514ca49093d1e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dll\dll\Net4.7.2\Confluent.Kafka.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces">
       <HintPath>..\..\dll\dll\Net4.7.2\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
@@ -115,10 +119,6 @@
     <ProjectReference Include="..\Buffalo.Kernel\Buffalo2019.Kernel.csproj">
       <Project>{6ec04216-a422-4751-aa81-1211dcb10bab}</Project>
       <Name>Buffalo2019.Kernel</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Confluent.Kafka\Confluent.Kafka.csproj">
-      <Project>{64c71c87-7388-451e-a812-9838909f05a9}</Project>
-      <Name>Confluent.Kafka</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

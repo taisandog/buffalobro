@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Data.Oracle\\Buffalo.Data.Oracle.csproj": {}
+    "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Data.Oracle\\Buffalo.Data.Oracle.csproj": {}
   },
   "projects": {
-    "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Data.Oracle\\Buffalo.Data.Oracle.csproj": {
+    "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Data.Oracle\\Buffalo.Data.Oracle.csproj": {
       "version": "1.0.2",
       "restore": {
-        "projectUniqueName": "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Data.Oracle\\Buffalo.Data.Oracle.csproj",
+        "projectUniqueName": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Data.Oracle\\Buffalo.Data.Oracle.csproj",
         "projectName": "Buffalo.Data.Oracle",
-        "projectPath": "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Data.Oracle\\Buffalo.Data.Oracle.csproj",
+        "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Data.Oracle\\Buffalo.Data.Oracle.csproj",
         "packagesPath": "C:\\Users\\taisandog\\.nuget\\packages\\",
-        "outputPath": "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Data.Oracle\\obj\\",
+        "outputPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Data.Oracle\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -30,8 +30,8 @@
         "frameworks": {
           "netstandard2.0": {
             "projectReferences": {
-              "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.DB\\Buffalo.DB.csproj": {
-                "projectPath": "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.DB\\Buffalo.DB.csproj"
+              "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.DB\\Buffalo.DB.csproj": {
+                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.DB\\Buffalo.DB.csproj"
               }
             }
           }
@@ -64,14 +64,14 @@
         }
       }
     },
-    "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.DB\\Buffalo.DB.csproj": {
+    "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.DB\\Buffalo.DB.csproj": {
       "version": "1.0.5",
       "restore": {
-        "projectUniqueName": "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.DB\\Buffalo.DB.csproj",
+        "projectUniqueName": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.DB\\Buffalo.DB.csproj",
         "projectName": "Buffalo.DB",
-        "projectPath": "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.DB\\Buffalo.DB.csproj",
+        "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.DB\\Buffalo.DB.csproj",
         "packagesPath": "C:\\Users\\taisandog\\.nuget\\packages\\",
-        "outputPath": "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.DB\\obj\\",
+        "outputPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.DB\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -90,8 +90,8 @@
         "frameworks": {
           "netstandard2.0": {
             "projectReferences": {
-              "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\Buffalo.Kernel.csproj": {
-                "projectPath": "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\Buffalo.Kernel.csproj"
+              "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\Buffalo.Kernel.csproj": {
+                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\Buffalo.Kernel.csproj"
               }
             }
           }
@@ -148,14 +148,14 @@
         }
       }
     },
-    "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\Buffalo.Kernel.csproj": {
+    "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\Buffalo.Kernel.csproj": {
       "version": "1.0.1",
       "restore": {
-        "projectUniqueName": "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\Buffalo.Kernel.csproj",
+        "projectUniqueName": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\Buffalo.Kernel.csproj",
         "projectName": "Buffalo.Kernel",
-        "projectPath": "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\Buffalo.Kernel.csproj",
+        "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\Buffalo.Kernel.csproj",
         "packagesPath": "C:\\Users\\taisandog\\.nuget\\packages\\",
-        "outputPath": "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\obj\\",
+        "outputPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

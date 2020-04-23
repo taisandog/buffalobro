@@ -728,7 +728,7 @@
       ]
     },
     "Microsoft.NETCore.Platforms/1.1.0": {
-      "sha512": "kz0PEW2lhqygehI/d6XsPCQzD7ff7gUJaVGPVETX611eadGsA3A877GdSlU0LRVMCTH/+P3o2iDTak+S08V2+A==",
+      "sha512": "OW9dS9//Pe/LDmDz84FsU7ZlKQ9GzwpxGvVlduwipeav3aesDaso516x2W+RI59SF0syw6OSUaSvtX0/8pd3dA==",
       "type": "package",
       "path": "microsoft.netcore.platforms/1.1.0",
       "files": [
@@ -743,7 +743,7 @@
       ]
     },
     "Microsoft.NETCore.Targets/1.1.0": {
-      "sha512": "aOZA3BWfz9RXjpzt0sRJJMjAscAUm3Hoa4UWAfceV9UTYxgwZ1lZt5nO2myFf+/jetYQo4uTP7zS8sJY67BBxg==",
+      "sha512": "r4ND1E0np+ABkzzwN4NBbTzrh+dfGuy/PUn2hyW6O3EcOU89dMVvgrRMMaDgGXm4qRWSp1BCZhoAlVr9BCjAvg==",
       "type": "package",
       "path": "microsoft.netcore.targets/1.1.0",
       "files": [
@@ -1329,7 +1329,7 @@
       ]
     },
     "System.Reflection/4.3.0": {
-      "sha512": "KMiAFoW7MfJGa9nDFNcfu+FpEdiHpWgTcS2HdMpDvt9saK3y/G4GwprPyzqjFH9NTaGPQeWNHU+iDlDILj96aQ==",
+      "sha512": "9RcDie+xN1kJD+FkpkiDqJDbwHa5hnF35sqbdDjmtFoabqAxO2MuqaMAG+BeLJVgED5p1808QcgwKHRy7MyyyQ==",
       "type": "package",
       "path": "system.reflection/4.3.0",
       "files": [
@@ -1444,7 +1444,7 @@
       ]
     },
     "System.Reflection.Emit.ILGeneration/4.3.0": {
-      "sha512": "59tBslAk9733NXLrUJrwNZEzbMAcu8k344OYo+wfSVygcgZ9lgBdGIzH/nrg3LYhXceynyvTc8t5/GD4Ri0/ng==",
+      "sha512": "eHuLrpgz98Ht0A5qVWenPmzrGgPwoZ88e1nYb5gaYyZQ2nwN8AP69u7wGjy1H4plKSFNDZeGUgQDExKBBcPF9Q==",
       "type": "package",
       "path": "system.reflection.emit.ilgeneration/4.3.0",
       "files": [
@@ -1489,7 +1489,7 @@
       ]
     },
     "System.Reflection.Emit.Lightweight/4.3.0": {
-      "sha512": "oadVHGSMsTmZsAF864QYN1t1QzZjIcuKU3l2S9cZOwDdDueNTrqq1yRj7koFfIGEnKpt6NjpL3rOzRhs4ryOgA==",
+      "sha512": "KUOhjQYBX9cvlnEvP+Jh/AkKqK4QyW6e5XYDW9ypSxvSTsUt2WVeIk/ydbU97TS7C/OQ/neR8oAa9EDCKc2+mw==",
       "type": "package",
       "path": "system.reflection.emit.lightweight/4.3.0",
       "files": [
@@ -1534,7 +1534,7 @@
       ]
     },
     "System.Reflection.Primitives/4.3.0": {
-      "sha512": "5RXItQz5As4xN2/YUDxdpsEkMhvw3e6aNveFXUn4Hl/udNTCNhnKp8lT9fnc3MhvGKh1baak5CovpuQUXHAlIA==",
+      "sha512": "vRjNxJShnCwT6Lwnz6oyvbXpSTQZEDTod1iBSMTQIBrIMt77NkiDCPtFPhXhMqlGzsKqs4ObxnaKdyyNKB5jGw==",
       "type": "package",
       "path": "system.reflection.primitives/4.3.0",
       "files": [
@@ -1853,7 +1853,7 @@
       ]
     },
     "System.Text.Encoding/4.3.0": {
-      "sha512": "BiIg+KWaSDOITze6jGQynxg64naAPtqGHBwDrLaCtixsa5bKiR8dpPOHA7ge3C0JJQizJE+sfkz1wV+BAKAYZw==",
+      "sha512": "51N0Ayw0u3RT7ja++zP2OF5LGLFNWKfHphxxLhTQ292k6wQpdlmAMfnOEsl0ZVPUW3UpBdNrQfghIfPUIU1Jjg==",
       "type": "package",
       "path": "system.text.encoding/4.3.0",
       "files": [
@@ -1987,7 +1987,7 @@
       ]
     },
     "System.Threading.Tasks/4.3.0": {
-      "sha512": "LbSxKEdOUhVe8BezB/9uOGGppt+nZf6e1VFyw6v3DN6lqitm0OSn2uXMOdtP0M3W4iMcqcivm2J6UgqiwwnXiA==",
+      "sha512": "LdnfgN1/HvyD3/iqhNOD2O/GGU7S1OpkkA+x2r5kkeNXLG4QoRosBNX5pvFj2K03JFHUF17HQI+ggqIEJXaGBw==",
       "type": "package",
       "path": "system.threading.tasks/4.3.0",
       "files": [
@@ -2158,11 +2158,11 @@
   "project": {
     "version": "1.0.2",
     "restore": {
-      "projectUniqueName": "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Data.PostgreSQL\\Buffalo.Data.PostgreSQL.csproj",
+      "projectUniqueName": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Data.PostgreSQL\\Buffalo.Data.PostgreSQL.csproj",
       "projectName": "Buffalo.Data.PostgreSQL",
-      "projectPath": "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Data.PostgreSQL\\Buffalo.Data.PostgreSQL.csproj",
+      "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Data.PostgreSQL\\Buffalo.Data.PostgreSQL.csproj",
       "packagesPath": "C:\\Users\\taisandog\\.nuget\\packages\\",
-      "outputPath": "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Data.PostgreSQL\\obj\\",
+      "outputPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Data.PostgreSQL\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -2181,11 +2181,11 @@
       "frameworks": {
         "netstandard2.0": {
           "projectReferences": {
-            "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.DB\\Buffalo.DB.csproj": {
-              "projectPath": "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.DB\\Buffalo.DB.csproj"
+            "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.DB\\Buffalo.DB.csproj": {
+              "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.DB\\Buffalo.DB.csproj"
             },
-            "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\Buffalo.Kernel.csproj": {
-              "projectPath": "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\Buffalo.Kernel.csproj"
+            "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\Buffalo.Kernel.csproj": {
+              "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\Buffalo.Kernel.csproj"
             }
           }
         }

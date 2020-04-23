@@ -85,6 +85,7 @@
     <Compile Include="RabbitMQ\RabbitMQConfig.cs" />
     <Compile Include="RabbitMQ\RabbitMQConnection.cs" />
     <Compile Include="RabbitMQ\RabbitMQListener.cs" />
+    <Compile Include="RedisMQ\MQRedisMessage.cs" />
     <Compile Include="RedisMQ\RedisMQConfig.cs" />
     <Compile Include="RedisMQ\RedisMQConnection.cs" />
     <Compile Include="RedisMQ\RedisMQListener.cs" />

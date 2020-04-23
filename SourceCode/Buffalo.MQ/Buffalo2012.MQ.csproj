@@ -73,6 +73,7 @@
     <Compile Include="MQTransation.cs" />
     <Compile Include="MQUnit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RedisMQ\MQRedisMessage.cs" />
     <Compile Include="RedisMQ\RedisMQConfig.cs" />
     <Compile Include="RedisMQ\RedisMQConnection.cs" />
     <Compile Include="RedisMQ\RedisMQListener.cs" />
