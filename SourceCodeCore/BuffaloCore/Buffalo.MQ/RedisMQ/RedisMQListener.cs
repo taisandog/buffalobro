@@ -68,12 +68,18 @@ namespace Buffalo.MQ.RedisMQ
         /// </summary>
         public override void Close()
         {
+            if (_subscriber != null)
+            {
+                _subscriber.UnsubscribeAll();
+            }
+            _subscriber = null;
             if (_redis != null)
             {
                 _redis.Close();
                 _redis.Dispose();
                 _redis = null;
             }
+           
             DisponseWait();
         }
 
