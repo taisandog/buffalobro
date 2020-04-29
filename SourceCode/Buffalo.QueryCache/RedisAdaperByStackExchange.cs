@@ -11,6 +11,7 @@ using System.Data;
 using Newtonsoft.Json;
 using System.IO;
 using MemcacheClient;
+using Buffalo.Kernel;
 
 namespace Buffalo.QueryCache
 {
@@ -56,94 +57,66 @@ namespace Buffalo.QueryCache
             ConfigurationOptions options = new ConfigurationOptions();
             //ConnectionMultiplexer config = new ConnectionMultiplexer();
             string mainserver = "127.0.0.1:6379";
-            
-            string[] conStrs = connectionString.Split(';');
-            string serverString = "server=";
-            string passwordString = "pwd=";
-            string expirString = "expir=";
-            string sslString = "ssl=";
-            string throwString = "throw=";
-            string part = null;
+            Dictionary<string, string> configs = ConnStringFilter.GetConnectInfo(connectionString);
+
             List<string> servers = new List<string>();
-            foreach (string lpart in conStrs)
+
+
+
+            string serverStr = configs.GetDicValue<string, string>("server");
+            string[] parts = serverStr.Split(',');
+            foreach (string sser in parts)
             {
-                if (string.IsNullOrEmpty(lpart))
+                if (!string.IsNullOrEmpty(sser))
                 {
-                    continue;
-                }
-                part = lpart.Trim();
-                if (part.IndexOf(serverString, StringComparison.CurrentCultureIgnoreCase) == 0)
-                {
-                    //string serverStr = part.Substring(serverString.Length);
-                    string serverStr = CacheUnit.CutString(part, serverString.Length);
-                    string[] parts = serverStr.Split(',');
-                    foreach (string sser in parts)
-                    {
-                        if (!string.IsNullOrEmpty(sser))
-                        {
-                            servers.Add(sser);
-                        }
-                    }
-                }
-                //else if (part.IndexOf(readonlyserverString, StringComparison.CurrentCultureIgnoreCase) == 0)
-                //{
-                //    //string serverStr = part.Substring(serverString.Length);
-                //    roserver = CacheUnit.CutString(part, serverString.Length);
-                   
-                //}
-                else if (part.IndexOf(passwordString, StringComparison.CurrentCultureIgnoreCase) == 0)
-                {
-                    //string serverStr = part.Substring(serverString.Length);
-                    options.Password= CacheUnit.CutString(part, passwordString.Length);
-
-                }
-                else if (part.IndexOf(sslString, StringComparison.CurrentCultureIgnoreCase) == 0)
-                {
-                    //string serverStr = part.Substring(serverString.Length);
-                    options.Ssl = CacheUnit.CutString(part, sslString.Length)=="1";
-
-                }
-                else if (part.IndexOf(throwString, StringComparison.CurrentCultureIgnoreCase) == 0)
-                {
-                    //string throwStr = part.Substring(throwString.Length);
-                    string throwStr = CacheUnit.CutString(part, throwString.Length);
-                    _throwExcertion = (throwStr == "1");
-                }
-                else if (part.IndexOf(expirString, StringComparison.CurrentCultureIgnoreCase) == 0)
-                {
-                    //string expirStr = part.Substring(expirString.Length);
-                    string expirStr = CacheUnit.CutString(part, expirString.Length);
-                    double mins = 30;
-                    if (!double.TryParse(expirStr, out mins))
-                    {
-                        throw new ArgumentException("数据保存分钟数必须是0-999999999的值");
-                    }
-                    if (mins < 0 || mins > 999999999)
-                    {
-                        throw new ArgumentException("数据保存分钟数必须是0-999999999的值");
-                    }
-                    if (mins > 0)
-                    {
-                        _expiration = TimeSpan.FromMinutes((double)mins);
-                    }
+                    servers.Add(sser);
                 }
             }
-            if(servers.Count>0)
+
+            string pwdStr = configs.GetDicValue<string, string>("server");
+            if (!string.IsNullOrEmpty(pwdStr))
             {
-                mainserver=servers[0];
+                options.Password = pwdStr;
             }
-            //options.EndPoints.Add(mainserver);
+
+            options.Ssl = configs.GetDicValue<string, string>("ssl") == "1";
+
+            string throwStr = configs.GetDicValue<string, string>("throw");
+            _throwExcertion = (throwStr == "1");
+
+            string expirStr = configs.GetDicValue<string, string>("expir");
+            double mins = 30;
+            if (!string.IsNullOrWhiteSpace(expirStr))
+            {
+                if (!double.TryParse(expirStr, out mins))
+                {
+                    throw new ArgumentException("数据保存分钟数必须是0-999999999的值");
+                }
+                if (mins < 0 || mins > 999999999)
+                {
+                    throw new ArgumentException("数据保存分钟数必须是0-999999999的值");
+                }
+               
+            }
+            if (mins > 0)
+            {
+                _expiration = TimeSpan.FromMinutes((double)mins);
+            }
+            if (servers.Count > 0)
+            {
+                mainserver = servers[0];
+            }
             _mainServer = mainserver;
-            
+
             _serverCount = 1;
-            if (servers.Count>0)
+            if (servers.Count > 0)
             {
                 foreach (string strServer in servers)
                 {
                     options.EndPoints.Add(strServer);
                     _roserver = strServer;
                 }
-                
+
             }
             _serverCount = servers.Count;
             return ConnectionMultiplexer.Connect(options);
@@ -151,6 +124,7 @@ namespace Buffalo.QueryCache
 
 
         #region ICacheAdaper 成员
+
 
 
         protected override RedisConnection CreateClient(bool realOnly, string cmd)
@@ -184,12 +158,14 @@ namespace Buffalo.QueryCache
         /// <returns></returns>
         protected override E GetValue<E>(string key, E defaultValue, RedisConnection connection)
         {
+            
             IDatabase client = connection.DB;
             RedisValue value = client.StringGet(key);
             if (value.IsNull) 
             {
                 return defaultValue;
             }
+            
             return RedisConverter.RedisValueToValue<E>(value);
         }
         /// <summary>
@@ -214,6 +190,7 @@ namespace Buffalo.QueryCache
             return lst;
 #endif
         }
+
 
 
         protected override bool SetValue<E>(string key, E value, SetValueType type, int expirSeconds, RedisConnection connection)

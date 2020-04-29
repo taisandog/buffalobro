@@ -42,92 +42,77 @@ namespace Buffalo.QueryCache
         /// </summary>
         /// <param name="connectionString">连接字符串</param>
         /// <returns></returns>
-        private  PooledRedisClientManager CreateManager(string connectionString)
+        private PooledRedisClientManager CreateManager(string connectionString)
         {
             string localserver = "127.0.0.1:6379";
             //uint port = 6379;
             int poolSize = 10;
-            string[] conStrs = connectionString.Split(';');
-            string serverString = "server=";
-            string readonlyserverString = "roserver=";
-            string poolString = "poolsize=";
-            string expirString = "expir=";
-            string throwString = "throw=";
+            Dictionary<string, string> configs = ConnStringFilter.GetConnectInfo(connStr);
+
+
             string part = null;
             List<string> lstServers = new List<string>();
             List<string> lstRoServers = new List<string>();
-            foreach (string lpart in conStrs)
-            {
-                if (string.IsNullOrEmpty(lpart)) 
-                {
-                    continue;
-                }
-                part = lpart.Trim();
-                if (part.IndexOf(serverString, StringComparison.CurrentCultureIgnoreCase) == 0)
-                {
-                    //string serverStr = part.Substring(serverString.Length);
-                    string serverStr = CacheUnit.CutString(part, serverString.Length);
 
-                    string[] parts = serverStr.Split(',');
-                    foreach (string sser in parts)
-                    {
-                        if (!string.IsNullOrEmpty(sser))
-                        {
-                            lstServers.Add(sser);
-                        }
-                    }
-                }
-                if (part.IndexOf(readonlyserverString, StringComparison.CurrentCultureIgnoreCase) == 0)
+            part = lpart.Trim();
+
+            string serverStr = configs.GetDicValue<string, string>("server");
+
+            string[] parts = serverStr.Split(',');
+            foreach (string sser in parts)
+            {
+                if (!string.IsNullOrEmpty(sser))
                 {
-                    //string serverStr = part.Substring(serverString.Length);
-                    string serverStr = CacheUnit.CutString(part, serverString.Length);
-                    string[] parts = serverStr.Split(',');
-                    foreach (string sser in parts)
-                    {
-                        if (!string.IsNullOrEmpty(sser))
-                        {
-                            lstRoServers.Add(sser);
-                        }
-                    }
-                }
-                else if (part.IndexOf(poolString, StringComparison.CurrentCultureIgnoreCase) == 0)
-                {
-                    //string maxsizeStr = part.Substring(poolString.Length);
-                    string maxsizeStr = CacheUnit.CutString(part, poolString.Length);
-                    if (!int.TryParse(maxsizeStr, out poolSize))
-                    {
-                        throw new ArgumentException("最大连接数必须是1-" + MaxVersion + "的值");
-                    }
-                    if (poolSize <= 0 || poolSize >= int.MaxValue)
-                    {
-                        throw new ArgumentException("最大连接数必须是1-" + MaxVersion + "的值");
-                    }
-                }
-                else if (part.IndexOf(throwString, StringComparison.CurrentCultureIgnoreCase) == 0)
-                {
-                    //string throwStr = part.Substring(throwString.Length);
-                    string throwStr = CacheUnit.CutString(part, throwString.Length);
-                    _throwExcertion = (throwStr == "1");
-                }
-                else if (part.IndexOf(expirString, StringComparison.CurrentCultureIgnoreCase) == 0)
-                {
-                    //string expirStr = part.Substring(expirString.Length);
-                    string expirStr = CacheUnit.CutString(part, expirString.Length);
-                    double mins = 30;
-                    if (!double.TryParse(expirStr, out mins))
-                    {
-                        throw new ArgumentException("数据保存分钟数必须是0-999999999的值");
-                    }
-                    if (mins < 0 || mins > 999999999)
-                    {
-                        throw new ArgumentException("数据保存分钟数必须是0-999999999的值");
-                    }
-                    if (mins > 0)
-                    {
-                        _expiration = TimeSpan.FromMinutes((double)mins);
-                    }
+                    lstServers.Add(sser);
                 }
             }
+
+
+            string serverStr = configs.GetDicValue<string, string>("roserver");
+            string[] parts = serverStr.Split(',');
+            foreach (string sser in parts)
+            {
+                if (!string.IsNullOrEmpty(sser))
+                {
+                    lstRoServers.Add(sser);
+                }
+            }
+
+
+            string maxsizeStr = configs.GetDicValue<string, string>("poolsize");
+            if (!int.TryParse(maxsizeStr, out poolSize))
+            {
+                throw new ArgumentException("最大连接数必须是1-" + MaxVersion + "的值");
+            }
+            if (poolSize <= 0 || poolSize >= int.MaxValue)
+            {
+                throw new ArgumentException("最大连接数必须是1-" + MaxVersion + "的值");
+            }
+
+
+            string throwStr = configs.GetDicValue<string, string>("throw");
+            _throwExcertion = (throwStr == "1");
+
+
+            string expirStr = configs.GetDicValue<string, string>("expir");
+            double mins = 30;
+            if (!string.IsNullOrWhiteSpace(expirStr))
+            {
+                if (!double.TryParse(expirStr, out mins))
+                {
+                    throw new ArgumentException("数据保存分钟数必须是0-999999999的值");
+                }
+                if (mins < 0 || mins > 999999999)
+                {
+                    throw new ArgumentException("数据保存分钟数必须是0-999999999的值");
+                }
+            }
+            if (mins > 0)
+            {
+                _expiration = TimeSpan.FromMinutes((double)mins);
+            }
+
+
             if (lstServers.Count == 0)
             {
                 lstServers.Add(localserver);
@@ -140,17 +125,13 @@ namespace Buffalo.QueryCache
                 roserviers = lstRoServers.ToArray();
                 _hasROServer = true;
             }
-            //else 
-            //{
-            //    roserviers = serviers;
-            //}
-            //string[] serviers ={ip+":"+port };
+
 
             RedisClientManagerConfig config = new RedisClientManagerConfig();
             config.MaxWritePoolSize = poolSize;//“写”链接池链接数
             config.MaxReadPoolSize = poolSize;//“读”链接池链接数
             config.AutoStart = true;
-           
+
             //支持读写分离，均衡负载
             return new PooledRedisClientManager(serviers, roserviers, config);
         }
