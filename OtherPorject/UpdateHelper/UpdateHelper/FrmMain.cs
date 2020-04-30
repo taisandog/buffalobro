@@ -24,5 +24,10 @@ namespace UpdateHelper
             }
             MessageBox.Show("¿½±´Íê±Ï");
         }
+
+        private void FrmMain_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

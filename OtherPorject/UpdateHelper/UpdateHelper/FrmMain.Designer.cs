@@ -49,6 +49,7 @@
             this.Controls.Add(this.btnUpdate);
             this.Name = "FrmMain";
             this.Text = "拷贝工具";
+            this.Load += new System.EventHandler(this.FrmMain_Load);
             this.ResumeLayout(false);
 
         }

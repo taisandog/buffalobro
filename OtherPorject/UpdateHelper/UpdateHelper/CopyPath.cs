@@ -50,14 +50,16 @@ namespace UpdateHelper
         /// <returns></returns>
         public int DoCopy() 
         {
-            string sPath=_basePath+"\\"+SourcePath;
-            string tPath = _basePath + "\\" + TargetPath;
+
+            string sPath=Path.Combine(_basePath,SourcePath);
+            string tPath = Path.Combine(_basePath , TargetPath);
             DirectoryInfo tinfo = new DirectoryInfo(tPath.TrimEnd('\\'));
             DirectoryInfo sinfo = new DirectoryInfo(sPath.TrimEnd('\\'));
             
             int totle = CopyDirectory(sinfo.FullName, tinfo.FullName);
             return totle;
         }
+        
 
         /// <summary>
         /// µÝ¹é¿½±´ÎÄ¼þ¼Ð
@@ -188,7 +190,21 @@ namespace UpdateHelper
             }
             XmlDocument doc = new XmlDocument();
             doc.Load(infoFile);
-            XmlNodeList addinNodes = doc.GetElementsByTagName("Path");
+
+            Dictionary<string, string> dicDefind = new Dictionary<string, string>();
+            XmlNodeList rootNode = doc.GetElementsByTagName("Paths");
+            foreach (XmlNode node in rootNode)
+            {
+                foreach(XmlAttribute ratt in node.Attributes)
+                {
+                    dicDefind["{" + ratt.Name + "}"] = ratt.InnerText;
+                }
+            }
+
+
+                XmlNodeList addinNodes = doc.GetElementsByTagName("Path");
+           
+
             List<CopyPath> lstAddIn = new List<CopyPath>();
             foreach (XmlNode node in addinNodes)
             {
@@ -196,12 +212,12 @@ namespace UpdateHelper
                 XmlAttribute att = node.Attributes["source"];
                 if (att != null)
                 {
-                    info._sourcePath = att.InnerText;
+                    info._sourcePath = ReplaceDefind(att.InnerText, dicDefind);
                 }
                 att = node.Attributes["target"];
                 if (att != null)
                 {
-                    info._targetPath = att.InnerText;
+                    info._targetPath = ReplaceDefind(att.InnerText, dicDefind);
                 }
 
                 att = node.Attributes["igore"];
@@ -213,6 +229,24 @@ namespace UpdateHelper
                 lstAddIn.Add(info);
             }
             return lstAddIn;
+        }
+
+        /// <summary>
+        /// Ìæ»»Ô¤Éè×Ö·û´®
+        /// </summary>
+        /// <param name="sourceString"></param>
+        /// <param name="dicDefind"></param>
+        /// <returns></returns>
+        private static string ReplaceDefind(string sourceString, Dictionary<string, string> dicDefind)
+        {
+            StringBuilder sbRet = new StringBuilder(sourceString);
+            foreach(KeyValuePair<string,string> kvp in dicDefind)
+            {
+                string key = kvp.Key;
+                string value = kvp.Value;
+                sbRet.Replace(key, value);
+            }
+            return sbRet.ToString();
         }
     }
 }
