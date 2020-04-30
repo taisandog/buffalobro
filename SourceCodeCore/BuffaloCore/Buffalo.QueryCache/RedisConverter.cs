@@ -116,18 +116,30 @@ namespace Buffalo.QueryCache
         }
         private static object ValueToBool(RedisValue value)
         {
-
+            //if (value.IsNull)
+            //{
+            //    return false;
+            //}
             return (bool)value;
         }
         private static object ValueToByte(RedisValue value)
         {
-           
+            //if (value.IsNull)
+            //{
+            //    return (byte)0;
+            //}
+
             return (byte)((int)value);
 
 
         }
         private static object ValueToChar(RedisValue value)
         {
+            //if (value.IsNull)
+            //{
+            //    return '\0';
+            //}
+            //return (char)value;
 
             return ((string)value)[0];
 
@@ -293,11 +305,11 @@ namespace Buffalo.QueryCache
         /// <typeparam name="E"></typeparam>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static E RedisValueToValue<E>(RedisValue value)
+        public static E RedisValueToValue<E>(RedisValue value,E defaultValue)
         {
             if (value.IsNullOrEmpty)
             {
-                return default(E);
+                return defaultValue;
             }
             Type type = typeof(E);
             type = DefaultType.GetNullableRealType(type);

@@ -40,129 +40,111 @@ namespace Buffalo.QueryCache
             CreatePool(connStr);
             
         }
-
         private static readonly ILoggerFactory _loggerFacotry = new LoggerFactory();
+
         /// <summary>
         /// 创建连接池
         /// </summary>
         /// <param name="connStr"></param>
         /// <returns></returns>
-        private void CreatePool(string connStr) 
+        private void CreatePool(string connStr)
         {
-            //uint port = 11211;
             int poolSize = 10;
-            string[] conStrs = connStr.Split(';');
-            string serverString = "server=";
-            string sizeString = "poolsize=";
-            string expirString = "expir=";
-            string throwString = "throw=";
-            string uid = "uid=";
-            string pwd = "pwd=";
-            string part = null;
+
+
+            //List<string> lstServers = new List<string>();
             MemcachedClientOptions options = new MemcachedClientOptions();
-            
             _config = new MemcachedClientConfiguration(_loggerFacotry, options);
-            foreach (string lpart in conStrs)
+            Dictionary<string, string> configs = ConnStringFilter.GetConnectInfo(connStr);
+
+
+            string serverStr = configs.GetDicValue<string, string>("server");
+            string[] parts = serverStr.Split(',');
+            foreach (string sser in parts)
             {
-                if (string.IsNullOrEmpty(lpart))
+                if (!string.IsNullOrEmpty(sser))
                 {
-                    continue;
-                }
-                part = lpart.Trim();
-                if (part.IndexOf(serverString, StringComparison.CurrentCultureIgnoreCase) == 0)
-                {
-                    string serverStr = CacheUnit.CutString(part, serverString.Length);
-                    string[] parts = serverStr.Split(',');
-                    foreach (string sser in parts) 
+                    string[] serPart = sser.Split(':');
+                    string ip = null;
+                    string port = "11211";
+                    if (serPart.Length > 0)
                     {
-                        if (!string.IsNullOrEmpty(sser)) 
-                        {
-                            string[] serPart=sser.Split(':');
-                            string ip=null;
-                            string port="11211";
-                            if(serPart.Length>0)
-                            {
-                                ip=serPart[0];
-                            }
-                            if(serPart.Length>1)
-                            {
-                                port=serPart[1];
-                            }
-                            IPAddress ipa=null;
-                            if (!IPAddress.TryParse(ip, out ipa)) 
-                            {
-                                IPHostEntry hostEntry = Dns.GetHostEntry(ip);
-                                ipa = hostEntry.AddressList[0];
-                            }
+                        ip = serPart[0];
+                    }
+                    if (serPart.Length > 1)
+                    {
+                        port = serPart[1];
+                    }
+                    IPAddress ipa = null;
+                    if (!IPAddress.TryParse(ip, out ipa))
+                    {
+                        IPHostEntry hostEntry = Dns.GetHostEntry(ip);
+                        ipa = hostEntry.AddressList[0];
+                    }
 
-                            _config.Servers.Add(new IPEndPoint(ipa, Convert.ToInt32(port)));
-                        }
-                    }
-                }
-                else if (part.IndexOf(sizeString, StringComparison.CurrentCultureIgnoreCase) == 0)
-                {
-                    string maxsizeStr = CacheUnit.CutString(part, sizeString.Length);
-
-                    if (!int.TryParse(maxsizeStr, out poolSize))
-                    {
-                        throw new ArgumentException("最大连接数必须是1-" + MaxVersion + "的值");
-                    }
-                    if (poolSize <= 0 || poolSize >= int.MaxValue)
-                    {
-                        throw new ArgumentException("最大连接数必须是1-" + MaxVersion + "的值");
-                    }
-                }
-                else if (part.IndexOf(throwString, StringComparison.CurrentCultureIgnoreCase) == 0)
-                {
-                    string throwStr = part.Substring(throwString.Length);
-                    throwStr = System.Web.HttpUtility.UrlDecode(throwStr);
-                    _throwExcertion = (throwStr == "1");
-                }
-                
-                else if (part.IndexOf(uid, StringComparison.CurrentCultureIgnoreCase) == 0)
-                {
-                    string valname = CacheUnit.CutString(part, uid.Length);
-                    if (string.IsNullOrEmpty(valname))
-                    {
-                        
-
-                        _config.Authentication.Type = typeof(PlainTextAuthenticator);
-                        _config.Authentication.Parameters["userName"] = valname;
-                    }
-                }
-                else if (part.IndexOf(pwd, StringComparison.CurrentCultureIgnoreCase) == 0)
-                {
-                    string valpwd = CacheUnit.CutString(part, pwd.Length);
-                    if (string.IsNullOrEmpty(valpwd))
-                    {
-                        _config.Authentication.Parameters["password"] = valpwd;
-                    }
-                }
-                else if (part.IndexOf(expirString, StringComparison.CurrentCultureIgnoreCase) == 0)
-                {
-                    string expirStr = CacheUnit.CutString(part, expirString.Length);
-                    double mins = 30;
-                    if (!double.TryParse(expirStr, out mins))
-                    {
-                        throw new ArgumentException("数据保存分钟数必须是0-999999999的值");
-                    }
-                    if (mins < 0 || mins > 999999999)
-                    {
-                        throw new ArgumentException("数据保存分钟数必须是0-999999999的值");
-                    }
-                    if (mins > 0)
-                    {
-                        _expiration = TimeSpan.FromMinutes(mins);
-                    }
+                    _config.Servers.Add(new IPEndPoint(ipa, Convert.ToInt32(port)));
                 }
             }
+
+
+            string maxsizeStr = configs.GetDicValue<string, string>("poolsize");
+
+            if (!int.TryParse(maxsizeStr, out poolSize))
+            {
+                throw new ArgumentException("最大连接数必须是1-" + MaxVersion + "的值");
+            }
+            if (poolSize <= 0 || poolSize >= int.MaxValue)
+            {
+                throw new ArgumentException("最大连接数必须是1-" + MaxVersion + "的值");
+            }
+
+
+            string throwStr = configs.GetDicValue<string, string>("throw");
+            throwStr = System.Web.HttpUtility.UrlDecode(throwStr);
+            _throwExcertion = (throwStr == "1");
+
+
+            string valname = configs.GetDicValue<string, string>("uid");
+            if (string.IsNullOrEmpty(valname))
+            {
+                _config.Authentication.Type = typeof(PlainTextAuthenticator);
+                _config.Authentication.Parameters["userName"] = valname;
+            }
+
+            string valpwd = configs.GetDicValue<string, string>("pwd");
+            if (string.IsNullOrEmpty(valpwd))
+            {
+                _config.Authentication.Parameters["password"] = valpwd;
+            }
+
+            string expirStr = configs.GetDicValue<string, string>("expir");
+            double mins = 30;
+            if (!string.IsNullOrWhiteSpace(expirStr))
+            {
+                
+                if (!double.TryParse(expirStr, out mins))
+                {
+                    throw new ArgumentException("数据保存分钟数必须是0-999999999的值");
+                }
+                if (mins < 0 || mins > 999999999)
+                {
+                    throw new ArgumentException("数据保存分钟数必须是0-999999999的值");
+                }
+                
+            }
+            if (mins > 0)
+            {
+                _expiration = TimeSpan.FromMinutes(mins);
+            }
+
+
             _config.SocketPool.ReceiveTimeout = new TimeSpan(0, 0, 2);
             _config.SocketPool.DeadTimeout = new TimeSpan(0, 0, 10);
             _config.Protocol = MemcachedProtocol.Binary;
             _config.SocketPool.MaxPoolSize = poolSize;
-             //使用默认的数据桶
-            _client = new MemcachedClient(_loggerFacotry, _config);
-            
+            //使用默认的数据桶
+            _client = new MemcachedClient(_loggerFacotry,_config);
+
         }
         /// <summary>
         /// 获取连接
@@ -559,6 +541,36 @@ namespace Buffalo.QueryCache
                 default:
                     return StoreMode.Set;
             }
+        }
+
+        protected override long ListAddValue<E>(string key, long index, E value, SetValueType setType, MemcachedConnection connection)
+        {
+            throw new NotSupportedException("memcached不支持AddToList");
+        }
+
+        protected override E ListGetValue<E>(string key, long index, E defaultValue, MemcachedConnection connection)
+        {
+            throw new NotSupportedException("memcached不支持ListGetValue");
+        }
+
+        protected override long ListGetLength(string key, MemcachedConnection connection)
+        {
+            throw new NotSupportedException("memcached不支持ListGetLength");
+        }
+
+        protected override E ListPopValue<E>(string key, bool isPopEnd, E defaultValue, MemcachedConnection connection)
+        {
+            throw new NotSupportedException("memcached不支持PopListValue");
+        }
+
+        protected override long ListRemoveValue(string key, object value, long count, MemcachedConnection connection)
+        {
+            throw new NotSupportedException("memcached不支持ListRemoveValue");
+        }
+
+        protected override List<E> ListAllValues<E>(string key, long start, long end, MemcachedConnection connection)
+        {
+            throw new NotSupportedException("memcached不支持ListAllValues");
         }
     }
 

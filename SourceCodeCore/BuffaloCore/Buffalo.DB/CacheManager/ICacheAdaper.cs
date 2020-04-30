@@ -101,5 +101,63 @@ namespace Buffalo.DB.CacheManager
         object GetClient();
 
         IEnumerable<string> GetAllKeys(string pattern);
+
+
+        /// <summary>
+        /// 增加到列表
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="key">键</param>
+        /// <param name="index">索引(0为增加到头部，-1为增加到尾部)</param>
+        /// <param name="value">值</param>
+        /// <param name="setType">设置值方式</param>
+        /// <returns></returns>
+        long ListAddValue<E>(string key, long index, E value, SetValueType setType, DataBaseOperate oper);
+        /// <summary>
+        /// 获取值
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="key">键</param>
+        /// <param name="index">值位置</param>
+        /// <param name="defaultValue">默认值</param>
+        /// <returns></returns>
+        E ListGetValue<E>(string key, long index, E defaultValue, DataBaseOperate oper);
+
+        /// <summary>
+        /// 获取集合长度
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        long ListGetLength(string key, DataBaseOperate oper);
+        /// <summary>
+        /// 移除并返回值
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="key">键</param>
+        /// <param name="isPopEnd">是否从尾部移除(true则从尾部移除，否则从头部移除)</param>
+        /// <param name="defaultValue">默认值</param>
+        /// <returns></returns>
+        E ListPopValue<E>(string key, bool isPopEnd, E defaultValue, DataBaseOperate oper);
+        
+        /// <summary>
+        /// 移除值
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="value">值</param>
+        /// <param name="count">要移除几个，0则为全部移除</param>
+        /// <returns></returns>
+        long ListRemoveValue(string key, object value, long count, DataBaseOperate oper);
+        
+
+        /// <summary>
+        /// 获取集合所有值
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="key">键</param>
+        /// <param name="start">起始位置(默认0)</param>
+        /// <param name="end">结束位置(-1则为读到末尾)</param>
+        /// <returns></returns>
+        List<E> ListAllValues<E>(string key, long start, long end, DataBaseOperate oper);
     }
 }

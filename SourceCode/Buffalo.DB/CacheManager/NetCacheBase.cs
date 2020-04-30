@@ -929,9 +929,196 @@ namespace Buffalo.DB.CacheManager
                 return GetAllKeys(pattern, client);
             }
         }
+        /// <summary>
+        /// 增加到列表
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="key">键</param>
+        /// <param name="index">索引(0为增加到头部，-1为增加到尾部)</param>
+        /// <param name="value">值</param>
+        /// <param name="setType">设置值方式</param>
+        /// <param name="oper"></param>
+        /// <returns></returns>
+        public long ListAddValue<E>(string key, long index, E value, SetValueType setType,DataBaseOperate oper)
+        {
+            using (T client = CreateClient(false, QueryCacheCommand.CommandListAdd))
+            {
+                long ret= ListAddValue<E>(key, index, value, setType, client);
+                if (_info.SqlOutputer.HasOutput)
+                {
+                    OutPutMessage(QueryCacheCommand.CommandListAdd, "key=" + key, oper);
+                }
+                return ret;
+            }
+        }
+        /// <summary>
+        /// 获取值
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="key">键</param>
+        /// <param name="index">值位置</param>
+        /// <param name="defaultValue">默认值</param>
+        /// <param name="oper"></param>
+        /// <returns></returns>
+        public E ListGetValue<E>(string key, long index, E defaultValue, DataBaseOperate oper)
+        {
+            using (T client = CreateClient(false, QueryCacheCommand.CommandListGet))
+            {
+                E ret= ListGetValue<E>(key, index, defaultValue, client);
+                if (_info.SqlOutputer.HasOutput)
+                {
+                    OutPutMessage(QueryCacheCommand.CommandListGet, "key=" + key, oper);
+                }
+                return ret;
+            }
+        }
+
+        /// <summary>
+        /// 获取集合长度
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public long ListGetLength(string key, DataBaseOperate oper)
+        {
+            using (T client = CreateClient(false, QueryCacheCommand.CommandListGet))
+            {
+                long ret = ListGetLength(key, client);
+                if (_info.SqlOutputer.HasOutput)
+                {
+                    OutPutMessage(QueryCacheCommand.CommandListGet, "key=" + key, oper);
+                }
+                return ret;
+            }
+        }
+        /// <summary>
+        /// 移除并返回值
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="key">键</param>
+        /// <param name="isPopEnd">是否从尾部移除(true则从尾部移除，否则从头部移除)</param>
+        /// <param name="defaultValue">默认值</param>
+        /// <param name="oper"></param>
+        /// <returns></returns>
+        public E ListPopValue<E>(string key, bool isPopEnd, E defaultValue, DataBaseOperate oper)
+        {
+            using (T client = CreateClient(false, QueryCacheCommand.CommandListDelete))
+            {
+                E ret = ListPopValue<E>(key, isPopEnd, defaultValue, client);
+                if (_info.SqlOutputer.HasOutput)
+                {
+                    OutPutMessage(QueryCacheCommand.CommandListDelete, "key=" + key, oper);
+                }
+                return ret;
+            }
+        }
+        /// <summary>
+        /// 移除值
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="value">值</param>
+        /// <param name="count">要移除几个，0则为全部移除</param>
+        /// <returns></returns>
+        public long ListRemoveValue(string key, object value, long count, DataBaseOperate oper)
+        {
+            using (T client = CreateClient(false, QueryCacheCommand.CommandListDelete))
+            {
+                long ret = ListRemoveValue(key, value, count, client);
+                if (_info.SqlOutputer.HasOutput)
+                {
+                    OutPutMessage(QueryCacheCommand.CommandListDelete, "key=" + key, oper);
+                }
+                return ret;
+            }
+        }
+
+        /// <summary>
+        /// 获取集合所有值
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="key">键</param>
+        /// <param name="start">起始位置(默认0)</param>
+        /// <param name="end">结束位置(-1则为读到末尾)</param>
+        /// <param name="oper"></param>
+        /// <returns></returns>
+        public List<E> ListAllValues<E>(string key, long start, long end, DataBaseOperate oper)
+        {
+            using (T client = CreateClient(false, QueryCacheCommand.CommandListGet))
+            {
+                List<E> ret= ListAllValues<E>(key, start, end, client); 
+                if (_info.SqlOutputer.HasOutput)
+                {
+                    OutPutMessage(QueryCacheCommand.CommandListGet, "key=" + key, oper);
+                }
+
+                return ret;
+            }
+        }
+
 
         public abstract void ClearAll(T client);
         public abstract object GetClient();
         public abstract IEnumerable<string> GetAllKeys(string pattern, T client);
+
+        /// <summary>
+        /// 增加到列表
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="key">键</param>
+        /// <param name="index">索引(0为增加到头部，-1为增加到尾部)</param>
+        /// <param name="value">值</param>
+        /// <param name="setType">设置值方式</param>
+        /// <param name="connection"></param>
+        /// <returns></returns>
+        protected abstract long ListAddValue<E>(string key, long index, E value, SetValueType setType, T connection);
+        /// <summary>
+        /// 插入
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="setType"></param>
+        /// <param name="connection"></param>
+        /// <returns></returns>
+        protected abstract E ListGetValue<E>(string key, long index, E defaultValue, T connection);
+
+        /// <summary>
+        /// 获取集合长度
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="connection"></param>
+        /// <returns></returns>
+        protected abstract long ListGetLength(string key, T connection);
+        /// <summary>
+        /// 移除并返回值
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="key">键</param>
+        /// <param name="isPopEnd">是否从尾部移除(true则从尾部移除，否则从头部移除)</param>
+        /// <param name="defaultValue">默认值</param>
+        /// <param name="connection"></param>
+        /// <returns></returns>
+        protected abstract E ListPopValue<E>(string key, bool isPopEnd, E defaultValue, T connection);
+        /// <summary>
+        /// 移除值
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="value">值</param>
+        /// <param name="count">要移除几个，0则为全部移除</param>
+        /// <param name="connection"></param>
+        /// <returns></returns>
+        protected abstract long ListRemoveValue(string key, object value, long count, T connection);
+
+        /// <summary>
+        /// 获取集合所有值
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="key">键</param>
+        /// <param name="start">起始位置(默认0)</param>
+        /// <param name="end">结束位置(-1则为读到末尾)</param>
+        /// <param name="connection"></param>
+        /// <returns></returns>
+        protected abstract List<E> ListAllValues<E>(string key, long start, long end, T connection);
     }
 }

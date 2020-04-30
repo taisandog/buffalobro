@@ -540,6 +540,36 @@ namespace Buffalo.QueryCache
                     return StoreMode.Set;
             }
         }
+
+        protected override long ListAddValue<E>(string key, long index, E value, SetValueType setType, MemcachedConnection connection)
+        {
+            throw new NotSupportedException("memcached不支持AddToList");
+        }
+
+        protected override E ListGetValue<E>(string key, long index, E defaultValue, MemcachedConnection connection)
+        {
+            throw new NotSupportedException("memcached不支持ListGetValue");
+        }
+
+        protected override long ListGetLength(string key, MemcachedConnection connection)
+        {
+            throw new NotSupportedException("memcached不支持ListGetLength");
+        }
+
+        protected override E ListPopValue<E>(string key, bool isPopEnd, E defaultValue, MemcachedConnection connection)
+        {
+            throw new NotSupportedException("memcached不支持PopListValue");
+        }
+
+        protected override long ListRemoveValue(string key, object value, long count, MemcachedConnection connection)
+        {
+            throw new NotSupportedException("memcached不支持ListRemoveValue");
+        }
+
+        protected override List<E> ListAllValues<E>(string key, long start, long end, MemcachedConnection connection)
+        {
+            throw new NotSupportedException("memcached不支持ListAllValues");
+        }
     }
 
     /// <summary>

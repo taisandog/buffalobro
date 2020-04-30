@@ -11,6 +11,7 @@ using System.Data;
 using Newtonsoft.Json;
 using System.IO;
 using MemcacheClient;
+using Buffalo.Kernel;
 
 namespace Buffalo.QueryCache
 {
@@ -18,7 +19,7 @@ namespace Buffalo.QueryCache
 
     public class RedisAdaperByStackExchange : NetCacheBase<RedisConnection>
     {
-        private ConnectionMultiplexer _redis =null;
+        private ConnectionMultiplexer _redis = null;
         /// <summary>
         /// 主服务器
         /// </summary>
@@ -31,6 +32,10 @@ namespace Buffalo.QueryCache
         /// 服务器数量
         /// </summary>
         int _serverCount = 0;
+        /// <summary>
+        /// 命令标记
+        /// </summary>
+         CommandFlags _commanfFlags;
         /// <summary>
         /// memcached的适配器
         /// </summary>
@@ -56,96 +61,70 @@ namespace Buffalo.QueryCache
             ConfigurationOptions options = new ConfigurationOptions();
             //ConnectionMultiplexer config = new ConnectionMultiplexer();
             string mainserver = "127.0.0.1:6379";
-            
-            string[] conStrs = connectionString.Split(';');
-            string serverString = "server=";
-            string passwordString = "pwd=";
-            string expirString = "expir=";
-            string sslString = "ssl=";
-            string throwString = "throw=";
-            string part = null;
+            Dictionary<string, string> configs = ConnStringFilter.GetConnectInfo(connectionString);
+
             List<string> servers = new List<string>();
-            foreach (string lpart in conStrs)
+
+
+
+            string serverStr = configs.GetDicValue<string, string>("server");
+            string[] parts = serverStr.Split(',');
+            foreach (string sser in parts)
             {
-                if (string.IsNullOrEmpty(lpart))
+                if (!string.IsNullOrEmpty(sser))
                 {
-                    continue;
-                }
-                part = lpart.Trim();
-                if (part.IndexOf(serverString, StringComparison.CurrentCultureIgnoreCase) == 0)
-                {
-                    //string serverStr = part.Substring(serverString.Length);
-                    string serverStr = CacheUnit.CutString(part, serverString.Length);
-                    string[] parts = serverStr.Split(',');
-                    foreach (string sser in parts)
-                    {
-                        if (!string.IsNullOrEmpty(sser))
-                        {
-                            servers.Add(sser);
-                        }
-                    }
-                }
-                //else if (part.IndexOf(readonlyserverString, StringComparison.CurrentCultureIgnoreCase) == 0)
-                //{
-                //    //string serverStr = part.Substring(serverString.Length);
-                //    roserver = CacheUnit.CutString(part, serverString.Length);
-                   
-                //}
-                else if (part.IndexOf(passwordString, StringComparison.CurrentCultureIgnoreCase) == 0)
-                {
-                    //string serverStr = part.Substring(serverString.Length);
-                    options.Password= CacheUnit.CutString(part, passwordString.Length);
-
-                }
-                else if (part.IndexOf(sslString, StringComparison.CurrentCultureIgnoreCase) == 0)
-                {
-                    //string serverStr = part.Substring(serverString.Length);
-                    options.Ssl = CacheUnit.CutString(part, sslString.Length)=="1";
-
-                }
-                else if (part.IndexOf(throwString, StringComparison.CurrentCultureIgnoreCase) == 0)
-                {
-                    //string throwStr = part.Substring(throwString.Length);
-                    string throwStr = CacheUnit.CutString(part, throwString.Length);
-                    _throwExcertion = (throwStr == "1");
-                }
-                else if (part.IndexOf(expirString, StringComparison.CurrentCultureIgnoreCase) == 0)
-                {
-                    //string expirStr = part.Substring(expirString.Length);
-                    string expirStr = CacheUnit.CutString(part, expirString.Length);
-                    double mins = 30;
-                    if (!double.TryParse(expirStr, out mins))
-                    {
-                        throw new ArgumentException("数据保存分钟数必须是0-999999999的值");
-                    }
-                    if (mins < 0 || mins > 999999999)
-                    {
-                        throw new ArgumentException("数据保存分钟数必须是0-999999999的值");
-                    }
-                    if (mins > 0)
-                    {
-                        _expiration = TimeSpan.FromMinutes((double)mins);
-                    }
+                    servers.Add(sser);
                 }
             }
-            if(servers.Count>0)
+
+            string pwdStr = configs.GetDicValue<string, string>("server");
+            if (!string.IsNullOrEmpty(pwdStr))
             {
-                mainserver=servers[0];
+                options.Password = pwdStr;
             }
-            //options.EndPoints.Add(mainserver);
+
+            options.Ssl = configs.GetDicValue<string, string>("ssl") == "1";
+
+            string throwStr = configs.GetDicValue<string, string>("throw");
+            _throwExcertion = (throwStr == "1");
+
+            string expirStr = configs.GetDicValue<string, string>("expir");
+            double mins = 30;
+            if (!string.IsNullOrWhiteSpace(expirStr))
+            {
+                if (!double.TryParse(expirStr, out mins))
+                {
+                    throw new ArgumentException("数据保存分钟数必须是0-999999999的值");
+                }
+                if (mins < 0 || mins > 999999999)
+                {
+                    throw new ArgumentException("数据保存分钟数必须是0-999999999的值");
+                }
+
+            }
+            if (mins > 0)
+            {
+                _expiration = TimeSpan.FromMinutes((double)mins);
+            }
+            if (servers.Count > 0)
+            {
+                mainserver = servers[0];
+            }
             _mainServer = mainserver;
-            
+
             _serverCount = 1;
-            if (servers.Count>0)
+            if (servers.Count > 0)
             {
                 foreach (string strServer in servers)
                 {
                     options.EndPoints.Add(strServer);
                     _roserver = strServer;
                 }
-                
+
             }
             _serverCount = servers.Count;
+            _commanfFlags = (CommandFlags)configs.GetDicValue<string, string>("commanfFlags").ConvertTo<int>((int)CommandFlags.None);
+
             return ConnectionMultiplexer.Connect(options);
         }
 
@@ -153,10 +132,11 @@ namespace Buffalo.QueryCache
         #region ICacheAdaper 成员
 
 
+
         protected override RedisConnection CreateClient(bool realOnly, string cmd)
         {
             IDatabase client = null;
-            if (realOnly && _hasROServer && _serverCount>1)
+            if (realOnly && _hasROServer && _serverCount > 1)
             {
                 client = _redis.GetDatabase(1);
             }
@@ -184,13 +164,12 @@ namespace Buffalo.QueryCache
         /// <returns></returns>
         protected override E GetValue<E>(string key, E defaultValue, RedisConnection connection)
         {
+
             IDatabase client = connection.DB;
             RedisValue value = client.StringGet(key);
-            if (value.IsNull) 
-            {
-                return defaultValue;
-            }
-            return RedisConverter.RedisValueToValue<E>(value);
+           
+
+            return RedisConverter.RedisValueToValue<E>(value,defaultValue);
         }
         /// <summary>
         /// 所有键
@@ -207,13 +186,14 @@ namespace Buffalo.QueryCache
             }
             IEnumerable<RedisKey> coll = _redis.GetServer(_mainServer).Keys();
             List<string> lst = new List<string>();
-            foreach(RedisKey val in coll)
+            foreach (RedisKey val in coll)
             {
                 lst.Add(val.ToString());
             }
             return lst;
 #endif
         }
+
 
 
         protected override bool SetValue<E>(string key, E value, SetValueType type, int expirSeconds, RedisConnection connection)
@@ -231,10 +211,10 @@ namespace Buffalo.QueryCache
                 return client.StringSet(key, val, ts, when);
             }
 
-            return client.StringSet(key, val,when: when);
+            return client.StringSet(key, val, when: when);
         }
 
-        
+
 
         protected override DataSet DoGetDataSet(string key, RedisConnection connection)
         {
@@ -333,12 +313,12 @@ namespace Buffalo.QueryCache
             IDatabase client = connection.DB;
 
             Dictionary<string, object> results = new Dictionary<string, object>();
-            RedisKey[] rkeys=new RedisKey[keys.Length];
-            for(int i=0;i<keys.Length;i++)
+            RedisKey[] rkeys = new RedisKey[keys.Length];
+            for (int i = 0; i < keys.Length; i++)
             {
-                rkeys[i]=keys[i];
+                rkeys[i] = keys[i];
             }
-            RedisValue[] values=client.StringGet(rkeys);
+            RedisValue[] values = client.StringGet(rkeys);
             RedisValue cur = RedisValue.Null;
             for (int i = 0; i < keys.Length; i++)
             {
@@ -352,7 +332,7 @@ namespace Buffalo.QueryCache
                     results[keys[i]] = values[i];
                 }
             }
-            
+
             return results;
         }
         public static string FromUtf8Bytes(byte[] bytes)
@@ -365,6 +345,131 @@ namespace Buffalo.QueryCache
             return "redis";
         }
 
+
+        /// <summary>
+        /// 增加到列表
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="key">键</param>
+        /// <param name="index">索引(0为增加到头部，-1为增加到尾部)</param>
+        /// <param name="value">值</param>
+        /// <param name="setType">设置值方式</param>
+        /// <param name="connection"></param>
+        /// <returns></returns>
+        protected override long ListAddValue<E>(string key,long index, E value, SetValueType setType, RedisConnection connection)
+        {
+            IDatabase client = connection.DB;
+            TimeSpan ts = _expiration;
+
+            RedisValue val = RedisConverter.ValueToRedisValue(value);
+            When when = GetSetValueMode(setType);
+            if (index == 0)
+            {
+                return client.ListLeftPush(key, val, when, _commanfFlags);
+            }
+            if (index == -1)
+            {
+                return client.ListRightPush(key, val, when, _commanfFlags);
+            }
+            client.ListSetByIndex(key, index, val, _commanfFlags);
+            return 1;
+        }
+
+       
+       
+       /// <summary>
+       /// 获取值
+       /// </summary>
+       /// <typeparam name="E"></typeparam>
+       /// <param name="key">键</param>
+       /// <param name="index">值位置</param>
+       /// <param name="defaultValue">默认值</param>
+       /// <param name="connection"></param>
+       /// <returns></returns>
+        protected override E ListGetValue<E>(string key,long index,E defaultValue,  RedisConnection connection)
+        {
+            IDatabase client = connection.DB;
+            TimeSpan ts = _expiration;
+
+            RedisValue value = client.ListGetByIndex(key, index, _commanfFlags);
+            
+            return RedisConverter.RedisValueToValue<E>(value, defaultValue);
+        }
+       
+        /// <summary>
+        /// 获取集合长度
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="connection"></param>
+        /// <returns></returns>
+        protected override long ListGetLength(string key, RedisConnection connection)
+        {
+            IDatabase client = connection.DB;
+
+            return client.ListLength(key,  _commanfFlags);
+        }
+        /// <summary>
+        /// 移除并返回值
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="key">键</param>
+        /// <param name="isPopEnd">是否从尾部移除(true则从尾部移除，否则从头部移除)</param>
+        /// <param name="defaultValue">默认值</param>
+        /// <param name="connection"></param>
+        /// <returns></returns>
+        protected override E ListPopValue<E>(string key,bool isPopEnd, E defaultValue, RedisConnection connection)
+        {
+            IDatabase client = connection.DB;
+            TimeSpan ts = _expiration;
+            RedisValue value = RedisValue.Null;
+            if (isPopEnd)
+            {
+                value = client.ListRightPop(key, _commanfFlags);
+            }
+            else
+            {
+                value = client.ListLeftPop(key, _commanfFlags);
+            }
+            return RedisConverter.RedisValueToValue<E>(value, defaultValue); 
+        }
+        /// <summary>
+        /// 移除值
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="value">值</param>
+        /// <param name="count">要移除几个，0则为全部移除</param>
+        /// <param name="connection"></param>
+        /// <returns></returns>
+        protected override long ListRemoveValue(string key,  object value,long count, RedisConnection connection)
+        {
+            IDatabase client = connection.DB;
+            TimeSpan ts = _expiration;
+            RedisValue rvalue =  RedisConverter.ValueToRedisValue(value);
+            return client.ListRemove(key, rvalue, count, _commanfFlags);
+        }
+        
+        /// <summary>
+        /// 获取集合所有值
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="key">键</param>
+        /// <param name="start">起始位置(默认0)</param>
+        /// <param name="end">结束位置(-1则为读到末尾)</param>
+        /// <param name="connection"></param>
+        /// <returns></returns>
+        protected override List<E> ListAllValues<E>(string key,long start,long end, RedisConnection connection)
+        {
+            IDatabase client = connection.DB;
+            RedisValue[] values = client.ListRange(key, start, end, _commanfFlags);
+            List<E> result = new List<E>();
+            foreach (RedisValue item in values)
+            {
+                result.Add(RedisConverter.RedisValueToValue<E>(item,default(E)));
+            }
+           
+            return result;
+        }
         #endregion
 
 
@@ -373,7 +478,6 @@ namespace Buffalo.QueryCache
         {
 
             IDatabase client = connection.DB;
-            
             byte[] content = client.StringGet(key);
             using (MemoryStream stm = new MemoryStream(content))
             {

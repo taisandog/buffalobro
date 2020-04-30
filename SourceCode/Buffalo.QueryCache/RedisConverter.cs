@@ -315,11 +315,11 @@ namespace Buffalo.QueryCache
         /// <typeparam name="E"></typeparam>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static E RedisValueToValue<E>(RedisValue value)
+        public static E RedisValueToValue<E>(RedisValue value,E defaultValue)
         {
             if (value.IsNullOrEmpty)
             {
-                return default(E);
+                return defaultValue;
             }
             Type type = typeof(E);
             type = DefaultType.GetNullableRealType(type);

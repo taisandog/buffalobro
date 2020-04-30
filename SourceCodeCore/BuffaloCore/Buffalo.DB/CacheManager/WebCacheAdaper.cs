@@ -1,20 +1,21 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Data;
 using System.Collections;
-using Buffalo.Kernel;
 using Buffalo.DB.DataBaseAdapter;
-using Buffalo.DB.MessageOutPuters;
+using System.Data;
 using Buffalo.DB.DbCommon;
-using Buffalo.DB.CacheManager.MemoryCacheUnit;
+using System.Web;
+using System.Web.Caching;
+using Buffalo.Kernel;
+using Buffalo.DB.MessageOutPuters;
 
 namespace Buffalo.DB.CacheManager
 {
     /// <summary>
     /// ASPNET的Cache
     /// </summary>
-    public class WebCacheAdaper : ICacheAdaper
+    public class WebCacheAdaper : ICacheAdaper 
     {
         /// <summary>
         /// 过期时间(分钟)
@@ -31,28 +32,53 @@ namespace Buffalo.DB.CacheManager
         {
             get { return _expiration; }
         }
-
-        public WebCacheAdaper(DBInfo info, string connStr)
+        
+        public WebCacheAdaper(DBInfo info,string connStr) 
         {
             _info = info;
+            if (CommonMethods.IsWebContext)
+            {
+                _curCache = HttpContext.Current.Cache;
+            }
+            else 
+            {
+                _curCache = HttpRuntime.Cache;
+            }
             
-
             CreatePool(connStr);
         }
-
+        
         /// <summary>
         /// 所有键
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<string> GetAllKeys(string pattern)
+        public IEnumerable<string> GetAllKeys(string pattern) 
         {
-           
-            return _curCache.AllKeys();
-            
+            List<string> keys = new List<string>();
+            IDictionaryEnumerator cacheEnum = _curCache.GetEnumerator();
+            while (cacheEnum.MoveNext())
+            {
+                string val = ValueConvertExtend.ConvertValue<string>(cacheEnum.Key);
+                if (!CommonMethods.IsPatternMatch(val, pattern)) 
+                {
+                    continue;
+                }
+                keys.Add(val);
+            }
+            return keys;
         }
         public void ClearAll()
         {
-            _curCache.ClearAll();
+            List<string> cacheKes = new List<string>(_curCache.Count);
+            IDictionaryEnumerator cacheEnum = _curCache.GetEnumerator();
+            while (cacheEnum.MoveNext())
+            {
+                cacheKes.Add(cacheEnum.Key.ToString());
+            }
+            foreach (string key in cacheKes)
+            {
+                _curCache.Remove(key);
+            }
         }
         /// <summary>
         /// 创建连接池
@@ -62,7 +88,7 @@ namespace Buffalo.DB.CacheManager
         private void CreatePool(string connStr)
         {
             string[] conStrs = connStr.Split(';');
-
+            
             string expirString = "expir=";
 
             //List<string> lstServers = new List<string>();
@@ -74,10 +100,10 @@ namespace Buffalo.DB.CacheManager
                     continue;
                 }
                 part = lpart.Trim();
-
+                
                 if (part.IndexOf(expirString, StringComparison.CurrentCultureIgnoreCase) == 0)
                 {
-                    string expirStr = CacheUnit.CutString(part, expirString.Length);
+                    string expirStr =CacheUnit.CutString(part,expirString.Length);
                     int mins = 30;
                     if (!int.TryParse(expirStr, out mins))
                     {
@@ -90,16 +116,15 @@ namespace Buffalo.DB.CacheManager
                     _expiration = TimeSpan.FromMinutes((double)mins);
                 }
             }
-            _curCache = new MemoryStorageManager((double)_expiration.TotalMilliseconds);
         }
 
-        private MemoryStorageManager _curCache = null;
+        private Cache _curCache = null;
         /// <summary>
         /// 当前缓存
         /// </summary>
-        private MemoryStorageManager CurCache
+        private Cache CurCache 
         {
-            get
+            get 
             {
                 return _curCache;
             }
@@ -121,7 +146,7 @@ namespace Buffalo.DB.CacheManager
         /// <param name="sql">SQL名</param>
         /// <param name="dt">数据</param>
         /// <returns></returns>
-        public bool SetData(IDictionary<string, bool> tableNames, string sql, DataSet ds, int expirSeconds, DataBaseOperate oper)
+        public bool SetData(IDictionary<string, bool> tableNames, string sql, DataSet ds, int expirSeconds, DataBaseOperate oper) 
         {
             string key = GetKey(sql);
             ArrayList sqlItems = null;
@@ -137,13 +162,13 @@ namespace Buffalo.DB.CacheManager
                     _hsToKey[tableName] = sqlItems;
 
                 }
-
+                
                 sqlItems.Add(key);
 
             }
             if (_info.SqlOutputer.HasOutput)
             {
-                OutPutMessage(QueryCacheCommand.CommandSetDataSet, sql, oper);
+                OutPutMessage(QueryCacheCommand.CommandSetDataSet, sql,oper);
             }
             TimeSpan ts = _expiration;
             if (expirSeconds > 0)
@@ -152,15 +177,15 @@ namespace Buffalo.DB.CacheManager
             }
             if (ts > TimeSpan.MinValue)
             {
-                CurCache.SetValue(key, ds, ts.TotalMilliseconds);
+                CurCache.Insert(key, ds, null, DateTime.MaxValue, ts);
             }
             else
             {
-                CurCache.SetValue(key, ds,0);
+                CurCache.Insert(key, ds);
             }
 
-
-
+            
+            
             return true;
         }
         /// <summary>
@@ -182,7 +207,7 @@ namespace Buffalo.DB.CacheManager
         /// </summary>
         /// <param name="tableName">表名</param>
         /// <returns></returns>
-        private string GetTableKeyName(string tableName)
+        private  string GetTableKeyName(string tableName)
         {
             StringBuilder sbRet = new StringBuilder(tableName.Length + 20);
             sbRet.Append("___Table:");
@@ -194,13 +219,13 @@ namespace Buffalo.DB.CacheManager
         /// </summary>
         /// <param name="sql"></param>
         /// <returns></returns>
-        private string GetKey(string sql)
+        private string GetKey(string sql) 
         {
             StringBuilder sbKey = new StringBuilder(100);
             sbKey.Append("BuffaloCache:");
-            sbKey.Append(sql.Length);
+            sbKey.Append(sql.Length );
             sbKey.Append(":");
-            sbKey.Append(PasswordHash.ToMD5String(_info.Name + ":" + sql));
+            sbKey.Append(PasswordHash.ToMD5String(_info.Name+":"+sql));
             return sbKey.ToString();
         }
 
@@ -210,28 +235,28 @@ namespace Buffalo.DB.CacheManager
         /// <param name="sql">SQL语句</param>
         /// <param name="tableNames">表名集合</param>
         /// <returns></returns>
-        public DataSet GetData(IDictionary<string, bool> tableNames, string sql, DataBaseOperate oper)
+        public  DataSet GetData(IDictionary<string, bool> tableNames, string sql, DataBaseOperate oper)
         {
             string key = GetKey(sql);
             if (_info.SqlOutputer.HasOutput)
             {
-                OutPutMessage(QueryCacheCommand.CommandGetDataSet, sql, oper);
+                OutPutMessage(QueryCacheCommand.CommandGetDataSet, sql,oper);
             }
-            return CurCache.GetValue(key) as DataSet;
+            return CurCache.Get(key) as DataSet;
         }
 
         /// <summary>
         /// 通过SQL删除某项
         /// </summary>
         /// <param name="sql"></param>
-        public void RemoveBySQL(IDictionary<string, bool> tableNames, string sql, DataBaseOperate oper)
+        public void RemoveBySQL(IDictionary<string, bool> tableNames, string sql, DataBaseOperate oper) 
         {
             string key = GetKey(sql);
-
-            CurCache.DeleteValue(key);
+            
+            CurCache.Remove(key);
             if (_info.SqlOutputer.HasOutput)
             {
-                OutPutMessage(QueryCacheCommand.CommandDeleteSQL, sql, oper);
+                OutPutMessage(QueryCacheCommand.CommandDeleteSQL, sql,oper);
             }
 
         }
@@ -252,7 +277,7 @@ namespace Buffalo.DB.CacheManager
                     string key = okey as string;
                     if (!string.IsNullOrEmpty(key))
                     {
-                        CurCache.DeleteValue(key);
+                        CurCache.Remove(key);
                     }
                 }
                 sqlItems.Clear();
@@ -260,7 +285,7 @@ namespace Buffalo.DB.CacheManager
             }
             if (_info.SqlOutputer.HasOutput)
             {
-                OutPutMessage(QueryCacheCommand.CommandDeleteTable, tableName, oper);
+                OutPutMessage(QueryCacheCommand.CommandDeleteTable, tableName,oper);
             }
         }
 
@@ -275,18 +300,18 @@ namespace Buffalo.DB.CacheManager
         public IDictionary<string, object> GetValues(string[] keys, DataBaseOperate oper)
         {
             Dictionary<string, object> dic = new Dictionary<string, object>(keys.Length);
-            foreach (string str in keys)
+            foreach (string str in keys) 
             {
-                object val = CurCache.GetValue(str);
+                object val = CurCache.Get(str);
                 dic[str] = val;
             }
             return dic;
         }
 
-        public E GetValue<E>(string key, E defaultValue, DataBaseOperate oper)
+        public E GetValue<E>(string key,E defaultValue, DataBaseOperate oper)
         {
-            object val = CurCache.GetValue(key);
-            if (val == null)
+            object val = CurCache.Get(key);
+            if (val == null) 
             {
                 return defaultValue;
             }
@@ -298,6 +323,48 @@ namespace Buffalo.DB.CacheManager
             return ValueConvertExtend.ConvertValue<E>(val);
         }
         public bool SetValue<E>(string key, E value, SetValueType type, int expirSeconds, DataBaseOperate oper)
+        {
+            TimeSpan ts = _expiration;
+            if (expirSeconds > 0)
+            {
+                ts = TimeSpan.FromSeconds(expirSeconds);
+            }
+            object lok = _lockObjects.GetObject(key);
+            lock (lok)
+            {
+                switch (type)
+                {
+                    case SetValueType.AddNew:
+                        if (CurCache.Get(key) != null)
+                        {
+                            return false;
+                        }
+
+                        break;
+                    case SetValueType.Replace:
+                        if (CurCache.Get(key) == null)
+                        {
+                            return false;
+                        }
+
+                        break;
+                    default:
+                        break;
+                }
+
+
+                if (ts > TimeSpan.MinValue)
+                {
+                    CurCache.Insert(key, value, null, DateTime.MaxValue, ts);
+                }
+                else
+                {
+                    CurCache.Insert(key, value);
+                }
+            }
+            return true;
+        }
+            public bool SetValue(string key, object value, SetValueType type, int expirSeconds, DataBaseOperate oper)
         {
             //_cache[key] = value;
             TimeSpan ts = _expiration;
@@ -311,14 +378,14 @@ namespace Buffalo.DB.CacheManager
                 switch (type)
                 {
                     case SetValueType.AddNew:
-                        if (CurCache.GetValue(key) != null)
+                        if (CurCache.Get(key) != null)
                         {
                             return false;
                         }
 
                         break;
                     case SetValueType.Replace:
-                        if (CurCache.GetValue(key) == null)
+                        if (CurCache.Get(key) == null)
                         {
                             return false;
                         }
@@ -331,11 +398,11 @@ namespace Buffalo.DB.CacheManager
 
                 if (ts > TimeSpan.MinValue)
                 {
-                    CurCache.SetValue(key, value,  ts.TotalMilliseconds);
+                    CurCache.Insert(key, value, null, DateTime.MaxValue, ts);
                 }
                 else
                 {
-                    CurCache.SetValue(key, value,0);
+                    CurCache.Insert(key, value);
                 }
             }
             return true;
@@ -343,7 +410,7 @@ namespace Buffalo.DB.CacheManager
 
         public void DeleteValue(string key, DataBaseOperate oper)
         {
-            CurCache.DeleteValue(key);
+            CurCache.Remove(key);
         }
 
         public long DoIncrement(string key, ulong inc, DataBaseOperate oper)
@@ -351,7 +418,7 @@ namespace Buffalo.DB.CacheManager
             object lok = _lockObjects.GetObject(key);
             lock (lok)
             {
-                object oval = CurCache.GetValue(key);
+                object oval = CurCache.Get(key);
                 if (oval == null)
                 {
                     oval = 1;
@@ -361,11 +428,11 @@ namespace Buffalo.DB.CacheManager
                 //_cache[key] = value;
                 if (_expiration > TimeSpan.MinValue)
                 {
-                    CurCache.SetValue(key, value,  _expiration.TotalMilliseconds);
+                    CurCache.Insert(key, value, null, DateTime.MaxValue, _expiration);
                 }
                 else
                 {
-                    CurCache.SetValue(key, value,0);
+                    CurCache.Insert(key, value);
                 }
                 return value;
             }
@@ -375,7 +442,7 @@ namespace Buffalo.DB.CacheManager
             object lok = _lockObjects.GetObject(key);
             lock (lok)
             {
-                object oval = CurCache.GetValue(key);
+                object oval = CurCache.Get(key);
                 if (oval == null)
                 {
                     oval = 1;
@@ -385,11 +452,11 @@ namespace Buffalo.DB.CacheManager
                 //_cache[key] = value;
                 if (_expiration > TimeSpan.MinValue)
                 {
-                    CurCache.SetValue(key, value, _expiration.TotalMilliseconds);
+                    CurCache.Insert(key, value, null, DateTime.MaxValue, _expiration);
                 }
                 else
                 {
-                    CurCache.SetValue(key, value, 0);
+                    CurCache.Insert(key, value);
                 }
                 return value;
             }
@@ -403,7 +470,7 @@ namespace Buffalo.DB.CacheManager
             {
                 OutPutMessage(QueryCacheCommand.CommandGetList, key, oper);
             }
-            return CurCache.GetValue(key) as IList;
+            return CurCache.Get(key) as IList;
         }
 
         public bool SetEntityList(string key, IList lstEntity, int expirSeconds, DataBaseOperate oper)
@@ -417,13 +484,13 @@ namespace Buffalo.DB.CacheManager
 
             if (ts > TimeSpan.MinValue)
             {
-                CurCache.SetValue(key, lstEntity,  ts.TotalMilliseconds);
+                CurCache.Insert(key, lstEntity, null, DateTime.MaxValue, ts);
             }
             else
             {
-                CurCache.SetValue(key, lstEntity,0);
+                CurCache.Insert(key, lstEntity);
             }
-
+           
             return true;
         }
 
@@ -438,7 +505,7 @@ namespace Buffalo.DB.CacheManager
 
         public object GetValue(string key, DataBaseOperate oper)
         {
-            object val = CurCache.GetValue(key);
+            object val = CurCache.Get(key);
             return val;
         }
         /// <summary>
@@ -449,17 +516,131 @@ namespace Buffalo.DB.CacheManager
         /// <returns></returns>
         public bool ExistsKey(string key, DataBaseOperate oper)
         {
-            object val = CurCache.GetValue(key);
-            return val != null;
+            object val = CurCache.Get(key);
+            return val!=null;
         }
 
-        public bool SetValue(string key, object value, SetValueType type, int expirSeconds, DataBaseOperate oper)
+        /// <summary>
+        /// 获取集合
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        private IList GetCacheList(string key)
         {
-            return SetValue<object>(key, value, type, expirSeconds, oper);
+            IList ret = CurCache.Get(key) as IList;
+            if (ret == null)
+            {
+                ret = new List<object>();
+                CurCache.Insert(key,ret);
+            }
+            return ret;
+        }
+        public long ListAddValue<E>(string key, long index, E value, SetValueType setType, DataBaseOperate oper)
+        {
+            IList lst = GetCacheList(key);
+            lock (lst)
+            {
+                if (index < 0)
+                {
+                    lst.Add(value);
+                }
+                lst.Insert((int)index, value);
+                return 1;
+            }
+        }
+
+        public E ListGetValue<E>(string key, long index, E defaultValue, DataBaseOperate oper)
+        {
+
+            IList lst = GetCacheList(key);
+            lock (lst)
+            {
+                if (lst.Count <= 0)
+                {
+                    return defaultValue;
+                }
+                if (index < 0)
+                {
+                    index = lst.Count - 1;
+                }
+                return lst[(int)index].ConvertTo<E>(defaultValue);
+            }
+        }
+
+        public long ListGetLength(string key, DataBaseOperate oper)
+        {
+
+            IList lst = GetCacheList(key);
+
+            return lst.Count;
+        }
+
+        public E ListPopValue<E>(string key, bool isPopEnd, E defaultValue, DataBaseOperate oper)
+        {
+
+            IList lst = GetCacheList(key);
+            lock (lst)
+            {
+                if (lst.Count <= 0)
+                {
+                    return defaultValue;
+                }
+                E ret = defaultValue;
+                int index = 0;
+                if (isPopEnd)
+                {
+                    index = lst.Count - 1;
+                }
+                ret = lst[index].ConvertTo<E>(defaultValue);
+                lst.RemoveAt(index);
+                return ret;
+            }
+        }
+
+        public long ListRemoveValue(string key, object value, long count, DataBaseOperate oper)
+        {
+
+            IList lst = GetCacheList(key);
+            lock (lst)
+            {
+                int ret = 0;
+                for (int i = lst.Count - 1; i >= 0; i--)
+                {
+                    if (lst[i] == value)
+                    {
+                        lst.RemoveAt(i);
+                        ret++;
+                        if (count > 0 && ret >= count)
+                        {
+                            break;
+                        }
+                    }
+                }
+                return ret;
+            }
+        }
+
+        public List<E> ListAllValues<E>(string key, long start, long end, DataBaseOperate oper)
+        {
+            IList lst = GetCacheList(key);
+            lock (lst)
+            {
+                List<E> retlst = new List<E>(lst.Count);
+                int s = (int)start;
+                int e = (int)end;
+                if (e <= 0)
+                {
+                    e = lst.Count - 1;
+                }
+                for (int i = s; i < e; i++)
+                {
+                    object oval = lst;
+                    retlst.Add(oval.ConvertTo<E>());
+                }
+                return retlst;
+            }
         }
 
         #endregion
     }
-
-
 }
