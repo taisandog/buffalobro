@@ -13,8 +13,14 @@ namespace Buffalo.MQ.RedisMQ
     /// </summary>
     public class RedisMQConfig:MQConfigBase
     {
-        
-
+        /// <summary>
+        /// 订阅标记
+        /// </summary>
+        public static readonly byte[] PublicTag = new byte[] {0x54,0x86 };
+        /// <summary>
+        /// 队列头
+        /// </summary>
+        public const string BuffaloMQHead = "$bufmq.";
         /// <summary>
         /// 命令标记
         /// </summary>
@@ -23,6 +29,10 @@ namespace Buffalo.MQ.RedisMQ
         /// 配置
         /// </summary>
         public readonly ConfigurationOptions Options;
+        /// <summary>
+        /// 保存到队列
+        /// </summary>
+        public bool SaveToQueue=false; 
 
         public RedisMQConfig(string connString) : base(connString)
         {
@@ -53,7 +63,7 @@ namespace Buffalo.MQ.RedisMQ
 
             Options.Password = hs.GetDicValue<string, string>("pwd");
             Options.Ssl = hs.GetDicValue<string, string>("ssl") == "1";
-
+            SaveToQueue= hs.GetDicValue<string, string>("useQueue") == "1";//保存到队列
             if (servers.Count > 0)
             {
                 foreach (string strServer in servers)

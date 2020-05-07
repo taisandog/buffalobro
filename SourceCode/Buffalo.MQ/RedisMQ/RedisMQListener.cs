@@ -20,6 +20,12 @@ namespace Buffalo.MQ.RedisMQ
         /// 发布者
         /// </summary>
         public ISubscriber _subscriber;
+
+        private IDatabase _db;
+        /// <summary>
+        /// 锁对象
+        /// </summary>
+        private LockObjects<string> _lok = new LockObjects<string>();
         /// <summary>
         /// RabbitMQ适配
         /// </summary>
@@ -41,23 +47,77 @@ namespace Buffalo.MQ.RedisMQ
             }
             
         }
-
+        /// <summary>
+        /// 获取Redis操作类
+        /// </summary>
+        /// <returns></returns>
+        private IDatabase GetDB()
+        {
+            if (_db == null)
+            {
+                _db = _redis.GetDatabase();
+            }
+            return _db;
+        }
         private void OnRedisCallback(RedisChannel key, RedisValue value)
         {
-            CallBack(key.ToString(), key.ToString(), (byte[])value,0,0);
+            string skey = key.ToString();
+            byte[] svalue = (byte[])value;
+            if (_config.SaveToQueue)
+            {
+                FlushQueue(skey);
+            }
+            else
+            {
+                CallBack(skey, skey, (byte[])value, 0, 0);
+            }
+        }
+
+
+        /// <summary>
+        /// 读入队列信息
+        /// </summary>
+        private void FlushQueue(string skey)
+        {
+            object lok = _lok.GetObject(skey);
+            lock (lok)
+            {
+                string pkey = RedisMQConfig.BuffaloMQHead + skey;
+                byte[] svalue = null;
+                IDatabase db = GetDB();
+                RedisValue tmpval = RedisValue.Null;
+                do
+                {
+                    tmpval = db.ListRightPop(pkey, _config.CommanfFlags);
+                    if (!tmpval.HasValue)
+                    {
+                        break;
+                    }
+                    svalue = tmpval;
+                    CallBack(skey, skey, svalue, 0, 0);
+
+                } while (tmpval.HasValue);
+            }
         }
 
         public override void StartListend(IEnumerable<string> listenKeys)
         {
-            ResetWait();
             Open();
+            foreach (string lis in listenKeys)
+            {
+                FlushQueue(lis);
+            }
 
+            ResetWait();
             _subscriber = _redis.GetSubscriber();
             foreach (string lis in listenKeys)
             {
                 _subscriber.Subscribe(lis, OnRedisCallback, _config.CommanfFlags);
+                
             }
             SetWait();
+            
+            
         }
         public override void StartListend(IEnumerable<MQOffestInfo> listenKeys)
         {
@@ -72,6 +132,7 @@ namespace Buffalo.MQ.RedisMQ
             {
                 _subscriber.UnsubscribeAll();
             }
+            
             _subscriber = null;
             if (_redis != null)
             {
@@ -79,7 +140,7 @@ namespace Buffalo.MQ.RedisMQ
                 _redis.Dispose();
                 _redis = null;
             }
-           
+            _db = null;
             DisponseWait();
         }
 

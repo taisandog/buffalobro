@@ -23,6 +23,7 @@ namespace Buffalo.MQ.RedisMQ
         RedisMQConfig _config;
 
         private Queue<MQRedisMessage> _que = null;
+        private IDatabase _db;
         /// <summary>
         /// RabbitMQ适配
         /// </summary>
@@ -57,7 +58,18 @@ namespace Buffalo.MQ.RedisMQ
                 _subscriber = _redis.GetSubscriber();
             }
         }
-
+        /// <summary>
+        /// 获取Redis操作类
+        /// </summary>
+        /// <returns></returns>
+        private IDatabase GetDB()
+        {
+            if (_db == null)
+            {
+                _db = _redis.GetDatabase();
+            }
+            return _db;
+        }
 
 
         public override bool IsOpen
@@ -88,10 +100,32 @@ namespace Buffalo.MQ.RedisMQ
             }
             else
             {
-                _subscriber.Publish(routingKey, value, _config.CommanfFlags);
+                SendToPublic(routingKey, body);
             }
 
             return ApiCommon.GetSuccess();
+        }
+        
+        /// <summary>
+        /// 发送信息
+        /// </summary>
+        /// <param name="routingKey"></param>
+        /// <param name="body"></param>
+        private void SendToPublic(string routingKey, byte[] body)
+        {
+            if (_config.SaveToQueue)
+            {
+               
+                string key = RedisMQConfig.BuffaloMQHead + routingKey;
+                IDatabase db = GetDB();
+                db.ListLeftPush(key, body);
+                _subscriber.Publish(routingKey, RedisMQConfig.PublicTag, _config.CommanfFlags);
+            }
+            else
+            {
+                _subscriber.Publish(routingKey, body, _config.CommanfFlags);
+            }
+            
         }
         /// <summary>
         /// 删除队列(Rabbit可用)
@@ -115,6 +149,11 @@ namespace Buffalo.MQ.RedisMQ
         /// </summary>
         protected override void Close()
         {
+            if (_db != null)
+            {
+                
+                _db = null;
+            }
             if (_redis != null)
             {
                 _redis.Close();
@@ -145,7 +184,8 @@ namespace Buffalo.MQ.RedisMQ
                 while (_que.Count > 0)
                 {
                     mess = _que.Dequeue();
-                    _subscriber.Publish(mess.RoutingKey, mess.Value, _config.CommanfFlags);
+                    SendToPublic(mess.RoutingKey, mess.Value);
+
                 }
             }
             return ApiCommon.GetSuccess();
