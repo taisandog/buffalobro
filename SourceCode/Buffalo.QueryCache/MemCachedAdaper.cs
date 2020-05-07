@@ -15,6 +15,7 @@ using Enyim.Caching.Configuration;
 using Enyim.Caching.Memcached;
 using MemcacheClient;
 using System.Net.Sockets;
+using System.Collections;
 
 namespace Buffalo.QueryCache
 {
@@ -569,6 +570,51 @@ namespace Buffalo.QueryCache
         protected override List<E> ListAllValues<E>(string key, long start, long end, MemcachedConnection connection)
         {
             throw new NotSupportedException("memcached不支持ListAllValues");
+        }
+
+        protected override void HashSetRangeValue(string key, IDictionary dicSet, MemcachedConnection connection)
+        {
+            throw new NotSupportedException("memcached不支持HashSetRangeValue");
+        }
+
+        protected override bool HashSetValue(string key, object hashkey, object value, SetValueType type, MemcachedConnection connection)
+        {
+            throw new NotSupportedException("memcached不支持HashSetValue");
+        }
+
+        protected override E HashGetValue<E>(string key, object hashkey, E defaultValue, MemcachedConnection connection)
+        {
+            throw new NotSupportedException("memcached不支持HashGetValue");
+        }
+
+        protected override List<KeyValuePair<K, V>> HashGetAllValues<K,V>(string key, V defaultValue, MemcachedConnection connection)
+        {
+            throw new NotSupportedException("memcached不支持HashGetAllValues");
+        }
+
+        protected override bool HashDeleteValue(string key, object hashkey, MemcachedConnection connection)
+        {
+            throw new NotSupportedException("memcached不支持HashDeleteValue");
+        }
+
+        protected override long HashDeleteValues(string key, IEnumerable hashkeys, MemcachedConnection connection)
+        {
+            throw new NotSupportedException("memcached不支持HashDeleteValue");
+        }
+
+        protected override bool HashExists(string key, object hashkey, MemcachedConnection connection)
+        {
+            throw new NotSupportedException("memcached不支持HashExists");
+        }
+
+        protected override long HashIncrement(string key, object hashkey, long value, MemcachedConnection connection)
+        {
+            throw new NotSupportedException("memcached不支持HashIncrement");
+        }
+
+        protected override long HashDecrement(string key, object hashkey, long value, MemcachedConnection connection)
+        {
+            throw new NotSupportedException("memcached不支持HashDecrement");
         }
     }
 

@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using System.IO;
 using MemcacheClient;
 using Buffalo.Kernel;
+using System.Collections;
 
 namespace Buffalo.QueryCache
 {
@@ -360,7 +361,7 @@ namespace Buffalo.QueryCache
         {
             IDatabase client = connection.DB;
             TimeSpan ts = _expiration;
-
+            
             RedisValue val = RedisConverter.ValueToRedisValue(value);
             When when = GetSetValueMode(setType);
             if (index == 0)
@@ -375,27 +376,33 @@ namespace Buffalo.QueryCache
             return 1;
         }
 
-       
-       
-       /// <summary>
-       /// 获取值
-       /// </summary>
-       /// <typeparam name="E"></typeparam>
-       /// <param name="key">键</param>
-       /// <param name="index">值位置</param>
-       /// <param name="defaultValue">默认值</param>
-       /// <param name="connection"></param>
-       /// <returns></returns>
-        protected override E ListGetValue<E>(string key,long index,E defaultValue,  RedisConnection connection)
+
+
+
+
+
+        #endregion
+
+        #region List操作
+        /// <summary>
+        /// 获取值
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="key">键</param>
+        /// <param name="index">值位置</param>
+        /// <param name="defaultValue">默认值</param>
+        /// <param name="connection"></param>
+        /// <returns></returns>
+        protected override E ListGetValue<E>(string key, long index, E defaultValue, RedisConnection connection)
         {
             IDatabase client = connection.DB;
             TimeSpan ts = _expiration;
 
             RedisValue value = client.ListGetByIndex(key, index, _commanfFlags);
-            
+
             return RedisConverter.RedisValueToValue<E>(value, defaultValue);
         }
-       
+
         /// <summary>
         /// 获取集合长度
         /// </summary>
@@ -407,7 +414,7 @@ namespace Buffalo.QueryCache
         {
             IDatabase client = connection.DB;
 
-            return client.ListLength(key,  _commanfFlags);
+            return client.ListLength(key, _commanfFlags);
         }
         /// <summary>
         /// 移除并返回值
@@ -418,7 +425,7 @@ namespace Buffalo.QueryCache
         /// <param name="defaultValue">默认值</param>
         /// <param name="connection"></param>
         /// <returns></returns>
-        protected override E ListPopValue<E>(string key,bool isPopEnd, E defaultValue, RedisConnection connection)
+        protected override E ListPopValue<E>(string key, bool isPopEnd, E defaultValue, RedisConnection connection)
         {
             IDatabase client = connection.DB;
             TimeSpan ts = _expiration;
@@ -431,7 +438,7 @@ namespace Buffalo.QueryCache
             {
                 value = client.ListLeftPop(key, _commanfFlags);
             }
-            return RedisConverter.RedisValueToValue<E>(value, defaultValue); 
+            return RedisConverter.RedisValueToValue<E>(value, defaultValue);
         }
         /// <summary>
         /// 移除值
@@ -441,14 +448,14 @@ namespace Buffalo.QueryCache
         /// <param name="count">要移除几个，0则为全部移除</param>
         /// <param name="connection"></param>
         /// <returns></returns>
-        protected override long ListRemoveValue(string key,  object value,long count, RedisConnection connection)
+        protected override long ListRemoveValue(string key, object value, long count, RedisConnection connection)
         {
             IDatabase client = connection.DB;
             TimeSpan ts = _expiration;
-            RedisValue rvalue =  RedisConverter.ValueToRedisValue(value);
+            RedisValue rvalue = RedisConverter.ValueToRedisValue(value);
             return client.ListRemove(key, rvalue, count, _commanfFlags);
         }
-        
+
         /// <summary>
         /// 获取集合所有值
         /// </summary>
@@ -458,21 +465,195 @@ namespace Buffalo.QueryCache
         /// <param name="end">结束位置(-1则为读到末尾)</param>
         /// <param name="connection"></param>
         /// <returns></returns>
-        protected override List<E> ListAllValues<E>(string key,long start,long end, RedisConnection connection)
+        protected override List<E> ListAllValues<E>(string key, long start, long end, RedisConnection connection)
         {
             IDatabase client = connection.DB;
             RedisValue[] values = client.ListRange(key, start, end, _commanfFlags);
             List<E> result = new List<E>();
             foreach (RedisValue item in values)
             {
-                result.Add(RedisConverter.RedisValueToValue<E>(item,default(E)));
+                result.Add(RedisConverter.RedisValueToValue<E>(item, default(E)));
             }
-           
+
             return result;
         }
         #endregion
 
+        #region HashSet部分
 
+        /// <summary>
+        /// 批量HashSet设置值
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="key">键</param>
+        /// <param name="dicSet">值</param>
+        /// <param name="connection"></param>
+        /// <returns></returns>
+        protected override void HashSetRangeValue(string key, IDictionary dicSet, RedisConnection connection)
+        {
+            IDatabase client = connection.DB;
+            TimeSpan ts = _expiration;
+            HashEntry[] arrValue = new HashEntry[dicSet.Count];
+            int index = 0;
+            RedisValue rkey=RedisValue.Null;
+            RedisValue rvalue = RedisValue.Null;
+            foreach (DictionaryEntry kvp in dicSet)
+            {
+                rkey = RedisConverter.ValueToRedisValue(kvp.Key);
+                rvalue = RedisConverter.ValueToRedisValue(kvp.Value);
+                arrValue[index] = new HashEntry(rkey, rvalue);
+                index++;
+            }
+             client.HashSet(key, arrValue, _commanfFlags);
+        }
+        /// <summary>
+        /// HashSet设置值
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="hashkey">哈希表的键</param>
+        /// <param name="value">哈希表的值</param>
+        /// <param name="type">设置方式</param>
+        /// <param name="connection"></param>
+        protected override bool HashSetValue(string key,object hashkey, object value, SetValueType type, RedisConnection connection)
+        {
+            IDatabase client = connection.DB;
+
+            RedisValue rkey = RedisConverter.ValueToRedisValue(hashkey);
+            RedisValue rvalue = RedisConverter.ValueToRedisValue(value);
+            HashEntry item = new HashEntry(rkey, rvalue);
+
+            return client.HashSet(key, rkey, rvalue, GetSetValueMode(type), _commanfFlags);
+        }
+        /// <summary>
+        /// 判断是否存在此key
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="hashkey">哈希表的键</param>
+        /// <param name="connection"></param>
+        /// <returns></returns>
+        protected override bool HashExists(string key, object hashkey,  RedisConnection connection)
+        {
+            IDatabase client = connection.DB;
+
+            RedisValue rkey = RedisConverter.ValueToRedisValue(hashkey);
+            return client.HashExists(key, rkey,  _commanfFlags);
+        }
+        /// <summary>
+        /// 哈希表的值自增
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="hashkey">哈希键</param>
+        /// <param name="value">值</param>
+        /// <param name="connection"></param>
+        /// <returns></returns>
+        protected override long HashIncrement(string key, object hashkey,long value, RedisConnection connection)
+        {
+            IDatabase client = connection.DB;
+
+            RedisValue rkey = RedisConverter.ValueToRedisValue(hashkey);
+            return (long)client.HashIncrement(key, rkey,(double)value, _commanfFlags);
+        }
+        /// <summary>
+        /// 哈希表的值自减
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="hashkey">哈希键</param>
+        /// <param name="value">值</param>
+        /// <param name="connection"></param>
+        /// <returns></returns>
+        protected override long HashDecrement(string key, object hashkey, long value, RedisConnection connection)
+        {
+            IDatabase client = connection.DB;
+
+            RedisValue rkey = RedisConverter.ValueToRedisValue(hashkey);
+            return (long)client.HashDecrement(key, rkey, (double)value, _commanfFlags);
+        }
+        /// <summary>
+        /// 获取哈希表的值
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="key">键</param>
+        /// <param name="hashkey">哈希表的键</param>
+        /// <param name="defaultValue">默认值</param>
+        /// <param name="connection"></param>
+        /// <returns></returns>
+        protected override E HashGetValue<E>(string key, object hashkey,E defaultValue,  RedisConnection connection)
+        {
+            IDatabase client = connection.DB;
+
+            RedisValue rkey = RedisConverter.ValueToRedisValue(hashkey);
+
+            RedisValue rvalue =client.HashGet(key, rkey,  _commanfFlags);
+            return RedisConverter.RedisValueToValue<E>(rvalue, defaultValue);
+        }
+        /// <summary>
+        /// 获取所有哈希表的值
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="key">键</param>
+        /// <param name="defaultValue">默认值</param>
+        /// <param name="connection"></param>
+        /// <returns></returns>
+        protected override List<KeyValuePair<K,V>> HashGetAllValues<K, V>(string key,  V defaultValue, RedisConnection connection)
+        {
+            IDatabase client = connection.DB;
+
+
+            HashEntry[] values = client.HashGetAll(key,  _commanfFlags);
+            List<KeyValuePair<K, V>> ret = new List<KeyValuePair<K, V>>(values.Length);
+            
+            K vkey=default(K);
+            V vValue = default(V);
+            foreach (HashEntry entry in values)
+            {
+                
+                vValue = RedisConverter.RedisValueToValue<V>(entry.Value, defaultValue);
+                vkey= RedisConverter.RedisValueToValue<K>(entry.Name,default(K));
+                KeyValuePair<K, V> val = new KeyValuePair<K, V>(vkey, vValue);
+                ret.Add(val);
+            }
+
+            return ret;
+        }
+        /// <summary>
+        /// 删除哈希表的值
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="key">键</param>
+        /// <param name="hashkey">哈希表的键</param>
+        /// <param name="connection"></param>
+        /// <returns></returns>
+        protected override bool HashDeleteValue(string key, object hashkey,  RedisConnection connection)
+        {
+            IDatabase client = connection.DB;
+
+            RedisValue rkey = RedisConverter.ValueToRedisValue(hashkey);
+
+            return client.HashDelete(key, rkey, _commanfFlags);
+        }
+
+        /// <summary>
+        /// 批量删除哈希表的值
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="key">键</param>
+        /// <param name="hashkeys">要删除哈希表的键</param>
+        /// <param name="connection"></param>
+        /// <returns></returns>
+        protected override long HashDeleteValues(string key, IEnumerable hashkeys, RedisConnection connection)
+        {
+            IDatabase client = connection.DB;
+            List<RedisValue> lstrKeys = new List<RedisValue>();
+            RedisValue rkey = RedisValue.Null;
+            foreach (object obj in hashkeys)
+            {
+                rkey = RedisConverter.ValueToRedisValue(obj);
+                lstrKeys.Add(rkey);
+            }
+
+            return client.HashDelete(key, lstrKeys.ToArray(), _commanfFlags);
+        }
+        #endregion
 
         public override System.Collections.IList DoGetEntityList(string key, Type entityType, RedisConnection connection)
         {
