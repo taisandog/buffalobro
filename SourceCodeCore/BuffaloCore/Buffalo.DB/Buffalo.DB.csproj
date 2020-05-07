@@ -6,17 +6,13 @@
     <Product>Buffalo.DB for .Net Standard 2.0</Product>
     <Description>Buffalo.DB核心库</Description>
     <PackageProjectUrl>https://github.com/taisandog</PackageProjectUrl>
-    <Version>1.1.0</Version>
+    <Version>1.2.0</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath>..\..\..\SourceCode\Release\NetStandard2</OutputPath>
     <DocumentationFile>..\..\..\SourceCode\Release\NetStandard2\Buffalo.DB.xml</DocumentationFile>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="CacheManager\WebCacheAdaper.cs" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />

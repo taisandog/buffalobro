@@ -102,7 +102,7 @@ namespace Buffalo.DB.CacheManager
 
         IEnumerable<string> GetAllKeys(string pattern);
 
-
+        #region List方法
         /// <summary>
         /// 增加到列表
         /// </summary>
@@ -159,5 +159,92 @@ namespace Buffalo.DB.CacheManager
         /// <param name="end">结束位置(-1则为读到末尾)</param>
         /// <returns></returns>
         List<E> ListAllValues<E>(string key, long start, long end, DataBaseOperate oper);
+        #endregion
+
+
+        #region HashSet部分
+
+        /// <summary>
+        /// 批量给HashSet设置值
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="key">键</param>
+        /// <param name="dicSet">值</param>
+        /// <returns></returns>
+        void HashSetRangeValue(string key, IDictionary dicSet, DataBaseOperate oper);
+        /// <summary>
+        /// HashSet设置值
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="hashkey">哈希表的键</param>
+        /// <param name="value">哈希表的值</param>
+        /// <param name="type">设置方式</param>
+         bool HashSetValue(string key, object hashkey, object value, SetValueType type, DataBaseOperate oper);
+        /// <summary>
+        /// 获取哈希表的值
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="key">键</param>
+        /// <param name="hashkey">哈希表的键</param>
+        /// <param name="defaultValue">默认值</param>
+        /// <param name="connection"></param>
+        /// <returns></returns>
+        E HashGetValue<E>(string key, object hashkey, E defaultValue, DataBaseOperate oper);
+        /// <summary>
+        /// 获取所有哈希表的值
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="key">键</param>
+        /// <param name="defaultValue">默认值</param>
+        /// <param name="connection"></param>
+        /// <returns></returns>
+        List<KeyValuePair<K, V>> HashGetAllValues<K, V>(string key, V defaultValue, DataBaseOperate oper);
+        /// <summary>
+        /// 删除哈希表的值
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="key">键</param>
+        /// <param name="hashkey">哈希表的键</param>
+        /// <param name="connection"></param>
+        /// <returns></returns>
+         bool HashDeleteValue(string key, object hashkey, DataBaseOperate oper);
+        /// <summary>
+        /// 批量删除哈希表的值
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="key">键</param>
+        /// <param name="hashkeys">要删除哈希表的键</param>
+        /// <param name="connection"></param>
+        /// <returns></returns>
+        long HashDeleteValues(string key, IEnumerable hashkeys, DataBaseOperate oper);
+
+        /// <summary>
+        /// 判断是否存在此key
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="hashkey">哈希表的键</param>
+        /// <param name="connection"></param>
+        /// <returns></returns>
+        bool HashExists(string key, object hashkey, DataBaseOperate oper);
+        /// <summary>
+        /// 哈希表的值自增
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="hashkey">哈希键</param>
+        /// <param name="value">值</param>
+        /// <param name="connection"></param>
+        /// <returns></returns>
+        long HashIncrement(string key, object hashkey, long value, DataBaseOperate oper);
+        /// <summary>
+        /// 哈希表的值自减
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="hashkey">哈希键</param>
+        /// <param name="value">值</param>
+        /// <param name="connection"></param>
+        /// <returns></returns>
+        long HashDecrement(string key, object hashkey, long value, DataBaseOperate oper);
+        #endregion
+
     }
 }

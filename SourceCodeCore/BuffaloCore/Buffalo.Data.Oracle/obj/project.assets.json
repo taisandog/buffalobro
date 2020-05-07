@@ -530,7 +530,7 @@
           "ref/netstandard1.3/System.Threading.Tasks.dll": {}
         }
       },
-      "Buffalo.DB/1.1.0": {
+      "Buffalo.DB/1.2.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v2.0",
         "dependencies": {
@@ -2027,7 +2027,7 @@
         "system.threading.tasks.nuspec"
       ]
     },
-    "Buffalo.DB/1.1.0": {
+    "Buffalo.DB/1.2.0": {
       "type": "project",
       "path": "../Buffalo.DB/Buffalo.DB.csproj",
       "msbuildProject": "../Buffalo.DB/Buffalo.DB.csproj"
@@ -2040,7 +2040,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETStandard,Version=v2.0": [
-      "Buffalo.DB >= 1.1.0",
+      "Buffalo.DB >= 1.2.0",
       "NETStandard.Library >= 2.0.3",
       "Oracle.ManagedDataAccess.Core >= 2.19.31"
     ]

@@ -15,6 +15,7 @@ using Enyim.Caching.Configuration;
 using Enyim.Caching.Memcached;
 using MemcacheClient;
 using System.Net.Sockets;
+using System.Collections;
 using Microsoft.Extensions.Logging;
 
 namespace Buffalo.QueryCache
@@ -28,8 +29,8 @@ namespace Buffalo.QueryCache
 
         private MemcachedClient _client = null;
         private MemcachedClientConfiguration _config;
-        
 
+        private static readonly ILoggerFactory _loggerFacotry = new LoggerFactory();
         /// <summary>
         /// memcached的适配器
         /// </summary>
@@ -40,7 +41,7 @@ namespace Buffalo.QueryCache
             CreatePool(connStr);
             
         }
-        private static readonly ILoggerFactory _loggerFacotry = new LoggerFactory();
+
 
         /// <summary>
         /// 创建连接池
@@ -202,7 +203,7 @@ namespace Buffalo.QueryCache
         public override IEnumerable<string> GetAllKeys(string pattern, MemcachedConnection client)
         {
             IList<EndPoint> serverList = _config.Servers;
-            
+
             Dictionary<string, bool> dic = new Dictionary<string,bool>();
             foreach (EndPoint ip in serverList)
             {
@@ -571,6 +572,51 @@ namespace Buffalo.QueryCache
         protected override List<E> ListAllValues<E>(string key, long start, long end, MemcachedConnection connection)
         {
             throw new NotSupportedException("memcached不支持ListAllValues");
+        }
+
+        protected override void HashSetRangeValue(string key, IDictionary dicSet, MemcachedConnection connection)
+        {
+            throw new NotSupportedException("memcached不支持HashSetRangeValue");
+        }
+
+        protected override bool HashSetValue(string key, object hashkey, object value, SetValueType type, MemcachedConnection connection)
+        {
+            throw new NotSupportedException("memcached不支持HashSetValue");
+        }
+
+        protected override E HashGetValue<E>(string key, object hashkey, E defaultValue, MemcachedConnection connection)
+        {
+            throw new NotSupportedException("memcached不支持HashGetValue");
+        }
+
+        protected override List<KeyValuePair<K, V>> HashGetAllValues<K,V>(string key, V defaultValue, MemcachedConnection connection)
+        {
+            throw new NotSupportedException("memcached不支持HashGetAllValues");
+        }
+
+        protected override bool HashDeleteValue(string key, object hashkey, MemcachedConnection connection)
+        {
+            throw new NotSupportedException("memcached不支持HashDeleteValue");
+        }
+
+        protected override long HashDeleteValues(string key, IEnumerable hashkeys, MemcachedConnection connection)
+        {
+            throw new NotSupportedException("memcached不支持HashDeleteValue");
+        }
+
+        protected override bool HashExists(string key, object hashkey, MemcachedConnection connection)
+        {
+            throw new NotSupportedException("memcached不支持HashExists");
+        }
+
+        protected override long HashIncrement(string key, object hashkey, long value, MemcachedConnection connection)
+        {
+            throw new NotSupportedException("memcached不支持HashIncrement");
+        }
+
+        protected override long HashDecrement(string key, object hashkey, long value, MemcachedConnection connection)
+        {
+            throw new NotSupportedException("memcached不支持HashDecrement");
         }
     }
 

@@ -15,7 +15,7 @@ using System.Text;
 
 namespace Buffalo.QueryCache
 {
-    public class WebMemoryAdaper : ICacheAdaper
+    public class WebMemoryAdaper : LocalCacheBase, ICacheAdaper
     {
         /// <summary>
         /// 锁对象
@@ -428,12 +428,9 @@ namespace Buffalo.QueryCache
         {
             return CurCache;
         }
-        /// <summary>
-        /// 获取集合
-        /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        private IList GetCacheList(string key)
+
+
+        protected override IList GetCacheList(string key)
         {
             IList ret = CurCache.Get(key) as IList;
             if (ret == null)
@@ -443,111 +440,18 @@ namespace Buffalo.QueryCache
             }
             return ret;
         }
-        public long ListAddValue<E>(string key, long index, E value, SetValueType setType, DataBaseOperate oper)
+
+        protected override IDictionary GetCacheHash(string key)
         {
-            IList lst = GetCacheList(key);
-            lock (lst)
+            IDictionary ret = CurCache.Get(key) as IDictionary;
+            if (ret == null)
             {
-                if (index < 0)
-                {
-                    lst.Add(value);
-                }
-                lst.Insert((int)index, value);
-                return 1;
+                ret = new Hashtable();
+                CurCache.Set<object>(key, ret);
             }
+            return ret;
         }
 
-        public E ListGetValue<E>(string key, long index, E defaultValue, DataBaseOperate oper)
-        {
-
-            IList lst = GetCacheList(key);
-            lock (lst)
-            {
-                if (lst.Count <= 0)
-                {
-                    return defaultValue;
-                }
-                if (index < 0)
-                {
-                    index = lst.Count - 1;
-                }
-                return lst[(int)index].ConvertTo<E>(defaultValue);
-            }
-        }
-
-        public long ListGetLength(string key, DataBaseOperate oper)
-        {
-
-            IList lst = GetCacheList(key);
-
-            return lst.Count;
-        }
-
-        public E ListPopValue<E>(string key, bool isPopEnd, E defaultValue, DataBaseOperate oper)
-        {
-
-            IList lst = GetCacheList(key);
-            lock (lst)
-            {
-                if (lst.Count <= 0)
-                {
-                    return defaultValue;
-                }
-                E ret = defaultValue;
-                int index = 0;
-                if (isPopEnd)
-                {
-                    index = lst.Count - 1;
-                }
-                ret = lst[index].ConvertTo<E>(defaultValue);
-                lst.RemoveAt(index);
-                return ret;
-            }
-        }
-
-        public long ListRemoveValue(string key, object value, long count, DataBaseOperate oper)
-        {
-
-            IList lst = GetCacheList(key);
-            lock (lst)
-            {
-                int ret = 0;
-                for (int i = lst.Count - 1; i >= 0; i--)
-                {
-                    if (lst[i] == value)
-                    {
-                        lst.RemoveAt(i);
-                        ret++;
-                        if (count > 0 && ret >= count)
-                        {
-                            break;
-                        }
-                    }
-                }
-                return ret;
-            }
-        }
-
-        public List<E> ListAllValues<E>(string key, long start, long end, DataBaseOperate oper)
-        {
-            IList lst = GetCacheList(key);
-            lock (lst)
-            {
-                List<E> retlst = new List<E>(lst.Count);
-                int s = (int)start;
-                int e = (int)end;
-                if (e <= 0)
-                {
-                    e = lst.Count - 1;
-                }
-                for (int i = s; i < e; i++)
-                {
-                    object oval = lst;
-                    retlst.Add(oval.ConvertTo<E>());
-                }
-                return retlst;
-            }
-        }
         #region ICacheAdaper 成员
 
 
