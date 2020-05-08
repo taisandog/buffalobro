@@ -60,6 +60,7 @@
     <Compile Include="BQLCommon\BQLKeyWordCommon\KeyWordAlterTableItem.cs" />
     <Compile Include="BQLCommon\BQLKeyWordCommon\KeyWordAddParamItem.cs" />
     <Compile Include="BQLCommon\BQLKeyWordCommon\KeyWordAddForeignkeyItem.cs" />
+    <Compile Include="CacheManager\LocalCacheBase.cs" />
     <Compile Include="CacheStorage\CacheStorageItem.cs" />
     <Compile Include="CacheManager\CacheUnit.cs" />
     <Compile Include="CacheManager\DataSetCacheItem.cs" />
