@@ -101,8 +101,12 @@ namespace AddInSetup.ConnStringUI
                 sbStr.Append("ssl=1");
                 sbStr.Append(";");
             }
-            
 
+            if (chkUseQueue.Checked)
+            {
+                sbStr.Append("useQueue=1");
+                sbStr.Append(";");
+            }
             return sbStr.ToString();
         }
 

@@ -37,12 +37,14 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
+            this.chkUseQueue = new System.Windows.Forms.CheckBox();
             this.gpSetting.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtExpir)).BeginInit();
             this.SuspendLayout();
             // 
             // gpSetting
             // 
+            this.gpSetting.Controls.Add(this.chkUseQueue);
             this.gpSetting.Controls.Add(this.label8);
             this.gpSetting.Controls.Add(this.txtName);
             this.gpSetting.Controls.Add(this.label7);
@@ -57,7 +59,7 @@
             // chkSSL
             // 
             this.chkSSL.AutoSize = true;
-            this.chkSSL.Location = new System.Drawing.Point(196, 173);
+            this.chkSSL.Location = new System.Drawing.Point(194, 173);
             this.chkSSL.Name = "chkSSL";
             this.chkSSL.Size = new System.Drawing.Size(55, 25);
             this.chkSSL.TabIndex = 64;
@@ -143,6 +145,18 @@
             this.txtName.TabIndex = 68;
             this.txtName.Text = "myTest";
             // 
+            // chkUseQueue
+            // 
+            this.chkUseQueue.AutoSize = true;
+            this.chkUseQueue.Checked = true;
+            this.chkUseQueue.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkUseQueue.Location = new System.Drawing.Point(194, 204);
+            this.chkUseQueue.Name = "chkUseQueue";
+            this.chkUseQueue.Size = new System.Drawing.Size(157, 25);
+            this.chkUseQueue.TabIndex = 70;
+            this.chkUseQueue.Text = "使用队列存储信息";
+            this.chkUseQueue.UseVisualStyleBackColor = true;
+            // 
             // UIRedisMQ
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
@@ -166,5 +180,6 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox txtName;
+        private System.Windows.Forms.CheckBox chkUseQueue;
     }
 }
