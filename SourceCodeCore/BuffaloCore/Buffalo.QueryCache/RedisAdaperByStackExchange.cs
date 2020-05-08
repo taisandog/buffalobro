@@ -366,6 +366,7 @@ namespace Buffalo.QueryCache
             When when = GetSetValueMode(setType);
             if (index == 0)
             {
+                
                 return client.ListLeftPush(key, val, when, _commanfFlags);
             }
             if (index == -1)
