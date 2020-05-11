@@ -36,12 +36,16 @@
             this.label4 = new System.Windows.Forms.Label();
             this.txtPwd = new System.Windows.Forms.TextBox();
             this.chkSSL = new System.Windows.Forms.CheckBox();
+            this.cmbCommandFlags = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.gpSetting.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtExpir)).BeginInit();
             this.SuspendLayout();
             // 
             // gpSetting
             // 
+            this.gpSetting.Controls.Add(this.label6);
+            this.gpSetting.Controls.Add(this.cmbCommandFlags);
             this.gpSetting.Controls.Add(this.chkSSL);
             this.gpSetting.Controls.Add(this.txtPwd);
             this.gpSetting.Controls.Add(this.label4);
@@ -54,7 +58,7 @@
             // chkThrow
             // 
             this.chkThrow.AutoSize = true;
-            this.chkThrow.Location = new System.Drawing.Point(194, 184);
+            this.chkThrow.Location = new System.Drawing.Point(197, 223);
             this.chkThrow.Name = "chkThrow";
             this.chkThrow.Size = new System.Drawing.Size(297, 29);
             this.chkThrow.TabIndex = 55;
@@ -127,12 +131,33 @@
             // chkSSL
             // 
             this.chkSSL.AutoSize = true;
-            this.chkSSL.Location = new System.Drawing.Point(194, 149);
+            this.chkSSL.Location = new System.Drawing.Point(194, 188);
             this.chkSSL.Name = "chkSSL";
             this.chkSSL.Size = new System.Drawing.Size(63, 29);
             this.chkSSL.TabIndex = 59;
             this.chkSSL.Text = "SSL";
             this.chkSSL.UseVisualStyleBackColor = true;
+            // 
+            // cmbCommandFlags
+            // 
+            this.cmbCommandFlags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmbCommandFlags.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbCommandFlags.FormattingEnabled = true;
+            this.cmbCommandFlags.Location = new System.Drawing.Point(193, 149);
+            this.cmbCommandFlags.Name = "cmbCommandFlags";
+            this.cmbCommandFlags.Size = new System.Drawing.Size(457, 33);
+            this.cmbCommandFlags.TabIndex = 60;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.label6.Location = new System.Drawing.Point(54, 155);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(133, 21);
+            this.label6.TabIndex = 61;
+            this.label6.Text = "CommandFlags:";
             // 
             // UIRedis2
             // 
@@ -155,5 +180,7 @@
         private System.Windows.Forms.CheckBox chkSSL;
         private System.Windows.Forms.TextBox txtPwd;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ComboBox cmbCommandFlags;
     }
 }

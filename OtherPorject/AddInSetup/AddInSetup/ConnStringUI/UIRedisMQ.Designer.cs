@@ -38,12 +38,16 @@
             this.label8 = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
             this.chkUseQueue = new System.Windows.Forms.CheckBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.cmbCommandFlags = new System.Windows.Forms.ComboBox();
             this.gpSetting.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtExpir)).BeginInit();
             this.SuspendLayout();
             // 
             // gpSetting
             // 
+            this.gpSetting.Controls.Add(this.label9);
+            this.gpSetting.Controls.Add(this.cmbCommandFlags);
             this.gpSetting.Controls.Add(this.chkUseQueue);
             this.gpSetting.Controls.Add(this.label8);
             this.gpSetting.Controls.Add(this.txtName);
@@ -59,7 +63,7 @@
             // chkSSL
             // 
             this.chkSSL.AutoSize = true;
-            this.chkSSL.Location = new System.Drawing.Point(194, 173);
+            this.chkSSL.Location = new System.Drawing.Point(193, 208);
             this.chkSSL.Name = "chkSSL";
             this.chkSSL.Size = new System.Drawing.Size(55, 25);
             this.chkSSL.TabIndex = 64;
@@ -150,12 +154,33 @@
             this.chkUseQueue.AutoSize = true;
             this.chkUseQueue.Checked = true;
             this.chkUseQueue.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkUseQueue.Location = new System.Drawing.Point(194, 204);
+            this.chkUseQueue.Location = new System.Drawing.Point(193, 239);
             this.chkUseQueue.Name = "chkUseQueue";
             this.chkUseQueue.Size = new System.Drawing.Size(157, 25);
             this.chkUseQueue.TabIndex = 70;
             this.chkUseQueue.Text = "使用队列存储信息";
             this.chkUseQueue.UseVisualStyleBackColor = true;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.label9.Location = new System.Drawing.Point(55, 177);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(133, 21);
+            this.label9.TabIndex = 72;
+            this.label9.Text = "CommandFlags:";
+            // 
+            // cmbCommandFlags
+            // 
+            this.cmbCommandFlags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmbCommandFlags.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbCommandFlags.FormattingEnabled = true;
+            this.cmbCommandFlags.Location = new System.Drawing.Point(194, 173);
+            this.cmbCommandFlags.Name = "cmbCommandFlags";
+            this.cmbCommandFlags.Size = new System.Drawing.Size(457, 29);
+            this.cmbCommandFlags.TabIndex = 71;
             // 
             // UIRedisMQ
             // 
@@ -181,5 +206,7 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.CheckBox chkUseQueue;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.ComboBox cmbCommandFlags;
     }
 }

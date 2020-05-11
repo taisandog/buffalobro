@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Buffalo.DB.CacheManager;
 using System.Web;
+using StackExchange.Redis;
+using Buffalo.Kernel;
 
 namespace AddInSetup.ConnStringUI
 {
@@ -18,6 +20,7 @@ namespace AddInSetup.ConnStringUI
         {
             InitializeComponent();
             ShowHelp = false;
+            BindFlags();
         }
         protected override void OnHelp()
         {
@@ -45,7 +48,17 @@ namespace AddInSetup.ConnStringUI
                 MessageBox.Show(ex.ToString(), "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            
             MessageBox.Show("测试成功", "测试成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void BindFlags()
+        {
+            List<EnumInfo> lstEnum = EnumUnit.GetEnumInfos(typeof(CommandFlags));
+            cmbCommandFlags.DataSource = lstEnum;
+            cmbCommandFlags.DisplayMember = "FieldName";
+            cmbCommandFlags.ValueMember = "Value";
+            cmbCommandFlags.SelectedValue = CommandFlags.None;
         }
         protected override void OnConnOut()
         {
@@ -90,7 +103,13 @@ namespace AddInSetup.ConnStringUI
                 sbStr.Append("ssl=1");
                 sbStr.Append(";");
             }
-
+            int commanfFlags = (int)cmbCommandFlags.SelectedValue;
+            if (commanfFlags>0)
+            {
+                sbStr.Append("commanfFlags=");
+                sbStr.Append(commanfFlags.ToString()); 
+                sbStr.Append(";");
+            }
             sbStr.Append("throw=");
             sbStr.Append(chkThrow.Checked ? "1" : "0");
             sbStr.Append(";");

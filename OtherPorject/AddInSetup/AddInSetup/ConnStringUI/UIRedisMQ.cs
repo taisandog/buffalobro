@@ -13,6 +13,8 @@ using AddInSetup.Unit;
 using Buffalo.ArgCommon;
 using System.Web;
 using System.Diagnostics;
+using Buffalo.Kernel;
+using StackExchange.Redis;
 
 namespace AddInSetup.ConnStringUI
 {
@@ -22,6 +24,7 @@ namespace AddInSetup.ConnStringUI
         {
             InitializeComponent();
             ShowProxy = false;
+            BindFlags();
         }
         protected override void OnHelp()
         {
@@ -48,6 +51,14 @@ namespace AddInSetup.ConnStringUI
                 return;
             }
             
+        }
+        private void BindFlags()
+        {
+            List<EnumInfo> lstEnum = EnumUnit.GetEnumInfos(typeof(CommandFlags));
+            cmbCommandFlags.DataSource = lstEnum;
+            cmbCommandFlags.DisplayMember = "FieldName";
+            cmbCommandFlags.ValueMember = "Value";
+            cmbCommandFlags.SelectedValue = CommandFlags.None;
         }
         protected override void OnConnOut()
         {
@@ -105,6 +116,13 @@ namespace AddInSetup.ConnStringUI
             if (chkUseQueue.Checked)
             {
                 sbStr.Append("useQueue=1");
+                sbStr.Append(";");
+            }
+            int commanfFlags = (int)cmbCommandFlags.SelectedValue;
+            if (commanfFlags > 0)
+            {
+                sbStr.Append("commanfFlags=");
+                sbStr.Append(commanfFlags.ToString());
                 sbStr.Append(";");
             }
             return sbStr.ToString();
