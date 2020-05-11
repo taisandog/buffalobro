@@ -78,7 +78,7 @@ namespace Buffalo.QueryCache
                 }
             }
 
-            string pwdStr = configs.GetDicValue<string, string>("server");
+            string pwdStr = configs.GetDicValue<string, string>("pwd");
             if (!string.IsNullOrEmpty(pwdStr))
             {
                 options.Password = pwdStr;
