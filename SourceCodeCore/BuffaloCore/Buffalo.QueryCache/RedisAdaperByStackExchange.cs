@@ -25,10 +25,10 @@ namespace Buffalo.QueryCache
         /// 主服务器
         /// </summary>
         private string _mainServer;
-        /// <summary>
-        /// 只读服务器
-        /// </summary>
-        private string _roserver;
+        ///// <summary>
+        ///// 只读服务器
+        ///// </summary>
+        //private string _roserver;
         /// <summary>
         /// 服务器数量
         /// </summary>
@@ -38,6 +38,10 @@ namespace Buffalo.QueryCache
         /// </summary>
          CommandFlags _commanfFlags;
         /// <summary>
+        /// 使用第几个库(0-15)
+        /// </summary>
+        int _db;
+        /// <summary>
         /// memcached的适配器
         /// </summary>
         /// <param name="connStr">连接字符串</param>
@@ -45,7 +49,7 @@ namespace Buffalo.QueryCache
         {
             _info = info;
             _redis = CreateManager(connStr);
-
+            
         }
         /// <summary>
         /// 是否有只读服务器
@@ -119,7 +123,7 @@ namespace Buffalo.QueryCache
                 foreach (string strServer in servers)
                 {
                     options.EndPoints.Add(strServer);
-                    _roserver = strServer;
+                    //_roserver = strServer;
                 }
 
             }
@@ -137,14 +141,7 @@ namespace Buffalo.QueryCache
         protected override RedisConnection CreateClient(bool realOnly, string cmd)
         {
             IDatabase client = null;
-            if (realOnly && _hasROServer && _serverCount > 1)
-            {
-                client = _redis.GetDatabase(1);
-            }
-            else
-            {
-                client = _redis.GetDatabase(0);
-            }
+            client = _redis.GetDatabase(_db);
             return new RedisConnection(client);
         }
 
