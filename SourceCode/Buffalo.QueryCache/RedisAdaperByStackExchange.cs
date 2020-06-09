@@ -207,10 +207,10 @@ namespace Buffalo.QueryCache
             When when = GetSetValueMode(type);
             if (ts > TimeSpan.MinValue)
             {
-                return client.StringSet(key, val, ts, when);
+                return client.StringSet(key, val, ts, when, _commanfFlags);
             }
 
-            return client.StringSet(key, val, when: when);
+            return client.StringSet(key, val,null, when, _commanfFlags);
         }
 
 
@@ -716,10 +716,10 @@ namespace Buffalo.QueryCache
             RedisValue val = RedisConverter.ValueToRedisValue(value);
             if (ts > TimeSpan.MinValue)
             {
-                return client.StringSet(key, val, ts, GetSetValueMode(type));
+                return client.StringSet(key, val, ts, GetSetValueMode(type),_commanfFlags);
             }
             
-            return client.StringSet(key, val,null, GetSetValueMode(type));
+            return client.StringSet(key, val,null, GetSetValueMode(type), _commanfFlags);
         }
 
         public override void ClearAll(RedisConnection connection)
