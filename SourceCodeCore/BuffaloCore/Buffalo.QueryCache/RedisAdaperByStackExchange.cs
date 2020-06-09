@@ -206,10 +206,10 @@ namespace Buffalo.QueryCache
             When when = GetSetValueMode(type);
             if (ts > TimeSpan.MinValue)
             {
-                return client.StringSet(key, val, ts, when);
+                return client.StringSet(key, val, ts, when, _commanfFlags);
             }
 
-            return client.StringSet(key, val, when: when);
+            return client.StringSet(key, val, null,when, _commanfFlags);
         }
 
 
@@ -236,11 +236,11 @@ namespace Buffalo.QueryCache
             RedisValue val = RedisConverter.ValueToRedisValue(bval);
             if (ts > TimeSpan.MinValue)
             {
-                client.StringSet(key, val, ts);
+                return client.StringSet(key, val, ts, When.Always, _commanfFlags);
             }
             else
             {
-                client.StringSet(key, val);
+                return client.StringSet(key, val, null, When.Always, _commanfFlags);
             }
 
             return true;
@@ -261,37 +261,27 @@ namespace Buffalo.QueryCache
             IDatabase client = connection.DB;
             if (_expiration > TimeSpan.MinValue)
             {
-                client.StringSet(key, 1, _expiration);
+                client.StringSet(key, 1, _expiration, When.Always, _commanfFlags);
             }
             else
             {
-                client.StringSet(key, 1);
+                client.StringSet(key, 1, null, When.Always, _commanfFlags);
             }
 
         }
         protected override long DoIncrement(string key, ulong inc, RedisConnection connection)
         {
             IDatabase client = connection.DB;
-            if (inc == 1)
-            {
-                return client.StringIncrement(key);
-            }
-            else
-            {
-                return client.StringIncrement(key, (long)inc);
-            }
+
+            return client.StringIncrement(key, (long)inc, _commanfFlags);
+
         }
         protected override long DoDecrement(string key, ulong dec, RedisConnection connection)
         {
             IDatabase client = connection.DB;
-            if (dec == 1)
-            {
-                return (long)client.StringDecrement(key);
-            }
-            else
-            {
-                return (long)client.StringDecrement(key, dec);
-            }
+
+            return (long)client.StringDecrement(key, dec, _commanfFlags);
+
         }
         /// <summary>
         /// 获取值
@@ -716,10 +706,10 @@ namespace Buffalo.QueryCache
             RedisValue val = RedisConverter.ValueToRedisValue(value);
             if (ts > TimeSpan.MinValue)
             {
-                return client.StringSet(key, val, ts, GetSetValueMode(type));
+                return client.StringSet(key, val, ts, GetSetValueMode(type), _commanfFlags);
             }
             
-            return client.StringSet(key, val,null, GetSetValueMode(type));
+            return client.StringSet(key, val,null, GetSetValueMode(type), _commanfFlags);
         }
 
         public override void ClearAll(RedisConnection connection)
