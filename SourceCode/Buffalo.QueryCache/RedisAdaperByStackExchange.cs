@@ -94,7 +94,7 @@ namespace Buffalo.QueryCache
             _throwExcertion = (throwStr == "1");
 
             string expirStr = configs.GetDicValue<string, string>("expir");
-            double mins = 30;
+            double mins = 0;
             if (!string.IsNullOrWhiteSpace(expirStr))
             {
                 if (!double.TryParse(expirStr, out mins))
@@ -237,11 +237,11 @@ namespace Buffalo.QueryCache
             RedisValue val = RedisConverter.ValueToRedisValue(bval);
             if (ts > TimeSpan.MinValue)
             {
-                client.StringSet(key, val, ts);
+                client.StringSet(key, val, ts,When.Always, _commanfFlags);
             }
             else
             {
-                client.StringSet(key, val);
+                client.StringSet(key, val,null,When.Always, _commanfFlags);
             }
 
             return true;
@@ -262,11 +262,11 @@ namespace Buffalo.QueryCache
             IDatabase client = connection.DB;
             if (_expiration > TimeSpan.MinValue)
             {
-                client.StringSet(key, 1, _expiration);
+                client.StringSet(key, 1, _expiration,When.Always,_commanfFlags);
             }
             else
             {
-                client.StringSet(key, 1);
+                client.StringSet(key, 1,null, When.Always, _commanfFlags);
             }
 
         }
@@ -676,11 +676,11 @@ namespace Buffalo.QueryCache
 
             if (ts > TimeSpan.MinValue)
             {
-                client.StringSet(key, bval, ts);
+                client.StringSet(key, bval, ts, When.Always, _commanfFlags);
             }
             else
             {
-                client.StringSet(key, bval);
+                client.StringSet(key, bval,null,When.Always,_commanfFlags);
             }
 
             return true;
