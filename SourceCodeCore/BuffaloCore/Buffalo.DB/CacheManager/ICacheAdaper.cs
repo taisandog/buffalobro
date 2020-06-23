@@ -78,7 +78,7 @@ namespace Buffalo.DB.CacheManager
         /// <param name="key">键</param>
         /// <param name="oper">连接</param>
         /// <returns></returns>
-        void DeleteValue(string key, DataBaseOperate oper);
+        bool DeleteValue(string key, DataBaseOperate oper);
         /// <summary>
         /// 自增
         /// </summary>

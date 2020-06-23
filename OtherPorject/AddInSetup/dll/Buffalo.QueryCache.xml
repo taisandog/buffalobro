@@ -17,6 +17,385 @@
             <param name="connectionString">连接字符串</param>
             <returns></returns>
         </member>
+        <member name="T:Buffalo.QueryCache.MemCachedAdaper">
+            <summary>
+            利用MemCached做缓存
+            </summary>
+        </member>
+        <member name="M:Buffalo.QueryCache.MemCachedAdaper.#ctor(System.String,Buffalo.DB.DataBaseAdapter.DBInfo)">
+            <summary>
+            memcached的适配器
+            </summary>
+            <param name="connStr">连接字符串</param>
+        </member>
+        <member name="M:Buffalo.QueryCache.MemCachedAdaper.CreatePool(System.String)">
+            <summary>
+            创建连接池
+            </summary>
+            <param name="connStr"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.MemCachedAdaper.CreateClient(System.Boolean,System.String)">
+            <summary>
+            获取连接
+            </summary>
+            <param name="readOnly"></param>
+            <param name="cmd"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.MemCachedAdaper.GetAllKeys(System.String,Buffalo.QueryCache.MemcachedConnection)">
+            <summary>
+            查找所有键
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.MemCachedAdaper.FillAllKeys(System.Collections.Generic.Dictionary{System.String,System.Boolean},System.Net.IPEndPoint)">
+            <summary>
+            查找键
+            </summary>
+            <param name="serverIP"></param>
+            <param name="pattern"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.MemCachedAdaper.ExecuteScalarAsString(System.Net.Sockets.Socket,System.String)">
+            <summary>
+            执行返回字符串标量
+            </summary>
+            <param name="socket">套接字</param>
+            <param name="command">命令</param>
+            <returns>执行结果</returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.MemCachedAdaper.QuerySlabId(System.Net.Sockets.Socket)">
+            <summary>
+            查询slabId
+            </summary>
+            <param name="socket">套接字</param>
+            <returns>slabId遍历器</returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.MemCachedAdaper.ParseStatsItems(System.String)">
+            <summary>
+            解析STAT items返回slabId
+            </summary>
+            <param name="contentAsString">解析内容</param>
+            <returns>slabId遍历器</returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.MemCachedAdaper.QueryKeys(System.Net.Sockets.Socket,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            查询键
+            </summary>
+            <param name="socket">套接字</param>
+            <param name="slabIdIter">被查询slabId</param>
+            <returns>键遍历器</returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.MemCachedAdaper.ParseKeys(System.String)">
+            <summary>
+            解析stats cachedump返回键
+            </summary>
+            <param name="contentAsString">解析内容</param>
+            <returns>键遍历器</returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.MemCachedAdaper.DoNewVer(System.String,Buffalo.QueryCache.MemcachedConnection)">
+            <summary>
+            设置版本号
+            </summary>
+            <param name="key"></param>
+            <param name="client"></param>
+        </member>
+        <member name="M:Buffalo.QueryCache.MemCachedAdaper.GetSetValueMode(Buffalo.DB.CacheManager.SetValueType)">
+            <summary>
+            获取设置值模式
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Buffalo.QueryCache.MemcachedConnection">
+            <summary>
+            Memcached
+            </summary>
+        </member>
+        <member name="F:Buffalo.QueryCache.MemcachedConnection.Client">
+            <summary>
+            关联连接
+            </summary>
+        </member>
+        <member name="F:Buffalo.QueryCache.RedisAdaperByStackExchange._mainServer">
+            <summary>
+            主服务器
+            </summary>
+        </member>
+        <member name="F:Buffalo.QueryCache.RedisAdaperByStackExchange._serverCount">
+            <summary>
+            服务器数量
+            </summary>
+        </member>
+        <member name="F:Buffalo.QueryCache.RedisAdaperByStackExchange._commanfFlags">
+            <summary>
+            命令标记
+            </summary>
+        </member>
+        <member name="F:Buffalo.QueryCache.RedisAdaperByStackExchange._db">
+            <summary>
+            使用第几个库(0-15)
+            </summary>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisAdaperByStackExchange.#ctor(System.String,Buffalo.DB.DataBaseAdapter.DBInfo)">
+            <summary>
+            memcached的适配器
+            </summary>
+            <param name="connStr">连接字符串</param>
+        </member>
+        <member name="F:Buffalo.QueryCache.RedisAdaperByStackExchange._hasROServer">
+            <summary>
+            是否有只读服务器
+            </summary>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisAdaperByStackExchange.CreateManager(System.String)">
+            <summary>
+            创建连接池
+            </summary>
+            <param name="connectionString">连接字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisAdaperByStackExchange.GetValue``1(System.String,``0,Buffalo.QueryCache.RedisConnection)">
+            <summary>
+            获取值
+            </summary>
+            <typeparam name="E"></typeparam>
+            <param name="key"></param>
+            <param name="defaultValue"></param>
+            <param name="client"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisAdaperByStackExchange.GetAllKeys(System.String,Buffalo.QueryCache.RedisConnection)">
+            <summary>
+            所有键
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisAdaperByStackExchange.DoNewVer(System.String,Buffalo.QueryCache.RedisConnection)">
+            <summary>
+            设置版本号
+            </summary>
+            <param name="key"></param>
+            <param name="client"></param>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisAdaperByStackExchange.GetValues(System.String[],Buffalo.QueryCache.RedisConnection)">
+            <summary>
+            获取值
+            </summary>
+            <param name="key">键</param>
+            <param name="valueType">值类型</param>
+            <param name="client">客户端</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisAdaperByStackExchange.ListAddValue``1(System.String,System.Int64,``0,Buffalo.DB.CacheManager.SetValueType,Buffalo.QueryCache.RedisConnection)">
+            <summary>
+            增加到列表
+            </summary>
+            <typeparam name="E"></typeparam>
+            <param name="key">键</param>
+            <param name="index">索引(0为增加到头部，-1为增加到尾部)</param>
+            <param name="value">值</param>
+            <param name="setType">设置值方式</param>
+            <param name="connection"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisAdaperByStackExchange.ListGetValue``1(System.String,System.Int64,``0,Buffalo.QueryCache.RedisConnection)">
+            <summary>
+            获取值
+            </summary>
+            <typeparam name="E"></typeparam>
+            <param name="key">键</param>
+            <param name="index">值位置</param>
+            <param name="defaultValue">默认值</param>
+            <param name="connection"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisAdaperByStackExchange.ListGetLength(System.String,Buffalo.QueryCache.RedisConnection)">
+            <summary>
+            获取集合长度
+            </summary>
+            <typeparam name="E"></typeparam>
+            <param name="key"></param>
+            <param name="connection"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisAdaperByStackExchange.ListPopValue``1(System.String,System.Boolean,``0,Buffalo.QueryCache.RedisConnection)">
+            <summary>
+            移除并返回值
+            </summary>
+            <typeparam name="E"></typeparam>
+            <param name="key">键</param>
+            <param name="isPopEnd">是否从尾部移除(true则从尾部移除，否则从头部移除)</param>
+            <param name="defaultValue">默认值</param>
+            <param name="connection"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisAdaperByStackExchange.ListRemoveValue(System.String,System.Object,System.Int64,Buffalo.QueryCache.RedisConnection)">
+            <summary>
+            移除值
+            </summary>
+            <param name="key">键</param>
+            <param name="value">值</param>
+            <param name="count">要移除几个，0则为全部移除</param>
+            <param name="connection"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisAdaperByStackExchange.ListAllValues``1(System.String,System.Int64,System.Int64,Buffalo.QueryCache.RedisConnection)">
+            <summary>
+            获取集合所有值
+            </summary>
+            <typeparam name="E"></typeparam>
+            <param name="key">键</param>
+            <param name="start">起始位置(默认0)</param>
+            <param name="end">结束位置(-1则为读到末尾)</param>
+            <param name="connection"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisAdaperByStackExchange.HashSetRangeValue(System.String,System.Collections.IDictionary,Buffalo.QueryCache.RedisConnection)">
+            <summary>
+            批量HashSet设置值
+            </summary>
+            <typeparam name="E"></typeparam>
+            <param name="key">键</param>
+            <param name="dicSet">值</param>
+            <param name="connection"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisAdaperByStackExchange.HashSetValue(System.String,System.Object,System.Object,Buffalo.DB.CacheManager.SetValueType,Buffalo.QueryCache.RedisConnection)">
+            <summary>
+            HashSet设置值
+            </summary>
+            <param name="key">键</param>
+            <param name="hashkey">哈希表的键</param>
+            <param name="value">哈希表的值</param>
+            <param name="type">设置方式</param>
+            <param name="connection"></param>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisAdaperByStackExchange.HashExists(System.String,System.Object,Buffalo.QueryCache.RedisConnection)">
+            <summary>
+            判断是否存在此key
+            </summary>
+            <param name="key">键</param>
+            <param name="hashkey">哈希表的键</param>
+            <param name="connection"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisAdaperByStackExchange.HashIncrement(System.String,System.Object,System.Int64,Buffalo.QueryCache.RedisConnection)">
+            <summary>
+            哈希表的值自增
+            </summary>
+            <param name="key">键</param>
+            <param name="hashkey">哈希键</param>
+            <param name="value">值</param>
+            <param name="connection"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisAdaperByStackExchange.HashDecrement(System.String,System.Object,System.Int64,Buffalo.QueryCache.RedisConnection)">
+            <summary>
+            哈希表的值自减
+            </summary>
+            <param name="key">键</param>
+            <param name="hashkey">哈希键</param>
+            <param name="value">值</param>
+            <param name="connection"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisAdaperByStackExchange.HashGetValue``1(System.String,System.Object,``0,Buffalo.QueryCache.RedisConnection)">
+            <summary>
+            获取哈希表的值
+            </summary>
+            <typeparam name="E"></typeparam>
+            <param name="key">键</param>
+            <param name="hashkey">哈希表的键</param>
+            <param name="defaultValue">默认值</param>
+            <param name="connection"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisAdaperByStackExchange.HashGetAllValues``2(System.String,``1,Buffalo.QueryCache.RedisConnection)">
+            <summary>
+            获取所有哈希表的值
+            </summary>
+            <typeparam name="E"></typeparam>
+            <param name="key">键</param>
+            <param name="defaultValue">默认值</param>
+            <param name="connection"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisAdaperByStackExchange.HashDeleteValue(System.String,System.Object,Buffalo.QueryCache.RedisConnection)">
+            <summary>
+            删除哈希表的值
+            </summary>
+            <typeparam name="E"></typeparam>
+            <param name="key">键</param>
+            <param name="hashkey">哈希表的键</param>
+            <param name="connection"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisAdaperByStackExchange.HashDeleteValues(System.String,System.Collections.IEnumerable,Buffalo.QueryCache.RedisConnection)">
+            <summary>
+            批量删除哈希表的值
+            </summary>
+            <typeparam name="E"></typeparam>
+            <param name="key">键</param>
+            <param name="hashkeys">要删除哈希表的键</param>
+            <param name="connection"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisAdaperByStackExchange.GetSetValueMode(Buffalo.DB.CacheManager.SetValueType)">
+            <summary>
+            获取设置值模式
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Buffalo.QueryCache.RedisConnection">
+            <summary>
+            Redis连接
+            </summary>
+        </member>
+        <member name="F:Buffalo.QueryCache.RedisConnection.DB">
+            <summary>
+            关联连接
+            </summary>
+        </member>
+        <member name="F:Buffalo.QueryCache.RedisConverter._dicAllowConvert">
+            <summary>
+            允许转换的类型
+            </summary>
+        </member>
+        <member name="F:Buffalo.QueryCache.RedisConverter._dicRedisConvert">
+            <summary>
+            转换的函数
+            </summary>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisConverter.LoadAllowRedisConvert">
+            <summary>
+            加载转换函数
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisConverter.LoadAllowConvert">
+            <summary>
+            加载允许转换类型
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisConverter.RedisValueToValue``1(StackExchange.Redis.RedisValue,``0)">
+            <summary>
+            RedisValue值转换成指定值
+            </summary>
+            <typeparam name="E"></typeparam>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisConverter.ValueToRedisValue(System.Object)">
+            <summary>
+            值转换成RedisValue
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
         <member name="T:MemcacheClient.MemDataSerialize">
             <summary>
             缓存数据序列化
@@ -244,194 +623,6 @@
             </summary>
             <param name="writer">写入器</param>
             <param name="value">值</param>
-            <returns></returns>
-        </member>
-        <member name="T:Buffalo.QueryCache.MemCachedAdaper">
-            <summary>
-            利用MemCached做缓存
-            </summary>
-        </member>
-        <member name="M:Buffalo.QueryCache.MemCachedAdaper.#ctor(System.String,Buffalo.DB.DataBaseAdapter.DBInfo)">
-            <summary>
-            memcached的适配器
-            </summary>
-            <param name="connStr">连接字符串</param>
-        </member>
-        <member name="M:Buffalo.QueryCache.MemCachedAdaper.CreatePool(System.String)">
-            <summary>
-            创建连接池
-            </summary>
-            <param name="connStr"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.QueryCache.MemCachedAdaper.GetAllKeys(System.String,Buffalo.QueryCache.EmptyClass)">
-            <summary>
-            查找所有键
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.QueryCache.MemCachedAdaper.FillAllKeys(System.Collections.Generic.Dictionary{System.String,System.Boolean},System.Net.IPEndPoint)">
-            <summary>
-            查找键
-            </summary>
-            <param name="serverIP"></param>
-            <param name="pattern"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.QueryCache.MemCachedAdaper.ExecuteScalarAsString(System.Net.Sockets.Socket,System.String)">
-            <summary>
-            执行返回字符串标量
-            </summary>
-            <param name="socket">套接字</param>
-            <param name="command">命令</param>
-            <returns>执行结果</returns>
-        </member>
-        <member name="M:Buffalo.QueryCache.MemCachedAdaper.QuerySlabId(System.Net.Sockets.Socket)">
-            <summary>
-            查询slabId
-            </summary>
-            <param name="socket">套接字</param>
-            <returns>slabId遍历器</returns>
-        </member>
-        <member name="M:Buffalo.QueryCache.MemCachedAdaper.ParseStatsItems(System.String)">
-            <summary>
-            解析STAT items返回slabId
-            </summary>
-            <param name="contentAsString">解析内容</param>
-            <returns>slabId遍历器</returns>
-        </member>
-        <member name="M:Buffalo.QueryCache.MemCachedAdaper.QueryKeys(System.Net.Sockets.Socket,System.Collections.Generic.IEnumerable{System.String})">
-            <summary>
-            查询键
-            </summary>
-            <param name="socket">套接字</param>
-            <param name="slabIdIter">被查询slabId</param>
-            <returns>键遍历器</returns>
-        </member>
-        <member name="M:Buffalo.QueryCache.MemCachedAdaper.ParseKeys(System.String)">
-            <summary>
-            解析stats cachedump返回键
-            </summary>
-            <param name="contentAsString">解析内容</param>
-            <returns>键遍历器</returns>
-        </member>
-        <member name="M:Buffalo.QueryCache.MemCachedAdaper.DoNewVer(System.String,Buffalo.QueryCache.EmptyClass)">
-            <summary>
-            设置版本号
-            </summary>
-            <param name="key"></param>
-            <param name="client"></param>
-        </member>
-        <member name="F:Buffalo.QueryCache.RedisAdaperByStackExchange._mainServer">
-            <summary>
-            主服务器
-            </summary>
-        </member>
-        <member name="F:Buffalo.QueryCache.RedisAdaperByStackExchange._roserver">
-            <summary>
-            只读服务器
-            </summary>
-        </member>
-        <member name="F:Buffalo.QueryCache.RedisAdaperByStackExchange._serverCount">
-            <summary>
-            服务器数量
-            </summary>
-        </member>
-        <member name="M:Buffalo.QueryCache.RedisAdaperByStackExchange.#ctor(System.String,Buffalo.DB.DataBaseAdapter.DBInfo)">
-            <summary>
-            memcached的适配器
-            </summary>
-            <param name="connStr">连接字符串</param>
-        </member>
-        <member name="F:Buffalo.QueryCache.RedisAdaperByStackExchange._hasROServer">
-            <summary>
-            是否有只读服务器
-            </summary>
-        </member>
-        <member name="M:Buffalo.QueryCache.RedisAdaperByStackExchange.CreateManager(System.String)">
-            <summary>
-            创建连接池
-            </summary>
-            <param name="connectionString">连接字符串</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.QueryCache.RedisAdaperByStackExchange.GetValue``1(System.String,``0,Buffalo.QueryCache.RedisConnection)">
-            <summary>
-            获取值
-            </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key"></param>
-            <param name="defaultValue"></param>
-            <param name="client"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.QueryCache.RedisAdaperByStackExchange.GetAllKeys(System.String,Buffalo.QueryCache.RedisConnection)">
-            <summary>
-            所有键
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.QueryCache.RedisAdaperByStackExchange.DoNewVer(System.String,Buffalo.QueryCache.RedisConnection)">
-            <summary>
-            设置版本号
-            </summary>
-            <param name="key"></param>
-            <param name="client"></param>
-        </member>
-        <member name="M:Buffalo.QueryCache.RedisAdaperByStackExchange.GetValues(System.String[],Buffalo.QueryCache.RedisConnection)">
-            <summary>
-            获取值
-            </summary>
-            <param name="key">键</param>
-            <param name="valueType">值类型</param>
-            <param name="client">客户端</param>
-            <returns></returns>
-        </member>
-        <member name="T:Buffalo.QueryCache.RedisConnection">
-            <summary>
-            Redis连接
-            </summary>
-        </member>
-        <member name="P:Buffalo.QueryCache.RedisConnection.DB">
-            <summary>
-            关联连接
-            </summary>
-        </member>
-        <member name="F:Buffalo.QueryCache.RedisConverter._dicAllowConvert">
-            <summary>
-            允许转换的类型
-            </summary>
-        </member>
-        <member name="F:Buffalo.QueryCache.RedisConverter._dicRedisConvert">
-            <summary>
-            转换的函数
-            </summary>
-        </member>
-        <member name="M:Buffalo.QueryCache.RedisConverter.LoadAllowRedisConvert">
-            <summary>
-            加载转换函数
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.QueryCache.RedisConverter.LoadAllowConvert">
-            <summary>
-            加载允许转换类型
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.QueryCache.RedisConverter.RedisValueToValue``1(StackExchange.Redis.RedisValue)">
-            <summary>
-            RedisValue值转换成指定值
-            </summary>
-            <typeparam name="E"></typeparam>
-            <param name="value"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.QueryCache.RedisConverter.ValueToRedisValue(System.Object)">
-            <summary>
-            值转换成RedisValue
-            </summary>
-            <param name="value"></param>
             <returns></returns>
         </member>
     </members>

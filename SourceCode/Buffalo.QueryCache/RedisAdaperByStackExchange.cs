@@ -247,27 +247,26 @@ namespace Buffalo.QueryCache
             return true;
         }
 
-        protected override void DeleteValue(string key, RedisConnection connection)
+        protected override bool DeleteValue(string key, RedisConnection connection)
         {
             IDatabase client = connection.DB;
-            client.KeyDelete(key);
+            return client.KeyDelete(key);
         }
         /// <summary>
         /// 设置版本号
         /// </summary>
         /// <param name="key"></param>
         /// <param name="client"></param>
-        protected override void DoNewVer(string key, RedisConnection connection)
+        protected override bool DoNewVer(string key, RedisConnection connection)
         {
             IDatabase client = connection.DB;
             if (_expiration > TimeSpan.MinValue)
             {
-                client.StringSet(key, 1, _expiration,When.Always,_commanfFlags);
+                return client.StringSet(key, 1, _expiration,When.Always,_commanfFlags);
             }
-            else
-            {
-                client.StringSet(key, 1,null, When.Always, _commanfFlags);
-            }
+            
+            return client.StringSet(key, 1,null, When.Always, _commanfFlags);
+            
 
         }
         protected override long DoIncrement(string key, ulong inc, RedisConnection connection)

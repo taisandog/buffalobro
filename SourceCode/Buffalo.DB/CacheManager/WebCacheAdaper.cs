@@ -409,9 +409,20 @@ namespace Buffalo.DB.CacheManager
             return true;
         }
 
-        public void DeleteValue(string key, DataBaseOperate oper)
+        public bool DeleteValue(string key, DataBaseOperate oper)
         {
-            CurCache.Remove(key);
+            object lok = _lockObjects.GetObject(key);
+            lock (lok)
+            {
+                object val = CurCache.Get(key);
+                if (val != null)
+                {
+                    CurCache.Remove(key);
+                    return true;
+                }
+                return false;
+            }
+                
         }
 
         public long DoIncrement(string key, ulong inc, DataBaseOperate oper)

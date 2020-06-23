@@ -94,7 +94,7 @@ namespace Buffalo.QueryCache
             _throwExcertion = (throwStr == "1");
 
             string expirStr = configs.GetDicValue<string, string>("expir");
-            double mins = 30;
+            double mins = 0;
             if (!string.IsNullOrWhiteSpace(expirStr))
             {
                 if (!double.TryParse(expirStr, out mins))
@@ -246,10 +246,10 @@ namespace Buffalo.QueryCache
             return true;
         }
 
-        protected override void DeleteValue(string key, RedisConnection connection)
+        protected override bool DeleteValue(string key, RedisConnection connection)
         {
             IDatabase client = connection.DB;
-            client.KeyDelete(key);
+            return client.KeyDelete(key);
         }
         /// <summary>
         /// 设置版本号
@@ -666,11 +666,11 @@ namespace Buffalo.QueryCache
 
             if (ts > TimeSpan.MinValue)
             {
-                client.StringSet(key, bval, ts);
+                client.StringSet(key, bval, ts,When.Always,_commanfFlags);
             }
             else
             {
-                client.StringSet(key, bval);
+                client.StringSet(key, bval,null, When.Always, _commanfFlags);
             }
 
             return true;

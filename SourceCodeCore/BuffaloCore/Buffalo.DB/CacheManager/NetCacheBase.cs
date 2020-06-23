@@ -257,7 +257,7 @@ namespace Buffalo.DB.CacheManager
         /// <param name="key">键</param>
         /// <param name="client">客户端</param>
         /// <returns></returns>
-        protected abstract void DeleteValue(string key, T client);
+        protected abstract bool DeleteValue(string key, T client);
         /// <summary>
         /// 自增
         /// </summary>
@@ -735,13 +735,14 @@ namespace Buffalo.DB.CacheManager
         /// </summary>
         /// <param name="key">键</param>
         /// <param name="oper"></param>
-        public void DeleteValue(string key, DataBaseOperate oper)
+        public bool DeleteValue(string key, DataBaseOperate oper)
         {
+            bool ret = false;
             try
             {
                 using (T client = CreateClient(false, QueryCacheCommand.CommandDeleteSQL))
                 {
-                    DeleteValue(key, client);
+                    ret = DeleteValue(key, client);
                     if (_info.SqlOutputer.HasOutput)
                     {
                         OutPutMessage(QueryCacheCommand.CommandDeleteValues, "key="+key, oper);
@@ -760,6 +761,7 @@ namespace Buffalo.DB.CacheManager
 
                 }
             }
+            return ret;
         }
         /// <summary>
         /// 增加值
