@@ -129,7 +129,7 @@ namespace Buffalo.QueryCache
             }
             _serverCount = servers.Count;
             _commanfFlags = (CommandFlags)configs.GetDicValue<string, string>("commanfFlags").ConvertTo<int>((int)CommandFlags.None);
-
+            _db = configs.GetDicValue<string, string>("database").ConvertTo<int>(0);
             return ConnectionMultiplexer.Connect(options);
         }
 
