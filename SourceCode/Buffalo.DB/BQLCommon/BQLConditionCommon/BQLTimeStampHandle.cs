@@ -27,7 +27,7 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
         internal override string DisplayValue(KeyWordInfomation info)
         {
             IDBAdapter idba = info.DBInfo.CurrentDbAdapter;
-
+            
             return idba.GetTimeStamp(System.Data.DbType.DateTime);
         }
     }

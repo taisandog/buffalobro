@@ -241,14 +241,51 @@ namespace Buffalo.DB.BQLCommon.BQLBaseFunction
         /// <summary>
         /// 调用自定义函数
         /// </summary>
-        /// <param name="source">源值</param>
+        /// <param name="functionName">函数名</param>
+        /// <param name="returnType">返回值类型</param>
+        /// <param name="values">函数值</param>
         /// <returns></returns>
-        public static BQLCustomizeFunction Call(string functionName, params BQLValueItem[] values)
+        public static BQLCustomizeFunction Call(string functionName,DbType returnType, params BQLValueItem[] values)
         {
-            BQLCustomizeFunction handle = new BQLCustomizeFunction(functionName, values);
+            BQLCustomizeFunction handle = new BQLCustomizeFunction(functionName, returnType, values);
             return handle;
         }
-        
+        /// <summary>
+        /// 调用自定义函数
+        /// </summary>
+        /// <param name="functionName">函数名</param>
+        /// <param name="returnType">返回值类型</param>
+        /// <param name="values">函数值</param>
+        /// <returns></returns>
+        public static BQLCustomizeFunction Call(string functionName)
+        {
+            BQLCustomizeFunction handle = new BQLCustomizeFunction(functionName, DbType.Object, null);
+            return handle;
+        }
+
+        /// <summary>
+        /// 调用自定义函数
+        /// </summary>
+        /// <param name="handle">函数</param>
+        /// <param name="returnType">返回值类型</param>
+        /// <param name="values">函数值</param>
+        /// <returns></returns>
+        public static BQLCustomizeFunction Call(DelCustomizeFunction handle, DbType returnType, params BQLValueItem[] values)
+        {
+            BQLCustomizeFunction chandle = new BQLCustomizeFunction(handle, returnType, values);
+            return chandle;
+        }
+        /// <summary>
+        /// 调用自定义函数
+        /// </summary>
+        /// <param name="handle">函数</param>
+        /// <returns></returns>
+        public static BQLCustomizeFunction Call(DelCustomizeFunction handle)
+        {
+            BQLCustomizeFunction chandle = new BQLCustomizeFunction(handle, DbType.Object, null);
+            return chandle;
+        }
+
         #endregion
 
         #region 聚合函数
