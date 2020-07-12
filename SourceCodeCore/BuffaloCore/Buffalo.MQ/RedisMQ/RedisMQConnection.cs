@@ -66,7 +66,7 @@ namespace Buffalo.MQ.RedisMQ
         {
             if (_db == null)
             {
-                _db = _redis.GetDatabase();
+                _db = _redis.GetDatabase(_config.UseDatabase);
             }
             return _db;
         }

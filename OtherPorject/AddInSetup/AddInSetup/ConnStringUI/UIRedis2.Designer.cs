@@ -38,12 +38,17 @@
             this.chkSSL = new System.Windows.Forms.CheckBox();
             this.cmbCommandFlags = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.txtDatabase = new System.Windows.Forms.NumericUpDown();
+            this.label7 = new System.Windows.Forms.Label();
             this.gpSetting.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtExpir)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtDatabase)).BeginInit();
             this.SuspendLayout();
             // 
             // gpSetting
             // 
+            this.gpSetting.Controls.Add(this.txtDatabase);
+            this.gpSetting.Controls.Add(this.label7);
             this.gpSetting.Controls.Add(this.label6);
             this.gpSetting.Controls.Add(this.cmbCommandFlags);
             this.gpSetting.Controls.Add(this.chkSSL);
@@ -58,7 +63,7 @@
             // chkThrow
             // 
             this.chkThrow.AutoSize = true;
-            this.chkThrow.Location = new System.Drawing.Point(197, 223);
+            this.chkThrow.Location = new System.Drawing.Point(198, 263);
             this.chkThrow.Name = "chkThrow";
             this.chkThrow.Size = new System.Drawing.Size(297, 29);
             this.chkThrow.TabIndex = 55;
@@ -131,7 +136,7 @@
             // chkSSL
             // 
             this.chkSSL.AutoSize = true;
-            this.chkSSL.Location = new System.Drawing.Point(194, 188);
+            this.chkSSL.Location = new System.Drawing.Point(195, 228);
             this.chkSSL.Name = "chkSSL";
             this.chkSSL.Size = new System.Drawing.Size(63, 29);
             this.chkSSL.TabIndex = 59;
@@ -144,7 +149,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cmbCommandFlags.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbCommandFlags.FormattingEnabled = true;
-            this.cmbCommandFlags.Location = new System.Drawing.Point(193, 149);
+            this.cmbCommandFlags.Location = new System.Drawing.Point(194, 189);
             this.cmbCommandFlags.Name = "cmbCommandFlags";
             this.cmbCommandFlags.Size = new System.Drawing.Size(457, 33);
             this.cmbCommandFlags.TabIndex = 60;
@@ -153,11 +158,35 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.label6.Location = new System.Drawing.Point(54, 155);
+            this.label6.Location = new System.Drawing.Point(55, 195);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(133, 21);
             this.label6.TabIndex = 61;
             this.label6.Text = "CommandFlags:";
+            // 
+            // txtDatabase
+            // 
+            this.txtDatabase.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtDatabase.Location = new System.Drawing.Point(196, 150);
+            this.txtDatabase.Maximum = new decimal(new int[] {
+            15,
+            0,
+            0,
+            0});
+            this.txtDatabase.Name = "txtDatabase";
+            this.txtDatabase.Size = new System.Drawing.Size(457, 33);
+            this.txtDatabase.TabIndex = 63;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.label7.Location = new System.Drawing.Point(50, 155);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(138, 21);
+            this.label7.TabIndex = 62;
+            this.label7.Text = "使用数据库(0-15):";
             // 
             // UIRedis2
             // 
@@ -167,6 +196,7 @@
             this.gpSetting.ResumeLayout(false);
             this.gpSetting.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtExpir)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtDatabase)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -182,5 +212,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ComboBox cmbCommandFlags;
+        private System.Windows.Forms.NumericUpDown txtDatabase;
+        private System.Windows.Forms.Label label7;
     }
 }

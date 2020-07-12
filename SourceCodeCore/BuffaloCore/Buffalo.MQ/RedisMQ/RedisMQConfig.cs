@@ -32,8 +32,19 @@ namespace Buffalo.MQ.RedisMQ
         /// <summary>
         /// 保存到队列
         /// </summary>
-        public bool SaveToQueue=false; 
+        public bool SaveToQueue=false;
 
+        private int _useDatabase;
+        /// <summary>
+        /// 使用数据库
+        /// </summary>
+        public int UseDatabase
+        {
+            get
+            {
+                return _useDatabase;
+            }
+        }
         public RedisMQConfig(string connString) : base(connString)
         {
             Dictionary<string, string> hs = _configs;
@@ -60,7 +71,8 @@ namespace Buffalo.MQ.RedisMQ
                     }
                 }
             }
-
+            _useDatabase = hs.GetDicValue<string, string>("database").ConvertTo<int>(0);
+            Options.DefaultDatabase = _useDatabase;
             Options.Password = hs.GetDicValue<string, string>("pwd");
             Options.Ssl = hs.GetDicValue<string, string>("ssl") == "1";
             SaveToQueue= hs.GetDicValue<string, string>("useQueue") == "1";//保存到队列

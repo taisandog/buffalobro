@@ -125,6 +125,8 @@ namespace AddInSetup.ConnStringUI
                 sbStr.Append(commanfFlags.ToString());
                 sbStr.Append(";");
             }
+            sbStr.Append("database=");
+            sbStr.Append(((int)txtDatabase.Value).ToString());
             return sbStr.ToString();
         }
 

@@ -119,7 +119,7 @@ namespace Buffalo.QueryCache
             }
 
             string expirStr = configs.GetDicValue<string, string>("expir");
-            double mins = 30;
+            double mins = 0;
             if (!string.IsNullOrWhiteSpace(expirStr))
             {
                 
@@ -396,9 +396,9 @@ namespace Buffalo.QueryCache
         {
             return client.Client.Get(key) != null;
         }
-        protected override void DeleteValue(string key, MemcachedConnection client)
+        protected override bool DeleteValue(string key, MemcachedConnection client)
         {
-            client.Client.Remove(key);
+            return client.Client.Remove(key);
         }
         /// <summary>
         /// …Ë÷√∞Ê±æ∫≈

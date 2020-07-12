@@ -14,9 +14,19 @@
             生产者配置
             </summary>
         </member>
+        <member name="F:Buffalo.MQ.KafkaMQ.KafkaMQConfig.TranProducerConfig">
+            <summary>
+            带事务的生产者配置
+            </summary>
+        </member>
         <member name="P:Buffalo.MQ.KafkaMQ.KafkaMQConfig.ProducerBuilder">
             <summary>
             生产者构造器
+            </summary>
+        </member>
+        <member name="P:Buffalo.MQ.KafkaMQ.KafkaMQConfig.TranProducerBuilder">
+            <summary>
+            带事务的生产者构造器
             </summary>
         </member>
         <member name="F:Buffalo.MQ.KafkaMQ.KafkaMQConfig.AdminConfig">
@@ -44,7 +54,7 @@
             初始化消费者配置
             </summary>
         </member>
-        <member name="M:Buffalo.MQ.KafkaMQ.KafkaMQConfig.InitProduceConfig(System.Collections.Generic.Dictionary{System.String,System.String})">
+        <member name="M:Buffalo.MQ.KafkaMQ.KafkaMQConfig.InitProduceConfig(Confluent.Kafka.ProducerConfig,System.Collections.Generic.Dictionary{System.String,System.String},System.Boolean)">
             <summary>
             初始化消费者配置
             </summary>
@@ -61,6 +71,16 @@
             <param name="config"></param>
             <param name="hs"></param>
         </member>
+        <member name="F:Buffalo.MQ.KafkaMQ.KafkaMQConnection._producer">
+            <summary>
+            生产者
+            </summary>
+        </member>
+        <member name="F:Buffalo.MQ.KafkaMQ.KafkaMQConnection._tranProducer">
+            <summary>
+            事务生产者
+            </summary>
+        </member>
         <member name="F:Buffalo.MQ.KafkaMQ.KafkaMQConnection._queResault">
             <summary>
             队列
@@ -70,6 +90,17 @@
             <summary>
             初始化消费者配置
             </summary>
+        </member>
+        <member name="M:Buffalo.MQ.KafkaMQ.KafkaMQConnection.InitTranProducerConfig">
+            <summary>
+            初始化消费者配置
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.KafkaMQ.KafkaMQConnection.GetProducer">
+            <summary>
+            获取生产者
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:Buffalo.MQ.KafkaMQ.KafkaMQConnection.DoFlush">
             <summary>
@@ -564,9 +595,34 @@
             打开事件监听
             </summary>
         </member>
+        <member name="T:Buffalo.MQ.RedisMQ.MQRedisMessage">
+            <summary>
+            Redis队列的未发送信息
+            </summary>
+        </member>
+        <member name="F:Buffalo.MQ.RedisMQ.MQRedisMessage.RoutingKey">
+            <summary>
+            键
+            </summary>
+        </member>
+        <member name="F:Buffalo.MQ.RedisMQ.MQRedisMessage.Value">
+            <summary>
+            值
+            </summary>
+        </member>
         <member name="T:Buffalo.MQ.RedisMQ.RedisMQConfig">
             <summary>
             Redis配置
+            </summary>
+        </member>
+        <member name="F:Buffalo.MQ.RedisMQ.RedisMQConfig.PublicTag">
+            <summary>
+            订阅标记
+            </summary>
+        </member>
+        <member name="F:Buffalo.MQ.RedisMQ.RedisMQConfig.BuffaloMQHead">
+            <summary>
+            队列头
             </summary>
         </member>
         <member name="F:Buffalo.MQ.RedisMQ.RedisMQConfig.CommanfFlags">
@@ -577,6 +633,16 @@
         <member name="F:Buffalo.MQ.RedisMQ.RedisMQConfig.Options">
             <summary>
             配置
+            </summary>
+        </member>
+        <member name="F:Buffalo.MQ.RedisMQ.RedisMQConfig.SaveToQueue">
+            <summary>
+            保存到队列
+            </summary>
+        </member>
+        <member name="P:Buffalo.MQ.RedisMQ.RedisMQConfig.UseDatabase">
+            <summary>
+            使用数据库
             </summary>
         </member>
         <member name="F:Buffalo.MQ.RedisMQ.RedisMQConnection._subscriber">
@@ -599,13 +665,19 @@
             <summary>
             创建连接池
             </summary>
-            <param name="connectionString">连接字符串</param>
+            <param name="options">连接字符串</param>
             <returns></returns>
         </member>
         <member name="M:Buffalo.MQ.RedisMQ.RedisMQConnection.Open">
             <summary>
             打来连接
             </summary>
+        </member>
+        <member name="M:Buffalo.MQ.RedisMQ.RedisMQConnection.GetDB">
+            <summary>
+            获取Redis操作类
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:Buffalo.MQ.RedisMQ.RedisMQConnection.SendMessage(System.String,System.Byte[])">
             <summary>
@@ -614,6 +686,13 @@
             <param name="routingKey"></param>
             <param name="body"></param>
             <returns></returns>
+        </member>
+        <member name="M:Buffalo.MQ.RedisMQ.RedisMQConnection.SendToPublic(System.String,System.Byte[])">
+            <summary>
+            发送信息
+            </summary>
+            <param name="routingKey"></param>
+            <param name="body"></param>
         </member>
         <member name="M:Buffalo.MQ.RedisMQ.RedisMQConnection.DeleteQueue(System.Collections.Generic.IEnumerable{System.String},System.Boolean,System.Boolean)">
             <summary>
@@ -641,6 +720,11 @@
             发布者
             </summary>
         </member>
+        <member name="F:Buffalo.MQ.RedisMQ.RedisMQListener._lok">
+            <summary>
+            锁对象
+            </summary>
+        </member>
         <member name="M:Buffalo.MQ.RedisMQ.RedisMQListener.#ctor(Buffalo.MQ.RedisMQ.RedisMQConfig)">
             <summary>
             RabbitMQ适配
@@ -650,6 +734,17 @@
         <member name="M:Buffalo.MQ.RedisMQ.RedisMQListener.Open">
             <summary>
             打来连接
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.RedisMQ.RedisMQListener.GetDB">
+            <summary>
+            获取Redis操作类
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.MQ.RedisMQ.RedisMQListener.FlushQueue(System.String)">
+            <summary>
+            读入队列信息
             </summary>
         </member>
         <member name="M:Buffalo.MQ.RedisMQ.RedisMQListener.Close">

@@ -457,9 +457,9 @@ namespace Buffalo.DB.CacheManager
         /// </summary>
         /// <param name="key">¼ü</param>
         /// <returns></returns>
-        public void DeleteValue(string key) 
+        public bool DeleteValue(string key) 
         {
-            _cache.DeleteValue(key, _db.DefaultOperate);
+            return _cache.DeleteValue(key, _db.DefaultOperate);
         }
        
         /// <summary>

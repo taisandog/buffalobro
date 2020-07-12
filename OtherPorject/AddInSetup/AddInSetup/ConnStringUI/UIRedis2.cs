@@ -110,6 +110,9 @@ namespace AddInSetup.ConnStringUI
                 sbStr.Append(commanfFlags.ToString()); 
                 sbStr.Append(";");
             }
+            sbStr.Append("database=");
+            sbStr.Append(((int)txtDatabase.Value).ToString());
+            sbStr.Append(";");
             sbStr.Append("throw=");
             sbStr.Append(chkThrow.Checked ? "1" : "0");
             sbStr.Append(";");

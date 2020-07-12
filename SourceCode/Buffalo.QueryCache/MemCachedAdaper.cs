@@ -117,7 +117,7 @@ namespace Buffalo.QueryCache
             }
 
             string expirStr = configs.GetDicValue<string, string>("expir");
-            double mins = 30;
+            double mins = 0;
             if (!string.IsNullOrWhiteSpace(expirStr))
             {
                 
@@ -394,18 +394,19 @@ namespace Buffalo.QueryCache
         {
             return client.Client.Get(key) != null;
         }
-        protected override void DeleteValue(string key, MemcachedConnection client)
+        protected override bool DeleteValue(string key, MemcachedConnection client)
         {
-            client.Client.Remove(key);
+            return client.Client.Remove(key);
         }
         /// <summary>
         /// …Ë÷√∞Ê±æ∫≈
         /// </summary>
         /// <param name="key"></param>
         /// <param name="client"></param>
-        protected override void DoNewVer(string key, MemcachedConnection client) 
+        protected override bool DoNewVer(string key, MemcachedConnection client) 
         {
             DoIncrement(key, 1, client);
+            return true;
             //_client.Increment(key, 1, 1,_expiration);
         }
         protected override long DoIncrement(string key, ulong inc, MemcachedConnection client)
