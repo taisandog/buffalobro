@@ -582,6 +582,10 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <returns></returns>
         public int Delete(EntityBase obj, ScopeList scopeList, bool isConcurrency)
         {
+            if( obj==null && scopeList==null)
+            {
+                throw new NullReferenceException(" 要删除的实体 和 要删除的条件 不能都为null");
+            }
             DeleteCondition con = new DeleteCondition(EntityInfo.DBInfo);
             con.Tables.Append(EntityInfo.DBInfo.CurrentDbAdapter.FormatTableName(EntityInfo.TableName));
             ParamList list = new ParamList();
@@ -640,6 +644,10 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             PrimaryKeyInfo pkInfo = id as PrimaryKeyInfo;
             if (pkInfo == null)
             {
+                if (EntityInfo.PrimaryProperty.Count <= 0)
+                {
+                    throw new MissingPrimaryKeyException("找不到：" + EntityInfo.EntityType.FullName + "的关联主键");
+                }
                 lstScope.AddEqual(EntityInfo.PrimaryProperty[0].PropertyName, id);
             }
             else

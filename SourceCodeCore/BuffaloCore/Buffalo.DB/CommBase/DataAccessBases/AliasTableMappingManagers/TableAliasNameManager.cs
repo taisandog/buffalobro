@@ -15,7 +15,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases.AliasTableMappingManagers
     /// <summary>
     /// 表别名管理
     /// </summary>
-    public class TableAliasNameManager
+    public class TableAliasNameManager:IDisposable
     {
 
         int _tableIndex = 0;
@@ -251,6 +251,16 @@ namespace Buffalo.DB.CommBase.DataAccessBases.AliasTableMappingManagers
             sb.Append(_paramIndex.ToString("X"));
             sb.Append("_");
             return sb.ToString();
+        }
+
+        public void Dispose()
+        {
+            this._dicKeyTable = null;
+            if (_primaryTable != null)
+            {
+                _primaryTable.Dispose();
+            }
+            this._primaryTable = null;
         }
     }
 }

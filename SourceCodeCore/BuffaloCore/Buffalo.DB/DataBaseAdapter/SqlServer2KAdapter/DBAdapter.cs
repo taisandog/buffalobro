@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Data;
+using System.Data.SqlClient;
 using Buffalo.DB.DataBaseAdapter.IDbAdapters;
 using Buffalo.DB.CommBase;
 using Buffalo.DB.EntityInfos;
@@ -12,7 +13,7 @@ using System.Data.Common;
 using Buffalo.DB.PropertyAttributes;
 using Buffalo.DB.CommBase.DataAccessBases;
 using Buffalo.DB.BQLCommon.BQLKeyWordCommon;
-using System.Data.SqlClient;
+using Buffalo.DB.BQLCommon.BQLConditions;
 
 namespace Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter
 {
@@ -681,6 +682,156 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter
         public virtual bool KeyWordDEFAULTFront()
         {
             return false;
+        }
+        /// <summary>
+        /// 是否检查过排序
+        /// </summary>
+        private bool _isCheckcollation=false;
+        /// <summary>
+        /// 区分大小写排序名
+        /// </summary>
+        private string _collationCaseName=null;
+        /// <summary>
+        /// 不区分大小写排序名
+        /// </summary>
+        private string _collationIgnoreName=null;
+        /// <summary>
+        /// 排序名
+        /// </summary>
+        private void InitCollationName(DBInfo info)
+        {
+            if (_isCheckcollation)
+            {
+                return;
+            }
+            string collationName = null;
+            string sql = "SELECT SERVERPROPERTY(N'Collation')";
+            using (IDataReader reader = info.DefaultOperate.Query(sql, null, null))
+            {
+                while (reader.Read())
+                {
+                    collationName = reader[0] as string;
+                }
+            }
+            if (string.IsNullOrEmpty(collationName))
+            {
+                return;
+            }
+            _collationCaseName = collationName.ToUpper().Replace("_CI", "_CS");
+            if (_collationCaseName == collationName)
+            {
+                _collationCaseName = "";
+            }
+            _collationIgnoreName = collationName.ToUpper().Replace("_CS","_CI");
+            if (_collationIgnoreName == collationName)
+            {
+                _collationIgnoreName = "";
+            }
+        }
+        /// <summary>
+        /// 获取区分大小写SQL
+        /// </summary>
+        /// <param name="iscase">是否区分</param>
+        /// <returns></returns>
+        private string GetCollate(bool iscase, DBInfo info)
+        {
+            InitCollationName(info);
+            if (iscase && !string.IsNullOrEmpty( _collationCaseName))
+            {
+                return " collate " + _collationCaseName;
+            }
+            if (!iscase && !string.IsNullOrEmpty(_collationIgnoreName))
+            {
+                return " collate " + _collationIgnoreName;
+            }
+            return "";
+        }
+        
+        ///// <summary>
+        ///// 区分大小写
+        ///// </summary>
+        ///// <param name="source"></param>
+        ///// <param name="param"></param>
+        ///// <param name="type"></param>
+        ///// <param name="info"></param>
+        ///// <returns></returns>
+        //public string DoLikeCase(string source, string param,BQLLikeType type, DBInfo info)
+        //{
+        //    StringBuilder sbSql = new StringBuilder();
+        //    sbSql.Append(" ");
+        //    sbSql.Append(source);
+        //    sbSql.Append(GetCollate(true));
+        //    sbSql.Append(" like ");
+        //    sbSql.Append(GetLikeString(this,type,param));
+        //    return sbSql.ToString();
+        //}
+        /// <summary>
+        /// 获取like的参数
+        /// </summary>
+        /// <param name="ida"></param>
+        /// <param name="type"></param>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        public static string GetLikeString(IDBAdapter ida, BQLLikeType type, string param)
+        {
+            switch (type)
+            {
+                case BQLLikeType.StartWith:
+                    return ida.ConcatString(param, "'%'");
+
+                case BQLLikeType.EndWith:
+                    return ida.ConcatString("'%'",param);
+                case BQLLikeType.Like:
+                    return ida.ConcatString("'%'", param, "'%'");
+                default:
+                    return  param;
+            }
+
+        }
+
+        public string DoOrderBy(string param, SortType sortType, BQLCaseType caseType, DBInfo info)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(" ");
+            sb.Append(param);
+
+            switch (caseType)
+            {
+                case BQLCaseType.CaseIgnore:
+                    sb.Append(GetCollate(false, info));
+                    break;
+                case BQLCaseType.CaseMatch:
+                    sb.Append(GetCollate(true, info));
+                    break;
+                default: break;
+            }
+            if (sortType == SortType.DESC)
+            {
+                sb.Append(" desc");
+            }
+            return sb.ToString();
+        }
+
+        public string DoLike(string source, string param, BQLLikeType type, BQLCaseType caseType, DBInfo info)
+        {
+            StringBuilder sbSql = new StringBuilder();
+            sbSql.Append(" ");
+            sbSql.Append(source);
+            switch (caseType)
+            {
+                case BQLCaseType.CaseIgnore:
+                    sbSql.Append(GetCollate(false, info));
+                    break;
+                case BQLCaseType.CaseMatch:
+                    sbSql.Append(GetCollate(true, info));
+                    break;
+                default: break;
+            }
+
+            sbSql.Append(" like ");
+
+            sbSql.Append(GetLikeString(this, type, param));
+            return sbSql.ToString();
         }
     }
 }

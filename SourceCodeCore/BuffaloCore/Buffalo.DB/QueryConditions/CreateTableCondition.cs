@@ -50,5 +50,12 @@ namespace Buffalo.DB.QueryConditions
             }
             return sbRet.ToString();
         }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+            _tables = null;
+            _sqlParams = null;
+        }
     }
 }

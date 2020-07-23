@@ -259,9 +259,10 @@ namespace Buffalo.DB.DBCheckers
             {
                 dbInfo.DBStructure.OnCheckEvent(table, dbInfo, CheckEvent.TableBeginCreate,sql);
                 BQLQuery bql = BQL.CreateTable(table.TableName).Param(table.Params);
-                AbsCondition con = BQLKeyWordManager.ToCondition(bql, dbInfo, null, true);
-                sql.Add(con.GetSql(false));
-
+                using (AbsCondition con = BQLKeyWordManager.ToCondition(bql, dbInfo, null, true))
+                {
+                    sql.Add(con.GetSql(false));
+                }
                 if (!string.IsNullOrEmpty(table.Description))//…Ë÷√±Ì◊¢ Õ
                 {
                     string desSQL = ida.GetAddDescriptionSQL(table,null, dbInfo);
@@ -353,8 +354,10 @@ namespace Buffalo.DB.DBCheckers
                 {
                     dbInfo.DBStructure.OnCheckEvent(pInfo, dbInfo, CheckEvent.TablenBeginCheck, lstSql);
                     bql = BQL.AlterTable(tableName).AddParam(pInfo);
-                    AbsCondition acon = BQLKeyWordManager.ToCondition(bql, dbInfo, null, true);
-                    lstSql.Add(acon.GetSql(false));
+                    using (AbsCondition acon = BQLKeyWordManager.ToCondition(bql, dbInfo, null, true))
+                    {
+                        lstSql.Add(acon.GetSql(false));
+                    }
                     if (!string.IsNullOrEmpty(pInfo.Description))//ÃÌº”◊¢ Õ
                     {
                         desSQL = idb.GetAddDescriptionSQL(table, pInfo, dbInfo);
@@ -398,8 +401,10 @@ namespace Buffalo.DB.DBCheckers
                     dbInfo.DBStructure.OnCheckEvent(table, dbInfo, CheckEvent.RelationBeginCheck, lstSql);
                     item.CreateName();
                     BQLQuery bql = BQL.AlterTable(table.TableName).AddForeignkey(item);
-                    AbsCondition con = BQLKeyWordManager.ToCondition(bql, dbInfo, null, true);
-                    lstSql.Add(con.GetSql(false));
+                    using (AbsCondition con = BQLKeyWordManager.ToCondition(bql, dbInfo, null, true))
+                    {
+                        lstSql.Add(con.GetSql(false));
+                    }
                     dbInfo.DBStructure.OnCheckEvent(table, dbInfo, CheckEvent.RelationChecked, lstSql);
                 }
             }

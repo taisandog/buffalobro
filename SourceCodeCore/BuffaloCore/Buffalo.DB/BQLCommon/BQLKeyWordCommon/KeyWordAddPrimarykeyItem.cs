@@ -36,7 +36,7 @@ namespace Buffalo.DB.BQLCommon.BQLKeyWordCommon
         {
 
         }
-
+       
         internal override void Tran(KeyWordInfomation info)
         {
             AlterTableCondition con = info.Condition as AlterTableCondition;

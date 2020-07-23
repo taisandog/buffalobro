@@ -1,6 +1,7 @@
 using System;
 using System.Data;
 using Buffalo.DB;
+using System.Data.SqlClient;
 using Buffalo.DB.DbCommon;
 using Buffalo.Kernel.Defaults;
 

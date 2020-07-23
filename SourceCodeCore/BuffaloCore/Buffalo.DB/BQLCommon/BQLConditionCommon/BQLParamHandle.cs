@@ -22,8 +22,6 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
         //private IConvertFunction convert=null;
         public BQLParamHandle() 
         {
-            //IMathFunctions maths = db.Math;
-            //IConvertFunction convert = db.Convert;
         }
         
 

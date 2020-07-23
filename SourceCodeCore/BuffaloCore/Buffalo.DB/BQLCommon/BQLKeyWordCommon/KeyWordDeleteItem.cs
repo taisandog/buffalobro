@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Buffalo.DB.BQLCommon.BQLConditionCommon;
+using Buffalo.Kernel;
 
 namespace Buffalo.DB.BQLCommon.BQLKeyWordCommon
 {
@@ -23,6 +24,7 @@ namespace Buffalo.DB.BQLCommon.BQLKeyWordCommon
         {
             BQLValueItem.DoFillInfo(table, info);
         }
+        
         ///// <summary>
         ///// Òª²éÑ¯µÄ×Ö¶Î
         ///// </summary>

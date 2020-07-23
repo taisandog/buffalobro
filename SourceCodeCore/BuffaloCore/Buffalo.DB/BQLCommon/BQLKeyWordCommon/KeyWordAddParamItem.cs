@@ -35,6 +35,7 @@ namespace Buffalo.DB.BQLCommon.BQLKeyWordCommon
         {
             get { return _tableName; }
         }
+        
         /// <summary>
         /// InsertµÄ×Ö¶Î¹Ø¼ü×ÖÏî
         /// </summary>

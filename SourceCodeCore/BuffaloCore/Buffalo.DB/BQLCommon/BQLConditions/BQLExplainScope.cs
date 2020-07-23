@@ -7,6 +7,7 @@ using System.Data;
 using Buffalo.DB.EntityInfos;
 using System.Collections;
 using Buffalo.Kernel;
+using Buffalo.DB.DataBaseAdapter;
 
 namespace Buffalo.DB.BQLCommon.BQLConditions
 {
@@ -258,7 +259,7 @@ namespace Buffalo.DB.BQLCommon.BQLConditions
         internal static BQLCondition StarWith(Scope scope, DbType dbType, string paramName, BQLCondition handle, BQLTableHandle table, EntityInfoHandle entityInfo)
         {
             BQLValueTypeItem cvalue1 = new BQLValueTypeItem(scope.Value1);
-            return table[paramName, dbType].StarWith(cvalue1);
+            return table[paramName, dbType].Like(cvalue1,BQLLikeType.StartWith);
         }
 
         /// <summary>
@@ -274,7 +275,7 @@ namespace Buffalo.DB.BQLCommon.BQLConditions
         internal static BQLCondition EndWith(Scope scope, DbType dbType, string paramName, BQLCondition handle, BQLTableHandle table, EntityInfoHandle entityInfo)
         {
             BQLValueTypeItem cvalue1 = new BQLValueTypeItem(scope.Value1);
-            return table[paramName, dbType].EndWith(cvalue1);
+            return table[paramName, dbType].Like(cvalue1, BQLLikeType.EndWith);
         }
 
         /// <summary>

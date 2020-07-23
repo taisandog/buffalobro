@@ -6,6 +6,7 @@ using Buffalo.DB.ContantSearchs;
 using Buffalo.DB.BQLCommon.BQLConditionCommon;
 using Buffalo.Kernel;
 using Buffalo.DB.EntityInfos;
+using Buffalo.DB.DataBaseAdapter;
 
 namespace Buffalo.DB.QueryConditions
 {
@@ -622,7 +623,7 @@ namespace Buffalo.DB.QueryConditions
                 return AddLike(property.PInfo.PropertyName, value, conntype);
             }
         }
-
+        
         /// <summary>
         /// 添加新的Like条件
         /// </summary>
@@ -649,10 +650,10 @@ namespace Buffalo.DB.QueryConditions
         {
             if (IsInnerTable(property))
             {
-                BQLCondition where = property.StarWith(value);
+                BQLCondition where = property.Like(value,BQLLikeType.StartWith);
                 return Add(where, conntype);
             }
-            else 
+            else
             {
                 return AddStarWith(property.PInfo.PropertyName, value, conntype);
             }
@@ -683,10 +684,10 @@ namespace Buffalo.DB.QueryConditions
         {
             if (IsInnerTable(property))
             {
-                BQLCondition where = property.EndWith(value);
+                BQLCondition where = property.Like(value, BQLLikeType.EndWith);
                 return Add(where, conntype);
             }
-            else 
+            else
             {
                 return AddEndWith(property.PInfo.PropertyName, value, conntype);
             }

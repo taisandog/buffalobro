@@ -9,6 +9,7 @@ namespace Buffalo.DB.DataBaseAdapter.IDbAdapters
         Buffalo.DB.DataBaseAdapter.IDbAdapters.IDBAdapter DbAdapter { get; }
         Buffalo.DB.DataBaseAdapter.IDbAdapters.IDBStructure DBStructure { get; }
         Buffalo.DB.DataBaseAdapter.IDbAdapters.IMathFunctions MathFunctions { get; }
+
         /// <summary>
         /// 数据库版本
         /// </summary>
