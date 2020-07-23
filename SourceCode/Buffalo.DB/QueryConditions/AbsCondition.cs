@@ -7,7 +7,7 @@ using Buffalo.DB.DataBaseAdapter;
 using Buffalo.DB.CommBase.DataAccessBases.AliasTableMappingManagers;
 namespace Buffalo.DB.QueryConditions
 {
-    public abstract class AbsCondition
+    public abstract class AbsCondition:IDisposable
     {
         public AbsCondition(DBInfo db) 
         {
@@ -29,6 +29,17 @@ namespace Buffalo.DB.QueryConditions
         {
             return null;
         }
+
+        public virtual void Dispose()
+        {
+            _dbInfo = null;
+            if (_aliasManager != null)
+            {
+                _aliasManager.Dispose();
+            }
+            _aliasManager = null;
+        }
+
         Dictionary<string, bool> _cacheTables;
         /// <summary>
         /// 需要缓存的表

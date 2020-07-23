@@ -13,6 +13,8 @@ using Buffalo.DB.PropertyAttributes;
 using Buffalo.DB.CommBase.DataAccessBases;
 using Buffalo.DB.BQLCommon.BQLKeyWordCommon;
 using Buffalo.DB.DataBaseAdapter;
+using Buffalo.DB.BQLCommon.BQLConditions;
+
 namespace Buffalo.Data.MySQL
 {
     public class DBAdapter : IDBAdapter
@@ -571,6 +573,69 @@ namespace Buffalo.Data.MySQL
         public string CreateTableSQLEnd(DBInfo info)
         {
             return " ENGINE=InnoDB";
+        }
+
+
+        /// <summary>
+        /// like不区分大小写
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="lstParam"></param>
+        /// <returns></returns>
+        public string DoLike(string source, string param, BQLLikeType type, BQLCaseType caseType, DBInfo info)
+        {
+            StringBuilder sbSql = new StringBuilder();
+            sbSql.Append(source);
+            sbSql.Append(" like ");
+            if (caseType == BQLCaseType.CaseMatch)
+            {
+                sbSql.Append("binary(");
+                sbSql.Append(Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter.DBAdapter.GetLikeString(this, type, param));
+                sbSql.Append(")");
+            }
+            else
+            {
+                sbSql.Append(Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter.DBAdapter.GetLikeString(this, type, param));
+            }
+            return sbSql.ToString();
+        }
+        ///// <summary>
+        ///// like区分大小写
+        ///// </summary>
+        ///// <param name="source"></param>
+        ///// <param name="param"></param>
+        ///// <param name="type"></param>
+        ///// <param name="info"></param>
+        ///// <returns></returns>
+        //public string DoLikeCase(string source, string param, BQLLikeType type, DBInfo info)
+        //{
+        //    StringBuilder sbSql = new StringBuilder();
+        //    sbSql.Append(source);
+        //    sbSql.Append(" like binary(");
+        //    sbSql.Append(Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter.DBAdapter.GetLikeString(this, type, param));
+        //    sbSql.Append(")");
+        //    return sbSql.ToString();
+        //}
+
+        public string DoOrderBy(string param, SortType sortType, BQLCaseType caseType, DBInfo info)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(" ");
+            if (caseType== BQLCaseType.CaseMatch)
+            {
+                sb.Append("binary(");
+                sb.Append(param);
+                sb.Append(")");
+            }
+            else
+            {
+                sb.Append(param);
+            }
+            if (sortType == SortType.DESC)
+            {
+                sb.Append(" desc");
+            }
+            return sb.ToString();
         }
     }
 }

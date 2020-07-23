@@ -43,7 +43,7 @@ namespace Buffalo.DB.BQLCommon.BQLKeyWordCommon
             _item = new TableRelationAttribute("",name,childTable,parentTable,childParam,parentParam,"",false);
         }
 
-
+        
 
         /// <summary>
         /// InsertµÄ×Ö¶Î¹Ø¼ü×ÖÏî
@@ -59,7 +59,7 @@ namespace Buffalo.DB.BQLCommon.BQLKeyWordCommon
         {
 
         }
-
+        
         internal override void Tran(KeyWordInfomation info)
         {
             AlterTableCondition con = info.Condition as AlterTableCondition;

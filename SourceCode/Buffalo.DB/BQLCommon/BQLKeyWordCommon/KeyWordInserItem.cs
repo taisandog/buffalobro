@@ -4,6 +4,7 @@ using System.Text;
 using Buffalo.DB.BQLCommon.BQLConditionCommon;
 using Buffalo.DB.DbCommon;
 using Buffalo.DB.QueryConditions;
+using Buffalo.Kernel;
 
 namespace Buffalo.DB.BQLCommon.BQLKeyWordCommon
 {
@@ -20,7 +21,7 @@ namespace Buffalo.DB.BQLCommon.BQLKeyWordCommon
         {
             this.tableHandle = tableHandle;
         }
-
+        
         ///// <summary>
         ///// 要插入的表
         ///// </summary>

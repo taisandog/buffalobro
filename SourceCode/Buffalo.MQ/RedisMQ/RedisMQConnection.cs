@@ -194,7 +194,10 @@ namespace Buffalo.MQ.RedisMQ
 
         protected override APIResault RoolbackTran()
         {
-            _que.Clear();
+            if (_que != null)
+            {
+                _que.Clear();
+            }
             return ApiCommon.GetSuccess();
         }
 

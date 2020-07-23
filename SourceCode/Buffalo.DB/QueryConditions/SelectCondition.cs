@@ -28,7 +28,17 @@ namespace Buffalo.DB.QueryConditions
                 return _sqlHaving;
             }
         }
-        
+        public override void Dispose()
+        {
+            base.Dispose();
+            _sqlHaving = null;
+            _sqlParams = null;
+            _tables = null;
+            _condition = null;
+            _groupBy = null;
+            _orders = null;
+            _pageContente = null;
+        }
         /// <summary>
         /// Êä³ö×Ö¶Î
         /// </summary>

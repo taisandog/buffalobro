@@ -8,6 +8,7 @@ using Buffalo.DB.DataBaseAdapter.IDbAdapters;
 using Buffalo.DB.DbCommon;
 using Buffalo.DB.QueryConditions;
 using System.Data;
+using Buffalo.Kernel;
 
 namespace Buffalo.DB.BQLCommon.BQLKeyWordCommon
 {
@@ -24,7 +25,7 @@ namespace Buffalo.DB.BQLCommon.BQLKeyWordCommon
         {
             this.paramHandles = paramHandles;
         }
-
+        
         internal override void LoadInfo(KeyWordInfomation info)
         {
 

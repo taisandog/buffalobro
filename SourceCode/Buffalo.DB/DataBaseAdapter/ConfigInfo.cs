@@ -119,4 +119,47 @@ namespace Buffalo.DB.DataBaseAdapter
        
 
     }
+
+    /// <summary>
+    /// Like类型
+    /// </summary>
+    public enum BQLLikeType
+    {
+        /// <summary>
+        /// 开头是这个值，相当于like 'XX%'
+        /// </summary>
+        StartWith = 1,
+        /// <summary>
+        /// 开头是这个值，相当于like '%XX'
+        /// </summary>
+        EndWith = 2,
+        /// <summary>
+        /// 整个匹配，相当于like '%XX%'
+        /// </summary>
+        Like = 3,
+        /// <summary>
+        /// 等于这个值，相当于like 'XX'
+        /// </summary>
+        Equal = 4,
+    }
+    /// <summary>
+    /// 大小写敏感开关
+    /// </summary>
+    public enum BQLCaseType
+    {
+        /// <summary>
+        /// 数据库控制
+        /// </summary>
+        CaseByDB = 1,
+        /// <summary>
+        /// 大小写敏感
+        /// </summary>
+        CaseMatch = 2,
+        /// <summary>
+        /// 大小写忽略
+        /// </summary>
+        CaseIgnore = 3,
+
+    }
+
 }

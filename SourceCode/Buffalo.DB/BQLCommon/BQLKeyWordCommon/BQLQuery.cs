@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using Buffalo.DB.BQLCommon.BQLConditionCommon;
 
@@ -48,5 +49,11 @@ namespace Buffalo.DB.BQLCommon.BQLKeyWordCommon
             BQLAliasHandle item = new BQLAliasHandle(this, asName);
             return item;
         }
+//#if DEBUG
+//        ~BQLQuery()
+//        {
+//            Debug.WriteLine(this.GetType().FullName + "±ª Õ∑≈");
+//        }
+//#endif
     }
 }

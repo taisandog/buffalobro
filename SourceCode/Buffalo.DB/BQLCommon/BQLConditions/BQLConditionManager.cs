@@ -57,16 +57,25 @@ namespace Buffalo.DB.BQLCommon.BQLConditions
         }
 
         /// <summary>
-        /// Like条件
+        /// Like条件（不区分大小写）
         /// </summary>
         /// <param name="lstParam"></param>
         /// <returns></returns>
-        internal static string DoLike(string source, string[] lstParam, DBInfo db)
+        internal static string DoLikeByDB(string source, string[] lstParam, DBInfo db)
         {
-
-            return source + " like " + db.CurrentDbAdapter.ConcatString("'%'", lstParam[0], "'%'") ;
+            return db.CurrentDbAdapter.DoLike(source, lstParam[0], BQLLikeType.Like,BQLCaseType.CaseByDB, db);
+            //return source + " like " + db.CurrentDbAdapter.ConcatString("'%'", lstParam[0], "'%'");
         }
-
+        /// <summary>
+        /// Like条件（不区分大小写）
+        /// </summary>
+        /// <param name="lstParam"></param>
+        /// <returns></returns>
+        internal static string DoLikeIgnore(string source, string[] lstParam, DBInfo db)
+        {
+            return db.CurrentDbAdapter.DoLike(source, lstParam[0], BQLLikeType.Like, BQLCaseType.CaseIgnore, db);
+            //return source + " like " + db.CurrentDbAdapter.ConcatString("'%'", lstParam[0], "'%'");
+        }
         /// <summary>
         /// StarWith条件
         /// </summary>
@@ -126,4 +135,6 @@ namespace Buffalo.DB.BQLCommon.BQLConditions
             return ida.FreeTextLike(source, lstParam[0]);
         }
     }
+
+    
 }

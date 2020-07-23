@@ -13,7 +13,7 @@ using Buffalo.DB.BQLCommon;
 
 namespace Buffalo.DB.CommBase.DataAccessBases.AliasTableMappingManagers
 {
-    public class AliasTableMapping
+    public class AliasTableMapping:IDisposable
     {
         
 
@@ -311,7 +311,19 @@ namespace Buffalo.DB.CommBase.DataAccessBases.AliasTableMappingManagers
                 _dicParams[info.PropertyName]=prm;
             }
         }
-        
 
+        public void Dispose()
+        {
+            _belongManager = null;
+            _entityInfo = null;
+            _dicChildTables = null;
+            _dicParams = null;
+            _dicPropertyInfo = null;
+            _entityInfo = null;
+            _lstReaderMapping = null;
+            _mappingInfo = null;
+            _primaryMapping = null;
+            _table = null;
+        }
     }
 }

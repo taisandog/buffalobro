@@ -21,7 +21,7 @@ namespace Buffalo.DB.BQLCommon.BQLKeyWordCommon
         {
             this._tables = tables;
         }
-
+        
         ///// <summary>
         ///// Òª²éÑ¯µÄ×Ö¶Î
         ///// </summary>

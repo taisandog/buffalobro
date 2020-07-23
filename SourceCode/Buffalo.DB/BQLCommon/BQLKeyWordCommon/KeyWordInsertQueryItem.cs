@@ -6,6 +6,7 @@ using Buffalo.DB.BQLCommon.IdentityInfos;
 using Buffalo.DB.DataBaseAdapter.IDbAdapters;
 using Buffalo.DB.DataBaseAdapter;
 using System.Data;
+using Buffalo.Kernel;
 
 namespace Buffalo.DB.BQLCommon.BQLKeyWordCommon
 {
@@ -25,6 +26,7 @@ namespace Buffalo.DB.BQLCommon.BQLKeyWordCommon
         {
             this._query = new BQLAliasHandle(query,null);
         }
+        
         internal override void LoadInfo(KeyWordInfomation info)
         {
             BQLValueItem.DoFillInfo(_query, info);

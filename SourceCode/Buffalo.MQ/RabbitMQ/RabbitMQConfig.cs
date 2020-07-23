@@ -14,24 +14,24 @@ namespace Buffalo.MQ.RabbitMQ
         /// <summary>
         /// 交换方式(direct,fanout,headers,topic;)
         /// </summary>
-        public readonly string ExchangeMode;
+        public string ExchangeMode;
         /// <summary>
         /// 交换名称
         /// </summary>
-        public readonly string ExchangeName;
+        public string ExchangeName;
         /// <summary>
         /// 类型 1不持久化，2持久化
         /// </summary>
-        public readonly byte DeliveryMode;
+        public byte DeliveryMode;
 
         /// <summary>
         /// 队列名
         /// </summary>
-        public readonly string[] QueueName;
+        public string[] QueueName;
         /// <summary>
         /// 自动删除
         /// </summary>
-        public readonly bool AutoDelete;
+        public bool AutoDelete;
 
        
 

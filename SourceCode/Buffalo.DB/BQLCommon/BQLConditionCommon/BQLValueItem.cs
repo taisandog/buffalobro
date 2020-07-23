@@ -9,29 +9,13 @@ using Buffalo.DB.DBFunction;
 using Buffalo.DB.BQLCommon.BQLConditions;
 using Buffalo.DB.BQLCommon.BQLKeyWordCommon;
 using Buffalo.DB.DataBaseAdapter;
+using System.Diagnostics;
 
 namespace Buffalo.DB.BQLCommon.BQLConditionCommon
 {
     
-    public abstract class BQLValueItem
+    public abstract class BQLValueItem:IDisposable
     {
-        //protected Type valueDataType;
-        
-        ///// <summary>
-        ///// 数据库的值类型
-        ///// </summary>
-        //internal virtual Type ValueDataType
-        //{
-        //    get
-        //    {
-        //        return valueDataType;
-        //    }
-        //    set 
-        //    {
-        //        valueDataType = value;
-        //    }
-        //}
-
         /// <summary>
         /// 通知函数符号另一端的字段的数值类型
         /// </summary>
@@ -60,30 +44,30 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
         {
             return As(null);
         }
-        /// <summary>
-        /// StarWith条件
-        /// </summary>
-        /// <param name="item">条件</param>
-        /// <returns></returns>
-        public BQLConditionItem StarWith(object item)
-        {
-            BQLValueItem oValue = BQLValueItem.ToValueItem(item);
-            oValue.ValueDbType = this.ValueDbType;
-            return new BQLConditionItem(this, new BQLValueItem[] { oValue }, BQLConditionManager.DoStarWith);
-        }
+        ///// <summary>
+        ///// StarWith条件
+        ///// </summary>
+        ///// <param name="item">条件</param>
+        ///// <returns></returns>
+        //public BQLConditionItem StarWith(object item)
+        //{
+        //    BQLValueItem oValue = BQLValueItem.ToValueItem(item);
+        //    oValue.ValueDbType = this.ValueDbType;
+        //    return new BQLConditionItem(this, new BQLValueItem[] { oValue }, BQLConditionManager.DoStarWith);
+        //}
 
-        /// <summary>
-        /// EndWith条件
-        /// </summary>
-        /// <param name="item">条件</param>
-        /// <returns></returns>
-        public BQLConditionItem EndWith(object item)
-        {
+        ///// <summary>
+        ///// EndWith条件
+        ///// </summary>
+        ///// <param name="item">条件</param>
+        ///// <returns></returns>
+        //public BQLConditionItem EndWith(object item)
+        //{
 
-            BQLValueItem oValue = BQLValueItem.ToValueItem(item);
-            oValue.ValueDbType = this.ValueDbType;
-            return new BQLConditionItem(this, new BQLValueItem[] { oValue }, BQLConditionManager.DoEndWith);
-        }
+        //    BQLValueItem oValue = BQLValueItem.ToValueItem(item);
+        //    oValue.ValueDbType = this.ValueDbType;
+        //    return new BQLConditionItem(this, new BQLValueItem[] { oValue }, BQLConditionManager.DoEndWith);
+        //}
         /// <summary>
         /// Between条件
         /// </summary>
@@ -151,14 +135,35 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
         /// <summary>
         /// Like条件
         /// </summary>
-        /// <param name="lstParam"></param>
+        /// <param name="item">值</param>
+        /// <param name="type">Like方式</param>
+        /// <param name="caseType">大小写参数</param>
         /// <returns></returns>
-        public BQLConditionItem Like(object item)
+        public BQLLikeItem Like(object item, BQLLikeType type, BQLCaseType caseType)
         {
 
             BQLValueItem oValue = BQLValueItem.ToValueItem(item);
             oValue.ValueDbType = this.ValueDbType;
-            return new BQLConditionItem(this, new BQLValueItem[] { oValue }, BQLConditionManager.DoLike);
+            return new BQLLikeItem(this, oValue, type, caseType);
+        }
+        /// <summary>
+        /// Like条件
+        /// </summary>
+        /// <param name="item">值</param>
+        /// <returns></returns>
+        public BQLLikeItem Like(object item)
+        {
+            return Like(item, BQLLikeType.Like, BQLCaseType.CaseByDB);
+        }
+        /// <summary>
+        /// Like条件
+        /// </summary>
+        /// <param name="item">值</param>
+        /// <param name="type">Like方式</param>
+        /// <returns></returns>
+        public BQLLikeItem Like(object item, BQLLikeType type)
+        {
+            return Like(item, type, BQLCaseType.CaseByDB);
         }
         /// <summary>
         /// FreeText条件
@@ -551,5 +556,17 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
         {
             return DisplayValue(GetKeyInfo());
         }
+
+        public virtual void Dispose()
+        {
+            
+        }
+//#if DEBUG
+
+//        ~BQLValueItem()
+//        {
+//            Debug.WriteLine(this.GetType().FullName + "被释放");
+//        }
+//#endif
     }
 }

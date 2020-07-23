@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Buffalo.DB.BQLCommon.BQLConditionCommon;
+using Buffalo.Kernel;
 
 namespace Buffalo.DB.BQLCommon.BQLKeyWordCommon
 {
@@ -19,6 +20,7 @@ namespace Buffalo.DB.BQLCommon.BQLKeyWordCommon
         {
             this.condition = condition;
         }
+        
         internal override void LoadInfo(KeyWordInfomation info)
         {
             BQLValueItem.DoFillInfo(condition, info);

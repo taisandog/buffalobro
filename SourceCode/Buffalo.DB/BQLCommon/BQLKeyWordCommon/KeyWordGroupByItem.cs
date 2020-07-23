@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Buffalo.DB.BQLCommon.BQLConditionCommon;
 using Buffalo.DB.QueryConditions;
+using Buffalo.Kernel;
 
 namespace Buffalo.DB.BQLCommon.BQLKeyWordCommon
 {
@@ -20,6 +21,7 @@ namespace Buffalo.DB.BQLCommon.BQLKeyWordCommon
         {
             this.paramhandles = paramhandles;
         }
+       
         internal override void LoadInfo(KeyWordInfomation info)
         {
             if (paramhandles != null && paramhandles.Count > 0) 

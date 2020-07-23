@@ -31,7 +31,7 @@ namespace Buffalo.DB.BQLCommon.BQLKeyWordCommon
         {
             this._tableName = tableName;
         }
-
+       
         /// <summary>
         /// ×Ö¶Î
         /// </summary>

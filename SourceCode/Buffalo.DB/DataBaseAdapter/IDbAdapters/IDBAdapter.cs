@@ -8,6 +8,8 @@ using Buffalo.DB.DbCommon;
 using Buffalo.DB.PropertyAttributes;
 using System.Data.Common;
 using Buffalo.DB.BQLCommon.BQLKeyWordCommon;
+using Buffalo.DB.BQLCommon.BQLConditions;
+
 namespace Buffalo.DB.DataBaseAdapter.IDbAdapters
 {
     public interface IDBAdapter
@@ -318,5 +320,23 @@ namespace Buffalo.DB.DataBaseAdapter.IDbAdapters
         /// </summary>
         /// <returns></returns>
         bool KeyWordDEFAULTFront();
+        /// <summary>
+        /// 进行like不去分大小写
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="lstParam"></param>
+        /// <returns></returns>
+        string DoLike(string source, string param, BQLLikeType type, BQLCaseType caseType, DBInfo info);
+        
+
+        /// <summary>
+        /// 进行排序
+        /// </summary>
+        /// <param name="param">字段</param>
+        /// <param name="sortType">排序</param>
+        /// <param name="isCase">是否区分大小写</param>
+        /// <param name="info">数据库信息</param>
+        /// <returns></returns>
+        string DoOrderBy(string param, SortType sortType, BQLCaseType caseType, DBInfo info);
     }
 }
