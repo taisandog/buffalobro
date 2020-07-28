@@ -1,8 +1,10 @@
 ﻿using Buffalo.Kernel;
 using Buffalo.MQ.KafkaMQ;
+
 using Buffalo.MQ.MQTTLib;
 #if !NET_4_5
 using Buffalo.MQ.RabbitMQ;
+
 #endif
 using Buffalo.MQ.RedisMQ;
 using System;
@@ -48,11 +50,13 @@ namespace Buffalo.MQ
         {
             ConcurrentDictionary<string, DelCreateConfig> dic = new ConcurrentDictionary<string, DelCreateConfig>(StringComparer.CurrentCultureIgnoreCase);
             dic["kafkamq"] = GetKafkaConfig;
+            dic["mqttmq"] = GetMQTTConfig;
 #if !NET_4_5
             dic["rabbitmq"] = GetRabbitMQConfig;
+
 #endif
             dic["redismq"] = GetRedisConfig;
-            dic["mqttmq"] = GetMQTTConfig;
+
             return dic;
         }
         
@@ -150,10 +154,12 @@ namespace Buffalo.MQ
         {
             return new KafkaMQConfig(connectString);
         }
+
         private static MQConfigBase GetMQTTConfig(string connectString)
         {
             return new MQTTConfig(connectString);
         }
+
         private static MQConfigBase GetRedisConfig(string connectString)
         {
             return new RedisMQConfig(connectString);

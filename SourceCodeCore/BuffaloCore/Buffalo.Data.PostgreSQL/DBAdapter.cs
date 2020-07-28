@@ -13,6 +13,8 @@ using Buffalo.DB.PropertyAttributes;
 using Buffalo.DB.BQLCommon.BQLKeyWordCommon;
 using Buffalo.DB.CommBase.DataAccessBases;
 using Buffalo.DB.DataBaseAdapter;
+using Buffalo.DB.BQLCommon.BQLConditions;
+
 namespace Buffalo.Data.PostgreSQL
 {
     public class DBAdapter : IDBAdapter
@@ -30,6 +32,10 @@ namespace Buffalo.Data.PostgreSQL
         public bool IdentityIsType
         {
             get { return false; }
+        }
+        public virtual bool KeyWordDEFAULTFront()
+        {
+            return false;
         }
         // <summary>
         /// 清空表
@@ -549,9 +555,49 @@ namespace Buffalo.Data.PostgreSQL
         {
             return null;
         }
-        public virtual bool KeyWordDEFAULTFront()
+
+        /// <summary>
+        /// like不区分大小写
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="lstParam"></param>
+        /// <returns></returns>
+        public string DoLike(string source, string param, BQLLikeType type, BQLCaseType caseType, DBInfo info)
         {
-            return false;
+            StringBuilder sbSql = new StringBuilder();
+            sbSql.Append(source);
+            if (caseType == BQLCaseType.CaseIgnore)
+            {
+                sbSql.Append(" ilike ");
+            }
+            else
+            {
+                sbSql.Append(" like ");
+            }
+            sbSql.Append(Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter.DBAdapter.GetLikeString(this, type, param));
+            return sbSql.ToString();
+        }
+        
+
+        public string DoOrderBy(string param, SortType sortType, BQLCaseType caseType, DBInfo info)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(" ");
+            if (caseType== BQLCaseType.CaseIgnore)
+            {
+                sb.Append("LOWER(");
+                sb.Append(param);
+                sb.Append(")");
+            }
+            else
+            {
+                sb.Append(param);
+            }
+            if (sortType == SortType.DESC)
+            {
+                sb.Append(" desc");
+            }
+            return sb.ToString();
         }
     }
 }

@@ -12,6 +12,7 @@
     <AssemblyName>Buffalo.QueryCache</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -22,35 +23,52 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\Debug\2010\Buffalo.QueryCache.XML</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\Release\2010\</OutputPath>
-    <DefineConstants>TRACE;NET_4_0</DefineConstants>
+    <DefineConstants>TRACE;NET_4_0,NET40,FEATURE_SERIALIZATION,FEATURE_SOCKET_MODE_POLL</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\Release\2010\Buffalo.QueryCache.XML</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Enyim.Caching, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\dll\dll\Net4.0\Enyim.Caching.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dll\dll\Net4.0\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="ServiceStack.Common">
-      <HintPath>..\..\dll\dll\Net4.0\ServiceStack.Common.dll</HintPath>
+      <HintPath>..\..\dll\dll\Net3.5\ServiceStack.Common.dll</HintPath>
     </Reference>
     <Reference Include="ServiceStack.Interfaces">
-      <HintPath>..\..\dll\dll\Net4.0\ServiceStack.Interfaces.dll</HintPath>
+      <HintPath>..\..\dll\dll\Net3.5\ServiceStack.Interfaces.dll</HintPath>
     </Reference>
     <Reference Include="ServiceStack.Redis">
-      <HintPath>..\..\dll\dll\Net4.0\ServiceStack.Redis.dll</HintPath>
+      <HintPath>..\..\dll\dll\Net3.5\ServiceStack.Redis.dll</HintPath>
     </Reference>
     <Reference Include="ServiceStack.Text">
-      <HintPath>..\..\dll\dll\Net4.0\ServiceStack.Text.dll</HintPath>
+      <HintPath>..\..\dll\dll\Net3.5\ServiceStack.Text.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO">
+      <HintPath>..\..\dll\dll\Net4.0\System.IO.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net" />
+    <Reference Include="System.Runtime, Version=2.6.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\dll\dll\Net4.0\System.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks">
+      <HintPath>..\..\dll\dll\Net4.0\System.Threading.Tasks.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -72,7 +90,6 @@
     </Compile>
     <Compile Include="MemCachedAdaper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RedisAdaperByServiceStack.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Buffalo.DB\Buffalo2010.DB.csproj">

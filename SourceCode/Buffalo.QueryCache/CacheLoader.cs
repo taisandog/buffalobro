@@ -24,13 +24,13 @@ namespace Buffalo.QueryCache
             {
                 return new MemCachedAdaper(connectionString, info);
             }
-#if (NET_2_0)
+#if (NET_2_0||NET_3_5 || NET_4_0)
             throw new NotSupportedException("不支持:" + type + " 的缓存类型，当前只支持system、memcached类型的缓存");
-#elif (NET_3_5 || NET_4_0)
-            else if (dtype.Equals("redis", StringComparison.CurrentCultureIgnoreCase))//redis
-            {
-                return new RedisAdaperByServiceStack(connectionString, info);
-            }
+//#elif (NET_3_5 || NET_4_0)
+            //else if (dtype.Equals("redis", StringComparison.CurrentCultureIgnoreCase))//redis
+            //{
+            //    return new RedisAdaperByServiceStack(connectionString, info);
+            //}
 #else
             else if (dtype.Equals("redis", StringComparison.CurrentCultureIgnoreCase))//redis
             {

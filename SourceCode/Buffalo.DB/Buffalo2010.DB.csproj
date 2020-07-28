@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BQLCommon\BQLConditionCommon\BQLConditionValueItem.cs" />
+    <Compile Include="BQLCommon\BQLConditionCommon\BQLLikeItem.cs" />
     <Compile Include="BQLCommon\BQLConditionCommon\BQLTimeStampHandle.cs" />
     <Compile Include="BQLCommon\BQLConditionCommon\IOperatorPriorityLevel.cs" />
     <Compile Include="BQLCommon\BQLConditionCommon\OperatorPrecedenceUnit.cs" />
@@ -61,6 +62,7 @@
     <Compile Include="CacheManager\CacheUnit.cs" />
     <Compile Include="CacheManager\DataSetCacheItem.cs" />
     <Compile Include="CacheManager\ICacheAdaper.cs" />
+    <Compile Include="CacheManager\LocalCacheBase.cs" />
     <Compile Include="CacheManager\Memcached\MemCacheReader.cs" />
     <Compile Include="CacheManager\MemoryAdaper.cs" />
     <Compile Include="CacheManager\NetCacheBase.cs" />
