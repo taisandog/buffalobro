@@ -43,11 +43,12 @@ namespace Buffalo.MQ.MQTTLib
                 _mqttClient = factory.CreateMqttClient() as MqttClient;
 
                 _options = _config.Options.Build();
-                MqttClientAuthenticateResult res = _mqttClient.ConnectAsync(_options).Result;
+                
 
                 _mqttClient.ConnectedHandler = new MqttClientConnectedHandlerDelegate(new Func<MqttClientConnectedEventArgs, Task>(Connected));
                 _mqttClient.DisconnectedHandler = new MqttClientDisconnectedHandlerDelegate(new Func<MqttClientDisconnectedEventArgs, Task>(Disconnected));
                 _mqttClient.ApplicationMessageReceivedHandler = new MqttApplicationMessageReceivedHandlerDelegate(new Action<MqttApplicationMessageReceivedEventArgs>(MqttApplicationMessageReceived));
+                MqttClientAuthenticateResult res = _mqttClient.ConnectAsync(_options).Result;
             }
 
 
@@ -129,7 +130,14 @@ namespace Buffalo.MQ.MQTTLib
         {
             if (_mqttClient != null)
             {
-                _mqttClient.Dispose();
+                try
+                {
+                    _mqttClient.Dispose();
+                }
+                catch (Exception ex)
+                {
+                    OnException(ex);
+                }
                 _mqttClient = null;
             }
         }

@@ -136,6 +136,11 @@ namespace Buffalo.DB.CommBase
                 }
             }
         }
+        ~EntityBaseInfo()
+        {
+            _dicUpdateProperty___ = null;
 
+            _dicFilledParent___ = null;
+        }
     }
 }
