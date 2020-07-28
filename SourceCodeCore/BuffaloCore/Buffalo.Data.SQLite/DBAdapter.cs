@@ -26,7 +26,10 @@ namespace Buffalo.Data.SQLite
                 return false;
             }
         }
-
+        public virtual bool KeyWordDEFAULTFront()
+        {
+            return false;
+        }
         /// <summary>
         /// 清空表
         /// </summary>
@@ -550,9 +553,95 @@ namespace Buffalo.Data.SQLite
         {
             return null;
         }
-        public virtual bool KeyWordDEFAULTFront()
+
+        /// <summary>
+        /// like不区分大小写
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="lstParam"></param>
+        /// <returns></returns>
+        public string DoLike(string source, string param, BQLLikeType type, BQLCaseType caseType, DBInfo info)
         {
-            return false;
+            StringBuilder sbSql = new StringBuilder();
+            sbSql.Append(source);
+
+
+            if (type == BQLLikeType.Equal)
+            {
+                sbSql.Append("=");
+                sbSql.Append(Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter.DBAdapter.GetLikeString(this, type, param));
+                if (caseType == BQLCaseType.CaseIgnore)
+                {
+                    sbSql.Append(" COLLATE NOCASE");
+                }
+            }
+            else if (caseType == BQLCaseType.CaseMatch)
+            {
+                sbSql.Append(" GLOB ");
+                sbSql.Append(GetLikeString( type, param, caseType, info));
+            }
+            else
+            {
+                sbSql.Append(" like ");
+                sbSql.Append(GetLikeString(type, param, caseType, info));
+            }
+           
+            
+            return sbSql.ToString();
+        }
+        /// <summary>
+        /// 获取like的参数
+        /// </summary>
+        /// <param name="ida"></param>
+        /// <param name="type"></param>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        private string GetLikeString(BQLLikeType type, string param, BQLCaseType caseType, DBInfo info)
+        {
+            IDBAdapter ida = info.CurrentDbAdapter;
+            switch (type)
+            {
+                case BQLLikeType.StartWith:
+                    if (caseType == BQLCaseType.CaseMatch)
+                    {
+                        return ida.ConcatString(param, "'*'");
+                    }
+                    return ida.ConcatString(param, "'%'");
+
+                case BQLLikeType.EndWith:
+                    if (caseType == BQLCaseType.CaseMatch)
+                    {
+                        return ida.ConcatString("'*'",param );
+                    }
+                    return ida.ConcatString("'%'", param);
+                case BQLLikeType.Like:
+                    if (caseType == BQLCaseType.CaseMatch)
+                    {
+                        return ida.ConcatString("'*'", param, "'*'");
+                    }
+                    return ida.ConcatString("'%'", param, "'%'");
+                default:
+                    return param;
+            }
+
+        }
+
+        public string DoOrderBy(string param, SortType sortType, BQLCaseType caseType, DBInfo info)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(" ");
+
+            sb.Append(param);
+
+            if (sortType == SortType.DESC)
+            {
+                sb.Append(" desc");
+            }
+            if (caseType == BQLCaseType.CaseIgnore)
+            {
+                sb.Append(" COLLATE NOCASE");
+            }
+            return sb.ToString();
         }
     }
 }
