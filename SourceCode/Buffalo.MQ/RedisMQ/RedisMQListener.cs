@@ -130,14 +130,27 @@ namespace Buffalo.MQ.RedisMQ
         {
             if (_subscriber != null)
             {
-                _subscriber.UnsubscribeAll();
+                try
+                {
+                    _subscriber.UnsubscribeAll();
+                }catch(Exception ex)
+                {
+                    OnException(ex);
+                }
             }
             
             _subscriber = null;
             if (_redis != null)
             {
-                _redis.Close();
-                _redis.Dispose();
+                try
+                {
+                    _redis.Close();
+                    _redis.Dispose();
+                }
+                catch (Exception ex)
+                {
+                    OnException(ex);
+                }
                 _redis = null;
             }
             _db = null;

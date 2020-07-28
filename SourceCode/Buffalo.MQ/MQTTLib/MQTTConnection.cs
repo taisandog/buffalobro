@@ -4,6 +4,7 @@ using Buffalo.MQ.MQTTLib.MQTTnet.Client;
 using Buffalo.MQ.MQTTLib.MQTTnet.Client.Connecting;
 using Buffalo.MQ.MQTTLib.MQTTnet.Client.Disconnecting;
 using Buffalo.MQ.MQTTLib.MQTTnet.Client.Options;
+using Buffalo.MQ.MQTTLib.MQTTnet.Client.Publishing;
 using Buffalo.MQ.RedisMQ;
 using System;
 using System.Collections.Generic;
@@ -51,7 +52,7 @@ namespace Buffalo.MQ.MQTTLib
             }
             else
             {
-                _mqttClient.PublishAsync(key, body);
+                MqttClientPublishResult res = _mqttClient.PublishAsync(key, body).Result;
             }
             return ApiCommon.GetSuccess();
         }
@@ -61,6 +62,7 @@ namespace Buffalo.MQ.MQTTLib
         {
             if (_mqttClient != null)
             {
+                _mqttClient.DisconnectAsync().Wait();
                 _mqttClient.Dispose();
                 _mqttClient = null;
             }
@@ -94,51 +96,11 @@ namespace Buffalo.MQ.MQTTLib
                 _options = _config.Options.Build();
                 MqttClientAuthenticateResult res = _mqttClient.ConnectAsync(_options).Result;
 
-                //_mqttClient.ConnectedHandler = new MqttClientConnectedHandlerDelegate(new Func<MqttClientConnectedEventArgs, Task>(Connected));
-                //_mqttClient.DisconnectedHandler = new MqttClientDisconnectedHandlerDelegate(new Func<MqttClientDisconnectedEventArgs, Task>(Disconnected));
-
+                
             }
             
         }
-        //private async Task Connected(MqttClientConnectedEventArgs e)
-        //{
-        //    try
-        //    {
-        //        //List<MqttTopicFilter> listTopic = new List<MqttTopicFilter>();
-        //        //if (listTopic.Count() <= 0)
-        //        //{
-        //        //    MqttTopicFilter topicFilterBulder = new MqttTopicFilterBuilder().WithTopic(Topic).Build();
-        //        //    listTopic.Add(topicFilterBulder);
-        //        //    Console.WriteLine("Connected >>Subscribe " + Topic);
-        //        //}
-        //        //await _mqttClient.SubscribeAsync(listTopic.ToArray());
-        //        //Console.WriteLine("Connected >>Subscribe Success");
-        //    }
-        //    catch (Exception exp)
-        //    {
-        //        //Console.WriteLine(exp.Message);
-        //    }
-        //}
-        //private async Task Disconnected(MqttClientDisconnectedEventArgs e)
-        //{
-        //    try
-        //    {
-        //        //Console.WriteLine("Disconnected >>Disconnected Server");
-        //        //await Task.Delay(TimeSpan.FromSeconds(5));
-        //        //try
-        //        //{
-        //        //    await _mqttClient.ConnectAsync(_options);
-        //        //}
-        //        //catch (Exception exp)
-        //        //{
-        //        //    Console.WriteLine("Disconnected >>Exception " + exp.Message);
-        //        //}
-        //    }
-        //    catch (Exception exp)
-        //    {
-        //        //Console.WriteLine(exp.Message);
-        //    }
-        //}
+        
 
         protected override APIResault StartTran()
         {
@@ -149,13 +111,22 @@ namespace Buffalo.MQ.MQTTLib
 
         protected override APIResault CommitTran()
         {
+            
             if (_que != null)
             {
+                Queue<Task<MqttClientPublishResult>> que = new Queue<Task<MqttClientPublishResult>>();
                 MQRedisMessage mess = null;
                 while (_que.Count > 0)
                 {
                     mess = _que.Dequeue();
-                    _mqttClient.PublishAsync(mess.RoutingKey, mess.Value);
+                    que.Enqueue(_mqttClient.PublishAsync(mess.RoutingKey, mess.Value));
+                }
+
+                Task<MqttClientPublishResult> tmp = null;
+                while (que.Count > 0)
+                {
+                    tmp = que.Dequeue();
+                    MqttClientPublishResult res=tmp.Result;
                 }
             }
             return ApiCommon.GetSuccess();

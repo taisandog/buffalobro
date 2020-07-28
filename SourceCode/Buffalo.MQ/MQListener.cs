@@ -77,7 +77,14 @@ namespace Buffalo.MQ
         {
             if (_startHandle != null)
             {
-                _startHandle.Close();
+                try
+                {
+                    _startHandle.Close();
+                }
+                catch (Exception ex)
+                {
+                    OnException(ex);
+                }
             }
             _startHandle = null;
         }

@@ -110,12 +110,26 @@ namespace Buffalo.MQ.RabbitMQ
         {
             if (_channel != null)
             {
-                _channel.Close();
+                try
+                {
+                    _channel.Close();
+                }
+                catch (Exception ex)
+                {
+                    OnException(ex);
+                }
                 _channel = null;
             }
             if (_connection != null)
             {
-                _connection.Close();
+                try
+                {
+                    _connection.Close();
+                }
+                catch (Exception ex)
+                {
+                    OnException(ex);
+                }
                 _connection = null;
             }
             DisponseWait();

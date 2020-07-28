@@ -121,7 +121,11 @@ namespace Buffalo.MQ.KafkaMQ
                 {
                     _running.Cancel();
                 }
-                catch { }
+
+                catch (Exception ex)
+                {
+                    OnException(ex);
+                }
             }
             
             if (_handle != null && _thd!=null)
