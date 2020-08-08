@@ -1,7 +1,10 @@
 ﻿using Buffalo.Kernel;
 using Buffalo.MQ.KafkaMQ;
+
+using Buffalo.MQ.MQTTLib;
 #if !NET_4_5
 using Buffalo.MQ.RabbitMQ;
+
 #endif
 using Buffalo.MQ.RedisMQ;
 using System;
@@ -47,12 +50,17 @@ namespace Buffalo.MQ
         {
             ConcurrentDictionary<string, DelCreateConfig> dic = new ConcurrentDictionary<string, DelCreateConfig>(StringComparer.CurrentCultureIgnoreCase);
             dic["kafkamq"] = GetKafkaConfig;
+            dic["mqttmq"] = GetMQTTConfig;
 #if !NET_4_5
             dic["rabbitmq"] = GetRabbitMQConfig;
+
 #endif
             dic["redismq"] = GetRedisConfig;
+
             return dic;
         }
+        
+
         /// <summary>
         /// 添加队列信息
         /// </summary>
@@ -70,6 +78,21 @@ namespace Buffalo.MQ
             _dic[name]=item;
         }
         /// <summary>
+        /// 添加队列信息
+        /// </summary>
+        /// <param name="name">标记唯一的名字</param>
+        /// <param name="mqType">队列类型</param>
+        /// <param name="connectString">连接字符串</param>
+        public static MQInfoItem GetMQInfo(string name)
+        {
+            MQInfoItem item = null;
+            if (!_dic.TryGetValue(name, out item))
+            {
+                item = null;
+            }
+            return item;
+        }
+        /// <summary>
         /// 获取生产者的连接
         /// </summary>
         /// <param name="name"></param>
@@ -78,16 +101,7 @@ namespace Buffalo.MQ
         {
             Dictionary<string, MQConnection> dic = GetStaticConnTable();
             MQConnection conn = null;
-            //StringBuilder sbKey = new StringBuilder();
-            //if (hasTransaction)
-            //{
-            //    sbKey.Append("1.");
-            //}
-            //else
-            //{
-            //    sbKey.Append("0.");
-            //}
-            //sbKey.Append(name);
+            
             string key = name;
             if (dic.TryGetValue(key, out conn))
             {
@@ -140,6 +154,12 @@ namespace Buffalo.MQ
         {
             return new KafkaMQConfig(connectString);
         }
+
+        private static MQConfigBase GetMQTTConfig(string connectString)
+        {
+            return new MQTTConfig(connectString);
+        }
+
         private static MQConfigBase GetRedisConfig(string connectString)
         {
             return new RedisMQConfig(connectString);
@@ -183,7 +203,21 @@ namespace Buffalo.MQ
         {
            
             IEnumerable<MQOffestInfo> topicsOffest = args as IEnumerable<MQOffestInfo>;
-            return topicsOffest;
+            if (topicsOffest != null)
+            {
+                return topicsOffest;
+            }
+            IEnumerable<string> lsttopicsOffest= args as IEnumerable<string>;
+            if (lsttopicsOffest != null)
+            {
+                List<MQOffestInfo> lst = new List<MQOffestInfo>();
+                foreach(string key in lsttopicsOffest)
+                {
+                    lst.Add(new MQOffestInfo(key, 0, 0));
+                }
+                return lst;
+            }
+            return null;
         }
     }
 }

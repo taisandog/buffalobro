@@ -71,9 +71,9 @@ namespace Buffalo.MQ.RedisMQ
                     }
                 }
             }
-            _useDatabase = hs.GetDicValue<string, string>("database").ConvertTo<int>(0);
-            Options.DefaultDatabase = _useDatabase;
             Options.Password = hs.GetDicValue<string, string>("pwd");
+            _useDatabase = hs.GetDicValue<string, string>("database").ConvertTo<int>(0);
+            Options.DefaultDatabase= _useDatabase;
             Options.Ssl = hs.GetDicValue<string, string>("ssl") == "1";
             SaveToQueue= hs.GetDicValue<string, string>("useQueue") == "1";//保存到队列
             if (servers.Count > 0)

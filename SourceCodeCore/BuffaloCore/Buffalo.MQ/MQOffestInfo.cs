@@ -22,7 +22,10 @@ namespace Buffalo.MQ
             _key = key;
             _partition = partition;
             _offest = offset;
+
         }
+
+       
 
         /// <summary>
         /// 监听键

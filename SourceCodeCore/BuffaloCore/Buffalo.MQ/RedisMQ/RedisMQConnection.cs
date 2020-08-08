@@ -32,15 +32,16 @@ namespace Buffalo.MQ.RedisMQ
         {
             _config = config;
         }
-        
+
 
         /// <summary>
         /// 创建连接池
         /// </summary>
-        /// <param name="connectionString">连接字符串</param>
+        /// <param name="options">连接字符串</param>
         /// <returns></returns>
         internal static ConnectionMultiplexer CreateManager(ConfigurationOptions options)
         {
+            
             return ConnectionMultiplexer.Connect(options);
         }
 
@@ -193,7 +194,10 @@ namespace Buffalo.MQ.RedisMQ
 
         protected override APIResault RoolbackTran()
         {
-            _que.Clear();
+            if (_que != null)
+            {
+                _que.Clear();
+            }
             return ApiCommon.GetSuccess();
         }
 
