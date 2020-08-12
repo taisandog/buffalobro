@@ -62,531 +62,6 @@
             <param name="parametersType">参数类型</param>
             <param name="args">参数</param>
         </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.DataSectionFlags.TypeReg">
-            <summary>
-            Reserved for future use.
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.DataSectionFlags.TypeDsect">
-            <summary>
-            Reserved for future use.
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.DataSectionFlags.TypeNoLoad">
-            <summary>
-            Reserved for future use.
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.DataSectionFlags.TypeGroup">
-            <summary>
-            Reserved for future use.
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.DataSectionFlags.TypeNoPadded">
-            <summary>
-            The section should not be padded to the next boundary. This flag is obsolete and is replaced by IMAGE_SCN_ALIGN_1BYTES. This is valid only for object files.
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.DataSectionFlags.TypeCopy">
-            <summary>
-            Reserved for future use.
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.DataSectionFlags.ContentCode">
-            <summary>
-            The section contains executable code.
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.DataSectionFlags.ContentInitializedData">
-            <summary>
-            The section contains initialized data.
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.DataSectionFlags.ContentUninitializedData">
-            <summary>
-            The section contains uninitialized data.
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.DataSectionFlags.LinkOther">
-            <summary>
-            Reserved for future use.
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.DataSectionFlags.LinkInfo">
-            <summary>
-            The section contains comments or other information. The .drectve section has this type. This is valid for object files only.
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.DataSectionFlags.TypeOver">
-            <summary>
-            Reserved for future use.
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.DataSectionFlags.LinkRemove">
-            <summary>
-            The section will not become part of the image. This is valid only for object files.
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.DataSectionFlags.LinkComDat">
-            <summary>
-            The section contains COMDAT data. For more information, see section 5.5.6, COMDAT Sections (Object Only). This is valid only for object files.
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.DataSectionFlags.NoDeferSpecExceptions">
-            <summary>
-            Reset speculative exceptions handling bits in the TLB entries for this section.
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.DataSectionFlags.RelativeGP">
-            <summary>
-            The section contains data referenced through the global pointer (GP).
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.DataSectionFlags.MemPurgeable">
-            <summary>
-            Reserved for future use.
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.DataSectionFlags.Memory16Bit">
-            <summary>
-            Reserved for future use.
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.DataSectionFlags.MemoryLocked">
-            <summary>
-            Reserved for future use.
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.DataSectionFlags.MemoryPreload">
-            <summary>
-            Reserved for future use.
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.DataSectionFlags.Align1Bytes">
-            <summary>
-            Align data on a 1-byte boundary. Valid only for object files.
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.DataSectionFlags.Align2Bytes">
-            <summary>
-            Align data on a 2-byte boundary. Valid only for object files.
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.DataSectionFlags.Align4Bytes">
-            <summary>
-            Align data on a 4-byte boundary. Valid only for object files.
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.DataSectionFlags.Align8Bytes">
-            <summary>
-            Align data on an 8-byte boundary. Valid only for object files.
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.DataSectionFlags.Align16Bytes">
-            <summary>
-            Align data on a 16-byte boundary. Valid only for object files.
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.DataSectionFlags.Align32Bytes">
-            <summary>
-            Align data on a 32-byte boundary. Valid only for object files.
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.DataSectionFlags.Align64Bytes">
-            <summary>
-            Align data on a 64-byte boundary. Valid only for object files.
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.DataSectionFlags.Align128Bytes">
-            <summary>
-            Align data on a 128-byte boundary. Valid only for object files.
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.DataSectionFlags.Align256Bytes">
-            <summary>
-            Align data on a 256-byte boundary. Valid only for object files.
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.DataSectionFlags.Align512Bytes">
-            <summary>
-            Align data on a 512-byte boundary. Valid only for object files.
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.DataSectionFlags.Align1024Bytes">
-            <summary>
-            Align data on a 1024-byte boundary. Valid only for object files.
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.DataSectionFlags.Align2048Bytes">
-            <summary>
-            Align data on a 2048-byte boundary. Valid only for object files.
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.DataSectionFlags.Align4096Bytes">
-            <summary>
-            Align data on a 4096-byte boundary. Valid only for object files.
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.DataSectionFlags.Align8192Bytes">
-            <summary>
-            Align data on an 8192-byte boundary. Valid only for object files.
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.DataSectionFlags.LinkExtendedRelocationOverflow">
-            <summary>
-            The section contains extended relocations.
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.DataSectionFlags.MemoryDiscardable">
-            <summary>
-            The section can be discarded as needed.
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.DataSectionFlags.MemoryNotCached">
-            <summary>
-            The section cannot be cached.
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.DataSectionFlags.MemoryNotPaged">
-            <summary>
-            The section is not pageable.
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.DataSectionFlags.MemoryShared">
-            <summary>
-            The section can be shared in memory.
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.DataSectionFlags.MemoryExecute">
-            <summary>
-            The section can be executed as code.
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.DataSectionFlags.MemoryRead">
-            <summary>
-            The section can be read.
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.DataSectionFlags.MemoryWrite">
-            <summary>
-            The section can be written to.
-            </summary>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ImageResourceInfo.LoadInfo">
-            <summary>
-            加载信息
-            </summary>
-            <param name="deep">层深</param>
-            <param name="baseOffest">基地址</param>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ImageResourceInfo.ResourceDirectory">
-            <summary>
-            资源信息
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ImageResourceInfo.LstResourceInfo">
-            <summary>
-            资源信息集合
-            </summary>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ImageResourceManager.FillItems">
-            <summary>
-            筛选出资源信息
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.IMAGE_RESOURCE_DATA_ENTRY.OffsetToData">
-            <summary>
-            资源数据的RVA
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.IMAGE_RESOURCE_DATA_ENTRY.Size">
-            <summary>
-            资源数据长度
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.IMAGE_RESOURCE_DATA_ENTRY.CodePage">
-            <summary>
-            代码页，一般为0
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.IMAGE_RESOURCE_DATA_ENTRY.Reserved">
-            <summary>
-            保留字段
-            </summary>
-        </member>
-        <member name="T:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.IMAGE_RESOURCE_DIRECTORY">
-            <summary>
-            资源目录
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.IMAGE_RESOURCE_DIRECTORY.Characteristics">
-            <summary>
-            标识此资源的类型,但通常为0
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.IMAGE_RESOURCE_DIRECTORY.TimeDateStamp">
-            <summary>
-            资源建立时间
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.IMAGE_RESOURCE_DIRECTORY.MajorVersion">
-            <summary>
-            版本号
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.IMAGE_RESOURCE_DIRECTORY.MinorVersion">
-            <summary>
-            次版本号
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.IMAGE_RESOURCE_DIRECTORY.NumberOfNamedEntries">
-            <summary>
-            使用名字资源条目的个数
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.IMAGE_RESOURCE_DIRECTORY.NumberOfIdEntries">
-            <summary>
-            使用ID数字资源条目的个数
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.IMAGE_RESOURCE_DIRECTORY_ENTRY.Name">
-            <summary>
-            目录项名称字符串指针或ID
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.IMAGE_RESOURCE_DIRECTORY_ENTRY.OffsetToData">
-            <summary>
-            资源数据偏移地址或子目录偏移地址
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.IMAGE_RESOURCE_DIR_STRING_U.Length">
-            <summary>
-            字符串长度
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.IMAGE_RESOURCE_DIR_STRING_U.NameString">
-            <summary>
-            unicode字符串
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ResourceDirectoryEntryInfo.ResourceDirectorEntry">
-            <summary>
-            资源目录入口
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ResourceDirectoryEntryInfo.ResourceDirString">
-            <summary>
-            字符串
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ResourceDirectoryEntryInfo.NextDirectory">
-            <summary>
-            下一层目录
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ResourceDirectoryEntryInfo.ValueData">
-            <summary>
-            指向的资源
-            </summary>
-        </member>
-        <member name="T:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ResourceEntry">
-            <summary>
-            资源信息
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ResourceEntry.Name">
-            <summary>
-            资源名
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ResourceEntry.ResourceInfo">
-            <summary>
-            资源的指向信息
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ResourceItem.Type">
-            <summary>
-            资源类型
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ResourceItem.Entrys">
-            <summary>
-            信息集合
-            </summary>
-        </member>
-        <member name="T:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ResourceType">
-            <summary>
-            资源类型
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ResourceType.Unknow">
-            <summary>
-            无资源
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ResourceType.Cursor">
-            <summary>
-            光标
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ResourceType.Bitmap">
-            <summary>
-            位图
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ResourceType.Icon">
-            <summary>
-            图标
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ResourceType.Menu">
-            <summary>
-            菜单
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ResourceType.Dialog">
-            <summary>
-            对话框
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ResourceType.String">
-            <summary>
-            字符串
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ResourceType.FontDirectory">
-            <summary>
-            字体目录
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ResourceType.Font">
-            <summary>
-            字体
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ResourceType.Accelerators">
-            <summary>
-            加速键
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ResourceType.Unformatted">
-            <summary>
-            未格式资源
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ResourceType.MessageTable">
-            <summary>
-            消息表
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ResourceType.GroupCursor">
-            <summary>
-            光标组
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ResourceType.GroupIcon">
-            <summary>
-            图标组
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS.ResourceType.VersionInformation">
-            <summary>
-            版本信息
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.PeHeaderReader.dosHeader">
-            <summary>
-            The DOS header
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.PeHeaderReader.fileHeader">
-            <summary>
-            The file header
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.PeHeaderReader.optionalHeader32">
-            <summary>
-            Optional 32 bit file header 
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.PeHeaderReader.optionalHeader64">
-            <summary>
-            Optional 64 bit file header 
-            </summary>
-        </member>
-        <member name="F:Buffalo.Win32Kernel.PEReader.PeHeaderReader.imageSectionHeaders">
-            <summary>
-            Image Section headers. Number of sections is in the file header.
-            </summary>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.PEReader.PeHeaderReader.LoadToResourceDirector(Buffalo.Win32Kernel.PEReader.IMAGE_DATA_DIRECTORY)">
-            <summary>
-            把此位置的表加载成资源表
-            </summary>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.PEReader.PeHeaderReader.RVAToFileOffest(System.Int64)">
-            <summary>
-            虚拟偏移转换成文件相对位置
-            </summary>
-            <param name="rav">内存相对地址</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.PEReader.PeHeaderReader.FindSectionHeader(System.Int64)">
-            <summary>
-            找出当前虚拟偏移所在的区段
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.PEReader.PeHeaderReader.#ctor(System.IO.Stream)">
-            <summary>
-            PE读取器
-            </summary>
-            <param name="filePath"></param>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.PEReader.PeHeaderReader.FromBinaryReader``1(System.IO.BinaryReader)">
-            <summary>
-            Reads in a block from a file and converts it to the struct
-            type specified by the template parameter
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="reader"></param>
-            <returns></returns>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.PEReader.PeHeaderReader.BaseStream">
-            <summary>
-            文件流
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.PEReader.PeHeaderReader.PeReader">
-            <summary>
-            PE读取器
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.PEReader.PeHeaderReader.Is32BitHeader">
-            <summary>
-            Gets if the file header is 32 bit or not
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.PEReader.PeHeaderReader.FileHeader">
-            <summary>
-            Gets the file header
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.PEReader.PeHeaderReader.OptionalHeader32">
-            <summary>
-            Gets the optional header
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.PEReader.PeHeaderReader.OptionalHeader64">
-            <summary>
-            Gets the optional header
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.PEReader.PeHeaderReader.TimeStamp">
-            <summary>
-            Gets the timestamp from the file header
-            </summary>
-        </member>
         <member name="T:Buffalo.Win32Kernel.Properties.Resources">
             <summary>
               强类型资源类，用于查找本地化字符串等。
@@ -765,121 +240,6 @@
             the contents of this method with the code editor.
             </summary>
         </member>
-        <member name="T:Buffalo.Win32Kernel.ServicesUnit.ServiceInfo">
-            <summary>
-            服务安装信息
-            </summary>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.ServicesUnit.ServiceInfo.GetServicesByName(System.String)">
-            <summary>
-            获取服务信息
-            </summary>
-            <param name="name"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.ServicesUnit.ServiceInfo.FillServicesInfo(Buffalo.Win32Kernel.ServicesUnit.ServiceInfo)">
-            <summary>
-            填充服务的信息
-            </summary>
-            <param name="info"></param>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.ServicesUnit.ServiceInfo.GetController">
-            <summary>
-            服务控制器
-            </summary>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.ServicesUnit.ServiceInfo.Remove">
-            <summary>
-            删除此服务
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.ServicesUnit.ServiceInfo.Save">
-            <summary>
-            保存配置
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.ServicesUnit.ServiceInfo.Name">
-            <summary>
-            服务名
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.ServicesUnit.ServiceInfo.DisplayName">
-            <summary>
-            显示名
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.ServicesUnit.ServiceInfo.Description">
-            <summary>
-            描述
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.ServicesUnit.ServiceInfo.StarType">
-            <summary>
-            启动类型
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.ServicesUnit.ServiceInfo.StateInfo">
-            <summary>
-            当前服务状态
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.ServicesUnit.ServiceInfo.Path">
-            <summary>
-            服务路径
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.ServicesUnit.ServiceInfo.Exists">
-            <summary>
-            是否存在
-            </summary>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.ServicesUnit.ServicesManager.BindService">
-            <summary>
-            获取服务集合
-            </summary>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.ServicesUnit.ServicesManager.GetController(System.String)">
-            <summary>
-            获取服务
-            </summary>
-            <param name="servicesName"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.ServicesUnit.ServicesManager.RefreashServices">
-            <summary>
-            刷新服务缓存
-            </summary>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.ServicesUnit.ServicesManager.InstallServices(Buffalo.Win32Kernel.ServicesUnit.ServiceInfo)">
-            <summary>
-            创建服务
-            </summary>
-            <param name="servicesName"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.ServicesUnit.ServicesManager.SetDescription(Buffalo.Win32Kernel.ServicesUnit.ServiceInfo)">
-            <summary>
-            设置注释
-            </summary>
-            <param name="info"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.ServicesUnit.ServicesManager.GetServicesKey(System.String)">
-            <summary>
-            获取服务所在的注册表
-            </summary>
-            <param name="servicesName"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.ServicesUnit.ServicesManager.UnInstallServices(System.ServiceProcess.ServiceController)">
-            <summary>
-            卸载服务
-            </summary>
-            <param name="servicesName"></param>
-            <returns></returns>
-        </member>
         <!-- 对于成员“M:Buffalo.Win32Kernel.SingleForms.IsControlExists(System.Windows.Forms.Control)”忽略有格式错误的 XML 注释 -->
         <member name="M:Buffalo.Win32Kernel.SingleForms.GetControl(System.String,System.Object[])">
             <summary>
@@ -944,6 +304,26 @@
             剪贴板监听器
             </summary>
         </member>
+        <member name="E:Buffalo.Win32Kernel.Win32.ClipboardListener.OnClipboardWrite">
+            <summary>
+            当剪贴板被写入时候触发
+            </summary>
+        </member>
+        <member name="P:Buffalo.Win32Kernel.Win32.ClipboardListener.HNextClipboardViewer">
+            <summary>
+            下一个监视的窗口
+            </summary>
+        </member>
+        <member name="P:Buffalo.Win32Kernel.Win32.ClipboardListener.IsListen">
+            <summary>
+            是否在监听
+            </summary>
+        </member>
+        <member name="P:Buffalo.Win32Kernel.Win32.ClipboardListener.Handle">
+            <summary>
+            关联的控件句柄
+            </summary>
+        </member>
         <member name="M:Buffalo.Win32Kernel.Win32.ClipboardListener.#ctor(System.IntPtr)">
             <summary>
             剪贴板监听器
@@ -972,26 +352,6 @@
             </summary>
             <param name="m">WndProc的消息</param>
             <returns></returns>
-        </member>
-        <member name="E:Buffalo.Win32Kernel.Win32.ClipboardListener.OnClipboardWrite">
-            <summary>
-            当剪贴板被写入时候触发
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.Win32.ClipboardListener.HNextClipboardViewer">
-            <summary>
-            下一个监视的窗口
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.Win32.ClipboardListener.IsListen">
-            <summary>
-            是否在监听
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.Win32.ClipboardListener.Handle">
-            <summary>
-            关联的控件句柄
-            </summary>
         </member>
         <member name="T:Buffalo.Win32Kernel.Win32.PeekMessageFlags">
             <summary>
@@ -1197,18 +557,6 @@
             <param name="parentHandle"></param>
             <param name="childHandle"></param>
         </member>
-        <member name="T:Buffalo.Win32Kernel.FormInfo">
-            <summary>
-            窗体的信息
-            </summary>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.FormInfo.GetContorlText(System.IntPtr)">
-            <summary>
-            获取控件的文本值
-            </summary>
-            <param name="txthandle"></param>
-            <returns></returns>
-        </member>
         <member name="T:Buffalo.Win32Kernel.Win32.HardwareInfo">
             <summary>
             得到硬盘与CPU的ID及网卡MAC
@@ -1245,23 +593,6 @@
             <param name="ip"></param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.Win32Kernel.Win32.HotKey.Register">
-            <summary>
-            注册此热键
-            </summary>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.Win32.HotKey.UnRegister">
-            <summary>
-            卸载此热键热键
-            </summary>
-        </member>
-        <member name="M:Buffalo.Win32Kernel.Win32.HotKey.DoWndProc(System.Windows.Forms.Message)">
-            <summary>
-            通知监听器控件触发了WndProc事件(请在WndProc)里调用)
-            </summary>
-            <param name="m">WndProc的消息</param>
-            <returns></returns>
-        </member>
         <member name="E:Buffalo.Win32Kernel.Win32.HotKey.OnHotKeyPress">
             <summary>
             当热键被触发
@@ -1292,6 +623,28 @@
             是否已经注册了热键
             </summary>
         </member>
+        <member name="M:Buffalo.Win32Kernel.Win32.HotKey.Register">
+            <summary>
+            注册此热键
+            </summary>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.Win32.HotKey.UnRegister">
+            <summary>
+            卸载此热键热键
+            </summary>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.Win32.HotKey.DoWndProc(System.Windows.Forms.Message)">
+            <summary>
+            通知监听器控件触发了WndProc事件(请在WndProc)里调用)
+            </summary>
+            <param name="m">WndProc的消息</param>
+            <returns></returns>
+        </member>
+        <member name="P:Buffalo.Win32Kernel.Win32.KeyBoardListener.IsListening">
+            <summary>
+            是否已经监控
+            </summary>
+        </member>
         <member name="M:Buffalo.Win32Kernel.Win32.KeyBoardListener.SetCombination(System.Int32,System.Boolean)">
             <summary>
             设置组合键
@@ -1305,19 +658,25 @@
             <param name="vkCode"></param>
             <returns></returns>
         </member>
-        <member name="P:Buffalo.Win32Kernel.Win32.KeyBoardListener.IsListening">
-            <summary>
-            是否已经监控
-            </summary>
-        </member>
         <member name="P:Buffalo.Win32Kernel.Win32.MessageBoxEx.DefaultLCID">
             <summary>
             默认区域ID
             </summary>
         </member>
         <member name="T:Buffalo.Win32Kernel.Win32.ParallelPort">
+                 原作者：http://www.cnblogs.com/geyunfei/archive/2009/03/17/1414659.html
             <summary>
             并口控制类
+            </summary>
+        </member>
+        <member name="P:Buffalo.Win32Kernel.Win32.ParallelPort.IsOpen">
+            <summary>
+            是否开启
+            </summary>
+        </member>
+        <member name="P:Buffalo.Win32Kernel.Win32.ParallelPort.Name">
+            <summary>
+            并口名
             </summary>
         </member>
         <member name="M:Buffalo.Win32Kernel.Win32.ParallelPort.WriteData(System.Byte[])">
@@ -1344,26 +703,16 @@
             关闭端口
             </summary>
         </member>
+        <member name="P:Buffalo.Win32Kernel.Win32.ParallelPort.BasePort">
+            <summary>
+            端口基址
+            </summary>
+        </member>
         <member name="M:Buffalo.Win32Kernel.Win32.ParallelPort.#ctor(System.String)">
             <summary>
             并口通信
             </summary>
             <param name="portName"></param>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.Win32.ParallelPort.IsOpen">
-            <summary>
-            是否开启
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.Win32.ParallelPort.Name">
-            <summary>
-            并口名
-            </summary>
-        </member>
-        <member name="P:Buffalo.Win32Kernel.Win32.ParallelPort.BasePort">
-            <summary>
-            端口基址
-            </summary>
         </member>
         <member name="M:Buffalo.Win32Kernel.Win32.ProcessUrlRegistry.CheckReg(System.String)">
             <summary>
@@ -1512,13 +861,6 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.Win32Kernel.Win32.SystemInfo.SendToRecycleBin(System.String)">
-            <summary>
-            把文件移到回收站
-            </summary>
-            <param name="file"></param>
-            <returns></returns>
-        </member>
         <member name="P:Buffalo.Win32Kernel.Win32.SystemInfo.IsWindows2000OrNewer">
             <summary>
             Gets a value indicating if the operating system is a Windows 2000 or a newer one.
@@ -1528,6 +870,13 @@
             <summary>
             Gets a value indicating if the operating system is a Windows XP or a newer one.
             </summary>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.Win32.SystemInfo.SendToRecycleBin(System.String)">
+            <summary>
+            把文件移到回收站
+            </summary>
+            <param name="file"></param>
+            <returns></returns>
         </member>
         <member name="P:Buffalo.Win32Kernel.Win32.SystemInfo.IsWindowsVistaOrNewer">
             <summary>
@@ -1801,6 +1150,13 @@
             <summary>
             错误集合
             </summary>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.Win32.ResultWin32.GetErrorName(System.Int32)">
+            <summary>
+            获取错误名称
+            </summary>
+            <param name="result"></param>
+            <returns></returns>
         </member>
         <member name="F:Buffalo.Win32Kernel.Win32.ResultWin32.ERROR_SUCCESS">
             <summary>
@@ -11030,13 +10386,6 @@
             ERROR_IPSEC_IKE_NEG_STATUS_END
             </summary>
         </member>
-        <member name="M:Buffalo.Win32Kernel.Win32.ResultWin32.GetErrorName(System.Int32)">
-            <summary>
-            获取错误名称
-            </summary>
-            <param name="result"></param>
-            <returns></returns>
-        </member>
         <member name="F:Buffalo.Win32Kernel.Win32.ResultCom.E_NOTIMPL">
             <summary>
             Not implemented
@@ -16808,6 +16157,18 @@
             <summary>
             Failed to open a file.
             </summary>
+        </member>
+        <member name="T:Buffalo.Win32Kernel.FormInfo">
+            <summary>
+            窗体的信息
+            </summary>
+        </member>
+        <member name="M:Buffalo.Win32Kernel.FormInfo.GetContorlText(System.IntPtr)">
+            <summary>
+            获取控件的文本值
+            </summary>
+            <param name="txthandle"></param>
+            <returns></returns>
         </member>
     </members>
 </doc>

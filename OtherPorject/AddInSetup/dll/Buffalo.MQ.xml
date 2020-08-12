@@ -444,6 +444,163 @@
             释放事务
             </summary>
         </member>
+        <member name="F:Buffalo.MQ.MQTTLib.MQTTConfig.RetainAsPublished">
+            <summary>
+            This is only supported when using MQTTv5.
+            </summary>
+        </member>
+        <member name="F:Buffalo.MQ.MQTTLib.MQTTConfig.RetainHandling">
+            <summary>
+            This is only supported when using MQTTv5.
+            </summary>
+        </member>
+        <member name="F:Buffalo.MQ.MQTTLib.MQTTConfig.NoLocal">
+            <summary>
+            This is only supported when using MQTTv5.
+            </summary>
+        </member>
+        <member name="T:Buffalo.MQ.MQTTLib.MQTTConnection">
+            <summary>
+            MQTT连接
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.MQTTLib.MQTTListener.#ctor(Buffalo.MQ.MQTTLib.MQTTConfig)">
+            <summary>
+            RabbitMQ适配
+            </summary>
+            <param name="connString">连接字符串</param>
+        </member>
+        <member name="M:Buffalo.MQ.MQTTLib.MQTTListener.Open">
+            <summary>
+            打来连接
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.MQTTLib.MQTTListener.MqttApplicationMessageReceived(Buffalo.MQ.MQTTLib.MQTTnet.MqttApplicationMessageReceivedEventArgs)">
+            <summary>
+            接收消息触发事件
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:Buffalo.MQ.MQTTLib.MQTTListener.Close">
+            <summary>
+            关闭连接
+            </summary>
+        </member>
+        <member name="T:Buffalo.MQ.MQTTLib.MQTTnet.Formatter.MqttPacketWriter">
+            <summary>
+            This is a custom implementation of a memory stream which provides only MQTTnet relevant features.
+            The goal is to avoid lots of argument checks like in the original stream. The growth rule is the
+            same as for the original MemoryStream in .net. Also this implementation allows accessing the internal
+            buffer for all platforms and .net framework versions (which is not available at the regular MemoryStream).
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.MQTTLib.MQTTnet.MqttApplicationMessageBuilder.WithUserProperty(System.String,System.String)">
+            <summary>
+            This is only supported when using MQTTv5.
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.MQTTLib.MQTTnet.MqttApplicationMessageBuilder.WithContentType(System.String)">
+            <summary>
+            This is only supported when using MQTTv5.
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.MQTTLib.MQTTnet.MqttApplicationMessageBuilder.WithResponseTopic(System.String)">
+            <summary>
+            This is only supported when using MQTTv5.
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.MQTTLib.MQTTnet.MqttApplicationMessageBuilder.WithCorrelationData(System.Byte[])">
+            <summary>
+            This is only supported when using MQTTv5.
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.MQTTLib.MQTTnet.MqttApplicationMessageBuilder.WithTopicAlias(System.UInt16)">
+            <summary>
+            This is only supported when using MQTTv5.
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.MQTTLib.MQTTnet.MqttApplicationMessageBuilder.WithSubscriptionIdentifier(System.UInt32)">
+            <summary>
+            This is only supported when using MQTTv5.
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.MQTTLib.MQTTnet.MqttApplicationMessageBuilder.WithMessageExpiryInterval(System.UInt32)">
+            <summary>
+            This is only supported when using MQTTv5.
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.MQTTLib.MQTTnet.MqttApplicationMessageBuilder.WithPayloadFormatIndicator(Buffalo.MQ.MQTTLib.MQTTnet.Protocol.MqttPayloadFormatIndicator)">
+            <summary>
+            This is only supported when using MQTTv5.
+            </summary>
+        </member>
+        <member name="P:Buffalo.MQ.MQTTLib.MQTTnet.MqttTopicFilter.NoLocal">
+            <summary>
+            This is only supported when using MQTTv5.
+            </summary>
+        </member>
+        <member name="P:Buffalo.MQ.MQTTLib.MQTTnet.MqttTopicFilter.RetainAsPublished">
+            <summary>
+            This is only supported when using MQTTv5.
+            </summary>
+        </member>
+        <member name="P:Buffalo.MQ.MQTTLib.MQTTnet.MqttTopicFilter.RetainHandling">
+            <summary>
+            This is only supported when using MQTTv5.
+            </summary>
+        </member>
+        <member name="T:Buffalo.MQ.MQTTLib.MQTTnet.Packets.MqttAuthPacket">
+            <summary>
+            Added in MQTTv5.0.0.
+            </summary>
+        </member>
+        <member name="P:Buffalo.MQ.MQTTLib.MQTTnet.Server.MqttApplicationMessageInterceptorContext.SessionItems">
+            <summary>
+            Gets or sets a key/value collection that can be used to share data within the scope of this session.
+            </summary>
+        </member>
+        <member name="P:Buffalo.MQ.MQTTLib.MQTTnet.Server.MqttClientSession.Items">
+            <summary>
+            Gets or sets a key/value collection that can be used to share data within the scope of this session.
+            </summary>
+        </member>
+        <member name="P:Buffalo.MQ.MQTTLib.MQTTnet.Server.MqttConnectionValidatorContext.SessionItems">
+            <summary>
+            Gets or sets a key/value collection that can be used to share data within the scope of this session.
+            </summary>
+        </member>
+        <member name="P:Buffalo.MQ.MQTTLib.MQTTnet.Server.MqttConnectionValidatorContext.ReturnCode">
+            <summary>
+            This is used for MQTTv3 only.
+            </summary>
+        </member>
+        <member name="P:Buffalo.MQ.MQTTLib.MQTTnet.Server.MqttConnectionValidatorContext.ReasonCode">
+            <summary>
+            This is used for MQTTv5 only. When a MQTTv3 client connects the enum value must be one which is
+            also supported in MQTTv3. Otherwise the connection attempt will fail because not all codes can be
+            converted properly.
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.MQTTLib.MQTTnet.Server.MqttServerOptionsBuilder.WithClientId(System.String)">
+            <summary>
+            Gets or sets the client ID which is used when publishing messages from the server directly.
+            </summary>
+        </member>
+        <member name="P:Buffalo.MQ.MQTTLib.MQTTnet.Server.MqttServerTcpEndpointBaseOptions.ReuseAddress">
+            <summary>
+            This requires admin permissions on Linux.
+            </summary>
+        </member>
+        <member name="P:Buffalo.MQ.MQTTLib.MQTTnet.Server.MqttSubscriptionInterceptorContext.SessionItems">
+            <summary>
+            Gets or sets a key/value collection that can be used to share data within the scope of this session.
+            </summary>
+        </member>
+        <member name="P:Buffalo.MQ.MQTTLib.MQTTnet.Server.MqttUnsubscriptionInterceptorContext.SessionItems">
+            <summary>
+            Gets or sets a key/value collection that can be used to share data within the scope of this session.
+            </summary>
+        </member>
         <member name="T:Buffalo.MQ.MQUnit">
             <summary>
             队列创建器
@@ -461,6 +618,14 @@
             <returns></returns>
         </member>
         <member name="M:Buffalo.MQ.MQUnit.SetMQInfo(System.String,System.String,System.String)">
+            <summary>
+            添加队列信息
+            </summary>
+            <param name="name">标记唯一的名字</param>
+            <param name="mqType">队列类型</param>
+            <param name="connectString">连接字符串</param>
+        </member>
+        <member name="M:Buffalo.MQ.MQUnit.GetMQInfo(System.String)">
             <summary>
             添加队列信息
             </summary>
