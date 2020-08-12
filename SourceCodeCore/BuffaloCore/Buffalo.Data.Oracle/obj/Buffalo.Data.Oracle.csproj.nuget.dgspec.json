@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Data.Oracle\\Buffalo.Data.Oracle.csproj": {}
+    "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Data.Oracle\\Buffalo.Data.Oracle.csproj": {}
   },
   "projects": {
-    "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Data.Oracle\\Buffalo.Data.Oracle.csproj": {
-      "version": "1.0.2",
+    "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Data.Oracle\\Buffalo.Data.Oracle.csproj": {
+      "version": "1.0.3",
       "restore": {
-        "projectUniqueName": "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Data.Oracle\\Buffalo.Data.Oracle.csproj",
+        "projectUniqueName": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Data.Oracle\\Buffalo.Data.Oracle.csproj",
         "projectName": "Buffalo.Data.Oracle",
-        "projectPath": "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Data.Oracle\\Buffalo.Data.Oracle.csproj",
-        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Data.Oracle\\obj\\",
+        "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Data.Oracle\\Buffalo.Data.Oracle.csproj",
+        "packagesPath": "C:\\Users\\taisandog\\.nuget\\packages\\",
+        "outputPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Data.Oracle\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\taisandog\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -25,14 +25,13 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "D:\\myPackage": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netstandard2.0": {
             "projectReferences": {
-              "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.DB\\Buffalo.DB.csproj": {
-                "projectPath": "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.DB\\Buffalo.DB.csproj"
+              "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.DB\\Buffalo.DB.csproj": {
+                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.DB\\Buffalo.DB.csproj"
               }
             }
           }
@@ -58,33 +57,27 @@
             }
           },
           "imports": [
-            "net461",
-            "net462",
-            "net47",
-            "net471",
-            "net472",
-            "net48"
+            "net461"
           ],
           "assetTargetFallback": true,
-          "warn": true,
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
+          "warn": true
         }
       }
     },
-    "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.DB\\Buffalo.DB.csproj": {
-      "version": "1.2.3",
+    "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.DB\\Buffalo.DB.csproj": {
+      "version": "1.2.4",
       "restore": {
-        "projectUniqueName": "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.DB\\Buffalo.DB.csproj",
+        "projectUniqueName": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.DB\\Buffalo.DB.csproj",
         "projectName": "Buffalo.DB",
-        "projectPath": "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.DB\\Buffalo.DB.csproj",
-        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.DB\\obj\\",
+        "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.DB\\Buffalo.DB.csproj",
+        "packagesPath": "C:\\Users\\taisandog\\.nuget\\packages\\",
+        "outputPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.DB\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\taisandog\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -92,14 +85,13 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "D:\\myPackage": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netstandard2.0": {
             "projectReferences": {
-              "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\Buffalo.Kernel.csproj": {
-                "projectPath": "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\Buffalo.Kernel.csproj"
+              "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\Buffalo.Kernel.csproj": {
+                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\Buffalo.Kernel.csproj"
               }
             }
           }
@@ -149,33 +141,27 @@
             }
           },
           "imports": [
-            "net461",
-            "net462",
-            "net47",
-            "net471",
-            "net472",
-            "net48"
+            "net461"
           ],
           "assetTargetFallback": true,
-          "warn": true,
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
+          "warn": true
         }
       }
     },
-    "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\Buffalo.Kernel.csproj": {
+    "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\Buffalo.Kernel.csproj": {
       "version": "1.0.1",
       "restore": {
-        "projectUniqueName": "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\Buffalo.Kernel.csproj",
+        "projectUniqueName": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\Buffalo.Kernel.csproj",
         "projectName": "Buffalo.Kernel",
-        "projectPath": "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\Buffalo.Kernel.csproj",
-        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\obj\\",
+        "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\Buffalo.Kernel.csproj",
+        "packagesPath": "C:\\Users\\taisandog\\.nuget\\packages\\",
+        "outputPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\taisandog\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -183,7 +169,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "D:\\myPackage": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -228,16 +213,10 @@
             }
           },
           "imports": [
-            "net461",
-            "net462",
-            "net47",
-            "net471",
-            "net472",
-            "net48"
+            "net461"
           ],
           "assetTargetFallback": true,
-          "warn": true,
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
+          "warn": true
         }
       }
     }

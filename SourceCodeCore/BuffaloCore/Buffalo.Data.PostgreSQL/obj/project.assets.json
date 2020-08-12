@@ -557,7 +557,7 @@
           "lib/netstandard2.0/_._": {}
         }
       },
-      "Buffalo.DB/1.2.3": {
+      "Buffalo.DB/1.2.4": {
         "type": "project",
         "framework": ".NETStandard,Version=v2.0",
         "dependencies": {
@@ -2132,7 +2132,7 @@
         "version.txt"
       ]
     },
-    "Buffalo.DB/1.2.3": {
+    "Buffalo.DB/1.2.4": {
       "type": "project",
       "path": "../Buffalo.DB/Buffalo.DB.csproj",
       "msbuildProject": "../Buffalo.DB/Buffalo.DB.csproj"
@@ -2145,7 +2145,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETStandard,Version=v2.0": [
-      "Buffalo.DB >= 1.2.3",
+      "Buffalo.DB >= 1.2.4",
       "Buffalo.Kernel >= 1.0.1",
       "NETStandard.Library >= 2.0.3",
       "Npgsql >= 4.0.9"
@@ -2156,7 +2156,7 @@
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
-    "version": "1.0.2",
+    "version": "1.0.3",
     "restore": {
       "projectUniqueName": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Data.PostgreSQL\\Buffalo.Data.PostgreSQL.csproj",
       "projectName": "Buffalo.Data.PostgreSQL",
