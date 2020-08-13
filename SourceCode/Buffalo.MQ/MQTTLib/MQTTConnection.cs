@@ -1,5 +1,6 @@
 ﻿using Buffalo.ArgCommon;
 using Buffalo.MQ.MQTTLib.MQTTnet;
+using Buffalo.MQ.MQTTLib.MQTTnet.Adapter;
 using Buffalo.MQ.MQTTLib.MQTTnet.Client;
 using Buffalo.MQ.MQTTLib.MQTTnet.Client.Connecting;
 using Buffalo.MQ.MQTTLib.MQTTnet.Client.Disconnecting;
@@ -53,6 +54,10 @@ namespace Buffalo.MQ.MQTTLib
             else
             {
                 MqttClientPublishResult res = _mqttClient.PublishAsync(key, body).Result;
+                if(res.ReasonCode!= MqttClientPublishReasonCode.Success) 
+                {
+                    return ApiCommon.GetFault(res.ReasonString, res);
+                }
             }
             return ApiCommon.GetSuccess();
         }
@@ -62,7 +67,8 @@ namespace Buffalo.MQ.MQTTLib
         {
             if (_mqttClient != null)
             {
-                _mqttClient.DisconnectAsync().Wait();
+                Task task=_mqttClient.DisconnectAsync();
+                task.Wait();
                 _mqttClient.Dispose();
                 _mqttClient = null;
             }
@@ -95,8 +101,12 @@ namespace Buffalo.MQ.MQTTLib
 
                 _options = _config.Options.Build();
                 MqttClientAuthenticateResult res = _mqttClient.ConnectAsync(_options).Result;
+                if(res.ResultCode!= MqttClientConnectResultCode.Success) 
+                {
+                    throw new MqttConnectingFailedException(res);
+                }
 
-                
+
             }
             
         }

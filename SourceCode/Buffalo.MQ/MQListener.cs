@@ -60,7 +60,10 @@ namespace Buffalo.MQ
         /// </summary>
         protected void ResetWait()
         {
-            _startHandle = new AutoResetEvent(true);
+            if (_startHandle == null)
+            {
+                _startHandle = new AutoResetEvent(true);
+            }
             _startHandle.Reset();
         }
         /// <summary>
@@ -68,6 +71,10 @@ namespace Buffalo.MQ
         /// </summary>
         protected void SetWait()
         {
+            if (_startHandle == null)
+            {
+                return;
+            }
             _startHandle.Set();
         }
         /// <summary>
@@ -80,6 +87,7 @@ namespace Buffalo.MQ
                 try
                 {
                     _startHandle.Close();
+                    _startHandle.Dispose();
                 }
                 catch (Exception ex)
                 {
