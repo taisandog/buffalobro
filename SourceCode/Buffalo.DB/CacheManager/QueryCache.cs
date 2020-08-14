@@ -402,6 +402,16 @@ namespace Buffalo.DB.CacheManager
             return _cache.ExistsKey(key, _db.DefaultOperate);
         }
         /// <summary>
+        /// 设置key过期
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="expirSeconds">过期时间(秒)</param>
+        /// <returns></returns>
+        public bool SetKeyExpire(string key, int expirSeconds)
+        {
+            return _cache.SetKeyExpire(key, expirSeconds, _db.DefaultOperate);
+        }
+        /// <summary>
         /// 清空所有缓存值
         /// </summary>
         /// <returns></returns>

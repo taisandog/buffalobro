@@ -389,6 +389,11 @@ namespace Buffalo.DB.CacheManager
             return ret;
         }
 
+        public bool SetKeyExpire(string key, int expirSeconds, DataBaseOperate oper)
+        {
+            return true;
+        }
+
         #endregion
     }
 

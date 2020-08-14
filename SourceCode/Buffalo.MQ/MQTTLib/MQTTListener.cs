@@ -84,11 +84,13 @@ namespace Buffalo.MQ.MQTTLib
                 string retained = e.ApplicationMessage.Retain.ToString();
 
                 CallBack(topic, topic, value, 0, 0);
+                
             }
             catch (Exception exp)
             {
                 OnException(exp);
             }
+
         }
         private async Task Connected(MqttClientConnectedEventArgs e)
         {
