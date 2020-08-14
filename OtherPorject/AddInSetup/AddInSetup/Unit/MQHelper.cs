@@ -19,10 +19,19 @@ namespace AddInSetup.Unit
         static AutoResetEvent _handle=new AutoResetEvent(false);
 
         static int _retNum = 0;
-        public static APIResault TestMQ(string name,string liskey,string type,bool getlastvalue,string connstring)
+        public static APIResault TestMQ(string name,string liskey,string type,bool getlastvalue,string connstring,string lisName=null,string lisConn=null)
         {
             MQUnit.SetMQInfo(name, type, connstring);
-            _lis = MQUnit.GetMQListener(name);
+            if(!string.IsNullOrWhiteSpace(lisName) && !string.IsNullOrWhiteSpace(lisConn)) 
+            {
+                MQUnit.SetMQInfo(lisName, type, lisConn);
+            }
+            else 
+            {
+                lisName = name;
+            }
+
+            _lis = MQUnit.GetMQListener(lisName);
             _lis.OnMQReceived += _lis_OnMQReceived;
             _lis.OnMQException += _lis_OnMQException;
             try
@@ -33,6 +42,7 @@ namespace AddInSetup.Unit
                 {
                     return ApiCommon.GetFault("等待队列初始化超时");
                 }
+                Thread.Sleep(500);
                 _handle.Reset();
 
                 MQConnection conn = MQUnit.GetMQConnection(name);
@@ -41,6 +51,9 @@ namespace AddInSetup.Unit
                 //byte[] sendByte = Encoding.UTF8.GetBytes(num.ToString());
                 using (MQBatchAction ba = conn.StartBatchAction())
                 {
+#if DEBUG
+                    Debug.WriteLine("send:" + num);
+#endif
                     conn.Send(liskey, sendByte);
                 }
                 if (getlastvalue)
@@ -75,7 +88,9 @@ namespace AddInSetup.Unit
         private static void _lis_OnMQReceived(MQListener sender, string exchange, string routingKey, byte[] body, int partition, long offset)
         {
             _retNum = BitConverter.ToInt32(body,0);
-            Debug.WriteLine(_retNum);
+#if DEBUG
+            Debug.WriteLine("rec:"+_retNum);
+#endif
             _handle.Set();
         }
     }

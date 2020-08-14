@@ -162,6 +162,12 @@
     <Compile Include="ConnStringUI\UIMemcached.Designer.cs">
       <DependentUpon>UIMemcached.cs</DependentUpon>
     </Compile>
+    <Compile Include="ConnStringUI\UIMQTT.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConnStringUI\UIMQTT.Designer.cs">
+      <DependentUpon>UIMQTT.cs</DependentUpon>
+    </Compile>
     <Compile Include="ConnStringUI\UIOBS.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -256,6 +262,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ConnStringUI\UIMemcached.resx">
       <DependentUpon>UIMemcached.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConnStringUI\UIMQTT.resx">
+      <DependentUpon>UIMQTT.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ConnStringUI\UIOBS.resx">
       <DependentUpon>UIOBS.cs</DependentUpon>

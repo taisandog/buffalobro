@@ -571,7 +571,7 @@ namespace Buffalo.DB.CacheManager
                 ts = TimeSpan.FromSeconds(expirSeconds);
             }
             object oval = CurCache.Get(key);
-            if (obj == null)
+            if (oval == null)
             {
                 return false;
             }

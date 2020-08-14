@@ -62,6 +62,8 @@
             this.uiRabbitMQ1 = new AddInSetup.ConnStringUI.UIRabbitMQ();
             this.tpKafkaMQ = new System.Windows.Forms.TabPage();
             this.uiKafkaMQ1 = new AddInSetup.ConnStringUI.UIKafkaMQ();
+            this.tpMQTT = new System.Windows.Forms.TabPage();
+            this.uimqtt1 = new AddInSetup.ConnStringUI.UIMQTT();
             this.tbItems.SuspendLayout();
             this.tpOSS.SuspendLayout();
             this.tabStorage.SuspendLayout();
@@ -82,6 +84,7 @@
             this.tpRedisMQ.SuspendLayout();
             this.tpRabbitMQ.SuspendLayout();
             this.tpKafkaMQ.SuspendLayout();
+            this.tpMQTT.SuspendLayout();
             this.SuspendLayout();
             // 
             // tbItems
@@ -366,6 +369,7 @@
             this.tbMQ.Controls.Add(this.tpRedisMQ);
             this.tbMQ.Controls.Add(this.tpRabbitMQ);
             this.tbMQ.Controls.Add(this.tpKafkaMQ);
+            this.tbMQ.Controls.Add(this.tpMQTT);
             this.tbMQ.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbMQ.Location = new System.Drawing.Point(0, 0);
             this.tbMQ.Name = "tbMQ";
@@ -434,6 +438,26 @@
             this.uiKafkaMQ1.Size = new System.Drawing.Size(929, 619);
             this.uiKafkaMQ1.TabIndex = 0;
             // 
+            // tpMQTT
+            // 
+            this.tpMQTT.Controls.Add(this.uimqtt1);
+            this.tpMQTT.Location = new System.Drawing.Point(4, 30);
+            this.tpMQTT.Name = "tpMQTT";
+            this.tpMQTT.Size = new System.Drawing.Size(935, 625);
+            this.tpMQTT.TabIndex = 5;
+            this.tpMQTT.Text = "MQTT";
+            this.tpMQTT.UseVisualStyleBackColor = true;
+            // 
+            // uimqtt1
+            // 
+            this.uimqtt1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.uimqtt1.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.uimqtt1.Location = new System.Drawing.Point(0, 0);
+            this.uimqtt1.Margin = new System.Windows.Forms.Padding(5);
+            this.uimqtt1.Name = "uimqtt1";
+            this.uimqtt1.Size = new System.Drawing.Size(935, 625);
+            this.uimqtt1.TabIndex = 0;
+            // 
             // FrmConnString
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
@@ -466,6 +490,7 @@
             this.tpRedisMQ.ResumeLayout(false);
             this.tpRabbitMQ.ResumeLayout(false);
             this.tpKafkaMQ.ResumeLayout(false);
+            this.tpMQTT.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -505,5 +530,7 @@
         private ConnStringUI.UIRedisMQ uiRedisMQ1;
         private ConnStringUI.UIRabbitMQ uiRabbitMQ1;
         private ConnStringUI.UIKafkaMQ uiKafkaMQ1;
+        private System.Windows.Forms.TabPage tpMQTT;
+        private ConnStringUI.UIMQTT uimqtt1;
     }
 }
