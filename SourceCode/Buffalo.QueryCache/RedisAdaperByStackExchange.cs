@@ -374,7 +374,16 @@ namespace Buffalo.QueryCache
         }
 
 
-
+        public override bool DoSetKeyExpire(string key, int expirSeconds, RedisConnection connection)
+        {
+            IDatabase client = connection.DB;
+            TimeSpan ts = _expiration;
+            if (expirSeconds > 0)
+            {
+                ts = TimeSpan.FromSeconds(expirSeconds);
+            }
+            return client.KeyExpire(key, ts, _commanfFlags);
+        }
 
 
 

@@ -46,7 +46,7 @@ namespace Buffalo.DB.CacheManager
         {
             get { return _throwExcertion; }
         }
-        
+
         #region ICacheAdaper 成员
 
         ///// <summary>
@@ -64,6 +64,19 @@ namespace Buffalo.DB.CacheManager
         //    ret.Sort();
         //    return ret;
         //}
+        /// <summary>
+        /// 设置键过期时间
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="expirSeconds"></param>
+        /// <returns></returns>
+        public bool SetKeyExpire(string key, int expirSeconds, DataBaseOperate oper) 
+        {
+            using (T client = CreateClient(false, QueryCacheCommand.CommandSetValues))
+            {
+                return DoSetKeyExpire(key, expirSeconds, client);
+            }
+        }
 
         /// <summary>
         /// 创建客户端
@@ -182,7 +195,13 @@ namespace Buffalo.DB.CacheManager
             }
             return true;
         }
-
+        /// <summary>
+        /// 设置键过期时间
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="expirSeconds"></param>
+        /// <returns></returns>
+        public abstract bool DoSetKeyExpire(string key, int expirSeconds, T client);
         /// <summary>
         /// 获取值
         /// </summary>
@@ -277,7 +296,7 @@ namespace Buffalo.DB.CacheManager
         /// </summary>
         /// <param name="key"></param>
         /// <param name="client"></param>
-        protected abstract void DoNewVer(string key, T client);
+        protected abstract bool DoNewVer(string key, T client);
         /// <summary>
         /// 缓存服务器类型
         /// </summary>

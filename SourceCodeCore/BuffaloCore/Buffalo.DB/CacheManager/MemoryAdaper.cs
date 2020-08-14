@@ -238,6 +238,7 @@ namespace Buffalo.DB.CacheManager
                 }
                 return ret;
             }
+            
         }
 
         public long DoIncrement(string key, ulong inc, DataBaseOperate oper)
@@ -386,6 +387,11 @@ namespace Buffalo.DB.CacheManager
                 _cache[key]= ret;
             }
             return ret;
+        }
+
+        public bool SetKeyExpire(string key, int expirSeconds, DataBaseOperate oper)
+        {
+            return true;
         }
 
         #endregion

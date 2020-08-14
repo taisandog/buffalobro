@@ -405,9 +405,9 @@ namespace Buffalo.QueryCache
         /// </summary>
         /// <param name="key"></param>
         /// <param name="client"></param>
-        protected override void DoNewVer(string key, MemcachedConnection client) 
+        protected override bool DoNewVer(string key, MemcachedConnection client) 
         {
-            DoIncrement(key, 1, client);
+            return DoIncrement(key, 1, client)>0;
             //_client.Increment(key, 1, 1,_expiration);
         }
         protected override long DoIncrement(string key, ulong inc, MemcachedConnection client)
@@ -617,6 +617,12 @@ namespace Buffalo.QueryCache
         protected override long HashDecrement(string key, object hashkey, long value, MemcachedConnection connection)
         {
             throw new NotSupportedException("memcached²»Ö§³ÖHashDecrement");
+        }
+
+        public override bool DoSetKeyExpire(string key, int expirSeconds, MemcachedConnection client)
+        {
+           
+            return true;
         }
     }
 

@@ -486,6 +486,29 @@ namespace Buffalo.QueryCache
             return SetValue<object>(key, value, type, expirSeconds, oper);
         }
 
+        public bool SetKeyExpire(string key, int expirSeconds, DataBaseOperate oper)
+        {
+            TimeSpan ts = _expiration;
+            if (expirSeconds > 0)
+            {
+                ts = TimeSpan.FromSeconds(expirSeconds);
+            }
+            object obj = CurCache.Get(key);
+            if (obj == null) 
+            {
+                return false;
+            }
+            if (ts > TimeSpan.MinValue)
+            {
+                CurCache.Set(key, obj, ts);
+            }
+            else
+            {
+                CurCache.Set(key, obj);
+            }
+            return true;
+        }
+
         #endregion
     }
 }

@@ -953,6 +953,13 @@ namespace Buffalo.Kernel
             }
             return true;
         }
-
-    }
+        /// <summary>
+        /// 清除事件绑定的函数
+        /// </summary>
+        /// <param name="objectHasEvents">拥有事件的实例</param>
+        public static void ClearAllEvents(object objectHasEvents)
+        {
+            ObjectEventsUnit.ClearAllEvents(objectHasEvents);
+        }
+        }
 }

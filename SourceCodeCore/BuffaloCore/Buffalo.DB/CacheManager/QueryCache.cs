@@ -101,7 +101,7 @@ namespace Buffalo.DB.CacheManager
                 return cache;
             }
 
-            throw new NotSupportedException("不支持:" + type + " 的缓存类型，当前只支持system、memcached、redis类型的缓存");
+            throw new NotSupportedException("不支持:" + type + " 的缓存类型，当前只支持system、Web、memcached、redis类型的缓存");
         }
 
         private static Assembly _cacheAssembly = null;
@@ -399,6 +399,16 @@ namespace Buffalo.DB.CacheManager
             return _cache.ExistsKey(key, _db.DefaultOperate);
         }
         /// <summary>
+        /// 设置key过期
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="expirSeconds">过期时间(秒)</param>
+        /// <returns></returns>
+        public bool SetKeyExpire(string key, int expirSeconds)
+        {
+            return _cache.SetKeyExpire(key, expirSeconds, _db.DefaultOperate);
+        }
+        /// <summary>
         /// 清空所有缓存值
         /// </summary>
         /// <returns></returns>
@@ -457,9 +467,9 @@ namespace Buffalo.DB.CacheManager
         /// </summary>
         /// <param name="key">键</param>
         /// <returns></returns>
-        public bool DeleteValue(string key) 
+        public void DeleteValue(string key) 
         {
-            return _cache.DeleteValue(key, _db.DefaultOperate);
+            _cache.DeleteValue(key, _db.DefaultOperate);
         }
        
         /// <summary>

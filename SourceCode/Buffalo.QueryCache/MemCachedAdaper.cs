@@ -175,7 +175,7 @@ namespace Buffalo.QueryCache
             {
                 return client.Client.Store(GetSetValueMode(type), key, value, ts);
             }
-
+            
             return client.Client.Store(GetSetValueMode(type), key, value);
 
         }
@@ -616,6 +616,11 @@ namespace Buffalo.QueryCache
         protected override long HashDecrement(string key, object hashkey, long value, MemcachedConnection connection)
         {
             throw new NotSupportedException("memcached²»Ö§³ÖHashDecrement");
+        }
+
+        public override bool DoSetKeyExpire(string key, int expirSeconds, MemcachedConnection client)
+        {
+            return true;
         }
     }
 

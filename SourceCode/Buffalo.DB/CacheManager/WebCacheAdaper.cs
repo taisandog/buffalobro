@@ -562,6 +562,29 @@ namespace Buffalo.DB.CacheManager
             }
             return ret;
         }
+        
+        public bool SetKeyExpire(string key, int expirSeconds, DataBaseOperate oper)
+        {
+            TimeSpan ts = _expiration;
+            if (expirSeconds > 0)
+            {
+                ts = TimeSpan.FromSeconds(expirSeconds);
+            }
+            object oval = CurCache.Get(key);
+            if (obj == null)
+            {
+                return false;
+            }
+            if (ts > TimeSpan.MinValue)
+            {
+                CurCache.Insert(key, oval, null, DateTime.MaxValue, ts);
+            }
+            else
+            {
+                CurCache.Insert(key, oval);
+            }
+            return true;
+        }
         #endregion
     }
 }

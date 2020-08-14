@@ -256,17 +256,16 @@ namespace Buffalo.QueryCache
         /// </summary>
         /// <param name="key"></param>
         /// <param name="client"></param>
-        protected override void DoNewVer(string key, RedisConnection connection)
+        protected override bool DoNewVer(string key, RedisConnection connection)
         {
             IDatabase client = connection.DB;
             if (_expiration > TimeSpan.MinValue)
             {
-                client.StringSet(key, 1, _expiration, When.Always, _commanfFlags);
+                return client.StringSet(key, 1, _expiration, When.Always, _commanfFlags);
             }
-            else
-            {
-                client.StringSet(key, 1, null, When.Always, _commanfFlags);
-            }
+            
+            return client.StringSet(key, 1, null, When.Always, _commanfFlags);
+            
 
         }
         protected override long DoIncrement(string key, ulong inc, RedisConnection connection)
@@ -735,6 +734,17 @@ namespace Buffalo.QueryCache
                 default:
                     return When.Always;
             }
+        }
+
+        public override bool DoSetKeyExpire(string key, int expirSeconds, RedisConnection connection)
+        {
+            IDatabase client = connection.DB;
+            TimeSpan ts = _expiration;
+            if (expirSeconds > 0)
+            {
+                ts = TimeSpan.FromSeconds(expirSeconds);
+            }
+            return client.KeyExpire(key, ts, _commanfFlags);
         }
     }
 

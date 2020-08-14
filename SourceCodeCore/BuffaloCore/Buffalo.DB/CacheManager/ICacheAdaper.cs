@@ -67,7 +67,13 @@ namespace Buffalo.DB.CacheManager
         /// <param name="oper"></param>
         /// <returns></returns>
         bool ExistsKey(string key, DataBaseOperate oper);
-
+        /// <summary>
+        /// 设置键过期
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="expirSeconds"></param>
+        /// <returns></returns>
+        bool SetKeyExpire(string key, int expirSeconds, DataBaseOperate oper);
         /// <summary>
         /// 清空缓存
         /// </summary>
