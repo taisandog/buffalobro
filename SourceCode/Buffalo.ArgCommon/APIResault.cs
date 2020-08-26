@@ -58,8 +58,47 @@ namespace Buffalo.ArgCommon
                 _resault = value;
             }
         }
-       
 
+        private JsonSerializerSettings _settings;
+        /// <summary>
+        /// 转换模式
+        /// </summary>
+        [JsonIgnore]
+        public JsonSerializerSettings Settiong 
+        {
+            get
+            {
+                return _settings;
+            }
+           
+        }
+        private Formatting _formatting;
+        /// <summary>
+        /// 格式
+        /// </summary>
+        [JsonIgnore]
+        public Formatting Formatting
+        {
+            get
+            {
+                return _formatting;
+            }
+            
+        }
+
+        private Type _type;
+        /// <summary>
+        /// 类型
+        /// </summary>
+        [JsonIgnore]
+        public Type Type
+        {
+            get
+            {
+                return _type;
+            }
+            
+        }
         /// <summary>
         /// 调用是否成功
         /// </summary>
@@ -92,8 +131,38 @@ namespace Buffalo.ArgCommon
             return JsonValueConvertExtend.ConvertJsonValue<T>(_data);
         }
 
-        
+        /// <summary>
+        /// 忽略的属性
+        /// </summary>
+        private IEnumerable<string> _ignoreProperty;
+        /// <summary>
+        /// 忽略的属性
+        /// </summary>
+        [JsonIgnore]
+        public IEnumerable<string> Ignore
+        {
+            get
+            {
+                return _ignoreProperty;
+            }
 
+        }
+        /// <summary>
+        /// 显示的属性
+        /// </summary>
+        private IEnumerable<string> _showProperty;
+        /// <summary>
+        /// 显示的属性
+        /// </summary>
+        [JsonIgnore]
+        public IEnumerable<string> ShowProperty
+        {
+            get
+            {
+                return _showProperty;
+            }
+
+        }
         /// <summary>
         /// 设置内容值
         /// </summary>
@@ -138,18 +207,36 @@ namespace Buffalo.ArgCommon
             }
         }
         
+        /// <summary>
+        /// 设置格式并返回本实例
+        /// </summary>
+        /// <param name="format"></param>
+        /// <returns></returns>
+        public APIResault FromFormatting(Formatting format) 
+        {
+            _formatting = format;
+            return this;
+        }
+        /// <summary>
+        /// 设置转换模式并返回本实例
+        /// </summary>
+        /// <param name="setting">模式</param>
+        /// <returns></returns>
+        public APIResault FromFormatting(JsonSerializerSettings setting)
+        {
+            _settings = setting;
+            return this;
+        }
 
         /// <summary>
-        /// 序列化成Json
+        /// 设置转换模式并返回本实例
         /// </summary>
+        /// <param name="setting">模式</param>
         /// <returns></returns>
-        public string ToJson(Formatting format)
+        public APIResault FromIgnore(JsonSerializerSettings setting)
         {
-            Dictionary<string, object> ret = new Dictionary<string, object>();
-            ret["state"] = (int)_resault;
-            ret["message"] = _message;
-            ret["data"] = _data;
-            return JsonConvert.SerializeObject(ret, format);
+            _settings = setting;
+            return this;
         }
         /// <summary>
         /// 序列化成Json
@@ -157,9 +244,37 @@ namespace Buffalo.ArgCommon
         /// <returns></returns>
         public string ToJson()
         {
+            Dictionary<string, object> ret = new Dictionary<string, object>();
+            ret["state"] = (int)_resault;
+            ret["message"] = _message;
+
+            object data = _data;
+            Type type = _type;
+            if (_showProperty != null)
+            {
+                JsonSerializerSettings setting = new JsonSerializerSettings();
+                setting.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                setting.ContractResolver = new ExcludePropertiesContractResolver(_showProperty, false);
+
+                data = JsonConvert.SerializeObject(_data,_type, _formatting, setting);
+                type = null;
+            }
+            else if (_ignoreProperty!=null) 
+            {
+                JsonSerializerSettings setting = new JsonSerializerSettings();
+                setting.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                setting.ContractResolver = new ExcludePropertiesContractResolver(_ignoreProperty, true);
+
+                data = JsonConvert.SerializeObject(_data, _type, _formatting, setting);
+                type = null;
+            }
             
-            return ToJson(Formatting.None);
+            ret["data"] = _data;
+
+            return JsonConvert.SerializeObject(ret, _type, _formatting, _settings);
         }
+        
+        
         /// <summary>
         /// 序列化成Json
         /// </summary>
@@ -185,13 +300,9 @@ namespace Buffalo.ArgCommon
             JsonSerializerSettings setting = new JsonSerializerSettings();
             setting.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             setting.ContractResolver = new ExcludePropertiesContractResolver(ignore, false);
-            string json = JsonConvert.SerializeObject(_data, Formatting.None, setting);
+            string json = JsonConvert.SerializeObject(_data, _formatting, setting);
             ret["data"] = json;
-            //JsonSerializer js = new JsonSerializer();
-            //js.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            //js.ContractResolver = new ExcludePropertiesContractResolver(ignore, false);
-            //ret["data"] = JObject.FromObject(_data, js);
-            return JsonConvert.SerializeObject(ret, Formatting.None);
+            return JsonConvert.SerializeObject(ret, _type, _formatting, _settings);
         }
         /// <summary>
         /// 只显示Data某些属性序列化成Json
@@ -208,15 +319,12 @@ namespace Buffalo.ArgCommon
             setting.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             setting.ContractResolver = new ExcludePropertiesContractResolver(ignore, true);
 
-            string json = JsonConvert.SerializeObject(_data, Formatting.None, setting);
+            string json = JsonConvert.SerializeObject(_data, _formatting, setting);
 
             ret["data"] = json;
-            //JsonSerializer js = new JsonSerializer();
-            //js.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            //js.ContractResolver = new ExcludePropertiesContractResolver(ignore, true);
-            //ret["data"] = JObject.FromObject(_data, js);
 
-            return JsonConvert.SerializeObject(ret, Formatting.None);
+
+            return JsonConvert.SerializeObject(ret, _type, _formatting, _settings);
         }
         /// <summary>
         /// 转换成Json
@@ -253,7 +361,7 @@ namespace Buffalo.ArgCommon
                     ret["data"] = obj;
                 }
             }
-            return JsonConvert.SerializeObject(ret, Formatting.None);
+            return JsonConvert.SerializeObject(ret, _type, _formatting, _settings);
         }
 #if !NET_2_0 && !NET_3_5
         /// <summary>
