@@ -78,7 +78,7 @@ namespace Buffalo.ArgCommon
         /// 转换模式
         /// </summary>
         [JsonIgnore]
-        public JsonSerializerSettings Settiong
+        public JsonSerializerSettings Setting
         {
             get
             {
