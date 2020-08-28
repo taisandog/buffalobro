@@ -12,35 +12,49 @@ namespace Buffalo.ArgCommon
     /// </summary>
     public class APIResault
     {
-        
+
 
         private object _data;
 
-        ///// <summary>
-        ///// 数据
-        ///// </summary>
-        //public object Data
-        //{
-        //    get { return _data; }
-        //    set { _data=value; }
-        //}
+        /// <summary>
+        /// 数据
+        /// </summary>
+        public object Data
+        {
+            get { return _data; }
+            set { _data = value; }
+        }
 
         private string _message;
         /// <summary>
         /// 信息
         /// </summary>
         [JsonProperty("message")]
-        public string Message 
-        { 
-            get 
+        public string Message
+        {
+            get
             {
                 return _message;
             }
-            set 
+            set
             {
-                _message=value;
+                _message = value;
             }
         }
+        private bool _dataAsString;
+        /// <summary>
+        /// 统一转换成字符串
+        /// </summary>
+        [JsonIgnore]
+        public bool DataAsString
+        {
+            get
+            {
+                return _dataAsString;
+            }
+
+        }
+
 
         private ResaultType _resault;
         /// <summary>
@@ -64,15 +78,15 @@ namespace Buffalo.ArgCommon
         /// 转换模式
         /// </summary>
         [JsonIgnore]
-        public JsonSerializerSettings Settiong 
+        public JsonSerializerSettings Settiong
         {
             get
             {
                 return _settings;
             }
-           
+
         }
-        private Formatting _formatting;
+        private Formatting _formatting = Formatting.None;
         /// <summary>
         /// 格式
         /// </summary>
@@ -83,12 +97,14 @@ namespace Buffalo.ArgCommon
             {
                 return _formatting;
             }
-            
-        }
 
+        }
+        /// <summary>
+        /// 实体类型
+        /// </summary>
         private Type _type;
         /// <summary>
-        /// 类型
+        /// 实体类型
         /// </summary>
         [JsonIgnore]
         public Type Type
@@ -97,20 +113,20 @@ namespace Buffalo.ArgCommon
             {
                 return _type;
             }
-            
+
         }
         /// <summary>
         /// 调用是否成功
         /// </summary>
         [JsonIgnore]
-        public bool IsSuccess 
+        public bool IsSuccess
         {
-            get 
+            get
             {
                 return _resault == ResaultType.Success;
             }
         }
-        
+
 
         private Exception _apiException;
         /// <summary>
@@ -131,35 +147,20 @@ namespace Buffalo.ArgCommon
             return JsonValueConvertExtend.ConvertJsonValue<T>(_data);
         }
 
-        /// <summary>
-        /// 忽略的属性
-        /// </summary>
-        private IEnumerable<string> _ignoreProperty;
-        /// <summary>
-        /// 忽略的属性
-        /// </summary>
-        [JsonIgnore]
-        public IEnumerable<string> Ignore
-        {
-            get
-            {
-                return _ignoreProperty;
-            }
 
-        }
         /// <summary>
-        /// 显示的属性
+        /// 显示或屏蔽属性的方式
         /// </summary>
-        private IEnumerable<string> _showProperty;
+        private ExcludePropertiesContractResolver _excludeProperties;
         /// <summary>
-        /// 显示的属性
+        /// 显示或屏蔽属性的方式
         /// </summary>
         [JsonIgnore]
-        public IEnumerable<string> ShowProperty
+        public ExcludePropertiesContractResolver ExcludeProperties
         {
             get
             {
-                return _showProperty;
+                return _excludeProperties;
             }
 
         }
@@ -167,7 +168,7 @@ namespace Buffalo.ArgCommon
         /// 设置内容值
         /// </summary>
         /// <param name="data">内容</param>
-        public void SetValue(object data) 
+        public void SetValue(object data)
         {
             _data = data;
         }
@@ -175,21 +176,21 @@ namespace Buffalo.ArgCommon
         {
             return ToJson();
         }
-       
+
         /// <summary>
         /// API返回值
         /// </summary>
         public APIResault()
         {
-            
+
         }
         /// <summary>
         /// 获取值
         /// </summary>
         private void GetResault(Dictionary<string, object> resultJson)
         {
-            object res =null;
-            if (resultJson.TryGetValue("state", out res)) 
+            object res = null;
+            if (resultJson.TryGetValue("state", out res))
             {
                 try
                 {
@@ -206,13 +207,13 @@ namespace Buffalo.ArgCommon
                 _data = res;
             }
         }
-        
+
         /// <summary>
         /// 设置格式并返回本实例
         /// </summary>
         /// <param name="format"></param>
         /// <returns></returns>
-        public APIResault FromFormatting(Formatting format) 
+        public APIResault FromFormatting(Formatting format)
         {
             _formatting = format;
             return this;
@@ -222,20 +223,57 @@ namespace Buffalo.ArgCommon
         /// </summary>
         /// <param name="setting">模式</param>
         /// <returns></returns>
-        public APIResault FromFormatting(JsonSerializerSettings setting)
+        public APIResault FromSettings(JsonSerializerSettings setting)
         {
             _settings = setting;
             return this;
         }
+        /// <summary>
+        /// 设置属性显示或屏蔽方式，并返回本实例
+        /// </summary>
+        /// <param name="excludeProperty">显示或屏蔽开关</param>
+        /// <returns></returns>
+        public APIResault FromExcludeProperties(ExcludePropertiesContractResolver excludeProperty)
+        {
+            _excludeProperties = excludeProperty;
+            return this;
+        }
+        /// <summary>
+        /// 设置显示的属性并返回本实例
+        /// </summary>
+        /// <param name="showProperty">显示的属性</param>
+        /// <returns></returns>
+        public APIResault FromShowProperty(IEnumerable<string> showProperty)
+        {
+            return FromExcludeProperties(new ExcludePropertiesContractResolver(showProperty, JsonParseType.Show));
+        }
 
         /// <summary>
-        /// 设置转换模式并返回本实例
+        /// 设置忽略的属性并返回本实例
         /// </summary>
-        /// <param name="setting">模式</param>
+        /// <param name="ignoreProperty">忽略的属性</param>
         /// <returns></returns>
-        public APIResault FromIgnore(JsonSerializerSettings setting)
+        public APIResault FromIgnoreProperty(IEnumerable<string> ignoreProperty)
         {
-            _settings = setting;
+            return FromExcludeProperties(new ExcludePropertiesContractResolver(ignoreProperty, JsonParseType.Ignore));
+        }
+        /// <summary>
+        /// 转换时候把非字符串的data值打成json字符串
+        /// </summary>
+        /// <returns></returns>
+        public APIResault FromDataToString()
+        {
+
+            return FromDataToString(true);
+        }
+        /// <summary>
+        /// 转换时候把非字符串的data值打成json字符串
+        /// </summary>
+        /// <param name="toString">是否转换成字符串</param>
+        /// <returns></returns>
+        public APIResault FromDataToString(bool toString)
+        {
+            _dataAsString = toString;
             return this;
         }
         /// <summary>
@@ -250,31 +288,47 @@ namespace Buffalo.ArgCommon
 
             object data = _data;
             Type type = _type;
-            if (_showProperty != null)
-            {
-                JsonSerializerSettings setting = new JsonSerializerSettings();
-                setting.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                setting.ContractResolver = new ExcludePropertiesContractResolver(_showProperty, false);
 
-                data = JsonConvert.SerializeObject(_data,_type, _formatting, setting);
+
+            if (_excludeProperties != null)//忽略或显示属性开关
+            {
+                if (_settings == null)
+                {
+                    _settings = new JsonSerializerSettings();
+                }
+                _settings.ContractResolver = _excludeProperties;
                 type = null;
             }
-            else if (_ignoreProperty!=null) 
+
+            if (_dataAsString && !(data is string))
             {
-                JsonSerializerSettings setting = new JsonSerializerSettings();
-                setting.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                setting.ContractResolver = new ExcludePropertiesContractResolver(_ignoreProperty, true);
-
-                data = JsonConvert.SerializeObject(_data, _type, _formatting, setting);
-                type = null;
+                data = JsonConvert.SerializeObject(data, _type, _formatting, _settings);
             }
-            
-            ret["data"] = _data;
 
-            return JsonConvert.SerializeObject(ret, _type, _formatting, _settings);
+
+            ret["data"] = data;
+
+            return JsonConvert.SerializeObject(ret, type, _formatting, _settings);
         }
-        
-        
+
+        /// <summary>
+        /// 只显示Data某些属性序列化成Json
+        /// </summary>
+        /// <param name="showProperty">只显示属性集合</param>
+        /// <returns></returns>
+        public string ToJsonShow(IEnumerable<string> showProperty)
+        {
+            return FromShowProperty(showProperty).ToJson();
+        }
+        /// <summary>
+        /// 忽略Data某些属性序列化成Json
+        /// </summary>
+        /// <param name="ignoreProperty">忽略属性集合</param>
+        /// <returns></returns>
+        public string ToJsonIgnore(IEnumerable<string> ignoreProperty)
+        {
+            return FromIgnoreProperty(ignoreProperty).ToJson();
+        }
         /// <summary>
         /// 序列化成Json
         /// </summary>
@@ -288,179 +342,70 @@ namespace Buffalo.ArgCommon
             return ret;
         }
         /// <summary>
-        /// 忽略Data某些属性序列化成Json
-        /// </summary>
-        /// <param name="ignore">忽略属性集合</param>
-        /// <returns></returns>
-        public string ToJsonIgnore(IEnumerable<string> ignore)
-        {
-            Dictionary<string, object> ret = new Dictionary<string, object>();
-            ret["state"] = (int)_resault;
-            ret["message"] = _message;
-            JsonSerializerSettings setting = new JsonSerializerSettings();
-            setting.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            setting.ContractResolver = new ExcludePropertiesContractResolver(ignore, false);
-            string json = JsonConvert.SerializeObject(_data, _formatting, setting);
-            ret["data"] = json;
-            return JsonConvert.SerializeObject(ret, _type, _formatting, _settings);
-        }
-        /// <summary>
-        /// 只显示Data某些属性序列化成Json
-        /// </summary>
-        /// <param name="ignore">只显示属性集合</param>
-        /// <returns></returns>
-        public string ToJsonShow(IEnumerable<string> ignore)
-        {
-            Dictionary<string, object> ret = new Dictionary<string, object>();
-            ret["state"] = (int)_resault;
-            ret["message"] = _message;
-
-            JsonSerializerSettings setting = new JsonSerializerSettings();
-            setting.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            setting.ContractResolver = new ExcludePropertiesContractResolver(ignore, true);
-
-            string json = JsonConvert.SerializeObject(_data, _formatting, setting);
-
-            ret["data"] = json;
-
-
-            return JsonConvert.SerializeObject(ret, _type, _formatting, _settings);
-        }
-        /// <summary>
-        /// 转换成Json
-        /// </summary>
-        /// <param name="propertys">属性集合</param>
-        /// <param name="type">显示或屏蔽这些属性</param>
-        /// <returns></returns>
-        public string ParseJson(IEnumerable<string> propertys, JsonParseType type)
-        {
-            Dictionary<string, object> ret = new Dictionary<string, object>();
-            ret["state"] = (int)_resault;
-            ret["message"] = _message;
-
-            JsonSerializer js = new JsonSerializer();
-
-            js.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            bool isShow = type == JsonParseType.Show;
-            js.ContractResolver = new ExcludePropertiesContractResolver(propertys, isShow);
-
-            if (_data != null)
-            {
-                if(_data is ValueType || _data is string)
-                {
-                    ret["data"] = _data;
-                }
-                else if (_data is IEnumerable)
-                {
-                    JArray obj = JArray.FromObject(_data, js);
-                    ret["data"] = obj;
-                }
-                else
-                {
-                    JObject obj = JObject.FromObject(_data, js);
-                    ret["data"] = obj;
-                }
-            }
-            return JsonConvert.SerializeObject(ret, _type, _formatting, _settings);
-        }
-#if !NET_2_0 && !NET_3_5
-        /// <summary>
-        /// 设置成功值
+        /// 状态设置为成功
         /// </summary>
         /// <param name="message">信息</param>
         /// <param name="data">返回值内容</param>
-        public void SetSuccess(string message=null , object data=null)
+        public void SetSuccess(string message, object data)
         {
             _resault = ResaultType.Success;
             _message = message;
             _data = data;
         }
         /// <summary>
-        /// 设置错误
+        /// 状态设置为成功
         /// </summary>
-        /// <param name="message">消息</param>
-        /// <param name="data">内容</param>
-        public void SetFault(string message=null, object data=null)
-        {
-            _resault = ResaultType.Fault;
-            _message = message;
-            _data = data;
-        }
-        /// <summary>
-        /// 设置错误
-        /// </summary>
-        /// <param name="message">消息</param>
-        /// <param name="data">内容</param>
-        public void SetTimeout(string message = null, object data = null)
-        {
-            _resault = ResaultType.Timeout;
-            _message = message;
-            _data = data;
-        }
-#else
-        /// <summary>
-        /// 设置成功值
-        /// </summary>
-        /// <param name="message">信息</param>
-        /// <param name="data">返回值内容</param>
-        public void SetSuccess(string message , object data)
-        {
-            _resault = ResaultType.Success;
-            _message = message;
-            _data = data;
-        }
-        /// <summary>
-        /// 设置成功值
-        /// </summary>
-        /// <param name="message">信息</param>
-        /// <param name="data">返回值内容</param>
         public void SetSuccess()
         {
-            SetSuccess(null,null);
+            SetSuccess(null, null);
         }
 
         /// <summary>
-        /// 设置错误
+        /// 状态设置为一般错误
         /// </summary>
         /// <param name="message">消息</param>
         /// <param name="data">内容</param>
-        public void SetFault(string message, object data )
+        public void SetFault(string message, object data)
         {
             _resault = ResaultType.Fault;
             _message = message;
             _data = data;
         }
         /// <summary>
-        /// 设置错误
+        /// 状态设置为一般错误
         /// </summary>
         /// <param name="message">消息</param>
-        /// <param name="data">内容</param>
-        public void SetFault()
+        public void SetFault(string message)
         {
-            SetFault(null,null);
+            SetFault(message, null);
         }
         /// <summary>
-        /// 设置错误
+        /// 状态设置为一般错误
+        /// </summary>
+        public void SetFault()
+        {
+            SetFault(null, null);
+        }
+        /// <summary>
+        /// 设置超时错误
         /// </summary>
         /// <param name="message">消息</param>
         /// <param name="data">内容</param>
-        public void SetTimeout(string message , object data)
+        public void SetTimeout(string message, object data)
         {
             _resault = ResaultType.Timeout;
             _message = message;
             _data = data;
         }
         /// <summary>
-        /// 设置错误
+        /// 设置超时错误
         /// </summary>
-        /// <param name="message">消息</param>
-        /// <param name="data">内容</param>
         public void SetTimeout()
         {
-            SetTimeout(null,null);
+            SetTimeout(null, null);
         }
-#endif
-        
+
+
         /// <summary>
         /// 设置异常
         /// </summary>
@@ -476,14 +421,14 @@ namespace Buffalo.ArgCommon
         /// 设置json
         /// </summary>
         /// <param name="json">json</param>
-        public void SetJson(string json) 
+        public void SetJson(string json)
         {
             string ejson = json.Trim();
-            if (ejson[0] == '\"') 
+            if (ejson[0] == '\"')
             {
                 ejson = JsonConvert.DeserializeObject<string>(ejson);
             }
-            
+
             GetResault(JsonConvert.DeserializeObject<Dictionary<string, object>>(ejson));
         }
     }

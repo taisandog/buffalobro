@@ -35,22 +35,22 @@ public static partial class JsonValueConvertExtend
         {
             return (T)value;
         }
-        if (value is string)
+        string svalue = value as string;
+        if (svalue!=null)
         {
-            value = JsonConvert.DeserializeObject<T>(value as string);
+            value = JsonConvert.DeserializeObject<T>(svalue);
             return (T)value;
         }
-        if (value is JObject)
-        {
 
-            value = ((JObject)value).ToObject<T>();
-            return (T)value;
+        JObject jo = value as JObject;
+        if (jo!=null)
+        {
+            return (jo).ToObject<T>();
         }
-        if (value is JArray)
+        JArray jarr= value as JArray;
+        if (jarr!=null)
         {
-
-            value = ((JArray)value).ToObject<T>();
-            return (T)value;
+            return jarr.ToObject<T>();
         }
 
         return ValueConvertExtend.ConvertValue(value, defaultValue);
