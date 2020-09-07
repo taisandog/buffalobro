@@ -354,17 +354,17 @@ namespace Buffalo.Kernel
             return time;
         }
         /// <summary>
-        /// 将时间戳转换为DateTime类型时间
+        /// 将UTC时间戳转换为UTC的DateTime类型时间(秒数)
         /// </summary>
         /// <param name="d">double 型数字</param>
         /// <returns>DateTime</returns>
         public static System.DateTime ConvertIntDateTime(double d)
         {
-            return ConvertIntDateTime(d,false,false);
+            return ConvertIntDateTime(d,true,true);
         }
 
         /// <summary>
-        /// 将c# DateTime时间格式转换为Unix时间戳格式(秒)
+        /// 将c# DateTime时间格式转换为时间戳格式
         /// </summary>
         /// <param name="time">时间</param>
         ///  <param name="useSecond">true返回秒数,false返回毫秒数</param>
@@ -388,7 +388,7 @@ namespace Buffalo.Kernel
         public static double ConvertDateTimeInt(System.DateTime time)
         {
             
-            return ConvertDateTimeInt(time,false,false);
+            return ConvertDateTimeInt(time, true, true);
         }
         /// <summary>
         /// 反序列化结构体

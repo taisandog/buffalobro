@@ -415,7 +415,7 @@ namespace Buffalo.Kernel
         /// <returns>DateTime</returns>
         public static System.DateTime ConvertIntDateTime(double d)
         {
-            return ConvertIntDateTime(d, false, false);
+            return ConvertIntDateTime(d, true, true);
         }
 
         /// <summary>
@@ -443,7 +443,7 @@ namespace Buffalo.Kernel
         public static double ConvertDateTimeInt(System.DateTime time)
         {
 
-            return ConvertDateTimeInt(time, false, false);
+            return ConvertDateTimeInt(time, true, true);
         }
 
         /// <summary>
