@@ -328,30 +328,68 @@ namespace Buffalo.Kernel
 
             return XMLToDataSet(xml,XmlReadMode.ReadSchema);
         }
+
+        static readonly DateTime StartTimeUTC = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
+        static readonly DateTime StartTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
+
         /// <summary>
-        /// 将Unix时间戳转换为DateTime类型时间
+        /// 将时间戳转换为DateTime类型时间
+        /// </summary>
+        /// <param name="d">double 型数字</param>
+        /// <param name="useSecond">true传入的是秒数,false传入的是毫秒数</param>
+        /// <param name="isUTC">时间戳是否格林威治标准时间</param>
+        /// <returns>DateTime</returns>
+        public static System.DateTime ConvertIntDateTime(double d,bool useSecond, bool isUTC)
+        {
+            System.DateTime time = System.DateTime.MinValue;
+            System.DateTime startTime = isUTC? StartTimeUTC: StartTime;
+            if (useSecond)
+            {
+                time = startTime.AddSeconds(d);
+            }
+            else 
+            {
+                time= startTime.AddMilliseconds(d);
+            }
+            return time;
+        }
+        /// <summary>
+        /// 将时间戳转换为DateTime类型时间
         /// </summary>
         /// <param name="d">double 型数字</param>
         /// <returns>DateTime</returns>
         public static System.DateTime ConvertIntDateTime(double d)
         {
-            System.DateTime time = System.DateTime.MinValue;
-            System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
-            time = startTime.AddSeconds(d);
-            return time;
+            return ConvertIntDateTime(d,false,false);
+        }
+
+        /// <summary>
+        /// 将c# DateTime时间格式转换为Unix时间戳格式(秒)
+        /// </summary>
+        /// <param name="time">时间</param>
+        ///  <param name="useSecond">true返回秒数,false返回毫秒数</param>
+        ///  <param name="isUTC">是否返回格林威治标准时间戳</param>
+        /// <returns>double</returns>
+        public static double ConvertDateTimeInt(System.DateTime time, bool useSecond, bool isUTC)
+        {
+            System.DateTime startTime = isUTC ? StartTimeUTC : StartTime;
+            TimeSpan ts=time.Subtract(startTime);
+            if (useSecond)
+            {
+                return ts.TotalSeconds;
+            }
+            return ts.TotalMilliseconds;
         }
         /// <summary>
-        /// 将c# DateTime时间格式转换为Unix时间戳格式
+        /// 将c# DateTime时间格式转换为Unix时间戳格式(秒)
         /// </summary>
         /// <param name="time">时间</param>
         /// <returns>double</returns>
         public static double ConvertDateTimeInt(System.DateTime time)
         {
-            System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
-            TimeSpan ts=time.Subtract(startTime);
-            return ts.TotalSeconds;
+            
+            return ConvertDateTimeInt(time,false,false);
         }
-        
         /// <summary>
         /// 反序列化结构体
         /// </summary>
