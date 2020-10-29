@@ -13,3 +13,10 @@ D:\workspace\GitProjects\Buffalo\SourceCode\Buffalo.GeneratorInfo\obj\Debug\Buff
 D:\workspace\GitProjects\Buffalo\SourceCode\Buffalo.GeneratorInfo\obj\Debug\Buffalo2019.GeneratorInfo.csproj.CopyComplete
 D:\workspace\GitProjects\Buffalo\SourceCode\Buffalo.GeneratorInfo\obj\Debug\Buffalo.GeneratorInfo.dll
 D:\workspace\GitProjects\Buffalo\SourceCode\Buffalo.GeneratorInfo\obj\Debug\Buffalo.GeneratorInfo.pdb
+D:\CSharpTest\GitProjects\Buffalo\SourceCode\Debug\2017\Buffalo.GeneratorInfo.XML
+D:\CSharpTest\GitProjects\Buffalo\SourceCode\Debug\2017\Buffalo.GeneratorInfo.dll
+D:\CSharpTest\GitProjects\Buffalo\SourceCode\Debug\2017\Buffalo.GeneratorInfo.pdb
+D:\CSharpTest\GitProjects\Buffalo\SourceCode\Buffalo.GeneratorInfo\obj\Debug\Buffalo2019.GeneratorInfo.csproj.CoreCompileInputs.cache
+D:\CSharpTest\GitProjects\Buffalo\SourceCode\Buffalo.GeneratorInfo\obj\Debug\Buffalo2019.GeneratorInfo.csproj.CopyComplete
+D:\CSharpTest\GitProjects\Buffalo\SourceCode\Buffalo.GeneratorInfo\obj\Debug\Buffalo.GeneratorInfo.dll
+D:\CSharpTest\GitProjects\Buffalo\SourceCode\Buffalo.GeneratorInfo\obj\Debug\Buffalo.GeneratorInfo.pdb
