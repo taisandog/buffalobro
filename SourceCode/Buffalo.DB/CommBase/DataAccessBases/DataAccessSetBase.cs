@@ -190,8 +190,15 @@ namespace Buffalo.DB.CommBase.DataAccessBases
                     sql.Append(",");
                     sql.Append(EntityInfo.DBInfo.CurrentDbAdapter.FormatParam(epinfo.ParamName));
                     sql.Append("=");
-                    kvp.Value.FillInfo(keyinfo);
-                    sql.Append(kvp.Value.DisplayValue(keyinfo));
+                    if (CommonMethods.IsNull(kvp.Value))
+                    {
+                        sql.Append("null");
+                    }
+                    else
+                    {
+                        kvp.Value.FillInfo(keyinfo);
+                        sql.Append(kvp.Value.DisplayValue(keyinfo));
+                    }
                 }
             }
             where.Append(DataAccessCommon.FillCondition(EntityInfo, list, scopeList));

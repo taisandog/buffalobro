@@ -154,5 +154,17 @@ namespace Buffalo.Kernel.Defaults
         {
             return targetType.IsValueType ? Activator.CreateInstance(targetType) : null;
         }
+
+        /// <summary>
+        /// 转换枚举为基础类型
+        /// </summary>
+        /// <param name="enumValue"></param>
+        /// <returns></returns>
+        public static object ConvertEnumUnderlyingValue(object enumValue) 
+        {
+            Type eType = enumValue.GetType();
+            return Convert.ChangeType(enumValue, Enum.GetUnderlyingType(eType));
+        }
+
     }
 }
