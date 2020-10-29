@@ -195,7 +195,7 @@ namespace Buffalo.DB.ListExtends
             
         }
 
-        // <summary>
+        /// <summary>
         /// 把集合写入XML流
         /// </summary>
         /// <param name="list">集合</param>
@@ -204,7 +204,7 @@ namespace Buffalo.DB.ListExtends
         {
             WriteXml(list, stm, null, encoding);
         }
-        // <summary>
+        /// <summary>
         /// 把集合写入XML流
         /// </summary>
         /// <param name="list">集合</param>

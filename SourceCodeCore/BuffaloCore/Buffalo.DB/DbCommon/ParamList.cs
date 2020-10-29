@@ -69,41 +69,19 @@ namespace Buffalo.DB.DbCommon
         /// <param name="type">数据库类型</param>
         /// <param name="paramValue">值类型</param>
         /// <returns></returns>
-        public DBParameter NewParameter(DbType type, object paramValue,DBInfo db) 
+        public DBParameter NewParameter(DbType type, object paramValue, DBInfo db)
         {
             string pKeyName = null;
-            string valueKey = null;
-            if (paramValue is byte[])
-            {
-                pKeyName = NewKeyName(db);
-                valueKey=NewValueKeyName(db);
-                DBParameter prmValue=AddNew(pKeyName, type, paramValue);
-                prmValue.ValueName = valueKey;
-                return prmValue;
-            }
-            else
-            {
-                string strValue = paramValue as string;
-                if (strValue != null && strValue.Length > 5000)
-                {
-                    pKeyName = NewKeyName(db);
-                    valueKey = NewValueKeyName(db);
-                    DBParameter prmValue = AddNew(pKeyName, type, paramValue);
-                    prmValue.ValueName = valueKey;
-                    return prmValue;
-                }
-            }
 
-            DBParameter prm=null;
-            //string key =((int)type).ToString()+":"+DataAccessCommon.FormatValue(paramValue, type, db);
-            //if (!_dicExistsValue.TryGetValue(key, out prm)) 
-            //{
-                pKeyName = NewKeyName(db);
-                string valueName = NewValueKeyName(db);
-                prm = AddNew(pKeyName, type, paramValue);
-                prm.ValueName = valueName;
-                //_dicExistsValue[key] = prm;
-            //}
+
+
+            DBParameter prm = null;
+
+            pKeyName = NewKeyName(db);
+            string valueName = NewValueKeyName(db);
+            prm = AddNew(pKeyName, type, paramValue);
+            prm.ValueName = valueName;
+
             return prm;
         }
 
@@ -127,6 +105,10 @@ namespace Buffalo.DB.DbCommon
 		/// <param name="paramDir">参数的输入类型</param>
         public DBParameter AddNew(string paramName, DbType type, object paramValue, ParameterDirection paramDir)
 		{
+            if (paramValue is Enum)
+            {
+                paramValue = DefaultValue.ConvertEnumUnderlyingValue(paramValue);
+            }
             DBParameter newParam = new DBParameter(paramName, type, paramValue, paramDir);
             this.Add (newParam);
             return newParam;

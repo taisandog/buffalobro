@@ -14,3 +14,11 @@ D:\workspace\GitProjects\Buffalo\SourceCode\Buffalo.Kernel\obj\Debug\Buffalo2019
 D:\workspace\GitProjects\Buffalo\SourceCode\Buffalo.Kernel\obj\Debug\Buffalo.Kernel.dll
 D:\workspace\GitProjects\Buffalo\SourceCode\Buffalo.Kernel\obj\Debug\Buffalo.Kernel.pdb
 D:\workspace\GitProjects\Buffalo\SourceCode\Buffalo.Kernel\obj\Debug\Buffalo2019.Kernel.csprojAssemblyReference.cache
+D:\CSharpTest\GitProjects\Buffalo\SourceCode\Debug\2017\Buffalo.Kernel.XML
+D:\CSharpTest\GitProjects\Buffalo\SourceCode\Debug\2017\Buffalo.Kernel.dll
+D:\CSharpTest\GitProjects\Buffalo\SourceCode\Debug\2017\Buffalo.Kernel.pdb
+D:\CSharpTest\GitProjects\Buffalo\SourceCode\Buffalo.Kernel\obj\Debug\Buffalo2019.Kernel.csproj.CoreCompileInputs.cache
+D:\CSharpTest\GitProjects\Buffalo\SourceCode\Buffalo.Kernel\obj\Debug\Buffalo2019.Kernel.csproj.CopyComplete
+D:\CSharpTest\GitProjects\Buffalo\SourceCode\Buffalo.Kernel\obj\Debug\Buffalo.Kernel.dll
+D:\CSharpTest\GitProjects\Buffalo\SourceCode\Buffalo.Kernel\obj\Debug\Buffalo.Kernel.pdb
+D:\CSharpTest\GitProjects\Buffalo\SourceCode\Buffalo.Kernel\obj\Debug\Buffalo2019.Kernel.csprojAssemblyReference.cache

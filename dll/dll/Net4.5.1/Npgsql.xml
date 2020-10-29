@@ -355,7 +355,7 @@
         </member>
         <member name="T:Npgsql.Logging.NpgsqlLogManager">
             <summary>
-            Manages logging for Npgsql, used to set the loggging provider.
+            Manages logging for Npgsql, used to set the logging provider.
             </summary>
         </member>
         <member name="P:Npgsql.Logging.NpgsqlLogManager.Provider">
@@ -1881,6 +1881,17 @@
         <member name="P:Npgsql.NpgsqlConnectionStringBuilder.PersistSecurityInfo">
             <summary>
             Gets or sets a Boolean value that indicates if security-sensitive information, such as the password, is not returned as part of the connection if the connection is open or has ever been in an open state.
+            </summary>
+        </member>
+        <member name="P:Npgsql.NpgsqlConnectionStringBuilder.LogParameters">
+            <summary>
+            When enabled, parameter values are logged when commands are executed. Defaults to false.
+            </summary>
+        </member>
+        <member name="P:Npgsql.NpgsqlConnectionStringBuilder.IncludeErrorDetails">
+            <summary>
+            When enabled, PostgreSQL error details are included on <see cref="P:Npgsql.PostgresException.Detail" /> and
+            <see cref="P:Npgsql.PostgresNotice.Detail" />. These can contain sensitive data.
             </summary>
         </member>
         <member name="P:Npgsql.NpgsqlConnectionStringBuilder.Pooling">
@@ -4160,11 +4171,6 @@
             Provides methods which decode different values types and tracks the current position.
             </summary>
         </member>
-        <member name="P:Npgsql.NpgsqlReadBuffer.AwaitableSocket">
-            <summary>
-            Wraps SocketAsyncEventArgs for better async I/O as long as we're not doing SSL.
-            </summary>
-        </member>
         <member name="P:Npgsql.NpgsqlReadBuffer.Size">
             <summary>
             The total byte length of the buffer.
@@ -4488,11 +4494,6 @@
             <summary>
             A buffer used by Npgsql to write data to the socket efficiently.
             Provides methods which encode different values types and tracks the current position.
-            </summary>
-        </member>
-        <member name="P:Npgsql.NpgsqlWriteBuffer.AwaitableSocket">
-            <summary>
-            Wraps SocketAsyncEventArgs for better async I/O as long as we're not doing SSL.
             </summary>
         </member>
         <member name="P:Npgsql.NpgsqlWriteBuffer.Size">

@@ -70,11 +70,7 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
 
             if (info.ParamList != null && _valueDbType != DbType.Object && !info.OutPutModle && _itemValue!=null) 
             {
-                if(_itemValue is Enum)
-                {
-                    Type eType = _itemValue.GetType();
-                    _itemValue =Convert.ChangeType(_itemValue,Enum.GetUnderlyingType(eType));
-                }
+                
                 DBParameter dbPrm=info.ParamList.NewParameter(_valueDbType, _itemValue,info.DBInfo);
                 return dbPrm.ValueName;
             }

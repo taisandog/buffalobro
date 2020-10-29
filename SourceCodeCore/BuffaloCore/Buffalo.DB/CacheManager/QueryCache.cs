@@ -723,7 +723,7 @@ namespace Buffalo.DB.CacheManager
         {
             return _cache.HashGetValue<E>(key, hashkey, defaultValue,_db.DefaultOperate);
         }
-        // <summary>
+        /// <summary>
         /// 获取哈希表的值
         /// </summary>
         /// <typeparam name="E"></typeparam>
