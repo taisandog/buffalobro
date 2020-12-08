@@ -78,6 +78,7 @@ namespace Buffalo.Kernel
             {
                 _dic.Remove(key);
             }
+            queNeedDelete = null;
             _lastClean = DateTime.Now;
         }
 
