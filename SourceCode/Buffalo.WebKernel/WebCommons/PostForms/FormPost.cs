@@ -44,17 +44,7 @@ namespace Buffalo.WebKernel.WebCommons.PostForms
         }
 
         
-        ///// <summary>
-        ///// 发送数据
-        ///// </summary>
-        ///// <param name="actionUrl">发送的链接</param>
-        ///// <param name="prms">发送数据的字段和值</param>
-        ///// <param name="files">要发送的文件</param>
-        ///// <returns></returns>
-        //public String PostData(String actionUrl, Dictionary<string, string> prms, FormFile[] files)
-        //{
-        //    return PostData(actionUrl, prms, files, null);
-        //}
+        
         /// <summary>
         /// 发送数据
         /// </summary>
@@ -62,7 +52,7 @@ namespace Buffalo.WebKernel.WebCommons.PostForms
         /// <param name="prms">发送数据的字段和值</param>
         /// <param name="files">要发送的文件</param>
         /// <returns></returns>
-        public String PostData(String actionUrl, Dictionary<string, string> prms, IEnumerable<FormFile> files)
+        public String PostData(String actionUrl, IDictionary<string, string> prms, IEnumerable<FormFile> files)
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(actionUrl);
 
@@ -102,7 +92,7 @@ namespace Buffalo.WebKernel.WebCommons.PostForms
         /// <param name="prms">发送数据的字段和值</param>
         /// <param name="files">要发送的文件</param>
         /// <returns></returns>
-        public Stream PostDataStream(String actionUrl, Dictionary<string, string> prms, FormFile[] files)
+        public Stream PostDataStream(String actionUrl, IDictionary<string, string> prms, FormFile[] files)
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(actionUrl);
 
@@ -136,7 +126,7 @@ namespace Buffalo.WebKernel.WebCommons.PostForms
         /// <param name="prms">发送数据的字段和值</param>
         /// <param name="files">要发送的文件</param>
         /// <returns></returns>
-        public StreamReader PostDataReader(String actionUrl, Dictionary<string, string> prms, FormFile[] files)
+        public StreamReader PostDataReader(String actionUrl, IDictionary<string, string> prms, FormFile[] files)
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(actionUrl);
 
@@ -149,43 +139,13 @@ namespace Buffalo.WebKernel.WebCommons.PostForms
             return reader;
 
         }
-        ///// <summary>
-        ///// HTTP POST方式
-        ///// </summary>
-        ///// <param name="weburl">POST到的网址</param>
-        ///// <param name="data">POST的参数及参数值</param>
-        ///// <param name="head">请求头</param>
-        ///// <returns></returns>
-        //public string Post(string weburl, Dictionary<string, string> prms)
-        //{
-        //    string postData = GetParamValue(prms);
-        //    byte[] byteArray = _requestHead.PageEncoding.GetBytes(postData);
-
-        //    HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(new Uri(weburl));
-        //    _requestHead.FillInfo(webRequest);
-        //    webRequest.Method = "POST";
-        //    webRequest.ContentType = "application/x-www-form-urlencoded";
-        //    webRequest.ContentLength = byteArray.Length;
-        //    using (Stream newStream = webRequest.GetRequestStream())
-        //    {
-        //        newStream.Write(byteArray, 0, byteArray.Length);
-        //    }
-        //    //接收返回信息：
-        //    using (HttpWebResponse response = (HttpWebResponse)webRequest.GetResponse())
-        //    {
-        //        StreamReader aspx = new StreamReader(response.GetResponseStream(), _requestHead.PageEncoding);
-        //        return aspx.ReadToEnd();
-        //    }
-        //}
         
-        
-
         /// <summary>
         /// 请求参数
         /// </summary>
         /// <param name="prms"></param>
         /// <returns></returns>
-        private string GetParamValue(Dictionary<string, string> prms) 
+        private string GetParamValue(IDictionary<string, string> prms) 
         {
             StringBuilder args = new StringBuilder();
             foreach (KeyValuePair<string, string> kvp in prms) 
@@ -209,7 +169,7 @@ namespace Buffalo.WebKernel.WebCommons.PostForms
         /// <param name="prms">发送数据的字段和值</param>
         /// <param name="files">要发送的文件</param>
         /// <returns></returns>
-        public HttpWebResponse PostDataResponse(String actionUrl, Dictionary<string, string> prms, FormFile[] files)
+        public HttpWebResponse PostDataResponse(String actionUrl, IDictionary<string, string> prms, FormFile[] files)
         {
             
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(actionUrl);
@@ -272,7 +232,7 @@ namespace Buffalo.WebKernel.WebCommons.PostForms
         /// <param name="prms">发送数据的字段和值</param>
         /// <param name="files">要发送的文件</param>
         /// <returns></returns>
-        public static void PostData(HttpWebRequest request, PostHead head, Dictionary<string, string> prms, IEnumerable<FormFile> files)
+        public static void PostData(HttpWebRequest request, PostHead head, IDictionary<string, string> prms, IEnumerable<FormFile> files)
         {
             String BOUNDARY = "---------" + CommonMethods.GuidToString(Guid.NewGuid()); //数据分隔线  
             request.CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore);
