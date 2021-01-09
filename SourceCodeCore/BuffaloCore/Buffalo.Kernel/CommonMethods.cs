@@ -18,6 +18,7 @@ using Buffalo.Kernel.FastReflection.ClassInfos;
 using System.Collections;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 
 namespace Buffalo.Kernel
 {
@@ -76,11 +77,22 @@ namespace Buffalo.Kernel
                 //    _baseRoot += PathCombine;
                 //}
             }
+            if (string.IsNullOrEmpty(configRoot)) 
+            {
+                return _baseRoot;
+            }
             if (Path.IsPathRooted(configRoot)) 
             {
                 return configRoot;
             }
-            string retRoot =Path.Combine( _baseRoot,configRoot);
+            string[] pathParts = configRoot.Split('\\', '/');
+            string[] newpart = new string[pathParts.Length + 1];
+            newpart[0] = _baseRoot;
+            for (int i=0;i<pathParts.Length;i++) 
+            {
+                newpart[i + 1] = pathParts[i];
+            }
+            string retRoot =Path.Combine(newpart);
             return retRoot;
         }
         /*
@@ -160,40 +172,29 @@ namespace Buffalo.Kernel
 
         }
 
-        private static IHostingEnvironment _hostingEnvironment;
+        private static IHostEnvironment _hostingEnvironment;
 
-        private static IHttpContextAccessor _accessor;
         /// <summary>
-        /// 检测是否Web程序,web程序需要在Configure调用CommonMethods.ConfigureServices
+        /// 检测是否Web程序,web程序需要在Startup.Configure调用CommonMethods.ConfigureServices
         /// </summary>
         public static bool IsWebContext
         {
             get
             {
-                return (_accessor != null);
+                return (_hostingEnvironment != null);
             }
         }
-        
+
         /// <summary>
-        /// 设置Http上下文
+        /// 设置Http上下文，web程序需要在Startup.Configure调用本方法
         /// </summary>
         /// <param name="accessor"></param>
         /// 
-        public static void ConfigureServices(IHttpContextAccessor accessor, IHostingEnvironment hostingEnvironment)
+        public static void ConfigureServices(IHostEnvironment hostingEnvironment)
         {
-            _accessor = accessor;
             _hostingEnvironment = hostingEnvironment;
         }
-        /// <summary>
-        /// 当前的HttpContext
-        /// </summary>
-        public static Microsoft.AspNetCore.Http.HttpContext Current
-        {
-            get
-            {
-                return _accessor.HttpContext;
-            }
-        }
+       
 
         /// <summary>
         /// 获取应用程序的基目录
@@ -384,7 +385,7 @@ namespace Buffalo.Kernel
 
             return XMLToDataSet(xml,XmlReadMode.ReadSchema);
         }
-        static readonly DateTime StartTimeUTC = TimeZoneInfo.ConvertTimeToUtc(new System.DateTime(1970, 1, 1), TimeZoneInfo.Local);
+        static readonly DateTime StartTimeUTC = TimeZoneInfo.ConvertTime(new System.DateTime(1970, 1, 1), TimeZoneInfo.Utc, TimeZoneInfo.Local);
         static readonly DateTime StartTime = new System.DateTime(1970, 1, 1);
 
         /// <summary>
@@ -408,6 +409,7 @@ namespace Buffalo.Kernel
             }
             return time;
         }
+
         /// <summary>
         /// 将时间戳转换为DateTime类型时间
         /// </summary>
