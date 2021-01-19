@@ -1,0 +1,10 @@
+D:\workspace\GitProjects\Buffalo\SourceCode\Release\2012\Buffalo.WebKernel.XML
+D:\workspace\GitProjects\Buffalo\SourceCode\Release\2012\Buffalo.WebKernel.dll
+D:\workspace\GitProjects\Buffalo\SourceCode\Release\2012\Buffalo.WebKernel.pdb
+D:\workspace\GitProjects\Buffalo\SourceCode\Buffalo.WebKernel\obj\Release\Buffalo2012.WebKernel.csprojAssemblyReference.cache
+D:\workspace\GitProjects\Buffalo\SourceCode\Buffalo.WebKernel\obj\Release\Buffalo.WebKernel.ARTDialogReource.resources
+D:\workspace\GitProjects\Buffalo\SourceCode\Buffalo.WebKernel\obj\Release\Buffalo2012.WebKernel.csproj.GenerateResource.cache
+D:\workspace\GitProjects\Buffalo\SourceCode\Buffalo.WebKernel\obj\Release\Buffalo2012.WebKernel.csproj.CoreCompileInputs.cache
+D:\workspace\GitProjects\Buffalo\SourceCode\Buffalo.WebKernel\obj\Release\Buffalo2012.WebKernel.csproj.CopyComplete
+D:\workspace\GitProjects\Buffalo\SourceCode\Buffalo.WebKernel\obj\Release\Buffalo.WebKernel.dll
+D:\workspace\GitProjects\Buffalo\SourceCode\Buffalo.WebKernel\obj\Release\Buffalo.WebKernel.pdb

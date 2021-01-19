@@ -1,0 +1,270 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.MongoDB\\Buffalo.MongoDB.csproj": {}
+  },
+  "projects": {
+    "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.DB\\Buffalo.DB.csproj": {
+      "version": "1.4.1",
+      "restore": {
+        "projectUniqueName": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.DB\\Buffalo.DB.csproj",
+        "projectName": "Buffalo.DB",
+        "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.DB\\Buffalo.DB.csproj",
+        "packagesPath": "C:\\Users\\taisandog\\.nuget\\packages\\",
+        "outputPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.DB\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\taisandog\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "E:\\BuffaloPackage": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.0": {
+            "targetAlias": "netstandard2.0",
+            "projectReferences": {
+              "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\Buffalo.Kernel.csproj": {
+                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\Buffalo.Kernel.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netstandard2.0": {
+          "targetAlias": "netstandard2.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Hosting.Abstractions": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            },
+            "System.Configuration.ConfigurationManager": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "System.Data.SqlClient": {
+              "target": "Package",
+              "version": "[4.8.2, )"
+            },
+            "System.Reflection.Emit": {
+              "target": "Package",
+              "version": "[4.7.0, )"
+            },
+            "System.Reflection.Emit.ILGeneration": {
+              "target": "Package",
+              "version": "[4.7.0, )"
+            },
+            "System.Reflection.Emit.Lightweight": {
+              "target": "Package",
+              "version": "[4.7.0, )"
+            },
+            "System.Reflection.Primitives": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\Buffalo.Kernel.csproj": {
+      "version": "1.2.5",
+      "restore": {
+        "projectUniqueName": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\Buffalo.Kernel.csproj",
+        "projectName": "Buffalo.Kernel",
+        "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\Buffalo.Kernel.csproj",
+        "packagesPath": "C:\\Users\\taisandog\\.nuget\\packages\\",
+        "outputPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\taisandog\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "E:\\BuffaloPackage": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.0": {
+            "targetAlias": "netstandard2.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netstandard2.0": {
+          "targetAlias": "netstandard2.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Hosting.Abstractions": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.Extensions.Hosting.Abstractions": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            },
+            "System.Drawing.Common": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "System.Reflection.Emit": {
+              "target": "Package",
+              "version": "[4.7.0, )"
+            },
+            "System.Reflection.Emit.ILGeneration": {
+              "target": "Package",
+              "version": "[4.7.0, )"
+            },
+            "System.Reflection.Emit.Lightweight": {
+              "target": "Package",
+              "version": "[4.7.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.MongoDB\\Buffalo.MongoDB.csproj": {
+      "version": "1.0.3",
+      "restore": {
+        "projectUniqueName": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.MongoDB\\Buffalo.MongoDB.csproj",
+        "projectName": "Buffalo.MongoDB",
+        "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.MongoDB\\Buffalo.MongoDB.csproj",
+        "packagesPath": "C:\\Users\\taisandog\\.nuget\\packages\\",
+        "outputPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.MongoDB\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\taisandog\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "E:\\BuffaloPackage": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.0": {
+            "targetAlias": "netstandard2.0",
+            "projectReferences": {
+              "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.DB\\Buffalo.DB.csproj": {
+                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.DB\\Buffalo.DB.csproj"
+              },
+              "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\Buffalo.Kernel.csproj": {
+                "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\Buffalo.Kernel.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netstandard2.0": {
+          "targetAlias": "netstandard2.0",
+          "dependencies": {
+            "MongoDB.Bson": {
+              "target": "Package",
+              "version": "[2.11.5, )"
+            },
+            "MongoDB.Driver": {
+              "target": "Package",
+              "version": "[2.11.5, )"
+            },
+            "MongoDB.Driver.Core": {
+              "target": "Package",
+              "version": "[2.11.5, )"
+            },
+            "MongoDB.Driver.GridFS": {
+              "target": "Package",
+              "version": "[2.11.5, )"
+            },
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

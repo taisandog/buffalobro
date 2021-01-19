@@ -224,6 +224,7 @@ namespace Buffalo.Data.DB2
         /// <returns></returns>
         public DbConnection GetConnection(DBInfo db)
         {
+            
             DbConnection conn = new DB2Connection();
             return conn;
         }

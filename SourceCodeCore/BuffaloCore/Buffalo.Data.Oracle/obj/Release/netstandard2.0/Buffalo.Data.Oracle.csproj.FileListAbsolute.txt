@@ -1,0 +1,11 @@
+D:\workspace\GitProjects\Buffalo\SourceCode\Release\NetStandard2\netstandard2.0\Buffalo.Data.Oracle.deps.json
+D:\workspace\GitProjects\Buffalo\SourceCode\Release\NetStandard2\netstandard2.0\Buffalo.Data.Oracle.dll
+D:\workspace\GitProjects\Buffalo\SourceCode\Release\NetStandard2\netstandard2.0\Buffalo.Data.Oracle.pdb
+D:\workspace\GitProjects\Buffalo\SourceCode\Release\NetStandard2\netstandard2.0\Buffalo.Data.Oracle.xml
+D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.Data.Oracle\obj\Release\netstandard2.0\Buffalo.Data.Oracle.csprojAssemblyReference.cache
+D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.Data.Oracle\obj\Release\netstandard2.0\Buffalo.Data.Oracle.AssemblyInfoInputs.cache
+D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.Data.Oracle\obj\Release\netstandard2.0\Buffalo.Data.Oracle.AssemblyInfo.cs
+D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.Data.Oracle\obj\Release\netstandard2.0\Buffalo.Data.Oracle.csproj.CoreCompileInputs.cache
+D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.Data.Oracle\obj\Release\netstandard2.0\Buffalo.Data.Oracle.csproj.CopyComplete
+D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.Data.Oracle\obj\Release\netstandard2.0\Buffalo.Data.Oracle.dll
+D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.Data.Oracle\obj\Release\netstandard2.0\Buffalo.Data.Oracle.pdb

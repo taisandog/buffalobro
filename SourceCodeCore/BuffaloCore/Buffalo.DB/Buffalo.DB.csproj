@@ -6,7 +6,7 @@
     <Product>Buffalo.DB for .Net Standard 2.0</Product>
     <Description>Buffalo.DB核心库</Description>
     <PackageProjectUrl>https://github.com/taisandog</PackageProjectUrl>
-    <Version>1.4.0</Version>
+    <Version>1.4.1</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -16,11 +16,11 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.5.0" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.6.1" />
-    <PackageReference Include="System.Reflection.Emit" Version="4.3.0" />
-    <PackageReference Include="System.Reflection.Emit.ILGeneration" Version="4.3.0" />
-    <PackageReference Include="System.Reflection.Emit.Lightweight" Version="4.3.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
+    <PackageReference Include="System.Reflection.Emit" Version="4.7.0" />
+    <PackageReference Include="System.Reflection.Emit.ILGeneration" Version="4.7.0" />
+    <PackageReference Include="System.Reflection.Emit.Lightweight" Version="4.7.0" />
     <PackageReference Include="System.Reflection.Primitives" Version="4.3.0" />
   </ItemGroup>
 

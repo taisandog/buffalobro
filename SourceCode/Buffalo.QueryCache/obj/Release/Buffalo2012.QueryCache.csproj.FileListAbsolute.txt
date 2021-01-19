@@ -1,0 +1,8 @@
+D:\workspace\GitProjects\Buffalo\SourceCode\Release\2012\Buffalo.QueryCache.xml
+D:\workspace\GitProjects\Buffalo\SourceCode\Release\2012\Buffalo.QueryCache.dll
+D:\workspace\GitProjects\Buffalo\SourceCode\Release\2012\Buffalo.QueryCache.pdb
+D:\workspace\GitProjects\Buffalo\SourceCode\Buffalo.QueryCache\obj\Release\Buffalo2012.QueryCache.csprojAssemblyReference.cache
+D:\workspace\GitProjects\Buffalo\SourceCode\Buffalo.QueryCache\obj\Release\Buffalo2012.QueryCache.csproj.CoreCompileInputs.cache
+D:\workspace\GitProjects\Buffalo\SourceCode\Buffalo.QueryCache\obj\Release\Buffalo2012.QueryCache.csproj.CopyComplete
+D:\workspace\GitProjects\Buffalo\SourceCode\Buffalo.QueryCache\obj\Release\Buffalo.QueryCache.dll
+D:\workspace\GitProjects\Buffalo\SourceCode\Buffalo.QueryCache\obj\Release\Buffalo.QueryCache.pdb

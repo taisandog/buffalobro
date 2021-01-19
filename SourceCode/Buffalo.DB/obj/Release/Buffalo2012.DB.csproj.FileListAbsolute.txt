@@ -1,0 +1,10 @@
+D:\workspace\GitProjects\Buffalo\SourceCode\Release\2012\Buffalo.DB.XML
+D:\workspace\GitProjects\Buffalo\SourceCode\Release\2012\Buffalo.DB.dll
+D:\workspace\GitProjects\Buffalo\SourceCode\Release\2012\Buffalo.DB.pdb
+D:\workspace\GitProjects\Buffalo\SourceCode\Buffalo.DB\obj\Release\Buffalo2012.DB.csprojAssemblyReference.cache
+D:\workspace\GitProjects\Buffalo\SourceCode\Buffalo.DB\obj\Release\Buffalo.DB.Resource.resources
+D:\workspace\GitProjects\Buffalo\SourceCode\Buffalo.DB\obj\Release\Buffalo2012.DB.csproj.GenerateResource.cache
+D:\workspace\GitProjects\Buffalo\SourceCode\Buffalo.DB\obj\Release\Buffalo2012.DB.csproj.CoreCompileInputs.cache
+D:\workspace\GitProjects\Buffalo\SourceCode\Buffalo.DB\obj\Release\Buffalo2012.DB.csproj.CopyComplete
+D:\workspace\GitProjects\Buffalo\SourceCode\Buffalo.DB\obj\Release\Buffalo.DB.dll
+D:\workspace\GitProjects\Buffalo\SourceCode\Buffalo.DB\obj\Release\Buffalo.DB.pdb

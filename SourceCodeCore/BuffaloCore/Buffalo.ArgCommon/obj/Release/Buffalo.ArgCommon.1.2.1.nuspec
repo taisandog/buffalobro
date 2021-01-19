@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Buffalo.ArgCommon</id>
+    <version>1.2.1</version>
+    <authors>taisandog</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <projectUrl>https://github.com/taisandog</projectUrl>
+    <description>Buffalo的参数包</description>
+    <dependencies>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="Buffalo.Kernel" version="1.2.5" exclude="Build,Analyzers" />
+        <dependency id="Newtonsoft.Json" version="12.0.3" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="D:\workspace\GitProjects\Buffalo\SourceCode\Release\NetStandard2\netstandard2.0\Buffalo.ArgCommon.dll" target="lib\netstandard2.0\Buffalo.ArgCommon.dll" />
+    <file src="D:\workspace\GitProjects\Buffalo\SourceCode\Release\NetStandard2\netstandard2.0\Buffalo.ArgCommon.xml" target="lib\netstandard2.0\Buffalo.ArgCommon.xml" />
+  </files>
+</package>

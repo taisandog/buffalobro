@@ -1,0 +1,14 @@
+D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.MQ\bin\Debug\netstandard2.0\Buffalo.ArgCommon.dll
+D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.MQ\bin\Debug\netstandard2.0\Buffalo.Kernel.dll
+D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.MQ\bin\Debug\netstandard2.0\Buffalo.Kernel.pdb
+D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.MQ\obj\Debug\netstandard2.0\Buffalo.MQ.csprojAssemblyReference.cache
+D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.MQ\obj\Debug\netstandard2.0\Buffalo.MQ.AssemblyInfoInputs.cache
+D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.MQ\obj\Debug\netstandard2.0\Buffalo.MQ.AssemblyInfo.cs
+D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.MQ\bin\Debug\netstandard2.0\Buffalo.MQ.deps.json
+D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.MQ\bin\Debug\netstandard2.0\Buffalo.MQ.dll
+D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.MQ\bin\Debug\netstandard2.0\Buffalo.MQ.pdb
+D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.MQ\bin\Debug\netstandard2.0\Buffalo.ArgCommon.pdb
+D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.MQ\obj\Debug\netstandard2.0\Buffalo.MQ.csproj.CoreCompileInputs.cache
+D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.MQ\obj\Debug\netstandard2.0\Buffalo.MQ.csproj.CopyComplete
+D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.MQ\obj\Debug\netstandard2.0\Buffalo.MQ.dll
+D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.MQ\obj\Debug\netstandard2.0\Buffalo.MQ.pdb

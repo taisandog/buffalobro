@@ -5,7 +5,7 @@
   },
   "projects": {
     "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\ThirdParty\\Enyim.Caching\\Enyim.Caching.csproj": {
-      "version": "1.0.0",
+      "version": "1.0.1",
       "restore": {
         "projectUniqueName": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\ThirdParty\\Enyim.Caching\\Enyim.Caching.csproj",
         "projectName": "EnyimMemcached",
@@ -25,10 +25,12 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "E:\\BuffaloPackage": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netstandard2.0": {
+            "targetAlias": "netstandard2.0",
             "projectReferences": {}
           }
         },
@@ -40,6 +42,7 @@
       },
       "frameworks": {
         "netstandard2.0": {
+          "targetAlias": "netstandard2.0",
           "dependencies": {
             "Microsoft.AspNetCore.Http.Abstractions": {
               "target": "Package",
@@ -47,23 +50,23 @@
             },
             "Microsoft.Extensions.Caching.Abstractions": {
               "target": "Package",
-              "version": "[2.2.0, )"
+              "version": "[5.0.0, )"
             },
             "Microsoft.Extensions.Configuration.Abstractions": {
               "target": "Package",
-              "version": "[2.2.0, )"
+              "version": "[5.0.0, )"
             },
             "Microsoft.Extensions.Logging.Abstractions": {
               "target": "Package",
-              "version": "[2.2.0, )"
+              "version": "[5.0.0, )"
             },
             "Microsoft.Extensions.Options": {
               "target": "Package",
-              "version": "[2.2.0, )"
+              "version": "[5.0.0, )"
             },
             "Microsoft.Extensions.Options.ConfigurationExtensions": {
               "target": "Package",
-              "version": "[2.2.0, )"
+              "version": "[5.0.0, )"
             },
             "NETStandard.Library": {
               "suppressParent": "All",
@@ -77,14 +80,20 @@
             },
             "System.Threading.Tasks.Extensions": {
               "target": "Package",
-              "version": "[4.5.2, )"
+              "version": "[4.5.4, )"
             }
           },
           "imports": [
-            "net461"
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
           ],
           "assetTargetFallback": true,
-          "warn": true
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }

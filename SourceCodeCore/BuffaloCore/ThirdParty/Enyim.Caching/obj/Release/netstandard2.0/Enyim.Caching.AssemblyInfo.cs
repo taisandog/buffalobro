@@ -16,11 +16,12 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyDescriptionAttribute("EnyimMemcachedCore is a Memcached client library for .NET Core. Usage: Add servic" +
     "es.AddEnyimMemcached(...) and app.UseEnyimMemcached() in Startup. Add IMemcached" +
     "Client into constructor.")]
-[assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.1.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.1")]
 [assembly: System.Reflection.AssemblyProductAttribute("EnyimMemcached for .Net Standard 2.0")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Enyim.Caching")]
-[assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
+[assembly: System.Reflection.AssemblyVersionAttribute("1.0.1.0")]
+[assembly: System.Reflection.AssemblyMetadataAttribute("RepositoryUrl", "https://github.com/cnblogs/EnyimMemcachedCore")]
 
 // 由 MSBuild WriteCodeFragment 类生成。
 

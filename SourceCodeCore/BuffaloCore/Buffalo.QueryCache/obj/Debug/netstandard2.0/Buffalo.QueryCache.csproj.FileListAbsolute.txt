@@ -1,0 +1,16 @@
+D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.QueryCache\bin\Debug\netstandard2.0\Buffalo.DB.dll
+D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.QueryCache\bin\Debug\netstandard2.0\Buffalo.Kernel.dll
+D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.QueryCache\bin\Debug\netstandard2.0\Enyim.Caching.dll
+D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.QueryCache\bin\Debug\netstandard2.0\Buffalo.DB.pdb
+D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.QueryCache\bin\Debug\netstandard2.0\Buffalo.Kernel.pdb
+D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.QueryCache\obj\Debug\netstandard2.0\Buffalo.QueryCache.csprojAssemblyReference.cache
+D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.QueryCache\obj\Debug\netstandard2.0\Buffalo.QueryCache.AssemblyInfoInputs.cache
+D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.QueryCache\obj\Debug\netstandard2.0\Buffalo.QueryCache.AssemblyInfo.cs
+D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.QueryCache\bin\Debug\netstandard2.0\Buffalo.QueryCache.deps.json
+D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.QueryCache\bin\Debug\netstandard2.0\Buffalo.QueryCache.dll
+D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.QueryCache\bin\Debug\netstandard2.0\Buffalo.QueryCache.pdb
+D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.QueryCache\bin\Debug\netstandard2.0\Enyim.Caching.pdb
+D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.QueryCache\obj\Debug\netstandard2.0\Buffalo.QueryCache.csproj.CoreCompileInputs.cache
+D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.QueryCache\obj\Debug\netstandard2.0\Buffalo.QueryCache.csproj.CopyComplete
+D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.QueryCache\obj\Debug\netstandard2.0\Buffalo.QueryCache.dll
+D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.QueryCache\obj\Debug\netstandard2.0\Buffalo.QueryCache.pdb
