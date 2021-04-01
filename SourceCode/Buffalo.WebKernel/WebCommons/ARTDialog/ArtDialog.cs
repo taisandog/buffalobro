@@ -22,7 +22,7 @@ namespace Buffalo.WebKernel.ARTDialog
         /// </summary>
         private IDictionary<int, EnumInfo> _dicSkin = GetSkin();
 
-        private static bool _isInit = InitDialog();
+        
 
         /// <summary>
         /// 初始化对话框
@@ -76,6 +76,7 @@ namespace Buffalo.WebKernel.ARTDialog
         /// </summary>
         public ArtDialog():this(DialogSkin.Default)
         {
+
         }
 
         private string _defaultTitle;
@@ -88,15 +89,29 @@ namespace Buffalo.WebKernel.ARTDialog
             get { return _defaultTitle; }
             set { _defaultTitle = value; }
         }
+        /// <summary>
+        /// ArtDialog
+        /// </summary>
+        public ArtDialog(DialogSkin skin):this(skin,null)
+        {
+
+        }
+        private string _basePath = null;
 
         /// <summary>
         /// ArtDialog
         /// </summary>
-        public ArtDialog(DialogSkin skin) 
+        public ArtDialog(DialogSkin skin,string basePath) 
         {
             _curPage = System.Web.HttpContext.Current.Handler as Page;
-
-            
+            if (!string.IsNullOrEmpty(basePath))
+            {
+                _basePath = basePath.TrimEnd('/', '\\',' ');
+            }
+            else
+            {
+                InitDialog();
+            }
             string jsName = "artdialog/artDialog.source.js?skin="+_dicSkin[(int)skin].Description;
             RegisterJS(jsName);
             jsName = "artdialog/plugins/iframeTools.source.js";
@@ -107,11 +122,25 @@ namespace Buffalo.WebKernel.ARTDialog
         /// <summary>
         /// ArtDialog
         /// </summary>
-        public ArtDialog(string skinName)
+        public ArtDialog(string skinName):this(skinName,null)
         {
+
+        }
+        /// <summary>
+        /// ArtDialog
+        /// </summary>
+        public ArtDialog(string skinName, string basePath)
+        {
+            
             _curPage = System.Web.HttpContext.Current.Handler as Page;
-
-
+            if (!string.IsNullOrEmpty(basePath))
+            {
+                _basePath = basePath.TrimEnd('/', '\\', ' ');
+            }
+            else 
+            {
+                InitDialog();
+            }
             string jsName = "artdialog/artDialog.source.js?skin=" + skinName;
             RegisterJS(jsName);
             jsName = "artdialog/plugins/iframeTools.source.js";
@@ -119,6 +148,9 @@ namespace Buffalo.WebKernel.ARTDialog
             jsName = "artdialog/artDialogShow.js";
             RegisterJS(jsName);
         }
+
+        
+
         /// <summary>
         /// 获取关闭窗体的JS
         /// </summary>
@@ -151,7 +183,16 @@ namespace Buffalo.WebKernel.ARTDialog
         {
             if (!_curPage.ClientScript.IsClientScriptIncludeRegistered(jsName + "Include"))
             {
-                _curPage.ClientScript.RegisterClientScriptInclude(jsName + "Include", JsSaver.GetDefualtJsUrl(jsName));
+                string jsPath = null;
+                if (!string.IsNullOrEmpty(_basePath))
+                {
+                    jsPath = _basePath + "/" + jsName;
+                }
+                else 
+                {
+                    jsPath = JsSaver.GetDefualtJsUrl(jsName);
+                }
+                _curPage.ClientScript.RegisterClientScriptInclude(jsName + "Include", jsPath);
             }
         }
 

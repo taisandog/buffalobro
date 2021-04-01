@@ -22,11 +22,12 @@ namespace Buffalo.DB.BQLCommon.BQLConditions
         /// <param name="lstParam">参数列表</param>
         /// <param name="lstScope">范围查询集合</param>
         /// <returns></returns>
-        internal static BQLCondition FillCondition(BQLCondition condition, BQLTableHandle table, ScopeList lstScope, EntityInfoHandle entityInfo)
+        internal static BQLCondition FillCondition(BQLCondition condition, BQLTableHandle table, ScopeBaseList lstScope, EntityInfoHandle entityInfo)
         {
             BQLCondition ret = condition;
             if (lstScope == null)
             {
+                
                 return ret;
             }
             BQLCondition curHandle = null;
@@ -53,7 +54,11 @@ namespace Buffalo.DB.BQLCommon.BQLConditions
 
                 if (!Buffalo.Kernel.CommonMethods.IsNull(curHandle))
                 {
-                    if (objScope.ConnectType == ConnectType.And)
+                    if (CommonMethods.IsNull(ret))
+                    {
+                        ret = curHandle;
+                    }
+                    else if (objScope.ConnectType == ConnectType.And)
                     {
                         ret = ret & curHandle;
                     }

@@ -93,7 +93,7 @@ namespace Buffalo.DB.BQLCommon.BQLConditions
         /// <returns></returns>
         internal static BQLCondition IN(Scope scope, DbType dbType, string paramName, BQLCondition handle, BQLTableHandle table, EntityInfoHandle entityInfo)
         {
-            BQLValueTypeItem cvalue1 = new BQLValueTypeItem(scope.Value1);
+            //BQLValueTypeItem cvalue1 = new BQLValueTypeItem(scope.Value1);
 
             return table[paramName, dbType].In(scope.Value1 as IEnumerable);
         }
@@ -110,7 +110,7 @@ namespace Buffalo.DB.BQLCommon.BQLConditions
         /// <returns></returns>
         internal static BQLCondition NotIn(Scope scope, DbType dbType, string paramName, BQLCondition handle, BQLTableHandle table, EntityInfoHandle entityInfo)
         {
-            BQLValueTypeItem cvalue1 = new BQLValueTypeItem(scope.Value1);
+            //BQLValueTypeItem cvalue1 = new BQLValueTypeItem(scope.Value1);
 
             return table[paramName, dbType].NotIn(scope.Value1 as IEnumerable);
         }
