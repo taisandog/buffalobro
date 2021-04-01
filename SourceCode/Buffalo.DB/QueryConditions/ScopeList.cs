@@ -25,7 +25,7 @@ namespace Buffalo.DB.QueryConditions
             _showProperty = new ScopePropertyCollection(this);
             _hideProperty = new ScopePropertyCollection(this);
             _showChild = new ShowChildCollection();
-            _having = new ScopeBaseList();
+            _having = new ScopeBaseList(this);
         }
 
         

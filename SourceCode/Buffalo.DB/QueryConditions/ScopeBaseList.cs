@@ -15,6 +15,20 @@ namespace Buffalo.DB.QueryConditions
     /// </summary>
     public class ScopeBaseList : List<Scope>
     {
+        private ScopeBaseList _parentList;
+
+        public ScopeBaseList() { }
+        /// <summary>
+        /// 条件基集合语句
+        /// </summary>
+        /// <param name="parentList">所属集合</param>
+        public ScopeBaseList(ScopeBaseList parentList) 
+        {
+            _parentList = parentList;
+        }
+
+       
+
         private bool _hasInner = false;
 
         /// <summary>
@@ -26,7 +40,14 @@ namespace Buffalo.DB.QueryConditions
             {
                 return _hasInner;
             }
-            
+            set 
+            {
+                _hasInner = value;
+                if (_hasInner && _parentList != null)
+                {
+                    _parentList.HasInner = true;
+                }
+            }
         }
         /// <summary>
         /// 添加新条件的范围
@@ -48,7 +69,7 @@ namespace Buffalo.DB.QueryConditions
         /// <returns>返回是否添加成功</returns>
         public bool Add(BQLCondition where, ConnectType conntype)
         {
-            _hasInner = true;
+            HasInner = true;
             this.Add(new Scope(null, where, null, ScopeType.Condition, conntype));
             return true;
         }

@@ -77,6 +77,7 @@ namespace Buffalo.DB.BQLCommon.BQLKeyWordCommon
         //}
         internal override void Tran(KeyWordInfomation info)
         {
+            
             info.IsWhere = true;
             string strCondition = _condition.DisplayValue(info);
             info.Condition.Condition.Append(strCondition);

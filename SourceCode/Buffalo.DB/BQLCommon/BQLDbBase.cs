@@ -384,7 +384,7 @@ namespace Buffalo.DB.BQLCommon
         {
 
             List<BQLParamHandle> lstParams = GetParam(table, lstScope);
-            BQLCondition where = null;
+            BQLCondition where = BQLCondition.TrueValue;
             where = FillCondition(where, table, lstScope);
             BQLQuery bql = BQL.Select(lstParams.ToArray())
            .From(table)
