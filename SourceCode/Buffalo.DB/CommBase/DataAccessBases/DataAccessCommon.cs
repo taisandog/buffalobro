@@ -52,7 +52,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <param name="lstParam">参数列表</param>
         /// <param name="lstScope">范围查询集合</param>
         /// <returns></returns>
-        internal static string FillCondition(EntityInfoHandle curEntityInfo,ParamList lstParam, ScopeList lstScope)
+        internal static string FillCondition(EntityInfoHandle curEntityInfo,ParamList lstParam, ScopeBaseList lstScope)
         {
             int index = 0;
             return FillCondition(curEntityInfo,lstParam, lstScope, ref index);
@@ -67,7 +67,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <param name="CurEntityInfo">当前实体信息</param>
         /// <param name="index">索引</param>
         /// <returns></returns>
-        internal static string FillCondition(EntityInfoHandle curEntityInfo, ParamList lstParam, ScopeList lstScope, ref int index)
+        internal static string FillCondition(EntityInfoHandle curEntityInfo, ParamList lstParam, ScopeBaseList lstScope, ref int index)
         {
             if (lstScope == null)
             {

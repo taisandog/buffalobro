@@ -89,7 +89,11 @@ namespace Buffalo.DB.BQLCommon
             BQLQuery bql = BQL.Select(BQL.Count())
            .From(table)
            .Where(where);
-
+            if (lstScope.Having.Count > 0)
+            {
+                BQLCondition having = FillCondition(where, table, lstScope.Having);
+                bql = ((KeyWordWhereItem)bql).Having(having);
+            }
             //if(lstScope.GroupBy
 
             using (AbsCondition con = BQLKeyWordManager.ToCondition(bql, _oper.DBInfo, aliasManager, true))
@@ -380,12 +384,16 @@ namespace Buffalo.DB.BQLCommon
         {
 
             List<BQLParamHandle> lstParams = GetParam(table, lstScope);
-            BQLCondition where = BQLCondition.TrueValue;
+            BQLCondition where = null;
             where = FillCondition(where, table, lstScope);
             BQLQuery bql = BQL.Select(lstParams.ToArray())
            .From(table)
            .Where(where);
-
+            if (lstScope.Having.Count > 0) 
+            {
+                BQLCondition having = FillCondition(where, table, lstScope.Having);
+                bql = ((KeyWordWhereItem)bql).Having(having);
+            }
             if (lstScope.GroupBy.Count > 0)
             {
                 bql = new KeyWordGroupByItem(lstScope.GroupBy, bql);
@@ -722,6 +730,11 @@ namespace Buffalo.DB.BQLCommon
            .From(table)
            .Where(where)
            .OrderBy(GetSort(lstScope.OrderBy, table));
+            if (lstScope.Having.Count > 0)
+            {
+                BQLCondition having = FillCondition(where, table, lstScope.Having);
+                bql = ((KeyWordWhereItem)bql).Having(having);
+            }
             return ExistsRecord<E>(bql,lstScope.UseCache);
         }
 
@@ -785,6 +798,11 @@ namespace Buffalo.DB.BQLCommon
            .From(table)
            .Where(where)
            .OrderBy(GetSort(lstScope.OrderBy, table));
+            if (lstScope.Having.Count > 0)
+            {
+                BQLCondition having = FillCondition(where, table, lstScope.Having);
+                bql = ((KeyWordWhereItem)bql).Having(having);
+            }
             return GetUnique<E>(bql,lstScope.UseCache);
         }
 
@@ -840,7 +858,7 @@ namespace Buffalo.DB.BQLCommon
         /// <param name="table"></param>
         /// <param name="lstScope"></param>
         /// <param name="entityType"></param>
-        public BQLCondition FillCondition(BQLCondition condition, BQLTableHandle table, ScopeList lstScope, Type entityType)
+        public BQLCondition FillCondition(BQLCondition condition, BQLTableHandle table, ScopeBaseList lstScope, Type entityType)
         {
             BQLCondition ret;
             EntityInfoHandle entityInfo = null;
@@ -858,7 +876,7 @@ namespace Buffalo.DB.BQLCommon
         /// <param name="table"></param>
         /// <param name="lstScope"></param>
         /// <param name="entityType"></param>
-        public BQLCondition FillCondition(BQLCondition condition, BQLEntityTableHandle table, ScopeList lstScope)
+        public BQLCondition FillCondition(BQLCondition condition, BQLEntityTableHandle table, ScopeBaseList lstScope)
         {
             return BQLConditionScope.FillCondition(condition, table, lstScope, table.GetEntityInfo());
         }

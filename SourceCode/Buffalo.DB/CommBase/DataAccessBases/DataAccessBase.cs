@@ -361,7 +361,13 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             if (scopeList != null)
             {
                 condition.Condition.Append(DataAccessCommon.FillCondition(CurEntityInfo, list, scopeList));
+
+                if (scopeList.Having.Count>0 )
+                {
+                    condition.Having.Append(DataAccessCommon.FillCondition(CurEntityInfo, list, scopeList.Having));
+                }
             }
+            
             if (conditionWhere.Length > 0)
             {
                 condition.Condition.Append(conditionWhere);
