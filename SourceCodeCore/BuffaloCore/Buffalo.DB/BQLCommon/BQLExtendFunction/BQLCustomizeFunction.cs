@@ -24,9 +24,9 @@ namespace Buffalo.DB.BQLCommon.BQLExtendFunction
         /// <summary>
         /// 函数名
         /// </summary>
-        public string FunctionName
+        public string FunctionName 
         {
-            get
+            get 
             {
                 return _funName;
             }
@@ -42,7 +42,7 @@ namespace Buffalo.DB.BQLCommon.BQLExtendFunction
                 return _values;
             }
         }
-
+        
 
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace Buffalo.DB.BQLCommon.BQLExtendFunction
             this._values = values;
             this._valueDbType = returnType;
         }
-
+       
         /// <summary>
         /// 自定义函数
         /// </summary>
@@ -70,13 +70,13 @@ namespace Buffalo.DB.BQLCommon.BQLExtendFunction
             this._values = values;
             this._valueDbType = returnType;
         }
-
+       
 
         internal override void FillInfo(KeyWordInfomation info)
         {
-            if (_values != null && _values.Length > 0)
+            if (_values != null && _values.Length > 0) 
             {
-                foreach (BQLValueItem param in _values)
+                foreach (BQLValueItem param in _values) 
                 {
                     BQLValueItem.DoFillInfo(param, info);
                 }
@@ -85,7 +85,7 @@ namespace Buffalo.DB.BQLCommon.BQLExtendFunction
 
         internal override string DisplayValue(KeyWordInfomation info)
         {
-            if (_handle != null)
+            if (_handle != null) 
             {
                 return _handle(this, info);
             }
@@ -93,16 +93,16 @@ namespace Buffalo.DB.BQLCommon.BQLExtendFunction
             StringBuilder sb = new StringBuilder();
             if (_values != null)
             {
-                foreach (BQLValueItem value in _values)
+                foreach (BQLValueItem value in _values) 
                 {
                     sb.Append(value.DisplayValue(info) + ",");
                 }
-                if (sb.Length > 0)
+                if (sb.Length > 0) 
                 {
                     sb.Remove(sb.Length - 1, 1);
                 }
             }
-            StringBuilder sbRet = new StringBuilder(sb.Length + _funName.Length + 5);
+            StringBuilder sbRet = new StringBuilder(sb.Length+_funName.Length+5);
             sbRet.Append(_funName);
             sbRet.Append("(");
             sbRet.Append(sb.ToString());

@@ -294,6 +294,10 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             if (scopeList != null)
             {
                 condition.Condition.Append(DataAccessCommon.FillCondition(CurEntityInfo, list, scopeList));
+                if (scopeList.Having.Count > 0)
+                {
+                    condition.Having.Append(DataAccessCommon.FillCondition(CurEntityInfo, list, scopeList.Having));
+                }
             }
 
             if (conditionWhere.Length > 0)
@@ -361,7 +365,13 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             if (scopeList != null)
             {
                 condition.Condition.Append(DataAccessCommon.FillCondition(CurEntityInfo, list, scopeList));
+
+                if (scopeList.Having.Count>0 )
+                {
+                    condition.Having.Append(DataAccessCommon.FillCondition(CurEntityInfo, list, scopeList.Having));
+                }
             }
+            
             if (conditionWhere.Length > 0)
             {
                 condition.Condition.Append(conditionWhere);
@@ -433,6 +443,11 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             PrimaryKeyInfo pkInfo = id as PrimaryKeyInfo;
             if (pkInfo == null)
             {
+                if (CurEntityInfo.PrimaryProperty.Count <= 0)
+                {
+                    throw new MissingPrimaryKeyException("找不到：" + CurEntityInfo.EntityType.FullName + "的关联主键");
+                }
+
                 lstScope.AddEqual(CurEntityInfo.PrimaryProperty[0].PropertyName, id);
             }
             else 

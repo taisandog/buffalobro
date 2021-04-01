@@ -16,7 +16,7 @@ namespace Buffalo.DB.CommBase
     /// </summary>
     public class StaticConnection
     {
-        private const string SessionName = "___!!Buffalo.StaticConnections.";
+        private const string SessionName = "_$*&Buff.StConn.";
 
         /// <summary>
         /// 获取数据连接

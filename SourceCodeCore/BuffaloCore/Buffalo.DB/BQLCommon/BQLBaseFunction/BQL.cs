@@ -245,7 +245,7 @@ namespace Buffalo.DB.BQLCommon.BQLBaseFunction
         /// <param name="returnType">返回值类型</param>
         /// <param name="values">函数值</param>
         /// <returns></returns>
-        public static BQLCustomizeFunction Call(string functionName, DbType returnType, params BQLValueItem[] values)
+        public static BQLCustomizeFunction Call(string functionName,DbType returnType, params BQLValueItem[] values)
         {
             BQLCustomizeFunction handle = new BQLCustomizeFunction(functionName, returnType, values);
             return handle;

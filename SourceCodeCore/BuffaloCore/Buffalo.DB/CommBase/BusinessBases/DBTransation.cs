@@ -14,7 +14,6 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// 自释放事务类
         /// </summary>
         /// <param name="oper"></param>
-        /// <param name="runnow"></param>
         public DBTransaction(DataBaseOperate oper) 
         {
             _oper = oper;
