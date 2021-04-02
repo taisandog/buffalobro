@@ -99,6 +99,7 @@
     <Compile Include="MassBase.cs" />
     <Compile Include="MassManager.cs" />
     <Compile Include="NestedLock.cs" />
+    <Compile Include="ObjectEventsUnit.cs" />
     <Compile Include="PasswordHash.cs" />
     <Compile Include="Picture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

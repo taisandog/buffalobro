@@ -12,3 +12,17 @@ D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.DB\obj\Debug
 D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.DB\obj\Debug\netstandard2.0\Buffalo.DB.csproj.CopyComplete
 D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.DB\obj\Debug\netstandard2.0\Buffalo.DB.dll
 D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.DB\obj\Debug\netstandard2.0\Buffalo.DB.pdb
+D:\CSharpTest\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.DB\bin\Debug\netstandard2.0\Buffalo.DB.deps.json
+D:\CSharpTest\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.DB\bin\Debug\netstandard2.0\Buffalo.DB.dll
+D:\CSharpTest\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.DB\bin\Debug\netstandard2.0\Buffalo.DB.pdb
+D:\CSharpTest\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.DB\bin\Debug\netstandard2.0\Buffalo.Kernel.dll
+D:\CSharpTest\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.DB\bin\Debug\netstandard2.0\Buffalo.Kernel.pdb
+D:\CSharpTest\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.DB\obj\Debug\netstandard2.0\Buffalo.DB.csprojAssemblyReference.cache
+D:\CSharpTest\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.DB\obj\Debug\netstandard2.0\Buffalo.DB.Resource.resources
+D:\CSharpTest\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.DB\obj\Debug\netstandard2.0\Buffalo.DB.csproj.GenerateResource.cache
+D:\CSharpTest\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.DB\obj\Debug\netstandard2.0\Buffalo.DB.AssemblyInfoInputs.cache
+D:\CSharpTest\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.DB\obj\Debug\netstandard2.0\Buffalo.DB.AssemblyInfo.cs
+D:\CSharpTest\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.DB\obj\Debug\netstandard2.0\Buffalo.DB.csproj.CoreCompileInputs.cache
+D:\CSharpTest\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.DB\obj\Debug\netstandard2.0\Buffalo.DB.csproj.CopyComplete
+D:\CSharpTest\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.DB\obj\Debug\netstandard2.0\Buffalo.DB.dll
+D:\CSharpTest\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.DB\obj\Debug\netstandard2.0\Buffalo.DB.pdb

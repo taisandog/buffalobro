@@ -602,6 +602,69 @@ namespace Buffalo.DB.CacheManager
         }
 
         #region List方法
+#if NET_2_0 || NET_3_5
+         /// <summary>
+        /// 增加到列表
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="key">键</param>
+        /// <param name="index">索引(0为增加到头部，-1为增加到尾部)</param>
+        /// <param name="value">值</param>
+        /// <param name="setType">设置值方式</param>
+        /// <returns></returns>
+        public long ListAddValue<E>(string key,  E value, long index, SetValueType setType)
+        {
+            return _cache.ListAddValue<E>(key, index, value, setType, _db.DefaultOperate);
+        }
+        /// <summary>
+        /// 获取值
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="key">键</param>
+        /// <param name="index">值位置</param>
+        /// <param name="defaultValue">默认值</param>
+        /// <returns></returns>
+        public E ListGetValue<E>(string key, long index, E defaultValue)
+        {
+            return _cache.ListGetValue<E>(key, index, defaultValue, _db.DefaultOperate);
+        }
+        
+        /// <summary>
+        /// 获取集合所有值
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="key">键</param>
+        /// <param name="start">起始位置(默认0)</param>
+        /// <param name="end">结束位置(-1则为读到末尾)</param>
+        /// <returns></returns>
+        public List<E> ListAllValues<E>(string key, long start, long end)
+        {
+            return _cache.ListAllValues<E>(key, start, end, _db.DefaultOperate);
+        }
+        /// <summary>
+        /// 移除并返回值
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="key">键</param>
+        /// <param name="isPopEnd">是否从尾部移除(true则从尾部移除，否则从头部移除)</param>
+        /// <param name="defaultValue">默认值</param>
+        /// <returns></returns>
+        public E ListPopValue<E>(string key, bool isPopEnd, E defaultValue)
+        {
+            return _cache.ListPopValue<E>(key, isPopEnd,defaultValue, _db.DefaultOperate);
+        }
+        /// <summary>
+        /// 移除值
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="value">值</param>
+        /// <param name="count">要移除几个，0则为全部移除</param>
+        /// <returns></returns>
+        public long ListRemoveValue(string key, object value, long count)
+        {
+            return _cache.ListRemoveValue(key, value,count, _db.DefaultOperate);
+        }
+#else
         /// <summary>
         /// 增加到列表
         /// </summary>
@@ -627,17 +690,6 @@ namespace Buffalo.DB.CacheManager
         {
             return _cache.ListGetValue<E>(key, index, defaultValue, _db.DefaultOperate);
         }
-
-        /// <summary>
-        /// 获取集合长度
-        /// </summary>
-        /// <typeparam name="E"></typeparam>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        public long ListGetLength(string key)
-        {
-            return _cache.ListGetLength(key, _db.DefaultOperate);
-        }
         /// <summary>
         /// 移除并返回值
         /// </summary>
@@ -649,6 +701,18 @@ namespace Buffalo.DB.CacheManager
         public E ListPopValue<E>(string key, bool isPopEnd=true, E defaultValue=default(E))
         {
             return _cache.ListPopValue<E>(key, isPopEnd,defaultValue, _db.DefaultOperate);
+        }
+        /// <summary>
+        /// 获取集合所有值
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="key">键</param>
+        /// <param name="start">起始位置(默认0)</param>
+        /// <param name="end">结束位置(-1则为读到末尾)</param>
+        /// <returns></returns>
+        public List<E> ListAllValues<E>(string key, long start=0, long end=-1)
+        {
+            return _cache.ListAllValues<E>(key, start, end, _db.DefaultOperate);
         }
 
         /// <summary>
@@ -662,20 +726,24 @@ namespace Buffalo.DB.CacheManager
         {
             return _cache.ListRemoveValue(key, value,count, _db.DefaultOperate);
         }
+#endif
 
 
         /// <summary>
-        /// 获取集合所有值
+        /// 获取集合长度
         /// </summary>
         /// <typeparam name="E"></typeparam>
-        /// <param name="key">键</param>
-        /// <param name="start">起始位置(默认0)</param>
-        /// <param name="end">结束位置(-1则为读到末尾)</param>
+        /// <param name="key"></param>
         /// <returns></returns>
-        public List<E> ListAllValues<E>(string key, long start=0, long end=-1)
+        public long ListGetLength(string key)
         {
-            return _cache.ListAllValues<E>(key, start, end, _db.DefaultOperate);
+            return _cache.ListGetLength(key, _db.DefaultOperate);
         }
+        
+       
+
+
+        
         #endregion
 
         #region hash方法

@@ -1448,7 +1448,7 @@
             <param name="lstParam"></param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.BQLCommon.BQLConditions.BQLConditionScope.FillCondition(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLCondition,Buffalo.DB.BQLCommon.BQLConditionCommon.BQLTableHandle,Buffalo.DB.QueryConditions.ScopeList,Buffalo.DB.EntityInfos.EntityInfoHandle)">
+        <member name="M:Buffalo.DB.BQLCommon.BQLConditions.BQLConditionScope.FillCondition(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLCondition,Buffalo.DB.BQLCommon.BQLConditionCommon.BQLTableHandle,Buffalo.DB.QueryConditions.ScopeBaseList,Buffalo.DB.EntityInfos.EntityInfoHandle)">
             <summary>
             填充查询条件并返回条件的SQL语句( and 开头)
             </summary>
@@ -1921,7 +1921,7 @@
             <param name="BQL"></param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.BQLCommon.BQLDbBase.FillCondition(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLCondition,Buffalo.DB.BQLCommon.BQLConditionCommon.BQLTableHandle,Buffalo.DB.QueryConditions.ScopeList,System.Type)">
+        <member name="M:Buffalo.DB.BQLCommon.BQLDbBase.FillCondition(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLCondition,Buffalo.DB.BQLCommon.BQLConditionCommon.BQLTableHandle,Buffalo.DB.QueryConditions.ScopeBaseList,System.Type)">
             <summary>
             填充信息
             </summary>
@@ -1930,7 +1930,7 @@
             <param name="lstScope"></param>
             <param name="entityType"></param>
         </member>
-        <member name="M:Buffalo.DB.BQLCommon.BQLDbBase.FillCondition(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLCondition,Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityTableHandle,Buffalo.DB.QueryConditions.ScopeList)">
+        <member name="M:Buffalo.DB.BQLCommon.BQLDbBase.FillCondition(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLCondition,Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityTableHandle,Buffalo.DB.QueryConditions.ScopeBaseList)">
             <summary>
             填充信息
             </summary>
@@ -5192,7 +5192,6 @@
             自释放事务类
             </summary>
             <param name="oper"></param>
-            <param name="runnow"></param>
         </member>
         <member name="P:Buffalo.DB.CommBase.BusinessBases.DBTransaction.Runnow">
             <summary>
@@ -5842,7 +5841,7 @@
             <param name="index">当前的标识</param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.CommBase.DataAccessBases.DataAccessCommon.FillCondition(Buffalo.DB.EntityInfos.EntityInfoHandle,Buffalo.DB.DbCommon.ParamList,Buffalo.DB.QueryConditions.ScopeList)">
+        <member name="M:Buffalo.DB.CommBase.DataAccessBases.DataAccessCommon.FillCondition(Buffalo.DB.EntityInfos.EntityInfoHandle,Buffalo.DB.DbCommon.ParamList,Buffalo.DB.QueryConditions.ScopeBaseList)">
             <summary>
             填充查询条件并返回条件的SQL语句( and 开头)
             </summary>
@@ -5850,7 +5849,7 @@
             <param name="lstScope">范围查询集合</param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.CommBase.DataAccessBases.DataAccessCommon.FillCondition(Buffalo.DB.EntityInfos.EntityInfoHandle,Buffalo.DB.DbCommon.ParamList,Buffalo.DB.QueryConditions.ScopeList,System.Int32@)">
+        <member name="M:Buffalo.DB.CommBase.DataAccessBases.DataAccessCommon.FillCondition(Buffalo.DB.EntityInfos.EntityInfoHandle,Buffalo.DB.DbCommon.ParamList,Buffalo.DB.QueryConditions.ScopeBaseList,System.Int32@)">
             <summary>
             填充查询条件并返回条件的SQL语句( and 开头)
             </summary>
@@ -11156,6 +11155,511 @@
             返回此条件对应的属性
             </summary>
         </member>
+        <member name="T:Buffalo.DB.QueryConditions.ScopeBaseList">
+            <summary>
+            条件基集合语句
+            </summary>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.#ctor(Buffalo.DB.QueryConditions.ScopeBaseList)">
+            <summary>
+            条件基集合语句
+            </summary>
+            <param name="parentList">所属集合</param>
+        </member>
+        <member name="P:Buffalo.DB.QueryConditions.ScopeBaseList.HasInner">
+            <summary>
+            判断是否有多表查询
+            </summary>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddScopeList(Buffalo.DB.QueryConditions.ScopeList,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新条件的范围
+            </summary>
+            <param name="lstScope">条件集合</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.Add(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLCondition,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新条件的范围
+            </summary>
+            <param name="where">条件</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.IsInnerTable(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle)">
+            <summary>
+            判断是否多表
+            </summary>
+            <param name="property"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddBetween(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的范围
+            </summary>
+            <param name="property">属性</param>
+            <param name="minValue">最小值</param>
+            <param name="maxValue">最大值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddBetween(System.String,System.Object,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的范围
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="minValue">最小值</param>
+            <param name="maxValue">最大值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddContains(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的范围
+            </summary>
+            <param name="property">属性</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddContains(System.String,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的范围
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddMore(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的大于条件
+            </summary>
+            <param name="property">属性名</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddMore(System.String,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的大于条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddMoreThen(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的大于等于条件
+            </summary>
+            <param name="property">属性名</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddMoreThen(System.String,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的大于等于条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddLessThen(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的小于等于条件
+            </summary>
+            <param name="property">属性名</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddLessThen(System.String,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的小于等于条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddLess(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的小于条件
+            </summary>
+            <param name="property">属性名</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddLess(System.String,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的小于条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddIn(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Collections.IEnumerable,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的In条件(如果集合为空，则返回1=2)
+            </summary>
+            <param name="property">属性名</param>
+            <param name="valuesCollection">值集合</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddIn(System.String,System.Collections.IEnumerable,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的In条件(如果集合为空，则返回1=2)
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="valuesCollection">值集合</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddNotIn(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Collections.IEnumerable,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的NotIn条件(如果集合为空，则返回1=1)
+            </summary>
+            <param name="property">属性名</param>
+            <param name="valuesCollection">值集合</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddNotIn(System.String,System.Collections.IEnumerable,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的NotIn条件(如果集合为空，则返回1=1)
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="valuesCollection">值集合</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddNotEqual(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的不等于条件
+            </summary>
+            <param name="property">属性名</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddNotEqual(System.String,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的不等于条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddEqual(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的等于条件
+            </summary>
+            <param name="property">属性名</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddEqual(System.String,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的等于条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddLike(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的Like条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddLike(System.String,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的Like条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddStarWith(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的StarWith条件
+            </summary>
+            <param name="property">属性名</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddStarWith(System.String,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的StarWith条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddEndWith(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的EndWith条件
+            </summary>
+            <param name="property">属性名</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddEndWith(System.String,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的EndWith条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddBetween(System.String,System.Object,System.Object)">
+            <summary>
+            添加新的范围
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="minValue">最小值</param>
+            <param name="maxValue">最大值</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddContains(System.String,System.Object)">
+            <summary>
+            添加新的范围
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddMore(System.String,System.Object)">
+            <summary>
+            添加新的大于条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddMoreThen(System.String,System.Object)">
+            <summary>
+            添加新的大于等于条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddLessThen(System.String,System.Object)">
+            <summary>
+            添加新的小于等于条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddLess(System.String,System.Object)">
+            <summary>
+            添加新的小于条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddIn(System.String,System.Collections.IEnumerable)">
+            <summary>
+            添加新的In条件(如果集合为空，则返回1=2)
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="valuesCollection">值集合</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddNotIn(System.String,System.Collections.IEnumerable)">
+            <summary>
+            添加新的NotIn条件(如果集合为空，则返回1=1)
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="valuesCollection">值集合</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddNotEqual(System.String,System.Object)">
+            <summary>
+            添加新的不等于条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddEqual(System.String,System.Object)">
+            <summary>
+            添加新的等于条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddLike(System.String,System.Object)">
+            <summary>
+            添加新的等于条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddBetween(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,System.Object)">
+            <summary>
+            添加新的范围
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="minValue">最小值</param>
+            <param name="maxValue">最大值</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddContains(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object)">
+            <summary>
+            添加新的范围
+            </summary>
+            <param name="property">属性</param>
+            <param name="value">最小值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddMore(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object)">
+            <summary>
+            添加新的大于条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddMoreThen(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object)">
+            <summary>
+            添加新的大于等于条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddLessThen(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object)">
+            <summary>
+            添加新的小于等于条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddLess(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object)">
+            <summary>
+            添加新的小于条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddIn(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Collections.IEnumerable)">
+            <summary>
+            添加新的In条件(如果集合为空，则返回1=2)
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="valuesCollection">值集合</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddNotIn(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Collections.IEnumerable)">
+            <summary>
+            添加新的NotIn条件(如果集合为空，则返回1=1)
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="valuesCollection">值集合</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddNotEqual(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object)">
+            <summary>
+            添加新的不等于条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddEqual(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object)">
+            <summary>
+            添加新的等于条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddLike(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object)">
+            <summary>
+            添加新的等于条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddStarWith(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object)">
+            <summary>
+            添加新的StarWith条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddStarWith(System.String,System.Object)">
+            <summary>
+            添加新的StarWith条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddEndWith(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object)">
+            <summary>
+            添加新的EndWith条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddEndWith(System.String,System.Object)">
+            <summary>
+            添加新的EndWith条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddScopeList(Buffalo.DB.QueryConditions.ScopeList)">
+            <summary>
+            添加新条件的范围
+            </summary>
+            <param name="lstScope">条件集合</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.Add(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLCondition)">
+            <summary>
+            添加新条件的范围
+            </summary>
+            <param name="where">条件</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
         <member name="T:Buffalo.DB.QueryConditions.ScopeList">
             <summary>
             查找条件的集合
@@ -11203,11 +11707,6 @@
             查询时候要隐藏哪些属性的集合
             </summary>
         </member>
-        <member name="P:Buffalo.DB.QueryConditions.ScopeList.HasInner">
-            <summary>
-            判断是否有多表查询
-            </summary>
-        </member>
         <member name="P:Buffalo.DB.QueryConditions.ScopeList.OrderBy">
             <summary>
             排序
@@ -11228,495 +11727,6 @@
             判断是否有排序
             </summary>
         </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddScopeList(Buffalo.DB.QueryConditions.ScopeList,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新条件的范围
-            </summary>
-            <param name="lstScope">条件集合</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.Add(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLCondition,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新条件的范围
-            </summary>
-            <param name="where">条件</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.IsInnerTable(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle)">
-            <summary>
-            判断是否多表
-            </summary>
-            <param name="property"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddBetween(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的范围
-            </summary>
-            <param name="property">属性</param>
-            <param name="minValue">最小值</param>
-            <param name="maxValue">最大值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddBetween(System.String,System.Object,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的范围
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="minValue">最小值</param>
-            <param name="maxValue">最大值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddContains(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的范围
-            </summary>
-            <param name="property">属性</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddContains(System.String,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的范围
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddMore(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的大于条件
-            </summary>
-            <param name="property">属性名</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddMore(System.String,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的大于条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddMoreThen(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的大于等于条件
-            </summary>
-            <param name="property">属性名</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddMoreThen(System.String,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的大于等于条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddLessThen(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的小于等于条件
-            </summary>
-            <param name="property">属性名</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddLessThen(System.String,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的小于等于条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddLess(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的小于条件
-            </summary>
-            <param name="property">属性名</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddLess(System.String,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的小于条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddIn(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Collections.IEnumerable,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的In条件(如果集合为空，则返回1=2)
-            </summary>
-            <param name="property">属性名</param>
-            <param name="valuesCollection">值集合</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddIn(System.String,System.Collections.IEnumerable,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的In条件(如果集合为空，则返回1=2)
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="valuesCollection">值集合</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddNotIn(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Collections.IEnumerable,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的NotIn条件(如果集合为空，则返回1=1)
-            </summary>
-            <param name="property">属性名</param>
-            <param name="valuesCollection">值集合</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddNotIn(System.String,System.Collections.IEnumerable,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的NotIn条件(如果集合为空，则返回1=1)
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="valuesCollection">值集合</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddNotEqual(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的不等于条件
-            </summary>
-            <param name="property">属性名</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddNotEqual(System.String,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的不等于条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddEqual(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的等于条件
-            </summary>
-            <param name="property">属性名</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddEqual(System.String,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的等于条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddLike(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的Like条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddLike(System.String,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的Like条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddStarWith(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的StarWith条件
-            </summary>
-            <param name="property">属性名</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddStarWith(System.String,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的StarWith条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddEndWith(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的EndWith条件
-            </summary>
-            <param name="property">属性名</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddEndWith(System.String,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的EndWith条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddBetween(System.String,System.Object,System.Object)">
-            <summary>
-            添加新的范围
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="minValue">最小值</param>
-            <param name="maxValue">最大值</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddContains(System.String,System.Object)">
-            <summary>
-            添加新的范围
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddMore(System.String,System.Object)">
-            <summary>
-            添加新的大于条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddMoreThen(System.String,System.Object)">
-            <summary>
-            添加新的大于等于条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddLessThen(System.String,System.Object)">
-            <summary>
-            添加新的小于等于条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddLess(System.String,System.Object)">
-            <summary>
-            添加新的小于条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddIn(System.String,System.Collections.IEnumerable)">
-            <summary>
-            添加新的In条件(如果集合为空，则返回1=2)
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="valuesCollection">值集合</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddNotIn(System.String,System.Collections.IEnumerable)">
-            <summary>
-            添加新的NotIn条件(如果集合为空，则返回1=1)
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="valuesCollection">值集合</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddNotEqual(System.String,System.Object)">
-            <summary>
-            添加新的不等于条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddEqual(System.String,System.Object)">
-            <summary>
-            添加新的等于条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddLike(System.String,System.Object)">
-            <summary>
-            添加新的等于条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddBetween(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,System.Object)">
-            <summary>
-            添加新的范围
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="minValue">最小值</param>
-            <param name="maxValue">最大值</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddContains(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object)">
-            <summary>
-            添加新的范围
-            </summary>
-            <param name="property">属性</param>
-            <param name="value">最小值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddMore(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object)">
-            <summary>
-            添加新的大于条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddMoreThen(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object)">
-            <summary>
-            添加新的大于等于条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddLessThen(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object)">
-            <summary>
-            添加新的小于等于条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddLess(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object)">
-            <summary>
-            添加新的小于条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddIn(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Collections.IEnumerable)">
-            <summary>
-            添加新的In条件(如果集合为空，则返回1=2)
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="valuesCollection">值集合</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddNotIn(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Collections.IEnumerable)">
-            <summary>
-            添加新的NotIn条件(如果集合为空，则返回1=1)
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="valuesCollection">值集合</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddNotEqual(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object)">
-            <summary>
-            添加新的不等于条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddEqual(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object)">
-            <summary>
-            添加新的等于条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddLike(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object)">
-            <summary>
-            添加新的等于条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddStarWith(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object)">
-            <summary>
-            添加新的StarWith条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddStarWith(System.String,System.Object)">
-            <summary>
-            添加新的StarWith条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddEndWith(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object)">
-            <summary>
-            添加新的EndWith条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddEndWith(System.String,System.Object)">
-            <summary>
-            添加新的EndWith条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddScopeList(Buffalo.DB.QueryConditions.ScopeList)">
-            <summary>
-            添加新条件的范围
-            </summary>
-            <param name="lstScope">条件集合</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.Add(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLCondition)">
-            <summary>
-            添加新条件的范围
-            </summary>
-            <param name="where">条件</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
         <member name="M:Buffalo.DB.QueryConditions.ScopeList.ToXmlString">
             <summary>
             把范围集合转成XML字符串
@@ -11729,6 +11739,11 @@
             </summary>
             <param name="xmlString">xml字符串</param>
             <returns></returns>
+        </member>
+        <member name="P:Buffalo.DB.QueryConditions.ScopeList.Having">
+            <summary>
+            Having字句
+            </summary>
         </member>
         <member name="M:Buffalo.DB.QueryConditions.ScopeXmlExtend.GetScopeXml(Buffalo.DB.QueryConditions.ScopeList,System.Text.Encoding,System.IO.Stream)">
             <summary>

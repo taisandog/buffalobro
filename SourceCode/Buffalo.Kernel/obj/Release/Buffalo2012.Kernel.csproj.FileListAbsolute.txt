@@ -4,3 +4,9 @@ D:\workspace\GitProjects\Buffalo\SourceCode\Release\2012\Buffalo.Kernel.pdb
 D:\workspace\GitProjects\Buffalo\SourceCode\Buffalo.Kernel\obj\Release\Buffalo2012.Kernel.csproj.CoreCompileInputs.cache
 D:\workspace\GitProjects\Buffalo\SourceCode\Buffalo.Kernel\obj\Release\Buffalo.Kernel.dll
 D:\workspace\GitProjects\Buffalo\SourceCode\Buffalo.Kernel\obj\Release\Buffalo.Kernel.pdb
+D:\CSharpTest\GitProjects\Buffalo\SourceCode\Release\2012\Buffalo.Kernel.XML
+D:\CSharpTest\GitProjects\Buffalo\SourceCode\Release\2012\Buffalo.Kernel.dll
+D:\CSharpTest\GitProjects\Buffalo\SourceCode\Release\2012\Buffalo.Kernel.pdb
+D:\CSharpTest\GitProjects\Buffalo\SourceCode\Buffalo.Kernel\obj\Release\Buffalo2012.Kernel.csproj.CoreCompileInputs.cache
+D:\CSharpTest\GitProjects\Buffalo\SourceCode\Buffalo.Kernel\obj\Release\Buffalo.Kernel.dll
+D:\CSharpTest\GitProjects\Buffalo\SourceCode\Buffalo.Kernel\obj\Release\Buffalo.Kernel.pdb

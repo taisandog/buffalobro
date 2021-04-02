@@ -5637,22 +5637,25 @@
   },
   "packageFolders": {
     "C:\\Users\\taisandog\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.5.1",
     "restore": {
-      "projectUniqueName": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.MQ\\Buffalo.MQ.csproj",
+      "projectUniqueName": "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.MQ\\Buffalo.MQ.csproj",
       "projectName": "Buffalo.MQ",
-      "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.MQ\\Buffalo.MQ.csproj",
+      "projectPath": "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.MQ\\Buffalo.MQ.csproj",
       "packagesPath": "C:\\Users\\taisandog\\.nuget\\packages\\",
-      "outputPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.MQ\\obj\\",
+      "outputPath": "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.MQ\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
         "C:\\Users\\taisandog\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -5660,18 +5663,17 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "E:\\BuffaloPackage": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "netstandard2.0": {
           "targetAlias": "netstandard2.0",
           "projectReferences": {
-            "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.ArgCommon\\Buffalo.ArgCommon.csproj": {
-              "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.ArgCommon\\Buffalo.ArgCommon.csproj"
+            "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.ArgCommon\\Buffalo.ArgCommon.csproj": {
+              "projectPath": "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.ArgCommon\\Buffalo.ArgCommon.csproj"
             },
-            "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\Buffalo.Kernel.csproj": {
-              "projectPath": "D:\\workspace\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\Buffalo.Kernel.csproj"
+            "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\Buffalo.Kernel.csproj": {
+              "projectPath": "D:\\CSharpTest\\GitProjects\\Buffalo\\SourceCodeCore\\BuffaloCore\\Buffalo.Kernel\\Buffalo.Kernel.csproj"
             }
           }
         }
@@ -5719,7 +5721,7 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
       }
     }
   }

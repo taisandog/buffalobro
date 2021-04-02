@@ -276,6 +276,7 @@
     <Compile Include="QueryConditions\InsertCondition.cs" />
     <Compile Include="QueryConditions\PageContent.cs" />
     <Compile Include="QueryConditions\Scope.cs" />
+    <Compile Include="QueryConditions\ScopeBaseList.cs" />
     <Compile Include="QueryConditions\ScopeList.cs" />
     <Compile Include="QueryConditions\ScopeXmlExtend.cs" />
     <Compile Include="QueryConditions\SelectCondition.cs" />

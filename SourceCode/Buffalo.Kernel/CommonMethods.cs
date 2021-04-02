@@ -947,5 +947,6 @@ namespace Buffalo.Kernel
         {
             ObjectEventsUnit.ClearAllEvents(objectHasEvents);
         }
+
     }
 }

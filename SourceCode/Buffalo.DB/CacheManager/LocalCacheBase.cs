@@ -2,9 +2,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Buffalo.DB.CacheManager
 {
@@ -47,7 +46,7 @@ namespace Buffalo.DB.CacheManager
                 {
                     index = lst.Count - 1;
                 }
-                return lst[(int)index].ConvertTo<E>(defaultValue);
+                return ValueConvertExtend.ConvertValue<E>(lst[(int)index],defaultValue);
             }
         }
 
@@ -75,7 +74,7 @@ namespace Buffalo.DB.CacheManager
                 {
                     index = lst.Count - 1;
                 }
-                ret = lst[index].ConvertTo<E>(defaultValue);
+                ret = ValueConvertExtend.ConvertValue<E>(lst[index],defaultValue);
                 lst.RemoveAt(index);
                 return ret;
             }
@@ -119,7 +118,7 @@ namespace Buffalo.DB.CacheManager
                 for (int i = s; i < e; i++)
                 {
                     object oval = lst;
-                    retlst.Add(oval.ConvertTo<E>());
+                    retlst.Add(ValueConvertExtend.ConvertValue<E>(oval));
                 }
                 return retlst;
             }
@@ -201,7 +200,7 @@ namespace Buffalo.DB.CacheManager
             IDictionary dic = GetCacheHash(key);
             lock (dic)
             {
-                return dic[hashkey].ConvertTo<E>(defaultValue);
+                return ValueConvertExtend.ConvertValue<E>(dic[hashkey],defaultValue);
             }
         }
         /// <summary>
@@ -222,8 +221,8 @@ namespace Buffalo.DB.CacheManager
             {
                 foreach (IDictionaryEnumerator kvp in dic)
                 {
-                    val = kvp.Value.ConvertTo<V>(defaultValue);
-                    vkey = kvp.Key.ConvertTo<K>();
+                    val = ValueConvertExtend.ConvertValue<V>(kvp.Value,defaultValue);
+                    vkey = ValueConvertExtend.ConvertValue<K>(kvp.Key);
                     ret.Add(new KeyValuePair<K, V>(vkey, val));
                 }
                 return ret;
@@ -280,7 +279,7 @@ namespace Buffalo.DB.CacheManager
             IDictionary dic = GetCacheHash(key);
             lock (dic)
             {
-                long num = ValueConvertExtend.GetMapValue<long>(dic, hashkey);
+                long num = ValueConvertExtend.GetMapDataValue<long>(dic, hashkey);
                 num += value;
                 dic[hashkey] = num;
                 return num;
@@ -292,7 +291,7 @@ namespace Buffalo.DB.CacheManager
             IDictionary dic = GetCacheHash(key);
             lock (dic)
             {
-                long num = ValueConvertExtend.GetMapValue<long>(dic, hashkey);
+                long num = ValueConvertExtend.GetMapDataValue<long>(dic, hashkey);
                 num -= value;
                 dic[hashkey] = num;
                 return num;

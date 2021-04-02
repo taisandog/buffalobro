@@ -7,7 +7,7 @@
   "targets": {
     ".NETStandard,Version=v2.0": {},
     ".NETStandard,Version=v2.0/": {
-      "Buffalo.DB/1.4.1": {
+      "Buffalo.DB/1.4.2": {
         "dependencies": {
           "Buffalo.Kernel": "1.2.5",
           "Microsoft.AspNetCore.Hosting.Abstractions": "2.2.0",
@@ -386,7 +386,7 @@
     }
   },
   "libraries": {
-    "Buffalo.DB/1.4.1": {
+    "Buffalo.DB/1.4.2": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

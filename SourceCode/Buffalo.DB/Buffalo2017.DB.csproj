@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Buffalo.DB</RootNamespace>
     <AssemblyName>Buffalo.DB</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
@@ -278,6 +278,7 @@
     <Compile Include="QueryConditions\InsertCondition.cs" />
     <Compile Include="QueryConditions\PageContent.cs" />
     <Compile Include="QueryConditions\Scope.cs" />
+    <Compile Include="QueryConditions\ScopeBaseList.cs" />
     <Compile Include="QueryConditions\ScopeList.cs" />
     <Compile Include="QueryConditions\ScopeXmlExtend.cs" />
     <Compile Include="QueryConditions\SelectCondition.cs" />
