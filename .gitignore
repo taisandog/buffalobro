@@ -1,6 +1,8 @@
 
 *.cache
 *.force
+*/obj/*
+*/bin/*
 SourceCode/.vs/BuffalobroCode2019/v16/Server/sqlite3/storage.ide-wal
 SourceCode/.vs/BuffalobroCode2019/v16/Server/sqlite3/storage.ide-shm
 SourceCode/.vs/BuffalobroCode2019/v16/Server/sqlite3/storage.ide
