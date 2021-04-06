@@ -1,4 +1,0 @@
-D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.Data.DB2\obj\Debug\netstandard2.0\Buffalo.Data.DB2.csprojAssemblyReference.cache
-D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.Data.DB2\obj\Debug\netstandard2.0\Buffalo.Data.DB2.AssemblyInfoInputs.cache
-D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.Data.DB2\obj\Debug\netstandard2.0\Buffalo.Data.DB2.AssemblyInfo.cs
-D:\workspace\GitProjects\Buffalo\SourceCodeCore\BuffaloCore\Buffalo.Data.DB2\obj\Debug\netstandard2.0\Buffalo.Data.DB2.csproj.CoreCompileInputs.cache
