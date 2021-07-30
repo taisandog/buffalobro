@@ -40,8 +40,8 @@ namespace Buffalo.MQ.RabbitMQ
 
            
         }
+        private static Encoding DefaultEncoding = Encoding.UTF8;
 
-        
         /// <summary>
         /// RabbitMQ适配
         /// </summary>
@@ -86,11 +86,23 @@ namespace Buffalo.MQ.RabbitMQ
         /// <param name="routingKey"></param>
         /// <param name="body"></param>
         /// <returns></returns>
-        protected override APIResault SendMessage(string routingKey,byte[] body)
+        protected override APIResault SendMessage(string routingKey, byte[] body)
         {
-            
-            _channel.BasicPublish(_config.ExchangeName, routingKey, false,null, body);
+
+            _channel.BasicPublish(_config.ExchangeName, routingKey, false, null, body);
             return ApiCommon.GetSuccess();
+        }
+            /// <summary>
+            /// 发布内容
+            /// </summary>
+            /// <param name="routingKey"></param>
+            /// <param name="body"></param>
+            /// <returns></returns>
+        protected override APIResault SendMessage(string routingKey,string body)
+        {
+
+            byte[] content = DefaultEncoding.GetBytes(body);
+            return SendMessage(routingKey, body);
         }
         /// <summary>
         /// 删除队列(Rabbit可用)

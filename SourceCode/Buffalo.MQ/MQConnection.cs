@@ -65,6 +65,19 @@ namespace Buffalo.MQ
             return res;
         }
         /// <summary>
+        /// 发送信息
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="body"></param>
+        /// <returns></returns>
+        public APIResault Send(string key, string body)
+        {
+            Open();
+            APIResault res = SendMessage(key, body);
+            AutoClose();
+            return res;
+        }
+        /// <summary>
         /// 开启事务
         /// </summary>
         /// <returns></returns>
@@ -144,7 +157,13 @@ namespace Buffalo.MQ
         /// <param name="body">内容</param>
         /// <returns></returns>
         protected abstract APIResault SendMessage(string key, byte[] body);
-
+        /// <summary>
+        /// 发布内容
+        /// </summary>
+        /// <param name="key">筛选的键</param>
+        /// <param name="body">内容</param>
+        /// <returns></returns>
+        protected abstract APIResault SendMessage(string key, string body);
         /// <summary>
         /// 删除队列(Rabbit可用)
         /// </summary>

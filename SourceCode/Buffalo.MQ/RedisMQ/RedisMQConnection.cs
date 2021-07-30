@@ -21,7 +21,7 @@ namespace Buffalo.MQ.RedisMQ
         /// 配置
         /// </summary>
         RedisMQConfig _config;
-
+        private static Encoding DefaultEncoding = Encoding.UTF8;
         private Queue<MQRedisMessage> _que = null;
         private IDatabase _db;
         /// <summary>
@@ -106,7 +106,11 @@ namespace Buffalo.MQ.RedisMQ
 
             return ApiCommon.GetSuccess();
         }
-        
+        protected override APIResault SendMessage(string key, string body)
+        {
+            byte[] content = DefaultEncoding.GetBytes(body);
+            return SendMessage(key, body);
+        }
         /// <summary>
         /// 发送信息
         /// </summary>

@@ -105,6 +105,12 @@ namespace Buffalo.MQ.KafkaMQ
             _queResault.Enqueue(delRes);
             return ApiCommon.GetSuccess();
         }
+        protected override APIResault SendMessage(string key, string body)
+        {
+            byte[] content = DefaultEncoding.GetBytes(body);
+            return SendMessage(key, body);
+        }
+
         /// <summary>
         /// 清空缓冲区
         /// </summary>
