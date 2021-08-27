@@ -169,7 +169,9 @@ namespace Buffalo.MQ
         protected virtual APIResault SendMessage(string key, string body)
         {
             byte[] content = DefaultEncoding.GetBytes(body);
+
             return SendMessage(key, content);
+
         }
         /// <summary>
         /// 删除队列(Rabbit可用)

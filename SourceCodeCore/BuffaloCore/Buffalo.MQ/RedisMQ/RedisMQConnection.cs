@@ -109,7 +109,7 @@ namespace Buffalo.MQ.RedisMQ
 
             return ApiCommon.GetSuccess();
         }
-       
+
         /// <summary>
         /// 发送信息
         /// </summary>
