@@ -21,7 +21,7 @@ namespace Buffalo.MQ.RedisMQ
         /// 配置
         /// </summary>
         RedisMQConfig _config;
-        private static Encoding DefaultEncoding = Encoding.UTF8;
+        
         private Queue<MQRedisMessage> _que = null;
         private IDatabase _db;
         /// <summary>
@@ -106,11 +106,7 @@ namespace Buffalo.MQ.RedisMQ
 
             return ApiCommon.GetSuccess();
         }
-        protected override APIResault SendMessage(string key, string body)
-        {
-            byte[] content = DefaultEncoding.GetBytes(body);
-            return SendMessage(key, body);
-        }
+        
         /// <summary>
         /// 发送信息
         /// </summary>
@@ -118,19 +114,27 @@ namespace Buffalo.MQ.RedisMQ
         /// <param name="body"></param>
         private void SendToPublic(string routingKey, byte[] body)
         {
-            if (_config.SaveToQueue)
+            if (_config.Mode == RedisMQMessageMode.Subscriber)
             {
-               
+                if (_config.SaveToQueue)
+                {
+
+                    string key = RedisMQConfig.BuffaloMQHead + routingKey;
+                    IDatabase db = GetDB();
+                    db.ListLeftPush(key, body);
+                    _subscriber.Publish(routingKey, RedisMQConfig.PublicTag, _config.CommanfFlags);
+                }
+                else
+                {
+                    _subscriber.Publish(routingKey, body, _config.CommanfFlags);
+                }
+            }
+            else 
+            {
                 string key = RedisMQConfig.BuffaloMQHead + routingKey;
                 IDatabase db = GetDB();
                 db.ListLeftPush(key, body);
-                _subscriber.Publish(routingKey, RedisMQConfig.PublicTag, _config.CommanfFlags);
             }
-            else
-            {
-                _subscriber.Publish(routingKey, body, _config.CommanfFlags);
-            }
-            
         }
         /// <summary>
         /// 删除队列(Rabbit可用)

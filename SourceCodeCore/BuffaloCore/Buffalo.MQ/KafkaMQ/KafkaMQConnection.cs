@@ -24,7 +24,6 @@ namespace Buffalo.MQ.KafkaMQ
         /// </summary>
         private IProducer<byte[], byte[]> _tranProducer;
 
-        private static Encoding DefaultEncoding = Encoding.UTF8;
         /// <summary>
         /// 队列
         /// </summary>
@@ -105,6 +104,8 @@ namespace Buffalo.MQ.KafkaMQ
             _queResault.Enqueue(delRes);
             return ApiCommon.GetSuccess();
         }
+       
+
         /// <summary>
         /// 清空缓冲区
         /// </summary>

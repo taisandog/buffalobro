@@ -21,7 +21,7 @@ namespace Buffalo.MQ.RedisMQ
         /// 配置
         /// </summary>
         RedisMQConfig _config;
-
+        
         private Queue<MQRedisMessage> _que = null;
         private IDatabase _db;
         /// <summary>
@@ -54,9 +54,12 @@ namespace Buffalo.MQ.RedisMQ
             {
                 _redis = CreateManager(_config.Options);
             }
-            if (_subscriber == null)
+            if (_config.Mode == RedisMQMessageMode.Subscriber)
             {
-                _subscriber = _redis.GetSubscriber();
+                if (_subscriber == null)
+                {
+                    _subscriber = _redis.GetSubscriber();
+                }
             }
         }
         /// <summary>
@@ -106,7 +109,7 @@ namespace Buffalo.MQ.RedisMQ
 
             return ApiCommon.GetSuccess();
         }
-        
+       
         /// <summary>
         /// 发送信息
         /// </summary>
@@ -114,19 +117,27 @@ namespace Buffalo.MQ.RedisMQ
         /// <param name="body"></param>
         private void SendToPublic(string routingKey, byte[] body)
         {
-            if (_config.SaveToQueue)
+            if (_config.Mode == RedisMQMessageMode.Subscriber)
             {
-               
+                if (_config.SaveToQueue)
+                {
+
+                    string key = RedisMQConfig.BuffaloMQHead + routingKey;
+                    IDatabase db = GetDB();
+                    db.ListLeftPush(key, body);
+                    _subscriber.Publish(routingKey, RedisMQConfig.PublicTag, _config.CommanfFlags);
+                }
+                else
+                {
+                    _subscriber.Publish(routingKey, body, _config.CommanfFlags);
+                }
+            }
+            else 
+            {
                 string key = RedisMQConfig.BuffaloMQHead + routingKey;
                 IDatabase db = GetDB();
                 db.ListLeftPush(key, body);
-                _subscriber.Publish(routingKey, RedisMQConfig.PublicTag, _config.CommanfFlags);
             }
-            else
-            {
-                _subscriber.Publish(routingKey, body, _config.CommanfFlags);
-            }
-            
         }
         /// <summary>
         /// 删除队列(Rabbit可用)

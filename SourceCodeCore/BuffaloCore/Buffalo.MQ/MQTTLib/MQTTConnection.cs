@@ -1,11 +1,11 @@
 ﻿using Buffalo.ArgCommon;
-using MQTTnet;
-using MQTTnet.Adapter;
-using MQTTnet.Client;
-using MQTTnet.Client.Connecting;
-using MQTTnet.Client.Disconnecting;
-using MQTTnet.Client.Options;
-using MQTTnet.Client.Publishing;
+using Buffalo.MQ.MQTTLib.MQTTnet;
+using Buffalo.MQ.MQTTLib.MQTTnet.Adapter;
+using Buffalo.MQ.MQTTLib.MQTTnet.Client;
+using Buffalo.MQ.MQTTLib.MQTTnet.Client.Connecting;
+using Buffalo.MQ.MQTTLib.MQTTnet.Client.Disconnecting;
+using Buffalo.MQ.MQTTLib.MQTTnet.Client.Options;
+using Buffalo.MQ.MQTTLib.MQTTnet.Client.Publishing;
 using Buffalo.MQ.RedisMQ;
 using System;
 using System.Collections.Generic;
@@ -24,7 +24,12 @@ namespace Buffalo.MQ.MQTTLib
         MqttClient _mqttClient = null;
         IMqttClientOptions _options = null;
         private static Encoding DefaultEncoding = Encoding.UTF8;
-        private Queue<MQRedisMessage> _que = null;
+        private Queue<MqttApplicationMessage> _que = null;
+        /// <summary>
+        /// 消息创建器
+        /// </summary>
+        private MqttApplicationMessageBuilder _messageBuilder = null;
+
         public override bool IsOpen
         {
             get
@@ -36,24 +41,30 @@ namespace Buffalo.MQ.MQTTLib
         public MQTTConnection(MQTTConfig config)
         {
             _config = config;
-
+            _messageBuilder = CreateMessageBuilder();
         }
 
-        
+        private MqttApplicationMessageBuilder CreateMessageBuilder() 
+        {
+            MqttApplicationMessageBuilder messageBuilder = new MqttApplicationMessageBuilder();
+
+            messageBuilder.WithRetainFlag(_config.RetainAsPublished.Value);
+            messageBuilder.WithQualityOfServiceLevel(_config.QualityOfServiceLevel);
+            
+            return messageBuilder;
+        }
 
         protected override APIResault SendMessage(string key, byte[] body)
         {
-            
+            MqttApplicationMessage message = BuildMessage(key, body);
             if (_que != null)
             {
-                MQRedisMessage mess = new MQRedisMessage();
-                mess.RoutingKey = key;
-                mess.Value = body;
-                _que.Enqueue(mess);
+                
+                _que.Enqueue(message);
             }
             else
             {
-                MqttClientPublishResult res = _mqttClient.PublishAsync(key, body).Result;
+                MqttClientPublishResult res = _mqttClient.PublishAsync(message).Result;
                 if(res.ReasonCode!= MqttClientPublishReasonCode.Success) 
                 {
                     return ApiCommon.GetFault(res.ReasonString, res);
@@ -61,7 +72,15 @@ namespace Buffalo.MQ.MQTTLib
             }
             return ApiCommon.GetSuccess();
         }
-        
+
+
+        private MqttApplicationMessage BuildMessage(string key, byte[] body) 
+        {
+
+            _messageBuilder.WithTopic(key).WithPayload(body);
+            
+            return _messageBuilder.Build();
+        }
 
         protected override void Close()
         {
@@ -105,7 +124,7 @@ namespace Buffalo.MQ.MQTTLib
                 {
                     throw new MqttConnectingFailedException(res);
                 }
-
+                
 
             }
             
@@ -115,7 +134,7 @@ namespace Buffalo.MQ.MQTTLib
         protected override APIResault StartTran()
         {
             Open();
-            _que = new Queue<MQRedisMessage>();
+            _que = new Queue<MqttApplicationMessage>();
             return ApiCommon.GetSuccess();
         }
 
@@ -125,11 +144,11 @@ namespace Buffalo.MQ.MQTTLib
             if (_que != null)
             {
                 Queue<Task<MqttClientPublishResult>> que = new Queue<Task<MqttClientPublishResult>>();
-                MQRedisMessage mess = null;
+                MqttApplicationMessage mess = null;
                 while (_que.Count > 0)
                 {
                     mess = _que.Dequeue();
-                    que.Enqueue(_mqttClient.PublishAsync(mess.RoutingKey, mess.Value));
+                    que.Enqueue(_mqttClient.PublishAsync(mess));
                 }
 
                 Task<MqttClientPublishResult> tmp = null;

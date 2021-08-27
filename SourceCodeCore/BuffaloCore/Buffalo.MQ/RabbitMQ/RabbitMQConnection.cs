@@ -40,8 +40,8 @@ namespace Buffalo.MQ.RabbitMQ
 
            
         }
-
         
+
         /// <summary>
         /// RabbitMQ适配
         /// </summary>
@@ -86,12 +86,13 @@ namespace Buffalo.MQ.RabbitMQ
         /// <param name="routingKey"></param>
         /// <param name="body"></param>
         /// <returns></returns>
-        protected override APIResault SendMessage(string routingKey,byte[] body)
+        protected override APIResault SendMessage(string routingKey, byte[] body)
         {
-            
-            _channel.BasicPublish(_config.ExchangeName, routingKey, false,null, body);
+
+            _channel.BasicPublish(_config.ExchangeName, routingKey, false, null, body);
             return ApiCommon.GetSuccess();
         }
+      
         /// <summary>
         /// 删除队列(Rabbit可用)
         /// </summary>
