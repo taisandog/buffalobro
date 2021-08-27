@@ -16,7 +16,10 @@ namespace Buffalo.MQ
 
     public abstract class MQConnection 
     {
-        
+        /// <summary>
+        /// 默认编码
+        /// </summary>
+        protected static Encoding DefaultEncoding = Encoding.UTF8;
         /// <summary>
         /// 是否开启
         /// </summary>
@@ -163,7 +166,11 @@ namespace Buffalo.MQ
         /// <param name="key">筛选的键</param>
         /// <param name="body">内容</param>
         /// <returns></returns>
-        protected abstract APIResault SendMessage(string key, string body);
+        protected virtual APIResault SendMessage(string key, string body)
+        {
+            byte[] content = DefaultEncoding.GetBytes(body);
+            return SendMessage(key, body);
+        }
         /// <summary>
         /// 删除队列(Rabbit可用)
         /// </summary>

@@ -1,6 +1,5 @@
-﻿
-using MQTTnet.Client.Options;
-using MQTTnet.Protocol;
+﻿using Buffalo.MQ.MQTTLib.MQTTnet.Client.Options;
+using Buffalo.MQ.MQTTLib.MQTTnet.Protocol;
 using System;
 using System.Collections.Generic;
 using System.Linq;

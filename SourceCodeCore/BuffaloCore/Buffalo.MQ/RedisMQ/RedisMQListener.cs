@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Buffalo.MQ.RedisMQ
@@ -27,12 +28,25 @@ namespace Buffalo.MQ.RedisMQ
         /// </summary>
         private LockObjects<string> _lok = new LockObjects<string>();
         /// <summary>
+        /// 正在运行轮询
+        /// </summary>
+        private bool _pollrunning=false;
+        /// <summary>
+        /// 阻塞
+        /// </summary>
+        private AutoResetEvent _pollEvent;
+        /// <summary>
+        /// 轮询线程
+        /// </summary>
+        private Thread _thdPolling = null;
+        /// <summary>
         /// RabbitMQ适配
         /// </summary>
         /// <param name="connString">连接字符串</param>
         public RedisMQListener(RedisMQConfig config)
         {
             _config = config;
+            
         }
         
        
@@ -102,6 +116,7 @@ namespace Buffalo.MQ.RedisMQ
 
         public override void StartListend(IEnumerable<string> listenKeys)
         {
+            Close();
             Open();
             foreach (string lis in listenKeys)
             {
@@ -109,16 +124,49 @@ namespace Buffalo.MQ.RedisMQ
             }
 
             ResetWait();
-            _subscriber = _redis.GetSubscriber();
-            foreach (string lis in listenKeys)
+            if (_config.Mode == RedisMQMessageMode.Subscriber)
             {
-                _subscriber.Subscribe(lis, OnRedisCallback, _config.CommanfFlags);
-                
+                _subscriber = _redis.GetSubscriber();
+                foreach (string lis in listenKeys)
+                {
+                    _subscriber.Subscribe(lis, OnRedisCallback, _config.CommanfFlags);
+
+                }
+            }
+            else 
+            {
+                _thdPolling = new Thread(new ParameterizedThreadStart(DoListening));
+                _thdPolling.Start(listenKeys);
             }
             SetWait();
-            
-            
         }
+
+        /// <summary>
+        /// 轮询方式监听
+        /// </summary>
+        /// <param name="objKeys"></param>
+        public void DoListening(object objKeys) 
+        {
+            IEnumerable<string> listenKeys = objKeys as IEnumerable<string>;
+            if (listenKeys == null) 
+            {
+                return;
+            }
+            _pollrunning = true;
+            _pollEvent = new AutoResetEvent(true);
+            _pollEvent.Reset();
+            while (_pollrunning) 
+            {
+                foreach(string key in listenKeys) 
+                {
+                    FlushQueue(key);
+                }
+                Thread.Sleep(_config.PollingInterval);
+            }
+            _pollEvent.Set();
+        }
+
+
         public override void StartListend(IEnumerable<MQOffestInfo> listenKeys)
         {
             StartListend(MQUnit.GetLintenKeys(listenKeys));
@@ -138,7 +186,17 @@ namespace Buffalo.MQ.RedisMQ
                     OnException(ex);
                 }
             }
-            
+            _pollrunning = false;
+            if (_pollEvent != null)
+            {
+                if (!_pollEvent.WaitOne(5000))
+                {
+                    _thdPolling.Abort();
+                    Thread.Sleep(100);
+                }
+            }
+            _pollEvent = null;
+
             _subscriber = null;
             if (_redis != null)
             {
@@ -153,6 +211,7 @@ namespace Buffalo.MQ.RedisMQ
                 }
                 _redis = null;
             }
+            
             _db = null;
             DisponseWait();
         }

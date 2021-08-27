@@ -9,6 +9,21 @@ using System.Threading.Tasks;
 namespace Buffalo.MQ.RedisMQ
 {
     /// <summary>
+    /// 消息模式
+    /// </summary>
+    public enum RedisMQMessageMode
+    {
+        /// <summary>
+        /// 轮询
+        /// </summary>
+        Polling=0,
+        /// <summary>
+        /// 订阅
+        /// </summary>
+        Subscriber =1,
+    }
+
+    /// <summary>
     /// Redis配置
     /// </summary>
     public class RedisMQConfig:MQConfigBase
@@ -33,6 +48,14 @@ namespace Buffalo.MQ.RedisMQ
         /// 保存到队列
         /// </summary>
         public bool SaveToQueue=false;
+        /// <summary>
+        /// 消息模式
+        /// </summary>
+        public RedisMQMessageMode Mode;
+        /// <summary>
+        /// 轮询间隔
+        /// </summary>
+        public int PollingInterval = 500;
 
         private int _useDatabase;
         /// <summary>
@@ -75,7 +98,22 @@ namespace Buffalo.MQ.RedisMQ
             _useDatabase = hs.GetDicValue<string, string>("database").ConvertTo<int>(0);
             Options.DefaultDatabase= _useDatabase;
             Options.Ssl = hs.GetDicValue<string, string>("ssl") == "1";
-            SaveToQueue= hs.GetDicValue<string, string>("useQueue") == "1";//保存到队列
+            
+            Mode=hs.GetDicValue<string, string>("messageMode") == "1"? RedisMQMessageMode.Subscriber: RedisMQMessageMode.Polling;//消息模式
+            if (Mode == RedisMQMessageMode.Subscriber)
+            {
+                SaveToQueue = hs.GetDicValue<string, string>("useQueue") == "1";//保存到队列,只对订阅模式有效
+            }
+            else 
+            {
+                SaveToQueue = true;
+            }
+
+            PollingInterval= hs.GetDicValue<string, string>("pInterval").ConvertTo<int>(500);//轮询间隔时间(毫秒)
+            if (PollingInterval < 10) 
+            {
+                PollingInterval = 10;
+            }
             if (servers.Count > 0)
             {
                 foreach (string strServer in servers)
