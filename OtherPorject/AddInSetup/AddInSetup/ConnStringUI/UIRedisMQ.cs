@@ -15,6 +15,7 @@ using System.Web;
 using System.Diagnostics;
 using Buffalo.Kernel;
 using StackExchange.Redis;
+using Buffalo.MQ.RedisMQ;
 
 namespace AddInSetup.ConnStringUI
 {
@@ -25,6 +26,7 @@ namespace AddInSetup.ConnStringUI
             InitializeComponent();
             ShowProxy = false;
             BindFlags();
+            BindMessageMode();
         }
         protected override void OnHelp()
         {
@@ -59,6 +61,14 @@ namespace AddInSetup.ConnStringUI
             cmbCommandFlags.DisplayMember = "FieldName";
             cmbCommandFlags.ValueMember = "Value";
             cmbCommandFlags.SelectedValue = CommandFlags.None;
+        }
+        private void BindMessageMode()
+        {
+            List<EnumInfo> lstEnum = EnumUnit.GetEnumInfos(typeof(RedisMQMessageMode));
+            cmbMessageMode.DataSource = lstEnum;
+            cmbMessageMode.DisplayMember = "FieldName";
+            cmbMessageMode.ValueMember = "Value";
+            cmbMessageMode.SelectedValue = RedisMQMessageMode.Subscriber;
         }
         protected override void OnConnOut()
         {
@@ -123,6 +133,20 @@ namespace AddInSetup.ConnStringUI
             {
                 sbStr.Append("commanfFlags=");
                 sbStr.Append(commanfFlags.ToString());
+                sbStr.Append(";");
+            }
+            int messageMode = (int)cmbMessageMode.SelectedValue;
+            if (messageMode > 0)
+            {
+                sbStr.Append("MessageMode=");
+                sbStr.Append(messageMode.ToString());
+                sbStr.Append(";");
+            }
+            int pInterval = (int)nupMessageMode.Value;
+            if (pInterval > 0)
+            {
+                sbStr.Append("pInterval=");
+                sbStr.Append(pInterval.ToString());
                 sbStr.Append(";");
             }
             sbStr.Append("database=");

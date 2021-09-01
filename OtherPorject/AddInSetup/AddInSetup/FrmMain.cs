@@ -38,6 +38,7 @@ namespace AddInSetup
                 gvDllVer.DataSource = _loader.DllVerInfos;
             }
         }
+        
         Thread _thd;
         private void FrmMain_Load(object sender, EventArgs e)
         {

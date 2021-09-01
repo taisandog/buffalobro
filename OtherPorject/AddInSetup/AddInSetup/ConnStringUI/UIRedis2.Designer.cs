@@ -170,7 +170,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtDatabase.Location = new System.Drawing.Point(196, 150);
             this.txtDatabase.Maximum = new decimal(new int[] {
-            15,
+            2147483647,
             0,
             0,
             0});
@@ -182,11 +182,11 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.label7.Location = new System.Drawing.Point(50, 155);
+            this.label7.Location = new System.Drawing.Point(94, 155);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(138, 21);
+            this.label7.Size = new System.Drawing.Size(94, 21);
             this.label7.TabIndex = 62;
-            this.label7.Text = "使用数据库(0-15):";
+            this.label7.Text = "使用数据库:";
             // 
             // UIRedis2
             // 
