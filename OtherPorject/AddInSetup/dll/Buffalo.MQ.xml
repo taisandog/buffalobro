@@ -167,6 +167,11 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="F:Buffalo.MQ.MQConnection.DefaultEncoding">
+            <summary>
+            默认编码
+            </summary>
+        </member>
         <member name="P:Buffalo.MQ.MQConnection.IsOpen">
             <summary>
             是否开启
@@ -183,6 +188,14 @@
             </summary>
         </member>
         <member name="M:Buffalo.MQ.MQConnection.Send(System.String,System.Byte[])">
+            <summary>
+            发送信息
+            </summary>
+            <param name="key"></param>
+            <param name="body"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.MQ.MQConnection.Send(System.String,System.String)">
             <summary>
             发送信息
             </summary>
@@ -238,6 +251,14 @@
             </summary>
         </member>
         <member name="M:Buffalo.MQ.MQConnection.SendMessage(System.String,System.Byte[])">
+            <summary>
+            发布内容
+            </summary>
+            <param name="key">筛选的键</param>
+            <param name="body">内容</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.MQ.MQConnection.SendMessage(System.String,System.String)">
             <summary>
             发布内容
             </summary>
@@ -462,6 +483,11 @@
         <member name="T:Buffalo.MQ.MQTTLib.MQTTConnection">
             <summary>
             MQTT连接
+            </summary>
+        </member>
+        <member name="F:Buffalo.MQ.MQTTLib.MQTTConnection._messageBuilder">
+            <summary>
+            消息创建器
             </summary>
         </member>
         <member name="M:Buffalo.MQ.MQTTLib.MQTTListener.#ctor(Buffalo.MQ.MQTTLib.MQTTConfig)">
@@ -775,6 +801,21 @@
             值
             </summary>
         </member>
+        <member name="T:Buffalo.MQ.RedisMQ.RedisMQMessageMode">
+            <summary>
+            消息模式
+            </summary>
+        </member>
+        <member name="F:Buffalo.MQ.RedisMQ.RedisMQMessageMode.Polling">
+            <summary>
+            轮询
+            </summary>
+        </member>
+        <member name="F:Buffalo.MQ.RedisMQ.RedisMQMessageMode.Subscriber">
+            <summary>
+            订阅
+            </summary>
+        </member>
         <member name="T:Buffalo.MQ.RedisMQ.RedisMQConfig">
             <summary>
             Redis配置
@@ -803,6 +844,16 @@
         <member name="F:Buffalo.MQ.RedisMQ.RedisMQConfig.SaveToQueue">
             <summary>
             保存到队列
+            </summary>
+        </member>
+        <member name="F:Buffalo.MQ.RedisMQ.RedisMQConfig.Mode">
+            <summary>
+            消息模式
+            </summary>
+        </member>
+        <member name="F:Buffalo.MQ.RedisMQ.RedisMQConfig.PollingInterval">
+            <summary>
+            轮询间隔
             </summary>
         </member>
         <member name="P:Buffalo.MQ.RedisMQ.RedisMQConfig.UseDatabase">
@@ -890,6 +941,21 @@
             锁对象
             </summary>
         </member>
+        <member name="F:Buffalo.MQ.RedisMQ.RedisMQListener._pollrunning">
+            <summary>
+            正在运行轮询
+            </summary>
+        </member>
+        <member name="F:Buffalo.MQ.RedisMQ.RedisMQListener._pollEvent">
+            <summary>
+            阻塞
+            </summary>
+        </member>
+        <member name="F:Buffalo.MQ.RedisMQ.RedisMQListener._thdPolling">
+            <summary>
+            轮询线程
+            </summary>
+        </member>
         <member name="M:Buffalo.MQ.RedisMQ.RedisMQListener.#ctor(Buffalo.MQ.RedisMQ.RedisMQConfig)">
             <summary>
             RabbitMQ适配
@@ -911,6 +977,12 @@
             <summary>
             读入队列信息
             </summary>
+        </member>
+        <member name="M:Buffalo.MQ.RedisMQ.RedisMQListener.DoListening(System.Object)">
+            <summary>
+            轮询方式监听
+            </summary>
+            <param name="objKeys"></param>
         </member>
         <member name="M:Buffalo.MQ.RedisMQ.RedisMQListener.Close">
             <summary>
