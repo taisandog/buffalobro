@@ -102,13 +102,20 @@ namespace Buffalo.MQ.RedisMQ
                 RedisValue tmpval = RedisValue.Null;
                 do
                 {
-                    tmpval = db.ListRightPop(pkey, _config.CommanfFlags);
-                    if (!tmpval.HasValue)
+                    try
                     {
-                        break;
+                        tmpval = db.ListRightPop(pkey, _config.CommanfFlags);
+                        if (!tmpval.HasValue)
+                        {
+                            break;
+                        }
+                        svalue = tmpval;
+                        CallBack(skey, skey, svalue, 0, 0);
                     }
-                    svalue = tmpval;
-                    CallBack(skey, skey, svalue, 0, 0);
+                    catch (Exception ex)
+                    {
+                        OnException(ex);
+                    }
 
                 } while (tmpval.HasValue);
             }
@@ -155,15 +162,21 @@ namespace Buffalo.MQ.RedisMQ
             _pollrunning = true;
             _pollEvent = new AutoResetEvent(true);
             _pollEvent.Reset();
-            while (_pollrunning)
+            try
             {
-                foreach (string key in listenKeys)
+                while (_pollrunning)
                 {
-                    FlushQueue(key);
+                    foreach (string key in listenKeys)
+                    {
+                        FlushQueue(key);
+                    }
+                    Thread.Sleep(_config.PollingInterval);
                 }
-                Thread.Sleep(_config.PollingInterval);
             }
-            _pollEvent.Set();
+            finally
+            {
+                _pollEvent.Set();
+            }
         }
 
 
