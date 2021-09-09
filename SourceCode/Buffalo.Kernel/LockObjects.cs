@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 namespace Buffalo.Kernel
@@ -9,7 +10,11 @@ namespace Buffalo.Kernel
     /// <typeparam name="T"></typeparam>
     public class LockObjects<T>
     {
-        private Dictionary<T, LockItem<T>> _dic;
+        /// <summary>
+        /// 真实数据的字典
+        /// </summary>
+        private LinkedDictionary<T, LockItem<T>> _dic;
+        
         /// <summary>
         /// 最后清理时间
         /// </summary>
@@ -24,7 +29,7 @@ namespace Buffalo.Kernel
         /// <param name="timeoutMillisecond">超时时间(毫秒数)</param>
         public LockObjects()
         {
-            _dic = new Dictionary<T, LockItem<T>>();
+            _dic = new LinkedDictionary<T, LockItem<T>>();
             _lastClean = DateTime.Now;
         }
         /// <summary>
@@ -39,18 +44,16 @@ namespace Buffalo.Kernel
             {
                 DateTime nowDate = DateTime.Now;
                 ClearTimeout(nowDate);
-                    
-                
-
                 if (!_dic.TryGetValue(key, out ret))
                 {
-                    ret = new LockItem<T>();
-                    ret.Key = key;
-                    ret.LockObject = new object();
+                    LockItem<T> retNode = new LockItem<T>();
+                    retNode.Key = key;
+                    retNode.LockObject = new object();
 
+                    
                     _dic[key] = ret;
+
                 }
-                
                 ret.LastTime = nowDate;
 
                 return ret.LockObject;
@@ -65,20 +68,25 @@ namespace Buffalo.Kernel
             {
                 return;
             }
-            Queue<T> queNeedDelete = new Queue<T>();
+            
             DateTime dt = DateTime.Now;
-            foreach (KeyValuePair<T, LockItem<T>> kvp in _dic)
+            NodeValue<T, LockItem<T>> node = null;
+            do
             {
-                if (dt.Subtract(kvp.Value.LastTime).TotalSeconds >= CleanSeconds)
+                node = _dic.OldestNode;
+                if (node == null)
                 {
-                    queNeedDelete.Enqueue(kvp.Key);
+                    break;
                 }
-            }
-            foreach (T key in queNeedDelete)
-            {
-                _dic.Remove(key);
-            }
-            queNeedDelete = null;
+                if (dt.Subtract(node.Value.LastTime).TotalSeconds<300)
+                {
+                    break;
+                }
+                DeleteObject(node.Key);
+            } while (node != null);
+
+
+
             _lastClean = DateTime.Now;
         }
 
@@ -92,6 +100,7 @@ namespace Buffalo.Kernel
             
             lock (_dic)
             {
+                LinkedListNode<LockItem<T>> node = null;
                 _dic.Remove(key);
             }
         }
@@ -102,6 +111,9 @@ namespace Buffalo.Kernel
     /// </summary>
     public class LockItem<T>
     {
+        /// <summary>
+        /// 键
+        /// </summary>
         public T Key;
         /// <summary>
         /// 要锁的类
