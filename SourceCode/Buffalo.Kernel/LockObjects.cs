@@ -100,7 +100,7 @@ namespace Buffalo.Kernel
             
             lock (_dic)
             {
-                LinkedListNode<LockItem<T>> node = null;
+                
                 _dic.Remove(key);
             }
         }
