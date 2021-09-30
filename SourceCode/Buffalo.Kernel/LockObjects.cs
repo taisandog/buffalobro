@@ -73,7 +73,7 @@ namespace Buffalo.Kernel
             NodeValue<T, LockItem<T>> node = null;
             do
             {
-                node = _dic.OldestNode;
+                node = _dic.HeadNode;
                 if (node == null)
                 {
                     break;

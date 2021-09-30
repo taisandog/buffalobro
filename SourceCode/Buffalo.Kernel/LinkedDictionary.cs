@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,7 @@ namespace Buffalo.Kernel
     /// <typeparam name="K"></typeparam>
     public class LinkedDictionary<T, K> : IDictionary<T, K>
     {
+
         /// <summary>
         /// 存储数据的字典
         /// </summary>
@@ -27,26 +29,6 @@ namespace Buffalo.Kernel
         /// </summary>
         private NodeValue<T, K> _lastNode;
 
-        /// <summary>
-        /// 最老的节点
-        /// </summary>
-        public NodeValue<T, K> OldestNode
-        {
-            get 
-            {
-                return _headNode;
-            }
-        }
-        /// <summary>
-        /// 最新的节点
-        /// </summary>
-        public NodeValue<T, K> ActiveNode
-        {
-            get
-            {
-                return _lastNode;
-            }
-        }
 
         /// <summary>
         /// get值时候是否触发
@@ -66,7 +48,7 @@ namespace Buffalo.Kernel
         /// <summary>
         /// 保存了活跃度的Dictionary
         /// </summary>
-        public LinkedDictionary(bool isGetToUpdate = true) : this(new Dictionary<T, NodeValue<T, K>>())
+        public LinkedDictionary(bool isGetToUpdate = true) : this(new Dictionary<T, NodeValue<T, K>>(), isGetToUpdate)
         {
         }
 
@@ -77,7 +59,7 @@ namespace Buffalo.Kernel
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public K this[T key]
+        public virtual K this[T key]
         {
             get
             {
@@ -125,9 +107,9 @@ namespace Buffalo.Kernel
         /// <param name="node"></param>
         private void AddToLast(NodeValue<T, K> node)
         {
-            if (HeadNode == null)
+            if (_headNode == null)
             {
-                HeadNode = node;
+                _headNode = node;
             }
             if (_lastNode == null)
             {
@@ -144,13 +126,13 @@ namespace Buffalo.Kernel
         /// <param name="node"></param>
         private void AddToHead(NodeValue<T, K> node)
         {
-            if (HeadNode == null)
+            if (_headNode == null)
             {
-                HeadNode = node;
+                _headNode = node;
             }
             else
             {
-                AddKey(HeadNode, node, true);
+                AddKey(_headNode, node, true);
             }
 
             if (_lastNode == null)
@@ -178,9 +160,9 @@ namespace Buffalo.Kernel
 
                 needInsertNode.Next = node;
 
-                if (HeadNode == node)
+                if (_headNode == node)
                 {
-                    HeadNode = needInsertNode;
+                    _headNode = needInsertNode;
                 }
             }
             else
@@ -208,9 +190,9 @@ namespace Buffalo.Kernel
         /// <returns></returns>
         private bool RemoveNode(NodeValue<T, K> node)
         {
-            if (HeadNode == node)
+            if (_headNode == node)
             {
-                HeadNode = node.Next;
+                _headNode = node.Next;
             }
             if (_lastNode == node)
             {
@@ -229,9 +211,7 @@ namespace Buffalo.Kernel
             return true;
         }
 
-        /// <summary>
-        /// 所有键
-        /// </summary>
+
         public ICollection<T> Keys
         {
             get
@@ -241,9 +221,6 @@ namespace Buffalo.Kernel
             }
         }
 
-        /// <summary>
-        /// 所有值
-        /// </summary>
         public ICollection<K> Values
         {
             get
@@ -257,9 +234,6 @@ namespace Buffalo.Kernel
             }
         }
 
-        /// <summary>
-        /// 字典个数
-        /// </summary>
         public int Count
         {
             get
@@ -267,9 +241,7 @@ namespace Buffalo.Kernel
                 return _dic.Count;
             }
         }
-        /// <summary>
-        /// 是否只读
-        /// </summary>
+
         public bool IsReadOnly
         {
             get
@@ -286,10 +258,34 @@ namespace Buffalo.Kernel
             get { return _isGetToUpdate; }
             set { _isGetToUpdate = value; }
         }
-
-        public NodeValue<T, K> HeadNode { get => _headNode; set => _headNode = value; }
-
-
+        /// <summary>
+        /// LRU头部
+        /// </summary>
+        public NodeValue<T, K> HeadNode
+        {
+            get
+            {
+                return _headNode;
+            }
+            set
+            {
+                _headNode = value;
+            }
+        }
+        /// <summary>
+        /// LRU头部
+        /// </summary>
+        public NodeValue<T, K> LastNode
+        {
+            get
+            {
+                return _lastNode;
+            }
+            set
+            {
+                _lastNode = value;
+            }
+        }
         /// <summary>
         /// 添加一个带有所提供的键和值的元素
         /// </summary>
@@ -319,7 +315,7 @@ namespace Buffalo.Kernel
         public void Clear()
         {
             _dic.Clear();
-            HeadNode = null;
+            _headNode = null;
             _lastNode = null;
         }
 
@@ -451,7 +447,7 @@ namespace Buffalo.Kernel
             NodeValue<T, K> curNode = null;
             while (_dic.Count > count)
             {
-                curNode = HeadNode;
+                curNode = _headNode;
                 if (curNode == null)
                 {
                     break;
@@ -501,24 +497,17 @@ namespace Buffalo.Kernel
         }
 
 
-        /// <summary>
-        /// 释放
-        /// </summary>
+
         public void Dispose()
         {
             _enumTk.Dispose();
         }
-        /// <summary>
-        /// 下一个
-        /// </summary>
-        /// <returns></returns>
+
         public bool MoveNext()
         {
             return _enumTk.MoveNext();
         }
-        /// <summary>
-        /// 重置
-        /// </summary>
+
         public void Reset()
         {
             _enumTk.Reset();
@@ -539,73 +528,32 @@ namespace Buffalo.Kernel
         /// <param name="value"></param>
         public NodeValue(T key, K value)
         {
-            _key = key;
-            _value = value;
+            Key = key;
+            Value = value;
         }
-
-        private K _value;
-
-        private T _key;
-
-        private NodeValue<T, K> _next;
         /// <summary>
-        /// 下一节点
+        /// 过期时间
         /// </summary>
-        public NodeValue<T, K> Next
-        {
-            get
-            {
-                return _next;
-            }
+        public long ExpiredTick;
 
-            internal set
-            {
-                _next = value;
-            }
-        }
-        private NodeValue<T, K> _previous;
         /// <summary>
-        /// 上一节点
+        /// 下一个
         /// </summary>
-        public NodeValue<T, K> Previous
-        {
-            get
-            {
-                return _previous;
-            }
+        public NodeValue<T, K> Next;
+        /// <summary>
+        /// 上一个
+        /// </summary>
+        public NodeValue<T, K> Previous;
 
-            internal set
-            {
-                _previous = value;
-            }
-        }
         /// <summary>
         /// 键
         /// </summary>
-        public T Key
-        {
-            get
-            {
-                return _key;
-            }
+        public T Key;
 
-            
-        }
         /// <summary>
         /// 值
         /// </summary>
-        public K Value
-        {
-            get
-            {
-                return _value;
-            }
-
-            internal set
-            {
-                this._value = value;
-            }
-        }
+        public K Value;
 
         public override string ToString()
         {

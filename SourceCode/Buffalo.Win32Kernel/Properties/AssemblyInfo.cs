@@ -28,6 +28,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("BuffaloWin32Kernel for .NET Framework 4.6.2")]
 #elif (NET_4_7_2)
 [assembly: AssemblyTitle("BuffaloWin32Kernel for .NET Framework 4.7.2")]
+#elif (NET_4_8)
+[assembly: AssemblyTitle("BuffaloWin32Kernel for .NET Framework 4.8")]
 #elif (NETCF_1_0)
 [assembly: AssemblyTitle("BuffaloWin32Kernel for .NET Compact Framework 1.0")]
 #elif (NETCF_2_0)

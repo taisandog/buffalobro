@@ -40,7 +40,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\Debug\2019\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NET_4_7_2</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NET_4_8</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\Debug\2017\Buffalo.Data.DB2.XML</DocumentationFile>
@@ -49,12 +49,13 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\Release\2019\</OutputPath>
-    <DefineConstants>TRACE;NET_4_7_2</DefineConstants>
+    <OutputPath>..\Release\2022\</OutputPath>
+    <DefineConstants>TRACE;NET_4_8</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\Release\2019\Buffalo.Data.DB2.XML</DocumentationFile>
+    <DocumentationFile>..\Release\2022\Buffalo.Data.DB2.XML</DocumentationFile>
     <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="IBM.Data.DB2, Version=9.7.4.4, Culture=neutral, PublicKeyToken=7c307b91aa13d208, processorArchitecture=AMD64">

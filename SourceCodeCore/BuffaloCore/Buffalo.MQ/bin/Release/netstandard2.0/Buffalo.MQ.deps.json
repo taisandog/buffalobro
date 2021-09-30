@@ -7,7 +7,7 @@
   "targets": {
     ".NETStandard,Version=v2.0": {},
     ".NETStandard,Version=v2.0/": {
-      "Buffalo.MQ/1.5.1": {
+      "Buffalo.MQ/1.5.5": {
         "dependencies": {
           "Buffalo.ArgCommon": "1.2.1",
           "Buffalo.Kernel": "1.2.5",
@@ -1097,7 +1097,7 @@
     }
   },
   "libraries": {
-    "Buffalo.MQ/1.5.1": {
+    "Buffalo.MQ/1.5.5": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

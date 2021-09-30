@@ -19,8 +19,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buffalo2022.Data.SQLite", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buffalo2022.Kernel", "Buffalo.Kernel\Buffalo2022.Kernel.csproj", "{6EC04216-A422-4751-AA81-1211DCB10BAB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buffalo2022.GeneratorInfo", "Buffalo.GeneratorInfo\Buffalo2022.GeneratorInfo.csproj", "{6320C7DC-D4AE-4EA5-A2AB-B08B59062868}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buffalo2022.MongoDB", "Buffalo.MongoDB\Buffalo2022.MongoDB.csproj", "{BE4AF0E1-9426-4F0A-9344-CDCB578C8B7C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buffalo2022.MQ", "Buffalo.MQ\Buffalo2022.MQ.csproj", "{6CEDC1E6-BD83-4D69-8B52-F0534E16F688}"
@@ -40,6 +38,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buffalo2022.ArgCommon", "Buffalo.ArgCommon\Buffalo2022.ArgCommon.csproj", "{584F95B4-461A-4D50-8294-9147364E1945}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBTools", "Buffalo.DBToolsPackage2022\DBTools.csproj", "{EC755572-4D28-4A6D-94E3-053D46F5809A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buffalo2022.GeneratorInfo", "Buffalo.GeneratorInfo\Buffalo2022.GeneratorInfo.csproj", "{6320C7DC-D4AE-4EA5-A2AB-B08B59062868}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -97,14 +97,6 @@ Global
 		{6EC04216-A422-4751-AA81-1211DCB10BAB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6EC04216-A422-4751-AA81-1211DCB10BAB}.Release|x86.ActiveCfg = Release|Any CPU
 		{6EC04216-A422-4751-AA81-1211DCB10BAB}.Release|x86.Build.0 = Release|Any CPU
-		{6320C7DC-D4AE-4EA5-A2AB-B08B59062868}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6320C7DC-D4AE-4EA5-A2AB-B08B59062868}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6320C7DC-D4AE-4EA5-A2AB-B08B59062868}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{6320C7DC-D4AE-4EA5-A2AB-B08B59062868}.Debug|x86.Build.0 = Debug|Any CPU
-		{6320C7DC-D4AE-4EA5-A2AB-B08B59062868}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6320C7DC-D4AE-4EA5-A2AB-B08B59062868}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6320C7DC-D4AE-4EA5-A2AB-B08B59062868}.Release|x86.ActiveCfg = Release|Any CPU
-		{6320C7DC-D4AE-4EA5-A2AB-B08B59062868}.Release|x86.Build.0 = Release|Any CPU
 		{BE4AF0E1-9426-4F0A-9344-CDCB578C8B7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BE4AF0E1-9426-4F0A-9344-CDCB578C8B7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE4AF0E1-9426-4F0A-9344-CDCB578C8B7C}.Debug|x86.ActiveCfg = Debug|Any CPU
@@ -185,6 +177,14 @@ Global
 		{EC755572-4D28-4A6D-94E3-053D46F5809A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EC755572-4D28-4A6D-94E3-053D46F5809A}.Release|x86.ActiveCfg = Release|x86
 		{EC755572-4D28-4A6D-94E3-053D46F5809A}.Release|x86.Build.0 = Release|x86
+		{6320C7DC-D4AE-4EA5-A2AB-B08B59062868}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6320C7DC-D4AE-4EA5-A2AB-B08B59062868}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6320C7DC-D4AE-4EA5-A2AB-B08B59062868}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6320C7DC-D4AE-4EA5-A2AB-B08B59062868}.Debug|x86.Build.0 = Debug|Any CPU
+		{6320C7DC-D4AE-4EA5-A2AB-B08B59062868}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6320C7DC-D4AE-4EA5-A2AB-B08B59062868}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6320C7DC-D4AE-4EA5-A2AB-B08B59062868}.Release|x86.ActiveCfg = Release|Any CPU
+		{6320C7DC-D4AE-4EA5-A2AB-B08B59062868}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

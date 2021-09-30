@@ -40,10 +40,11 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\Release\2022\</OutputPath>
     <DefineConstants>TRACE;NET_4_8</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\Release\2022\DBTools.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="BuffaloToolCDCommand.cs" />
@@ -319,7 +320,7 @@
       <Name>Buffalo2022.DB</Name>
     </ProjectReference>
     <ProjectReference Include="..\Buffalo.GeneratorInfo\Buffalo2022.GeneratorInfo.csproj">
-      <Project>{6320c7dc-d4ae-4ea5-a2ab-b08b59062868}</Project>
+      <Project>{6320C7DC-D4AE-4EA5-A2AB-B08B59062868}</Project>
       <Name>Buffalo2022.GeneratorInfo</Name>
     </ProjectReference>
     <ProjectReference Include="..\Buffalo.Kernel\Buffalo2022.Kernel.csproj">

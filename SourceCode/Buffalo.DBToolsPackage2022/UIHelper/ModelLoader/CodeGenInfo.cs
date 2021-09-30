@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using Buffalo.Kernel.FastReflection;
 using System.Reflection;
-using Buffalo.GeneratorInfo;
+
 using System.CodeDom.Compiler;
+using Buffalo.GeneratorInfo;
 
 namespace Buffalo.DBTools.UIHelper.ModelLoader
 {

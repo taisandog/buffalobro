@@ -27,6 +27,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Buffalo.Data.Oracle for .NET 4.6.2")]
 #elif (NET_4_7_2)
 [assembly: AssemblyTitle("Buffalo.Data.Oracle for .NET 4.7.2")]
+#elif (NET_4_8)
+[assembly: AssemblyTitle("Buffalo.Data.Oracle for .NET 4.8")]
 #elif (NETCF_1_0)
 [assembly: AssemblyTitle("Buffalo.Data.Oracle for .NET Compact 1.0")]
 #elif (NETCF_2_0)

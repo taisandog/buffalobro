@@ -40,7 +40,7 @@ namespace Buffalo.MQ.RabbitMQ
             
             Factory = new ConnectionFactory();
             Factory.UserName = _configs.GetDicValue<string, string>("uid");
-#if (NET_4_7_2 || NET_4_6_2)
+#if (NET_4_7_2 || NET_4_6_2 ||NET_4_8)
 
 #else
             Factory.Protocol = Protocols.DefaultProtocol;

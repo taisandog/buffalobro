@@ -28,8 +28,8 @@ namespace Buffalo.QueryCache
         private static RedisValue ByteToValue(object value)
         {
             byte val = (byte)value;
-            
-#if NET_4_7_2
+
+#if NET_4_7_2 || NET_4_8
             return (int)val;
 #else
             return val;
@@ -38,7 +38,7 @@ namespace Buffalo.QueryCache
         private static RedisValue CharToValue(object value)
         {
             char val = (char)value;
-#if NET_4_7_2
+#if NET_4_7_2 || NET_4_8
             return val.ToString();
 #else
             return val;
@@ -87,7 +87,7 @@ namespace Buffalo.QueryCache
         private static RedisValue UshortToValue(object value)
         {
             ushort val = (ushort)value;
-#if NET_4_7_2
+#if NET_4_7_2 || NET_4_8
             return (uint)val;
 #else
             return val;
@@ -134,7 +134,7 @@ namespace Buffalo.QueryCache
             //{
             //    return (byte)0;
             //}
-#if NET_4_7_2
+#if NET_4_7_2 || NET_4_8
             return (byte)((int)value);
 #else
             return (byte)value;
@@ -148,7 +148,7 @@ namespace Buffalo.QueryCache
             //    return '\0';
             //}
             //return (char)value;
-#if NET_4_7_2
+#if NET_4_7_2 || NET_4_8
             return ((string)value)[0];
 #else
             return (char)value;

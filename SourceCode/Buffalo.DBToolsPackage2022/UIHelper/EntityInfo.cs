@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.VisualStudio.EnterpriseTools.ArtifactModel.Clr;
 using Buffalo.DBTools.HelperKernel;
-using Buffalo.GeneratorInfo;
+
 using Buffalo.Kernel;
 using Buffalo.DB.PropertyAttributes;
 using System.Data;
+using Buffalo.GeneratorInfo;
 
 namespace Buffalo.DBTools.UIHelper
 {

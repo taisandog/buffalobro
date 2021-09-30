@@ -46,12 +46,12 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\Release\2019\</OutputPath>
-    <DefineConstants>TRACE;NET_4_7_2</DefineConstants>
+    <OutputPath>..\Release\2022\</OutputPath>
+    <DefineConstants>TRACE;NET_4_8</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
-    <DocumentationFile>..\Release\2019\Buffalo.Storage.xml</DocumentationFile>
+    <DocumentationFile>..\Release\2022\Buffalo.Storage.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AWSSDK.Core">
