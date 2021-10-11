@@ -52,38 +52,58 @@ namespace Buffalo.MongoDB
         /// <summary>
         /// 创建索引
         /// </summary>
-        /// <param name="propertyName">字段</param>
+        /// <param name="definition">索引定义</param>
         /// <param name="collectionName">集合</param>
-        /// <param name="indexSort">排序</param>
-        public string CreateIndex(string propertyName, string collectionName, MGSortType indexSort)
+
+        public string CreateIndex(IndexKeysDefinition<TDocument> definition, string collectionName )
         {
             //IMongoDatabase db = MongoDBManager.GetMongoClient(_dbInfo.DBKey);
             IMongoCollection<TDocument> mc = _db.GetCollection<TDocument>(collectionName);
-            IndexKeysDefinitionBuilder<TDocument> index = ConditionList<TDocument>.Index;
-            IndexKeysDefinition<TDocument> definition = null;
-            if (indexSort == MGSortType.ASC)
-            {
-                definition = index.Ascending(propertyName);
-            }
-            else
-            {
-                definition = index.Descending(propertyName);
-            }
             CreateIndexModel<TDocument> model = new CreateIndexModel<TDocument>(definition);
             return mc.Indexes.CreateOne(model);
         }
         /// <summary>
         /// 创建索引
         /// </summary>
-        /// <param name="propertyName">字段</param>
-        /// <param name="indexSort">排序</param>
-        public string CreateIndex(string propertyName,MGSortType indexSort)
+        /// <param name="definition">索引定义</param>
+
+        public string CreateIndex(IndexKeysDefinition<TDocument> definition)
         {
             if (string.IsNullOrWhiteSpace(_entityInfo.CollectionName))
             {
                 throw new Exception("找不到实体对应的集合名");
             }
-            return CreateIndex(propertyName, _entityInfo.CollectionName, indexSort);
+            return CreateIndex(definition,_entityInfo.CollectionName);
+        }
+        /// <summary>
+        /// 创建索引
+        /// </summary>
+        /// <param name="definitions">索引定义</param>
+        /// <param name="collectionName">集合</param>
+        public IEnumerable<string> CreateManyIndex(IEnumerable<IndexKeysDefinition<TDocument>> definitions, string collectionName)
+        {
+            IMongoCollection<TDocument> mc = _db.GetCollection<TDocument>(collectionName);
+            List<CreateIndexModel<TDocument>> lstModel = new List<CreateIndexModel<TDocument>>(20);
+            foreach (IndexKeysDefinition<TDocument> definition in definitions) 
+            {
+                CreateIndexModel<TDocument> model = new CreateIndexModel<TDocument>(definition);
+                lstModel.Add(model);
+            }
+            
+            return mc.Indexes.CreateMany(lstModel);
+        }
+        /// <summary>
+        /// 创建索引
+        /// </summary>
+        /// <param name="definitions">索引定义</param>
+        /// <param name="collectionName">集合</param>
+        public IEnumerable<string> CreateManyIndex(IEnumerable<IndexKeysDefinition<TDocument>> definitions)
+        {
+            if (string.IsNullOrWhiteSpace(_entityInfo.CollectionName))
+            {
+                throw new Exception("找不到实体对应的集合名");
+            }
+            return CreateManyIndex(definitions, _entityInfo.CollectionName);
         }
 
         /// <summary>

@@ -67,6 +67,15 @@ namespace Buffalo.MongoDB
             
         }
         /// <summary>
+        /// 查找所有集合信息
+        /// </summary>
+        /// <returns></returns>
+        public List<BsonDocument> ListAllCollection() 
+        {
+            List<BsonDocument> lstDB = _db.ListCollections().ToList();
+            return lstDB;
+        }
+        /// <summary>
         /// 开启事务
         /// </summary>
         /// <returns></returns>
