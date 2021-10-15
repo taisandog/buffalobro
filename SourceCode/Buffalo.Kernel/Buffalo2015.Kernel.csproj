@@ -87,6 +87,7 @@
     <Compile Include="FastReflection\FastValueGetSet.cs" />
     <Compile Include="FastReflection\FieldInfoHandle.cs" />
     <Compile Include="FastReflection\PropertyInfoHandle.cs" />
+    <Compile Include="LinkedDictionary.cs" />
     <Compile Include="Lock.cs" />
     <Compile Include="LockObjects.cs" />
     <Compile Include="MassBase.cs" />
