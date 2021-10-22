@@ -10,6 +10,7 @@ using System.Web.Caching;
 using Buffalo.Kernel;
 using Buffalo.DB.MessageOutPuters;
 using System.Collections.Concurrent;
+using Buffalo.DB.CacheManager.CacheCollection;
 
 namespace Buffalo.DB.CacheManager
 {
@@ -48,7 +49,30 @@ namespace Buffalo.DB.CacheManager
             
             CreatePool(connStr);
         }
-        
+        public object ConnectConfiguration
+        {
+            get
+            {
+                return null;
+            }
+            set { }
+        }
+
+        public object ConnectClient
+        {
+            get
+            {
+                return _curCache;
+            }
+        }
+        /// <summary>
+        /// 重连连接redis
+        /// </summary>
+        public void ReconnectClient()
+        {
+
+
+        }
         /// <summary>
         /// 所有键
         /// </summary>
@@ -506,11 +530,78 @@ namespace Buffalo.DB.CacheManager
             return true;
         }
 
+        /// <summary>
+        /// 获取哈希表的操作方式
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="oper"></param>
+        /// <returns></returns>
+        public ICacheHash GetHashMap(string key, DataBaseOperate oper) 
+        {
+            IDictionary<string, object> dic = CurCache.Get(key) as IDictionary<string, object>;
+            if (dic == null) 
+            {
+                dic = new Dictionary<string, object>();
+                CurCache.Insert(key, dic);
+            }
+            return new MemoryCacheHash(dic);
+        }
+        /// <summary>
+        /// 获取哈希表的操作方式
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="oper"></param>
+        /// <returns></returns>
+        public ICacheList GetList(string key, DataBaseOperate oper)
+        {
+            IList dic = CurCache.Get(key) as IList;
+            if (dic == null)
+            {
+                dic = new List<object>();
+                CurCache.Insert(key, dic);
+            }
+            return new MemoryCacheList(dic);
+        }
+        /// <summary>
+        /// 获取锁的操作方式
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="oper"></param>
+        /// <returns></returns>
+        public ICacheLock GetCacheLock(string key, DataBaseOperate oper) 
+        {
+            
+            return new MemoryCacheLock(key);
+        }
+
+        /// <summary>
+        /// 获取排序表的操作方式
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="oper"></param>
+        /// <returns></returns>
+        public ICacheSortedSet GetSortedSet(string key, DataBaseOperate oper) 
+        {
+            SortedSet<SortedSetItem> lst = CurCache.Get(key) as SortedSet<SortedSetItem>;
+            if (lst == null)
+            {
+                lst = new SortedSet<SortedSetItem>();
+                CurCache.Insert(key, lst);
+            }
+            return new MemoryCacheSortedSet(lst);
+        }
+
+
+
+
+        
 
         public object GetClient()
         {
             return CurCache;
         }
+
+
 
         #region ICacheAdaper 成员
 
@@ -537,7 +628,7 @@ namespace Buffalo.DB.CacheManager
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        protected override IList GetCacheList(string key)
+        protected IList GetCacheList(string key)
         {
             IList ret = CurCache.Get(key) as IList;
             if (ret == null)
@@ -552,7 +643,7 @@ namespace Buffalo.DB.CacheManager
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        protected override IDictionary GetCacheHash(string key)
+        protected IDictionary GetCacheHash(string key)
         {
             IDictionary ret = CurCache.Get(key) as IDictionary;
             if (ret == null)

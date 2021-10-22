@@ -7,6 +7,7 @@ using Buffalo.DB.DbCommon;
 using Buffalo.Kernel;
 using System.Data;
 using System.Collections;
+using Buffalo.DB.CacheManager.CacheCollection;
 
 namespace Buffalo.DB.CacheManager
 {
@@ -46,6 +47,13 @@ namespace Buffalo.DB.CacheManager
         {
             get { return _throwExcertion; }
         }
+
+        public abstract object ConnectConfiguration { get ; set; }
+        public abstract object ConnectClient { get ;  }
+        /// <summary>
+        /// 重新连接
+        /// </summary>
+        public abstract void ReconnectClient();
 
         #region ICacheAdaper 成员
 
@@ -951,483 +959,180 @@ namespace Buffalo.DB.CacheManager
             }
         }
         /// <summary>
-        /// 增加到列表
+        /// 获取哈希集合
         /// </summary>
-        /// <typeparam name="E"></typeparam>
         /// <param name="key">键</param>
-        /// <param name="index">索引(0为增加到头部，-1为增加到尾部)</param>
-        /// <param name="value">值</param>
-        /// <param name="setType">设置值方式</param>
+        /// <param name="entityType">实体类型</param>
         /// <param name="oper"></param>
         /// <returns></returns>
-        public long ListAddValue<E>(string key, long index, E value, SetValueType setType,DataBaseOperate oper)
+        public ICacheHash GetHashMap(string key,  DataBaseOperate oper)
         {
-            using (T client = CreateClient(false, QueryCacheCommand.CommandListAdd))
+            try
             {
-                long ret= ListAddValue<E>(key, index, value, setType, client);
-                if (_info.SqlOutputer.HasOutput)
+                using (T client = CreateClient(true, QueryCacheCommand.CommandGetHash))
                 {
-                    OutPutMessage(QueryCacheCommand.CommandListAdd, "key=" + key, oper);
+                    ICacheHash ret = GetHashMap(key, client);
+                    if (_info.SqlOutputer.HasOutput)
+                    {
+                        OutPutMessage(QueryCacheCommand.CommandGetHash, "key=" + key, oper);
+                    }
+                    return ret;
                 }
-                return ret;
+            }
+            catch (Exception ex)
+            {
+                if (_throwExcertion)
+                {
+                    throw ex;
+                }
+                else
+                {
+                    OutExceptionMessage(ex, oper);
+                    return null;
+                }
             }
         }
+
         /// <summary>
-        /// 获取值
+        /// 获取List集合
         /// </summary>
-        /// <typeparam name="E"></typeparam>
         /// <param name="key">键</param>
-        /// <param name="index">值位置</param>
-        /// <param name="defaultValue">默认值</param>
+        /// <param name="entityType">实体类型</param>
         /// <param name="oper"></param>
         /// <returns></returns>
-        public E ListGetValue<E>(string key, long index, E defaultValue, DataBaseOperate oper)
+        public ICacheList GetList(string key, DataBaseOperate oper)
         {
-            using (T client = CreateClient(false, QueryCacheCommand.CommandListGet))
+            try
             {
-                E ret= ListGetValue<E>(key, index, defaultValue, client);
-                if (_info.SqlOutputer.HasOutput)
+                using (T client = CreateClient(true, QueryCacheCommand.CommandGetList))
                 {
-                    OutPutMessage(QueryCacheCommand.CommandListGet, "key=" + key, oper);
+                    ICacheList ret = GetList(key, client);
+                    if (_info.SqlOutputer.HasOutput)
+                    {
+                        OutPutMessage(QueryCacheCommand.CommandGetList, "key=" + key, oper);
+                    }
+                    return ret;
                 }
-                return ret;
+            }
+            catch (Exception ex)
+            {
+                if (_throwExcertion)
+                {
+                    throw ex;
+                }
+                else
+                {
+                    OutExceptionMessage(ex, oper);
+                    return null;
+                }
             }
         }
 
         /// <summary>
-        /// 获取集合长度
+        /// 获取SortedSet集合
         /// </summary>
-        /// <typeparam name="E"></typeparam>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        public long ListGetLength(string key, DataBaseOperate oper)
-        {
-            using (T client = CreateClient(false, QueryCacheCommand.CommandListGet))
-            {
-                long ret = ListGetLength(key, client);
-                if (_info.SqlOutputer.HasOutput)
-                {
-                    OutPutMessage(QueryCacheCommand.CommandListGet, "key=" + key, oper);
-                }
-                return ret;
-            }
-        }
-        /// <summary>
-        /// 移除并返回值
-        /// </summary>
-        /// <typeparam name="E"></typeparam>
         /// <param name="key">键</param>
-        /// <param name="isPopEnd">是否从尾部移除(true则从尾部移除，否则从头部移除)</param>
-        /// <param name="defaultValue">默认值</param>
+        /// <param name="entityType">实体类型</param>
         /// <param name="oper"></param>
         /// <returns></returns>
-        public E ListPopValue<E>(string key, bool isPopEnd, E defaultValue, DataBaseOperate oper)
+        public ICacheSortedSet GetSortedSet(string key,  DataBaseOperate oper)
         {
-            using (T client = CreateClient(false, QueryCacheCommand.CommandListDelete))
+            try
             {
-                E ret = ListPopValue<E>(key, isPopEnd, defaultValue, client);
-                if (_info.SqlOutputer.HasOutput)
+                using (T client = CreateClient(true, QueryCacheCommand.CommandSortedSet))
                 {
-                    OutPutMessage(QueryCacheCommand.CommandListDelete, "key=" + key, oper);
+                    ICacheSortedSet ret = GetSortedSet(key, client);
+                    if (_info.SqlOutputer.HasOutput)
+                    {
+                        OutPutMessage(QueryCacheCommand.CommandSortedSet, "key=" + key, oper);
+                    }
+                    return ret;
                 }
-                return ret;
+            }
+            catch (Exception ex)
+            {
+                if (_throwExcertion)
+                {
+                    throw ex;
+                }
+                else
+                {
+                    OutExceptionMessage(ex, oper);
+                    return null;
+                }
             }
         }
         /// <summary>
-        /// 移除值
+        /// 获取SortedSet集合
         /// </summary>
         /// <param name="key">键</param>
-        /// <param name="value">值</param>
-        /// <param name="count">要移除几个，0则为全部移除</param>
-        /// <returns></returns>
-        public long ListRemoveValue(string key, object value, long count, DataBaseOperate oper)
-        {
-            using (T client = CreateClient(false, QueryCacheCommand.CommandListDelete))
-            {
-                long ret = ListRemoveValue(key, value, count, client);
-                if (_info.SqlOutputer.HasOutput)
-                {
-                    OutPutMessage(QueryCacheCommand.CommandListDelete, "key=" + key, oper);
-                }
-                return ret;
-            }
-        }
-
-        /// <summary>
-        /// 获取集合所有值
-        /// </summary>
-        /// <typeparam name="E"></typeparam>
-        /// <param name="key">键</param>
-        /// <param name="start">起始位置(默认0)</param>
-        /// <param name="end">结束位置(-1则为读到末尾)</param>
+        /// <param name="entityType">实体类型</param>
         /// <param name="oper"></param>
         /// <returns></returns>
-        public List<E> ListAllValues<E>(string key, long start, long end, DataBaseOperate oper)
+        public ICacheLock GetCacheLock(string key, DataBaseOperate oper)
         {
-            using (T client = CreateClient(false, QueryCacheCommand.CommandListGet))
+            try
             {
-                List<E> ret= ListAllValues<E>(key, start, end, client); 
-                if (_info.SqlOutputer.HasOutput)
+                using (T client = CreateClient(true, QueryCacheCommand.CommandLock))
                 {
-                    OutPutMessage(QueryCacheCommand.CommandListGet, "key=" + key, oper);
+                    ICacheLock ret = GetCacheLock(key, client);
+                    if (_info.SqlOutputer.HasOutput)
+                    {
+                        OutPutMessage(QueryCacheCommand.CommandLock, "key=" + key, oper);
+                    }
+                    return ret;
                 }
-
-                return ret;
+            }
+            catch (Exception ex)
+            {
+                if (_throwExcertion)
+                {
+                    throw ex;
+                }
+                else
+                {
+                    OutExceptionMessage(ex, oper);
+                    return null;
+                }
             }
         }
-
-        #region HashSet部分
-
-        /// <summary>
-        /// 批量给HashSet设置值
-        /// </summary>
-        /// <typeparam name="E"></typeparam>
-        /// <param name="key">键</param>
-        /// <param name="dicSet">值</param>
-        /// <returns></returns>
-        public void HashSetRangeValue(string key, IDictionary dicSet, DataBaseOperate oper)
-        {
-            using (T client = CreateClient(false, QueryCacheCommand.CommandHashAdd))
-            {
-                HashSetRangeValue(key, dicSet, client);
-                if (_info.SqlOutputer.HasOutput)
-                {
-                    OutPutMessage(QueryCacheCommand.CommandHashAdd, "key=" + key, oper);
-                }
-
-                
-            }
-        }
-        /// <summary>
-        /// HashSet设置值
-        /// </summary>
-        /// <param name="key">键</param>
-        /// <param name="hashkey">哈希表的键</param>
-        /// <param name="value">哈希表的值</param>
-        /// <param name="type">设置方式</param>
-        public bool HashSetValue(string key, object hashkey, object value, SetValueType type, DataBaseOperate oper)
-        {
-            using (T client = CreateClient(false, QueryCacheCommand.CommandHashAdd))
-            {
-                bool ret= HashSetValue(key, hashkey, value, type, client);
-                if (_info.SqlOutputer.HasOutput)
-                {
-                    OutPutMessage(QueryCacheCommand.CommandHashAdd, "key=" + key, oper);
-                }
-
-                return ret;
-            }
-            
-        }
-        /// <summary>
-        /// 获取哈希表的值
-        /// </summary>
-        /// <typeparam name="E"></typeparam>
-        /// <param name="key">键</param>
-        /// <param name="hashkey">哈希表的键</param>
-        /// <param name="defaultValue">默认值</param>
-        /// <param name="connection"></param>
-        /// <returns></returns>
-        public E HashGetValue<E>(string key, object hashkey, E defaultValue, DataBaseOperate oper)
-        {
-            using (T client = CreateClient(false, QueryCacheCommand.CommandHashGet))
-            {
-                E ret = HashGetValue(key, hashkey, defaultValue, client);
-                if (_info.SqlOutputer.HasOutput)
-                {
-                    OutPutMessage(QueryCacheCommand.CommandHashGet, "key=" + key, oper);
-                }
-
-                return ret;
-            }
-
-        }
-        /// <summary>
-        /// 获取所有哈希表的值
-        /// </summary>
-        /// <typeparam name="E"></typeparam>
-        /// <param name="key">键</param>
-        /// <param name="defaultValue">默认值</param>
-        /// <param name="connection"></param>
-        /// <returns></returns>
-        public List<KeyValuePair<K,V>> HashGetAllValues<K,V>(string key, V defaultValue, DataBaseOperate oper)
-        {
-            using (T client = CreateClient(false, QueryCacheCommand.CommandHashGet))
-            {
-                List<KeyValuePair<K, V>> ret = HashGetAllValues<K, V>(key,  defaultValue, client);
-                if (_info.SqlOutputer.HasOutput)
-                {
-                    OutPutMessage(QueryCacheCommand.CommandHashGet, "key=" + key, oper);
-                }
-                
-                return ret;
-            }
-        }
-
-        /// <summary>
-        /// 删除哈希表的值
-        /// </summary>
-        /// <typeparam name="E"></typeparam>
-        /// <param name="key">键</param>
-        /// <param name="hashkey">哈希表的键</param>
-        /// <param name="connection"></param>
-        /// <returns></returns>
-        public bool HashDeleteValue(string key, object hashkey, DataBaseOperate oper)
-        {
-            using (T client = CreateClient(false, QueryCacheCommand.CommandHashDelete))
-            {
-                bool ret = HashDeleteValue(key, hashkey, client);
-                if (_info.SqlOutputer.HasOutput)
-                {
-                    OutPutMessage(QueryCacheCommand.CommandHashDelete, "key=" + key, oper);
-                }
-
-                return ret;
-            }
-        }
-        /// <summary>
-        /// 批量删除哈希表的值
-        /// </summary>
-        /// <typeparam name="E"></typeparam>
-        /// <param name="key">键</param>
-        /// <param name="hashkeys">要删除哈希表的键</param>
-        /// <param name="connection"></param>
-        /// <returns></returns>
-        public long HashDeleteValues(string key, IEnumerable hashkeys, DataBaseOperate oper)
-        {
-            using (T client = CreateClient(false, QueryCacheCommand.CommandHashDelete))
-            {
-                long ret = HashDeleteValues(key, hashkeys, client);
-                if (_info.SqlOutputer.HasOutput)
-                {
-                    OutPutMessage(QueryCacheCommand.CommandHashDelete, "key=" + key, oper);
-                }
-
-                return ret;
-            }
-        }
-
-        /// <summary>
-        /// 判断是否存在此key
-        /// </summary>
-        /// <param name="key">键</param>
-        /// <param name="hashkey">哈希表的键</param>
-        /// <param name="connection"></param>
-        /// <returns></returns>
-        public bool HashExists(string key, object hashkey, DataBaseOperate oper)
-        {
-            using (T client = CreateClient(false, QueryCacheCommand.CommandHashGet))
-            {
-                bool ret = HashExists(key, hashkey, client);
-                if (_info.SqlOutputer.HasOutput)
-                {
-                    OutPutMessage(QueryCacheCommand.CommandHashGet, "key=" + key, oper);
-                }
-
-                return ret;
-            }
-        }
-        /// <summary>
-        /// 哈希表的值自增
-        /// </summary>
-        /// <param name="key">键</param>
-        /// <param name="hashkey">哈希键</param>
-        /// <param name="value">值</param>
-        /// <param name="connection"></param>
-        /// <returns></returns>
-        public long HashIncrement(string key, object hashkey, long value, DataBaseOperate oper)
-        {
-            using (T client = CreateClient(false, QueryCacheCommand.CommandHashAdd))
-            {
-                long ret = HashIncrement(key, hashkey,value, client);
-                if (_info.SqlOutputer.HasOutput)
-                {
-                    OutPutMessage(QueryCacheCommand.CommandHashAdd, "key=" + key, oper);
-                }
-
-                return ret;
-            }
-        }
-        /// <summary>
-        /// 哈希表的值自减
-        /// </summary>
-        /// <param name="key">键</param>
-        /// <param name="hashkey">哈希键</param>
-        /// <param name="value">值</param>
-        /// <param name="connection"></param>
-        /// <returns></returns>
-        public long HashDecrement(string key, object hashkey, long value, DataBaseOperate oper)
-        {
-            using (T client = CreateClient(false, QueryCacheCommand.CommandHashAdd))
-            {
-                long ret = HashDecrement(key, hashkey, value, client);
-                if (_info.SqlOutputer.HasOutput)
-                {
-                    OutPutMessage(QueryCacheCommand.CommandHashAdd, "key=" + key, oper);
-                }
-
-                return ret;
-            }
-        }
-
-
-
-
-        /// <summary>
-        /// 批量HashSet设置值
-        /// </summary>
-        /// <typeparam name="E"></typeparam>
-        /// <param name="key">键</param>
-        /// <param name="dicSet">值</param>
-        /// <param name="connection"></param>
-        /// <returns></returns>
-        protected abstract void HashSetRangeValue(string key, IDictionary dicSet, T connection);
-        /// <summary>
-        /// HashSet设置值
-        /// </summary>
-        /// <param name="key">键</param>
-        /// <param name="hashkey">哈希表的键</param>
-        /// <param name="value">哈希表的值</param>
-        /// <param name="type">设置方式</param>
-        /// <param name="connection"></param>
-        protected abstract bool HashSetValue(string key, object hashkey, object value, SetValueType type, T connection);
-        /// <summary>
-        /// 获取哈希表的值
-        /// </summary>
-        /// <typeparam name="E"></typeparam>
-        /// <param name="key">键</param>
-        /// <param name="hashkey">哈希表的键</param>
-        /// <param name="defaultValue">默认值</param>
-        /// <param name="connection"></param>
-        /// <returns></returns>
-        protected abstract E HashGetValue<E>(string key, object hashkey, E defaultValue, T connection);
-        /// <summary>
-        /// 获取所有哈希表的值
-        /// </summary>
-        /// <typeparam name="E"></typeparam>
-        /// <param name="key">键</param>
-        /// <param name="defaultValue">默认值</param>
-        /// <param name="connection"></param>
-        /// <returns></returns>
-        protected abstract List<KeyValuePair<K, V>> HashGetAllValues<K,V>(string key, V defaultValue, T connection);
-        /// <summary>
-        /// 删除哈希表的值
-        /// </summary>
-        /// <typeparam name="E"></typeparam>
-        /// <param name="key">键</param>
-        /// <param name="hashkey">哈希表的键</param>
-        /// <param name="connection"></param>
-        /// <returns></returns>
-        protected abstract bool HashDeleteValue(string key, object hashkey, T connection);
-        /// <summary>
-        /// 批量删除哈希表的值
-        /// </summary>
-        /// <typeparam name="E"></typeparam>
-        /// <param name="key">键</param>
-        /// <param name="hashkeys">要删除哈希表的键</param>
-        /// <param name="connection"></param>
-        /// <returns></returns>
-        protected abstract long HashDeleteValues(string key, IEnumerable hashkeys, T connection);
-        /// <summary>
-        /// 判断是否存在此key
-        /// </summary>
-        /// <param name="key">键</param>
-        /// <param name="hashkey">哈希表的键</param>
-        /// <param name="connection"></param>
-        /// <returns></returns>
-        protected abstract bool HashExists(string key, object hashkey, T connection);
-        /// <summary>
-        /// 哈希表的值自增
-        /// </summary>
-        /// <param name="key">键</param>
-        /// <param name="hashkey">哈希键</param>
-        /// <param name="value">值</param>
-        /// <param name="connection"></param>
-        /// <returns></returns>
-        protected abstract long HashIncrement(string key, object hashkey, long value, T connection);
-        /// <summary>
-        /// 哈希表的值自减
-        /// </summary>
-        /// <param name="key">键</param>
-        /// <param name="hashkey">哈希键</param>
-        /// <param name="value">值</param>
-        /// <param name="connection"></param>
-        /// <returns></returns>
-        protected abstract long HashDecrement(string key, object hashkey, long value, T connection);
-
-        #endregion
-
-
         public abstract void ClearAll(T client);
         public abstract object GetClient();
         public abstract IEnumerable<string> GetAllKeys(string pattern, T client);
 
-        #region List部分
-        /// <summary>
-        /// 增加到列表
-        /// </summary>
-        /// <typeparam name="E"></typeparam>
-        /// <param name="key">键</param>
-        /// <param name="index">索引(0为增加到头部，-1为增加到尾部)</param>
-        /// <param name="value">值</param>
-        /// <param name="setType">设置值方式</param>
-        /// <param name="connection"></param>
-        /// <returns></returns>
-        protected abstract long ListAddValue<E>(string key, long index, E value, SetValueType setType, T connection);
-        /// <summary>
-        /// 插入
-        /// </summary>
-        /// <typeparam name="E"></typeparam>
-        /// <param name="key"></param>
-        /// <param name="index"></param>
-        /// <param name="defaultValue"></param>
-        /// <param name="connection"></param>
-        /// <returns></returns>
-        protected abstract E ListGetValue<E>(string key, long index, E defaultValue, T connection);
+   
 
         /// <summary>
-        /// 获取集合长度
+        /// 获取hash操作
         /// </summary>
-        /// <typeparam name="E"></typeparam>
         /// <param name="key"></param>
         /// <param name="connection"></param>
         /// <returns></returns>
-        protected abstract long ListGetLength(string key, T connection);
-        /// <summary>
-        /// 移除并返回值
-        /// </summary>
-        /// <typeparam name="E"></typeparam>
-        /// <param name="key">键</param>
-        /// <param name="isPopEnd">是否从尾部移除(true则从尾部移除，否则从头部移除)</param>
-        /// <param name="defaultValue">默认值</param>
-        /// <param name="connection"></param>
-        /// <returns></returns>
-        protected abstract E ListPopValue<E>(string key, bool isPopEnd, E defaultValue, T connection);
-        /// <summary>
-        /// 移除值
-        /// </summary>
-        /// <param name="key">键</param>
-        /// <param name="value">值</param>
-        /// <param name="count">要移除几个，0则为全部移除</param>
-        /// <param name="connection"></param>
-        /// <returns></returns>
-        protected abstract long ListRemoveValue(string key, object value, long count, T connection);
+        public abstract ICacheHash GetHashMap(string key, T connection);
 
         /// <summary>
-        /// 获取集合所有值
+        /// 获取List
         /// </summary>
-        /// <typeparam name="E"></typeparam>
-        /// <param name="key">键</param>
-        /// <param name="start">起始位置(默认0)</param>
-        /// <param name="end">结束位置(-1则为读到末尾)</param>
+        /// <param name="key"></param>
         /// <param name="connection"></param>
         /// <returns></returns>
-        protected abstract List<E> ListAllValues<E>(string key, long start, long end, T connection);
+        public abstract ICacheList GetList(string key, T connection);
 
+        /// <summary>
+        /// 获取锁
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="connection"></param>
+        /// <returns></returns>
+        public abstract ICacheLock GetCacheLock(string key, T connection);
 
-        #endregion
-
-
+        /// <summary>
+        /// 获取顺序集
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="connection"></param>
+        /// <returns></returns>
+        public abstract ICacheSortedSet GetSortedSet(string key, T connection);
 
     }
 }

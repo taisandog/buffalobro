@@ -8,6 +8,7 @@ using Buffalo.DB.DataBaseAdapter;
 using Buffalo.DB.MessageOutPuters;
 using Buffalo.DB.DbCommon;
 using System.Collections.Concurrent;
+using Buffalo.DB.CacheManager.CacheCollection;
 
 namespace Buffalo.DB.CacheManager
 {
@@ -34,6 +35,31 @@ namespace Buffalo.DB.CacheManager
         public DBInfo Info
         {
             get { return _info; }
+        }
+
+        public object ConnectConfiguration 
+        {
+            get 
+            {
+                return null;
+            }
+            set { }
+        }
+
+        public object ConnectClient 
+        {
+            get 
+            {
+                return _cache;
+            }
+        }
+        /// <summary>
+        /// 重连连接redis
+        /// </summary>
+        public void ReconnectClient()
+        {
+            
+
         }
         /// <summary>
         /// 设置数据
@@ -302,6 +328,66 @@ namespace Buffalo.DB.CacheManager
             }
             return keys;
         }
+        /// <summary>
+        /// 获取哈希表的操作方式
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="oper"></param>
+        /// <returns></returns>
+        public ICacheHash GetHashMap(string key, DataBaseOperate oper)
+        {
+            IDictionary<string, object> dic = _cache[key] as IDictionary<string, object>;
+            if (dic == null)
+            {
+                dic = new Dictionary<string, object>();
+                _cache[key]=dic;
+            }
+            return new MemoryCacheHash(dic);
+        }
+        /// <summary>
+        /// 获取哈希表的操作方式
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="oper"></param>
+        /// <returns></returns>
+        public ICacheList GetList(string key, DataBaseOperate oper)
+        {
+            IList dic = _cache[key] as IList;
+            if (dic == null)
+            {
+                dic = new List<object>();
+                _cache[key] = dic;
+            }
+            return new MemoryCacheList(dic);
+        }
+        /// <summary>
+        /// 获取锁的操作方式
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="oper"></param>
+        /// <returns></returns>
+        public ICacheLock GetCacheLock(string key, DataBaseOperate oper)
+        {
+
+            return new MemoryCacheLock(key);
+        }
+
+        /// <summary>
+        /// 获取排序表的操作方式
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="oper"></param>
+        /// <returns></returns>
+        public ICacheSortedSet GetSortedSet(string key, DataBaseOperate oper)
+        {
+            SortedSet<SortedSetItem> lst = _cache[key] as SortedSet<SortedSetItem>;
+            if (lst == null)
+            {
+                lst = new SortedSet<SortedSetItem>();
+                _cache[key] = lst;
+            }
+            return new MemoryCacheSortedSet(lst);
+        }
 
         public object GetClient()
         {
@@ -357,42 +443,44 @@ namespace Buffalo.DB.CacheManager
         }
 
         
-        /// <summary>
-        /// 获取集合
-        /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        protected override IList GetCacheList(string key)
-        {
-            IList ret=_cache[key] as IList;
-            if (ret == null)
-            {
-                ret = new ArrayList();
-                _cache[key] = ret;
-            }
-            return ret;
-        }
+        ///// <summary>
+        ///// 获取集合
+        ///// </summary>
+        ///// <param name="key"></param>
+        ///// <returns></returns>
+        //protected override IList GetCacheList(string key)
+        //{
+        //    IList ret=_cache[key] as IList;
+        //    if (ret == null)
+        //    {
+        //        ret = new ArrayList();
+        //        _cache[key] = ret;
+        //    }
+        //    return ret;
+        //}
 
-        /// <summary>
-        /// 获取哈希表
-        /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        protected override IDictionary GetCacheHash(string key)
-        {
-            IDictionary ret = _cache[key] as IDictionary;
-            if (ret == null)
-            {
-                ret = new Hashtable();
-                _cache[key]= ret;
-            }
-            return ret;
-        }
+        ///// <summary>
+        ///// 获取哈希表
+        ///// </summary>
+        ///// <param name="key"></param>
+        ///// <returns></returns>
+        //protected override IDictionary GetCacheHash(string key)
+        //{
+        //    IDictionary ret = _cache[key] as IDictionary;
+        //    if (ret == null)
+        //    {
+        //        ret = new Hashtable();
+        //        _cache[key]= ret;
+        //    }
+        //    return ret;
+        //}
 
         public bool SetKeyExpire(string key, int expirSeconds, DataBaseOperate oper)
         {
             return true;
         }
+
+        
 
         #endregion
     }

@@ -7,8 +7,35 @@ using System.Collections;
 
 namespace Buffalo.DB.MessageOutPuters
 {
+    /// <summary>
+    /// Debug输出器
+    /// </summary>
     public class DebugOutputer : MessageOutputBase
     {
+        /// <summary>
+        /// Trace.WriteLine模式
+        /// </summary>
+        /// <param name="str"></param>
+        private void TraceWriteLine(string str) 
+        {
+            Trace.WriteLine(str);
+        }
+        /// <summary>
+        /// Debug.WriteLine模式
+        /// </summary>
+        /// <param name="str"></param>
+        private void DebugWriteLine(string str)
+        {
+            Debug.WriteLine(str);
+        }
+        /// <summary>
+        /// Console.WriteLine模式
+        /// </summary>
+        /// <param name="str"></param>
+        private void ConsoleWriteLine(string str)
+        {
+            Console.WriteLine(str);
+        }
         /// <summary>
         /// 输出信息
         /// </summary>
