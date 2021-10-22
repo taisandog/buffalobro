@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Buffalo.MongoDB
@@ -50,40 +51,96 @@ namespace Buffalo.MongoDB
             return lst;
         }
         /// <summary>
+        /// 多个索引创建成一个创建条件
+        /// </summary>
+        /// <param name="indexName"></param>
+        /// <param name="prmIndex"></param>
+        /// <returns></returns>
+        public CreateIndexModel<TDocument> BuildIndexModel(string indexName,params IndexKeysDefinition<TDocument>[] prmIndex) 
+        {
+            IndexKeysDefinition<TDocument> prm = ConditionList<TDocument>.Index.Combine(prmIndex);
+            CreateIndexOptions option = new CreateIndexOptions();
+            option.Name = indexName;
+            CreateIndexModel <TDocument> ret = new CreateIndexModel<TDocument>(prm, option);
+            return ret;
+        }
+
+        /// <summary>
+        /// 多个索引创建成一个创建条件
+        /// </summary>
+        /// <param name="indexName"></param>
+        /// <param name="prmIndex"></param>
+        /// <returns></returns>
+        public CreateIndexModel<TDocument> BuildIndexModel(string indexName, IEnumerable<IndexKeysDefinition<TDocument>> prmIndex)
+        {
+            IndexKeysDefinition<TDocument> prm = ConditionList<TDocument>.Index.Combine(prmIndex);
+            CreateIndexOptions option = new CreateIndexOptions();
+            option.Name = indexName;
+            CreateIndexModel<TDocument> ret = new CreateIndexModel<TDocument>(prm, option);
+            return ret;
+            
+        }
+        /// <summary>
         /// 创建索引
         /// </summary>
-        /// <param name="propertyName">字段</param>
+        /// <param name="model">索引定义</param>
         /// <param name="collectionName">集合</param>
-        /// <param name="indexSort">排序</param>
-        public string CreateIndex(string propertyName, string collectionName, MGSortType indexSort)
+        /// <param name="options">创建选项</param>
+        /// <param name="cancellationToken">取消控制</param>
+        public string CreateIndex(CreateIndexModel<TDocument> model, string collectionName,CreateOneIndexOptions options = null, CancellationToken cancellationToken = default)
         {
             //IMongoDatabase db = MongoDBManager.GetMongoClient(_dbInfo.DBKey);
             IMongoCollection<TDocument> mc = _db.GetCollection<TDocument>(collectionName);
-            IndexKeysDefinitionBuilder<TDocument> index = ConditionList<TDocument>.Index;
-            IndexKeysDefinition<TDocument> definition = null;
-            if (indexSort == MGSortType.ASC)
-            {
-                definition = index.Ascending(propertyName);
-            }
-            else
-            {
-                definition = index.Descending(propertyName);
-            }
-            CreateIndexModel<TDocument> model = new CreateIndexModel<TDocument>(definition);
+           
             return mc.Indexes.CreateOne(model);
         }
         /// <summary>
         /// 创建索引
         /// </summary>
-        /// <param name="propertyName">字段</param>
-        /// <param name="indexSort">排序</param>
-        public string CreateIndex(string propertyName,MGSortType indexSort)
+        /// <param name="model">索引定义</param>
+        /// <param name="options">创建选项</param>
+        /// <param name="cancellationToken">取消控制</param>
+        public string CreateIndex(CreateIndexModel<TDocument> model, CreateOneIndexOptions options = null, CancellationToken cancellationToken = default)
         {
             if (string.IsNullOrWhiteSpace(_entityInfo.CollectionName))
             {
                 throw new Exception("找不到实体对应的集合名");
             }
-            return CreateIndex(propertyName, _entityInfo.CollectionName, indexSort);
+            return CreateIndex(model, _entityInfo.CollectionName, options, cancellationToken);
+        }
+        /// <summary>
+        /// 创建索引
+        /// </summary>
+        /// <param name="models">索引定义</param>
+        /// <param name="collectionName">集合</param>
+        /// <param name="options">创建选项</param>
+        /// <param name="cancellationToken">取消控制</param>
+        public IEnumerable<string> CreateManyIndex(IEnumerable<CreateIndexModel<TDocument>> models, string collectionName, CreateOneIndexOptions options = null, CancellationToken cancellationToken = default)
+        {
+            IMongoCollection<TDocument> mc = _db.GetCollection<TDocument>(collectionName);
+            //List<CreateIndexModel<TDocument>> lstModel = new List<CreateIndexModel<TDocument>>(20);
+            //foreach (IndexKeysDefinition<TDocument> definition in definitions) 
+            //{
+            //    CreateIndexModel<TDocument> model = new CreateIndexModel<TDocument>(definition);
+            //    lstModel.Add(model);
+            //}
+            
+            return mc.Indexes.CreateMany(models);
+        }
+        /// <summary>
+        /// 创建索引
+        /// </summary>
+        /// <param name="models">索引定义</param>
+        /// <param name="collectionName">集合</param>
+        /// <param name="options">创建选项</param>
+        /// <param name="cancellationToken">取消控制</param>
+        public IEnumerable<string> CreateManyIndex(IEnumerable<CreateIndexModel<TDocument>> models, CreateOneIndexOptions options = null, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(_entityInfo.CollectionName))
+            {
+                throw new Exception("找不到实体对应的集合名");
+            }
+            return CreateManyIndex(models, _entityInfo.CollectionName, options, cancellationToken);
         }
 
         /// <summary>

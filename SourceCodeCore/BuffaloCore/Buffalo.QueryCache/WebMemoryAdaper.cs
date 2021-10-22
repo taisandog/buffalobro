@@ -1,4 +1,5 @@
 ﻿using Buffalo.DB.CacheManager;
+using Buffalo.DB.CacheManager.CacheCollection;
 using Buffalo.DB.DataBaseAdapter;
 using Buffalo.DB.DbCommon;
 using Buffalo.DB.MessageOutPuters;
@@ -127,6 +128,24 @@ namespace Buffalo.QueryCache
         {
             get { return _info; }
         }
+
+        public object ConnectConfiguration 
+        {
+            get
+            {
+                return null;
+            }
+            set { }
+        }
+
+        public object ConnectClient 
+        {
+            get 
+            {
+                return CurCache;
+            }
+        }
+
         /// <summary>
         /// 设置数据
         /// </summary>
@@ -440,27 +459,7 @@ namespace Buffalo.QueryCache
         }
 
 
-        protected override IList GetCacheList(string key)
-        {
-            IList ret = CurCache.Get(key) as IList;
-            if (ret == null)
-            {
-                ret = new List<object>();
-                CurCache.Set<object>(key, ret);
-            }
-            return ret;
-        }
-
-        protected override IDictionary GetCacheHash(string key)
-        {
-            IDictionary ret = CurCache.Get(key) as IDictionary;
-            if (ret == null)
-            {
-                ret = new Hashtable();
-                CurCache.Set<object>(key, ret);
-            }
-            return ret;
-        }
+        
 
         #region ICacheAdaper 成员
 
@@ -507,6 +506,61 @@ namespace Buffalo.QueryCache
                 CurCache.Set(key, obj);
             }
             return true;
+        }
+
+        public ICacheHash GetHashMap(string key, DataBaseOperate oper)
+        {
+            object lok = _lockObjects.GetObject(key);
+            lock (lok)
+            {
+                IDictionary<string, object> dic = CurCache.Get(key) as IDictionary<string, object>;
+                if (dic == null)
+                {
+                    dic = new Dictionary<string, object>();
+                    CurCache.Set<IDictionary<string, object>>(key, dic);
+                }
+                return new MemoryCacheHash(dic);
+            }
+        }
+
+        public ICacheList GetList(string key, DataBaseOperate oper)
+        {
+            object lok = _lockObjects.GetObject(key);
+            lock (lok)
+            {
+                IList dic = CurCache.Get(key) as IList;
+                if (dic == null)
+                {
+                    dic = new List<object>();
+                    CurCache.Set<IList>(key, dic);
+                }
+                return new MemoryCacheList(dic);
+            }
+        }
+
+        public ICacheLock GetCacheLock(string key, DataBaseOperate oper)
+        {
+            return new MemoryCacheLock(key);
+        }
+
+        public ICacheSortedSet GetSortedSet(string key, DataBaseOperate oper)
+        {
+            object lok = _lockObjects.GetObject(key);
+            lock (lok)
+            {
+                SortedSet<SortedSetItem> lst = CurCache.Get(key) as SortedSet<SortedSetItem>;
+                if (lst == null)
+                {
+                    lst = new SortedSet<SortedSetItem>();
+                    CurCache.Set<SortedSet<SortedSetItem>>(key, lst);
+                }
+                return new MemoryCacheSortedSet(lst);
+            }
+        }
+
+        public void ReconnectClient()
+        {
+            
         }
 
         #endregion

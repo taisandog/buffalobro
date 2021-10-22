@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Buffalo.MongoDB
@@ -15,7 +16,7 @@ namespace Buffalo.MongoDB
     /// <summary>
     /// 数据库操作类
     /// </summary>
-    public partial class MongoDBOperate<TDocument> where TDocument: MongoEntityBase
+    public partial class MongoDBOperate<TDocument> where TDocument : MongoEntityBase
     {
         /// <summary>
         /// 数据库信息
@@ -25,9 +26,16 @@ namespace Buffalo.MongoDB
         /// 关联实体
         /// </summary>
         private MongoEntityInfo _entityInfo;
-
+        /// <summary>
+        /// 关联数据库
+        /// </summary>
         private IMongoDatabase _db = null;
+        /// <summary>
+        /// 关联连接
+        /// </summary>
         private MongoConnection _connection = null;
+
+
         /// <summary>
         /// 数据库操作类
         /// </summary>
@@ -39,8 +47,47 @@ namespace Buffalo.MongoDB
             _entityInfo = entityInfo;
             _connection = MongoDBManager.GetMongoClient(_dbInfo.DBKey);
             _db = _connection.DB;
+        }
+        /// <summary>
+        /// 所属数据库
+        /// </summary>
+        public IMongoDatabase DB 
+        {
+            get 
+            {
+                return _db;
+            }
+        }
+        /// <summary>
+        /// 数据库连接
+        /// </summary>
+        public MongoConnection Connection
+        {
+            get
+            {
+                return _connection;
+            }
+        }
 
-
+        /// <summary>
+        /// 数据库信息
+        /// </summary>
+        public MongoDBInfo DBInfo 
+        {
+            get 
+            {
+                return _dbInfo;
+            }
+        }
+        /// <summary>
+        /// 关联实体
+        /// </summary>
+        private MongoEntityInfo EntityInfo 
+        {
+            get 
+            {
+                return _entityInfo;
+            }
         }
         /// <summary>
         /// 插入数据
@@ -48,7 +95,8 @@ namespace Buffalo.MongoDB
         /// <param name="collectionName">集合名</param>
         /// <param name="entity">实体</param>
         /// <param name="hasIdentity">是否有自增长</param>
-        public void Insert(string collectionName, TDocument entity,bool hasIdentity=true)
+        public void Insert(string collectionName, TDocument entity,bool hasIdentity=true,
+            InsertOneOptions options = null, CancellationToken cancellationToken = default)
         {
             //entity.ToBsonDocument();
             IMongoCollection<TDocument> col = _db.GetCollection<TDocument>(collectionName);
@@ -63,8 +111,17 @@ namespace Buffalo.MongoDB
                 }
             }
             //插入
-            col.InsertOne(entity);
+            col.InsertOne(entity,options,cancellationToken);
             
+        }
+        /// <summary>
+        /// 查找所有集合信息
+        /// </summary>
+        /// <returns></returns>
+        public List<BsonDocument> ListAllCollection() 
+        {
+            List<BsonDocument> lstDB = _db.ListCollections().ToList();
+            return lstDB;
         }
         /// <summary>
         /// 开启事务
@@ -87,14 +144,15 @@ namespace Buffalo.MongoDB
         /// </summary>
         /// <param name="entity">实体</param>
         /// <param name="hasIdentity">是否有自增长</param>
-        public void Insert(TDocument entity, bool hasIdentity = true)
+        public void Insert(TDocument entity, bool hasIdentity = true,
+            InsertOneOptions options = null, CancellationToken cancellationToken = default)
         {
 
             if (string.IsNullOrWhiteSpace(_entityInfo.CollectionName))
             {
                 throw new Exception("找不到实体对应的集合名");
             }
-            Insert(_entityInfo.CollectionName, entity,hasIdentity);
+            Insert(_entityInfo.CollectionName, entity,hasIdentity, options, cancellationToken);
         }
 
         /// <summary>
@@ -104,7 +162,8 @@ namespace Buffalo.MongoDB
         /// <param name="lstEntity">实体</param>
         /// <param name="hasIdentity">是否有自增长</param>
 
-        public void InsertList(string collectionName, IEnumerable lstEntity, bool hasIdentity = true)
+        public void InsertList(string collectionName, IEnumerable lstEntity, bool hasIdentity = true,
+            InsertManyOptions options = null, CancellationToken cancellationToken = default)
         {
             IMongoCollection<BsonDocument> col = _db.GetCollection<BsonDocument>(collectionName);
             List<BsonDocument> lst = new List<BsonDocument>();
@@ -130,7 +189,7 @@ namespace Buffalo.MongoDB
                 lst.Add(obj.ToBsonDocument());
             }
             //插入
-            col.InsertMany(lst);
+            col.InsertMany(lst, options, cancellationToken);
         }
 
 
@@ -139,7 +198,8 @@ namespace Buffalo.MongoDB
         /// </summary>
         /// <param name="lstEntity">实体</param>
         /// <param name="hasIdentity">是否有自增长</param>
-        public void InsertList(IEnumerable lstEntity, bool hasIdentity = true)
+        public void InsertList(IEnumerable lstEntity, bool hasIdentity = true, 
+            InsertManyOptions options = null, CancellationToken cancellationToken = default)
         {
 
             if (string.IsNullOrWhiteSpace(_entityInfo.CollectionName))
@@ -148,7 +208,7 @@ namespace Buffalo.MongoDB
             }
 
 
-            InsertList(_entityInfo.CollectionName, lstEntity,hasIdentity);
+            InsertList(_entityInfo.CollectionName, lstEntity,hasIdentity,options,cancellationToken);
         }
         /// <summary>
         /// 移除指定的数据
@@ -203,33 +263,49 @@ namespace Buffalo.MongoDB
             Delete(id, _entityInfo.CollectionName);
         }
         /// <summary>
-        /// 更新指定的数据
+        /// 批量更新指定的数据
         /// </summary>
         /// <typeparam name="T">移除的数据类型</typeparam>
         /// <param name="query">移除的数据条件</param>
         /// <param name="collectionName">指定的集合名词</param>
-        public void Update(ConditionList<TDocument> query, UpdateList<TDocument> updateList, string collectionName)
+        public void Update(ConditionList<TDocument> query, UpdateList<TDocument> updateList, string collectionName,
+            UpdateOptions options = null, CancellationToken cancellationToken = default)
         {
             IMongoCollection<TDocument> mc = _db.GetCollection<TDocument>(collectionName);
             FilterDefinition<TDocument> qu = ConditionList<TDocument>.Where.And(query);
             UpdateDefinition<TDocument> update = UpdateList<TDocument>.Update.Combine(updateList);
             //根据指定查询移除数据
-            mc.UpdateMany(qu, update);
+            mc.UpdateMany(qu, update, options, cancellationToken);
         }
-
+        /// <summary>
+        /// 更新单个指定的数据
+        /// </summary>
+        /// <typeparam name="T">移除的数据类型</typeparam>
+        /// <param name="query">移除的数据条件</param>
+        /// <param name="collectionName">指定的集合名词</param>
+        public void UpdateOne(ConditionList<TDocument> query, UpdateList<TDocument> updateList, string collectionName,
+            UpdateOptions options = null, CancellationToken cancellationToken = default)
+        {
+            IMongoCollection<TDocument> mc = _db.GetCollection<TDocument>(collectionName);
+            FilterDefinition<TDocument> qu = ConditionList<TDocument>.Where.And(query);
+            UpdateDefinition<TDocument> update = UpdateList<TDocument>.Update.Combine(updateList);
+            //根据指定查询移除数据
+            mc.UpdateOne(qu, update, options, cancellationToken);
+        }
         /// <summary>
         /// 更新指定的数据
         /// </summary>
         /// <typeparam name="T">移除的数据类型</typeparam>
         /// <param name="query">移除的数据条件</param>
         /// <param name="collectionName">指定的集合名词</param>
-        public void Update(ConditionList<TDocument> query, UpdateList<TDocument> updateList)
+        public void Update(ConditionList<TDocument> query, UpdateList<TDocument> updateList,
+            UpdateOptions options = null, CancellationToken cancellationToken = default)
         {
             if (string.IsNullOrWhiteSpace(_entityInfo.CollectionName))
             {
                 throw new Exception("找不到实体对应的集合名");
             }
-            Update(query, updateList, _entityInfo.CollectionName);
+            Update(query, updateList, _entityInfo.CollectionName, options, cancellationToken);
         }
 
         /// <summary>
@@ -238,7 +314,8 @@ namespace Buffalo.MongoDB
         /// <typeparam name="T">移除的数据类型</typeparam>
         /// <param name="query">移除的数据条件</param>
         /// <param name="collectionName">指定的集合名词</param>
-        public void Update(TDocument entity, ConditionList<TDocument> query=null, string collectionName=null)
+        public void Update(TDocument entity, ConditionList<TDocument> query=null, string collectionName=null,
+            UpdateOptions options = null, CancellationToken cancellationToken = default)
         {
             if (query == null)
             {
@@ -265,8 +342,8 @@ namespace Buffalo.MongoDB
                 }
                 updateList.Add(UpdateList<TDocument>.Update.Set(name, value));
             }
-
-            Update(query, updateList, collectionName);
+            
+            UpdateOne(query, updateList, collectionName,options,cancellationToken);
         }
     }
 }

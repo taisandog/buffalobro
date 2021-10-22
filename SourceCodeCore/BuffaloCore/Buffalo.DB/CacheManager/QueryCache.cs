@@ -12,6 +12,7 @@ using Buffalo.DB.DataFillers;
 using System.Data.Common;
 using System.Reflection;
 using Buffalo.DB.CommBase;
+using Buffalo.DB.CacheManager.CacheCollection;
 
 namespace Buffalo.DB.CacheManager
 {
@@ -101,7 +102,7 @@ namespace Buffalo.DB.CacheManager
                 return cache;
             }
 
-            throw new NotSupportedException("不支持:" + type + " 的缓存类型，当前只支持system、Web、memcached、redis类型的缓存");
+            throw new NotSupportedException("不支持:" + type + " 的缓存类型，当前只支持system、memcached、redis类型的缓存");
         }
 
         private static Assembly _cacheAssembly = null;
@@ -598,243 +599,59 @@ namespace Buffalo.DB.CacheManager
             return _cache.SetEntityList(key, lstEntiity, -1, _db.DefaultOperate);
         }
 
-        #region List方法
         /// <summary>
-        /// 增加到列表
+        /// 获取哈希表的操作方式
         /// </summary>
-        /// <typeparam name="E"></typeparam>
-        /// <param name="key">键</param>
-        /// <param name="index">索引(0为增加到头部，-1为增加到尾部)</param>
-        /// <param name="value">值</param>
-        /// <param name="setType">设置值方式</param>
-        /// <returns></returns>
-        public long ListAddValue<E>(string key,  E value, long index=-1, SetValueType setType=SetValueType.Set)
-        {
-            return _cache.ListAddValue<E>(key, index, value, setType, _db.DefaultOperate);
-        }
-        /// <summary>
-        /// 获取值
-        /// </summary>
-        /// <typeparam name="E"></typeparam>
-        /// <param name="key">键</param>
-        /// <param name="index">值位置</param>
-        /// <param name="defaultValue">默认值</param>
-        /// <returns></returns>
-        public E ListGetValue<E>(string key, long index, E defaultValue=default(E))
-        {
-            return _cache.ListGetValue<E>(key, index, defaultValue, _db.DefaultOperate);
-        }
-
-        /// <summary>
-        /// 获取集合长度
-        /// </summary>
-        /// <typeparam name="E"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
-        public long ListGetLength(string key)
+        public ICacheHash GetCacheHashMap(string key) 
         {
-            return _cache.ListGetLength(key, _db.DefaultOperate);
-        }
-        /// <summary>
-        /// 移除并返回值
-        /// </summary>
-        /// <typeparam name="E"></typeparam>
-        /// <param name="key">键</param>
-        /// <param name="isPopEnd">是否从尾部移除(true则从尾部移除，否则从头部移除)</param>
-        /// <param name="defaultValue">默认值</param>
-        /// <returns></returns>
-        public E ListPopValue<E>(string key, bool isPopEnd=true, E defaultValue=default(E))
-        {
-            return _cache.ListPopValue<E>(key, isPopEnd,defaultValue, _db.DefaultOperate);
+            return _cache.GetHashMap(key, _db.DefaultOperate);
         }
 
         /// <summary>
-        /// 移除值
+        /// 获取线性表的操作方式
         /// </summary>
-        /// <param name="key">键</param>
-        /// <param name="value">值</param>
-        /// <param name="count">要移除几个，0则为全部移除</param>
+        /// <param name="key"></param>
+        /// <param name="oper"></param>
         /// <returns></returns>
-        public long ListRemoveValue(string key, object value, long count=0)
+        public ICacheList GetCacheList(string key) 
         {
-            return _cache.ListRemoveValue(key, value,count, _db.DefaultOperate);
-        }
-
-
-        /// <summary>
-        /// 获取集合所有值
-        /// </summary>
-        /// <typeparam name="E"></typeparam>
-        /// <param name="key">键</param>
-        /// <param name="start">起始位置(默认0)</param>
-        /// <param name="end">结束位置(-1则为读到末尾)</param>
-        /// <returns></returns>
-        public List<E> ListAllValues<E>(string key, long start=0, long end=-1)
-        {
-            return _cache.ListAllValues<E>(key, start, end, _db.DefaultOperate);
-        }
-        #endregion
-
-        #region hash方法
-
-        /// <summary>
-        /// 批量给HashSet设置值
-        /// </summary>
-        /// <typeparam name="E"></typeparam>
-        /// <param name="key">键</param>
-        /// <param name="dicSet">值</param>
-        /// <returns></returns>
-        public void HashSetRangeValue(string key, IDictionary dicSet)
-        {
-            _cache.HashSetRangeValue(key, dicSet, _db.DefaultOperate);
-        }
-        /// <summary>
-        /// HashSet设置值
-        /// </summary>
-        /// <param name="key">键</param>
-        /// <param name="hashkey">哈希表的键</param>
-        /// <param name="value">哈希表的值</param>
-        /// <param name="type">设置方式</param>
-        public bool HashSetValue(string key, object hashkey, object value, SetValueType type)
-        {
-            return _cache.HashSetValue(key, hashkey,value,type, _db.DefaultOperate);
-        }
-        /// <summary>
-        /// HashSet设置值
-        /// </summary>
-        /// <param name="key">键</param>
-        /// <param name="hashkey">哈希表的键</param>
-        /// <param name="value">哈希表的值</param>
-        /// <param name="type">设置方式</param>
-        public bool HashSetValue(string key, object hashkey, object value)
-        {
-            return _cache.HashSetValue(key, hashkey, value, SetValueType.Set, _db.DefaultOperate);
-        }
-        /// <summary>
-        /// 获取哈希表的值
-        /// </summary>
-        /// <typeparam name="E"></typeparam>
-        /// <param name="key">键</param>
-        /// <param name="hashkey">哈希表的键</param>
-        /// <param name="defaultValue">默认值</param>
-        /// <param name="connection"></param>
-        /// <returns></returns>
-        public E HashGetValue<E>(string key, object hashkey, E defaultValue)
-        {
-            return _cache.HashGetValue<E>(key, hashkey, defaultValue,_db.DefaultOperate);
-        }
-        /// <summary>
-        /// 获取哈希表的值
-        /// </summary>
-        /// <typeparam name="E"></typeparam>
-        /// <param name="key">键</param>
-        /// <param name="hashkey">哈希表的键</param>
-        /// <param name="defaultValue">默认值</param>
-        /// <param name="connection"></param>
-        /// <returns></returns>
-        public E HashGetValue<E>(string key, object hashkey)
-        {
-            return _cache.HashGetValue<E>(key, hashkey, default(E), _db.DefaultOperate);
-        }
-        /// <summary>
-        /// 获取所有哈希表的值
-        /// </summary>
-        /// <typeparam name="E"></typeparam>
-        /// <param name="key">键</param>
-        /// <param name="defaultValue">默认值</param>
-        /// <param name="connection"></param>
-        /// <returns></returns>
-        public List<KeyValuePair<K, V>> HashGetAllValues<K, V>(string key, V defaultValue)
-        {
-            return _cache.HashGetAllValues<K, V>(key, defaultValue, _db.DefaultOperate);
-        }
-        /// <summary>
-        /// 获取哈希表的所有值
-        /// </summary>
-        /// <typeparam name="K"></typeparam>
-        /// <typeparam name="V"></typeparam>
-        /// <param name="key">键</param>
-        /// <returns></returns>
-        public List<KeyValuePair<K, V>> HashGetAllValues<K, V>(string key)
-        {
-            return _cache.HashGetAllValues<K, V>(key, default(V), _db.DefaultOperate);
-        }
-        /// <summary>
-        /// 删除哈希表的值
-        /// </summary>
-        /// <typeparam name="E"></typeparam>
-        /// <param name="key">键</param>
-        /// <param name="hashkey">哈希表的键</param>
-        /// <returns></returns>
-        public bool HashDeleteValue(string key, object hashkey)
-        {
-            return _cache.HashDeleteValue(key, hashkey, _db.DefaultOperate);
-        }
-        /// <summary>
-        /// 批量删除哈希表的值
-        /// </summary>
-        /// <typeparam name="E"></typeparam>
-        /// <param name="key">键</param>
-        /// <param name="hashkeys">要删除哈希表的键</param>
-        /// <returns></returns>
-        public long HashDeleteValues(string key, IEnumerable hashkeys)
-        {
-            return _cache.HashDeleteValues(key, hashkeys, _db.DefaultOperate);
-        }
-        /// <summary>
-        /// 哈希表的键是否存在
-        /// </summary>
-        /// <param name="key">键</param>
-        /// <param name="hashkey">哈希表的键</param>
-        /// <returns></returns>
-        public bool HashExists(string key, object hashkey)
-        {
-            return _cache.HashExists(key, hashkey, _db.DefaultOperate);
-        }
-        /// <summary>
-        /// 哈希表自增
-        /// </summary>
-        /// <param name="key">键</param>
-        /// <param name="hashkey">哈希键</param>
-        /// <returns></returns>
-        public long HashIncrement(string key, object hashkey)
-        {
-            return _cache.HashIncrement(key, hashkey,1,_db.DefaultOperate);
-        }
-        /// <summary>
-        /// 哈希表自增
-        /// </summary>
-        /// <param name="key">键</param>
-        /// <param name="hashkey">哈希键</param>
-        /// <param name="value">自增量</param>
-        /// <returns></returns>
-        public long HashIncrement(string key, object hashkey, long value)
-        {
-            return _cache.HashIncrement(key, hashkey, value, _db.DefaultOperate);
+            return _cache.GetList(key, _db.DefaultOperate);
         }
 
         /// <summary>
-        /// 哈希表自减
+        /// 获取锁的操作方式
         /// </summary>
-        /// <param name="key">键</param>
-        /// <param name="hashkey">哈希键</param>
-        /// <param name="value">自减量</param>
+        /// <param name="key"></param>
+        /// <param name="oper"></param>
         /// <returns></returns>
-        public long HashDecrement(string key, object hashkey, long value)
+        public ICacheLock GetCacheLock(string key)
         {
-            return _cache.HashDecrement(key, hashkey, value, _db.DefaultOperate);
+            return _cache.GetCacheLock(key, _db.DefaultOperate);
         }
+
         /// <summary>
-        /// 哈希表自减
+        /// 获取排序表的操作方式
         /// </summary>
-        /// <param name="key">键</param>
-        /// <param name="hashkey">哈希键</param>
+        /// <param name="key"></param>
+        /// <param name="oper"></param>
         /// <returns></returns>
-        public long HashDecrement(string key, object hashkey)
+        public ICacheSortedSet GetCacheSortedSet(string key) 
         {
-            return _cache.HashDecrement(key, hashkey, 1, _db.DefaultOperate);
+            return _cache.GetSortedSet(key, _db.DefaultOperate);
         }
-        #endregion
+
+        /// <summary>
+        /// 当前缓存的连接端
+        /// </summary>
+        public ICacheAdaper Client 
+        {
+            get 
+            {
+                return _cache;
+            }
+        }
     }
 
     /// <summary>
@@ -847,16 +664,13 @@ namespace Buffalo.DB.CacheManager
         public const string CommandSetDataSet = "SetDataSet";
         public const string CommandGetDataSet = "GetDataSet";
         public const string CommandGetList = "GetList";
-        public const string CommandSetList = "SetList";
+        public const string CommandGetHash = "Hash";
         public const string CommandGetValues = "GetValues";
         public const string CommandSetValues = "SetValues";
         public const string CommandDeleteValues = "DeleteValues";
         public const string CommandIncrement = "Increment";
-        public const string CommandListAdd = "ListAdd";
-        public const string CommandListGet = "ListGet";
-        public const string CommandListDelete = "ListDelete";
-        public const string CommandHashAdd = "HashAdd";
-        public const string CommandHashGet = "HashGet";
-        public const string CommandHashDelete = "HashDelete";
+        public const string CommandSortedSet = "SortSet";
+        public const string CommandLock = "Lock";
+        public const string CommandSetList = "SetList";
     }
 }
