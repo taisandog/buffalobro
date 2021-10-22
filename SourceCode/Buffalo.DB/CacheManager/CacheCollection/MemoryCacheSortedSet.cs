@@ -341,10 +341,9 @@ namespace Buffalo.DB.CacheManager.CacheCollection
         /// 根据索引范围获取值
         /// </summary>
         /// <returns></returns>
-        public T[] GetRangeByValue<T>(object min, object max,
-            SortType order = SortType.ASC, long skip = 0, long take = -1)
+        public T[] GetRangeByValue<T>(object min, object max, long skip = 0, long take = -1)
         {
-            SortedSetItem[] arr = GetRangeByValueWithScores(min, max, order, skip, take);
+            SortedSetItem[] arr = GetRangeByValueWithScores(min, max, SortType.ASC, skip, take);
             if (arr == null || arr.Length <= 0)
             {
                 return null;

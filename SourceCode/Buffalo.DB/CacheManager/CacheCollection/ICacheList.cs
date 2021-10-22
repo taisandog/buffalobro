@@ -21,7 +21,7 @@ namespace Buffalo.DB.CacheManager.CacheCollection
         /// <param name="value">值</param>
         /// <param name="setType">设置值方式</param>
         /// <returns></returns>
-        long AddValue(long index, object value, SetValueType setType);
+        long AddValue( object value, long index=-1, SetValueType setType= SetValueType.Set);
 
         /// <summary>
         /// 增加到列表
@@ -31,7 +31,7 @@ namespace Buffalo.DB.CacheManager.CacheCollection
         /// <param name="values">值</param>
         /// <param name="setType">设置值方式</param>
         /// <returns></returns>
-        long AddRangValue( long index,  IEnumerable values, SetValueType setType);
+        long AddRangValue(  IEnumerable values, long index=-1, SetValueType setType = SetValueType.Set);
 
         /// <summary>
         /// 获取值
@@ -40,7 +40,7 @@ namespace Buffalo.DB.CacheManager.CacheCollection
         /// <param name="index">值位置</param>
         /// <param name="defaultValue">默认值</param>
         /// <returns></returns>
-        E GetValue<E>(long index, E defaultValue);
+        E GetValue<E>(long index, E defaultValue=default(E));
 
         /// <summary>
         /// 获取集合长度
@@ -58,7 +58,7 @@ namespace Buffalo.DB.CacheManager.CacheCollection
         /// <param name="value">值</param>
         /// <param name="count">要移除几个，0则为全部移除</param>
         /// <returns></returns>
-        long RemoveValue(object value, long count);
+        long RemoveValue(object value, long count=0);
 
 
 
@@ -70,20 +70,20 @@ namespace Buffalo.DB.CacheManager.CacheCollection
         /// <param name="start">起始位置(默认0)</param>
         /// <param name="end">结束位置(-1则为读到末尾)</param>
         /// <returns></returns>
-        List<E> AllValues<E>( long start, long end);
+        List<E> AllValues<E>( long start=0, long end=-1);
 
         /// <summary>
         /// 加入到这个值的后边
         /// </summary>
-        /// <param name="pivot"></param>
-        /// <param name="value"></param>
+        /// <param name="pivot">前一个值</param>
+        /// <param name="value">要插入的值</param>
         /// <returns></returns>
         long InsertAfter(object pivot, object value);
         /// <summary>
         /// 加入到这个值的前边
         /// </summary>
-        /// <param name="pivot"></param>
-        /// <param name="value"></param>
+        /// <param name="pivot">后一个值</param>
+        /// <param name="value">要插入的值</param>
         /// <returns></returns>
         long InsertBefore( object pivot, object value);
         /// <summary>
@@ -93,7 +93,7 @@ namespace Buffalo.DB.CacheManager.CacheCollection
         /// <param name="isPopEnd">是否从尾部弹出</param>
         /// <param name="defaultValue">没元素时候的默认值</param>
         /// <returns></returns>
-        E PopValue<E>(bool isPopEnd, E defaultValue);
+        E PopValue<E>(bool isPopEnd=false, E defaultValue=default(E));
        
     }
 }

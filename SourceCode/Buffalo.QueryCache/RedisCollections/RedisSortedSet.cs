@@ -190,35 +190,7 @@ namespace Buffalo.QueryCache.RedisCollections
                     return Order.Descending;
             }
         }
-        /// <summary>
-        /// 弹出值
-        /// </summary>
-        /// <param name="count">值的数量</param>
-        /// <param name="order">弹出方向，SortType.ASC是从开头弹出，SortType.DESC是从尾部弹出</param>
-        /// <returns></returns>
-        public SortedSetItem Pop(DB.QueryConditions.SortType order = DB.QueryConditions.SortType.ASC)
-        {
-            Order corder = GetOeder(order);
-            SortedSetEntry? ent=_client.SortedSetPop(_key, corder,_commanfFlags);
-            if (ent != null) 
-            {
-                return LoadSortedSetItem(ent.Value);
-            }
-            return null;
-        }
-        /// <summary>
-        /// 弹出值
-        /// </summary>
-        /// <param name="count">值的数量</param>
-        /// <param name="order">弹出方向，SortType.ASC是从开头弹出，SortType.DESC是从尾部弹出</param>
-        /// <returns></returns>
-        public SortedSetItem[] Pop(long count, DB.QueryConditions.SortType order = DB.QueryConditions.SortType.ASC)
-        {
-            Order corder = GetOeder(order);
-            SortedSetEntry[] ents = _client.SortedSetPop(_key, count, corder, _commanfFlags);
-            return LoadSortedSetItemArray(ents);
-        }
-
+       
         private SortedSetItem[] LoadSortedSetItemArray(SortedSetEntry[] arr) 
         {
             if (arr.Length <= 0) 
@@ -315,15 +287,13 @@ namespace Buffalo.QueryCache.RedisCollections
         /// 根据索引范围获取值
         /// </summary>
         /// <returns></returns>
-        public T[] GetRangeByValue<T>(object min, object max,
-            DB.QueryConditions.SortType order = DB.QueryConditions.SortType.ASC, long skip = 0, long take = -1)
+        public T[] GetRangeByValue<T>(object min, object max, long skip = 0, long take = -1)
         {
-            Order corder = GetOeder(order);
             RedisValue valMin = RedisConverter.ValueToRedisValue(min);
             RedisValue valMax = RedisConverter.ValueToRedisValue(max);
             Exclude exclude = GetObjectExclude(min, max);
             RedisValue[] vals = _client.SortedSetRangeByValue(_key, valMin, valMax,
-                exclude, corder,skip,take, _commanfFlags);
+                exclude, skip,take, _commanfFlags);
             return LoadValues<T>(vals);
         }
 

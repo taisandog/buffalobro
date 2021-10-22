@@ -95,10 +95,7 @@ namespace Buffalo.DB.CacheManager
             {
                 return new MemoryAdaper(info);
             }
-            if (dtype.Equals("web", StringComparison.CurrentCultureIgnoreCase))//ASP.net Cache
-            {
-                return new WebCacheAdaper(info, connectionString);
-            }
+            
             ICacheAdaper cache = GetAssemblyCache(info, dtype, connectionString);
             if (cache != null) 
             {
@@ -607,7 +604,7 @@ namespace Buffalo.DB.CacheManager
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public ICacheHash GetHashMap(string key) 
+        public ICacheHash GetCacheHashMap(string key) 
         {
             return _cache.GetHashMap(key, _db.DefaultOperate);
         }
@@ -618,7 +615,7 @@ namespace Buffalo.DB.CacheManager
         /// <param name="key"></param>
         /// <param name="oper"></param>
         /// <returns></returns>
-        public ICacheList GetList(string key) 
+        public ICacheList GetCacheList(string key) 
         {
             return _cache.GetList(key, _db.DefaultOperate);
         }
@@ -640,9 +637,20 @@ namespace Buffalo.DB.CacheManager
         /// <param name="key"></param>
         /// <param name="oper"></param>
         /// <returns></returns>
-        public ICacheSortedSet GetSortedSet(string key) 
+        public ICacheSortedSet GetCacheSortedSet(string key) 
         {
             return _cache.GetSortedSet(key, _db.DefaultOperate);
+        }
+
+        /// <summary>
+        /// 当前缓存的连接端
+        /// </summary>
+        public ICacheAdaper Client 
+        {
+            get 
+            {
+                return _cache;
+            }
         }
     }
 

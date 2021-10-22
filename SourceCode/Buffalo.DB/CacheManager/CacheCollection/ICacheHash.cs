@@ -27,7 +27,7 @@ namespace Buffalo.DB.CacheManager.CacheCollection
         /// <param name="key">哈希表的键</param>
         /// <param name="value">哈希表的值</param>
         /// <param name="type">设置方式</param>
-        bool SetValue(string key, object value, SetValueType type);
+        bool SetValue(string key, object value, SetValueType type= SetValueType.Set);
         /// <summary>
         /// 获取哈希表的值
         /// </summary>
@@ -36,7 +36,7 @@ namespace Buffalo.DB.CacheManager.CacheCollection
         /// <param name="defaultValue">默认值</param>
         /// <param name="oper"></param>
         /// <returns></returns>
-        E GetValue<E>(string key, E defaultValue);
+        E GetValue<E>(string key, E defaultValue=default(E));
         /// <summary>
         /// 获取所有哈希表的值
         /// </summary>
@@ -76,7 +76,7 @@ namespace Buffalo.DB.CacheManager.CacheCollection
         /// <param name="value">要增加的值</param>
         /// <param name="oper"></param>
         /// <returns></returns>
-        long Increment(string key, long value);
+        long Increment(string key, long value=1);
         /// <summary>
         /// hash值自减
         /// </summary>
@@ -84,6 +84,6 @@ namespace Buffalo.DB.CacheManager.CacheCollection
         /// <param name="value">值</param>
         /// <param name="oper"></param>
         /// <returns></returns>
-        long Decrement(string key, long value);
+        long Decrement(string key, long value=1);
     }
 }

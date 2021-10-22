@@ -61,6 +61,14 @@
     <Compile Include="BQLCommon\BQLKeyWordCommon\KeyWordAlterTableItem.cs" />
     <Compile Include="BQLCommon\BQLKeyWordCommon\KeyWordAddParamItem.cs" />
     <Compile Include="BQLCommon\BQLKeyWordCommon\KeyWordAddForeignkeyItem.cs" />
+    <Compile Include="CacheManager\CacheCollection\ICacheHash.cs" />
+    <Compile Include="CacheManager\CacheCollection\ICacheList.cs" />
+    <Compile Include="CacheManager\CacheCollection\ICacheLock.cs" />
+    <Compile Include="CacheManager\CacheCollection\ICacheSortedSet.cs" />
+    <Compile Include="CacheManager\CacheCollection\MemoryCacheHash.cs" />
+    <Compile Include="CacheManager\CacheCollection\MemoryCacheList.cs" />
+    <Compile Include="CacheManager\CacheCollection\MemoryCacheLock.cs" />
+    <Compile Include="CacheManager\CacheCollection\MemoryCacheSortedSet.cs" />
     <Compile Include="CacheManager\CacheUnit.cs" />
     <Compile Include="CacheManager\DataSetCacheItem.cs" />
     <Compile Include="CacheManager\ICacheAdaper.cs" />

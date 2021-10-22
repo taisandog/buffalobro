@@ -19,20 +19,20 @@ namespace Buffalo.DB.CacheManager.CacheCollection
         /// <param name="value">值</param>
         /// <param name="key">键</param>
         /// <returns></returns>
-        long Add(object value, double key, SetValueType setType);
+        long Add(object value, double key, SetValueType setType= SetValueType.Set);
         /// <summary>
         /// 向排序表增加元素
         /// </summary>
         /// <param name="values">值集合</param>
         /// <returns></returns>
-        long AddRang(IEnumerable<SortedSetItem> values, SetValueType setType);
+        long AddRang(IEnumerable<SortedSetItem> values, SetValueType setType = SetValueType.Set);
         /// <summary>
         /// 减少排序的元素的排序的分值
         /// </summary>
         /// <param name="value">值</param>
         /// <param name="score">要减少的分</param>
         /// <returns></returns>
-        double Decrement(object value, double score);
+        double Decrement(object value, double score=1);
 
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace Buffalo.DB.CacheManager.CacheCollection
         /// <param name="value">值</param>
         /// <param name="score">要增加的分</param>
         /// <returns></returns>
-        double Increment(object value, double score);
+        double Increment(object value, double score=1);
 
 
 
@@ -52,19 +52,7 @@ namespace Buffalo.DB.CacheManager.CacheCollection
         /// <param name="max">范围最大值</param>
         /// <returns></returns>
         long GetLength(double? min, double? max);
-        /// <summary>
-        /// 弹出值
-        /// </summary>
-        /// <param name="order">方向，ASC是从头部弹出，DESC是从尾部弹出</param>
-        /// <returns></returns>
-        SortedSetItem Pop(SortType order = SortType.ASC);
-        /// <summary>
-        /// 弹出值
-        /// </summary>
-        /// <param name="count">值的数量</param>
-        /// <param name="order">弹出方向，SortType.ASC是从开头弹出，SortType.DESC是从尾部弹出</param>
-        /// <returns></returns>
-        SortedSetItem[] Pop(long count, SortType order = SortType.ASC);
+        
 
         /// <summary>
         /// 根据索引范围获取值
@@ -120,8 +108,7 @@ namespace Buffalo.DB.CacheManager.CacheCollection
         /// <param name="skip">跳过</param>
         /// <param name="take">获取几条</param>
         /// <returns></returns>
-        T[] GetRangeByValue<T>(object min, object max,
-            SortType order = SortType.ASC, long skip = 0, long take = -1);
+        T[] GetRangeByValue<T>(object min, object max, long skip = 0, long take = -1);
 
 
 

@@ -23,7 +23,7 @@ namespace Buffalo.DB.CacheManager.CacheCollection
             _lst = lst;
         }
 
-        public long AddValue( long index, object value, SetValueType setType)
+        public long AddValue(object value, long index,  SetValueType setType)
         {
             lock (_lst)
             {
@@ -100,7 +100,7 @@ namespace Buffalo.DB.CacheManager.CacheCollection
             }
         }
 
-        public long AddRangValue( long index, IEnumerable values, SetValueType setType)
+        public long AddRangValue(IEnumerable values, long index, SetValueType setType)
         {
             lock (_lst)
             {

@@ -36,7 +36,7 @@ namespace Buffalo.QueryCache.RedisCollections
             _expiration = expiration;
         }
 
-        public long AddValue( long index, object value, SetValueType setType)
+        public long AddValue(object value, long index,  SetValueType setType)
         {
             TimeSpan ts = _expiration;
 
@@ -87,7 +87,7 @@ namespace Buffalo.QueryCache.RedisCollections
             return result;
         }
 
-        public long AddRangValue( long index, IEnumerable values, SetValueType setType)
+        public long AddRangValue(IEnumerable values, long index,  SetValueType setType)
         {
             TimeSpan ts = _expiration;
             List<RedisValue> lstValues = new List<RedisValue>();
@@ -99,11 +99,11 @@ namespace Buffalo.QueryCache.RedisCollections
             When when = RedisAdaperByStackExchange.GetSetValueMode(setType);
             if (index == 0)
             {
-                return _client.ListLeftPush(_key, lstValues.ToArray(), when, _commanfFlags);
+                return _client.ListLeftPush(_key, lstValues.ToArray(), _commanfFlags);
             }
             if (index == -1)
             {
-                return _client.ListRightPush(_key, lstValues.ToArray(), when, _commanfFlags);
+                return _client.ListRightPush(_key, lstValues.ToArray(), _commanfFlags);
             }
             foreach (RedisValue val in lstValues)
             {
