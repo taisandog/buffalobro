@@ -168,22 +168,22 @@ namespace Buffalo.QueryCache
             _throwExcertion = (throwStr == "1");
 
             string expirStr = configs.GetDicValue<string, string>("expir");
-            double mins = 0;
+            double seconds = 0;
             if (!string.IsNullOrWhiteSpace(expirStr))
             {
-                if (!double.TryParse(expirStr, out mins))
+                if (!double.TryParse(expirStr, out seconds))
                 {
-                    throw new ArgumentException("数据保存分钟数必须是0-999999999的值");
+                    throw new ArgumentException("数据保存秒钟数必须是0-" + int.MaxValue + "的值");
                 }
-                if (mins < 0 || mins > 999999999)
+                if (seconds < 0 || seconds > int.MaxValue)
                 {
-                    throw new ArgumentException("数据保存分钟数必须是0-999999999的值");
+                    throw new ArgumentException("数据保存秒钟数必须是0-" + int.MaxValue + "的值");
                 }
 
             }
-            if (mins > 0)
+            if (seconds > 0)
             {
-                _expiration = TimeSpan.FromMinutes((double)mins);
+                _expiration = TimeSpan.FromSeconds((double)seconds);
             }
             if (servers.Count > 0)
             {
@@ -202,7 +202,7 @@ namespace Buffalo.QueryCache
                 }
 
             }
-            
+            _options.SyncTimeout = configs.GetDicValue<string, string>("syncTimeout").ConvertTo<int>(1000);
             _serverCount = servers.Count;
             _commanfFlags = (CommandFlags)configs.GetDicValue<string, string>("commanfFlags").ConvertTo<int>((int)CommandFlags.None);
             _db= configs.GetDicValue<string, string>("database").ConvertTo<int>(0);

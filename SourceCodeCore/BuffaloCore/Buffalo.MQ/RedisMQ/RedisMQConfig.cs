@@ -98,8 +98,8 @@ namespace Buffalo.MQ.RedisMQ
             _useDatabase = hs.GetDicValue<string, string>("database").ConvertTo<int>(0);
             Options.DefaultDatabase= _useDatabase;
             Options.Ssl = hs.GetDicValue<string, string>("ssl") == "1";
-            
-            Mode=hs.GetDicValue<string, string>("messageMode") == "1"? RedisMQMessageMode.Subscriber: RedisMQMessageMode.Polling;//消息模式
+            Options.SyncTimeout = hs.GetDicValue<string, string>("syncTimeout").ConvertTo<int>(1000);
+            Mode =hs.GetDicValue<string, string>("messageMode") == "1"? RedisMQMessageMode.Subscriber: RedisMQMessageMode.Polling;//消息模式
             if (Mode == RedisMQMessageMode.Subscriber)
             {
                 SaveToQueue = hs.GetDicValue<string, string>("useQueue") == "1";//保存到队列,只对订阅模式有效
