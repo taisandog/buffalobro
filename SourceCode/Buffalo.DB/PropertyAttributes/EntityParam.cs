@@ -279,7 +279,7 @@ namespace Buffalo.DB.PropertyAttributes
             bool isPrimary = EnumUnit.ContainerValue((int)_propertyType, (int)EntityPropertyType.PrimaryKey);
             bool isAutoIdentity = EnumUnit.ContainerValue((int)_propertyType, (int)EntityPropertyType.Identity);
 
-            
+
             bool needIdentity = false;
             bool putType = true;
             sb.Append(idba.FormatParam(ParamName) + " ");
@@ -307,7 +307,7 @@ namespace Buffalo.DB.PropertyAttributes
 
             string nullValueSql = "";
             //Ö÷¼ü
-            if (isPrimary && info.PrimaryKeys==1)
+            if (isPrimary && info.PrimaryKeys == 1)
             {
                 sb.Append(" PRIMARY KEY ");
             }
@@ -326,8 +326,8 @@ namespace Buffalo.DB.PropertyAttributes
 
 
             StringBuilder strDefault = new StringBuilder();
-            
-            if (needIdentity&&isAutoIdentity && TableChecker.IsIdentityType(SqlType))
+
+            if (needIdentity && isAutoIdentity && TableChecker.IsIdentityType(SqlType))
             {
 
                 sb.Append(idba.DBIdentity(tableName, _paramName));
@@ -354,14 +354,14 @@ namespace Buffalo.DB.PropertyAttributes
             }
 
 
-            string comment =idba.GetColumnDescriptionSQL(this,info.DBInfo);
-            if (!string.IsNullOrEmpty(comment)) 
+            string comment = idba.GetColumnDescriptionSQL(this, info.DBInfo);
+            if (!string.IsNullOrEmpty(comment))
             {
                 sb.Append(" ");
                 sb.Append(comment);
             }
 
-           
+
             return sb.ToString();
         }
         /// <summary>

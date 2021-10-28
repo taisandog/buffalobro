@@ -7,6 +7,7 @@ using Buffalo.DB.CommBase;
 using Buffalo.DB.ProxyBuilder;
 using Buffalo.DB.PropertyAttributes;
 using System.Collections.Concurrent;
+using System.Threading;
 
 namespace Buffalo.DB.EntityInfos
 {
@@ -138,6 +139,29 @@ namespace Buffalo.DB.EntityInfos
                 return _tableInfo.Description;
             }
         }
+
+        private ThreadLocal<string> _curTableName = new ThreadLocal<string>();
+
+        /// <summary>
+        /// 切换当前使用的表名,null则切换回默认
+        /// </summary>
+        public string SelectedTableName 
+        {
+            get 
+            {
+                return _curTableName.Value;
+            }
+            set 
+            {
+                if (string.IsNullOrWhiteSpace(value)) 
+                {
+                    _curTableName.Value = null;
+                    return;
+                }
+                _curTableName.Value = value;
+            }
+        }
+
         /// <summary>
         /// 对应的表名名
         /// </summary>
@@ -145,19 +169,15 @@ namespace Buffalo.DB.EntityInfos
         {
             get
             {
+                string selTableName = _curTableName.Value;
+                if (selTableName != null) 
+                {
+                    return selTableName;
+                }
                 return _tableInfo.TableName;
             }
         }
-        ///// <summary>
-        ///// 连接字符串的键
-        ///// </summary>
-        //public string ConnectionKey
-        //{
-        //    get
-        //    {
-        //        return connectionKey;
-        //    }
-        //}
+        
         /// <summary>
         /// 获取属性的信息
         /// </summary>
@@ -165,6 +185,10 @@ namespace Buffalo.DB.EntityInfos
         {
             get 
             {
+                if (_propertyInfoHandles == null)
+                {
+                    InitInfo();
+                }
                 return _propertyInfoHandles;
             }
         }
@@ -236,6 +260,10 @@ namespace Buffalo.DB.EntityInfos
         {
             get
             {
+                if (_primaryProperty == null)
+                {
+                    InitInfo();
+                }
                 return _primaryProperty;
             }
 

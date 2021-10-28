@@ -10,6 +10,7 @@ using Buffalo.DB.BQLCommon.BQLConditions;
 using Buffalo.DB.BQLCommon.BQLKeyWordCommon;
 using Buffalo.DB.DataBaseAdapter;
 using System.Diagnostics;
+using System.Threading;
 
 namespace Buffalo.DB.BQLCommon.BQLConditionCommon
 {
@@ -526,19 +527,20 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
             info.OutPutModle = true;
             return info;
         }
-        private static readonly string KeyWordInfomationKey = "$$Buffalo.KeyWordInfomation";
+        //private static readonly string KeyWordInfomationKey = "$$Buffalo.KeyWordInfomation";
+        private static ThreadLocal<KeyWordInfomation> _curKeyWordInfomation = new System.Threading.ThreadLocal<KeyWordInfomation>();
         /// <summary>
         /// 获取默认的Key信息
         /// </summary>
         /// <returns></returns>
         internal static KeyWordInfomation GetKeyInfo() 
         {
-            KeyWordInfomation info = ContextValue.Current[KeyWordInfomationKey] as KeyWordInfomation;
+            KeyWordInfomation info = _curKeyWordInfomation.Value;
             if (info == null)
             {
                 info = NewKeyWordInfomation();
                 info.DBInfo = DataAccessLoader.GetFristDBInfo();
-                ContextValue.Current[KeyWordInfomationKey] = info;
+                _curKeyWordInfomation.Value = info;
             }
             return info;
         }

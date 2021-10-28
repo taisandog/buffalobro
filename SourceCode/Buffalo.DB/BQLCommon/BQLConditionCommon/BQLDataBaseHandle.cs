@@ -25,7 +25,20 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
         {
             return _db;
         }
-
+        /// <summary>
+        /// 本线程使用的子数据源（-1则为恢复主数据源）
+        /// </summary>
+        public static int SelectedDataSource
+        {
+            get
+            {
+                return _db.SelectedDataSource;
+            }
+            set
+            {
+                _db.SelectedDataSource = value;
+            }
+        }
         /// <summary>
         /// 是否已经初始化
         /// </summary>
@@ -41,7 +54,9 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
         /// <summary>
         /// 初始化数据库
         /// </summary>
-        public static void InitDB(IEnumerable<string> configPath)
+        /// <param name="configPath">自定义配置文件路径</param>
+        /// <param name="lstChildDBInfo">子数据源</param>
+        public static void InitDB(IEnumerable<string> configPath=null,IEnumerable<DBInfo> lstChildDBInfo=null)
         {
             //if (_isInit)
             //{
@@ -51,7 +66,10 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
             DataAccessLoader.AppendModelAssembly(type.Assembly);
             DataAccessLoader.InitConfig(configPath);
             _db = GetDB(configPath);
-
+            foreach(DBInfo info in lstChildDBInfo) 
+            {
+                _db.SetChildDataSource(info);
+            }
             Type baseType = typeof(BQLEntityTableHandle);
             PropertyInfo[] infos = type.GetProperties(BindingFlags.Public | BindingFlags.Static);
             foreach (PropertyInfo info in infos)

@@ -12,12 +12,19 @@ using Buffalo.DB.Exceptions;
 using System.Reflection;
 using System.ComponentModel;
 using System.Collections.Concurrent;
+using Buffalo.Kernel;
+using System.Threading;
 
 namespace Buffalo.DB.DataBaseAdapter
 {
+    /// <summary>
+    /// 数据库信息
+    /// </summary>
     public class DBInfo
     {
         private string _dbName = null;
+        private int _childKey = -1;
+
         private IDBAdapter _curDbAdapter = null;
         
         private IAggregateFunctions _curAggregateFunctions = null;
@@ -26,7 +33,7 @@ namespace Buffalo.DB.DataBaseAdapter
         private IConvertFunction _curConvertFunctions = null;
         private ICommonFunction _curCommonFunctions = null;
         private IDBStructure _curDBStructure = null;
-        MessageOutput _sqlOutputer = new MessageOutput();
+        private MessageOutput _sqlOutputer = new MessageOutput();
 
 
         private string _connectionString = null;
@@ -34,6 +41,22 @@ namespace Buffalo.DB.DataBaseAdapter
         private string _dbType = null;
 
         private bool _operatorPrecedence=true;
+
+        private ThreadLocal<DataBaseOperate> _operate = new ThreadLocal<DataBaseOperate>();
+        /// <summary>
+        /// 选中库的数据库连接
+        /// </summary>
+        public DataBaseOperate SelectedOperate 
+        {
+            get 
+            {
+                return SelectedDBInfo._operate.Value;
+            }
+            set 
+            {
+                SelectedDBInfo._operate.Value = value;
+            }
+        }
         /// <summary>
         /// 生成的SQL语句进行运算符优先级优化可读性
         /// </summary>
@@ -64,39 +87,11 @@ namespace Buffalo.DB.DataBaseAdapter
         /// 设置查询缓存
         /// </summary>
         /// <param name="ica"></param>
+        /// <param name="isAlltable"></param>
         internal void SetQueryCache(ICacheAdaper ica, bool isAlltable) 
         {
             _cache.InitCache(ica,isAlltable);
         }
-
-        //private static Dictionary<string, IAdapterLoader> _dicAdapterLoaderName = InitAdapterLoaderName();
-
-        ///// <summary>
-        ///// 数据库适配器加载器
-        ///// </summary>
-        //public static Dictionary<string, IAdapterLoader> AdapterLoaders
-        //{
-        //    get { return DBInfo._dicAdapterLoaderName; }
-        //}
-
-        ///// <summary>
-        ///// 初始化适配器命名空间列表
-        ///// </summary>
-        ///// <returns></returns>
-        //private static Dictionary<string, IAdapterLoader> InitAdapterLoaderName() 
-        //{
-        //    Dictionary<string, IAdapterLoader> dic = new Dictionary<string, IAdapterLoader>();
-        //    dic["Sql2K"] = new Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter.AdapterLoader();
-        //    dic["Sql2K5"] = new Buffalo.DB.DataBaseAdapter.SqlServer2K5Adapter.AdapterLoader();
-        //    dic["Sql2K8"] = new Buffalo.DB.DataBaseAdapter.SqlServer2K8Adapter.AdapterLoader();
-        //    dic["Oracle9"] =new Buffalo.DB.DataBaseAdapter.Oracle9Adapter.AdapterLoader();
-        //    ////dic["MySQL5"] = new Buffalo.DB.DataBaseAdapter.MySQL5Adapter.AdapterLoader();
-        //    ////dic["SQLite"] = new Buffalo.DB.DataBaseAdapter.SQLiteAdapter.AdapterLoader();
-        //    ////dic["DB2v9"] = new Buffalo.DB.DataBaseAdapter.IBMDB2V9Adapter.AdapterLoader();
-        //    ////dic["Psql9"] = new Buffalo.DB.DataBaseAdapter.PostgreSQL9Adapter.AdapterLoader();
-        //    dic["Access"] = new Buffalo.DB.DataBaseAdapter.AccessAdapter.AdapterLoader();
-        //    return dic;
-        //}
 
         private static ConcurrentDictionary<string, Assembly> _dicAdapterLoader = new ConcurrentDictionary<string, Assembly>();
 
@@ -158,14 +153,7 @@ namespace Buffalo.DB.DataBaseAdapter
             {
                 ret = new Buffalo.DB.DataBaseAdapter.SqlServer2K12Adapter.AdapterLoader();
             }
-            //else if (key.Equals("Oracle9", StringComparison.CurrentCultureIgnoreCase))
-            //{
-            //    ret = new Buffalo.DB.DataBaseAdapter.Oracle9Adapter.AdapterLoader();
-            //}
-            //else if (key.Equals("Access", StringComparison.CurrentCultureIgnoreCase))
-            //{
-            //    ret = new Buffalo.DB.DataBaseAdapter.AccessAdapter.AdapterLoader();
-            //}
+            
             else 
             {
                 string[] items = key.Split(':');
@@ -183,7 +171,128 @@ namespace Buffalo.DB.DataBaseAdapter
         }
 
 
-        //private Dictionary<string, string> _extendDatabaseConnection = null;
+        private ConcurrentDictionary<int, DBInfo> _childDataSource = null;
+
+        /// <summary>
+        /// 设置子数据源
+        /// </summary>
+        /// <param name="db">数据库信息</param>
+        internal void SetChildDataSource(DBInfo db) 
+        {
+            if (db._childKey < 0) 
+            {
+                throw new IndexOutOfRangeException("子数据源键必须是大于0的正数");
+            }
+            if (_childDataSource == null) 
+            {
+                _childDataSource = new ConcurrentDictionary<int, DBInfo>();
+            }
+            if (db._cache == null)
+            {
+                db._cache = _cache;
+            }
+            if (db._dataaccessNamespace == null)
+            {
+                db._dataaccessNamespace = this._dataaccessNamespace ;
+            }
+            db._dbName = _dbName;
+            
+            _childDataSource[db._childKey] = db;
+        }
+        /// <summary>
+        /// 添加子数据源信息
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="connectionString">连接字符串</param>
+        /// <param name="readonlyConnectionString">只读连接字符串</param>
+        /// <param name="dbType">数据库类型</param>
+        /// <param name="allowLazy">是否延迟加载</param>
+        /// <param name="dataaccessNamespace">数据层名称</param>
+        /// <param name="cache">缓存</param>
+        public static DBInfo CreateChildDataSource(int key, string connectionString, string readonlyConnectionString,
+            string dbType, LazyType allowLazy= LazyType.Disable, string[] dataaccessNamespace=null,QueryCache cache=null) 
+        {
+            DBInfo db = new DBInfo(null, connectionString, readonlyConnectionString, dbType, allowLazy);
+            db._dataaccessNamespace = dataaccessNamespace;
+            db._cache = cache;
+            db._childKey = key;
+
+            return db;
+        }
+
+        
+        private ThreadLocal<DBInfo> _curDB = new ThreadLocal<DBInfo>();
+
+
+        /// <summary>
+        /// 本线程使用的子数据源（-1则为恢复主数据源）
+        /// </summary>
+        public int SelectedDataSource 
+        {
+            get 
+            {
+                DBInfo val = _curDB.Value;
+                if (val == null) 
+                {
+                    return -1;
+                }
+                return val._childKey ;
+            }
+            set 
+            {
+                if (value < 0) 
+                {
+                    _curDB.Value = null;
+                    return;
+                }
+                DBInfo info = GetChildDBInfo(value);
+                _curDB.Value = info;
+            }
+        }
+
+       
+        /// <summary>
+        /// 选中的数据源
+        /// </summary>
+        private DBInfo SelectedDBInfo 
+        {
+            get 
+            {
+                if (_curDB.Value == null)
+                {
+                    return this;
+                }
+                return _curDB.Value;
+            }
+        }
+
+        /// <summary>
+        /// 获取子数据源
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <returns></returns>
+        public DBInfo GetChildDBInfo(int key) 
+        {
+            if (_childDataSource == null) 
+            {
+                return this;
+            }
+            DBInfo db = null;
+            if (!_childDataSource.TryGetValue(key, out db)) 
+            {
+                throw new KeyNotFoundException("找不到key为:" + key + "的数据源");
+            }
+            return db;
+        }
+        /// <summary>
+        /// 获取所有子数据源
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <returns></returns>
+        internal ConcurrentDictionary<int, DBInfo> GetAllChildDBInfo()
+        {
+            return _childDataSource;
+        }
         /// <summary>
         /// 数据库信息
         /// </summary>
@@ -196,14 +305,18 @@ namespace Buffalo.DB.DataBaseAdapter
             string dbType,LazyType allowLazy
             ) 
         {
+            
             _dbType = dbType;
             _connectionString = connectionString;
             _readOnlyConnectionString = readonlyConnectionString;
             _dbName = dbName;
             _cache = new QueryCache(this);
             _allowLazy = allowLazy;
+           
             InitAdapters();
         }
+
+        
 
 
 
@@ -305,7 +418,7 @@ namespace Buffalo.DB.DataBaseAdapter
         {
             get 
             {
-                return _sqlOutputer;
+                return SelectedDBInfo._sqlOutputer;
             }
         }
 
@@ -346,7 +459,7 @@ namespace Buffalo.DB.DataBaseAdapter
             get
             {
 
-                return _curDbAdapter;
+                return SelectedDBInfo._curDbAdapter;
             }
         }
         /// <summary>
@@ -358,7 +471,7 @@ namespace Buffalo.DB.DataBaseAdapter
             get
             {
 
-                return _curAggregateFunctions;
+                return SelectedDBInfo._curAggregateFunctions;
             }
         }
 
@@ -371,7 +484,7 @@ namespace Buffalo.DB.DataBaseAdapter
             get
             {
 
-                return _curMathFunctions;
+                return SelectedDBInfo._curMathFunctions;
             }
         }
 
@@ -384,7 +497,7 @@ namespace Buffalo.DB.DataBaseAdapter
             get
             {
 
-                return _curConvertFunctions;
+                return SelectedDBInfo._curConvertFunctions;
             }
         }
 
@@ -397,7 +510,7 @@ namespace Buffalo.DB.DataBaseAdapter
             get
             {
 
-                return _curCommonFunctions;
+                return SelectedDBInfo._curCommonFunctions;
             }
         }
         /// <summary>
@@ -409,7 +522,7 @@ namespace Buffalo.DB.DataBaseAdapter
             get
             {
 
-                return _curDBStructure;
+                return SelectedDBInfo._curDBStructure;
             }
         }
         /// <summary>
@@ -438,6 +551,27 @@ namespace Buffalo.DB.DataBaseAdapter
             set 
             {
                 _connectionString = value;
+            }
+        }
+
+        /// <summary>
+        /// 选中数据源的连接字符串
+        /// </summary>
+        public string SelectedConnectionString 
+        {
+            get 
+            {
+                return SelectedDBInfo.ConnectionString;
+            }
+        }
+        /// <summary>
+        /// 选中数据源只读数据库的连接字符串
+        /// </summary>
+        public string SelectedReadOnlyConnectionString
+        {
+            get
+            {
+                return SelectedDBInfo.ReadOnlyConnectionString;
             }
         }
         /// <summary>
@@ -525,7 +659,99 @@ namespace Buffalo.DB.DataBaseAdapter
         {
             get { return _exceptionOption; }
         }
-       
+        /// <summary>
+        /// 键
+        /// </summary>
+        public int ChildKey 
+        {
+            get 
+            {
+                return _childKey;
+            }
+        }
+        private string _fullName = null;
+        /// <summary>
+        /// 全名
+        /// </summary>
+        public string FullName 
+        {
+            get 
+            {
+                DBInfo selInfo = SelectedDBInfo;
+                if (string.IsNullOrWhiteSpace(selInfo._fullName)) 
+                {
+                    if (selInfo._childKey < 0)
+                    {
+                        selInfo._fullName = selInfo._dbName;
+                    }
+                    else
+                    {
+                        selInfo._fullName = selInfo._dbName + "." + selInfo._childKey;
+                    }
+                }
+                return selInfo._fullName;
+            }
+        }
+        private static Dictionary<string, Type> _dicEntityLoaderConfig = new Dictionary<string, Type>();
+        /// <summary>
+        /// 实体跟数据层的映射
+        /// </summary>
+        public Dictionary<string, Type> EntityLoaderConfig
+        {
+            get
+            {
+                return _dicEntityLoaderConfig;
+            }
+        }
+
+
+        private Dictionary<Type, Type> _dataaccessEntityMapping = new Dictionary<Type, Type>();//配置实体记录集合
+        /// <summary>
+        /// 实体跟数据层的映射
+        /// </summary>
+        public Dictionary<Type, Type> DataaccessEntityMapping
+        {
+            get
+            {
+                return _dataaccessEntityMapping;
+            }
+        }
+
+        /// <summary>
+        /// 实体跟数据层的映射
+        /// </summary>
+        public Dictionary<Type, Type> SelectedDataaccessEntityMapping
+        {
+            get
+            {
+                return SelectedDBInfo._dataaccessEntityMapping;
+            }
+        }
+
+
+        private Dictionary<string, Type> _dataaccessInterfaceMapping = new Dictionary<string, Type>();//配置实体记录集合
+        /// <summary>
+        /// 接口跟数据层的映射
+        /// </summary>
+        public Dictionary<string, Type> DataaccessInterfaceMapping
+        {
+            get 
+            {
+                return _dataaccessInterfaceMapping;
+            }  
+            
+                
+        }
+        /// <summary>
+        /// 接口跟数据层的映射
+        /// </summary>
+        public Dictionary<string, Type> SelectedDataaccessInterfaceMapping
+        {
+            get
+            {
+                return SelectedDBInfo._dataaccessInterfaceMapping;
+            }
+        }
     }
 
     /// <summary>

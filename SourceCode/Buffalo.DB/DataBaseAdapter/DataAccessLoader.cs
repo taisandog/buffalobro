@@ -23,10 +23,12 @@ namespace Buffalo.DB.DataBaseAdapter
     public class DataAccessLoader
     {
         
-        private static Dictionary<string, Type> _dicLoaderConfig =null;//配置记录集合
-        private static Dictionary<string, Type> _dicEntityLoaderConfig = null;//配置实体记录集合
+
         private static Dictionary<string, DBInfo> _dicDBInfo = new Dictionary<string, DBInfo>();//配置实体记录集合
         private static Dictionary<string, Type> _dicBoLoader = null;//配置实体业务层集合
+
+        private static Dictionary<Type, DBInfo> _dicEntityDBInfo = null;//配置实体跟DBInfo的映射
+        private static Dictionary<string, DBInfo> _dicInterfaceDBInfo = null;//配置实体跟DBInfo的映射
         /// <summary>
         /// 配置内容
         /// </summary>
@@ -38,7 +40,7 @@ namespace Buffalo.DB.DataBaseAdapter
         {
             get 
             {
-                return _dicLoaderConfig != null;
+                return _dicBoLoader != null;
             }
         }
 
@@ -113,9 +115,10 @@ namespace Buffalo.DB.DataBaseAdapter
             {
                 return true;
             }
-            _dicLoaderConfig = new Dictionary<string, Type>();
-            _dicEntityLoaderConfig = new Dictionary<string, Type>();
+            //_dicEntityLoaderConfig = new Dictionary<string, Type>();
             _dicBoLoader = new Dictionary<string, Type>();
+            _dicEntityDBInfo = new Dictionary<Type, DBInfo>();
+            _dicInterfaceDBInfo = new Dictionary<string, DBInfo>();
             Dictionary<string, XmlDocument> dicEntityConfig = new Dictionary<string, XmlDocument>();
 
 
@@ -385,7 +388,24 @@ namespace Buffalo.DB.DataBaseAdapter
             {
                 return;
             }
-            string[] namespaces = db.DataaccessNamespace;
+            Dictionary<string, List<DBInfo>> namespaces = new Dictionary<string, List<DBInfo>>();
+            foreach(string cnamespace in db.DataaccessNamespace) 
+            {
+                AppendToColl(db,cnamespace, namespaces);
+            }
+            
+            ConcurrentDictionary<int, DBInfo> dic = db.GetAllChildDBInfo();
+            if (dic != null) 
+            {
+                foreach (KeyValuePair<int, DBInfo> kvp in dic) 
+                {
+                    foreach (string cnamespace in kvp.Value.DataaccessNamespace)
+                    {
+                        AppendToColl(kvp.Value, cnamespace, namespaces); 
+                    }
+                }
+            }
+            
             XmlNodeList dalNodes = nodes[0].ChildNodes;
             foreach (XmlNode dalNode in dalNodes) 
             {
@@ -395,10 +415,13 @@ namespace Buffalo.DB.DataBaseAdapter
                     continue;
                 }
                 string typeName = att.InnerText;
-                foreach (string allNameSpace in namespaces) 
+                List<DBInfo> lstDB = null;
+                foreach (KeyValuePair<string, List<DBInfo>> kvp in namespaces) 
                 {
+                    string allNameSpace = kvp.Key;
                     if (typeName.StartsWith(allNameSpace)) 
                     {
+                        lstDB = kvp.Value;
                         Type dalType = ass.GetType(typeName);
                         if (dalType != null) 
                         {
@@ -407,13 +430,30 @@ namespace Buffalo.DB.DataBaseAdapter
                             {
                                 break;
                             }
-                            _dicLoaderConfig[att.InnerText] = dalType;
 
                             Type[] gTypes = DefaultType.GetGenericType(dalType, true);
-                            if (gTypes != null && gTypes.Length > 0)
+
+                            string interfaceName = att.InnerText;
+
+                            foreach (DBInfo curDB in lstDB)
                             {
-                                Type gType = gTypes[0];
-                                _dicEntityLoaderConfig[gType.FullName] = dalType;
+                                
+                                curDB.DataaccessInterfaceMapping[interfaceName] = dalType;
+                                if (curDB.ChildKey < 0) //主数据源
+                                {
+                                    _dicInterfaceDBInfo[interfaceName] = curDB;
+                                }
+
+                                if (gTypes != null && gTypes.Length > 0)
+                                {
+                                    Type gType = gTypes[0];
+                                    curDB.DataaccessEntityMapping[gType] = dalType;
+                                    if (curDB.ChildKey < 0) //主数据源
+                                    {
+                                        _dicEntityDBInfo[gType] = curDB;
+                                    }
+                                }
+                                
                             }
                         }
 
@@ -422,6 +462,19 @@ namespace Buffalo.DB.DataBaseAdapter
                 }
             }
         }
+
+
+        private static void AppendToColl(DBInfo info,string key, Dictionary<string, List<DBInfo>> dic) 
+        {
+            List<DBInfo> lst = null;
+            if(!dic.TryGetValue(key,out lst)) 
+            {
+                lst = new List<DBInfo>();
+                dic[key] = lst;
+            }
+            lst.Add(info);
+        }
+
         /// <summary>
         /// 添加到业务层
         /// </summary>
@@ -495,7 +548,13 @@ namespace Buffalo.DB.DataBaseAdapter
         {
             //InitConfig();
             Type objType = null;
-            if (!_dicEntityLoaderConfig.TryGetValue(entityType.FullName, out objType))
+            DBInfo info = null;
+            if(!_dicEntityDBInfo.TryGetValue(entityType,out info)) 
+            {
+                throw new Exception("找不到对应的类型" + entityType.FullName + "的配置，请检查配置文件");
+            }
+
+            if (!info.DataaccessEntityMapping.TryGetValue(entityType, out objType))
             {
                 throw new Exception("找不到对应的类型" + entityType.FullName+"的配置，请检查配置文件");
             }
@@ -532,7 +591,7 @@ namespace Buffalo.DB.DataBaseAdapter
         {
             //InitConfig();
             Type objType = null;
-            if (!_dicLoaderConfig.TryGetValue(interfaceType.FullName, out objType)) 
+            if (!oper.DBInfo.DataaccessInterfaceMapping.TryGetValue(interfaceType.FullName, out objType)) 
             {
                 throw new Exception("找不到接口" + interfaceType.FullName + "的对应配置，请检查配置文件");
             }
@@ -560,7 +619,15 @@ namespace Buffalo.DB.DataBaseAdapter
         {
             //InitConfig();
             Type objType = null;
-            if (!_dicEntityLoaderConfig.TryGetValue(entityType.FullName, out objType))
+            DBInfo info = null;
+            if(!_dicEntityDBInfo.TryGetValue(entityType,out info)) 
+            {
+                throw new Exception("找不到对应的类型");
+            }
+
+
+
+            if (!info.SelectedDataaccessEntityMapping.TryGetValue(entityType, out objType))
             {
                 throw new Exception("找不到对应的类型");
             }
@@ -597,7 +664,13 @@ namespace Buffalo.DB.DataBaseAdapter
         {
             //InitConfig();
             Type objType = null;
-            if (!_dicLoaderConfig.TryGetValue(interfaceType.FullName, out objType))
+            DBInfo info = null;
+            if (!_dicInterfaceDBInfo.TryGetValue(interfaceType.FullName, out info))
+            {
+                throw new Exception("找不到对应的类型" + interfaceType.FullName + "的配置，请检查配置文件");
+            }
+
+            if (!info.SelectedDataaccessInterfaceMapping.TryGetValue(interfaceType.FullName, out objType))
             {
                 throw new Exception("找不到对应的类型");
             }

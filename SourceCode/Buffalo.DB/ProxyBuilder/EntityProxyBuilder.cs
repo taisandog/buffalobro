@@ -55,8 +55,8 @@ namespace Buffalo.DB.ProxyBuilder
         {
             _pnamespace = proxyNamespace; 
             _assemblyName = new AssemblyName(_pnamespace);
-            _assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(_assemblyName,
-                                                                            AssemblyBuilderAccess.RunAndSave);
+            _assemblyBuilder = AssemblyBuilder.DefineDynamicAssembly(_assemblyName,
+                                                                            AssemblyBuilderAccess.RunAndCollect);
             _moduleBuilder = _assemblyBuilder.DefineDynamicModule(_pnamespace);
 
             Type classType = typeof(EntityBase);
@@ -110,7 +110,7 @@ namespace Buffalo.DB.ProxyBuilder
             //构造方法
             BuildMethod(classType, typeBuilder);
             BuildGetEntityType(typeBuilder);
-            Type aopType = typeBuilder.CreateType();
+            Type aopType = typeBuilder.CreateTypeInfo();
             return aopType;
         }
 

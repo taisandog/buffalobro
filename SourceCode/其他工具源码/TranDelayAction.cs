@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.Threading;
 
 namespace Buffalo.Kernel
 {
@@ -31,15 +31,15 @@ namespace Buffalo.Kernel
     /// </summary>
     public class TranDelayAction:IDisposable
     {
-        private const string ActionKey = "$$Lib.DAKey";
-        private const string ActionTagKey = "$$Lib.TAKey";
+       
         private Dictionary<DelayActionLevel, Queue<DelDelayAction>> _dic = null;
+
         /// <summary>
         /// 延迟动作的队列
         /// </summary>
         private Queue<DelDelayAction> GetActionQueue(DelayActionLevel level)
         {
-            
+
             Queue<DelDelayAction> que = null;
             if (!_dic.TryGetValue(level, out que))
             {
@@ -51,6 +51,10 @@ namespace Buffalo.Kernel
             //ContextValue.Current[ActionKey] = value;
 
         }
+        private static ThreadLocal<Dictionary<string, bool>> _actionTag = new ThreadLocal<Dictionary<string, bool>>();
+        private static ThreadLocal<Dictionary<DelayActionLevel, Queue<DelDelayAction>>> _actionHandle = 
+            new ThreadLocal<Dictionary<DelayActionLevel, Queue<DelDelayAction>>>();
+
         /// <summary>
         /// 获取已经存在的动作去重标记
         /// </summary>
@@ -58,11 +62,11 @@ namespace Buffalo.Kernel
         {
             get
             {
-                Dictionary<string, bool> dic = ContextValue.Current[ActionTagKey] as Dictionary<string, bool>;
+                Dictionary<string, bool> dic = _actionTag.Value;
                 if (dic == null)
                 {
                     dic = new Dictionary<string, bool>();
-                    ContextValue.Current[ActionTagKey] = dic;
+                    _actionTag.Value = dic;
                 }
                 return dic;
             }
@@ -76,16 +80,19 @@ namespace Buffalo.Kernel
             {
                 return;
             }
-            ContextValue.Current[ActionTagKey] = null;
-            ContextValue.Current[ActionKey] = null;
+            _actionHandle.Value = null;
+            _actionTag.Value = null;
         }
+
+
+
         /// <summary>
         /// 是否空的延迟队列
         /// </summary>
         private static bool IsNullQueue()
         {
 
-            return (ContextValue.Current[ActionKey] as Dictionary<DelayActionLevel, Queue<DelDelayAction>>)== null;
+            return _actionHandle.Value==null;
         }
 
         /// <summary>
@@ -109,11 +116,11 @@ namespace Buffalo.Kernel
         {
             _isNew = IsNullQueue();
 
-            _dic = ContextValue.Current[ActionKey] as Dictionary<DelayActionLevel, Queue<DelDelayAction>>;
+            _dic = _actionHandle.Value;
             if (_dic == null)
             {
                 _dic = new Dictionary<DelayActionLevel, Queue<DelDelayAction>>();
-                ContextValue.Current[ActionKey] = _dic;
+                _actionHandle.Value = _dic;
             }
         }
 
@@ -142,7 +149,7 @@ namespace Buffalo.Kernel
         /// 提交动作(-1为未提交，整数为已经提交的条数)
         /// </summary>
         /// <returns></returns>
-        public int Commit(IList<Exception> lstException=null)
+        public int Commit(IList<Exception> lstException=null,bool logError=false)
         {
             if (!_isNew)
             {
@@ -150,11 +157,11 @@ namespace Buffalo.Kernel
             }
             int count = 0;
             Queue < DelDelayAction > currentQueue = GetActionQueue(DelayActionLevel.High);
-            count +=RunAction(currentQueue, lstException);
+            count +=RunAction(currentQueue, lstException, logError);
             currentQueue = GetActionQueue(DelayActionLevel.Medium);
-            count += RunAction(currentQueue, lstException);
+            count += RunAction(currentQueue, lstException, logError);
             currentQueue = GetActionQueue(DelayActionLevel.Low);
-            count += RunAction(currentQueue, lstException);
+            count += RunAction(currentQueue, lstException, logError);
             return count;
         }
 
@@ -164,7 +171,7 @@ namespace Buffalo.Kernel
         /// <param name="currentQueue"></param>
         /// <param name="lstException"></param>
         /// <returns></returns>
-        private int RunAction(Queue<DelDelayAction> currentQueue, IList<Exception> lstException)
+        private int RunAction(Queue<DelDelayAction> currentQueue, IList<Exception> lstException, bool logError)
         {
             int count = 0;
             DelDelayAction action = null;
@@ -185,6 +192,10 @@ namespace Buffalo.Kernel
                     if (lstException != null)
                     {
                         lstException.Add(ex);
+                    }
+                    if (logError)
+                    {
+                        ApplicationLog.LogException("DelayAction", ex);
                     }
                 }
             }

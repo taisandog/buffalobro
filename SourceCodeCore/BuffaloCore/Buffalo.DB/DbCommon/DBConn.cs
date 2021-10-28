@@ -17,7 +17,7 @@ namespace Buffalo.DB.DbCommon
         /// <returns></returns>
         public static DbConnection GetConnection(DBInfo db)
         {
-            string connectionString = db.ConnectionString;
+            string connectionString = db.SelectedConnectionString;
             
             DbConnection conn = db.CurrentDbAdapter.GetConnection(db);
             conn.ConnectionString = connectionString;
@@ -30,7 +30,7 @@ namespace Buffalo.DB.DbCommon
         /// <returns></returns>
         public static DbConnection GetReadConnection(DBInfo db)
         {
-            string connectionString = db.ReadOnlyConnectionString;
+            string connectionString = db.SelectedReadOnlyConnectionString;
 
             DbConnection conn = db.CurrentDbAdapter.GetConnection(db);
             conn.ConnectionString = connectionString;

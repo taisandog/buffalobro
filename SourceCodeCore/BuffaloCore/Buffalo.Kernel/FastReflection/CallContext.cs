@@ -32,7 +32,7 @@ namespace Buffalo.Kernel.FastReflection
             ThreadLocal<object> data = null;
             if(!_state.TryGetValue(name, out data))
             {
-                return false;
+                return null;
             }
             return data.Value;
         }

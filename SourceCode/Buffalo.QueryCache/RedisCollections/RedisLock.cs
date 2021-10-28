@@ -15,10 +15,7 @@ namespace Buffalo.QueryCache.RedisCollections
     {
         private static LockObjects<string> _lokKey = new LockObjects<string>();
 
-        /// <summary>
-        /// 在上下文中的Key
-        /// </summary>
-        private static readonly string ContextKey = "__!!Obj.Buf.LokKey!__";
+
         /// <summary>
         /// 轮询间隔毫秒
         /// </summary>
@@ -32,6 +29,8 @@ namespace Buffalo.QueryCache.RedisCollections
         /// 标记为本锁的guid
         /// </summary>
         private int _guidHash;
+
+        private static ThreadLocal<Dictionary<string, bool>> _threadContextHandle = new ThreadLocal<Dictionary<string, bool>>();
         /// <summary>
         /// 获取线程上下文集合
         /// </summary>
@@ -46,11 +45,11 @@ namespace Buffalo.QueryCache.RedisCollections
                 return _threadContext;
             }
             
-            _threadContext = ContextValue.Current[ContextKey] as Dictionary<string, bool>;
+            _threadContext = _threadContextHandle.Value;
             if (_threadContext == null)
             {
                 _threadContext = new Dictionary<string, bool>();
-                ContextValue.Current[ContextKey] = _threadContext;
+                _threadContextHandle.Value = _threadContext;
             }
             return _threadContext;
         }

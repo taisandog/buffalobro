@@ -94,6 +94,7 @@ namespace Buffalo.MQ.RedisMQ
                     }
                 }
             }
+            Options.SyncTimeout = hs.GetDicValue<string, string>("syncTimeout").ConvertTo<int>(5000);
             Options.Password = hs.GetDicValue<string, string>("pwd");
             _useDatabase = hs.GetDicValue<string, string>("database").ConvertTo<int>(0);
             Options.DefaultDatabase= _useDatabase;

@@ -104,7 +104,7 @@ namespace Buffalo.DB.CacheManager
         private string GetTableName(string tableName)
         {
             StringBuilder sbInfo = new StringBuilder(tableName.Length + 10);
-            sbInfo.Append(_info.Name);
+            sbInfo.Append(_info.FullName);
             sbInfo.Append(".");
             sbInfo.Append(tableName);
             return sbInfo.ToString();
@@ -133,7 +133,7 @@ namespace Buffalo.DB.CacheManager
             sbKey.Append("BuffaloCache:");
             sbKey.Append(sql.Length );
             sbKey.Append(":");
-            sbKey.Append(PasswordHash.ToMD5String(_info.Name+":"+sql));
+            sbKey.Append(PasswordHash.ToMD5String(_info.FullName+":"+sql));
             return sbKey.ToString();
         }
 

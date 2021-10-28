@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Buffalo.MongoDB
@@ -19,9 +20,11 @@ namespace Buffalo.MongoDB
     public class MongoDBManager
     {
         private static ConcurrentDictionary<string, MongoDBInfo> _dicConn = new ConcurrentDictionary<string, MongoDBInfo>();
-        private static readonly string MongoDBKey = "_?MDB.Conn.Key.";
+        //private static readonly string MongoDBKey = "_?MDB.Conn.Key.";
 
         private static readonly string LiquidName = "Buffalo_Liquid_Sequence";
+
+        private static ThreadLocal<Hashtable> _mongoDBCollection = new ThreadLocal<Hashtable>();
 
         /// <summary>
         /// Mongo的集合
@@ -30,11 +33,11 @@ namespace Buffalo.MongoDB
         {
             get
             {
-                Hashtable hs = ContextValue.Current[MongoDBKey] as Hashtable;
+                Hashtable hs = _mongoDBCollection.Value;
                 if (hs == null)
                 {
                     hs = new Hashtable();
-                    ContextValue.Current[MongoDBKey] = hs;
+                    _mongoDBCollection.Value = hs;
                 }
                 return hs;
             }

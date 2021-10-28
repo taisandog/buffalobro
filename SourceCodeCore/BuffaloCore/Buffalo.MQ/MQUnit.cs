@@ -12,6 +12,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Buffalo.MQ
@@ -26,22 +27,22 @@ namespace Buffalo.MQ
 
         private static ConcurrentDictionary<string, DelCreateConfig> _dicConfigCreate = InitConfigCreate();
 
-        /// <summary>
-        /// 线程变量名
-        /// </summary>
-        private const string Tag = "$*_MQ_Conn&$";
-
+        ///// <summary>
+        ///// 线程变量名
+        ///// </summary>
+        //private const string Tag = "$*_MQ_Conn&$";
+        private static ThreadLocal<Dictionary<string, MQConnection>> _staticConnTable = new ThreadLocal<Dictionary<string, MQConnection>>();
         /// <summary>
         /// 获取本线程变量连接
         /// </summary>
         /// <returns></returns>
         private static Dictionary<string,MQConnection> GetStaticConnTable()
         {
-            Dictionary<string, MQConnection> dic = ContextValue.Current[Tag] as Dictionary<string, MQConnection>;
+            Dictionary<string, MQConnection> dic = _staticConnTable.Value;
             if (dic == null)
             {
                 dic = new Dictionary<string, MQConnection>();
-                ContextValue.Current[Tag] = dic;
+                _staticConnTable.Value = dic;
             }
             return dic;
         }

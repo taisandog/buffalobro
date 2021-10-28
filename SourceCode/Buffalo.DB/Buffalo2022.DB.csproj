@@ -314,6 +314,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Resources\tableParam2000.sql" />
     <None Include="Resources\tableParam2005.sql" />
   </ItemGroup>
@@ -326,6 +327,9 @@
       <Project>{6ec04216-a422-4751-aa81-1211dcb10bab}</Project>
       <Name>Buffalo2022.Kernel</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Properties\PublishProfiles\FolderProfile.pubxml.user" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,9 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Data;
+using System.Data.SqlClient;
+using System.Reflection;
 using System.Collections;
 using System.Xml;
 using System.IO;
+using Buffalo.DB;
 using Buffalo.Kernel.FastReflection;
 using Buffalo.Kernel.Defaults;
 using Buffalo.Kernel.FastReflection.ClassInfos;
@@ -195,7 +199,7 @@ namespace Buffalo.DB.ListExtends
             
         }
 
-        /// <summary>
+        // <summary>
         /// 把集合写入XML流
         /// </summary>
         /// <param name="list">集合</param>
@@ -204,7 +208,7 @@ namespace Buffalo.DB.ListExtends
         {
             WriteXml(list, stm, null, encoding);
         }
-        /// <summary>
+        // <summary>
         /// 把集合写入XML流
         /// </summary>
         /// <param name="list">集合</param>

@@ -37,6 +37,8 @@ namespace Buffalo.QueryCache.RedisCollections
         /// 获取线程上下文集合
         /// </summary>
         private Dictionary<string, bool> _threadContext;
+
+        private static ThreadLocal<Dictionary<string, bool>> _threadContextHandle = new ThreadLocal<Dictionary<string, bool>>();
         /// <summary>
         /// 获取线程上下文集合（获取本线程是否已经锁过这个值）
         /// </summary>
@@ -47,11 +49,11 @@ namespace Buffalo.QueryCache.RedisCollections
                 return _threadContext;
             }
             
-            _threadContext = ContextValue.Current[ContextKey] as Dictionary<string, bool>;
+            _threadContext = _threadContextHandle.Value;
             if (_threadContext == null)
             {
                 _threadContext = new Dictionary<string, bool>();
-                ContextValue.Current[ContextKey] = _threadContext;
+                _threadContextHandle.Value = _threadContext;
             }
             return _threadContext;
         }
