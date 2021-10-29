@@ -66,9 +66,12 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
             DataAccessLoader.AppendModelAssembly(type.Assembly);
             DataAccessLoader.InitConfig(configPath);
             _db = GetDB(configPath);
-            foreach(DBInfo info in lstChildDBInfo) 
+            if (lstChildDBInfo != null)
             {
-                _db.SetChildDataSource(info);
+                foreach (DBInfo info in lstChildDBInfo)
+                {
+                    _db.SetChildDataSource(info);
+                }
             }
             Type baseType = typeof(BQLEntityTableHandle);
             PropertyInfo[] infos = type.GetProperties(BindingFlags.Public | BindingFlags.Static);

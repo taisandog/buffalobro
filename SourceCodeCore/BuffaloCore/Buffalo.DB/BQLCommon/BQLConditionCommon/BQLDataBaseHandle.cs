@@ -56,7 +56,7 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
         /// </summary>
         /// <param name="configPath">自定义配置文件路径</param>
         /// <param name="lstChildDBInfo">子数据源</param>
-        public static void InitDB(IEnumerable<string> configPath=null,IEnumerable<DBInfo> lstChildDBInfo=null)
+        public static void InitDB(IEnumerable<string> configPath = null, IEnumerable<DBInfo> lstChildDBInfo = null)
         {
             //if (_isInit)
             //{
@@ -66,9 +66,12 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
             DataAccessLoader.AppendModelAssembly(type.Assembly);
             DataAccessLoader.InitConfig(configPath);
             _db = GetDB(configPath);
-            foreach(DBInfo info in lstChildDBInfo) 
+            if (lstChildDBInfo != null)
             {
-                _db.SetChildDataSource(info);
+                foreach (DBInfo info in lstChildDBInfo)
+                {
+                    _db.SetChildDataSource(info);
+                }
             }
             Type baseType = typeof(BQLEntityTableHandle);
             PropertyInfo[] infos = type.GetProperties(BindingFlags.Public | BindingFlags.Static);

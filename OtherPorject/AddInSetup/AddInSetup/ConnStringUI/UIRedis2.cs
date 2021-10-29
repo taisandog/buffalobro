@@ -21,6 +21,7 @@ namespace AddInSetup.ConnStringUI
             InitializeComponent();
             ShowHelp = false;
             BindFlags();
+            
         }
         protected override void OnHelp()
         {
@@ -92,12 +93,19 @@ namespace AddInSetup.ConnStringUI
                 sbStr.Append(((int)txtExpir.Value).ToString());
                 sbStr.Append(";");
             }
+            if (nupSyncTimeout.Value>0)
+            {
+                sbStr.Append("syncTimeout=");
+                sbStr.Append(((int)nupSyncTimeout.Value).ToString());
+                sbStr.Append(";");
+            }
             if (!string.IsNullOrWhiteSpace(txtPwd.Text))
             {
                 sbStr.Append("pwd=");
                 sbStr.Append(HttpUtility.UrlEncode(txtPwd.Text));
                 sbStr.Append(";");
             }
+
             if (chkSSL.Checked)
             {
                 sbStr.Append("ssl=1");

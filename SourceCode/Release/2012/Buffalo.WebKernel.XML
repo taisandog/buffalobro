@@ -63,7 +63,17 @@
             ArtDialog
             </summary>
         </member>
+        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.#ctor(Buffalo.WebKernel.ARTDialog.DialogSkin,System.String)">
+            <summary>
+            ArtDialog
+            </summary>
+        </member>
         <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.#ctor(System.String)">
+            <summary>
+            ArtDialog
+            </summary>
+        </member>
+        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.#ctor(System.String,System.String)">
             <summary>
             ArtDialog
             </summary>

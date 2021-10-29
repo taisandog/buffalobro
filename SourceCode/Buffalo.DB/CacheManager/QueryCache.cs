@@ -95,7 +95,11 @@ namespace Buffalo.DB.CacheManager
             {
                 return new MemoryAdaper(info);
             }
-            
+            if (dtype.Equals("web", StringComparison.CurrentCultureIgnoreCase))//ÄÚ´æ
+            {
+                return new WebCacheAdaper(info, connectionString);
+            }
+
             ICacheAdaper cache = GetAssemblyCache(info, dtype, connectionString);
             if (cache != null) 
             {

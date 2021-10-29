@@ -40,13 +40,18 @@
             this.label6 = new System.Windows.Forms.Label();
             this.txtDatabase = new System.Windows.Forms.NumericUpDown();
             this.label7 = new System.Windows.Forms.Label();
+            this.nupSyncTimeout = new System.Windows.Forms.NumericUpDown();
+            this.label8 = new System.Windows.Forms.Label();
             this.gpSetting.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtExpir)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtDatabase)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nupSyncTimeout)).BeginInit();
             this.SuspendLayout();
             // 
             // gpSetting
             // 
+            this.gpSetting.Controls.Add(this.nupSyncTimeout);
+            this.gpSetting.Controls.Add(this.label8);
             this.gpSetting.Controls.Add(this.txtDatabase);
             this.gpSetting.Controls.Add(this.label7);
             this.gpSetting.Controls.Add(this.label6);
@@ -63,7 +68,7 @@
             // chkThrow
             // 
             this.chkThrow.AutoSize = true;
-            this.chkThrow.Location = new System.Drawing.Point(198, 263);
+            this.chkThrow.Location = new System.Drawing.Point(197, 303);
             this.chkThrow.Name = "chkThrow";
             this.chkThrow.Size = new System.Drawing.Size(297, 29);
             this.chkThrow.TabIndex = 55;
@@ -87,12 +92,12 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.label5.Location = new System.Drawing.Point(7, 115);
+            this.label5.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.label5.Location = new System.Drawing.Point(15, 114);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(181, 21);
+            this.label5.Size = new System.Drawing.Size(173, 20);
             this.label5.TabIndex = 51;
-            this.label5.Text = "超时(分钟,0表示不超时):";
+            this.label5.Text = "保存时间(秒数,0表示一直):";
             // 
             // txtServer
             // 
@@ -118,7 +123,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.label4.Location = new System.Drawing.Point(142, 77);
+            this.label4.Location = new System.Drawing.Point(142, 78);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(46, 21);
             this.label4.TabIndex = 57;
@@ -136,7 +141,7 @@
             // chkSSL
             // 
             this.chkSSL.AutoSize = true;
-            this.chkSSL.Location = new System.Drawing.Point(195, 228);
+            this.chkSSL.Location = new System.Drawing.Point(197, 268);
             this.chkSSL.Name = "chkSSL";
             this.chkSSL.Size = new System.Drawing.Size(63, 29);
             this.chkSSL.TabIndex = 59;
@@ -149,7 +154,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cmbCommandFlags.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbCommandFlags.FormattingEnabled = true;
-            this.cmbCommandFlags.Location = new System.Drawing.Point(194, 189);
+            this.cmbCommandFlags.Location = new System.Drawing.Point(195, 229);
             this.cmbCommandFlags.Name = "cmbCommandFlags";
             this.cmbCommandFlags.Size = new System.Drawing.Size(457, 33);
             this.cmbCommandFlags.TabIndex = 60;
@@ -158,7 +163,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.label6.Location = new System.Drawing.Point(55, 195);
+            this.label6.Location = new System.Drawing.Point(55, 236);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(133, 21);
             this.label6.TabIndex = 61;
@@ -168,7 +173,7 @@
             // 
             this.txtDatabase.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtDatabase.Location = new System.Drawing.Point(196, 150);
+            this.txtDatabase.Location = new System.Drawing.Point(194, 190);
             this.txtDatabase.Maximum = new decimal(new int[] {
             2147483647,
             0,
@@ -182,11 +187,35 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.label7.Location = new System.Drawing.Point(94, 155);
+            this.label7.Location = new System.Drawing.Point(94, 195);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(94, 21);
             this.label7.TabIndex = 62;
             this.label7.Text = "使用数据库:";
+            // 
+            // nupSyncTimeout
+            // 
+            this.nupSyncTimeout.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.nupSyncTimeout.Location = new System.Drawing.Point(194, 149);
+            this.nupSyncTimeout.Maximum = new decimal(new int[] {
+            999999999,
+            0,
+            0,
+            0});
+            this.nupSyncTimeout.Name = "nupSyncTimeout";
+            this.nupSyncTimeout.Size = new System.Drawing.Size(457, 33);
+            this.nupSyncTimeout.TabIndex = 65;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.label8.Location = new System.Drawing.Point(1, 153);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(187, 20);
+            this.label8.TabIndex = 64;
+            this.label8.Text = "访问超时(毫秒,0表示不指定):";
             // 
             // UIRedis2
             // 
@@ -197,6 +226,7 @@
             this.gpSetting.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtExpir)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtDatabase)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nupSyncTimeout)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -214,5 +244,7 @@
         private System.Windows.Forms.ComboBox cmbCommandFlags;
         private System.Windows.Forms.NumericUpDown txtDatabase;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.NumericUpDown nupSyncTimeout;
+        private System.Windows.Forms.Label label8;
     }
 }

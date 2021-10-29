@@ -135,6 +135,12 @@ namespace AddInSetup.ConnStringUI
                 sbStr.Append(commanfFlags.ToString());
                 sbStr.Append(";");
             }
+            if (nupSyncTimeout.Value > 0)
+            {
+                sbStr.Append("syncTimeout=");
+                sbStr.Append(((int)nupSyncTimeout.Value).ToString());
+                sbStr.Append(";");
+            }
             int messageMode = (int)cmbMessageMode.SelectedValue;
             if (messageMode > 0)
             {
