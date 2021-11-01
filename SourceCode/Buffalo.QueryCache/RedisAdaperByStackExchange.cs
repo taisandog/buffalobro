@@ -202,7 +202,11 @@ namespace Buffalo.QueryCache
                 }
 
             }
-            _options.SyncTimeout= configs.GetDicValue<string, string>("syncTimeout").ConvertTo<int>(5000);
+            string ssyncTimeout = configs.GetDicValue<string, string>("syncTimeout");
+            if (!string.IsNullOrWhiteSpace(ssyncTimeout))
+            {
+                _options.SyncTimeout = ssyncTimeout.ConvertTo<int>(5000);
+            }
             _serverCount = servers.Count;
             _commanfFlags = (CommandFlags)configs.GetDicValue<string, string>("commanfFlags").ConvertTo<int>((int)CommandFlags.None);
             _db= configs.GetDicValue<string, string>("database").ConvertTo<int>(0);

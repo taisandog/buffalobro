@@ -46,9 +46,9 @@ namespace Buffalo.Kernel
                 ClearTimeout(nowDate);
                 if (!_dic.TryGetValue(key, out ret))
                 {
-                    LockItem<T> retNode = new LockItem<T>();
-                    retNode.Key = key;
-                    retNode.LockObject = new object();
+                    ret = new LockItem<T>();
+                    ret.Key = key;
+                    ret.LockObject = new object();
 
                     
                     _dic[key] = ret;
