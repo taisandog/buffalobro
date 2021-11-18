@@ -115,7 +115,7 @@ namespace Buffalo.Kernel.TreadPoolManager
                         {
                             break;
                         }
-                        einfo.SendThread();
+                        einfo.SendThreadStop();
                         beStop.Enqueue(einfo);
                     }
                     while (beStop.Count > 0)
@@ -125,7 +125,7 @@ namespace Buffalo.Kernel.TreadPoolManager
                         {
                             break;
                         }
-                        einfo.SendThread();
+                        einfo.StopThread();
                         beStop.Enqueue(einfo);
                     }
                 }

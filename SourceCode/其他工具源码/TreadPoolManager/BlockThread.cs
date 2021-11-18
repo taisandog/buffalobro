@@ -112,7 +112,7 @@ namespace Buffalo.Kernel.TreadPoolManager
         /// <summary>
         /// 告诉线程要关闭
         /// </summary>
-        public void SendThread()
+        public void SendThreadStop()
         {
             _isRunning = false;
             
