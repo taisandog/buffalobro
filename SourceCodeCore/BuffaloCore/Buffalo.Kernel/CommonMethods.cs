@@ -397,17 +397,42 @@ namespace Buffalo.Kernel
         /// <returns>DateTime</returns>
         public static System.DateTime ConvertIntDateTime(double d, bool useSecond, bool isUTC)
         {
-            System.DateTime time = System.DateTime.MinValue;
-            System.DateTime startTime = isUTC ? StartTimeUTC : StartTime;
-            if (useSecond)
+            if (useSecond) 
             {
-                time = startTime.AddSeconds(d);
+                if (isUTC) 
+                {
+                    DateTimeOffset dto = DateTimeOffset.FromUnixTimeSeconds((long)d);
+                    return dto.ToLocalTime().DateTime;
+                }
+                else 
+                {
+                    return StartTime.AddSeconds(d);
+                }
             }
-            else
+            else 
             {
-                time = startTime.AddMilliseconds(d);
+                if (isUTC)
+                {
+                    DateTimeOffset dto = DateTimeOffset.FromUnixTimeMilliseconds((long)d);
+                    return dto.ToLocalTime().DateTime;
+                }
+                else
+                {
+                    return StartTime.AddMilliseconds(d);
+                }
             }
-            return time;
+
+            //System.DateTime time = System.DateTime.MinValue;
+            //System.DateTime startTime = isUTC ? StartTimeUTC : StartTime;
+            //if (useSecond)
+            //{
+            //    time = startTime.AddSeconds(d);
+            //}
+            //else
+            //{
+            //    time = startTime.AddMilliseconds(d);
+            //}
+            //return time;
         }
 
         /// <summary>
@@ -429,13 +454,36 @@ namespace Buffalo.Kernel
         /// <returns>double</returns>
         public static double ConvertDateTimeInt(System.DateTime time, bool useSecond, bool isUTC)
         {
-            System.DateTime startTime = isUTC ? StartTimeUTC : StartTime;
-            TimeSpan ts = time.Subtract(startTime);
+            DateTimeOffset dto = new DateTimeOffset(time);
             if (useSecond)
             {
-                return ts.TotalSeconds;
+                if (isUTC)
+                {
+                    return dto.ToUnixTimeSeconds();
+                }
+                else
+                {
+                    return time.Subtract(StartTime).TotalSeconds;
+                }
             }
-            return ts.TotalMilliseconds;
+            else 
+            {
+                if (isUTC)
+                {
+                    return dto.ToUnixTimeMilliseconds();
+                }
+                else
+                {
+                    return time.Subtract(StartTime).TotalMilliseconds;
+                }
+            }
+            //System.DateTime startTime = isUTC ? StartTimeUTC : StartTime;
+            //TimeSpan ts = time.Subtract(startTime);
+            //if (useSecond)
+            //{
+            //    return ts.TotalSeconds;
+            //}
+            //return ts.TotalMilliseconds;
         }
         /// <summary>
         /// 将c# DateTime时间格式转换为Unix时间戳格式(秒)
