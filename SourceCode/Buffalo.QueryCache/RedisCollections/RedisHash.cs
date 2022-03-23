@@ -94,23 +94,39 @@ namespace Buffalo.QueryCache.RedisCollections
         /// <param name="defaultValue">默认值</param>
         /// <param name="connection"></param>
         /// <returns></returns>
-        public List<KeyValuePair<K, V>> GetAllValues<K, V>(V defaultValue)
+        public List<KeyValuePair<string, V>> GetAllValues< V>(V defaultValue)
         {
+            
             HashEntry[] values = _client.HashGetAll(_key, _commanfFlags);
-            List<KeyValuePair<K, V>> ret = new List<KeyValuePair<K, V>>(values.Length);
+            List<KeyValuePair<string, V>> ret = new List<KeyValuePair<string, V>>(values.Length);
 
-            K vkey = default(K);
+            string vkey = null;
             V vValue = default(V);
             foreach (HashEntry entry in values)
             {
 
                 vValue = RedisConverter.RedisValueToValue<V>(entry.Value, defaultValue);
-                vkey = RedisConverter.RedisValueToValue<K>(entry.Name, default(K));
-                KeyValuePair<K, V> val = new KeyValuePair<K, V>(vkey, vValue);
+                vkey = RedisConverter.RedisValueToValue<string>(entry.Name, null);
+                KeyValuePair<string, V> val = new KeyValuePair<string, V>(vkey, vValue);
                 ret.Add(val);
             }
 
             return ret;
+        }
+
+        /// <summary>
+        /// 获取所有哈希表的键
+        /// </summary>
+        /// <returns></returns>
+        public ICollection<string> GetAllKeys()
+        {
+            RedisValue[] keys= _client.HashKeys(_key, _commanfFlags);
+            List<string> lst = new List<string>();
+            foreach (RedisValue val in keys)
+            {
+                lst.Add(RedisConverter.RedisValueToValue<string>(val,null));
+            }
+            return lst;
         }
         /// <summary>
         /// 删除哈希表的值

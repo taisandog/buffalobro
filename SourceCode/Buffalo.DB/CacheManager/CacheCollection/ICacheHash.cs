@@ -44,7 +44,14 @@ namespace Buffalo.DB.CacheManager.CacheCollection
         /// <param name="defaultValue">默认值</param>
         /// <param name="oper"></param>
         /// <returns></returns>
-        List<KeyValuePair<K, V>> GetAllValues<K, V>(V defaultValue);
+        List<KeyValuePair<string, V>> GetAllValues<V>(V defaultValue);
+        /// <summary>
+        /// 获取所有哈希表的键
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="oper"></param>
+        /// <returns></returns>
+        ICollection<string> GetAllKeys();
         /// <summary>
         /// 删除哈希表的值
         /// </summary>

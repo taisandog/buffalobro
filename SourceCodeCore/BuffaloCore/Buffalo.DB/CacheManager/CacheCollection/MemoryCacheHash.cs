@@ -97,22 +97,35 @@ namespace Buffalo.DB.CacheManager.CacheCollection
         /// <param name="defaultValue">默认值</param>
         /// <param name="connection"></param>
         /// <returns></returns>
-        public List<KeyValuePair<K, V>> GetAllValues<K, V>(V defaultValue)
+        public List<KeyValuePair<string, V>> GetAllValues< V>(V defaultValue)
         {
-            List<KeyValuePair<K, V>> ret = new List<KeyValuePair<K, V>>();
+            List<KeyValuePair<string, V>> ret = new List<KeyValuePair<string, V>>();
             V val = default(V);
-            K vkey = default(K);
+            string vkey = null;
             
             lock (_dic)
             {
                 foreach (KeyValuePair<string, object> kvp in _dic)
                 {
                     val = ValueConvertExtend.ConvertValue<V>(kvp.Value, defaultValue);
-                    vkey = ValueConvertExtend.ConvertValue<K>(kvp.Key);
-                    ret.Add(new KeyValuePair<K, V>(vkey, val));
+                    vkey = ValueConvertExtend.ConvertValue<string>(kvp.Key);
+                    ret.Add(new KeyValuePair<string, V>(vkey, val));
                 }
                 return ret;
             }
+        }
+        /// <summary>
+        /// 获取所有哈希表的值
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="key">键</param>
+        /// <param name="defaultValue">默认值</param>
+        /// <param name="connection"></param>
+        /// <returns></returns>
+        public ICollection<string> GetAllKeys()
+        {
+            
+            return _dic.Keys;
         }
         /// <summary>
         /// 删除哈希表的值
