@@ -17,7 +17,6 @@ using System.Security.Cryptography;
 namespace Buffalo.Storage.QCloud.CosApi
 {
 
-
     /// <summary>
     /// 腾讯云适配器
     /// </summary>

@@ -7,7 +7,7 @@
     <Copyright>taisandog</Copyright>
     <PackageProjectUrl>https://github.com/taisandog/buffalobro</PackageProjectUrl>
     <Product>Buffalo.Storage for .Net Standard 2.0</Product>
-    <Version>1.0.3</Version>
+    <Version>1.0.4</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -16,8 +16,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="AliCloud.OssAPI\**" />
     <Compile Remove="AWS.S3\IO\**" />
+    <EmbeddedResource Remove="AliCloud.OssAPI\**" />
     <EmbeddedResource Remove="AWS.S3\IO\**" />
+    <None Remove="AliCloud.OssAPI\**" />
     <None Remove="AWS.S3\IO\**" />
   </ItemGroup>
 
@@ -26,6 +29,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="AliCloud.OssAPI\OSSAdapter.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aliyun.OSS.SDK.NetCore" Version="2.13.0" />
     <PackageReference Include="AWSSDK.Core" Version="3.3.104.19" />
     <PackageReference Include="AWSSDK.S3" Version="3.3.110.17" />
   </ItemGroup>
