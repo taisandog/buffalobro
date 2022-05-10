@@ -50,10 +50,10 @@ namespace Buffalo.Storage.LocalFileManager
             if (!string.IsNullOrEmpty(_fileRoot)) 
             {
                 _fileRoot = GetRealRoot(_fileRoot);
-                if(!_fileRoot.EndsWith("\\"))
-                {
-                    _fileRoot=_fileRoot+"\\";
-                }
+                //if(!_fileRoot.EndsWith("\\"))
+                //{
+                //    _fileRoot=_fileRoot+"\\";
+                //}
             }
             _userName = hs.GetMapValue<string>("user");
             _password = hs.GetMapValue<string>("pwd");
@@ -67,13 +67,12 @@ namespace Buffalo.Storage.LocalFileManager
         /// <returns></returns>
         private string GetLocal(string path) 
         {
-            string ret= _fileRoot + path;
-            StringBuilder sbRet=new StringBuilder(200);
-            sbRet.Append(_fileRoot);
+            //StringBuilder sbRet=new StringBuilder(200);
+            //sbRet.Append(_fileRoot);
             
-            sbRet.Append(path);
+            //sbRet.Append(path);
            
-            return sbRet.ToString();
+            return Path.Combine(_fileRoot, path);
         }
         /// <summary>
         /// 哈希类型
@@ -106,11 +105,15 @@ namespace Buffalo.Storage.LocalFileManager
             {
                 return root;
             }
+            if (root[0] == '/' && root[1] == '/')
+            {
+                return root;
+            }
             if (start=='.' || start=='\\' || start=='/') 
             {
-                string mroot = CommonMethods.GetBaseRoot()+"\\" + root;
-                DirectoryInfo dir = new DirectoryInfo(mroot);
-                return dir.FullName;
+                string mroot =Path.Combine(CommonMethods.GetBaseRoot(), root);
+               
+                return mroot;
             }
             return root;
         }
@@ -206,7 +209,14 @@ namespace Buffalo.Storage.LocalFileManager
             using (FileStream file = new FileStream(curpath, FileMode.Open, FileAccess.Write))
             {
                 //file.Seek(postion, SeekOrigin.End);
-                file.Position = postion;
+                if (postion < 0)
+                {
+                    file.Position = file.Length - 1;
+                }
+                else
+                {
+                    file.Position = postion;
+                }
                 CommonMethods.CopyStreamData(content, file,-1,null);
                 //file.Write(content, 0, content.Length);
             }
@@ -220,7 +230,7 @@ namespace Buffalo.Storage.LocalFileManager
         /// <returns></returns>
         public override APIResault AppendFile(string path, Stream content)
         {
-            return AppendFile(path, content, 0);
+            return AppendFile(path, content, -1);
         }
         /// <summary>
         /// 保存文件
@@ -332,10 +342,10 @@ namespace Buffalo.Storage.LocalFileManager
             foreach (string spath in files)
             {
                 string curPath = spath.Substring(_fileRoot.Length);
-                if (curPath[0] != '\\')
-                {
-                    curPath = '\\' + curPath;
-                }
+                //if (curPath[0] != '\\')
+                //{
+                //    curPath = '\\' + curPath;
+                //}
                 ret.Add(curPath);
             }
             return ret;
