@@ -7,15 +7,24 @@
   "targets": {
     ".NETStandard,Version=v2.0": {},
     ".NETStandard,Version=v2.0/": {
-      "Buffalo.Storage/1.0.3": {
+      "Buffalo.Storage/1.0.5": {
         "dependencies": {
           "AWSSDK.Core": "3.3.104.19",
           "AWSSDK.S3": "3.3.110.17",
+          "Aliyun.OSS.SDK.NetCore": "2.13.0",
           "Buffalo.ArgCommon": "1.2.1",
           "NETStandard.Library": "2.0.3"
         },
         "runtime": {
           "Buffalo.Storage.dll": {}
+        }
+      },
+      "Aliyun.OSS.SDK.NetCore/2.13.0": {
+        "runtime": {
+          "lib/netstandard2.0/Aliyun.OSS.Core.dll": {
+            "assemblyVersion": "2.13.0.0",
+            "fileVersion": "2.13.0.0"
+          }
         }
       },
       "AWSSDK.Core/3.3.104.19": {
@@ -264,14 +273,14 @@
       },
       "Buffalo.ArgCommon/1.2.1": {
         "dependencies": {
-          "Buffalo.Kernel": "1.2.5",
+          "Buffalo.Kernel": "1.3.1",
           "Newtonsoft.Json": "12.0.3"
         },
         "runtime": {
           "Buffalo.ArgCommon.dll": {}
         }
       },
-      "Buffalo.Kernel/1.2.5": {
+      "Buffalo.Kernel/1.3.1": {
         "dependencies": {
           "Microsoft.AspNetCore.Hosting.Abstractions": "2.2.0",
           "Microsoft.Extensions.Hosting.Abstractions": "5.0.0",
@@ -287,10 +296,17 @@
     }
   },
   "libraries": {
-    "Buffalo.Storage/1.0.3": {
+    "Buffalo.Storage/1.0.5": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "Aliyun.OSS.SDK.NetCore/2.13.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ElvJwTAdBqFmgb7K4PdxDXPFbOBCIUI5OvCOMfCoUoDL21aivtWMFUtU1v4Dxc2wcrN8XQdY1EKeGFhJK/zVyQ==",
+      "path": "aliyun.oss.sdk.netcore/2.13.0",
+      "hashPath": "aliyun.oss.sdk.netcore.2.13.0.nupkg.sha512"
     },
     "AWSSDK.Core/3.3.104.19": {
       "type": "package",
@@ -472,7 +488,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Buffalo.Kernel/1.2.5": {
+    "Buffalo.Kernel/1.3.1": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
