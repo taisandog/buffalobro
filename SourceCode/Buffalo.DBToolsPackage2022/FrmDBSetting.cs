@@ -49,7 +49,7 @@ namespace Buffalo.DBTools
                     dbinfo.AppNamespace = dalNamespace+"."+dbinfo.DbType;
                     dbinfo.FileName = DBConfigInfo.GetFileName(info);
                     dbinfo.SaveConfig(dbinfo.FileName);
-                    StaticConnection.ClearCacheOperate(dbinfo.DbName);
+                    //StaticConnection.ClearCacheOperate(dbinfo.DbName);
                 }
             }
             return dbinfo;
@@ -205,7 +205,7 @@ namespace Buffalo.DBTools
                 }
 
                 dbinfo.SaveConfig(dbinfo.FileName);
-                StaticConnection.ClearCacheOperate(dbinfo.DbName);
+                //StaticConnection.ClearCacheOperate(dbinfo.DbName);
             }
             
         }

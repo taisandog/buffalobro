@@ -307,10 +307,6 @@
       <Project>{c38522e1-35ba-40f7-a1e9-716d52bb6c04}</Project>
       <Name>Buffalo2022.Data.Oracle</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Buffalo.Data.PostgreSQL\Buffalo2022.Data.PostgreSQL.csproj">
-      <Project>{ef96ea11-c57a-4de0-97f7-1ab7e20ca0bd}</Project>
-      <Name>Buffalo2022.Data.PostgreSQL</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Buffalo.Data.SQLite\Buffalo2022.Data.SQLite.csproj">
       <Project>{d7ca14c3-1869-4928-91e4-3584de3823c2}</Project>
       <Name>Buffalo2022.Data.SQLite</Name>
