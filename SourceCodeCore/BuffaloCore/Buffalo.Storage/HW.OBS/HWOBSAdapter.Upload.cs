@@ -114,7 +114,8 @@ namespace Buffalo.Storage.HW.OBS
                         PartSize = PartSize,
                         Offset = filePosition,
                         InputStream = fileStm,
-                        InputStreamLength = contentLength
+                        
+                        //InputStreamLength = contentLength
                     };
                     uploadResponses.Add(_client.UploadPart(uploadRequest));
 
