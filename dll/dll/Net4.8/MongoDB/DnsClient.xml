@@ -522,6 +522,251 @@
             <param name="domainName">Name of the domain.</param>
             <exception cref="T:System.ArgumentNullException">If <paramref name="domainName"/> or <paramref name="info"/> is null.</exception>
         </member>
+        <member name="T:DnsClient.Protocol.NAPtrRecord">
+            <summary>
+            A <see cref="T:DnsClient.Protocol.DnsResourceRecord"/> representing Naming Authority Pointer
+            </summary>
+            <seealso href="https://tools.ietf.org/html/rfc2915">RFC 2915</seealso>
+        </member>
+        <member name="F:DnsClient.Protocol.NAPtrRecord.ServiceKeySip">
+            <summary>
+            A known value of <see cref="P:DnsClient.Protocol.NAPtrRecord.Services"/> property of a <see cref="T:DnsClient.Protocol.NAPtrRecord"/>.
+            </summary>
+        </member>
+        <member name="F:DnsClient.Protocol.NAPtrRecord.ServiceKeyEmail">
+            <summary>
+            A known value of <see cref="P:DnsClient.Protocol.NAPtrRecord.Services"/> property of a <see cref="T:DnsClient.Protocol.NAPtrRecord"/>.
+            </summary>
+        </member>
+        <member name="F:DnsClient.Protocol.NAPtrRecord.ServiceKeyWeb">
+            <summary>
+            A known value of <see cref="P:DnsClient.Protocol.NAPtrRecord.Services"/> property of a <see cref="T:DnsClient.Protocol.NAPtrRecord"/>.
+            </summary>
+        </member>
+        <member name="F:DnsClient.Protocol.NAPtrRecord.ServiceKeySipUdp">
+            <summary>
+            A known value of <see cref="P:DnsClient.Protocol.NAPtrRecord.Services"/> property of a <see cref="T:DnsClient.Protocol.NAPtrRecord"/>.
+            </summary>
+        </member>
+        <member name="F:DnsClient.Protocol.NAPtrRecord.ServiceKeySipTcp">
+            <summary>
+            A known value of <see cref="P:DnsClient.Protocol.NAPtrRecord.Services"/> property of a <see cref="T:DnsClient.Protocol.NAPtrRecord"/>.
+            </summary>
+        </member>
+        <member name="F:DnsClient.Protocol.NAPtrRecord.ServiceKeySipsTcp">
+            <summary>
+            A known value of <see cref="P:DnsClient.Protocol.NAPtrRecord.Services"/> property of a <see cref="T:DnsClient.Protocol.NAPtrRecord"/>.
+            </summary>
+        </member>
+        <member name="F:DnsClient.Protocol.NAPtrRecord.ServiceKeySipWebsocket">
+            <summary>
+            A known value of <see cref="P:DnsClient.Protocol.NAPtrRecord.Services"/> property of a <see cref="T:DnsClient.Protocol.NAPtrRecord"/>.
+            </summary>
+        </member>
+        <member name="F:DnsClient.Protocol.NAPtrRecord.ServiceKeySipsWebsocket">
+            <summary>
+            A known value of <see cref="P:DnsClient.Protocol.NAPtrRecord.Services"/> property of a <see cref="T:DnsClient.Protocol.NAPtrRecord"/>.
+            </summary>
+        </member>
+        <member name="F:DnsClient.Protocol.NAPtrRecord.AFlag">
+            <summary>
+            One of the values of the <see cref="P:DnsClient.Protocol.NAPtrRecord.Flags"/> property of a <see cref="T:DnsClient.Protocol.NAPtrRecord"/>.
+            At this time only four flags, "S", "A", "U", and "P", are defined.
+            The "S", "A" and "U" flags denote a terminal lookup.
+            </summary>
+            <seealso href="https://tools.ietf.org/html/rfc2915">RFC 2915</seealso>
+        </member>
+        <member name="F:DnsClient.Protocol.NAPtrRecord.PFlag">
+            <summary>
+            One of the values of the <see cref="P:DnsClient.Protocol.NAPtrRecord.Flags"/> property of a <see cref="T:DnsClient.Protocol.NAPtrRecord"/>.
+            At this time only four flags, "S", "A", "U", and "P", are defined.
+            The "S", "A" and "U" flags denote a terminal lookup.
+            </summary>
+            <seealso href="https://tools.ietf.org/html/rfc2915">RFC 2915</seealso>
+        </member>
+        <member name="F:DnsClient.Protocol.NAPtrRecord.SFlag">
+            <summary>
+            One of the values of the <see cref="P:DnsClient.Protocol.NAPtrRecord.Flags"/> property of a <see cref="T:DnsClient.Protocol.NAPtrRecord"/>.
+            At this time only four flags, "S", "A", "U", and "P", are defined.
+            The "S", "A" and "U" flags denote a terminal lookup.
+            </summary>
+            <seealso href="https://tools.ietf.org/html/rfc2915">RFC 2915</seealso>
+        </member>
+        <member name="F:DnsClient.Protocol.NAPtrRecord.UFlag">
+            <summary>
+            One of the values of the <see cref="P:DnsClient.Protocol.NAPtrRecord.Flags"/> property of a <see cref="T:DnsClient.Protocol.NAPtrRecord"/>.
+            At this time only four flags, "S", "A", "U", and "P", are defined.
+            The "S", "A" and "U" flags denote a terminal lookup.
+            </summary>
+            <seealso href="https://tools.ietf.org/html/rfc2915">RFC 2915</seealso>
+        </member>
+        <member name="P:DnsClient.Protocol.NAPtrRecord.Order">
+            <summary>
+            Gets the order.
+            </summary>
+            <value>
+            The order.
+            </value>
+        </member>
+        <member name="P:DnsClient.Protocol.NAPtrRecord.Preference">
+            <summary>
+            Gets the preference.
+            </summary>
+            <value>
+            The preference.
+            </value>
+        </member>
+        <member name="P:DnsClient.Protocol.NAPtrRecord.Flags">
+            <summary>
+            Gets the flags.
+            </summary>
+            <value>
+            The flags.
+            </value>
+        </member>
+        <member name="P:DnsClient.Protocol.NAPtrRecord.Services">
+            <summary>
+            Gets the services.
+            </summary>
+            <value>
+            The services.
+            </value>
+        </member>
+        <member name="P:DnsClient.Protocol.NAPtrRecord.RegularExpression">
+            <summary>
+            Gets the regular expression.
+            </summary>
+            <value>
+            The regular expression.
+            </value>
+        </member>
+        <member name="P:DnsClient.Protocol.NAPtrRecord.Replacement">
+            <summary>
+            Gets the replacement.
+            </summary>
+            <value>
+            The replacement.
+            </value>
+        </member>
+        <member name="M:DnsClient.Protocol.NAPtrRecord.#ctor(DnsClient.Protocol.ResourceRecordInfo,System.Int32,System.Int32,System.String,System.String,System.String,DnsClient.DnsString)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DnsClient.Protocol.NAPtrRecord" /> class.
+            </summary>
+            <param name="info">The information.</param>
+            <param name="order">The order.</param>
+            <param name="preference">The preference.</param>
+            <param name="flags">The flags.</param>
+            <param name="services">The services.</param>
+            <param name="regexp">The regular expression.</param>
+            <param name="replacement">The replacement.</param>
+        </member>
+        <member name="T:DnsClient.Protocol.NSec3ParamRecord">
+            <summary>
+            a <see cref="T:DnsClient.Protocol.DnsResourceRecord"/> representing a NSEC3PARAM record.
+            </summary>
+            <seealso href="https://datatracker.ietf.org/doc/html/rfc5155#section-4"/>
+            <see cref="F:DnsClient.Protocol.ResourceRecordType.NSEC3PARAM"/>
+        </member>
+        <member name="P:DnsClient.Protocol.NSec3ParamRecord.HashAlgorithm">
+            <summary>
+            Gets the cryptographic hash algorithm used to construct the hash-value.
+            </summary>
+        </member>
+        <member name="P:DnsClient.Protocol.NSec3ParamRecord.Flags">
+            <summary>
+            Gets the flags field value containing 8 one-bit flags that can be used to indicate different processing.
+            All undefined flags must be zero.
+            The only flag defined by this specification is the Opt-Out flag.
+            </summary>
+        </member>
+        <member name="P:DnsClient.Protocol.NSec3ParamRecord.Iterations">
+            <summary>
+            Gets the number of additional times the hash function has been performed.
+            </summary>
+        </member>
+        <member name="P:DnsClient.Protocol.NSec3ParamRecord.Salt">
+            <summary>
+            Gets the salt field which is appended to the original owner name before hashing
+            in order to defend against pre-calculated dictionary attacks.
+            </summary>
+        </member>
+        <member name="P:DnsClient.Protocol.NSec3ParamRecord.SaltAsString">
+            <summary>
+            Gets the salt field which is appended to the original owner name before hashing
+            in order to defend against pre-calculated dictionary attacks.
+            </summary>
+        </member>
+        <member name="M:DnsClient.Protocol.NSec3ParamRecord.#ctor(DnsClient.Protocol.ResourceRecordInfo,System.Byte,System.Byte,System.Int32,System.Byte[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:DnsClient.Protocol.NSec3ParamRecord"/> class
+            </summary>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="info"/> or <paramref name="salt"/> is null.</exception>
+        </member>
+        <member name="T:DnsClient.Protocol.NSec3Record">
+            <summary>
+            a <see cref="T:DnsClient.Protocol.DnsResourceRecord"/> representing a NSEC3 record.
+            </summary>
+            <seealso href="https://datatracker.ietf.org/doc/html/rfc5155"/>
+        </member>
+        <member name="P:DnsClient.Protocol.NSec3Record.HashAlgorithm">
+            <summary>
+            Gets the cryptographic hash algorithm used to construct the hash-value.
+            </summary>
+        </member>
+        <member name="P:DnsClient.Protocol.NSec3Record.Flags">
+            <summary>
+            Gets the flags field value containing 8 one-bit flags that can be used to indicate different processing.
+            All undefined flags must be zero.
+            The only flag defined by this specification is the Opt-Out flag.
+            </summary>
+        </member>
+        <member name="P:DnsClient.Protocol.NSec3Record.Iterations">
+            <summary>
+            Gets the number of additional times the hash function has been performed.
+            </summary>
+        </member>
+        <member name="P:DnsClient.Protocol.NSec3Record.Salt">
+            <summary>
+            Gets the salt field which is appended to the original owner name before hashing
+            in order to defend against pre-calculated dictionary attacks.
+            </summary>
+        </member>
+        <member name="P:DnsClient.Protocol.NSec3Record.SaltAsString">
+            <summary>
+            Gets the salt field which is appended to the original owner name before hashing
+            in order to defend against pre-calculated dictionary attacks.
+            </summary>
+        </member>
+        <member name="P:DnsClient.Protocol.NSec3Record.NextOwnersName">
+            <summary>
+            Gets the name of the next hashed owner in hash order.
+            This value is in binary format.
+            </summary>
+        </member>
+        <member name="P:DnsClient.Protocol.NSec3Record.NextOwnersNameAsString">
+            <summary>
+            Gets the name of the next hashed owner in hash order.
+            This value is in binary format.
+            </summary>
+        </member>
+        <member name="P:DnsClient.Protocol.NSec3Record.TypeBitMapsRaw">
+            <summary>
+            Gets the type bit maps field which identifies the RRSet types that exist at the original owner name of the NSEC3 RR.
+            </summary>
+        </member>
+        <member name="P:DnsClient.Protocol.NSec3Record.TypeBitMaps">
+            <summary>
+            Gets the type bit maps field which identifies the RRSet types that exist at the original owner name of the NSEC3 RR.
+            </summary>
+        </member>
+        <member name="M:DnsClient.Protocol.NSec3Record.#ctor(DnsClient.Protocol.ResourceRecordInfo,System.Byte,System.Byte,System.Int32,System.Byte[],System.Byte[],System.Byte[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:DnsClient.Protocol.NSec3Record"/> class
+            </summary>
+            <exception cref="T:System.ArgumentNullException">
+            If <paramref name="info"/>, <paramref name="nextOwnersName"/>, <paramref name="salt"/> or <paramref name="bitmap"/> is null.
+            </exception>
+        </member>
         <member name="T:DnsClient.Protocol.NSecRecord">
             <summary>
             a <see cref="T:DnsClient.Protocol.DnsResourceRecord"/> representing a NSEC record.
@@ -536,14 +781,12 @@
         </member>
         <member name="P:DnsClient.Protocol.NSecRecord.TypeBitMapsRaw">
             <summary>
-            Gets the raw data of the type bit maps field.
-            The Type Bit Maps field identifies the RRset types that exist at the NSEC RR's owner name.
+            Gets the type bit maps field which identifies the RRSet types that exist at the NSEC RR's owner name.
             </summary>
         </member>
         <member name="P:DnsClient.Protocol.NSecRecord.TypeBitMaps">
             <summary>
-            Gets the represented RR types of the <see cref="P:DnsClient.Protocol.NSecRecord.TypeBitMapsRaw"/> data.
-            The Type Bit Maps field identifies the RRset types that exist at the NSEC RR's owner name.
+            Gets the type bit maps field which identifies the RRSet types that exist at the NSEC RR's owner name.
             </summary>
         </member>
         <member name="M:DnsClient.Protocol.NSecRecord.#ctor(DnsClient.Protocol.ResourceRecordInfo,DnsClient.DnsString,System.Byte[])">
@@ -783,6 +1026,13 @@
             <seealso href="https://tools.ietf.org/html/rfc2782">RFC 2782</seealso>
             <seealso cref="T:DnsClient.Protocol.SrvRecord"/>
         </member>
+        <member name="F:DnsClient.Protocol.ResourceRecordType.NAPTR">
+            <summary>
+            The Naming Authority Pointer rfc3403
+            </summary>
+            <seealso href="https://tools.ietf.org/html/rfc2915">RFC 2915</seealso>
+            <seealso cref="T:DnsClient.Protocol.NAPtrRecord"/>
+        </member>
         <member name="F:DnsClient.Protocol.ResourceRecordType.OPT">
             <summary>
             Option record.
@@ -818,6 +1068,18 @@
             DNSKEY rfc4034.
             </summary>
             <seealso href="https://tools.ietf.org/html/rfc4034#section-2"/>
+        </member>
+        <member name="F:DnsClient.Protocol.ResourceRecordType.NSEC3">
+            <summary>
+            NSEC3 rfc5155.
+            </summary>
+            <seealso href="https://tools.ietf.org/html/rfc5155">RFC 5155</seealso>
+        </member>
+        <member name="F:DnsClient.Protocol.ResourceRecordType.NSEC3PARAM">
+            <summary>
+            NSEC3PARAM rfc5155.
+            </summary>
+            <seealso href="https://tools.ietf.org/html/rfc5155#section-4">RFC 5155</seealso>
         </member>
         <member name="F:DnsClient.Protocol.ResourceRecordType.TLSA">
             <summary>
@@ -1871,6 +2133,24 @@
             <exception cref="T:System.ArgumentNullException">If <paramref name="baseDomain"/> or <paramref name="serviceName"/> are null.</exception>
             <seealso href="https://tools.ietf.org/html/rfc2782">RFC 2782</seealso>
         </member>
+        <member name="M:DnsClient.DnsQueryExtensions.ResolveService(DnsClient.IDnsQuery,System.String)">
+            <summary>
+            The <c>ResolveService</c> method does a <see cref="F:DnsClient.QueryType.SRV"/> lookup for <c>{<paramref name="service"/>}</c>
+            and aggregates the result (hostname, port and list of <see cref="T:System.Net.IPAddress"/>s) to a <see cref="T:DnsClient.ServiceHostEntry"/>.
+            <para>
+            This method expects matching A or AAAA records to populate the <see cref="P:System.Net.IPHostEntry.AddressList"/>,
+            and/or a <see cref="F:DnsClient.Protocol.ResourceRecordType.CNAME"/> record to populate the <see cref="P:System.Net.IPHostEntry.HostName"/> property of the result.
+            </para>
+            </summary>
+            <remarks>
+            The returned list of <see cref="T:System.Net.IPAddress"/>s and/or the hostname can be empty if no matching additional records are found.
+            </remarks>
+            <param name="query">The <see cref="T:DnsClient.IDnsQuery"/> instance.</param>
+            <param name="service">The name of the service to look for. Must have <c>_</c> prefix and domain and protocol.</param>
+            <returns>A collection of <see cref="T:DnsClient.ServiceHostEntry"/>s.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="service"/> are null.</exception>
+            <seealso href="https://tools.ietf.org/html/rfc2782">RFC 2782</seealso>
+        </member>
         <member name="M:DnsClient.DnsQueryExtensions.ResolveServiceAsync(DnsClient.IDnsQuery,System.String,System.String,System.String)">
             <summary>
             The <c>ResolveServiceAsync</c> method does a <see cref="F:DnsClient.QueryType.SRV"/> lookup for <c>_{<paramref name="serviceName"/>}[._{<paramref name="tag"/>}].{<paramref name="baseDomain"/>}</c>
@@ -1889,6 +2169,24 @@
             <param name="tag">An optional tag. Must not have any <c>_</c> prefix.</param>
             <returns>A collection of <see cref="T:DnsClient.ServiceHostEntry"/>s.</returns>
             <exception cref="T:System.ArgumentNullException">If <paramref name="baseDomain"/> or <paramref name="serviceName"/> are null.</exception>
+            <seealso href="https://tools.ietf.org/html/rfc2782">RFC 2782</seealso>
+        </member>
+        <member name="M:DnsClient.DnsQueryExtensions.ResolveServiceAsync(DnsClient.IDnsQuery,System.String)">
+            <summary>
+            The <c>ResolveServiceAsync</c> method does a <see cref="F:DnsClient.QueryType.SRV"/> lookup for <c>{<paramref name="service"/>}</c>
+            and aggregates the result (hostname, port and list of <see cref="T:System.Net.IPAddress"/>s) to a <see cref="T:DnsClient.ServiceHostEntry"/>.
+            <para>
+            This method expects matching A or AAAA records to populate the <see cref="P:System.Net.IPHostEntry.AddressList"/>,
+            and/or a <see cref="F:DnsClient.Protocol.ResourceRecordType.CNAME"/> record to populate the <see cref="P:System.Net.IPHostEntry.HostName"/> property of the result.
+            </para>
+            </summary>
+            <remarks>
+            The returned list of <see cref="T:System.Net.IPAddress"/>s and/or the hostname can be empty if no matching additional records are found.
+            </remarks>
+            <param name="query">The <see cref="T:DnsClient.IDnsQuery"/> instance.</param>
+            <param name="service">The name of the service to look for. Must have <c>_</c> prefix and domain and protocol.</param>
+            <returns>A collection of <see cref="T:DnsClient.ServiceHostEntry"/>s.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="service"/> are null.</exception>
             <seealso href="https://tools.ietf.org/html/rfc2782">RFC 2782</seealso>
         </member>
         <member name="M:DnsClient.DnsQueryExtensions.ConcatServiceName(System.String,System.String,System.String)">
@@ -3170,6 +3468,12 @@
             Gets the validated and eventually modified value.
             </summary>
         </member>
+        <member name="P:DnsClient.DnsString.NumberOfLabels">
+            <summary>
+            Gets the number of labels of this <see cref="T:DnsClient.DnsString"/> or null if not applicable.
+            This property is only set if the <see cref="M:DnsClient.DnsString.Parse(System.String)"/> method was used to create this instance.
+            </summary>
+        </member>
         <member name="M:DnsClient.DnsString.op_Implicit(DnsClient.DnsString)~System.String">
             <summary>
             Performs an implicit conversion from <see cref="T:DnsClient.DnsString"/> to <see cref="T:System.String"/>.
@@ -3178,6 +3482,22 @@
             <returns>
             The result of the conversion.
             </returns>
+        </member>
+        <member name="M:DnsClient.DnsString.op_Addition(DnsClient.DnsString,DnsClient.DnsString)">
+             <summary>
+            
+             </summary>
+             <param name="a"></param>
+             <param name="b"></param>
+             <returns></returns>
+        </member>
+        <member name="M:DnsClient.DnsString.op_Addition(DnsClient.DnsString,System.String)">
+             <summary>
+            
+             </summary>
+             <param name="a"></param>
+             <param name="b"></param>
+             <returns></returns>
         </member>
         <member name="M:DnsClient.DnsString.ToString">
             <inheritdoc />
@@ -3790,6 +4110,52 @@
             Gets the configured settings of the <see cref="T:DnsClient.ILookupClient"/> instance.
             </summary>
         </member>
+        <member name="T:DnsClient.Internal.Base32Hex">
+             <summary>
+             Base32 encoder with the extended hey alphabet
+             </summary>
+             <remarks>
+             See https://datatracker.ietf.org/doc/html/rfc4648#section-7
+             <![CDATA[
+                          Table 4: The "Extended Hex" Base 32 Alphabet
+            
+                 Value Encoding  Value Encoding  Value Encoding  Value Encoding
+                     0 0             9 9            18 I            27 R
+                     1 1            10 A            19 J            28 S
+                     2 2            11 B            20 K            29 T
+                     3 3            12 C            21 L            30 U
+                     4 4            13 D            22 M            31 V
+                     5 5            14 E            23 N
+                     6 6            15 F            24 O         (pad) =
+                     7 7            16 G            25 P
+                     8 8            17 H            26 Q
+            
+             ]]>
+             </remarks>
+             <seealso href="https://datatracker.ietf.org/doc/html/rfc4648#section-7">RFC4648</seealso>
+        </member>
+        <member name="M:DnsClient.Internal.Base32Hex.FromBase32HexString(System.String)">
+            <summary>
+            Converts the specified string, which encodes binary data as base-32 digits
+            using the extended hex alphabet, to an equivalent 8-bit unsigned integer array.
+            </summary>
+            <param name="input">The string to convert.</param>
+            <returns>An array of 8-bit unsigned integers that is equivalent to <paramref name="input"/>.</returns>
+        </member>
+        <member name="M:DnsClient.Internal.Base32Hex.ToBase32HexString(System.Byte[])">
+            <summary>
+            Converts an array of 8-bit unsigned integers to its equivalent string
+            representation that is encoded with base-32 digits using the extended hex alphabet.
+            </summary>
+            <param name="input">An array of 8-bit unsigned integers.</param>
+            <returns>The string representation in base 32 hex of <paramref name="input"/>.</returns>
+        </member>
+        <member name="M:DnsClient.Windows.NameResolutionPolicy.Resolve(System.Boolean,System.Boolean)">
+            <summary>
+            Resolve all names from the Name Resolution policy in Windows.
+            </summary>
+            <returns>Returns a list of name servers</returns>
+        </member>
         <member name="T:DnsClient.LookupClient">
              <summary>
              The <see cref="T:DnsClient.LookupClient"/> is the main query class of this library and should be used for any kind of DNS lookup query.
@@ -4087,6 +4453,31 @@
             <param name="endPoint">The name server endpoint.</param>
             <exception cref="T:System.ArgumentNullException">If <paramref name="endPoint"/>is <c>null</c>.</exception>
         </member>
+        <member name="M:DnsClient.NameServer.#ctor(System.Net.IPAddress,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DnsClient.NameServer"/> class.
+            </summary>
+            <param name="endPoint">The name server endpoint.</param>
+            <param name="dnsSuffix">An optional DNS suffix (can be null).</param>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="endPoint"/>is <c>null</c>.</exception>
+        </member>
+        <member name="M:DnsClient.NameServer.#ctor(System.Net.IPAddress,System.Int32,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DnsClient.NameServer"/> class.
+            </summary>
+            <param name="endPoint">The name server endpoint.</param>
+            <param name="port">The name server port.</param>
+            <param name="dnsSuffix">An optional DNS suffix (can be null).</param>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="endPoint"/>is <c>null</c>.</exception>
+        </member>
+        <member name="M:DnsClient.NameServer.#ctor(System.Net.IPEndPoint,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DnsClient.NameServer"/> class.
+            </summary>
+            <param name="endPoint">The name server endpoint.</param>
+            <param name="dnsSuffix">An optional DNS suffix (can be null).</param>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="endPoint"/>is <c>null</c>.</exception>
+        </member>
         <member name="M:DnsClient.NameServer.op_Implicit(System.Net.IPEndPoint)~DnsClient.NameServer">
             <summary>
             Initializes a new instance of the <see cref="T:DnsClient.NameServer"/> class from a <see cref="P:DnsClient.NameServer.IPEndPoint"/>.
@@ -4124,6 +4515,11 @@
             <value>
             The size of the supported UDP payload.
             </value>
+        </member>
+        <member name="P:DnsClient.NameServer.DnsSuffix">
+            <summary>
+            Gets an optional DNS suffix which a resolver can use to append to queries or to find servers suitable for a query.
+            </summary>
         </member>
         <member name="M:DnsClient.NameServer.ToString">
             <summary>
@@ -4168,6 +4564,12 @@
             <returns>
             The list of name servers.
             </returns>
+        </member>
+        <member name="M:DnsClient.NameServer.ResolveNameResolutionPolicyServers">
+            <summary>
+            On a Windows machine query the Name Resolution Policy table for a list of policy-defined name servers.
+            </summary>
+            <returns>Returns a collection of name servers from the policy table</returns>
         </member>
         <member name="T:DnsClient.QueryClass">
             <summary>
@@ -4342,6 +4744,13 @@
             <seealso href="https://tools.ietf.org/html/rfc2782">RFC 2782</seealso>
             <seealso cref="T:DnsClient.Protocol.SrvRecord"/>
         </member>
+        <member name="F:DnsClient.QueryType.NAPTR">
+            <summary>
+            The Naming Authority Pointer rfc2915
+            </summary>
+            <seealso href="https://tools.ietf.org/html/rfc2915">RFC 2915</seealso>
+            <seealso cref="T:DnsClient.Protocol.NAPtrRecord"/>
+        </member>
         <member name="F:DnsClient.QueryType.DS">
             <summary>
             DS rfc4034
@@ -4365,6 +4774,18 @@
             DNSKEY rfc4034
             </summary>
             <seealso href="https://tools.ietf.org/html/rfc4034#section-2">RFC 4034</seealso>
+        </member>
+        <member name="F:DnsClient.QueryType.NSEC3">
+            <summary>
+            NSEC3 rfc5155.
+            </summary>
+            <seealso href="https://tools.ietf.org/html/rfc5155">RFC 5155</seealso>
+        </member>
+        <member name="F:DnsClient.QueryType.NSEC3PARAM">
+            <summary>
+            NSEC3PARAM rfc5155.
+            </summary>
+            <seealso href="https://tools.ietf.org/html/rfc5155#section-4">RFC 5155</seealso>
         </member>
         <member name="F:DnsClient.QueryType.TLSA">
             <summary>
@@ -4620,6 +5041,13 @@
             </summary>
             <param name="records">The records.</param>
             <returns>The list of <see cref="T:DnsClient.Protocol.SrvRecord"/>.</returns>
+        </member>
+        <member name="M:System.Linq.RecordCollectionExtension.NAPtrRecords(System.Collections.Generic.IEnumerable{DnsClient.Protocol.DnsResourceRecord})">
+            <summary>
+            Filters the elements of an <see cref="T:System.Collections.Generic.IEnumerable`1"/> to return <see cref="T:DnsClient.Protocol.NAPtrRecord"/>s only.
+            </summary>
+            <param name="records">The records.</param>
+            <returns>The list of <see cref="T:DnsClient.Protocol.NAPtrRecord"/>.</returns>
         </member>
         <member name="M:System.Linq.RecordCollectionExtension.UriRecords(System.Collections.Generic.IEnumerable{DnsClient.Protocol.DnsResourceRecord})">
             <summary>

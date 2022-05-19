@@ -6164,6 +6164,11 @@
             Encrypted binary data.
             </summary>
         </member>
+        <member name="F:MongoDB.Bson.BsonBinarySubType.Column">
+            <summary>
+            Column data.
+            </summary>
+        </member>
         <member name="F:MongoDB.Bson.BsonBinarySubType.UserDefined">
             <summary>
             User defined binary data.
