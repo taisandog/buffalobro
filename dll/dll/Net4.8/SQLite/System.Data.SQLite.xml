@@ -1677,6 +1677,14 @@
             SQLite core library.
             </summary>
         </member>
+        <member name="F:System.Data.SQLite.SQLiteConnectionFlags.StopOnException">
+            <summary>
+            If an exception is caught when raising the
+            <see cref="E:System.Data.SQLite.SQLiteConnection.Busy" /> event, the operation
+            should be stopped.  If this is not specified, the operation
+            will be retried.
+            </summary>
+        </member>
         <member name="F:System.Data.SQLite.SQLiteConnectionFlags.BindAndGetAllAsText">
             <summary>
             When binding parameter values or returning column values, always
@@ -5641,6 +5649,16 @@
             <param name="strKeyName">An optional foreign key name to restrict results on</param>
             <returns>A DataTable with the results of the query</returns>
         </member>
+        <member name="E:System.Data.SQLite.SQLiteConnection.Busy">
+            <summary>
+            This event is raised periodically during long running queries.  Changing
+            the value of the <see cref="F:System.Data.SQLite.BusyEventArgs.ReturnCode" /> property will
+            determine if the database operation will be retried or stopped.  For the
+            entire duration of the event, the associated connection and statement
+            objects must not be modified, either directly or indirectly, by the
+            called code.
+            </summary>
+        </member>
         <member name="E:System.Data.SQLite.SQLiteConnection.Progress">
             <summary>
             This event is raised periodically during long running queries.  Changing
@@ -5708,6 +5726,13 @@
             <summary>
             Use the default operating system's file flushing, SQLite does not explicitly flush the file buffers after writing
             </summary>
+        </member>
+        <member name="T:System.Data.SQLite.SQLiteBusyEventHandler">
+            <summary>
+            </summary>
+            <param name="sender">The connection performing the operation.</param>
+            <param name="e">A <see cref="T:System.Data.SQLite.BusyEventArgs" /> that contains the event
+            data.</param>
         </member>
         <member name="T:System.Data.SQLite.SQLiteProgressEventHandler">
             <summary>
@@ -5783,6 +5808,48 @@
             True to continue with the backup process or false to halt the backup
             process, rolling back any changes that have been made so far.
             </returns>
+        </member>
+        <member name="T:System.Data.SQLite.BusyEventArgs">
+            <summary>
+            The event data associated with "database is busy" events.
+            </summary>
+        </member>
+        <member name="F:System.Data.SQLite.BusyEventArgs.UserData">
+            <summary>
+            The user-defined native data associated with this event.  Currently,
+            this will always contain the value of <see cref="F:System.IntPtr.Zero" />.
+            </summary>
+        </member>
+        <member name="F:System.Data.SQLite.BusyEventArgs.Count">
+            <summary>
+            The number of times the current database operation has been retried
+            so far.
+            </summary>
+        </member>
+        <member name="F:System.Data.SQLite.BusyEventArgs.ReturnCode">
+            <summary>
+            The return code for the current call into the busy callback.
+            </summary>
+        </member>
+        <member name="M:System.Data.SQLite.BusyEventArgs.#ctor">
+            <summary>
+            Constructs an instance of this class with default property values.
+            </summary>
+        </member>
+        <member name="M:System.Data.SQLite.BusyEventArgs.#ctor(System.IntPtr,System.Int32,System.Data.SQLite.SQLiteBusyReturnCode)">
+            <summary>
+            Constructs an instance of this class with specific property values.
+            </summary>
+            <param name="pUserData">
+            The user-defined native data associated with this event.
+            </param>
+            <param name="count">
+            The number of times the current database operation has been retried
+            so far.
+            </param>
+            <param name="returnCode">
+            The busy return code.
+            </param>
         </member>
         <member name="T:System.Data.SQLite.ProgressEventArgs">
             <summary>
@@ -7878,6 +7945,24 @@
             are two null values.
             </summary>
         </member>
+        <member name="T:System.Data.SQLite.SQLiteBusyReturnCode">
+            <summary>
+            The possible return codes for the busy callback.
+            </summary>
+        </member>
+        <member name="F:System.Data.SQLite.SQLiteBusyReturnCode.Stop">
+            <summary>
+            Stop invoking the busy callback and return
+            <see cref="F:System.Data.SQLite.SQLiteErrorCode.Busy" /> to the
+            caller.
+            </summary>
+        </member>
+        <member name="F:System.Data.SQLite.SQLiteBusyReturnCode.Retry">
+            <summary>
+            Retry the associated operation and invoke
+            the busy callback again, if necessary.
+            </summary>
+        </member>
         <member name="T:System.Data.SQLite.SQLiteProgressReturnCode">
             <summary>
             The possible return codes for the progress callback.
@@ -9118,11 +9203,6 @@
         <member name="F:System.Data.SQLite.SQLiteErrorCode.CantOpen_SymLink">
             <summary>
             A database file is a symbolic link and cannot be opened.
-            </summary>
-        </member>
-        <member name="F:System.Data.SQLite.SQLiteErrorCode.CantOpen_Exists">
-            <summary>
-            A database file already exists and cannot be created.
             </summary>
         </member>
         <member name="F:System.Data.SQLite.SQLiteErrorCode.Corrupt_Vtab">
@@ -12256,6 +12336,16 @@
             <returns>
             The directory for the assembly currently being executed -OR- null if
             it cannot be determined.
+            </returns>
+        </member>
+        <member name="M:System.Data.SQLite.UnsafeNativeMethods.GetNativeModuleFileName">
+            <summary>
+            Determines the (possibly fully qualified) file name for the native
+            SQLite library that was loaded by this class.
+            </summary>
+            <returns>
+            The file name for the native SQLite library that was loaded by
+            this class -OR- null if its value cannot be determined.
             </returns>
         </member>
         <member name="F:System.Data.SQLite.UnsafeNativeMethods.PROCESSOR_ARCHITECTURE">
