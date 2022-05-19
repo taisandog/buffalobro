@@ -39,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBTools", "Buffalo.DBToolsP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buffalo2022.GeneratorInfo", "Buffalo.GeneratorInfo\Buffalo2022.GeneratorInfo.csproj", "{6320C7DC-D4AE-4EA5-A2AB-B08B59062868}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buffalo2022.Data.PostgreSQL", "Buffalo.Data.PostgreSQL\Buffalo2022.Data.PostgreSQL.csproj", "{EF96EA11-C57A-4DE0-97F7-1AB7E20CA0BD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -175,6 +177,14 @@ Global
 		{6320C7DC-D4AE-4EA5-A2AB-B08B59062868}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6320C7DC-D4AE-4EA5-A2AB-B08B59062868}.Release|x86.ActiveCfg = Release|Any CPU
 		{6320C7DC-D4AE-4EA5-A2AB-B08B59062868}.Release|x86.Build.0 = Release|Any CPU
+		{EF96EA11-C57A-4DE0-97F7-1AB7E20CA0BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF96EA11-C57A-4DE0-97F7-1AB7E20CA0BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF96EA11-C57A-4DE0-97F7-1AB7E20CA0BD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EF96EA11-C57A-4DE0-97F7-1AB7E20CA0BD}.Debug|x86.Build.0 = Debug|Any CPU
+		{EF96EA11-C57A-4DE0-97F7-1AB7E20CA0BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF96EA11-C57A-4DE0-97F7-1AB7E20CA0BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF96EA11-C57A-4DE0-97F7-1AB7E20CA0BD}.Release|x86.ActiveCfg = Release|Any CPU
+		{EF96EA11-C57A-4DE0-97F7-1AB7E20CA0BD}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -185,6 +195,7 @@ Global
 		{C38522E1-35BA-40F7-A1E9-716D52BB6C04} = {7F9975F0-7933-4353-BD9A-985E3FA049FE}
 		{D7CA14C3-1869-4928-91E4-3584DE3823C2} = {7F9975F0-7933-4353-BD9A-985E3FA049FE}
 		{EC755572-4D28-4A6D-94E3-053D46F5809A} = {A092F616-1E32-4BF7-82EE-ACA3F8EF743F}
+		{EF96EA11-C57A-4DE0-97F7-1AB7E20CA0BD} = {7F9975F0-7933-4353-BD9A-985E3FA049FE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B49192F6-90B5-44E4-A475-BF41290D2459}
