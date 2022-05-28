@@ -153,7 +153,7 @@ namespace Buffalo.Storage.AWS.S3
         /// <returns></returns>
         public override FileInfoBase GetFileInfo(string path)
         {
-            path = FormatKey(path);
+            path = FileInfoBase.FormatKey(path);
             try
             {
                 GetObjectMetadataRequest request = new GetObjectMetadataRequest()
@@ -162,8 +162,8 @@ namespace Buffalo.Storage.AWS.S3
                     Key = path
                 };
                 GetObjectMetadataResponse response = _client.GetObjectMetadataAsync(request).Result;
-                string url = OSSAdapter.GetUrl(_internetUrl, request.Key);
-                string accessUrl = OSSAdapter.GetUrl(_internetUrl, request.Key);
+                string url = FileInfoBase.CombineUriToString(_internetUrl, request.Key);
+                string accessUrl = FileInfoBase.CombineUriToString(_internetUrl, request.Key);
 
                 NetStorageFileInfo info = new NetStorageFileInfo(response.LastModified, response.LastModified,
                 path , url, accessUrl, response.ETag, response.ContentLength);
@@ -184,7 +184,7 @@ namespace Buffalo.Storage.AWS.S3
         /// <returns></returns>
         public override bool ExistsFile(string path)
         {
-            path = FormatKey(path);
+            path = FileInfoBase.FormatKey(path);
             try
             {
 
@@ -247,7 +247,7 @@ namespace Buffalo.Storage.AWS.S3
         /// <returns></returns>
         public override System.IO.Stream GetFileStream(string path)
         {
-            path = FormatKey(path);
+            path = FileInfoBase.FormatKey(path);
             GetObjectRequest request = new GetObjectRequest();
             request.BucketName = _bucketName;
             request.Key = path;
@@ -258,7 +258,7 @@ namespace Buffalo.Storage.AWS.S3
 
         public override System.IO.Stream GetFileStream(string path, long postion,long length)
         {
-            path = FormatKey(path);
+            path = FileInfoBase.FormatKey(path);
             FileInfoBase info = GetFileInfo(path);
             if (info == null)
             {
@@ -277,55 +277,8 @@ namespace Buffalo.Storage.AWS.S3
             return stmRet;
 
         }
-        private static readonly DateTime DefaultDate = new DateTime(1970, 1, 1);
 
-        /// <summary>
-        /// 互联网地址
-        /// </summary>
-        public string InternetUrl
-        {
-            get
-            {
-                return _internetUrl;
-            }
-        }
-        /// <summary>
-        /// 局域网地址
-        /// </summary>
-        public string LanUrl
-        {
-            get
-            {
-                return _lanUrl;
-            }
-        }
 
-        /// <summary>
-        /// 获取地址
-        /// </summary>
-        /// <param name="url"></param>
-        /// <param name="file"></param>
-        /// <returns></returns>
-        public static string GetUrl(string url, string file)
-        {
-            if (file.StartsWith("/"))
-            {
-                file = file.TrimStart('/');
-            }
-            return url + "/" + file;
-        }
-        /// <summary>
-        /// 格式化Key
-        /// </summary>
-        /// <param name="url"></param>
-        private static string FormatKey(string url)
-        {
-            if (string.IsNullOrWhiteSpace(url))
-            {
-                return url;
-            }
-            return url.TrimStart(' ', '/', '\\');
-        }
         
         /// <summary>
         /// 获取文件
@@ -366,8 +319,8 @@ namespace Buffalo.Storage.AWS.S3
                     {
                         continue;
                     }
-                    url = OSSAdapter.GetUrl(_internetUrl, entry.Key);
-                    accessUrl = OSSAdapter.GetUrl(_internetUrl, entry.Key);
+                    url = FileInfoBase.CombineUriToString(_internetUrl, entry.Key);
+                    accessUrl = FileInfoBase.CombineUriToString(_lanUrl, entry.Key);
                     NetStorageFileInfo info = new NetStorageFileInfo(entry.LastModified, entry.LastModified,
                             entry.Key, url, accessUrl, entry.ETag, entry.Size);
                     lst.Add(info);
@@ -445,7 +398,7 @@ namespace Buffalo.Storage.AWS.S3
         /// <returns></returns>
         public override APIResault RemoveFile(string path)
         {
-            path = FormatKey(path);
+            path = FileInfoBase.FormatKey(path);
             DeleteObjectRequest request = new DeleteObjectRequest();
             request.BucketName = _bucketName;
             request.Key = path;
@@ -461,8 +414,8 @@ namespace Buffalo.Storage.AWS.S3
 
         public override APIResault RenameFile(string source, string target)
         {
-            source = FormatKey(source);
-            target = FormatKey(target);
+            source = FileInfoBase.FormatKey(source);
+            target = FileInfoBase.FormatKey(target);
             GetACLRequest aclRequest = new GetACLRequest();
             aclRequest.BucketName = _bucketName;
             aclRequest.Key = source;
@@ -520,7 +473,7 @@ namespace Buffalo.Storage.AWS.S3
         /// <returns></returns>
         public override APIResault SaveFile(string sourcePath, string targetPath)
         {
-            targetPath = FormatKey(targetPath);
+            targetPath = FileInfoBase.FormatKey(targetPath);
             using (FileStream file = new FileStream(sourcePath,FileMode.Open))
             {
                 
@@ -616,7 +569,7 @@ namespace Buffalo.Storage.AWS.S3
         /// <returns></returns>
         public override APIResault SaveFile(string path, Stream stream, long contentLength)
         {
-            path = FormatKey(path);
+            path = FileInfoBase.FormatKey(path);
             if(contentLength< FileInfoBase.SLICE_UPLOAD_FILE_SIZE)
             {
                 SaveFileSingle(path, stream, contentLength);
@@ -676,7 +629,7 @@ namespace Buffalo.Storage.AWS.S3
 
         public override void ReadFileToStream(string path, Stream stm, long postion, long length)
         {
-            path = FormatKey(path);
+            path = FileInfoBase.FormatKey(path);
             FileInfoBase info = GetFileInfo(path);
             if (info == null)
             {

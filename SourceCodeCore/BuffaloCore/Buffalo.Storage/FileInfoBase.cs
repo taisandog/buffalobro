@@ -155,7 +155,74 @@ namespace Buffalo.Storage
             {
                 end = fileEnd;
             }
+            
             return end;
+        }
+        /// <summary>
+        /// 拼接网址
+        /// </summary>
+        /// <param name="baseUri"></param>
+        /// <param name="relativeOrAbsoluteUri"></param>
+        /// <returns></returns>
+        public static string CombineUriToString(params string[] values)
+        {
+            Uri uri = null;
+            Uri cururi = null;
+            foreach (string value in values)
+            {
+                if (uri != null)
+                {
+                    cururi = new Uri(uri, value);
+                }
+                else
+                {
+                    cururi = new Uri(value);
+                }
+                uri = cururi;
+            }
+            if (cururi == null)
+            {
+                return "";
+            }
+            return cururi.ToString();
+        }
+
+        public static readonly DateTime DefaultDate = new DateTime(1970, 1, 1);
+
+
+
+
+        /// <summary>
+        /// 格式化Key
+        /// </summary>
+        /// <param name="url"></param>
+        public static string FormatKey(string url)
+        {
+            if (string.IsNullOrWhiteSpace(url))
+            {
+                return url;
+            }
+            return url.TrimStart(' ', '/', '\\');
+        }
+        /// <summary>
+        /// 格式化Key
+        /// </summary>
+        /// <param name="url"></param>
+        public static string FormatPathKey(string url)
+        {
+            if (string.IsNullOrWhiteSpace(url))
+            {
+                return "/";
+            }
+            if (url.Length > 1)
+            {
+                url = url.TrimStart(' ', '/', '\\');
+            }
+            if (url.Length < 1 || url[url.Length - 1] != '/')
+            {
+                url = url + "/";
+            }
+            return url;
         }
     }
 }

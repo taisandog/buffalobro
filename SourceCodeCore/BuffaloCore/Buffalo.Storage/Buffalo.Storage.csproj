@@ -19,12 +19,21 @@
     <Compile Remove="AliCloud.OssAPI\**" />
     <Compile Remove="AWS.S3\IO\**" />
     <Compile Remove="HW.OBS\OBSSDK\**" />
+    <Compile Remove="QCloud.CosApi\Api\**" />
+    <Compile Remove="QCloud.CosApi\Common\**" />
+    <Compile Remove="QCloud.CosApi\Enums\**" />
     <EmbeddedResource Remove="AliCloud.OssAPI\**" />
     <EmbeddedResource Remove="AWS.S3\IO\**" />
     <EmbeddedResource Remove="HW.OBS\OBSSDK\**" />
+    <EmbeddedResource Remove="QCloud.CosApi\Api\**" />
+    <EmbeddedResource Remove="QCloud.CosApi\Common\**" />
+    <EmbeddedResource Remove="QCloud.CosApi\Enums\**" />
     <None Remove="AliCloud.OssAPI\**" />
     <None Remove="AWS.S3\IO\**" />
     <None Remove="HW.OBS\OBSSDK\**" />
+    <None Remove="QCloud.CosApi\Api\**" />
+    <None Remove="QCloud.CosApi\Common\**" />
+    <None Remove="QCloud.CosApi\Enums\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,6 +49,7 @@
     <PackageReference Include="AWSSDK.Core" Version="3.7.11.2" />
     <PackageReference Include="AWSSDK.S3" Version="3.7.9.2" />
     <PackageReference Include="Huawei.OBS" Version="3.0.4" />
+    <PackageReference Include="Tencent.QCloud.Cos.Sdk" Version="5.4.29" />
   </ItemGroup>
 
   <ItemGroup>

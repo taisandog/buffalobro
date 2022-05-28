@@ -262,8 +262,8 @@ namespace Buffalo.Storage.HW.OBS
                     ObjectKey = path
                 };
                 GetObjectMetadataResponse response = _client.GetObjectMetadata(request);
-                string url = OSSAdapter.GetUrl(_internetUrl, request.ObjectKey);
-                string accessUrl = OSSAdapter.GetUrl(_internetUrl, request.ObjectKey);
+                string url = FileInfoBase.CombineUriToString(_internetUrl, request.ObjectKey);
+                string accessUrl = FileInfoBase.CombineUriToString(_internetUrl, request.ObjectKey);
 
                 NetStorageFileInfo info = new NetStorageFileInfo(response.LastModified.GetValueOrDefault(), response.LastModified.GetValueOrDefault(),
                 path + "/" + response.ObjectKey, url, accessUrl, response.ETag, response.ContentLength);
@@ -325,8 +325,8 @@ namespace Buffalo.Storage.HW.OBS
                     {
                         continue;
                     }
-                    url = OSSAdapter.GetUrl(_internetUrl, entry.ObjectKey);
-                    accessUrl = OSSAdapter.GetUrl(_internetUrl, entry.ObjectKey);
+                    url = FileInfoBase.CombineUriToString(_internetUrl, entry.ObjectKey);
+                    accessUrl = FileInfoBase.CombineUriToString(_lanUrl, entry.ObjectKey);
                     NetStorageFileInfo info = new NetStorageFileInfo(entry.LastModified.GetValueOrDefault(), entry.LastModified.GetValueOrDefault(),
                             entry.ObjectKey, url, accessUrl, entry.ETag, entry.Size);
                     lst.Add(info);

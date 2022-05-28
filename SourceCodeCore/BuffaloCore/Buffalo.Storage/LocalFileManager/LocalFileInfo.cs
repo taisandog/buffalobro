@@ -23,6 +23,7 @@ namespace Buffalo.Storage.LocalFileManager
             _updateTime=updateTime;
             _filePath = filePath;
             FillPathInfo(filePath);
+            
             _length = length;
             _relativePath = filePath;
         }
@@ -43,6 +44,7 @@ namespace Buffalo.Storage.LocalFileManager
             {
                 _extendName = namePart[namePart.Length - 1];
             }
+            
         }
 
         private string _hash = null;

@@ -63,7 +63,7 @@ namespace Buffalo.Storage.AliCloud.OssAPI
         {
             ListObjectsRequest listObjectsRequest = new ListObjectsRequest(_bucketName);
             string nextMarker = string.Empty;
-            string curPath = FormatKey(path);
+            string curPath = FileInfoBase.FormatKey(path);
             ObjectListing result = null;
             listObjectsRequest.Prefix = curPath;
             listObjectsRequest.MaxKeys = 100;
@@ -97,7 +97,7 @@ namespace Buffalo.Storage.AliCloud.OssAPI
         /// <returns></returns>
         public override APIResault AppendFile(string path, Stream content, long postion)
         {
-            path = FormatKey(path);
+            path = FileInfoBase.FormatKey(path);
 
             AppendObjectRequest request = new AppendObjectRequest(_bucketName, path);
 
@@ -120,7 +120,7 @@ namespace Buffalo.Storage.AliCloud.OssAPI
         /// <returns></returns>
         public override APIResault AppendFile(string path, Stream content)
         {
-            path = FormatKey(path);
+            path = FileInfoBase.FormatKey(path);
 
             return AppendFile(path, content, GetFileLength(path));
         }
@@ -150,14 +150,14 @@ namespace Buffalo.Storage.AliCloud.OssAPI
         /// <returns></returns>
         public override FileInfoBase GetFileInfo(string path)
         {
-            path = FormatKey(path);
+            path = FileInfoBase.FormatKey(path);
             
             OssObject result = _cloud.GetObject(_bucketName, path);
 
             IDictionary<string, string> dic = result.ResponseMetadata;
 
-            string url = GetUrl(_internetUrl, result.Key);
-            string accessUrl = GetUrl(_lanUrl, result.Key);
+            string url = FileInfoBase.CombineUriToString(_internetUrl, result.Key);
+            string accessUrl = FileInfoBase.CombineUriToString(_lanUrl, result.Key);
             DateTime ctime = ValueConvertExtend.GetDicValue<string,string>(dic, "Date").ConvertTo<DateTime>();
             DateTime utime = ValueConvertExtend.GetDicValue<string, string>(dic, "Date").ConvertTo<DateTime>();
             string etag = ValueConvertExtend.GetDicValue<string, string>(dic, "ETag");
@@ -174,7 +174,7 @@ namespace Buffalo.Storage.AliCloud.OssAPI
         /// <returns></returns>
         public override bool ExistsFile(string path)
         {
-            path = FormatKey(path);
+            path = FileInfoBase.FormatKey(path);
             return _cloud.DoesObjectExist(_bucketName, path);
         }
         public override APIResault Close()
@@ -192,7 +192,7 @@ namespace Buffalo.Storage.AliCloud.OssAPI
         {
             List<string> lst = new List<string>();
             ListObjectsRequest listObjectsRequest = new ListObjectsRequest(_bucketName);
-            string curPath =FormatPathKey(path);
+            string curPath = FileInfoBase.FormatPathKey(path);
             //if (string.IsNullOrWhiteSpace(curPath) || curPath == "/")
             //{
             //    curPath = "";
@@ -223,14 +223,14 @@ namespace Buffalo.Storage.AliCloud.OssAPI
         /// <returns></returns>
         public override System.IO.Stream GetFileStream(string path)
         {
-            path = FormatKey(path);
+            path = FileInfoBase.FormatKey(path);
             OssObject obj = _cloud.GetObject(_bucketName, path);
             return obj.Content;
         }
 
         public override System.IO.Stream GetFileStream(string path, long postion,long length)
         {
-            path = FormatKey(path);
+            path = FileInfoBase.FormatKey(path);
             long filelength = GetFileLength(path);
 
             long end = FileInfoBase.GetRangeEnd(postion, length, filelength);
@@ -244,56 +244,7 @@ namespace Buffalo.Storage.AliCloud.OssAPI
                 return stm;
             }
         }
-        private static readonly DateTime DefaultDate = new DateTime(1970, 1, 1);
-
         
-
-        /// <summary>
-        /// 获取地址
-        /// </summary>
-        /// <param name="url"></param>
-        /// <param name="file"></param>
-        /// <returns></returns>
-        public static string GetUrl(string url,string file)
-        {
-            if (file.StartsWith("/"))
-            {
-                file = file.TrimStart('/');
-            }
-            return url+"/" + file;
-        }
-        /// <summary>
-        /// 格式化Key
-        /// </summary>
-        /// <param name="url"></param>
-        private static string FormatKey(string url)
-        {
-            if (string.IsNullOrWhiteSpace(url))
-            {
-                return url;
-            }
-            return url.TrimStart(' ', '/', '\\');
-        }
-        // <summary>
-        /// 格式化Key
-        /// </summary>
-        /// <param name="url"></param>
-        internal static string FormatPathKey(string url)
-        {
-            if (string.IsNullOrWhiteSpace(url))
-            {
-                return "/";
-            }
-            if (url.Length > 1)
-            {
-                url = url.TrimStart(' ', '/', '\\');
-            }
-            if (url.Length<1 || url[url.Length - 1] != '/')
-            {
-                url = url + "/";
-            }
-            return url;
-        }
         /// <summary>
         /// 获取文件
         /// </summary>
@@ -307,7 +258,7 @@ namespace Buffalo.Storage.AliCloud.OssAPI
             ListObjectsRequest listObjectsRequest = new ListObjectsRequest(_bucketName);
             string nextMarker = string.Empty;
 
-            string curPath = FormatKey(path);
+            string curPath = FileInfoBase.FormatKey(path);
 
             
 
@@ -328,8 +279,8 @@ namespace Buffalo.Storage.AliCloud.OssAPI
 
                 foreach (OssObjectSummary summary in result.ObjectSummaries)
                 {
-                    url = GetUrl(_internetUrl ,summary.Key);
-                    accessUrl= GetUrl(_lanUrl , summary.Key);
+                    url = FileInfoBase.CombineUriToString(_internetUrl ,summary.Key);
+                    accessUrl= FileInfoBase.CombineUriToString(_lanUrl , summary.Key);
                     
                     NetStorageFileInfo info = new NetStorageFileInfo(summary.LastModified, summary.LastModified,
                         summary.Key,url,accessUrl, summary.ETag,summary.Size);
@@ -371,7 +322,7 @@ namespace Buffalo.Storage.AliCloud.OssAPI
         /// <returns></returns>
         public override APIResault RemoveFile(string path)
         {
-            path = FormatKey(path);
+            path = FileInfoBase.FormatKey(path);
             _cloud.DeleteObject(_bucketName, path);
             return ApiCommon.GetSuccess();
         }
@@ -392,7 +343,7 @@ namespace Buffalo.Storage.AliCloud.OssAPI
         /// <returns></returns>
         public override APIResault SaveFile(string sourcePath, string targetPath)
         {
-            targetPath = FormatKey(targetPath);
+            targetPath = FileInfoBase.FormatKey(targetPath);
             PutObjectResult res = null;
             FileInfo finfo=new FileInfo(sourcePath);
             long len=finfo.Length;
@@ -436,7 +387,7 @@ namespace Buffalo.Storage.AliCloud.OssAPI
         /// <returns></returns>
         public override APIResault SaveFile(string path, Stream stream,long contentLength)
         {
-            path = FormatKey(path);
+            path = FileInfoBase.FormatKey(path);
             PutObjectResult res = null;
             long len = contentLength;
             if (len <= 0)
@@ -486,7 +437,7 @@ namespace Buffalo.Storage.AliCloud.OssAPI
         /// <returns></returns>
         public override bool ExistDirectory(string folder)
         {
-            folder = FormatPathKey(folder);
+            folder = FileInfoBase.FormatPathKey(folder);
             return _cloud.DoesObjectExist(_bucketName,folder);
         }
         /// <summary>
@@ -496,7 +447,7 @@ namespace Buffalo.Storage.AliCloud.OssAPI
         /// <returns></returns>
         public override APIResault CreateDirectory(string folder)
         {
-            folder = FormatPathKey(folder);
+            folder = FileInfoBase.FormatPathKey(folder);
             ObjectMetadata objectMeta = new ObjectMetadata();
             using (MemoryStream stm = new MemoryStream())
             {
@@ -507,7 +458,7 @@ namespace Buffalo.Storage.AliCloud.OssAPI
 
         public override void ReadFileToStream(string path, Stream stm, long postion, long length)
         {
-            path = FormatKey(path);
+            path = FileInfoBase.FormatKey(path);
 
             FileInfoBase info = GetFileInfo(path);
             if (info == null)

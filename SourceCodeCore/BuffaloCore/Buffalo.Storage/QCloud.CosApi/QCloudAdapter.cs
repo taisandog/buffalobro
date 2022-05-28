@@ -7,12 +7,18 @@ using System.Threading.Tasks;
 using Buffalo.Kernel;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using QCloud.CosApi.Api;
-using QCloud.CosApi.Common;
+
 using Buffalo.ArgCommon;
 using System.IO;
 using System.Net;
 using System.Security.Cryptography;
+using COSXML;
+using static COSXML.CosXmlConfig;
+using COSXML.Auth;
+using COSXML.Model.Object;
+using COSXML.Model.Bucket;
+using COSXML.Model.Tag;
+using COSXML.Model;
 
 namespace Buffalo.Storage.QCloud.CosApi
 {
@@ -22,12 +28,20 @@ namespace Buffalo.Storage.QCloud.CosApi
     /// </summary>
     public class QCloudAdapter : IFileStorage
     {
-        private CosCloud _cloud;
+        
+        private CosXml _cloud;
         /// <summary>
         /// APP ID
         /// </summary>
         private int _APPID;
-        
+        /// <summary>
+        /// 配置
+        /// </summary>
+        private CosXmlConfig _cosConfig;
+        /// <summary>
+        /// 登录构造器
+        /// </summary>
+        private QCloudCredentialProvider _cosCredentialProvider;
         /// <summary> 
         /// 腾讯云适配器
         /// </summary>
@@ -39,26 +53,76 @@ namespace Buffalo.Storage.QCloud.CosApi
             
 
             FillBaseConfig(hs);
+
+            FillConfig();
         }
+
+        /// <summary>
+        /// 填充配置信息
+        /// </summary>
+        private void FillConfig() 
+        {
+            string region = GetRegion(_server);
+
+            Builder builder = new CosXmlConfig.Builder()
+              .IsHttps(true)  //设置默认 HTTPS 请求
+              .SetRegion(region)  //设置一个默认的存储桶地域
+              .SetDebugLog(true);  //显示日志
+            if (!string.IsNullOrWhiteSpace(_proxyHost))
+            {
+                builder.SetProxyHost(_proxyHost);
+                builder.SetProxyPort(_proxyPort);
+
+                if (!string.IsNullOrWhiteSpace(_proxyUser))
+                {
+                    builder.SetProxyUserName(_proxyUser);
+                    builder.SetProxyUserPassword(_proxyPass);
+                }
+            }
+            if (_timeout > 0)
+            {
+                builder.SetConnectionTimeoutMs(_timeout);
+            }
+            _cosConfig = builder.Build();
+
+            long durationSecond = 600;  //每次请求签名有效时长，单位为秒
+            _cosCredentialProvider = new DefaultQCloudCredentialProvider(
+              _secretId, _secretKey, durationSecond);
+        }
+
         /// <summary>
         /// 删除文件夹
         /// </summary>
         /// <param name="path">路径</param>
         public override APIResault RemoveDirectory(string path)
         {
-            string result = _cloud.DeleteFolder(_bucketName, path);
+            DeleteObjectRequest request = new DeleteObjectRequest(_bucketName, path);
+            //执行请求
+            DeleteObjectResult result = _cloud.DeleteObject(request);
             return GetCommResault(result);
         }
 
+       
 
         public override APIResault AppendFile(string path, Stream content, long postion)
         {
-            throw new System.NotSupportedException("腾讯对象存储不支持追加文件");
+            byte[] bcontent = CommonMethods.LoadStreamData2(content);
+            AppendObjectRequest request = new AppendObjectRequest(_bucketName, path, bcontent, postion);
+            //设置进度回调
+            request.SetCosProgressCallback(delegate (long completed, long total)
+            {
+                //Console.WriteLine(String.Format("progress = {0:##.##}%", completed * 100.0 / total));
+            });
+            AppendObjectResult result = _cloud.AppendObject(request);
+            //获取下次追加位置
+            long nextPosition = result.nextAppendPosition;
+           
+            return GetCommResault(result);
         }
 
         public override APIResault AppendFile(string path, Stream content)
         {
-            throw new System.NotSupportedException("腾讯对象存储不支持追加文件");
+            return AppendFile(path, content, 0);
         }
         /// <summary>
         /// 获取文件信息
@@ -67,15 +131,12 @@ namespace Buffalo.Storage.QCloud.CosApi
         /// <returns></returns>
         public override FileInfoBase GetFileInfo(string path)
         {
-            string result = _cloud.GetFileStat(_bucketName, path);
-            Dictionary<string, object> dicResault = ToDictionary(result);
-            if (ValueConvertExtend.GetMapDataValue<int>(dicResault,"code") != 0)
-            {
-                return null;
-            }
-            object odata = ValueConvertExtend.GetMapDataValue<object>(dicResault, "data");
-            Dictionary<string, object> data =JsonValueConvertExtend.ConvertJsonValue<Dictionary<string, object>>(odata);
-            return ToFileBaseInfo(data,path);
+            HeadObjectRequest request = new HeadObjectRequest(_bucketName, path);
+            //执行请求
+            HeadObjectResult result = _cloud.HeadObject(request);
+
+
+            return ToFileBaseInfo(result, path);
         }
         public override APIResault Close()
         {
@@ -83,47 +144,46 @@ namespace Buffalo.Storage.QCloud.CosApi
             return ApiCommon.GetSuccess();
         }
 
-        public override List<string> GetDirectories(string path, System.IO.SearchOption searchOption)
+        public override List<string> GetDirectories(string path, SearchOption searchOption)
         {
-           
-
             List<string> ret = new List<string>();
-            Dictionary<string, string> folderlistParasDic = new Dictionary<string, string>();
-            folderlistParasDic[CosParameters.PARA_NUM] = "1000";
-            folderlistParasDic[CosParameters.PARA_ORDER] = "0";
-            folderlistParasDic[CosParameters.PARA_LIST_FLAG] = "1";
-            folderlistParasDic[CosParameters.PARA_PATTERN] = FolderPattern.PATTERN_DIR;
-
-            string curPath = path;
-            if (string.IsNullOrWhiteSpace(curPath) || curPath == "/")
-            {
-                curPath = "/";
-            }
-
-            string result = _cloud.GetFolderList(_bucketName, curPath, folderlistParasDic);
-
-            
-            Dictionary<string, object> dicResault = ToDictionary(result);
-            JObject json = dicResault.GetMapValue<JObject>("data");
-            if (json == null) 
-            {
-                return ret;
-            }
-            JToken jt = json.GetValue("infos");
-            List<Dictionary<string, object>> lstResault = jt.ToObject<List<Dictionary<string, object>>>();
-
-            foreach (Dictionary<string, object> item in lstResault)
-            {
-                if (item.ContainsKey("sha")) //如果是文件就跳过
-                {
-                    continue;
-                }
-                string cur = item.GetMapValue<string>("name");
-                ret.Add(cur);
-            }
+            FillDirectories(path, searchOption, ret);
 
             return ret;
         }
+
+        /// <summary>
+        /// 填充目录
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="searchOption"></param>
+        /// <param name="ret"></param>
+        private void FillDirectories(string path, SearchOption searchOption, List<string> ret) 
+        {
+            GetBucketRequest request = new GetBucketRequest(_bucketName);
+            request.SetPrefix(path);
+            request.SetDelimiter("/");
+            GetBucketResult result = _cloud.GetBucket(request);
+            ListBucket info = result.listBucket;
+            List<ListBucket.CommonPrefixes> subDirs = info.commonPrefixesList;
+
+            
+            foreach (ListBucket.CommonPrefixes item in subDirs)
+            {
+
+                ret.Add(item.prefix);
+            }
+            if (searchOption != SearchOption.AllDirectories) 
+            {
+                return;
+            }
+            foreach (ListBucket.CommonPrefixes item in subDirs)
+            {
+                FillDirectories(path, searchOption, ret);
+            }
+        }
+
+
         /// <summary>
         /// 获取文件流
         /// </summary>
@@ -178,45 +238,53 @@ namespace Buffalo.Storage.QCloud.CosApi
         /// <returns></returns>
         public override List<FileInfoBase> GetFiles(string path, System.IO.SearchOption searchOption)
         {
-            List<FileInfoBase> ret = new List<FileInfoBase>();
-            Dictionary<string, string> folderlistParasDic = new Dictionary<string, string>();
-            folderlistParasDic[CosParameters.PARA_NUM] = "1000";
-            folderlistParasDic[CosParameters.PARA_PATTERN] = FolderPattern.PATTERN_FILE;
-            string curPath = path;
-            if (string.IsNullOrWhiteSpace(curPath) || curPath == "/")
-            {
-                curPath = "/";
-            }
-            string result = _cloud.GetFolderList(_bucketName, curPath, folderlistParasDic);
-
             
-            Dictionary<string, object> dicResault = ToDictionary(result);
-            if (dicResault.GetMapValue<int>("code") < 0)
-            {
-                
-                throw new Exception("code:"+dicResault.GetMapValue<int>("code")+" message" +dicResault.GetMapValue<string>("message"));
-            }
-            JObject json = dicResault.GetMapValue<JObject>("data");
-            if (json == null)
-            {
-                return ret;
-            }
-            JToken jt = json.GetValue("infos");
-            List<Dictionary<string, object>> lstResault = jt.ToObject<List<Dictionary<string, object>>>();
+            List<FileInfoBase> ret = new List<FileInfoBase>();
 
-            foreach (Dictionary<string, object> item in lstResault)
+            FillFiles(path, searchOption, ret);
+            return ret;
+        }
+
+        /// <summary>
+        /// 填充文件
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="searchOption"></param>
+        /// <param name="ret"></param>
+        private void FillFiles(string path, SearchOption searchOption, List<FileInfoBase> ret) 
+        {
+            GetBucketRequest request = new GetBucketRequest(_bucketName);
+            if (!string.IsNullOrWhiteSpace(path) && path != "/")
             {
-                if (!item.ContainsKey("sha"))
+                request.SetPrefix(path);
+            }
+            request.SetDelimiter("/");
+            GetBucketResult result = _cloud.GetBucket(request);
+            ListBucket info = result.listBucket;
+            List<ListBucket.Contents> objects = info.contentsList;
+
+            foreach (ListBucket.Contents item in objects)
+            {
+                string fileName = item.key.Trim('\r', ' ', '\n');
+                if (fileName.EndsWith('/'))//文件夹
                 {
                     continue;
                 }
-                string surl = item.GetMapValue<string>("source_url");
-                string fileName = NetStorageFileInfo.GetFileName(surl);
-                NetStorageFileInfo file = ToFileBaseInfo(item, curPath + fileName);
+                NetStorageFileInfo file = ToFileBaseInfo(item, fileName);
                 ret.Add(file);
             }
 
-            return ret;
+            if(searchOption!= SearchOption.AllDirectories) 
+            {
+                return;
+            }
+
+            List<ListBucket.CommonPrefixes> subDirs = info.commonPrefixesList;
+            foreach (ListBucket.CommonPrefixes item in subDirs)
+            {
+                FillFiles(item.prefix, searchOption, ret);
+            }
+
         }
 
         /// <summary>
@@ -224,48 +292,85 @@ namespace Buffalo.Storage.QCloud.CosApi
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        private NetStorageFileInfo ToFileBaseInfo(Dictionary<string, object> data, string relativePath)
+        private NetStorageFileInfo ToFileBaseInfo(ListBucket.Contents result, string relativePath)
         {
             DateTime dtCreate = DefaultDate;
-            double timespame = data.GetMapValue<double>("ctime");
-            if (timespame > 0)
+
+            DateTime dt = DateTime.MinValue;
+
+            if (!DateTime.TryParse(result.lastModified, out dtCreate))
             {
-                dtCreate = CommonMethods.ConvertIntDateTime(timespame);
+                dtCreate = DefaultDate;
             }
 
             DateTime dtUpdate = DefaultDate;
-            timespame = data.GetMapValue<double>("mtime");
-            if (timespame > 0)
+            if (!DateTime.TryParse(result.lastModified, out dtUpdate))
             {
-                dtUpdate = CommonMethods.ConvertIntDateTime(timespame);
+                dtCreate = DefaultDate;
             }
-            string hash = data.GetMapValue<string>("sha", "");
+            string hash = "";
+            string filePath = null;
+            if (!string.IsNullOrWhiteSpace(_internetUrl))
+            {
+                filePath = FileInfoBase.CombineUriToString(_internetUrl , relativePath);
+            }
+            string accessUrl = null;
+
+            if (!string.IsNullOrWhiteSpace(_lanUrl))
+            {
+                accessUrl = FileInfoBase.CombineUriToString(_lanUrl , relativePath);
+            }
+            else 
+            {
+                accessUrl = result.key;
+            }
+
+
+            long len = result.size;
+            NetStorageFileInfo file = new NetStorageFileInfo(dtCreate, dtUpdate, relativePath, filePath, accessUrl, hash, len);
+            return file;
+        }
+
+        /// <summary>
+        /// 转换成文件信息对象
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        private NetStorageFileInfo ToFileBaseInfo(HeadObjectResult result,string relativePath)
+        {
+            DateTime dtCreate = DefaultDate;
+
+            DateTime dt = DateTime.MinValue;
+
+            if(!DateTime.TryParse(result.lastModified,out dtCreate)) 
+            {
+                dtCreate = DefaultDate;
+            }
+
+            DateTime dtUpdate = DefaultDate;
+            if (!DateTime.TryParse(result.lastModified, out dtUpdate))
+            {
+                dtCreate = DefaultDate;
+            }
+            string hash = result.crc64ecma;
            
             //string url = data.GetMapValue<string>("access_url");
             //string surl = data.GetMapValue<string>("source_url");
 
             string filePath = null;
-            if (string.IsNullOrWhiteSpace(_internetUrl))
-            {
-                filePath = data.GetMapValue<string>("source_url", null);
-            }
-            else
+            if (!string.IsNullOrWhiteSpace(_internetUrl))
             {
                 filePath = _internetUrl  + relativePath;
             }
             string accessUrl = null;
 
-            if (string.IsNullOrWhiteSpace(_lanUrl))
-            {
-                accessUrl = data.GetMapValue<string>("access_url", null);
-            }
-            else
+            if (!string.IsNullOrWhiteSpace(_lanUrl))
             {
                 accessUrl = _lanUrl + relativePath;
             }
 
 
-            long len = data.GetMapValue<long>("filelen");
+            long len = result.size;
             NetStorageFileInfo file = new NetStorageFileInfo(dtCreate, dtUpdate, relativePath, filePath, accessUrl, hash, len);
             return file;
         }
@@ -278,26 +383,25 @@ namespace Buffalo.Storage.QCloud.CosApi
         }
         public override APIResault Open()
         {
-            WebProxy proxy = null;
-            if (!string.IsNullOrWhiteSpace(_proxyHost))
-            {
-                proxy = new WebProxy();
-                proxy.Address = new Uri(_proxyHost + ":" + _proxyPort);
-               
-                if (!string.IsNullOrWhiteSpace(_proxyUser))
-                {
-                    proxy.Credentials = new NetworkCredential(_proxyUser, _proxyPass);
-                }
-            }
-
-            if (_timeout <= 0)
-            {
-                _timeout = CosCloud.Default_HTTP_TIMEOUT_TIME;
-            }
-            _cloud = new CosCloud(_APPID, _secretId, _secretKey, _server, proxy, _timeout);
-
+            _cloud= new CosXmlServer(_cosConfig, _cosCredentialProvider);
             return ApiCommon.GetSuccess();
         }
+
+        private string GetRegion(string server) 
+        {
+            int start= server.IndexOf("://");
+            if (start < 0) 
+            {
+                return server;
+            }
+            int end = server.IndexOf(':', start + 3);
+            if (end < 0)
+            {
+                return server;
+            }
+            return server.Substring(start, end - start);
+        }
+
         /// <summary>
         /// 删除文件
         /// </summary>
@@ -305,7 +409,10 @@ namespace Buffalo.Storage.QCloud.CosApi
         /// <returns></returns>
         public override APIResault RemoveFile(string path)
         {
-            string result = _cloud.DeleteFile(_bucketName, path);
+            DeleteObjectRequest request = new DeleteObjectRequest(_bucketName, path);
+            //执行请求
+            DeleteObjectResult result = _cloud.DeleteObject(request);
+
             return GetCommResault(result);
         }
 
@@ -314,13 +421,12 @@ namespace Buffalo.Storage.QCloud.CosApi
         /// </summary>
         /// <param name="result"></param>
         /// <returns></returns>
-        private APIResault GetCommResault(string result)
+        private APIResault GetCommResault(CosResult result)
         {
-            Dictionary<string, object> dicResault = ToDictionary(result);
-            int code = dicResault.GetMapValue<int>("code", -1000);
-            if (code != 0)
+            
+            if (!result.IsSuccessful())
             {
-                return ApiCommon.GetFault(dicResault.GetMapValue<string>("message"), dicResault);
+                return ApiCommon.GetFault(result.httpMessage, result);
             }
             return ApiCommon.GetSuccess();
         }
@@ -339,24 +445,20 @@ namespace Buffalo.Storage.QCloud.CosApi
         /// <returns></returns>
         public override APIResault SaveFile(string sourcePath, string targetPath)
         {
-            Dictionary<string, string> uploadParasDic = new Dictionary<string, string>();
-            uploadParasDic[CosParameters.PARA_BIZ_ATTR] = "";
-            uploadParasDic[CosParameters.PARA_INSERT_ONLY] = "0";
-            
-            string result = _cloud.UploadFile(_bucketName, targetPath, sourcePath, uploadParasDic);
-            Dictionary<string, object> dicResault = ToDictionary(result);
-            int code = dicResault.GetMapValue<int>("code", -1000);
-            if (code != 0)
+            PutObjectRequest request = new PutObjectRequest(_bucketName, targetPath, sourcePath);
+            //设置进度回调
+            request.SetCosProgressCallback(delegate (long completed, long total)
             {
-                return ApiCommon.GetFault(dicResault.GetMapValue<string>("message"));
-            }
-            NetStorageFileInfo fileInfo = null;
-            object odata = dicResault.GetMapValue<object>("data");
-            Dictionary<string, object> data = JsonValueConvertExtend.ConvertJsonValue<Dictionary<string, object>>(odata);
-            if (data != null)
+                //Console.WriteLine(String.Format("progress = {0:##.##}%", completed * 100.0 / total));
+            });
+            //执行请求
+            PutObjectResult result = _cloud.PutObject(request);
+
+            if (!result.IsSuccessful())
             {
-                fileInfo = ToFileInfo(data, targetPath);
+                return ApiCommon.GetFault(result.httpMessage);
             }
+            NetStorageFileInfo fileInfo = fileInfo = ToFileInfo(result, targetPath);
             return ApiCommon.GetSuccess(null, fileInfo);
         }
         /// <summary>
@@ -366,7 +468,7 @@ namespace Buffalo.Storage.QCloud.CosApi
         {
             get
             {
-                return "SHA1";
+                return "crc64ecma";
             }
         }
         /// <summary>
@@ -386,29 +488,20 @@ namespace Buffalo.Storage.QCloud.CosApi
         /// <returns></returns>
         public override APIResault SaveFile(string path, Stream stream,long contentLength)
         {
-            Dictionary<string, string> uploadParasDic = new Dictionary<string, string>();
-            uploadParasDic[CosParameters.PARA_BIZ_ATTR]= "";
-            uploadParasDic[CosParameters.PARA_INSERT_ONLY]= "0";
-            //stream.Position = 0;
-            long len = contentLength;
-            if (len <= 0)
+            PutObjectRequest request = new PutObjectRequest(_bucketName, path, stream);
+            //设置进度回调
+            request.SetCosProgressCallback(delegate (long completed, long total)
             {
-                len = stream.Length;
-            }
-            string result=_cloud.UploadFileStream(_bucketName, path, stream,len, uploadParasDic);
-            Dictionary<string, object> dicResault = ToDictionary(result);
-            int code = dicResault.GetMapValue<int>("code", -1000);
-            if (code != 0)
+                //Console.WriteLine(String.Format("progress = {0:##.##}%", completed * 100.0 / total));
+            });
+            //执行请求
+            PutObjectResult result = _cloud.PutObject(request);
+
+            if (!result.IsSuccessful())
             {
-                return ApiCommon.GetFault(dicResault.GetMapValue<string>("message"));
+                return ApiCommon.GetFault(result.httpMessage);
             }
-            NetStorageFileInfo fileInfo = null;
-            object odata = dicResault.GetMapValue<object>("data");
-            Dictionary<string, object> data = JsonValueConvertExtend.ConvertJsonValue<Dictionary<string, object>>(odata);
-            if (data != null)
-            {
-                fileInfo = ToFileInfo(data,path);
-            }
+            NetStorageFileInfo fileInfo = fileInfo = ToFileInfo(result, path);
             return ApiCommon.GetSuccess(null, fileInfo);
         }
         /// <summary>
@@ -416,32 +509,17 @@ namespace Buffalo.Storage.QCloud.CosApi
         /// </summary>
         /// <param name="dicData"></param>
         /// <returns></returns>
-        private NetStorageFileInfo ToFileInfo(Dictionary<string, object> dicData, string relativePath)
+        private NetStorageFileInfo ToFileInfo(PutObjectResult result, string relativePath)
         {
-            DateTime createTime = dicData.GetMapValue<DateTime>("createTime", DefaultDate);
-            DateTime updateTime = dicData.GetMapValue<DateTime>("updateTime", DefaultDate);
-            string filePath = null;
-            if (string.IsNullOrWhiteSpace(_internetUrl))
-            {
-                filePath = dicData.GetMapValue<string>("source_url", null);
-            }
-            else 
-            {
-                filePath = _internetUrl+ relativePath;
-            }
-            string accessUrl =null;
+            DateTime createTime = DateTime.Now;
+            DateTime updateTime = DateTime.Now;
+            string filePath = _internetUrl+ relativePath;
+            
+            string accessUrl = _lanUrl + relativePath;
+            
 
-            if (string.IsNullOrWhiteSpace(_lanUrl))
-            {
-                accessUrl = dicData.GetMapValue<string>("access_url", null);
-            }
-            else
-            {
-                accessUrl = _lanUrl + relativePath;
-            }
-
-            string hash = dicData.GetMapValue<string>("vid", null);
-            long length = dicData.GetMapValue<long>("length", 0);
+            string hash = result.crc64ecma;
+            long length = 0;
 
 
 
@@ -459,10 +537,8 @@ namespace Buffalo.Storage.QCloud.CosApi
         /// <returns></returns>
         public override bool ExistDirectory(string folder)
         {
-            string result = _cloud.GetFolderStat(_bucketName, folder);
-            Dictionary<string, object> dicResault = ToDictionary(result);
-            int code= dicResault.GetMapValue<int>("code",-1000);
-            return code == 0;
+            DoesObjectExistRequest request = new DoesObjectExistRequest(_bucketName, folder);
+            return _cloud.DoesObjectExist(request);
         }
         /// <summary>
         /// 创建文件夹
@@ -471,10 +547,16 @@ namespace Buffalo.Storage.QCloud.CosApi
         /// <returns></returns>
         public override APIResault CreateDirectory(string folder)
         {
-            string result = _cloud.CreateFolder(_bucketName, folder);
-            Dictionary<string, object> dicResault = ToDictionary(result);
-            int code = dicResault.GetMapValue<int>("code", -1000);
+            PutObjectRequest request = new PutObjectRequest(_bucketName, folder, new byte[]{ });
             
+            //执行请求
+            PutObjectResult result = _cloud.PutObject(request);
+
+            if (!result.IsSuccessful())
+            {
+                return ApiCommon.GetFault(result.httpMessage);
+            }
+           
             return ApiCommon.GetSuccess();
         }
         /// <summary>
@@ -484,13 +566,9 @@ namespace Buffalo.Storage.QCloud.CosApi
         /// <returns></returns>
         public override bool ExistsFile(string path)
         {
-            string result = _cloud.GetFileStat(_bucketName, path);
-            Dictionary<string, object> dicResault = ToDictionary(result);
-            if (ValueConvertExtend.GetMapDataValue<int>(dicResault, "code") == 0)
-            {
-                return true;
-            }
-            return false;
+            DoesObjectExistRequest request = new DoesObjectExistRequest(_bucketName, path);
+            //执行请求
+            return _cloud.DoesObjectExist(request);
         }
         /// <summary>
         /// 创建文件夹
@@ -499,9 +577,7 @@ namespace Buffalo.Storage.QCloud.CosApi
         /// <returns></returns>
         private void CheckDirectory(string folder)
         {
-
             CreateDirectory(folder);
-
         }
 
         public override void ReadFileToStream(string path, Stream stm, long postion, long length)
