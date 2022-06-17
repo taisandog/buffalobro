@@ -1,0 +1,49 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Buffalo.Kernel.Collections
+{
+    public class LinkedValueNode<TKey, TValue> 
+    {
+        private TKey _key;
+
+        private TValue _value;
+
+        private DateTime _expiredDate;
+
+        /// <summary>
+        /// 过期时间
+        /// </summary>
+        public DateTime ExpiredDate
+        {
+            get { return _expiredDate; }
+            internal set { _expiredDate = value; }
+        }
+        /// <summary>
+        /// 节点
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        public LinkedValueNode(TKey key, TValue value) 
+        {
+            _key = key;
+            _value = value;
+        }
+
+       /// <summary>
+       /// 键
+       /// </summary>
+        public TKey Key
+        {
+            get { return _key; }
+        }
+        /// <summary>
+        /// 值
+        /// </summary>
+        public TValue Value
+        {
+            get { return _value; }
+        }
+    }
+}

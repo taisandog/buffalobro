@@ -4,6 +4,7 @@ using Buffalo.DB.DataBaseAdapter;
 using Buffalo.DB.DbCommon;
 using Buffalo.DB.MessageOutPuters;
 using Buffalo.Kernel;
+using Buffalo.Kernel.Collections;
 using Buffalo.Kernel.FastReflection;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;

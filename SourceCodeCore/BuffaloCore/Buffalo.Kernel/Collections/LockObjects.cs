@@ -1,15 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Buffalo.Kernel
+namespace Buffalo.Kernel.Collections
 {
     /// <summary>
     /// 为某个值提供锁对象的管理器
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class LockObjects<T>
+    public class LockObjects<K> : LockObjects<K, object>
     {
-        private Dictionary<T, LockItem<T>> _dic;
+
+    }
+    /// <summary>
+    /// 为某个值提供锁对象的管理器
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class LockObjects<K, V> where V : new()
+    {
+        private LinkedDictionary<K, LockItem<K, V>> _dic;
         /// <summary>
         /// 最后清理时间
         /// </summary>
@@ -24,7 +32,7 @@ namespace Buffalo.Kernel
         /// <param name="timeoutMillisecond">超时时间(毫秒数)</param>
         public LockObjects()
         {
-            _dic = new Dictionary<T, LockItem<T>>();
+            _dic = new LinkedDictionary<K, LockItem<K, V>>();
             _lastClean = DateTime.Now;
         }
         /// <summary>
@@ -32,25 +40,22 @@ namespace Buffalo.Kernel
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public object GetObject(T key)
+        public V GetObject(K key)
         {
-            LockItem<T> ret = null;
+            LockItem<K, V> ret = null;
             lock (_dic)
             {
                 DateTime nowDate = DateTime.Now;
                 ClearTimeout(nowDate);
-                    
-                
-
                 if (!_dic.TryGetValue(key, out ret))
                 {
-                    ret = new LockItem<T>();
+                    ret = new LockItem<K, V>();
                     ret.Key = key;
-                    ret.LockObject = new object();
+                    ret.LockObject = (V)Activator.CreateInstance(typeof(V));
 
                     _dic[key] = ret;
                 }
-                
+
                 ret.LastTime = nowDate;
 
                 return ret.LockObject;
@@ -65,16 +70,18 @@ namespace Buffalo.Kernel
             {
                 return;
             }
-            Queue<T> queNeedDelete = new Queue<T>();
+            Queue<K> queNeedDelete = new Queue<K>();
             DateTime dt = DateTime.Now;
-            foreach (KeyValuePair<T, LockItem<T>> kvp in _dic)
+
+            foreach (KeyValuePair<K, LockItem<K, V>> kvp in _dic.GetEnumeratorOldToNew())
             {
-                if (dt.Subtract(kvp.Value.LastTime).TotalSeconds >= CleanSeconds)
+                if (dt.Subtract(kvp.Value.LastTime).TotalSeconds < CleanSeconds)
                 {
-                    queNeedDelete.Enqueue(kvp.Key);
+                    break;
                 }
+                queNeedDelete.Enqueue(kvp.Key);
             }
-            foreach (T key in queNeedDelete)
+            foreach (K key in queNeedDelete)
             {
                 _dic.Remove(key);
             }
@@ -86,9 +93,9 @@ namespace Buffalo.Kernel
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public void DeleteObject(T key)
+        public void DeleteObject(K key)
         {
-            
+
             lock (_dic)
             {
                 _dic.Remove(key);
@@ -99,13 +106,13 @@ namespace Buffalo.Kernel
     /// <summary>
     /// 要锁的项
     /// </summary>
-    public class LockItem<T>
+    public class LockItem<K, V>
     {
-        public T Key;
+        public K Key;
         /// <summary>
         /// 要锁的类
         /// </summary>
-        public object LockObject;
+        public V LockObject;
         /// <summary>
         /// 最后访问时间
         /// </summary>

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29201.188
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32516.85
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Buffalo.Kernel", "Buffalo.Kernel\Buffalo.Kernel.csproj", "{9C4AC141-D7F1-4F3A-A56D-FD23BBDFB85E}"
 EndProject
@@ -28,6 +28,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Buffalo.MongoDB", "Buffalo.MongoDB\Buffalo.MongoDB.csproj", "{662748CE-43D3-4A9C-9F96-762829D5690D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Buffalo.MQ", "Buffalo.MQ\Buffalo.MQ.csproj", "{647704CB-689C-4B9D-A07F-E76D1E09EFFD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCoreForm", "TestCoreForm\TestCoreForm.csproj", "{C0047007-50A6-4AC3-9F99-9127C6830458}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -83,6 +85,10 @@ Global
 		{647704CB-689C-4B9D-A07F-E76D1E09EFFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{647704CB-689C-4B9D-A07F-E76D1E09EFFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{647704CB-689C-4B9D-A07F-E76D1E09EFFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0047007-50A6-4AC3-9F99-9127C6830458}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0047007-50A6-4AC3-9F99-9127C6830458}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0047007-50A6-4AC3-9F99-9127C6830458}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0047007-50A6-4AC3-9F99-9127C6830458}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

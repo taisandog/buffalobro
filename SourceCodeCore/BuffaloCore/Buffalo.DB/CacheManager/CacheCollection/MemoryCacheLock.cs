@@ -1,4 +1,4 @@
-﻿using Buffalo.Kernel;
+﻿using Buffalo.Kernel.Collections;
 using System;
 using System.Collections.Generic;
 using System.Linq;

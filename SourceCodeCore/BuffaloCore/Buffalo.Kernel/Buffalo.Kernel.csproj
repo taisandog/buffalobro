@@ -7,13 +7,21 @@
     <Description>Buffalo的通用库</Description>
     <Copyright>taisandog</Copyright>
     <PackageProjectUrl>https://github.com/taisandog</PackageProjectUrl>
-    <Version>1.4.0</Version>
+    <Version>1.4.1</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath>..\..\..\SourceCode\Release\NetStandard2</OutputPath>
     <DocumentationFile>..\..\..\SourceCode\Release\NetStandard2\Buffalo.Kernel.xml</DocumentationFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Collections\LinkedNodes.cs.bak" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Collections\LinkedNodes.cs.bak" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />

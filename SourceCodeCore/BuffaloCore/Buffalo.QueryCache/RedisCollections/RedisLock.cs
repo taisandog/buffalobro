@@ -1,6 +1,6 @@
 ﻿using Buffalo.DB.CacheManager;
 using Buffalo.DB.CacheManager.CacheCollection;
-using Buffalo.Kernel;
+using Buffalo.Kernel.Collections;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
