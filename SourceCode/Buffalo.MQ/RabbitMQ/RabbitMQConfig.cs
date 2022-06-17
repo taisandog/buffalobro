@@ -40,11 +40,11 @@ namespace Buffalo.MQ.RabbitMQ
             
             Factory = new ConnectionFactory();
             Factory.UserName = _configs.GetDicValue<string, string>("uid");
-#if (NET_4_7_2 || NET_4_6_2 ||NET_4_8)
+//#if (NET_4_7_2 || NET_4_6_2)
 
-#else
-            Factory.Protocol = Protocols.DefaultProtocol;
-#endif
+//#else
+//            Factory.Protocol = Protocols.DefaultProtocol;
+//#endif
 
             string server = _configs.GetDicValue<string, string>("server");
             if (!string.IsNullOrWhiteSpace(server))

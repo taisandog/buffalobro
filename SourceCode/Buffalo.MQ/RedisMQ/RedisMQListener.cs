@@ -1,4 +1,5 @@
-﻿using Buffalo.Kernel;
+﻿using Buffalo.Kernel.Collections;
+using Buffalo.Kernel.TreadPoolManager;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
@@ -31,14 +32,11 @@ namespace Buffalo.MQ.RedisMQ
         /// 正在运行轮询
         /// </summary>
         private bool _pollrunning = false;
-        /// <summary>
-        /// 阻塞
-        /// </summary>
-        private AutoResetEvent _pollEvent;
+
         /// <summary>
         /// 轮询线程
         /// </summary>
-        private Thread _thdPolling = null;
+        private BlockThreadPool _thdPolling = null;
         /// <summary>
         /// RabbitMQ适配
         /// </summary>
@@ -91,9 +89,10 @@ namespace Buffalo.MQ.RedisMQ
         /// <summary>
         /// 读入队列信息
         /// </summary>
-        private void FlushQueue(string skey)
+        private long FlushQueue(string skey)
         {
             object lok = _lok.GetObject(skey);
+            long count = 0;
             lock (lok)
             {
                 string pkey = RedisMQConfig.BuffaloMQHead + skey;
@@ -111,39 +110,49 @@ namespace Buffalo.MQ.RedisMQ
                         }
                         svalue = tmpval;
                         CallBack(skey, skey, svalue, 0, 0);
+                        count++;
                     }
-                    catch (Exception ex)
+                    catch(Exception ex) 
                     {
                         OnException(ex);
                     }
 
                 } while (tmpval.HasValue);
             }
+            return count;
         }
 
         public override void StartListend(IEnumerable<string> listenKeys)
         {
             Close();
             Open();
-            foreach (string lis in listenKeys)
-            {
-                FlushQueue(lis);
-            }
 
             ResetWait();
             if (_config.Mode == RedisMQMessageMode.Subscriber)
             {
+                if (_config.SaveToQueue)
+                {
+                    foreach (string lis in listenKeys)
+                    {
+                        FlushQueue(lis);
+                    }
+                }
+
                 _subscriber = _redis.GetSubscriber();
                 foreach (string lis in listenKeys)
                 {
                     _subscriber.Subscribe(lis, OnRedisCallback, _config.CommanfFlags);
-
+                    
                 }
+                
             }
             else
             {
-                _thdPolling = new Thread(new ParameterizedThreadStart(DoListening));
-                _thdPolling.Start(listenKeys);
+                _thdPolling =new BlockThreadPool();
+                foreach (string lisKey in listenKeys)
+                {
+                    _thdPolling.RunParamThread(DoListening, lisKey);
+                }
             }
             SetWait();
         }
@@ -154,28 +163,25 @@ namespace Buffalo.MQ.RedisMQ
         /// <param name="objKeys"></param>
         public void DoListening(object objKeys)
         {
-            IEnumerable<string> listenKeys = objKeys as IEnumerable<string>;
-            if (listenKeys == null)
+            string listenKey = objKeys as string;
+            if (string.IsNullOrWhiteSpace(listenKey))
             {
                 return;
             }
             _pollrunning = true;
-            _pollEvent = new AutoResetEvent(true);
-            _pollEvent.Reset();
+            //_pollEvent = new AutoResetEvent(true);
+            //_pollEvent.Reset();
             try
             {
                 while (_pollrunning)
                 {
-                    foreach (string key in listenKeys)
-                    {
-                        FlushQueue(key);
-                    }
+                    FlushQueue(listenKey);
                     Thread.Sleep(_config.PollingInterval);
                 }
             }
             finally
             {
-                _pollEvent.Set();
+                //_pollEvent.Set();
             }
         }
 
@@ -201,15 +207,12 @@ namespace Buffalo.MQ.RedisMQ
                 }
             }
             _pollrunning = false;
-            if (_pollEvent != null)
+            if (_thdPolling != null)
             {
-                if (!_pollEvent.WaitOne(5000))
-                {
-                    _thdPolling.Abort();
-                    Thread.Sleep(100);
-                }
+                _thdPolling.StopAll();
+                Thread.Sleep(100);
             }
-            _pollEvent = null;
+            _thdPolling = null;
 
             _subscriber = null;
             if (_redis != null)
@@ -223,9 +226,8 @@ namespace Buffalo.MQ.RedisMQ
                 {
                     OnException(ex);
                 }
-                _redis = null;
             }
-
+            _redis = null;
             _db = null;
             DisponseWait();
         }

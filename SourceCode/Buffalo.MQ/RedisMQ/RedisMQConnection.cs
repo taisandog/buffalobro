@@ -54,9 +54,12 @@ namespace Buffalo.MQ.RedisMQ
             {
                 _redis = CreateManager(_config.Options);
             }
-            if (_subscriber == null)
+            if (_config.Mode == RedisMQMessageMode.Subscriber)
             {
-                _subscriber = _redis.GetSubscriber();
+                if (_subscriber == null)
+                {
+                    _subscriber = _redis.GetSubscriber();
+                }
             }
         }
         /// <summary>
@@ -106,7 +109,7 @@ namespace Buffalo.MQ.RedisMQ
 
             return ApiCommon.GetSuccess();
         }
-        
+
         /// <summary>
         /// 发送信息
         /// </summary>
