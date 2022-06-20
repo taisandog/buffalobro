@@ -75,7 +75,7 @@ namespace Buffalo.Kernel.Collections
                 {
                     return false;
                 }
-                _currentNode = _currentNode.Next;
+                _currentNode =CommonMethods.LinkedListNodeMoceNext<LinkedValueNode<T, K>>(_list,_currentNode) ;
             }
 
             return _currentNode != null;
@@ -115,7 +115,7 @@ namespace Buffalo.Kernel.Collections
                 {
                     return false;
                 }
-                _currentNode = _currentNode.Previous;
+                _currentNode = CommonMethods.LinkedListNodeMocePrevious<LinkedValueNode<T, K>>(_list, _currentNode);
             }
 
             return _currentNode != null;

@@ -54,7 +54,7 @@ namespace Buffalo.Kernel.Collections
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public K this[T key]
+        public virtual K this[T key]
         {
             get
             {
@@ -76,8 +76,9 @@ namespace Buffalo.Kernel.Collections
                 }
                 else
                 {
-                    node = _lk.AddLast(new LinkedValueNode<T, K>(key, value));
-                    _dic[key] = node;
+                    //node = _lk.AddLast(new LinkedValueNode<T, K>(key, value));
+                    //_dic[key] = node;
+                    Add(key,value);
                 }
 
             }
@@ -87,8 +88,9 @@ namespace Buffalo.Kernel.Collections
         /// 把节点移动到最新
         /// </summary>
         /// <param name="node"></param>
-        private void MoveToLast(LinkedListNode<LinkedValueNode<T, K>> node)
+        protected virtual void MoveToLast(LinkedListNode<LinkedValueNode<T, K>> node)
         {
+            OnUpdate(node.Value);
             _lk.Remove(node);
             _lk.AddLast(node);
         }
@@ -156,10 +158,8 @@ namespace Buffalo.Kernel.Collections
         /// <param name="value"></param>
         public void Add(T key, K value)
         {
-            LinkedListNode<LinkedValueNode<T, K>> node = new LinkedListNode<LinkedValueNode<T, K>>(new LinkedValueNode<T, K>(key, value));
-
-            _dic.Add(key, node);
-            _lk.AddLast(node);
+            LinkedValueNode < T, K > node= new LinkedValueNode<T, K>(key, value);
+            Add(node);
         }
         /// <summary>
         /// 添加一个带有所提供的键和值的元素
@@ -167,10 +167,27 @@ namespace Buffalo.Kernel.Collections
         /// <param name="item">项</param>
         public void Add(LinkedValueNode<T, K> item)
         {
-            LinkedListNode<LinkedValueNode<T, K>> node = new LinkedListNode<LinkedValueNode<T, K>>(item);
-
+            OnAddNew(item);
+            LinkedListNode<LinkedValueNode<T, K>> node = _lk.AddLast(item);
             _dic.Add(item.Key, node);
-            _lk.AddLast(node);
+        }
+
+        
+        /// <summary>
+        /// 当发生AddNew时候
+        /// </summary>
+        /// <param name="node"></param>
+        protected virtual void OnAddNew(LinkedValueNode<T, K> node) 
+        {
+
+        }
+        /// <summary>
+        /// 当发生AddNew时候
+        /// </summary>
+        /// <param name="node"></param>
+        protected virtual void OnUpdate(LinkedValueNode<T, K> node)
+        {
+
         }
         /// <summary>
         /// 添加一个带有所提供的键和值的元素

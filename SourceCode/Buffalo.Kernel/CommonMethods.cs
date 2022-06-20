@@ -55,11 +55,11 @@ namespace Buffalo.Kernel
                 //    _baseRoot = _baseRoot.Trim().TrimEnd('\\') + "\\";
                 //}
             }
-            if (Path.IsPathRooted(configRoot)) 
+            if (Path.IsPathRooted(configRoot))
             {
                 return configRoot;
             }
-            string retRoot = Path.Combine(_baseRoot,configRoot);
+            string retRoot = Path.Combine(_baseRoot, configRoot);
             return retRoot;
         }
 
@@ -125,7 +125,7 @@ namespace Buffalo.Kernel
                 }
                 return (*wild) == 0 ? true : false;
             }
-        
+
         }
         /// <summary>
         /// 检测是否Web程序
@@ -155,16 +155,16 @@ namespace Buffalo.Kernel
         /// <param name="source">源文件</param>
         /// <param name="target">目标文件</param>
         /// <returns></returns>
-        public static bool CopyNewer(string source, string target) 
+        public static bool CopyNewer(string source, string target)
         {
-            if (!File.Exists(source)) 
+            if (!File.Exists(source))
             {
                 return false;
             }
             string sourceVersion = null;
             string targetVersion = null;
             FileVersionInfo sourceVersionInfo = FileVersionInfo.GetVersionInfo(source);
-            sourceVersion=string.Format("{0}.{1}.{2}.{3}", sourceVersionInfo.FileMajorPart,
+            sourceVersion = string.Format("{0}.{1}.{2}.{3}", sourceVersionInfo.FileMajorPart,
                 sourceVersionInfo.FileMinorPart, sourceVersionInfo.FileBuildPart,
                 sourceVersionInfo.FilePrivatePart);
             if (File.Exists(target))
@@ -174,16 +174,16 @@ namespace Buffalo.Kernel
                 targetVersionInfo.FileMinorPart, targetVersionInfo.FileBuildPart,
                 targetVersionInfo.FilePrivatePart);
             }
-            if (sourceVersion != targetVersion) 
+            if (sourceVersion != targetVersion)
             {
                 File.Copy(source, target, true);
                 return true;
             }
             return false;
         }
-        
 
-        
+
+
 
 
         /// <summary>
@@ -191,7 +191,7 @@ namespace Buffalo.Kernel
         /// </summary>
         /// <param name="value">字符串</param>
         /// <returns></returns>
-        public static bool IsNullOrWhiteSpace(string value) 
+        public static bool IsNullOrWhiteSpace(string value)
         {
             if (value != null)
             {
@@ -211,26 +211,26 @@ namespace Buffalo.Kernel
         /// </summary>
         /// <param name="lst"></param>
         /// <returns></returns>
-        public static bool IsCollectionNullOrEmpty(ICollection lst) 
+        public static bool IsCollectionNullOrEmpty(ICollection lst)
         {
-            if (lst == null) 
+            if (lst == null)
             {
                 return true;
             }
-            if (lst.Count == 0) 
+            if (lst.Count == 0)
             {
                 return true;
             }
             return false;
         }
 
-        
+
         /// <summary>
         /// 判断是否为空
         /// </summary>
         /// <param name="value">值</param>
         /// <returns></returns>
-        public static bool IsNull(object value) 
+        public static bool IsNull(object value)
         {
             return object.ReferenceEquals(value, null);
         }
@@ -241,9 +241,9 @@ namespace Buffalo.Kernel
         /// <param name="id"></param>
         ///  <param name="isUpper">是否大写</param>
         /// <returns></returns>
-        public static string GuidToString(Guid id,bool isUpper)
+        public static string GuidToString(Guid id, bool isUpper)
         {
-            return BytesToHexString(id.ToByteArray(),isUpper);
+            return BytesToHexString(id.ToByteArray(), isUpper);
         }
         /// <summary>
         /// GUID转成字符串
@@ -252,7 +252,7 @@ namespace Buffalo.Kernel
         /// <returns></returns>
         public static string GuidToString(Guid id)
         {
-            return GuidToString(id,true);
+            return GuidToString(id, true);
         }
 
 
@@ -276,7 +276,7 @@ namespace Buffalo.Kernel
         /// <param name="ds">要处理的DataSet</param>
         /// <param name="mode">指定如何从 System.Data.DataSet 写入 XML 数据和关系架构</param>
         /// <returns></returns>
-        public static string DataSetToXML(DataSet ds,XmlWriteMode mode)
+        public static string DataSetToXML(DataSet ds, XmlWriteMode mode)
         {
             string ret = null;
             using (MemoryStream stm = new MemoryStream())
@@ -288,14 +288,14 @@ namespace Buffalo.Kernel
             }
             return ret;
         }
-        
+
         /// <summary>
         /// <summary>
         /// 把DataSet打成XML字符串
         /// </summary>
         /// <param name="ds">要处理的DataSet</param>
         /// <returns></returns>
-        public static string DataSetToXML(DataSet ds) 
+        public static string DataSetToXML(DataSet ds)
         {
             return DataSetToXML(ds, XmlWriteMode.WriteSchema);
         }
@@ -306,7 +306,7 @@ namespace Buffalo.Kernel
         /// <param name="xml">xml字符串</param>
         /// <param name="mode">指定如何将 XML 数据和关系架构读入 System.Data.DataSet</param>
         /// <returns></returns>
-        public static DataSet XMLToDataSet(string xml,XmlReadMode mode)
+        public static DataSet XMLToDataSet(string xml, XmlReadMode mode)
         {
             DataSet ds = new DataSet();
             using (MemoryStream stm = new MemoryStream())
@@ -326,7 +326,7 @@ namespace Buffalo.Kernel
         private DataSet XMLToDataSet(string xml)
         {
 
-            return XMLToDataSet(xml,XmlReadMode.ReadSchema);
+            return XMLToDataSet(xml, XmlReadMode.ReadSchema);
         }
 
         static readonly DateTime StartTimeUTC = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
@@ -339,17 +339,17 @@ namespace Buffalo.Kernel
         /// <param name="useSecond">true传入的是秒数,false传入的是毫秒数</param>
         /// <param name="isUTC">时间戳是否格林威治标准时间</param>
         /// <returns>DateTime</returns>
-        public static System.DateTime ConvertIntDateTime(double d,bool useSecond, bool isUTC)
+        public static System.DateTime ConvertIntDateTime(double d, bool useSecond, bool isUTC)
         {
             System.DateTime time = System.DateTime.MinValue;
-            System.DateTime startTime = isUTC? StartTimeUTC: StartTime;
+            System.DateTime startTime = isUTC ? StartTimeUTC : StartTime;
             if (useSecond)
             {
                 time = startTime.AddSeconds(d);
             }
-            else 
+            else
             {
-                time= startTime.AddMilliseconds(d);
+                time = startTime.AddMilliseconds(d);
             }
             return time;
         }
@@ -360,7 +360,7 @@ namespace Buffalo.Kernel
         /// <returns>DateTime</returns>
         public static System.DateTime ConvertIntDateTime(double d)
         {
-            return ConvertIntDateTime(d,true,true);
+            return ConvertIntDateTime(d, true, true);
         }
 
         /// <summary>
@@ -373,7 +373,7 @@ namespace Buffalo.Kernel
         public static double ConvertDateTimeInt(System.DateTime time, bool useSecond, bool isUTC)
         {
             System.DateTime startTime = isUTC ? StartTimeUTC : StartTime;
-            TimeSpan ts=time.Subtract(startTime);
+            TimeSpan ts = time.Subtract(startTime);
             if (useSecond)
             {
                 return ts.TotalSeconds;
@@ -387,7 +387,7 @@ namespace Buffalo.Kernel
         /// <returns>double</returns>
         public static double ConvertDateTimeInt(System.DateTime time)
         {
-            
+
             return ConvertDateTimeInt(time, true, true);
         }
         /// <summary>
@@ -395,7 +395,7 @@ namespace Buffalo.Kernel
         /// </summary>
         /// <param name="rawdatas"></param>
         /// <returns></returns>
-        public static object RawDeserialize(byte[] rawdatas,Type objType)
+        public static object RawDeserialize(byte[] rawdatas, Type objType)
         {
 
             //Type anytype = typeof(T);
@@ -406,7 +406,7 @@ namespace Buffalo.Kernel
             {
                 return retobj;
             }
-            
+
             IntPtr buffer = Marshal.AllocHGlobal(rawsize);
             try
             {
@@ -428,7 +428,7 @@ namespace Buffalo.Kernel
         /// <returns></returns>
         public static T RawDeserialize<T>(byte[] rawdatas)
         {
-            object obj=RawDeserialize(rawdatas,typeof(T));
+            object obj = RawDeserialize(rawdatas, typeof(T));
             return (T)obj;
         }
 
@@ -438,13 +438,13 @@ namespace Buffalo.Kernel
         /// <param name="stm"></param>
         /// <param name="objType"></param>
         /// <returns></returns>
-        public static object RawDeserialize(Stream stm, Type objType) 
+        public static object RawDeserialize(Stream stm, Type objType)
         {
             int rawsize = Marshal.SizeOf(objType);
             byte[] fbuffer = new byte[rawsize];
-            rawsize=stm.Read(fbuffer, 0, rawsize);
+            rawsize = stm.Read(fbuffer, 0, rawsize);
             object retobj = null;
-            
+
             IntPtr buffer = Marshal.AllocHGlobal(rawsize);
             try
             {
@@ -469,7 +469,7 @@ namespace Buffalo.Kernel
         {
 
 
-            return (T)RawDeserialize(stm,typeof(T));
+            return (T)RawDeserialize(stm, typeof(T));
         }
 
         /// <summary>
@@ -505,7 +505,7 @@ namespace Buffalo.Kernel
         /// 获取本机IP
         /// </summary>
         /// <returns></returns>
-        public static IPAddress GetLocalIP() 
+        public static IPAddress GetLocalIP()
         {
             IPHostEntry ipEntry = Dns.GetHostEntry(Dns.GetHostName());
             IPAddress ip = ipEntry.AddressList[0];
@@ -518,7 +518,7 @@ namespace Buffalo.Kernel
         /// <param name="sValue">源值</param>
         /// <param name="targetType">目标类型</param>
         /// <returns></returns>
-        public static object EntityProChangeType(object sValue, Type targetType) 
+        public static object EntityProChangeType(object sValue, Type targetType)
         {
             Type valType = sValue.GetType();//实际值的类型
 
@@ -536,9 +536,9 @@ namespace Buffalo.Kernel
         /// <param name="sValue">值</param>
         /// <param name="targetType">目标类型</param>
         /// <returns></returns>
-        public static object ChangeType(object sValue, Type targetType) 
+        public static object ChangeType(object sValue, Type targetType)
         {
-            if (targetType == DefaultType.GUIDType) 
+            if (targetType == DefaultType.GUIDType)
             {
                 string str = sValue as string;
                 if (!string.IsNullOrEmpty(str))
@@ -546,17 +546,17 @@ namespace Buffalo.Kernel
                     return StringToGuid(str);
                 }
             }
-            return Convert.ChangeType(sValue,targetType);
+            return Convert.ChangeType(sValue, targetType);
         }
 
-        
+
 
         /// <summary>
         /// 读取流的内容
         /// </summary>
         /// <param name="stm">流</param>
         /// <returns></returns>
-        public static byte[] LoadStreamData(Stream stm) 
+        public static byte[] LoadStreamData(Stream stm)
         {
             byte[] tmp = null;
             if (stm != null && stm.Length > 0)
@@ -592,7 +592,7 @@ namespace Buffalo.Kernel
         /// </summary>
         /// <param name="stmSource">源</param>
         /// <param name="stmTarget">目标</param>
-        public static void CopyStreamData(Stream stmSource,Stream stmTarget)
+        public static void CopyStreamData(Stream stmSource, Stream stmTarget)
         {
             byte[] buffer = new byte[1024];
             int readed = 0;
@@ -603,8 +603,8 @@ namespace Buffalo.Kernel
                 {
                     stmTarget.Write(buffer, 0, readed);
                 }
-            } while (readed>0);
-            
+            } while (readed > 0);
+
         }
         /// <summary>
         /// 流内容复制
@@ -612,20 +612,20 @@ namespace Buffalo.Kernel
         /// <param name="stmSource">源</param>
         /// <param name="stmTarget">目标</param>
         /// <param name="length">长度(小于0则全部复制)</param>
-        public static void CopyStreamData(Stream stmSource, Stream stmTarget,long length,HttpResponse response)
+        public static void CopyStreamData(Stream stmSource, Stream stmTarget, long length, HttpResponse response)
         {
             byte[] buffer = new byte[1024];
             int readed = 0;
             long left = length;//剩余字节
-            int len=buffer.Length;
+            int len = buffer.Length;
             bool hasLeft = left > 0;
             do
             {
-                if (response != null && !response.IsClientConnected) 
+                if (response != null && !response.IsClientConnected)
                 {
                     return;
                 }
-                if (hasLeft && left < len) 
+                if (hasLeft && left < len)
                 {
                     len = (int)left;
                 }
@@ -635,8 +635,8 @@ namespace Buffalo.Kernel
                     stmTarget.Write(buffer, 0, readed);
                 }
                 stmTarget.Flush();
-                
-                if (hasLeft) 
+
+                if (hasLeft)
                 {
                     left -= readed;
                     if (left <= 0)
@@ -652,7 +652,7 @@ namespace Buffalo.Kernel
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public static string GetAllNumber(string str) 
+        public static string GetAllNumber(string str)
         {
             if (IsNullOrWhiteSpace(str))
             {
@@ -666,7 +666,7 @@ namespace Buffalo.Kernel
                     ret.Append(str[i]);
                 }
             }
-            return ret.ToString() ;
+            return ret.ToString();
         }
 
 
@@ -676,7 +676,7 @@ namespace Buffalo.Kernel
         /// <param name="bye">字节数组</param>
         /// <param name="isUpper">是否大写</param>
         /// <returns></returns>
-        public static string BytesToHexString(byte[] bye,bool isUpper)
+        public static string BytesToHexString(byte[] bye, bool isUpper)
         {
             StringBuilder retStr = new StringBuilder(bye.Length * 2);
             string format = "X2";
@@ -695,16 +695,16 @@ namespace Buffalo.Kernel
         /// 把文字转成十六进制字符码
         /// </summary>
         /// <returns></returns>
-        public static string ToByteString(string str, bool isUpper) 
+        public static string ToByteString(string str, bool isUpper)
         {
             byte[] byes = System.Text.Encoding.Unicode.GetBytes(str);
-            StringBuilder ret = new StringBuilder(str.Length*3);
+            StringBuilder ret = new StringBuilder(str.Length * 3);
             string format = "X2";
             if (!isUpper)
             {
                 format = "x2";
             }
-            for (int i = 0; i < byes.Length; i++) 
+            for (int i = 0; i < byes.Length; i++)
             {
                 string tmp = byes[i].ToString(format);
                 ret.Append(tmp);
@@ -717,7 +717,7 @@ namespace Buffalo.Kernel
         /// <returns></returns>
         public static string ToByteString(string str)
         {
-            return ToByteString(str,true);
+            return ToByteString(str, true);
         }
         /// <summary>
         /// 把十六进制字符串转成字节数组
@@ -758,7 +758,7 @@ namespace Buffalo.Kernel
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public static string FormatLongString(object str,int maxchr)
+        public static string FormatLongString(object str, int maxchr)
         {
             if (str == null)
             {
@@ -767,7 +767,7 @@ namespace Buffalo.Kernel
             string retStr = str.ToString();
             if (retStr.Length > maxchr)
             {
-                retStr = retStr.Substring(0, maxchr-3) + "...";
+                retStr = retStr.Substring(0, maxchr - 3) + "...";
             }
             return retStr;
         }
@@ -844,7 +844,7 @@ namespace Buffalo.Kernel
             return ret;
         }
 
-        
+
         /// <summary>
         /// 判断该字符串是否整型数字
         /// </summary>
@@ -874,32 +874,32 @@ namespace Buffalo.Kernel
         /// <param name="collection">集合类</param>
         /// <param name="keyProperty">键名</param>
         /// <returns></returns>
-        public static Dictionary<TKey, TValue> ListToDictionary<TKey, TValue>(IEnumerable collection, string keyProperty) 
+        public static Dictionary<TKey, TValue> ListToDictionary<TKey, TValue>(IEnumerable collection, string keyProperty)
         {
             Dictionary<TKey, TValue> dic = new Dictionary<TKey, TValue>();
 
             FastPropertyHandler handle = FastValueGetSet.GetGetMethodInfo(keyProperty, typeof(TValue));
-            object[] emptyParams=new object[] { };
-            foreach (TValue objValue in collection) 
+            object[] emptyParams = new object[] { };
+            foreach (TValue objValue in collection)
             {
-                object obj=objValue;
-                if(obj==null)
+                object obj = objValue;
+                if (obj == null)
                 {
                     continue;
                 }
-                TKey key=default(TKey);
+                TKey key = default(TKey);
                 object objKey = handle(obj, emptyParams);
                 if (typeof(TKey) == DefaultType.StringType)
                 {
                     object strkey = objKey.ToString();
                     dic[(TKey)strkey] = objValue;
                 }
-                else 
+                else
                 {
                     key = (TKey)objKey;
                     dic[key] = objValue;
                 }
-                
+
             }
             return dic;
         }
@@ -915,7 +915,7 @@ namespace Buffalo.Kernel
             {
                 return false;
             }
-            bool hasPoint=false;
+            bool hasPoint = false;
             for (int i = 0; i < str.Length; i++)
             {
                 char chr = str[i];
@@ -937,7 +937,38 @@ namespace Buffalo.Kernel
             }
             return true;
         }
-
+        /// <summary>
+        /// 获取下一个节点
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list">双链表</param>
+        /// <param name="currentNode">当前节点</param>
+        /// <returns></returns>
+        public static LinkedListNode<T> LinkedListNodeMoceNext<T>(LinkedList<T> list, LinkedListNode<T> currentNode)
+        {
+            currentNode = currentNode.Next;
+            if (currentNode == list.First)
+            {
+                return null;
+            }
+            return currentNode;
+        }
+        /// <summary>
+        /// 获取上一个节点
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list">双链表</param>
+        /// <param name="currentNode">当前节点</param>
+        /// <returns></returns>
+        public static LinkedListNode<T> LinkedListNodeMocePrevious<T>(LinkedList<T> list, LinkedListNode<T> currentNode)
+        {
+            currentNode = currentNode.Previous;
+            if (currentNode == list.Last)
+            {
+                return null;
+            }
+            return currentNode;
+        }
 
         /// <summary>
         /// 清除事件绑定的函数

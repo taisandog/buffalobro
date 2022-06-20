@@ -66,6 +66,12 @@
     <Compile Include="CharCollectionEnumerator.cs" />
     <Compile Include="ClassProxyBuilder\DefaultProxyBuilder.cs" />
     <Compile Include="ClassProxyBuilder\IInterceptor.cs" />
+    <Compile Include="Collections\LinkedDictionary.cs" />
+    <Compile Include="Collections\LinkedDictionaryCollection.cs" />
+    <Compile Include="Collections\LinkedDictionaryEnumerator.cs" />
+    <Compile Include="Collections\LinkedValueNode.cs" />
+    <Compile Include="Collections\LockObjects.cs" />
+    <Compile Include="Collections\TimeTickWheel.cs" />
     <Compile Include="CommonMethods.cs" />
     <Compile Include="ConnStringFilter.cs" />
     <Compile Include="LinkedDictionary.cs" />
@@ -102,6 +108,8 @@
     <Compile Include="Picture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyType.cs" />
+    <Compile Include="TreadPoolManager\BlockThread.cs" />
+    <Compile Include="TreadPoolManager\BlockThreadPool.cs" />
     <Compile Include="ValueConvert\ValueConvertExtend.cs" />
     <Compile Include="ValueConvert\ValueConvertExtend.DataRow.cs" />
     <Compile Include="ValueConvert\ValueConvertExtend.Maptable.cs" />
