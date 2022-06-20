@@ -6,10 +6,7 @@ namespace Buffalo.Kernel.Collections
 {
     public class LinkedValueNode<TKey, TValue> 
     {
-        private TKey _key;
-
-        private TValue _value;
-
+        private KeyValuePair<TKey, TValue> _kvp;
         private DateTime _expiredDate;
 
         /// <summary>
@@ -27,8 +24,8 @@ namespace Buffalo.Kernel.Collections
         /// <param name="value"></param>
         public LinkedValueNode(TKey key, TValue value) 
         {
-            _key = key;
-            _value = value;
+            _kvp = new KeyValuePair<TKey, TValue>(key, value);
+
         }
 
        /// <summary>
@@ -36,14 +33,25 @@ namespace Buffalo.Kernel.Collections
        /// </summary>
         public TKey Key
         {
-            get { return _key; }
+            get { return _kvp.Key; }
         }
         /// <summary>
         /// 值
         /// </summary>
         public TValue Value
         {
-            get { return _value; }
+            get { return _kvp.Value; }
+        }
+
+        /// <summary>
+        /// Key/Value值
+        /// </summary>
+        public KeyValuePair<TKey, TValue> KeyValue 
+        {
+            get 
+            {
+                return _kvp;
+            }
         }
     }
 }

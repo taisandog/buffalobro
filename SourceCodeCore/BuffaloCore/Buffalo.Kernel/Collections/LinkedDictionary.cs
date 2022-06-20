@@ -17,11 +17,11 @@ namespace Buffalo.Kernel.Collections
         /// <summary>
         /// 存储数据的字典
         /// </summary>
-        private IDictionary<T, LinkedListNode<KeyValuePair<T, K>>> _dic = null;
+        private IDictionary<T, LinkedListNode<LinkedValueNode<T, K>>> _dic = null;
         /// <summary>
         /// 存储数据的字典
         /// </summary>
-        private LinkedList<KeyValuePair<T, K>> _lk = null;
+        private LinkedList<LinkedValueNode<T, K>> _lk = null;
         /// <summary>
         /// get值时候是否触发
         /// </summary>
@@ -33,17 +33,17 @@ namespace Buffalo.Kernel.Collections
         /// </summary>
         /// <param name="dic">托管的字典</param>
         /// <param name="isGetToUpdate">Get值时候是否要更新活跃度</param>
-        public LinkedDictionary(IDictionary<T, LinkedListNode<KeyValuePair<T, K>>> dic, bool isGetToUpdate = true)
+        public LinkedDictionary(IDictionary<T, LinkedListNode<LinkedValueNode<T, K>>> dic, bool isGetToUpdate = true)
         {
             _dic = dic;
-            _lk = new LinkedList<KeyValuePair<T, K>>();
+            _lk = new LinkedList<LinkedValueNode<T, K>>();
             _collect = new LinkedDictionaryCollection<T, K>(_lk, false);
             _isGetToUpdate = isGetToUpdate;
         }
         /// <summary>
         /// 保存了活跃度的Dictionary
         /// </summary>
-        public LinkedDictionary(bool isGetToUpdate = true) : this(new Dictionary<T, LinkedListNode<KeyValuePair<T, K>>>(), isGetToUpdate)
+        public LinkedDictionary(bool isGetToUpdate = true) : this(new Dictionary<T, LinkedListNode<LinkedValueNode<T, K>>>(), isGetToUpdate)
         {
         }
 
@@ -54,11 +54,11 @@ namespace Buffalo.Kernel.Collections
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public K this[T key]
+        public virtual K this[T key]
         {
             get
             {
-                LinkedListNode<KeyValuePair<T, K>> node = _dic[key];
+                LinkedListNode<LinkedValueNode<T, K>> node = _dic[key];
                 if (_isGetToUpdate)
                 {
                     MoveToLast(node);
@@ -67,17 +67,18 @@ namespace Buffalo.Kernel.Collections
             }
             set
             {
-                LinkedListNode<KeyValuePair<T, K>> node = null;
+                LinkedListNode<LinkedValueNode<T, K>> node = null;
                 if (_dic.TryGetValue(key, out node))
                 {
-                    node.Value = new KeyValuePair<T, K>(key, value);
+                    node.Value = new LinkedValueNode<T, K>(key, value);
 
                     MoveToLast(node);
                 }
                 else
                 {
-                    node = _lk.AddLast(new KeyValuePair<T, K>(key, value));
-                    _dic[key] = node;
+                    //node = _lk.AddLast(new LinkedValueNode<T, K>(key, value));
+                    //_dic[key] = node;
+                    Add(key,value);
                 }
 
             }
@@ -87,8 +88,9 @@ namespace Buffalo.Kernel.Collections
         /// 把节点移动到最新
         /// </summary>
         /// <param name="node"></param>
-        private void MoveToLast(LinkedListNode<KeyValuePair<T, K>> node)
+        protected virtual void MoveToLast(LinkedListNode<LinkedValueNode<T, K>> node)
         {
+            OnUpdate(node.Value);
             _lk.Remove(node);
             _lk.AddLast(node);
         }
@@ -109,7 +111,7 @@ namespace Buffalo.Kernel.Collections
             get
             {
                 List<K> lst = new List<K>(_dic.Count);
-                foreach (KeyValuePair<T, LinkedListNode<KeyValuePair<T, K>>> kvp in _dic)
+                foreach (KeyValuePair<T, LinkedListNode<LinkedValueNode<T, K>>> kvp in _dic)
                 {
                     lst.Add(kvp.Value.Value.Value);
                 }
@@ -145,7 +147,7 @@ namespace Buffalo.Kernel.Collections
         /// <summary>
         /// 活跃度信息
         /// </summary>
-        public LinkedList<KeyValuePair<T, K>> TimeInfos
+        public LinkedList<LinkedValueNode<T, K>> TimeInfos
         {
             get { return _lk; }
         }
@@ -156,10 +158,36 @@ namespace Buffalo.Kernel.Collections
         /// <param name="value"></param>
         public void Add(T key, K value)
         {
-            LinkedListNode<KeyValuePair<T, K>> node = new LinkedListNode<KeyValuePair<T, K>>(new KeyValuePair<T, K>(key, value));
+            LinkedValueNode < T, K > node= new LinkedValueNode<T, K>(key, value);
+            Add(node);
+        }
+        /// <summary>
+        /// 添加一个带有所提供的键和值的元素
+        /// </summary>
+        /// <param name="item">项</param>
+        public void Add(LinkedValueNode<T, K> item)
+        {
+            OnAddNew(item);
+            LinkedListNode<LinkedValueNode<T, K>> node = _lk.AddLast(item);
+            _dic.Add(item.Key, node);
+        }
 
-            _dic.Add(key, node);
-            _lk.AddLast(node);
+        
+        /// <summary>
+        /// 当发生AddNew时候
+        /// </summary>
+        /// <param name="node"></param>
+        protected virtual void OnAddNew(LinkedValueNode<T, K> node) 
+        {
+
+        }
+        /// <summary>
+        /// 当发生AddNew时候
+        /// </summary>
+        /// <param name="node"></param>
+        protected virtual void OnUpdate(LinkedValueNode<T, K> node)
+        {
+
         }
         /// <summary>
         /// 添加一个带有所提供的键和值的元素
@@ -167,12 +195,9 @@ namespace Buffalo.Kernel.Collections
         /// <param name="item">项</param>
         public void Add(KeyValuePair<T, K> item)
         {
-            LinkedListNode<KeyValuePair<T, K>> node = new LinkedListNode<KeyValuePair<T, K>>(item);
-
-            _dic.Add(item.Key, node);
-            _lk.AddLast(node);
+            LinkedValueNode < T, K> linkedValueNode = new LinkedValueNode<T, K>(item.Key, item.Value);
+            Add(linkedValueNode);
         }
-
         /// <summary>
         /// 清空所有
         /// </summary>
@@ -198,7 +223,7 @@ namespace Buffalo.Kernel.Collections
         /// <returns></returns>
         public bool ContainsKey(T key)
         {
-            LinkedListNode<KeyValuePair<T, K>> ret = null;
+            LinkedListNode<LinkedValueNode<T, K>> ret = null;
 
             if (_dic.TryGetValue(key, out ret))
             {
@@ -219,7 +244,7 @@ namespace Buffalo.Kernel.Collections
         public void CopyTo(KeyValuePair<T, K>[] array, int arrayIndex)
         {
             int curIndex = arrayIndex;
-            foreach (KeyValuePair<T, LinkedListNode<KeyValuePair<T, K>>> kvp in _dic)
+            foreach (KeyValuePair<T, LinkedListNode<LinkedValueNode<T, K>>> kvp in _dic)
             {
                 if (curIndex >= array.Length)
                 {
@@ -238,7 +263,7 @@ namespace Buffalo.Kernel.Collections
         /// <returns></returns>
         public IEnumerator<KeyValuePair<T, K>> GetEnumerator()
         {
-            return _lk.GetEnumerator();
+            return new LinkedKeyValueEnumerator<T, K>(_dic.GetEnumerator());
         }
 
         /// <summary>
@@ -248,7 +273,7 @@ namespace Buffalo.Kernel.Collections
         /// <returns></returns>
         public bool Remove(T key)
         {
-            LinkedListNode<KeyValuePair<T, K>> ret = null;
+            LinkedListNode<LinkedValueNode<T, K>> ret = null;
             bool isRemove = false;
             if (_dic.TryGetValue(key, out ret))
             {
@@ -265,7 +290,7 @@ namespace Buffalo.Kernel.Collections
         /// <returns></returns>
         public K RemoveKey(T key)
         {
-            LinkedListNode<KeyValuePair<T, K>> retNode = null;
+            LinkedListNode<LinkedValueNode<T, K>> retNode = null;
             bool isRemove = false;
             if (_dic.TryGetValue(key, out retNode))
             {
@@ -285,7 +310,7 @@ namespace Buffalo.Kernel.Collections
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        public bool Remove(LinkedListNode<KeyValuePair<T, K>> item)
+        public bool Remove(LinkedListNode<LinkedValueNode<T, K>> item)
         {
             if (item == null)
             {
@@ -296,6 +321,7 @@ namespace Buffalo.Kernel.Collections
             return isRemove;
 
         }
+
         /// <summary>
         /// 删除项
         /// </summary>
@@ -303,10 +329,20 @@ namespace Buffalo.Kernel.Collections
         /// <returns></returns>
         public bool Remove(KeyValuePair<T, K> item)
         {
-
-            bool isRemove = _dic.Remove(item.Key);
-            _lk.Remove(item);
-            return isRemove;
+            T key = item.Key;
+            LinkedListNode<LinkedValueNode<T, K>> retNode = null;
+            bool isRemove = false;
+            if (_dic.TryGetValue(key, out retNode))
+            {
+                isRemove = _dic.Remove(key);
+                _lk.Remove(retNode);
+            }
+            if (!isRemove || retNode == null)
+            {
+                return false;
+            }
+            
+            return true;
 
         }
         /// <summary>
@@ -317,7 +353,7 @@ namespace Buffalo.Kernel.Collections
         /// <returns></returns>
         public bool TryGetValue(T key, out K value)
         {
-            LinkedListNode<KeyValuePair<T, K>> ret = null;
+            LinkedListNode<LinkedValueNode<T, K>> ret = null;
 
             if (_dic.TryGetValue(key, out ret))
             {
@@ -346,7 +382,7 @@ namespace Buffalo.Kernel.Collections
         public void TrimCount(int count)
         {
             DateTime dt = DateTime.Now;
-            LinkedListNode<KeyValuePair<T, K>> curNode = null;
+            LinkedListNode<LinkedValueNode<T, K>> curNode = null;
             while (_dic.Count > count)
             {
                 curNode = _lk.First;
@@ -364,7 +400,7 @@ namespace Buffalo.Kernel.Collections
         /// <summary>
         /// 最老的节点
         /// </summary>
-        public LinkedListNode<KeyValuePair<T, K>> OldestNode
+        public LinkedListNode<LinkedValueNode<T, K>> OldestNode
         {
             get
             {
@@ -375,7 +411,7 @@ namespace Buffalo.Kernel.Collections
         /// <summary>
         /// 最新的节点
         /// </summary>
-        public LinkedListNode<KeyValuePair<T, K>> LatestNode
+        public LinkedListNode<LinkedValueNode<T, K>> LatestNode
         {
             get
             {
@@ -423,8 +459,8 @@ namespace Buffalo.Kernel.Collections
         }
     }
 
-    
 
 
     
+
 }

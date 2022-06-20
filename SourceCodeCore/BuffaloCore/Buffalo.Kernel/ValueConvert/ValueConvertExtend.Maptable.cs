@@ -72,6 +72,8 @@ public static partial class ValueConvertExtend
     {
         return GetDicDataValue<T, K>(ht, key, default(K));
     }
+
+    
 #if !NET_2_0
     /// <summary>
     /// 获取哈希表的值

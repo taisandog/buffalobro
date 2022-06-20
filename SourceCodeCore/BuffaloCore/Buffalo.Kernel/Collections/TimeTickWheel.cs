@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
@@ -8,13 +9,23 @@ namespace Buffalo.Kernel.Collections
     /// <summary>
     /// 计算过期的时间器
     /// </summary>
-    public class TimeTickWheel<T>
+    public class TimeTickWheel<T>: IDisposable
     {
         /// <summary>
         /// 时间轴
         /// </summary>
         private SortedDictionary<long,LinkedList<T>> _timelist = null;
         
+        /// <summary>
+        /// 数据
+        /// </summary>
+        public SortedDictionary<long, LinkedList<T>> Data 
+        {
+            get 
+            {
+                return _timelist;
+            }
+        }
         /// <summary>
         /// 时间间隔刻度(毫秒)
         /// </summary>
@@ -130,7 +141,7 @@ namespace Buffalo.Kernel.Collections
         /// 输出并移除到期的对象
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<T> PutExpiredItems(long currentTime=0) 
+        public IEnumerable<T> PutAndDeleteExpiredItems(long currentTime=0) 
         {
             if (currentTime <= 0) 
             {
@@ -163,10 +174,10 @@ namespace Buffalo.Kernel.Collections
             return ret;
         }
         /// <summary>
-        /// 输出到期的链表
+        /// 输出到期的对象链表
         /// </summary>
         /// <returns></returns>
-        public IEnumerable< LinkedList<T>> PutExpiredLinkedList(long currentTime = 0)
+        public IEnumerable<LinkedList<T>> PutExpiredLinkedList(long currentTime = 0)
         {
             if (currentTime <= 0)
             {
@@ -186,13 +197,97 @@ namespace Buffalo.Kernel.Collections
                 curList = kvp.Value;
                 ret.Enqueue(curList);
             }
+
             foreach (long key in queDelete)
             {
                 _timelist.Remove(key);
             }
+
             queDelete = null;
             curList = null;
             return ret;
         }
+        /// <summary>
+        /// 清空所有元素
+        /// </summary>
+        public void Clear() 
+        {
+            Queue<LinkedList<T>> lkList = new Queue<LinkedList<T>>(_timelist.Count);
+            foreach (KeyValuePair<long, LinkedList<T>> kvp in _timelist)
+            {
+                lkList.Enqueue(kvp.Value);
+            }
+            _timelist.Clear();
+            foreach(LinkedList<T> lk in lkList) 
+            {
+                lk.Clear();
+            }
+            lkList.Clear();
+            lkList = null;
+        }
+
+        /// <summary>
+        /// 去重检查
+        /// </summary>
+        /// <returns></returns>
+        public long FilterRepeat() 
+        {
+            Dictionary<T, bool> dic = new Dictionary<T, bool>();
+            Queue<LinkedListNode<T>> queWillDelete = new Queue<LinkedListNode<T>>();
+            long count = 0;
+            LinkedList<T> lk = null;
+            LinkedListNode<T> node = null;
+            T value=default(T);
+            foreach (KeyValuePair<long, LinkedList<T>> kvp in _timelist)
+            {
+                lk =kvp.Value;
+                if (lk == null) 
+                {
+                    continue;
+                }
+                node = lk.First;
+                while (node != null)
+                {
+                    value = node.Value;
+                    
+                    if (dic.ContainsKey(value))
+                    {
+                        queWillDelete.Enqueue(node);
+                        
+                    }
+                    else
+                    {
+                        dic[value] = true;
+                    }
+
+                    node = CommonMethods.LinkedListNodeMoceNext<T>(lk, node);
+                }
+            }
+
+            LinkedListNode<T> delNode = null;
+            count = queWillDelete.Count;
+            while (queWillDelete.TryDequeue(out delNode))
+            {
+                if (delNode.List != null)
+                {
+                    delNode.List.Remove(delNode);
+                }
+            }
+            queWillDelete=null;
+            return count;
+            
+            
+        }
+
+        
+
+        public void Dispose()
+        {
+            Clear();
+            _timelist = null;
+
+        }
+
+        
     }
 }

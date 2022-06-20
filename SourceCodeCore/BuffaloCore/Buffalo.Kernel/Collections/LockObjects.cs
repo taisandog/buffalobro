@@ -9,13 +9,13 @@ namespace Buffalo.Kernel.Collections
     /// <typeparam name="T"></typeparam>
     public class LockObjects<K> : LockObjects<K, object>
     {
-
+        
     }
     /// <summary>
     /// 为某个值提供锁对象的管理器
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class LockObjects<K, V> where V : new()
+    public class LockObjects<K, V>: IDisposable where V : new()
     {
         private LinkedDictionary<K, LockItem<K, V>> _dic;
         /// <summary>
@@ -72,8 +72,8 @@ namespace Buffalo.Kernel.Collections
             }
             Queue<K> queNeedDelete = new Queue<K>();
             DateTime dt = DateTime.Now;
-
-            foreach (KeyValuePair<K, LockItem<K, V>> kvp in _dic.GetEnumeratorOldToNew())
+            
+            foreach (LinkedValueNode<K, LockItem<K, V>> kvp in _dic.GetEnumeratorOldToNew())
             {
                 if (dt.Subtract(kvp.Value.LastTime).TotalSeconds < CleanSeconds)
                 {
@@ -102,6 +102,11 @@ namespace Buffalo.Kernel.Collections
             }
         }
 
+        public void Dispose()
+        {
+            _dic.Dispose();
+            _dic = null;
+        }
     }
     /// <summary>
     /// 要锁的项

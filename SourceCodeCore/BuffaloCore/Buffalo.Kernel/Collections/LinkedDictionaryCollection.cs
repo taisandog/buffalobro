@@ -10,10 +10,10 @@ namespace Buffalo.Kernel.Collections
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <typeparam name="K"></typeparam>
-    public class LinkedDictionaryCollection<T, K> : IEnumerable, IEnumerable<KeyValuePair<T, K>>, IDisposable
+    public class LinkedDictionaryCollection<T, K> : IEnumerable, IEnumerable<LinkedValueNode<T, K>>, IDisposable
     {
 
-        private LinkedList<KeyValuePair<T, K>> _lk;
+        private LinkedList<LinkedValueNode<T, K>> _lk;
         private bool _moveNext = false;
         /// <summary>
         /// 是否向后枚举
@@ -24,7 +24,7 @@ namespace Buffalo.Kernel.Collections
             set { _moveNext = value; }
         }
 
-        public LinkedDictionaryCollection(LinkedList<KeyValuePair<T, K>> lk, bool moveNext)
+        public LinkedDictionaryCollection(LinkedList<LinkedValueNode<T, K>> lk, bool moveNext)
         {
             _lk = lk;
             _moveNext = moveNext;
@@ -40,7 +40,7 @@ namespace Buffalo.Kernel.Collections
             return new LinkedDictionaryEnumeratorMovePrevious<T, K>(_lk);
         }
 
-        IEnumerator<KeyValuePair<T, K>> IEnumerable<KeyValuePair<T, K>>.GetEnumerator()
+        IEnumerator<LinkedValueNode<T, K>> IEnumerable<LinkedValueNode<T, K>>.GetEnumerator()
         {
             if (_moveNext)
             {

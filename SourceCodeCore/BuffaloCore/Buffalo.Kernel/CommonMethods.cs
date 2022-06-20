@@ -194,7 +194,38 @@ namespace Buffalo.Kernel
         {
             _hostingEnvironment = hostingEnvironment;
         }
-       
+        /// <summary>
+        /// 获取下一个节点
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list">双链表</param>
+        /// <param name="currentNode">当前节点</param>
+        /// <returns></returns>
+        public static LinkedListNode<T> LinkedListNodeMoceNext<T>(LinkedList<T> list, LinkedListNode<T> currentNode)
+        {
+            currentNode = currentNode.Next;
+            if (currentNode == list.First)
+            {
+                return null;
+            }
+            return currentNode;
+        }
+        /// <summary>
+        /// 获取上一个节点
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list">双链表</param>
+        /// <param name="currentNode">当前节点</param>
+        /// <returns></returns>
+        public static LinkedListNode<T> LinkedListNodeMocePrevious<T>(LinkedList<T> list, LinkedListNode<T> currentNode)
+        {
+            currentNode = currentNode.Previous;
+            if (currentNode == list.Last)
+            {
+                return null;
+            }
+            return currentNode;
+        }
 
         /// <summary>
         /// 获取应用程序的基目录
