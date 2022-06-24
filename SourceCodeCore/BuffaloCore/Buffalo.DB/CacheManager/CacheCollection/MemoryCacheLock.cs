@@ -30,12 +30,12 @@ namespace Buffalo.DB.CacheManager.CacheCollection
             UnLock();
         }
 
-        public bool Lock(int millisecondsTimeout=-1)
+        public bool Lock(long millisecondsTimeout = -1, int pollingMillisecond = -1)
         {
             bool ret = false;
             if (millisecondsTimeout > 0)
             {
-                ret = Monitor.TryEnter(_lokObj, millisecondsTimeout);
+                ret = Monitor.TryEnter(_lokObj, (int)millisecondsTimeout);
             }
             else
             {

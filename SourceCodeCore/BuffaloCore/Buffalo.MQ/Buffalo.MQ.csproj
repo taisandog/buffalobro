@@ -2,14 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <Version>1.7.3</Version>
+    <Version>1.7.4</Version>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Confluent.Kafka" Version="1.8.2" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Redis" Version="2.2.0" />
     <PackageReference Include="MQTTnet" Version="3.1.2" />
     <PackageReference Include="RabbitMQ.Client" Version="6.3.0" />
+    <PackageReference Include="StackExchange.Redis" Version="2.6.45" />
   </ItemGroup>
 
   <ItemGroup>

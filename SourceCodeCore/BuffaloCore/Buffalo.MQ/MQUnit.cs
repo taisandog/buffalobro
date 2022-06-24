@@ -68,7 +68,7 @@ namespace Buffalo.MQ
         /// <param name="name">标记唯一的名字</param>
         /// <param name="mqType">队列类型</param>
         /// <param name="connectString">连接字符串</param>
-        public static void SetMQInfo(string name,string mqType,string connectString)
+        public static MQInfoItem SetMQInfo(string name,string mqType,string connectString)
         {
             //if (_dic.ContainsKey(name))
             //{
@@ -77,6 +77,7 @@ namespace Buffalo.MQ
             MQConfigBase config = GetConfig(mqType, connectString);
             MQInfoItem item = new MQInfoItem(name, mqType, config);
             _dic[name]=item;
+            return item;
         }
         /// <summary>
         /// 添加队列信息
@@ -214,7 +215,7 @@ namespace Buffalo.MQ
                 List<MQOffestInfo> lst = new List<MQOffestInfo>();
                 foreach(string key in lsttopicsOffest)
                 {
-                    lst.Add(new MQOffestInfo(key, 0, 0));
+                    lst.Add(new MQOffestInfo(key, 0, 0,null));
                 }
                 return lst;
             }

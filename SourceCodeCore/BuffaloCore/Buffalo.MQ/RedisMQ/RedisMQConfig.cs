@@ -22,6 +22,12 @@ namespace Buffalo.MQ.RedisMQ
         /// </summary>
         Subscriber =1,
     }
+    /// <summary>
+    /// 格式化key的委托
+    /// </summary>
+    /// <param name="key"></param>
+    /// <returns></returns>
+    public delegate string RedisMQFormatKeyHandle(string key);
 
     /// <summary>
     /// Redis配置
@@ -124,6 +130,24 @@ namespace Buffalo.MQ.RedisMQ
             }
         }
 
+        /// <summary>
+        /// 当选择了订阅模式+保存数据到队列时候，自定义格式化队列的key
+        /// </summary>
+        public RedisMQFormatKeyHandle FormatQueueKeyHandle;
+
+        /// <summary>
+        /// 获取队列的默认键
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public string GetDefaultQueueKey(string key)
+        {
+            if (FormatQueueKeyHandle != null) 
+            {
+                return FormatQueueKeyHandle(key);
+            }
+            return BuffaloMQHead + key;
+        }
         public override MQConnection CreateConnection()
         {
             return new RedisMQConnection(this);
