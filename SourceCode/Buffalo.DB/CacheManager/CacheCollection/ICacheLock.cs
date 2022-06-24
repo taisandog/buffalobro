@@ -19,7 +19,7 @@ namespace Buffalo.DB.CacheManager.CacheCollection
         /// 锁定用户  
         /// </summary>
         /// <returns></returns>
-        bool Lock(int millisecondsTimeout = -1);
+        bool Lock(long millisecondsTimeout = -1, int pollingMillisecond =-1);
         /// <summary>
         /// 解锁用户  
         /// </summary>

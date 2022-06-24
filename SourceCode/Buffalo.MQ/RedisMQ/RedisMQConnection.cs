@@ -122,7 +122,7 @@ namespace Buffalo.MQ.RedisMQ
                 if (_config.SaveToQueue)
                 {
 
-                    string key = RedisMQConfig.BuffaloMQHead + routingKey;
+                    string key = _config.GetDefaultQueueKey(routingKey);
                     IDatabase db = GetDB();
                     db.ListLeftPush(key, body);
                     _subscriber.Publish(routingKey, RedisMQConfig.PublicTag, _config.CommanfFlags);
@@ -134,7 +134,7 @@ namespace Buffalo.MQ.RedisMQ
             }
             else 
             {
-                string key = RedisMQConfig.BuffaloMQHead + routingKey;
+                string key = _config.GetDefaultQueueKey(routingKey);
                 IDatabase db = GetDB();
                 db.ListLeftPush(key, body);
             }

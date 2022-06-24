@@ -12,6 +12,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Buffalo.MQ
@@ -26,22 +27,22 @@ namespace Buffalo.MQ
 
         private static ConcurrentDictionary<string, DelCreateConfig> _dicConfigCreate = InitConfigCreate();
 
-        /// <summary>
-        /// 线程变量名
-        /// </summary>
-        private const string Tag = "$*_MQ_Conn&$";
-
+        ///// <summary>
+        ///// 线程变量名
+        ///// </summary>
+        //private const string Tag = "$*_MQ_Conn&$";
+        private static ThreadLocal<Dictionary<string, MQConnection>> _staticConnTable = new ThreadLocal<Dictionary<string, MQConnection>>();
         /// <summary>
         /// 获取本线程变量连接
         /// </summary>
         /// <returns></returns>
         private static Dictionary<string,MQConnection> GetStaticConnTable()
         {
-            Dictionary<string, MQConnection> dic = ContextValue.Current[Tag] as Dictionary<string, MQConnection>;
+            Dictionary<string, MQConnection> dic = _staticConnTable.Value;
             if (dic == null)
             {
                 dic = new Dictionary<string, MQConnection>();
-                ContextValue.Current[Tag] = dic;
+                _staticConnTable.Value = dic;
             }
             return dic;
         }
@@ -67,7 +68,7 @@ namespace Buffalo.MQ
         /// <param name="name">标记唯一的名字</param>
         /// <param name="mqType">队列类型</param>
         /// <param name="connectString">连接字符串</param>
-        public static void SetMQInfo(string name,string mqType,string connectString)
+        public static MQInfoItem SetMQInfo(string name,string mqType,string connectString)
         {
             //if (_dic.ContainsKey(name))
             //{
@@ -76,6 +77,7 @@ namespace Buffalo.MQ
             MQConfigBase config = GetConfig(mqType, connectString);
             MQInfoItem item = new MQInfoItem(name, mqType, config);
             _dic[name]=item;
+            return item;
         }
         /// <summary>
         /// 添加队列信息
@@ -213,7 +215,7 @@ namespace Buffalo.MQ
                 List<MQOffestInfo> lst = new List<MQOffestInfo>();
                 foreach(string key in lsttopicsOffest)
                 {
-                    lst.Add(new MQOffestInfo(key, 0, 0));
+                    lst.Add(new MQOffestInfo(key, 0, 0,null));
                 }
                 return lst;
             }

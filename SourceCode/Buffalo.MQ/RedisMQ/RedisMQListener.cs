@@ -37,6 +37,11 @@ namespace Buffalo.MQ.RedisMQ
         /// 轮询线程
         /// </summary>
         private BlockThreadPool _thdPolling = null;
+
+        /// <summary>
+        /// 主题和队列的对应关系
+        /// </summary>
+        private Dictionary<string, string> _dicTopicToQueue = null;
         /// <summary>
         /// RabbitMQ适配
         /// </summary>
@@ -74,17 +79,37 @@ namespace Buffalo.MQ.RedisMQ
         private void OnRedisCallback(RedisChannel key, RedisValue value)
         {
             string skey = key.ToString();
-            byte[] svalue = (byte[])value;
+            
             if (_config.SaveToQueue)
             {
                 FlushQueue(skey);
             }
             else
             {
-                CallBack(skey, skey, (byte[])value, 0, 0);
+                byte[] svalue = (byte[])value;
+                CallBack(skey, skey, svalue, 0, 0);
             }
         }
 
+        
+        /// <summary>
+        /// 通过话题Key获取队列key
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        private string GetQueueKey(string key) 
+        {
+            if (_dicTopicToQueue == null) 
+            {
+                return _config.GetDefaultQueueKey(key);
+            }
+            string ret = null;
+            if(!_dicTopicToQueue.TryGetValue(key,out ret)) 
+            {
+                return _config.GetDefaultQueueKey(key);
+            }
+            return ret;
+        }
 
         /// <summary>
         /// 读入队列信息
@@ -95,7 +120,7 @@ namespace Buffalo.MQ.RedisMQ
             long count = 0;
             lock (lok)
             {
-                string pkey = RedisMQConfig.BuffaloMQHead + skey;
+                string pkey = GetQueueKey(skey);
                 byte[] svalue = null;
                 IDatabase db = GetDB();
                 RedisValue tmpval = RedisValue.Null;
@@ -124,37 +149,13 @@ namespace Buffalo.MQ.RedisMQ
 
         public override void StartListend(IEnumerable<string> listenKeys)
         {
-            Close();
-            Open();
-
-            ResetWait();
-            if (_config.Mode == RedisMQMessageMode.Subscriber)
+            List<MQOffestInfo> listenKeyInfos = new List<MQOffestInfo>();
+            foreach (string listenKey in listenKeys) 
             {
-                if (_config.SaveToQueue)
-                {
-                    foreach (string lis in listenKeys)
-                    {
-                        FlushQueue(lis);
-                    }
-                }
-
-                _subscriber = _redis.GetSubscriber();
-                foreach (string lis in listenKeys)
-                {
-                    _subscriber.Subscribe(lis, OnRedisCallback, _config.CommanfFlags);
-                    
-                }
-                
+                MQOffestInfo info = new MQOffestInfo(listenKey, 0, 0, _config.GetDefaultQueueKey(listenKey));
+                listenKeyInfos.Add(info);
             }
-            else
-            {
-                _thdPolling =new BlockThreadPool();
-                foreach (string lisKey in listenKeys)
-                {
-                    _thdPolling.RunParamThread(DoListening, lisKey);
-                }
-            }
-            SetWait();
+            StartListend(listenKeyInfos);
         }
 
         /// <summary>
@@ -185,10 +186,59 @@ namespace Buffalo.MQ.RedisMQ
             }
         }
 
+        
 
+        /// <summary>
+        /// 开始监听
+        /// </summary>
+        /// <param name="listenKeys"></param>
         public override void StartListend(IEnumerable<MQOffestInfo> listenKeys)
         {
-            StartListend(MQUnit.GetLintenKeys(listenKeys));
+            Close();
+            Open();
+
+            ResetWait();
+            string queKey = null;
+            if (_config.Mode == RedisMQMessageMode.Subscriber)
+            {
+                _dicTopicToQueue = new Dictionary<string, string>();
+                foreach (MQOffestInfo lis in listenKeys)
+                {
+                    queKey = lis.QueueKey;
+                    if (string.IsNullOrWhiteSpace(queKey)) 
+                    {
+                        queKey= _config.GetDefaultQueueKey(lis.Key);
+                    }
+                    _dicTopicToQueue[lis.Key] = queKey;
+                }
+
+                if (_config.SaveToQueue)
+                {
+                    foreach (MQOffestInfo lis in listenKeys)
+                    {
+                        FlushQueue(lis.Key);
+                    }
+                }
+
+                _subscriber = _redis.GetSubscriber();
+                foreach (MQOffestInfo lis in listenKeys)
+                {
+                    _subscriber.Subscribe(lis.Key, OnRedisCallback, _config.CommanfFlags);
+
+                }
+
+            }
+            else
+            {
+                _thdPolling = new BlockThreadPool();
+                foreach (MQOffestInfo lisKey in listenKeys)
+                {
+                    _thdPolling.RunParamThread(DoListening, lisKey.Key);
+                }
+            }
+            SetWait();
+
+            //StartListend(MQUnit.GetLintenKeys(listenKeys));
         }
         /// <summary>
         /// 关闭连接

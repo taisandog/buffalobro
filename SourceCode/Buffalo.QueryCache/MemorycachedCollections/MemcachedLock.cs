@@ -1,6 +1,6 @@
 ﻿using Buffalo.DB.CacheManager;
 using Buffalo.DB.CacheManager.CacheCollection;
-using Buffalo.Kernel;
+using Buffalo.Kernel.Collections;
 using Enyim.Caching;
 using Enyim.Caching.Memcached;
 using System;
@@ -20,10 +20,7 @@ namespace Buffalo.QueryCache.RedisCollections
         /// 在上下文中的Key
         /// </summary>
         private static readonly string ContextKey = "__!!Obj.Buf.LokKey!__";
-        /// <summary>
-        /// 轮询间隔毫秒
-        /// </summary>
-        private int _pollingMillisecond = 100;
+        
         /// <summary>
         /// 要锁的键
         /// </summary>
@@ -105,7 +102,7 @@ namespace Buffalo.QueryCache.RedisCollections
             }
         }
 
-        public bool Lock(int millisecondsTimeout=-1)
+        public bool Lock(long millisecondsTimeout = -1, int pollingMillisecond = -1)
         {
             if (_islock)
             {
@@ -119,7 +116,7 @@ namespace Buffalo.QueryCache.RedisCollections
             object lok = _lokKey.GetObject(_key) ;
             lock (lok)
             {
-                _islock = LockObject();
+                _islock = LockObject(millisecondsTimeout, pollingMillisecond);
             }
             return _islock;
 
@@ -130,15 +127,23 @@ namespace Buffalo.QueryCache.RedisCollections
         /// </summary>
         /// <param name="id">ID</param>
         /// <returns></returns>
-        private bool LockObject(int millisecondsTimeout = -1)
+        private bool LockObject(long millisecondsTimeout = -1, int pollingMillisecond = -1)
         {
-            int pollingCount = millisecondsTimeout / _pollingMillisecond;
+            if (millisecondsTimeout <= 0) 
+            {
+                millisecondsTimeout = 1000;
+            }
+            if (pollingMillisecond <= 0) 
+            {
+                pollingMillisecond = (int)(millisecondsTimeout/10);
+            }
+            long pollingCount = millisecondsTimeout / pollingMillisecond;
 
             _guidHash = Guid.NewGuid().GetHashCode();
             bool ret = false;
-            int exSecond = (millisecondsTimeout / 1000) + 1;
-            TimeSpan ts = TimeSpan.FromSeconds(exSecond);
-            for (int i = 0; i < pollingCount; i++)
+
+            TimeSpan ts = TimeSpan.FromMilliseconds(millisecondsTimeout);
+            for (long i = 0; i < pollingCount; i++)
             {
                 ret = _client.Store(StoreMode.Add, _key, _guidHash, ts);
                 if (ret)
@@ -146,7 +151,7 @@ namespace Buffalo.QueryCache.RedisCollections
                     HasLock = true;
                     return true;
                 }
-                Thread.Sleep(_pollingMillisecond);
+                Thread.Sleep(pollingMillisecond);
             }
 
             return false;
