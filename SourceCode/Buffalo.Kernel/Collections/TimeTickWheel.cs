@@ -266,8 +266,9 @@ namespace Buffalo.Kernel.Collections
 
             LinkedListNode<T> delNode = null;
             count = queWillDelete.Count;
-            while ((delNode=queWillDelete.Dequeue())!=null)
+            while (queWillDelete.Count>0)
             {
+                delNode = queWillDelete.Dequeue();
                 if (delNode.List != null)
                 {
                     delNode.List.Remove(delNode);
