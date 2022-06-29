@@ -21,7 +21,7 @@ namespace Buffalo.MongoDB.ProxyBase
         public MongoEntityBaseInfo(MongoEntityBase entity)
         {
             _entity = entity;
-            _thisInfo = MongoEntityInfoManager.GetEntityHandle(MCH.GetRealType(entity));
+            _thisInfo = MongoEntityInfoManager.GetEntityHandle(entity.GetType());
         }
 
         /// <summary>
