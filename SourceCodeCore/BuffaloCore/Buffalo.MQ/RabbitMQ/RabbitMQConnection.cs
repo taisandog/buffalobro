@@ -121,7 +121,7 @@ namespace Buffalo.MQ.RabbitMQ
         /// <summary>
         /// 关闭连接
         /// </summary>
-        protected override void Close()
+        public override void Close()
         {
             if (_channel != null)
             {

@@ -82,7 +82,7 @@ namespace Buffalo.MQ.MQTTLib
             return _messageBuilder.Build();
         }
 
-        protected override void Close()
+        public override void Close()
         {
             if (_mqttClient != null)
             {

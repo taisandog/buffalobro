@@ -131,7 +131,7 @@ namespace Buffalo.MQ.KafkaMQ
             }
         }
 
-        protected override void Close()
+        public override void Close()
         {
             if (_producer != null)
             {

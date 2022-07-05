@@ -159,7 +159,7 @@ namespace Buffalo.MQ.RedisMQ
         /// <summary>
         /// 关闭连接
         /// </summary>
-        protected override void Close()
+        public override void Close()
         {
             if (_db != null)
             {
@@ -180,6 +180,7 @@ namespace Buffalo.MQ.RedisMQ
             _subscriber = null;
         }
 
+        
 
 
         protected override APIResault StartTran()

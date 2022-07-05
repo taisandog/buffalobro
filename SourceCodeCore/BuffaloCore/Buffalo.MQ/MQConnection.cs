@@ -41,7 +41,21 @@ namespace Buffalo.MQ
             
         }
 
-       
+        internal bool _isAutoClose=true;
+        /// <summary>
+        /// 是否自动关闭
+        /// </summary>
+        public bool IsAutoClose
+        {
+            get
+            {
+                return _isAutoClose;
+            }
+            set 
+            {
+                _isAutoClose = value;
+            }
+        }
 
         internal bool _isBatch;
         /// <summary>
@@ -185,13 +199,13 @@ namespace Buffalo.MQ
         /// <summary>
         /// 关闭连接
         /// </summary>
-        protected abstract void Close();
+        public abstract void Close();
         /// <summary>
         /// 自动关闭
         /// </summary>
         public void AutoClose()
         {
-            if(!_isBatch && !_isTran)
+            if(!_isBatch && !_isTran && _isAutoClose)
             {
                 Close();
             }
