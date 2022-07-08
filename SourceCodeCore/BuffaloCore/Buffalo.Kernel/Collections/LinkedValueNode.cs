@@ -25,7 +25,7 @@ namespace Buffalo.Kernel.Collections
         public LinkedValueNode(TKey key, TValue value) 
         {
             _kvp = new KeyValuePair<TKey, TValue>(key, value);
-
+            
         }
 
        /// <summary>

@@ -109,7 +109,6 @@ namespace Buffalo.Kernel.TreadPoolManager
             try
             {
                 ConcurrentDictionary<BlockThread,bool> que = _que;
-                Queue<BlockThread> beStop = new Queue<BlockThread>();
                 if (que != null)
                 {
                     BlockThread einfo = null;
@@ -117,18 +116,17 @@ namespace Buffalo.Kernel.TreadPoolManager
                     {
                         einfo = kvp.Key;
                         einfo.SendThreadStop();
-                        beStop.Enqueue(einfo);
                     }
-                    while (beStop.Count > 0)
+                    foreach (KeyValuePair<BlockThread, bool> kvp in que)
                     {
-                        einfo = beStop.Dequeue();
-                        if (einfo==null)
+                        einfo = kvp.Key;
+                        try
                         {
-                            break;
+                            einfo.StopThread();
                         }
-                        einfo.StopThread();
-                        beStop.Enqueue(einfo);
+                        catch { }
                     }
+                    
                 }
                 que.Clear();
             }

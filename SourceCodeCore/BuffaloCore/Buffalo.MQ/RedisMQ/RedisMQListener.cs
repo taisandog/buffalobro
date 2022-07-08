@@ -79,7 +79,7 @@ namespace Buffalo.MQ.RedisMQ
         private void OnRedisCallback(RedisChannel key, RedisValue value)
         {
             string skey = key.ToString();
-            
+
             if (_config.SaveToQueue)
             {
                 FlushQueue(skey);
@@ -91,20 +91,20 @@ namespace Buffalo.MQ.RedisMQ
             }
         }
 
-        
+
         /// <summary>
         /// 通过话题Key获取队列key
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        private string GetQueueKey(string key) 
+        private string GetQueueKey(string key)
         {
-            if (_dicTopicToQueue == null) 
+            if (_dicTopicToQueue == null)
             {
                 return _config.GetDefaultQueueKey(key);
             }
             string ret = null;
-            if(!_dicTopicToQueue.TryGetValue(key,out ret)) 
+            if (!_dicTopicToQueue.TryGetValue(key, out ret))
             {
                 return _config.GetDefaultQueueKey(key);
             }
@@ -137,7 +137,7 @@ namespace Buffalo.MQ.RedisMQ
                         CallBack(skey, skey, svalue, 0, 0);
                         count++;
                     }
-                    catch(Exception ex) 
+                    catch (Exception ex)
                     {
                         OnException(ex);
                     }
@@ -150,7 +150,7 @@ namespace Buffalo.MQ.RedisMQ
         public override void StartListend(IEnumerable<string> listenKeys)
         {
             List<MQOffestInfo> listenKeyInfos = new List<MQOffestInfo>();
-            foreach (string listenKey in listenKeys) 
+            foreach (string listenKey in listenKeys)
             {
                 MQOffestInfo info = new MQOffestInfo(listenKey, 0, 0, _config.GetDefaultQueueKey(listenKey));
                 listenKeyInfos.Add(info);
@@ -169,7 +169,7 @@ namespace Buffalo.MQ.RedisMQ
             {
                 return;
             }
-            _pollrunning = true;
+
             //_pollEvent = new AutoResetEvent(true);
             //_pollEvent.Reset();
             try
@@ -186,7 +186,7 @@ namespace Buffalo.MQ.RedisMQ
             }
         }
 
-        
+
 
         /// <summary>
         /// 开始监听
@@ -205,9 +205,9 @@ namespace Buffalo.MQ.RedisMQ
                 foreach (MQOffestInfo lis in listenKeys)
                 {
                     queKey = lis.QueueKey;
-                    if (string.IsNullOrWhiteSpace(queKey)) 
+                    if (string.IsNullOrWhiteSpace(queKey))
                     {
-                        queKey= _config.GetDefaultQueueKey(lis.Key);
+                        queKey = _config.GetDefaultQueueKey(lis.Key);
                     }
                     _dicTopicToQueue[lis.Key] = queKey;
                 }
@@ -231,6 +231,7 @@ namespace Buffalo.MQ.RedisMQ
             else
             {
                 _thdPolling = new BlockThreadPool();
+                _pollrunning = true;
                 foreach (MQOffestInfo lisKey in listenKeys)
                 {
                     _thdPolling.RunParamThread(DoListening, lisKey.Key);
@@ -245,6 +246,9 @@ namespace Buffalo.MQ.RedisMQ
         /// </summary>
         public override void Close()
         {
+            _pollrunning = false;
+
+
             if (_subscriber != null)
             {
                 try
@@ -256,13 +260,6 @@ namespace Buffalo.MQ.RedisMQ
                     OnException(ex);
                 }
             }
-            _pollrunning = false;
-            if (_thdPolling != null)
-            {
-                _thdPolling.StopAll();
-                Thread.Sleep(100);
-            }
-            _thdPolling = null;
 
             _subscriber = null;
             if (_redis != null)
@@ -279,6 +276,12 @@ namespace Buffalo.MQ.RedisMQ
             }
             _redis = null;
             _db = null;
+            if (_thdPolling != null)
+            {
+                _thdPolling.StopAll();
+                Thread.Sleep(100);
+            }
+            _thdPolling = null;
             DisponseWait();
         }
 

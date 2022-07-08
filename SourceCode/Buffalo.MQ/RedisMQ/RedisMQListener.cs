@@ -169,7 +169,7 @@ namespace Buffalo.MQ.RedisMQ
             {
                 return;
             }
-            _pollrunning = true;
+            
             //_pollEvent = new AutoResetEvent(true);
             //_pollEvent.Reset();
             try
@@ -231,6 +231,7 @@ namespace Buffalo.MQ.RedisMQ
             else
             {
                 _thdPolling = new BlockThreadPool();
+                _pollrunning = true;
                 foreach (MQOffestInfo lisKey in listenKeys)
                 {
                     _thdPolling.RunParamThread(DoListening, lisKey.Key);
@@ -245,6 +246,9 @@ namespace Buffalo.MQ.RedisMQ
         /// </summary>
         public override void Close()
         {
+            _pollrunning = false;
+
+
             if (_subscriber != null)
             {
                 try
@@ -256,13 +260,6 @@ namespace Buffalo.MQ.RedisMQ
                     OnException(ex);
                 }
             }
-            _pollrunning = false;
-            if (_thdPolling != null)
-            {
-                _thdPolling.StopAll();
-                Thread.Sleep(100);
-            }
-            _thdPolling = null;
 
             _subscriber = null;
             if (_redis != null)
@@ -279,6 +276,12 @@ namespace Buffalo.MQ.RedisMQ
             }
             _redis = null;
             _db = null;
+            if (_thdPolling != null)
+            {
+                _thdPolling.StopAll();
+                Thread.Sleep(100);
+            }
+            _thdPolling = null;
             DisponseWait();
         }
 
