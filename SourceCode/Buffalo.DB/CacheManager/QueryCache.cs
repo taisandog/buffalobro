@@ -183,7 +183,7 @@ namespace Buffalo.DB.CacheManager
         /// <param name="lstParam">变量集合</param>
         /// <returns></returns>
         public bool SetDataSet(DataSet ds, IDictionary<string, bool> tables,
-            string sql, ParamList lstParam, int expirSeconds, DataBaseOperate oper)
+            string sql, ParamList lstParam, TimeSpan expir, DataBaseOperate oper)
         {
             if (_cache == null)
             {
@@ -193,7 +193,7 @@ namespace Buffalo.DB.CacheManager
             sbSql.Append(sql);
             sbSql.Append(";");
             sbSql.Append(lstParam.GetParamString(_db,oper));
-            return _cache.SetData(tables, sbSql.ToString(), ds, expirSeconds, oper);
+            return _cache.SetData(tables, sbSql.ToString(), ds, expir, oper);
             
         }
         /// <summary>
@@ -206,7 +206,7 @@ namespace Buffalo.DB.CacheManager
         public bool SetDataSet(DataSet ds, IDictionary<string, bool> tables,
             string sql, ParamList lstParam, DataBaseOperate oper)
         {
-            return SetDataSet(ds,tables,sql,lstParam,-1,oper);
+            return SetDataSet(ds,tables,sql,lstParam,TimeSpan.MinValue,oper);
         }
         /// <summary>
         /// 获取所有键
@@ -409,9 +409,9 @@ namespace Buffalo.DB.CacheManager
         /// <param name="key">键</param>
         /// <param name="expirSeconds">过期时间(秒)</param>
         /// <returns></returns>
-        public bool SetKeyExpire(string key, int expirSeconds)
+        public bool SetKeyExpire(string key, TimeSpan expir)
         {
-            return _cache.SetKeyExpire(key, expirSeconds, _db.DefaultOperate);
+            return _cache.SetKeyExpire(key, expir, _db.DefaultOperate);
         }
         /// <summary>
         /// 清空所有缓存值
@@ -429,7 +429,7 @@ namespace Buffalo.DB.CacheManager
         /// <returns>是否设置成功</returns>
         public bool SetValue<E>(string key, E value) 
         {
-            return _cache.SetValue<E>(key,value,SetValueType.Set,-1, _db.DefaultOperate);
+            return _cache.SetValue<E>(key,value,SetValueType.Set,TimeSpan.MinValue, _db.DefaultOperate);
         }
         /// <summary>
         /// 设置值
@@ -439,9 +439,9 @@ namespace Buffalo.DB.CacheManager
         /// <param name="value">值</param>
         /// <param name="type">设置值方式</param>
         /// <returns>是否设置成功</returns>
-        public bool SetValue<E>(string key, E value, SetValueType type, int expirSeconds)
+        public bool SetValue<E>(string key, E value, SetValueType type, TimeSpan expir)
         {
-            return _cache.SetValue<E>(key, value,type, expirSeconds, _db.DefaultOperate);
+            return _cache.SetValue<E>(key, value,type, expir, _db.DefaultOperate);
         }
         /// <summary>
         /// 设置值
@@ -451,9 +451,9 @@ namespace Buffalo.DB.CacheManager
         /// <param name="value">值</param>
         /// <param name="type">设置值方式</param>
         /// <returns>是否设置成功</returns>
-        public bool SetValue(string key, object value,SetValueType type, int expirSeconds)
+        public bool SetValue(string key, object value,SetValueType type, TimeSpan expir)
         {
-            return _cache.SetValue(key, value,type, expirSeconds, _db.DefaultOperate);
+            return _cache.SetValue(key, value,type, expir, _db.DefaultOperate);
         }
         /// <summary>
         /// 设置值
@@ -463,7 +463,7 @@ namespace Buffalo.DB.CacheManager
         /// <returns>是否设置成功</returns>
         public bool SetValue(string key, object value)
         {
-            return _cache.SetValue(key, value,SetValueType.Set, -1, _db.DefaultOperate);
+            return _cache.SetValue(key, value,SetValueType.Set, TimeSpan.MinValue, _db.DefaultOperate);
         }
 
         
@@ -547,7 +547,7 @@ namespace Buffalo.DB.CacheManager
         /// <returns></returns>
         public bool SetEntity(string key, EntityBase enity)
         {
-            return SetEntity(key, -1, enity);
+            return SetEntity(key, TimeSpan.MinValue, enity);
         }
         /// <summary>
         /// 保存实体
@@ -555,11 +555,11 @@ namespace Buffalo.DB.CacheManager
         /// <param name="key">键</param>
         /// <param name="enity">实体</param>
         /// <returns></returns>
-        public bool SetEntity(string key, int expirSeconds, EntityBase enity)
+        public bool SetEntity(string key, TimeSpan expir, EntityBase enity)
         {
             ArrayList lstEntity = new ArrayList();
             lstEntity.Add(enity);
-            return SetList(key, expirSeconds, lstEntity);
+            return SetList(key, expir, lstEntity);
         }
         /// <summary>
         /// 获取集合
@@ -587,9 +587,9 @@ namespace Buffalo.DB.CacheManager
         ///  <param name="expirSeconds">过期时间</param>
         /// <param name="lstEntiity">实体集合</param>
         /// <returns></returns>
-        public bool SetList(string key, int expirSeconds, IList lstEntiity)
+        public bool SetList(string key, TimeSpan expir, IList lstEntiity)
         {
-            return _cache.SetEntityList(key,lstEntiity,expirSeconds, _db.DefaultOperate);
+            return _cache.SetEntityList(key,lstEntiity, expir, _db.DefaultOperate);
         }
         /// <summary>
         /// 设置集合
@@ -600,7 +600,7 @@ namespace Buffalo.DB.CacheManager
         /// <returns></returns>
         public bool SetList(string key, IList lstEntiity)
         {
-            return _cache.SetEntityList(key, lstEntiity, -1, _db.DefaultOperate);
+            return _cache.SetEntityList(key, lstEntiity, TimeSpan.MinValue, _db.DefaultOperate);
         }
 
         /// <summary>

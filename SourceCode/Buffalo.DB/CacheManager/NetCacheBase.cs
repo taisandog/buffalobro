@@ -78,11 +78,11 @@ namespace Buffalo.DB.CacheManager
         /// <param name="key"></param>
         /// <param name="expirSeconds"></param>
         /// <returns></returns>
-        public bool SetKeyExpire(string key, int expirSeconds, DataBaseOperate oper) 
+        public bool SetKeyExpire(string key, TimeSpan expir, DataBaseOperate oper) 
         {
             using (T client = CreateClient(false, QueryCacheCommand.CommandSetValues))
             {
-                return DoSetKeyExpire(key, expirSeconds, client);
+                return DoSetKeyExpire(key, expir, client);
             }
         }
 
@@ -209,7 +209,7 @@ namespace Buffalo.DB.CacheManager
         /// <param name="key"></param>
         /// <param name="expirSeconds"></param>
         /// <returns></returns>
-        public abstract bool DoSetKeyExpire(string key, int expirSeconds, T client);
+        public abstract bool DoSetKeyExpire(string key, TimeSpan expir, T client);
         /// <summary>
         /// 获取值
         /// </summary>
@@ -252,7 +252,7 @@ namespace Buffalo.DB.CacheManager
         /// <param name="expirSeconds">超时秒数</param>
         /// <param name="client">客户端</param>
         /// <returns></returns>
-        protected abstract bool SetValue<E>(string key, E value, SetValueType type, int expirSeconds, T client);
+        protected abstract bool SetValue<E>(string key, E value, SetValueType type, TimeSpan expir, T client);
         /// <summary>
         /// 设置值
         /// </summary>
@@ -262,7 +262,7 @@ namespace Buffalo.DB.CacheManager
         /// <param name="expirSeconds">超时秒数</param>
         /// <param name="client">客户端</param>
         /// <returns></returns>
-        protected abstract bool SetValue(string key, object value, SetValueType type, int expirSeconds, T client);
+        protected abstract bool SetValue(string key, object value, SetValueType type, TimeSpan expir, T client);
         /// <summary>
         /// 获取DataSet
         /// </summary>
@@ -277,7 +277,7 @@ namespace Buffalo.DB.CacheManager
         /// <param name="value">DataSet</param>
         /// <param name="client">客户端</param>
         /// <returns></returns>
-        protected abstract bool DoSetDataSet(string key, DataSet value, int expirSeconds, T client);
+        protected abstract bool DoSetDataSet(string key, DataSet value, TimeSpan expir, T client);
         /// <summary>
         /// 删除值
         /// </summary>
@@ -326,7 +326,7 @@ namespace Buffalo.DB.CacheManager
         /// <param name="lstEntity"></param>
         /// <param name="oper"></param>
         /// <returns></returns>
-        public abstract bool DoSetEntityList(string key, System.Collections.IList lstEntity, int expirSeconds, T client);
+        public abstract bool DoSetEntityList(string key, System.Collections.IList lstEntity, TimeSpan expir, T client);
 
         /// <summary>
         /// 获取值
@@ -584,7 +584,7 @@ namespace Buffalo.DB.CacheManager
         /// <param name="sql"></param>
         /// <param name="ds"></param>
         /// <returns></returns>
-        public bool SetData(IDictionary<string, bool> tableNames, string sql, System.Data.DataSet ds, int expirSeconds, DataBaseOperate oper)
+        public bool SetData(IDictionary<string, bool> tableNames, string sql, System.Data.DataSet ds, TimeSpan expir, DataBaseOperate oper)
         {
             try
             {
@@ -690,14 +690,14 @@ namespace Buffalo.DB.CacheManager
         /// <param name="type">设置值方式</param>
         /// <param name="expirSeconds">过期时间(-1为默认)</param>
         /// <param name="oper">连接</param>
-        public bool SetValue<E>(string key, E value,SetValueType type, int expirSeconds, DataBaseOperate oper)
+        public bool SetValue<E>(string key, E value,SetValueType type, TimeSpan expir, DataBaseOperate oper)
         {
             bool ret = false;
             try
             {
                 using (T client = CreateClient(false, QueryCacheCommand.CommandSetValues))
                 {
-                    ret = SetValue<E>(key, value,type,expirSeconds, client);
+                    ret = SetValue<E>(key, value,type, expir, client);
                     if (_info.SqlOutputer.HasOutput)
                     {
                         OutPutMessage(QueryCacheCommand.CommandSetValues, "key="+key, oper);
@@ -728,14 +728,14 @@ namespace Buffalo.DB.CacheManager
         /// <param name="value">值</param>
         /// <param name="expirSeconds">过期时间(-1为默认)</param>
         /// <param name="oper">连接</param>
-        public bool SetValue(string key, object value,SetValueType type, int expirSeconds, DataBaseOperate oper)
+        public bool SetValue(string key, object value,SetValueType type, TimeSpan expir, DataBaseOperate oper)
         {
             bool ret = false;
             try
             {
                 using (T client = CreateClient(false, QueryCacheCommand.CommandSetValues))
                 {
-                    ret = SetValue(key, value,type, expirSeconds, client);
+                    ret = SetValue(key, value,type, expir, client);
                     if (_info.SqlOutputer.HasOutput)
                     {
                         OutPutMessage(QueryCacheCommand.CommandSetValues, "key=" + key, oper);
@@ -870,14 +870,14 @@ namespace Buffalo.DB.CacheManager
         /// <param name="sql"></param>
         /// <param name="ds"></param>
         /// <returns></returns>
-        public bool SetEntityList(string key, IList lst, int expirSeconds, DataBaseOperate oper)
+        public bool SetEntityList(string key, IList lst, TimeSpan expir, DataBaseOperate oper)
         {
             try
             {
                 using (T client = CreateClient(false, QueryCacheCommand.CommandSetList))
                 {
 
-                    bool ret = DoSetEntityList(key, lst, expirSeconds, client);
+                    bool ret = DoSetEntityList(key, lst, expir, client);
                     if (_info.SqlOutputer.HasOutput)
                     {
                         OutPutMessage(QueryCacheCommand.CommandSetList, "key=" + key, oper);

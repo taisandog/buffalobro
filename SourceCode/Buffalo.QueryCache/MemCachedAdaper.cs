@@ -188,7 +188,10 @@ namespace Buffalo.QueryCache
             {
                 _expiration = TimeSpan.FromMinutes(mins);
             }
-
+            else 
+            {
+                _expiration = TimeSpan.MinValue;
+            }
 
             _config.SocketPool.ReceiveTimeout = new TimeSpan(0, 0, 2);
             _config.SocketPool.DeadTimeout = new TimeSpan(0, 0, 10);
@@ -216,13 +219,9 @@ namespace Buffalo.QueryCache
             return ValueConvertExtend.ConvertValue<E>(val, defaultValue);
         }
 
-        protected override bool SetValue<E>(string key, E value, SetValueType type, int expirSeconds, MemcachedConnection client)
+        protected override bool SetValue<E>(string key, E value, SetValueType type, TimeSpan expir, MemcachedConnection client)
         {
-            TimeSpan ts = _expiration;
-            if (expirSeconds > 0)
-            {
-                ts = TimeSpan.FromSeconds(expirSeconds);
-            }
+            TimeSpan ts = LocalCacheBase.GetExpir(_expiration, expir);
 
             if (ts > TimeSpan.MinValue)
             {
@@ -422,13 +421,9 @@ namespace Buffalo.QueryCache
     
 
         #endregion
-        protected override bool DoSetDataSet(string key, DataSet value, int expirSeconds, MemcachedConnection client)
+        protected override bool DoSetDataSet(string key, DataSet value, TimeSpan expir, MemcachedConnection client)
         {
-            TimeSpan ts = _expiration;
-            if (expirSeconds > 0)
-            {
-                ts = TimeSpan.FromSeconds(expirSeconds);
-            }
+            TimeSpan ts = LocalCacheBase.GetExpir(_expiration, expir);
 
             byte[] bval = MemDataSerialize.DataSetToBytes(value);
             if (ts > TimeSpan.MinValue)
@@ -517,13 +512,9 @@ namespace Buffalo.QueryCache
             }
         }
 
-        public override bool DoSetEntityList(string key, System.Collections.IList lstEntity, int expirSeconds, MemcachedConnection client)
+        public override bool DoSetEntityList(string key, System.Collections.IList lstEntity, TimeSpan expir, MemcachedConnection client)
         {
-            TimeSpan ts = _expiration;
-            if (expirSeconds > 0)
-            {
-                ts = TimeSpan.FromSeconds(expirSeconds);
-            }
+            TimeSpan ts = LocalCacheBase.GetExpir(_expiration, expir);
             byte[] bval = MemDataSerialize.ListToBytes(lstEntity);
 
             if (ts > TimeSpan.MinValue)
@@ -553,13 +544,9 @@ namespace Buffalo.QueryCache
             return client.Client.Get(key);
         }
 
-        protected override bool SetValue(string key, object value, SetValueType type, int expirSeconds, MemcachedConnection client)
+        protected override bool SetValue(string key, object value, SetValueType type, TimeSpan expir, MemcachedConnection client)
         {
-            TimeSpan ts = _expiration;
-            if (expirSeconds > 0)
-            {
-                ts = TimeSpan.FromSeconds(expirSeconds);
-            }
+            TimeSpan ts = LocalCacheBase.GetExpir(_expiration, expir);
 
             if (ts > TimeSpan.MinValue)
             {
@@ -615,7 +602,7 @@ namespace Buffalo.QueryCache
             throw new NotSupportedException("Memcached不支持SortedSet表");
         }
 
-        public override bool DoSetKeyExpire(string key, int expirSeconds, MemcachedConnection client)
+        public override bool DoSetKeyExpire(string key, TimeSpan expir, MemcachedConnection client)
         {
             return true;
         }

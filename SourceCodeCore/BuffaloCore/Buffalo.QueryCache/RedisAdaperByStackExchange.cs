@@ -173,7 +173,7 @@ namespace Buffalo.QueryCache
             {
                 if (!double.TryParse(expirStr, out seconds))
                 {
-                    throw new ArgumentException("数据保存秒钟数必须是0-" + int.MaxValue + "的值");
+                    throw new ArgumentException("数据保存秒钟数必须是0-"+ int.MaxValue + "的值");
                 }
                 if (seconds < 0 || seconds > int.MaxValue)
                 {
@@ -202,7 +202,11 @@ namespace Buffalo.QueryCache
                 }
 
             }
-            _options.SyncTimeout = configs.GetDicValue<string, string>("syncTimeout").ConvertTo<int>(1000);
+            string ssyncTimeout = configs.GetDicValue<string, string>("syncTimeout");
+            if (!string.IsNullOrWhiteSpace(ssyncTimeout))
+            {
+                _options.SyncTimeout = ssyncTimeout.ConvertTo<int>(5000);
+            }
             _serverCount = servers.Count;
             _commanfFlags = (CommandFlags)configs.GetDicValue<string, string>("commanfFlags").ConvertTo<int>((int)CommandFlags.None);
             _db= configs.GetDicValue<string, string>("database").ConvertTo<int>(0);
@@ -270,21 +274,18 @@ namespace Buffalo.QueryCache
 
 
 
-        protected override bool SetValue<E>(string key, E value, SetValueType type, int expirSeconds, RedisConnection connection)
+        protected override bool SetValue<E>(string key, E value, SetValueType type, TimeSpan expir, RedisConnection connection)
         {
             IDatabase client = connection.DB;
-            TimeSpan ts = _expiration;
-            if (expirSeconds > 0)
-            {
-                ts = TimeSpan.FromSeconds(expirSeconds);
-            }
+            TimeSpan ts =LocalCacheBase.GetExpir(_expiration, expir);
+            
             RedisValue val = RedisConverter.ValueToRedisValue(value);
             When when = GetSetValueMode(type);
             if (ts > TimeSpan.MinValue)
             {
                 return client.StringSet(key, val, ts, when, _commanfFlags);
             }
-
+            
             return client.StringSet(key, val,null, when, _commanfFlags);
         }
 
@@ -300,15 +301,11 @@ namespace Buffalo.QueryCache
             }
         }
 
-        protected override bool DoSetDataSet(string key, DataSet value, int expirSeconds, RedisConnection connection)
+        protected override bool DoSetDataSet(string key, DataSet value, TimeSpan expir, RedisConnection connection)
         {
             IDatabase client = connection.DB;
             byte[] bval = MemDataSerialize.DataSetToBytes(value);
-            TimeSpan ts = _expiration;
-            if (expirSeconds > 0)
-            {
-                ts = TimeSpan.FromSeconds(expirSeconds);
-            }
+            TimeSpan ts = LocalCacheBase.GetExpir(_expiration, expir);
             RedisValue val = RedisConverter.ValueToRedisValue(bval);
             if (ts > TimeSpan.MinValue)
             {
@@ -421,14 +418,10 @@ namespace Buffalo.QueryCache
 
        
 
-        public override bool DoSetKeyExpire(string key, int expirSeconds, RedisConnection connection)
+        public override bool DoSetKeyExpire(string key, TimeSpan expir, RedisConnection connection)
         {
             IDatabase client = connection.DB;
-            TimeSpan ts = _expiration;
-            if (expirSeconds > 0)
-            {
-                ts = TimeSpan.FromSeconds(expirSeconds);
-            }
+            TimeSpan ts = LocalCacheBase.GetExpir(_expiration, expir);
             return client.KeyExpire(key, ts, _commanfFlags);
         }
 
@@ -448,14 +441,10 @@ namespace Buffalo.QueryCache
             }
         }
 
-        public override bool DoSetEntityList(string key, System.Collections.IList lstEntity, int expirSeconds, RedisConnection connection)
+        public override bool DoSetEntityList(string key, System.Collections.IList lstEntity, TimeSpan expir, RedisConnection connection)
         {
             IDatabase client = connection.DB;
-            TimeSpan ts = _expiration;
-            if (expirSeconds > 0)
-            {
-                ts = TimeSpan.FromSeconds(expirSeconds);
-            }
+            TimeSpan ts = LocalCacheBase.GetExpir(_expiration, expir);
             byte[] bval = MemDataSerialize.ListToBytes(lstEntity);
 
             if (ts > TimeSpan.MinValue)
@@ -489,14 +478,10 @@ namespace Buffalo.QueryCache
             return ret;
         }
 
-        protected override bool SetValue(string key, object value, SetValueType type, int expirSeconds, RedisConnection connection)
+        protected override bool SetValue(string key, object value, SetValueType type, TimeSpan expir, RedisConnection connection)
         {
             IDatabase client = connection.DB;
-            TimeSpan ts = _expiration;
-            if (expirSeconds > 0)
-            {
-                ts = TimeSpan.FromSeconds(expirSeconds);
-            }
+            TimeSpan ts = LocalCacheBase.GetExpir(_expiration, expir);
             RedisValue val = RedisConverter.ValueToRedisValue(value);
             if (ts > TimeSpan.MinValue)
             {

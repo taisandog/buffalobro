@@ -68,7 +68,7 @@ namespace Buffalo.DB.CacheManager
         /// <param name="sql">SQLÃû</param>
         /// <param name="dt">Êý¾Ý</param>
         /// <returns></returns>
-        public bool SetData(IDictionary<string, bool> tableNames, string sql, DataSet ds, int expirSeconds, DataBaseOperate oper) 
+        public bool SetData(IDictionary<string, bool> tableNames, string sql, DataSet ds, TimeSpan expir, DataBaseOperate oper) 
         {
             string key = GetKey(sql);
             ArrayList sqlItems = null;
@@ -227,7 +227,7 @@ namespace Buffalo.DB.CacheManager
             return dic;
         }
 
-        public bool SetValue<E>(string key, E value,SetValueType type, int expirSeconds, DataBaseOperate oper)
+        public bool SetValue<E>(string key, E value,SetValueType type, TimeSpan expir, DataBaseOperate oper)
         {
             switch (type)
             {
@@ -304,7 +304,7 @@ namespace Buffalo.DB.CacheManager
             return _cache[key] as IList;
         }
 
-        public bool SetEntityList(string key, IList lstEntity, int expirSeconds, DataBaseOperate oper)
+        public bool SetEntityList(string key, IList lstEntity, TimeSpan expir, DataBaseOperate oper)
         {
             _cache[key] = lstEntity;
             return true;
@@ -411,7 +411,7 @@ namespace Buffalo.DB.CacheManager
         {
             return _cache.ContainsKey(key);
         }
-        public bool SetValue(string key, object value,SetValueType type, int expirSeconds, DataBaseOperate oper)
+        public bool SetValue(string key, object value,SetValueType type, TimeSpan expir, DataBaseOperate oper)
         {
             switch (type)
             {
@@ -475,7 +475,7 @@ namespace Buffalo.DB.CacheManager
         //    return ret;
         //}
 
-        public bool SetKeyExpire(string key, int expirSeconds, DataBaseOperate oper)
+        public bool SetKeyExpire(string key, TimeSpan expir, DataBaseOperate oper)
         {
             return true;
         }

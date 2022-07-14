@@ -51,6 +51,7 @@ namespace Buffalo.QueryCache.RedisCollections
                 return _client.ListRightPush(_key, val, when, _commanfFlags);
             }
             _client.ListSetByIndex(_key, index, val, _commanfFlags);
+            
             return 1;
         }
 

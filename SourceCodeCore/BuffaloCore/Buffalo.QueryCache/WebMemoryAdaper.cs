@@ -154,7 +154,7 @@ namespace Buffalo.QueryCache
         /// <param name="sql">SQL名</param>
         /// <param name="dt">数据</param>
         /// <returns></returns>
-        public bool SetData(IDictionary<string, bool> tableNames, string sql, DataSet ds, int expirSeconds, DataBaseOperate oper)
+        public bool SetData(IDictionary<string, bool> tableNames, string sql, DataSet ds, TimeSpan expir, DataBaseOperate oper)
         {
             string key = GetKey(sql);
             ArrayList sqlItems = null;
@@ -180,7 +180,7 @@ namespace Buffalo.QueryCache
             }
             
 
-            DoSetValue<DataSet>(key, ds, expirSeconds);
+            DoSetValue<DataSet>(key, ds, expir);
 
 
             return true;
@@ -194,13 +194,9 @@ namespace Buffalo.QueryCache
         /// <param name="value"></param>
         /// <param name="expirSeconds"></param>
         /// <returns></returns>
-        private E DoSetValue<E>(string key,E value,  int expirSeconds)
+        private E DoSetValue<E>(string key,E value, TimeSpan expir)
         {
-            TimeSpan ts = _expiration;
-            if (expirSeconds > 0)
-            {
-                ts = TimeSpan.FromSeconds(expirSeconds);
-            }
+            TimeSpan ts = LocalCacheBase.GetExpir(_expiration, expir);
             if (ts > TimeSpan.MinValue)
             {
                 return _curCache.Set<E>(key, value, ts);
@@ -342,7 +338,7 @@ namespace Buffalo.QueryCache
 
             return ValueConvertExtend.ConvertValue<E>(val);
         }
-        public bool SetValue<E>(string key, E value, SetValueType type, int expirSeconds, DataBaseOperate oper)
+        public bool SetValue<E>(string key, E value, SetValueType type,TimeSpan expir, DataBaseOperate oper)
         {
             //_cache[key] = value;
             
@@ -368,7 +364,7 @@ namespace Buffalo.QueryCache
                     default:
                         break;
                 }
-                DoSetValue<E>(key, value, expirSeconds);
+                DoSetValue<E>(key, value, expir);
             }
             return true;
         }
@@ -400,7 +396,7 @@ namespace Buffalo.QueryCache
                 }
                 long value = ValueConvertExtend.ConvertValue<long>(oval);
                 value += (long)inc;
-                DoSetValue<long>(key, value, 0);
+                DoSetValue<long>(key, value, TimeSpan.MinValue);
                 return value;
             }
         }
@@ -416,7 +412,7 @@ namespace Buffalo.QueryCache
                 }
                 long value = ValueConvertExtend.ConvertValue<long>(oval);
                 value -= (long)dec;
-                DoSetValue<long>(key, value, 0);
+                DoSetValue<long>(key, value, TimeSpan.MinValue);
                 return value;
             }
         }
@@ -432,14 +428,10 @@ namespace Buffalo.QueryCache
             return CurCache.Get(key) as IList;
         }
 
-        public bool SetEntityList(string key, IList lstEntity, int expirSeconds, DataBaseOperate oper)
+        public bool SetEntityList(string key, IList lstEntity,TimeSpan expir, DataBaseOperate oper)
         {
             //_cache[key] = lstEntity;
-            TimeSpan ts = _expiration;
-            if (expirSeconds > 0)
-            {
-                ts = TimeSpan.FromSeconds(expirSeconds);
-            }
+            TimeSpan ts = LocalCacheBase.GetExpir(_expiration, expir);
 
             if (ts > TimeSpan.MinValue)
             {
@@ -481,18 +473,14 @@ namespace Buffalo.QueryCache
             return _curCache.TryGetValue(key, out _);
         }
 
-        public bool SetValue(string key, object value, SetValueType type, int expirSeconds, DataBaseOperate oper)
+        public bool SetValue(string key, object value, SetValueType type,TimeSpan expir, DataBaseOperate oper)
         {
-            return SetValue<object>(key, value, type, expirSeconds, oper);
+            return SetValue<object>(key, value, type, expir, oper);
         }
 
-        public bool SetKeyExpire(string key, int expirSeconds, DataBaseOperate oper)
+        public bool SetKeyExpire(string key,TimeSpan expir, DataBaseOperate oper)
         {
-            TimeSpan ts = _expiration;
-            if (expirSeconds > 0)
-            {
-                ts = TimeSpan.FromSeconds(expirSeconds);
-            }
+            TimeSpan ts = LocalCacheBase.GetExpir(_expiration, expir);
             object obj = CurCache.Get(key);
             if (obj == null) 
             {

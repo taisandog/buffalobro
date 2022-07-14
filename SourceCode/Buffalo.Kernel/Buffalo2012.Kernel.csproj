@@ -63,7 +63,6 @@
     <Compile Include="Collections\LinkedDictionaryEnumerator.cs" />
     <Compile Include="Collections\LinkedValueNode.cs" />
     <Compile Include="Collections\LockObjects.cs" />
-    <Compile Include="Collections\TimeTickWheel.cs" />
     <Compile Include="CommonMethods.cs" />
     <Compile Include="ConnStringFilter.cs" />
     <Compile Include="ContextValue.cs" />

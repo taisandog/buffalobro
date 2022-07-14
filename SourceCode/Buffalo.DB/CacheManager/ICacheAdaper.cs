@@ -13,13 +13,13 @@ namespace Buffalo.DB.CacheManager
         System.Data.DataSet GetData(IDictionary<string,bool> tableNames,string sql,DataBaseOperate oper);
         void RemoveBySQL(IDictionary<string, bool> tableNames, string sql, DataBaseOperate oper);
         void RemoveByTableName(string tableName, DataBaseOperate oper);
-        bool SetData(IDictionary<string, bool> tableNames, string sql, System.Data.DataSet ds, int expirSeconds, DataBaseOperate oper);
+        bool SetData(IDictionary<string, bool> tableNames, string sql, System.Data.DataSet ds, TimeSpan expir, DataBaseOperate oper);
         DBInfo Info{get;}
 
         IList GetEntityList(string key, Type entityType, DataBaseOperate oper);
 
 
-        bool SetEntityList(string key, IList lstEntity, int expirSeconds, DataBaseOperate oper);
+        bool SetEntityList(string key, IList lstEntity, TimeSpan expir, DataBaseOperate oper);
 
         /// <summary>
         /// 获取值
@@ -49,9 +49,9 @@ namespace Buffalo.DB.CacheManager
         /// <param name="value">值</param>
         /// <param name="type">设置值方式</param>
         /// <param name="oper">连接</param>
-        /// <param name="expirSeconds">过期时间</param>
+        /// <param name="expir">过期时间</param>
         /// <returns></returns>
-        bool SetValue<E>(string key, E value, SetValueType type, int expirSeconds, DataBaseOperate oper);
+        bool SetValue<E>(string key, E value, SetValueType type, TimeSpan expir, DataBaseOperate oper);
         /// <summary>
         /// 设置值
         /// </summary>
@@ -59,9 +59,9 @@ namespace Buffalo.DB.CacheManager
         /// <param name="value">值</param>
         /// <param name="type">设置值方式</param>
         /// <param name="oper">连接</param>
-        /// <param name="expirSeconds">过期时间</param>
+        /// <param name="expir">过期时间</param>
         /// <returns></returns>
-        bool SetValue(string key, object value, SetValueType type, int expirSeconds, DataBaseOperate oper);
+        bool SetValue(string key, object value, SetValueType type, TimeSpan expir, DataBaseOperate oper);
         /// <summary>
         /// Key是否存在
         /// </summary>
@@ -75,7 +75,7 @@ namespace Buffalo.DB.CacheManager
         /// <param name="key"></param>
         /// <param name="expirSeconds"></param>
         /// <returns></returns>
-        bool SetKeyExpire(string key, int expirSeconds, DataBaseOperate oper);
+        bool SetKeyExpire(string key, TimeSpan expir, DataBaseOperate oper);
         /// <summary>
         /// 清空缓存
         /// </summary>
