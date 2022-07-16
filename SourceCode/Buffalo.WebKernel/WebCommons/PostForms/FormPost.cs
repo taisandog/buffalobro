@@ -29,10 +29,10 @@ namespace Buffalo.WebKernel.WebCommons.PostForms
         /// </summary>
         public PostHead RequestHead
         {
-            get 
+            get
             {
-               
-                return _requestHead; 
+
+                return _requestHead;
             }
             set { _requestHead = value; }
         }
@@ -43,8 +43,8 @@ namespace Buffalo.WebKernel.WebCommons.PostForms
             _requestHead = PostHead.CreateHeader();
         }
 
-        
-        
+
+
         /// <summary>
         /// 发送数据
         /// </summary>
@@ -56,7 +56,7 @@ namespace Buffalo.WebKernel.WebCommons.PostForms
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(actionUrl);
 
-            PostData(request,RequestHead, prms, files);
+            PostData(request, RequestHead, prms, files);
 
             HttpWebResponse rep = request.GetResponse() as HttpWebResponse;
 
@@ -72,18 +72,9 @@ namespace Buffalo.WebKernel.WebCommons.PostForms
         /// <param name="prms">发送数据的字段和值</param>
         /// <param name="files">要发送的文件</param>
         /// <returns></returns>
-        public String Post(String actionUrl, string prms)
+        public String Post(String actionUrl, string sdata)
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(actionUrl);
-
-            Post(request, RequestHead, prms);
-
-            HttpWebResponse rep = request.GetResponse() as HttpWebResponse;
-
-            using (StreamReader reader = GetStreamReader(rep, RequestHead.PageEncoding))
-            {
-                return reader.ReadToEnd();
-            }
+            return Post(actionUrl, PostHead.DefaultEncoding.GetBytes(sdata));
         }
         /// <summary>
         /// 发送数据
@@ -92,11 +83,32 @@ namespace Buffalo.WebKernel.WebCommons.PostForms
         /// <param name="prms">发送数据的字段和值</param>
         /// <param name="files">要发送的文件</param>
         /// <returns></returns>
-        public Stream PostDataStream(String actionUrl, IDictionary<string, string> prms, FormFile[] files)
+        public String Post(String actionUrl, byte[] data)
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(actionUrl);
 
-            PostData(request,RequestHead, prms, files);
+            Post(request, RequestHead, data);
+
+            HttpWebResponse rep = request.GetResponse() as HttpWebResponse;
+
+            using (StreamReader reader = GetStreamReader(rep, RequestHead.PageEncoding))
+            {
+                return reader.ReadToEnd();
+            }
+
+        }
+        /// <summary>
+        /// 发送数据
+        /// </summary>
+        /// <param name="actionUrl">发送的链接</param>
+        /// <param name="prms">发送数据的字段和值</param>
+        /// <param name="files">要发送的文件</param>
+        /// <returns></returns>
+        public Stream PostDataStream(String actionUrl, IDictionary<string, string> prms, IEnumerable<FormFile> files)
+        {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(actionUrl);
+
+            PostData(request, RequestHead, prms, files);
 
             HttpWebResponse rep = request.GetResponse() as HttpWebResponse;
 
@@ -109,11 +121,11 @@ namespace Buffalo.WebKernel.WebCommons.PostForms
         /// <param name="prms">发送数据的字段和值</param>
         /// <param name="files">要发送的文件</param>
         /// <returns></returns>
-        public Stream PostStream(String actionUrl, string prms)
+        public Stream PostStream(String actionUrl, byte[] data)
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(actionUrl);
 
-            Post(request, RequestHead, prms);
+            Post(request, RequestHead, data);
 
             HttpWebResponse rep = request.GetResponse() as HttpWebResponse;
 
@@ -139,23 +151,23 @@ namespace Buffalo.WebKernel.WebCommons.PostForms
             return reader;
 
         }
-        
+
         /// <summary>
         /// 请求参数
         /// </summary>
         /// <param name="prms"></param>
         /// <returns></returns>
-        private string GetParamValue(IDictionary<string, string> prms) 
+        private string GetParamValue(IDictionary<string, string> prms)
         {
             StringBuilder args = new StringBuilder();
-            foreach (KeyValuePair<string, string> kvp in prms) 
+            foreach (KeyValuePair<string, string> kvp in prms)
             {
                 args.Append(System.Web.HttpUtility.UrlEncode(kvp.Key));
                 args.Append("=");
                 args.Append(System.Web.HttpUtility.UrlEncode(kvp.Value));
                 args.Append("&");
             }
-            if (args.Length > 0) 
+            if (args.Length > 0)
             {
                 args.Remove(args.Length - 1, 1);
             }
@@ -171,9 +183,7 @@ namespace Buffalo.WebKernel.WebCommons.PostForms
         /// <returns></returns>
         public HttpWebResponse PostDataResponse(String actionUrl, IDictionary<string, string> prms, FormFile[] files)
         {
-            
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(actionUrl);
-
 
             PostData(request, RequestHead, prms, files);
 
@@ -188,18 +198,17 @@ namespace Buffalo.WebKernel.WebCommons.PostForms
         /// <param name="prms">发送数据的字段和值</param>
         /// <param name="files">要发送的文件</param>
         /// <returns></returns>
-        public HttpWebResponse PostResponse(String actionUrl,  string prms)
+        public HttpWebResponse PostResponse(String actionUrl, byte[] data)
         {
-
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(actionUrl);
 
-
-            Post(request, RequestHead, prms);
+            Post(request, RequestHead, data);
 
             HttpWebResponse rep = request.GetResponse() as HttpWebResponse;
 
             return rep;
         }
+
         /// <summary>
         /// 发送数据
         /// </summary>
@@ -207,24 +216,21 @@ namespace Buffalo.WebKernel.WebCommons.PostForms
         /// <param name="prms">发送数据的字段和值</param>
         /// <param name="files">要发送的文件</param>
         /// <returns></returns>
-        public static void Post(HttpWebRequest request, PostHead head, string prms)
+        public static void Post(HttpWebRequest request, PostHead head, byte[] data)
         {
             request.CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore);
             request.Method = "POST";
             head.FillInfo(request);
-            
-            if (!string.IsNullOrEmpty(prms))
+            Encoding useEncoding = head.PageEncoding;
+            if (data != null)
             {
-                Encoding useEncoding = head.PageEncoding;
                 using (Stream outStream = request.GetRequestStream())
                 {
-                    byte[] send = useEncoding.GetBytes(prms);
-                    WriteData(outStream, send);
+                    WriteData(outStream, data);
                     outStream.Flush();
                 }
             }
         }
-
         /// <summary>
         /// 发送数据
         /// </summary>
@@ -255,7 +261,7 @@ namespace Buffalo.WebKernel.WebCommons.PostForms
                 }
             }
             Encoding useEncoding = head.PageEncoding;
-            
+
 
             using (Stream outStream = request.GetRequestStream())
             {
@@ -278,7 +284,7 @@ namespace Buffalo.WebKernel.WebCommons.PostForms
                         {
                             WriteData(outStream, file.Data);
                         }
-                        else 
+                        else
                         {
                             WriteStream(outStream, file.DataStream);
 
@@ -293,16 +299,6 @@ namespace Buffalo.WebKernel.WebCommons.PostForms
 
             }
         }
-
-        /// <summary>
-        /// 写入数据
-        /// </summary>
-        /// <param name="stm"></param>
-        /// <param name="data"></param>
-        private static void WriteData(Stream stm, byte[] data)
-        {
-            stm.Write(data, 0, data.Length);
-        }
         /// <summary>
         /// 写入数据
         /// </summary>
@@ -313,11 +309,21 @@ namespace Buffalo.WebKernel.WebCommons.PostForms
             CommonMethods.CopyStreamData(dataStream, dataStream);
         }
         /// <summary>
+        /// 写入数据
+        /// </summary>
+        /// <param name="stm"></param>
+        /// <param name="data"></param>
+        private static void WriteData(Stream stm, byte[] data)
+        {
+            stm.Write(data, 0, data.Length);
+        }
+
+        /// <summary>
         /// 写入字符串
         /// </summary>
         /// <param name="stm"></param>
         /// <param name="data"></param>
-        private static void WriteString(Stream stm, string str,Encoding encoding)
+        private static void WriteString(Stream stm, string str, Encoding encoding)
         {
             byte[] data = encoding.GetBytes(str);
             stm.Write(data, 0, data.Length);
@@ -342,17 +348,17 @@ namespace Buffalo.WebKernel.WebCommons.PostForms
                 return reader.ReadToEnd();
             }
         }
-        
+
         /// <summary>
         /// 获取流读取器
         /// </summary>
         /// <param name="rep"></param>
         /// <returns></returns>
-        private static StreamReader GetStreamReader(HttpWebResponse rep, Encoding encoding) 
+        private static StreamReader GetStreamReader(HttpWebResponse rep, Encoding encoding)
         {
             StreamReader reader = null;
 
-            Stream urlStm=rep.GetResponseStream();
+            Stream urlStm = rep.GetResponseStream();
 
             if ((!CommonMethods.IsNullOrWhiteSpace(rep.ContentEncoding)) && rep.ContentEncoding.Equals("gzip", StringComparison.InvariantCultureIgnoreCase))
             {
@@ -364,7 +370,7 @@ namespace Buffalo.WebKernel.WebCommons.PostForms
                 {
                     encoding = Encoding.GetEncoding(rep.ContentEncoding);
                 }
-                else 
+                else
                 {
                     if (CommonMethods.IsNullOrWhiteSpace(rep.CharacterSet) || rep.CharacterSet.Equals("ISO-8859-1", StringComparison.CurrentCultureIgnoreCase))
                     {
@@ -394,7 +400,7 @@ namespace Buffalo.WebKernel.WebCommons.PostForms
                         encoding = Encoding.GetEncoding(rep.CharacterSet);
                     }
                 }
-                reader = new StreamReader(urlStm,encoding);
+                reader = new StreamReader(urlStm, encoding);
             }
             return reader;
         }
@@ -426,7 +432,7 @@ namespace Buffalo.WebKernel.WebCommons.PostForms
             HttpWebResponse rep = CreateGetHttpResponse(actionUrl, _requestHead);
             return rep;
         }
-        
+
         /// <summary>
         /// Get获取数据
         /// </summary>
@@ -434,10 +440,10 @@ namespace Buffalo.WebKernel.WebCommons.PostForms
         /// <returns></returns>
         public StreamReader GetDataReader(String actionUrl)
         {
-            HttpWebResponse rep = CreateGetHttpResponse(actionUrl,  _requestHead);
+            HttpWebResponse rep = CreateGetHttpResponse(actionUrl, _requestHead);
             return GetStreamReader(rep, _requestHead.PageEncoding);
         }
-        
+
         /// <summary>
         /// Get获取数据
         /// </summary>
@@ -448,7 +454,7 @@ namespace Buffalo.WebKernel.WebCommons.PostForms
             HttpWebResponse rep = CreateGetHttpResponse(actionUrl, _requestHead);
             return rep.GetResponseStream();
         }
-        
+
 
         /// <summary>  
         /// 创建GET方式的HTTP请求  
@@ -458,17 +464,29 @@ namespace Buffalo.WebKernel.WebCommons.PostForms
         /// <param name="userAgent">请求的客户端浏览器信息，可以为空</param>  
         /// <param name="cookies">随同HTTP请求发送的Cookie信息，如果不需要身份验证可以为空</param>  
         /// <returns></returns>  
-        public static HttpWebResponse CreateGetHttpResponse(string url,PostHead header)  
-        {  
-            if (string.IsNullOrEmpty(url))  
-            {  
-                throw new ArgumentNullException("url");  
-            }  
-            HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;  
+        public static HttpWebResponse CreateGetHttpResponse(string url, PostHead header)
+        {
+            if (string.IsNullOrEmpty(url))
+            {
+                throw new ArgumentNullException("url");
+            }
+            HttpWebRequest request = null;
+            //如果是发送HTTPS请求  
+            if (url.StartsWith("https", StringComparison.OrdinalIgnoreCase))
+            {
+                ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(CheckValidationResult);
+                request = WebRequest.Create(url) as HttpWebRequest;
+                request.ProtocolVersion = HttpVersion.Version10;
+            }
+            else
+            {
+                request = WebRequest.Create(url) as HttpWebRequest;
+            }
+
             request.Method = "GET";
             header.FillInfo(request);
-            return request.GetResponse() as HttpWebResponse;  
-        }  
+            return request.GetResponse() as HttpWebResponse;
+        }
         /// <summary>  
         /// 创建POST方式的HTTP请求  
         /// </summary>  
@@ -479,60 +497,60 @@ namespace Buffalo.WebKernel.WebCommons.PostForms
         /// <param name="requestEncoding">发送HTTP请求时所用的编码</param>  
         /// <param name="cookies">随同HTTP请求发送的Cookie信息，如果不需要身份验证可以为空</param>  
         /// <returns></returns>  
-        public static HttpWebResponse CreatePostHttpResponse(string url,IDictionary<string,string> parameters,PostHead header)  
-        {  
-            if (string.IsNullOrEmpty(url))  
-            {  
-                throw new ArgumentNullException("url");  
-            }  
-            
-            HttpWebRequest request=null;  
+        public static HttpWebResponse CreatePostHttpResponse(string url, IDictionary<string, string> parameters, PostHead header)
+        {
+            if (string.IsNullOrEmpty(url))
+            {
+                throw new ArgumentNullException("url");
+            }
+
+            HttpWebRequest request = null;
             //如果是发送HTTPS请求  
-            if(url.StartsWith("https",StringComparison.OrdinalIgnoreCase))  
-            {  
-                ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(CheckValidationResult);  
-                request = WebRequest.Create(url) as HttpWebRequest;  
-                request.ProtocolVersion=HttpVersion.Version10;  
-            }  
-            else 
-            {  
-                request = WebRequest.Create(url) as HttpWebRequest;  
-            }  
+            if (url.StartsWith("https", StringComparison.OrdinalIgnoreCase))
+            {
+                ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(CheckValidationResult);
+                request = WebRequest.Create(url) as HttpWebRequest;
+                request.ProtocolVersion = HttpVersion.Version10;
+            }
+            else
+            {
+                request = WebRequest.Create(url) as HttpWebRequest;
+            }
             request.Method = "POST";
             header.FillInfo(request);
-            request.ContentType = "application/x-www-form-urlencoded";  
-            
+            request.ContentType = "application/x-www-form-urlencoded";
+
             //如果需要POST数据  
-            if(!(parameters==null||parameters.Count==0))  
-            {  
-                StringBuilder buffer = new StringBuilder();  
-                int i = 0;  
-                foreach (string key in parameters.Keys)  
-                {  
-                    if (i > 0)  
-                    {  
-                        buffer.AppendFormat("&{0}={1}", key, parameters[key]);  
-                    }  
-                    else 
-                    {  
-                        buffer.AppendFormat("{0}={1}", key, parameters[key]);  
-                    }  
-                    i++;  
+            if (!(parameters == null || parameters.Count == 0))
+            {
+                StringBuilder buffer = new StringBuilder();
+                int i = 0;
+                foreach (string key in parameters.Keys)
+                {
+                    if (i > 0)
+                    {
+                        buffer.AppendFormat("&{0}={1}", key, parameters[key]);
+                    }
+                    else
+                    {
+                        buffer.AppendFormat("{0}={1}", key, parameters[key]);
+                    }
+                    i++;
                 }
-                byte[] data = header.PageEncoding.GetBytes(buffer.ToString());  
-                using (Stream stream = request.GetRequestStream())  
-                {  
-                    stream.Write(data, 0, data.Length);  
-                }  
-            }  
-            return request.GetResponse() as HttpWebResponse;  
-        }  
- 
-        private static bool CheckValidationResult(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors errors)  
-        {  
+                byte[] data = header.PageEncoding.GetBytes(buffer.ToString());
+                using (Stream stream = request.GetRequestStream())
+                {
+                    stream.Write(data, 0, data.Length);
+                }
+            }
+            return request.GetResponse() as HttpWebResponse;
+        }
+
+        private static bool CheckValidationResult(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors errors)
+        {
             return true; //总是接受  
-        }  
-    
+        }
+
         #endregion
 
 

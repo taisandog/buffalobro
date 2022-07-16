@@ -29,7 +29,7 @@ namespace Buffalo.WebKernel.WebCommons.PostForms
 
         private static readonly string DefaultUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:50.0) Gecko/20100101 Firefox/50.0";
 
-        static Encoding DefaultEncoding = Encoding.UTF8;
+        public static Encoding DefaultEncoding = Encoding.UTF8;
 
 
         private string _userAgent = DefaultUserAgent;
