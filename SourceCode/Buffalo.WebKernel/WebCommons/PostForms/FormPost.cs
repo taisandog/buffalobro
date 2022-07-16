@@ -274,7 +274,15 @@ namespace Buffalo.WebKernel.WebCommons.PostForms
                         split.Append("Content-Disposition: form-data;name=\"" + file.FormName + "\";filename=\"" + file.FileName + "\"\r\n");
                         split.Append("Content-Type: " + file.ContentType + "\r\n\r\n");
                         WriteString(outStream, split.ToString(), useEncoding);
-                        WriteData(outStream, file.Data);
+                        if (file.Data != null)
+                        {
+                            WriteData(outStream, file.Data);
+                        }
+                        else 
+                        {
+                            WriteStream(outStream, file.DataStream);
+
+                        }
                         WriteString(outStream, "\r\n", useEncoding);
 
                     }
@@ -295,7 +303,15 @@ namespace Buffalo.WebKernel.WebCommons.PostForms
         {
             stm.Write(data, 0, data.Length);
         }
-
+        /// <summary>
+        /// 写入数据
+        /// </summary>
+        /// <param name="stm"></param>
+        /// <param name="dataStream"></param>
+        private static void WriteStream(Stream stm, Stream dataStream)
+        {
+            CommonMethods.CopyStreamData(dataStream, dataStream);
+        }
         /// <summary>
         /// 写入字符串
         /// </summary>
