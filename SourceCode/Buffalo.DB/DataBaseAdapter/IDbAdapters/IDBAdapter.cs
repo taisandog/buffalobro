@@ -14,6 +14,7 @@ namespace Buffalo.DB.DataBaseAdapter.IDbAdapters
 {
     public interface IDBAdapter
     {
+        
         /// <summary>
         /// 全文搜索时候排序字段是否显示表达式
         /// </summary>

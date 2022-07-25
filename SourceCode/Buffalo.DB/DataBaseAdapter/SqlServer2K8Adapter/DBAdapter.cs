@@ -46,7 +46,7 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2K8Adapter
                     {
                         len = 19;
                     }
-                    return stype.ToString() + "(" + len + ",5)";
+                    return stype.ToString() + "(" + len + "," + DBInfo.Defaultplaces + ")";
                 case SqlDbType.NVarChar:
                     if (length > 8000)
                     {

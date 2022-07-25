@@ -224,7 +224,6 @@ namespace Buffalo.Data.DB2
         /// <returns></returns>
         public DbConnection GetConnection(DBInfo db)
         {
-            
             DbConnection conn = new DB2Connection();
             return conn;
         }
@@ -534,12 +533,13 @@ namespace Buffalo.Data.DB2
                     return "TIMESTAMP";
                 case DbType.Decimal:
                 case DbType.Currency:
-                    return "DOUBLE";
+                    return "DECIMAL(" + length + "," + DBInfo.Defaultplaces + ")";
+
                 case DbType.Double:
                 case DbType.VarNumeric:
-                    return "FLOAT";
+                    return "DOUBLE";
                 case DbType.Single:
-                    return "REAL";
+                    return "FLOAT";
                 case DbType.Int64:
                 case DbType.UInt64:
                     return "BIGINT";

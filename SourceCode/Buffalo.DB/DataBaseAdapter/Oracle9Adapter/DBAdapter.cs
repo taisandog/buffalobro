@@ -530,11 +530,11 @@ namespace Buffalo.DB.DataBaseAdapter.Oracle9Adapter
                     return "TIMESTAMP";
                 case DbType.Decimal:
                 case DbType.Currency:
-                    return "Number(30,30)";
+                    return "Number("+ length + ","+ DBInfo.Defaultplaces+ ")";
                 case DbType.Double:
                     return "BINARY_DOUBLE";
                 case DbType.VarNumeric:
-                    return "Number(30,30)";
+                    return "Number(" + length + "," + DBInfo.Defaultplaces + ")";
                 case DbType.Single:
                     return "BINARY_FLOAT";
                 case DbType.Int64:

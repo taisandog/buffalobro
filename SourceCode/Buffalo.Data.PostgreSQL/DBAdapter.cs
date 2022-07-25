@@ -497,7 +497,7 @@ namespace Buffalo.Data.PostgreSQL
                 case DbType.VarNumeric:
                     return "numeric";
                 case DbType.Decimal:
-                    return "numeric(19,4)";
+                    return "numeric(" + length + "," + DBInfo.Defaultplaces + ")";
 
                 case DbType.Date:
                     return "date";

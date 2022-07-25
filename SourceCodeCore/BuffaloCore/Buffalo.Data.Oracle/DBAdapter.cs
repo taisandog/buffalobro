@@ -270,13 +270,13 @@ namespace Buffalo.Data.Oracle
         {
             switch (dbType)
             {
-                
+
                 default:
                     return "sysdate";
             }
         }
 
-         /// <summary>
+        /// <summary>
         /// 获取当前时间
         /// </summary>
         /// <returns></returns>
@@ -284,7 +284,7 @@ namespace Buffalo.Data.Oracle
         {
             switch (dbType)
             {
-                
+
                 default:
                     return "sys_extract_utc(systimestamp)";
             }
@@ -345,9 +345,9 @@ namespace Buffalo.Data.Oracle
         /// <param name="objPage">分页记录类</param>
         /// <returns></returns>
         public string CreatePageSql(ParamList list, DataBaseOperate oper, SelectCondition objCondition,
-            PageContent objPage,bool useCache)
+            PageContent objPage, bool useCache)
         {
-            return CutPageSqlCreater.CreatePageSql(list, oper, objCondition, objPage,useCache);
+            return CutPageSqlCreater.CreatePageSql(list, oper, objCondition, objPage, useCache);
         }
 
 
@@ -378,7 +378,7 @@ namespace Buffalo.Data.Oracle
         /// <returns></returns>
         public string GetIdentitySQL(EntityPropertyInfo pkInfo)
         {
-            
+
             if (pkInfo == null)
             {
                 throw new Exception("找不到主键属性");
@@ -391,7 +391,7 @@ namespace Buffalo.Data.Oracle
         /// <returns></returns>
         public string GetIdentityValueSQL(EntityPropertyInfo pkInfo)
         {
-            
+
             if (pkInfo == null)
             {
                 throw new Exception("找不到主键属性");
@@ -473,7 +473,7 @@ namespace Buffalo.Data.Oracle
         /// <param name="index">当前Reader的索引</param>
         /// <param name="arg">目标对象</param>
         /// <param name="info">目标属性的句柄</param>
-        public void SetObjectValueFromReader(IDataReader reader, int index, object arg, EntityPropertyInfo info,bool needChangeType)
+        public void SetObjectValueFromReader(IDataReader reader, int index, object arg, EntityPropertyInfo info, bool needChangeType)
         {
             DB.DataBaseAdapter.SqlServer2KAdapter.DBAdapter.ValueFromReader(reader, index, arg, info, needChangeType);
         }
@@ -495,7 +495,7 @@ namespace Buffalo.Data.Oracle
         /// </summary>
         /// <param name="dbType"></param>
         /// <returns></returns>
-        public virtual string DBTypeToSQL(DbType dbType, long length, bool canNull) 
+        public virtual string DBTypeToSQL(DbType dbType, long length, bool canNull)
         {
             switch (dbType)
             {
@@ -540,10 +540,10 @@ namespace Buffalo.Data.Oracle
                 case DbType.Time:
                     return "TIMESTAMP";
                 case DbType.Decimal:
-                case DbType.Currency:
-                    return "Number(30,30)";
+                    return "Number(" + length + "," + DBInfo.Defaultplaces + ")";
                 case DbType.Double:
                     return "BINARY_DOUBLE";
+                case DbType.Currency:
                 case DbType.VarNumeric:
                     return "Number(30,30)";
                 case DbType.Single:
@@ -554,12 +554,11 @@ namespace Buffalo.Data.Oracle
                     return "Number(*,0)";
 
                 case DbType.Int16:
+                    return "SMALLINT";
                 case DbType.UInt16:
                     return "Number(6,0)";
                 case DbType.Int32:
                     return "INTEGER";
-                
-                    
                 case DbType.SByte:
                     return "Number(4,0)";
                 case DbType.Guid:
@@ -576,7 +575,7 @@ namespace Buffalo.Data.Oracle
                 case DbType.StringFixedLength:
                     if (length < 8000)
                     {
-                        return "NChar("+length+")";
+                        return "NChar(" + length + ")";
                     }
                     else
                     {
@@ -584,10 +583,9 @@ namespace Buffalo.Data.Oracle
                     }
                 default:
                     return "BLOB";
+
             }
 
-           
-        
         }
         public int ToRealDbType(DbType dbType, long length)
         {
@@ -640,7 +638,7 @@ namespace Buffalo.Data.Oracle
                 case DbType.Int64:
                 case DbType.Currency:
                     return (int)OracleDbType.Decimal;
-                
+
                 case DbType.Int16:
                     return (int)OracleDbType.Int16;
                 case DbType.UInt16:
@@ -671,7 +669,7 @@ namespace Buffalo.Data.Oracle
                     {
                         return (int)OracleDbType.Long;
                     }
-                
+
 
                 default:
                     return (int)OracleDbType.Blob;

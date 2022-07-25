@@ -86,7 +86,7 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter
                     {
                         length = 18;
                     }
-                    return stype.ToString() + "(" + length + ",5)";
+                    return stype.ToString() + "(" + length + "," + DBInfo.Defaultplaces + ")";
                 case SqlDbType.NVarChar:
                     return stype.ToString() + "(" + length + ")";
                 case SqlDbType.NChar:

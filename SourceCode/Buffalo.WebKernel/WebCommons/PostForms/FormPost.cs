@@ -306,7 +306,7 @@ namespace Buffalo.WebKernel.WebCommons.PostForms
         /// <param name="dataStream"></param>
         private static void WriteStream(Stream stm, Stream dataStream)
         {
-            CommonMethods.CopyStreamData(dataStream, dataStream);
+            CommonMethods.CopyStreamData( dataStream,stm);
         }
         /// <summary>
         /// 写入数据

@@ -499,11 +499,11 @@ namespace Buffalo.Data.MySQL
                     return "float";
 
                 case DbType.Double:
-                    return "double";
                 case DbType.Currency:
                 case DbType.VarNumeric:
-                case DbType.Decimal:
                     return "double";
+                case DbType.Decimal:
+                    return "decimal(" + length + "," + DBInfo.Defaultplaces + ")";
 
                 case DbType.Date:
                     return "date";

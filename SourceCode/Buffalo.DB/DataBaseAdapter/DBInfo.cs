@@ -22,6 +22,12 @@ namespace Buffalo.DB.DataBaseAdapter
     /// </summary>
     public class DBInfo
     {
+        /// <summary>
+        /// 默认小数位
+        /// </summary>
+        public const int Defaultplaces = 2;
+
+
         private string _dbName = null;
         private int _childKey = -1;
 

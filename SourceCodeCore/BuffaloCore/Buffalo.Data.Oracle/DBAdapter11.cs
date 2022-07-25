@@ -104,7 +104,7 @@ namespace Buffalo.Data.Oracle
         /// </summary>
         /// <param name="dbType"></param>
         /// <returns></returns>
-        public override string DBTypeToSQL(DbType dbType, long length,bool canNull)
+        public override string DBTypeToSQL(DbType dbType, long length, bool canNull)
         {
             switch (dbType)
             {
@@ -149,10 +149,10 @@ namespace Buffalo.Data.Oracle
                 case DbType.Time:
                     return "TIMESTAMP";
                 case DbType.Decimal:
-                case DbType.Currency:
-                    return "Number(30,30)";
+                    return "Number(" + length + "," + DBInfo.Defaultplaces + ")";
                 case DbType.Double:
                     return "BINARY_DOUBLE";
+                case DbType.Currency:
                 case DbType.VarNumeric:
                     return "Number(30,30)";
                 case DbType.Single:
@@ -192,10 +192,9 @@ namespace Buffalo.Data.Oracle
                     }
                 default:
                     return "BLOB";
+
+
             }
-
-
-
         }
     }
 }
