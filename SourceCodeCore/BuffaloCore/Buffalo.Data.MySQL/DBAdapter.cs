@@ -467,7 +467,7 @@ namespace Buffalo.Data.MySQL
             return "auto_increment";
         }
 
-        public string DBTypeToSQL(DbType dbType, long length,bool canNull)
+        public string DBTypeToSQL(DbType dbType, long length, bool canNull)
         {
             switch (dbType)
             {
@@ -476,7 +476,7 @@ namespace Buffalo.Data.MySQL
 
                 case DbType.Byte:
                     return "tinyint unsigned";
-                    
+
                 case DbType.SByte:
                     return "tinyint";
 
@@ -484,7 +484,7 @@ namespace Buffalo.Data.MySQL
                     return "smallint unsigned";
                 case DbType.Int16:
                     return "smallint";
-                   
+
                 case DbType.UInt32:
                     return "int unsigned";
                 case DbType.Int32:
@@ -499,11 +499,15 @@ namespace Buffalo.Data.MySQL
                     return "float";
 
                 case DbType.Double:
+                    return "double";
                 case DbType.Currency:
                 case DbType.VarNumeric:
-                    return "double";
                 case DbType.Decimal:
-                    return "decimal(" + length + "," + DBInfo.Defaultplaces + ")";
+                    if (length <= 0)
+                    {
+                        return "decimal";
+                    }
+                    return DBInfo.GetNumberLengthType("decimal", length);
 
                 case DbType.Date:
                     return "date";
@@ -516,11 +520,11 @@ namespace Buffalo.Data.MySQL
                 case DbType.Time:
                     return "time";
                 case DbType.AnsiStringFixedLength:
-                    if (length > 8000) 
+                    if (length > 8000)
                     {
                         return "longtext";
                     }
-                    return "char("+length+")";
+                    return "char(" + length + ")";
                 case DbType.StringFixedLength:
                     if (length > 8000)
                     {

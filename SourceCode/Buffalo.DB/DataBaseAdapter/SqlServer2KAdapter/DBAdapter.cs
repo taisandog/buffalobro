@@ -84,9 +84,9 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter
                 case SqlDbType.Decimal:
                     if (length <= 0) 
                     {
-                        length = 18;
+                        length = 180002;
                     }
-                    return stype.ToString() + "(" + length + "," + DBInfo.Defaultplaces + ")";
+                    return DBInfo.GetNumberLengthType(stype.ToString(), length); 
                 case SqlDbType.NVarChar:
                     return stype.ToString() + "(" + length + ")";
                 case SqlDbType.NChar:

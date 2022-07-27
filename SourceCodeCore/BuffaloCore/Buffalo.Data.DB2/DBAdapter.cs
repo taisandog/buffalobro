@@ -533,7 +533,12 @@ namespace Buffalo.Data.DB2
                     return "TIMESTAMP";
                 case DbType.Decimal:
                 case DbType.Currency:
-                    return "DECIMAL(" + length + "," + DBInfo.Defaultplaces + ")";
+                    if (length <= 0)
+                    {
+                        return "DECIMAL";
+
+                    }
+                    return DBInfo.GetNumberLengthType("DECIMAL", length);
 
                 case DbType.Double:
                 case DbType.VarNumeric:

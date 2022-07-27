@@ -477,7 +477,7 @@ namespace Buffalo.Data.SQLite
             return " AUTOINCREMENT";
         }
 
-        public string DBTypeToSQL(DbType dbType, long length,bool canNull)
+        public virtual string DBTypeToSQL(DbType dbType, long length,bool canNull)
         {
             //int type = ToRealDbType(dbType, length);            
             //SqliteType stype = (SqlDbType)type;            
@@ -505,7 +505,11 @@ namespace Buffalo.Data.SQLite
                     return "INTEGER";
                 case DbType.Decimal:
                 case DbType.Currency:
-                    return "DECIMAL(" + length + "," + DBInfo.Defaultplaces + ")";
+                    if (length <= 0)
+                    {
+                        return "REAL";
+                    }
+                    return DBInfo.GetNumberLengthType("DECIMAL", length);
                 case DbType.Double:
                 case DbType.Int64:
                 case DbType.UInt32:

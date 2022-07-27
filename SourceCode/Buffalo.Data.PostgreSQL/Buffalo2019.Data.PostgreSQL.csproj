@@ -140,9 +140,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Buffalo.DB\Buffalo2019.DB.csproj">
       <Project>{9b0043e4-883b-47ba-9a5a-5110c8583902}</Project>
       <Name>Buffalo2019.DB</Name>

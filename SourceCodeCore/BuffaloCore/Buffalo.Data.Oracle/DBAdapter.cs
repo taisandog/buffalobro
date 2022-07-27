@@ -489,7 +489,7 @@ namespace Buffalo.Data.Oracle
 
             return "";
         }
-
+        
         /// <summary>
         /// 把DBType类型转成对应的SQLType
         /// </summary>
@@ -540,7 +540,12 @@ namespace Buffalo.Data.Oracle
                 case DbType.Time:
                     return "TIMESTAMP";
                 case DbType.Decimal:
-                    return "Number(" + length + "," + DBInfo.Defaultplaces + ")";
+                    if (length <= 0)
+                    {
+                        return "Number(30,30)";
+
+                    }
+                    return DBInfo.GetNumberLengthType("Number", length);
                 case DbType.Double:
                     return "BINARY_DOUBLE";
                 case DbType.Currency:
@@ -583,8 +588,9 @@ namespace Buffalo.Data.Oracle
                     }
                 default:
                     return "BLOB";
-
             }
+
+
 
         }
         public int ToRealDbType(DbType dbType, long length)

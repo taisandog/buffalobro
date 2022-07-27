@@ -499,11 +499,15 @@ namespace Buffalo.Data.MySQL
                     return "float";
 
                 case DbType.Double:
+                    return "double";
                 case DbType.Currency:
                 case DbType.VarNumeric:
-                    return "double";
                 case DbType.Decimal:
-                    return "decimal(" + length + "," + DBInfo.Defaultplaces + ")";
+                    if (length <= 0) 
+                    {
+                        return "decimal";
+                    }
+                    return DBInfo.GetNumberLengthType("decimal", length); 
 
                 case DbType.Date:
                     return "date";
@@ -549,6 +553,8 @@ namespace Buffalo.Data.MySQL
                     return "";
             }
         }
+
+        
 
         public int ToRealDbType(DbType dbType, long length)
         {

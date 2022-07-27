@@ -219,6 +219,7 @@ namespace Buffalo.DBTools
 
             sbInfo.AppendLine("====长度====");
             sbInfo.AppendLine("生成字段的数据库长度(如果是string 且大于8000，则自动变成Text)\r\n");
+            sbInfo.AppendLine("decimal类型数值的长度为：10000部分是整数长度，10000以下部分为小数长度。整数=长度/10000，小数部分=长度%10000\r\n");
 
             sbInfo.AppendLine("====类型====");
             sbInfo.AppendLine("===此属性的类型:");

@@ -23,9 +23,23 @@ namespace Buffalo.DB.DataBaseAdapter
     public class DBInfo
     {
         /// <summary>
-        /// 默认小数位
+        /// 获取浮点型长度(整数部分为10000的倍数，小数部分为小于10000的部分)
         /// </summary>
-        public const int Defaultplaces = 2;
+        /// <param name="typeName">类型</param>
+        /// <param name="length">长度</param>
+        /// <returns></returns>
+        public static string GetNumberLengthType(string typeName, long length)
+        {
+            const int typeLen = 10000;
+            StringBuilder sbRet = new StringBuilder();
+            sbRet.Append(typeName);
+            sbRet.Append("(");
+            sbRet.Append(length / typeLen);
+            sbRet.Append(",");
+            sbRet.Append(length % typeLen);
+            sbRet.Append(")");
+            return sbRet.ToString();
+        }
 
         private string _dbName = null;
         private int _childKey = -1;
