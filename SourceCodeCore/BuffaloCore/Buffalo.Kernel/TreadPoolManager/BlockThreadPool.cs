@@ -161,6 +161,19 @@ namespace Buffalo.Kernel.TreadPoolManager
             info.StartThread(args);
             return info;
         }
+        /// <summary>
+        /// 启动有参数带返回的线程
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        public BlockThread RunParamReturnThread(ParameterizedReturnThreadStart method, object args)
+        {
+
+            BlockThread info = BlockThread.Create(method, this);
+            AppendThreadInfo(info);
+            info.StartThread(args);
+            return info;
+        }
 
         public void OnThreadStart(BlockThread thd)
         {

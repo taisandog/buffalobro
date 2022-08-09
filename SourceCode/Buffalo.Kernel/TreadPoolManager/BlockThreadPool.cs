@@ -80,24 +80,6 @@ namespace Buffalo.Kernel.TreadPoolManager
                 thd.StopThread();
             }
 
-            //while (que != null && que.Count > 0)
-            //{
-            //    if (!que.TryPeek(out einfo))
-            //    {
-            //        break;
-            //    }
-            //    if ( einfo.IsRunning)
-            //    {
-            //        break;
-            //    }
-            //    if (!que.TryDequeue(out einfo))
-            //    {
-            //        break;
-            //    }
-            //    num++;
-            //    einfo.StopThread();
-            //    einfo = null;
-            //}
             _lastClean = DateTime.Now;
         }
 
@@ -175,6 +157,19 @@ namespace Buffalo.Kernel.TreadPoolManager
         {
 
             BlockThread info = BlockThread.Create(method,this);
+            AppendThreadInfo(info);
+            info.StartThread(args);
+            return info;
+        }
+        /// <summary>
+        /// 启动有参数带返回的线程
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        public BlockThread RunParamReturnThread(ParameterizedReturnThreadStart method, object args)
+        {
+
+            BlockThread info = BlockThread.Create(method, this);
             AppendThreadInfo(info);
             info.StartThread(args);
             return info;

@@ -5,8 +5,12 @@ using System.Threading;
 
 namespace Buffalo.Kernel.TreadPoolManager
 {
-
-
+    /// <summary>
+    /// 带参数带返回的线程类
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <returns></returns>
+    public delegate object ParameterizedReturnThreadStart(object obj);
     /// <summary>
     /// 带阻塞的线程
     /// </summary>
@@ -25,15 +29,37 @@ namespace Buffalo.Kernel.TreadPoolManager
             set { _messageHandle = value; }
             
         }
+
+        /// <summary>
+        /// 返回值
+        /// </summary>
+        private object _returnData;
+        /// <summary>
+        /// 返回值
+        /// </summary>
+        public object ReturnData 
+        {
+            get 
+            {
+                return _returnData;
+            }
+        }
         /// <summary>
         /// 带参函数
         /// </summary>
         private ParameterizedThreadStart _runParamMethod;
-        private BlockThread( ThreadStart method, ParameterizedThreadStart paramMethod, IBlockThreadMessage messageHandle=null) 
+
+        /// <summary>
+        /// 带参带返回函数
+        /// </summary>
+        private ParameterizedReturnThreadStart _runParamReturnMethod;
+        private BlockThread( ThreadStart method, ParameterizedThreadStart paramMethod, ParameterizedReturnThreadStart paramReturnMethod,
+            IBlockThreadMessage messageHandle=null) 
         {
             _thd = new Thread(new ParameterizedThreadStart(RunMethod));
             _runMethod = method;
             _runParamMethod = paramMethod;
+            _runParamReturnMethod = paramReturnMethod;
             _messageHandle = messageHandle;
         }
         
@@ -45,7 +71,7 @@ namespace Buffalo.Kernel.TreadPoolManager
         /// <returns></returns>
         public static BlockThread Create(ThreadStart method, IBlockThreadMessage messageHandle = null) 
         {
-            return new BlockThread(method,null, messageHandle);
+            return new BlockThread(method,null,null, messageHandle);
         }
         /// <summary>
         /// 创建线程信息
@@ -54,7 +80,16 @@ namespace Buffalo.Kernel.TreadPoolManager
         /// <returns></returns>
         public static BlockThread Create(ParameterizedThreadStart method, IBlockThreadMessage messageHandle = null)
         {
-            return new BlockThread( null, method, messageHandle);
+            return new BlockThread( null, method,null, messageHandle);
+        }
+        /// <summary>
+        /// 创建线程信息
+        /// </summary>
+        /// <param name="thd"></param>
+        /// <returns></returns>
+        public static BlockThread Create(ParameterizedReturnThreadStart method, IBlockThreadMessage messageHandle = null)
+        {
+            return new BlockThread(null, null, method, messageHandle);
         }
         /// <summary>
         /// 执行函数
@@ -80,6 +115,10 @@ namespace Buffalo.Kernel.TreadPoolManager
                 else if (info._runParamMethod!=null)
                 {
                     info._runParamMethod(info._args);
+                }
+                else if (info._runParamReturnMethod != null)
+                {
+                    info._returnData=info._runParamReturnMethod(info._args);
                 }
             }
             finally
@@ -112,13 +151,13 @@ namespace Buffalo.Kernel.TreadPoolManager
         /// <summary>
         /// 关闭线程
         /// </summary>
-        public void StopThread() 
+        public void StopThread(int millisecondsTimeout= 10000) 
         {
             _isRunning = false;
             bool isStop = false;
             if (_autoHandle != null) 
             {
-                isStop = _autoHandle.WaitOne(10000);
+                isStop = _autoHandle.WaitOne(millisecondsTimeout);
             }
             _autoHandle = null;
             if (!isStop && _thd != null && _thd.IsAlive) 
@@ -131,6 +170,19 @@ namespace Buffalo.Kernel.TreadPoolManager
             }
             _thd = null;
         }
+
+        /// <summary>
+        /// 等待线程结束
+        /// </summary>
+        public bool Wait(int millisecondsTimeout)
+        {
+            if (_autoHandle != null)
+            {
+                return _autoHandle.WaitOne(millisecondsTimeout);
+            }
+            return true;
+        }
+
         /// <summary>
         /// 告诉线程要关闭
         /// </summary>
