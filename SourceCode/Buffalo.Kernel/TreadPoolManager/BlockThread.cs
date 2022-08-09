@@ -143,7 +143,7 @@ namespace Buffalo.Kernel.TreadPoolManager
             }
             _args = args;
             _isRunning = true;
-            _autoHandle = new AutoResetEvent(true);
+            _autoHandle = new ManualResetEvent(true);
             _autoHandle.Reset();
             
             _thd.Start(this);
@@ -209,7 +209,7 @@ namespace Buffalo.Kernel.TreadPoolManager
         /// <summary>
         /// 阻塞
         /// </summary>
-        private AutoResetEvent _autoHandle = null;
+        private ManualResetEvent _autoHandle = null;
         /// <summary>
         /// 当前线程
         /// </summary>
@@ -256,7 +256,7 @@ namespace Buffalo.Kernel.TreadPoolManager
         /// <summary>
         /// 阻塞
         /// </summary>
-        public AutoResetEvent LockHandle 
+        public ManualResetEvent LockHandle 
         {
             get { return _autoHandle; }
         }
