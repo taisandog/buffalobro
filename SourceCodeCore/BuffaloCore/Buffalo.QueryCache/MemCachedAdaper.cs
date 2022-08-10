@@ -264,7 +264,7 @@ namespace Buffalo.QueryCache
             foreach (KeyValuePair<string, bool> kvp in dic)
             {
                 string val = kvp.Key;
-                if (!CommonMethods.IsPatternMatch(val, pattern))
+                if (!LocalCacheBase.IsPatternMatch(val, pattern))
                 {
                     continue;
                 }

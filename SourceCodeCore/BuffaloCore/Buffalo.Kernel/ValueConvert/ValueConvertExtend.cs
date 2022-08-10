@@ -40,6 +40,32 @@ public static partial class ValueConvertExtend
     /// <param name="value">值</param>
     /// <param name="defaultValue">默认值</param>
     /// <returns></returns>
+    public static object ConvertValue(object value, Type targetType,object defaultValue)
+    {
+        if (value == null || value is DBNull || (value as string) == "")
+        {
+
+            return defaultValue;
+        }
+        if (value.GetType() == targetType)
+        {
+            return value;
+        }
+
+        
+        if (targetType == typeof(string))
+        {
+            return value.ToString();
+        }
+        return Convert.ChangeType(value, targetType);
+    }
+    /// <summary>
+    /// 把object类型转成指定类型
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="value">值</param>
+    /// <param name="defaultValue">默认值</param>
+    /// <returns></returns>
     public static T ConvertValue<T>(object value)
     {
 

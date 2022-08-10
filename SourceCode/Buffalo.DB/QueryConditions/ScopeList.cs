@@ -225,24 +225,7 @@ namespace Buffalo.DB.QueryConditions
 
         
 
-        /// <summary>
-        /// 把范围集合转成XML字符串
-        /// </summary>
-        /// <returns></returns>
-        public string ToXmlString() 
-        {
-            return ScopeXmlExtend.GetScopeXmlString(this);
-        }
-
-        /// <summary>
-        /// 根据XML加载范围集合项
-        /// </summary>
-        /// <param name="xmlString">xml字符串</param>
-        /// <returns></returns>
-        public void LoadXML(string xmlString)
-        {
-            ScopeXmlExtend.LoadScopeItems(xmlString,this);
-        }
+       
 
         private ScopeBaseList _having;
         /// <summary>

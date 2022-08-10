@@ -66,7 +66,7 @@ namespace Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS
         {
             this.pe = pe;
             this.baseOffest = baseOffest;
-            resourceDirectorEntry = CommonMethods.RawDeserialize<IMAGE_RESOURCE_DIRECTORY_ENTRY>(pe.BaseStream);
+            resourceDirectorEntry = ImageResourceInfo.RawDeserialize<IMAGE_RESOURCE_DIRECTORY_ENTRY>(pe.BaseStream);
 
         }
 

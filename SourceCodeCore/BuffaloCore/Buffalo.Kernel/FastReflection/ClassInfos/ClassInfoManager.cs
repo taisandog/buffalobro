@@ -86,12 +86,12 @@ namespace Buffalo.Kernel.FastReflection.ClassInfos
 
 
         /// <summary>
-        /// 对象属性拷贝(同名字段)
+        /// 对象字段拷贝(同名字段)
         /// </summary>
         /// <param name="source">源对象</param>
         /// <param name="target">目标对象</param>
         /// <returns></returns>
-        public static int ObjectCopy(object source, object target)
+        public static int ObjectCopyByField(object source, object target)
         {
             if (source == null || target == null)
             {
@@ -107,20 +107,102 @@ namespace Buffalo.Kernel.FastReflection.ClassInfos
             foreach (FieldInfoHandle fInfo in sourceInfo.FieldInfo)
             {
                 FieldInfoHandle tInfo = targetInfo.FieldInfo[fInfo.FieldName];
-                if (tInfo != null)
+                if (tInfo == null)
                 {
-                    if (tInfo.FieldType == fInfo.FieldType)
+                    continue;
+                }
+
+                object sourceValue = fInfo.GetValue(source);
+                if (tInfo.FieldType != fInfo.FieldType)
+                {
+
+                    try
                     {
-                        tInfo.SetValue(target, fInfo.GetValue(source));
-                        ret++;
+                        sourceValue = ValueConvertExtend.ConvertValue(sourceValue, tInfo.FieldType, null);
+                    }
+                    catch (Exception ex)
+                    {
+                        continue;
                     }
                 }
+                tInfo.SetValue(target, sourceValue);
+                ret++;
+
+
             }
 
 
             return ret;
         }
+        /// <summary>
+        /// 对象属性拷贝(同名属性)
+        /// </summary>
+        /// <param name="source">源对象</param>
+        /// <param name="target">目标对象</param>
+        /// <returns></returns>
+        public static int ObjectCopyByProperty(object source, object target)
+        {
+            if (source == null || target == null)
+            {
+                return 0;
+            }
+            int ret = 0;
+            Type sourceType = source.GetType();
+            Type targetType = source.GetType();
 
+            ClassInfoHandle sourceInfo = ClassInfoManager.GetClassHandle(sourceType);
+            ClassInfoHandle targetInfo = ClassInfoManager.GetClassHandle(targetType);
+
+            foreach (PropertyInfoHandle sInfo in sourceInfo.PropertyInfo)
+            {
+                PropertyInfoHandle tInfo = targetInfo.PropertyInfo[sInfo.PropertyName];
+                if (tInfo == null)
+                {
+                    continue;
+                }
+                if (CopyProperty(source, target, sInfo, tInfo))
+                {
+                    ret++;
+                }
+
+            }
+            return ret;
+        }
+
+        /// <summary>
+        /// 复制属性
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        /// <param name="sourceHandle"></param>
+        /// <param name="targetHandle"></param>
+        /// <returns></returns>
+        private static bool CopyProperty(object source, object target, PropertyInfoHandle sourceHandle, PropertyInfoHandle targetHandle) 
+        {
+            if (!sourceHandle.HasGetHandle) 
+            {
+                return false;
+            }
+            if (!targetHandle.HasSetHandle)
+            {
+                return false;
+            }
+            object sourceValue = sourceHandle.GetValue(source);
+            if(sourceHandle.PropertyType != targetHandle.PropertyType) 
+            {
+                try
+                {
+                    sourceValue = ValueConvertExtend.ConvertValue(sourceValue, targetHandle.PropertyType, null);
+
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+            }
+            targetHandle.SetValue(target, sourceValue);
+            return true;
+        }
 
     }
 }

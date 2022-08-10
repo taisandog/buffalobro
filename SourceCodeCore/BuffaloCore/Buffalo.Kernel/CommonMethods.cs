@@ -95,82 +95,7 @@ namespace Buffalo.Kernel
             string retRoot = Path.Combine(newpart);
             return retRoot;
         }
-        /*
-         作者:http://blog.sina.com.cn/s/blog_752ca76a01017s8l.html
-         */
-        /// <summary>
-        /// 比较输入字符串与模式的是否匹配，将根据每个字符进行比较
-        /// </summary>
-        /// <param name="input">输入字符串</param>
-        /// <param name="pattern">模式，允许使用的通配符：?，*，其中? 代表任意一个字符，* 代表零或多个任意字符</param>
-        /// <returns></returns>
-        public static Boolean IsPatternMatch(string input, string pattern)
-        {
-            Boolean matched = false;
-            Int32 inputIndex = 0;
-            Int32 patternIndex = 0;
-
-            //无通配符 * 时，比较算法（）
-            while (inputIndex < input.Length && patternIndex < pattern.Length && (pattern[patternIndex] != '*'))
-            {
-
-                if ((pattern[patternIndex] != '?') && (input[inputIndex] != pattern[patternIndex]))
-                {//如果模式字符不是通配符，且输入字符与模式字符不相等，则可判定整个输入字串与模式不匹配
-                    return matched;
-                }
-                patternIndex++;
-                inputIndex++;
-                if (patternIndex == pattern.Length && inputIndex < input.Length)
-                {
-                    return matched;
-                }
-                if (inputIndex == input.Length && patternIndex < pattern.Length)
-                {
-                    return matched;
-                }
-                if (patternIndex == pattern.Length && inputIndex == input.Length)
-                {
-                    matched = true;
-                    return matched;
-                }
-            }
-
-            //有通配符 * 时，比较算法
-            Int32 mp = 0;
-            Int32 cp = 0;
-            while (inputIndex < input.Length)
-            {
-                if (patternIndex < pattern.Length && pattern[patternIndex] == '*')
-                {
-                    if (++patternIndex >= pattern.Length)
-                    {
-                        matched = true;
-                        return matched;
-                    }
-                    mp = patternIndex;
-                    cp = inputIndex + 1;
-                }
-                else if (patternIndex < pattern.Length && ((pattern[patternIndex] == input[inputIndex]) || (pattern[patternIndex] == '?')))
-                {
-                    patternIndex++;
-                    inputIndex++;
-                }
-                else
-                {
-                    patternIndex = mp;
-                    inputIndex = cp++;
-                }
-            }
-
-            //当输入字符为空且模式为*时
-            while (patternIndex < pattern.Length && pattern[patternIndex] == '*')
-            {
-                patternIndex++;
-            }
-
-            return patternIndex >= pattern.Length ? true : false;
-
-        }
+       
 
         private static IHostEnvironment _hostingEnvironment;
 
@@ -194,38 +119,7 @@ namespace Buffalo.Kernel
         {
             _hostingEnvironment = hostingEnvironment;
         }
-        /// <summary>
-        /// 获取下一个节点
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="list">双链表</param>
-        /// <param name="currentNode">当前节点</param>
-        /// <returns></returns>
-        public static LinkedListNode<T> LinkedListNodeMoceNext<T>(LinkedList<T> list, LinkedListNode<T> currentNode)
-        {
-            currentNode = currentNode.Next;
-            if (currentNode == list.First)
-            {
-                return null;
-            }
-            return currentNode;
-        }
-        /// <summary>
-        /// 获取上一个节点
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="list">双链表</param>
-        /// <param name="currentNode">当前节点</param>
-        /// <returns></returns>
-        public static LinkedListNode<T> LinkedListNodeMocePrevious<T>(LinkedList<T> list, LinkedListNode<T> currentNode)
-        {
-            currentNode = currentNode.Previous;
-            if (currentNode == list.Last)
-            {
-                return null;
-            }
-            return currentNode;
-        }
+        
 
         /// <summary>
         /// 获取应用程序的基目录
@@ -269,11 +163,6 @@ namespace Buffalo.Kernel
             }
             return false;
         }
-
-
-
-
-
         /// <summary>
         /// 判断字符串是 null、空还是仅由空白字符组成（为.net2.0扩展的方法，等同于string.IsNullOrWhiteSpace）
         /// </summary>
@@ -293,7 +182,6 @@ namespace Buffalo.Kernel
             }
             return true;
         }
-
         /// <summary>
         /// 判断集合是 null还是空的集合。
         /// </summary>
@@ -301,18 +189,9 @@ namespace Buffalo.Kernel
         /// <returns></returns>
         public static bool IsCollectionNullOrEmpty(ICollection lst)
         {
-            if (lst == null)
-            {
-                return true;
-            }
-            if (lst.Count == 0)
-            {
-                return true;
-            }
-            return false;
+            
+            return lst==null || lst.Count<=0;
         }
-
-
         /// <summary>
         /// 判断是否为空
         /// </summary>
@@ -358,64 +237,9 @@ namespace Buffalo.Kernel
             }
             return new Guid(arrId);
         }
-        /// <summary>
-        /// 把DataSet打成XML字符串
-        /// </summary>
-        /// <param name="ds">要处理的DataSet</param>
-        /// <param name="mode">指定如何从 System.Data.DataSet 写入 XML 数据和关系架构</param>
-        /// <returns></returns>
-        public static string DataSetToXML(DataSet ds, XmlWriteMode mode)
-        {
-            string ret = null;
-            using (MemoryStream stm = new MemoryStream())
-            {
-                XmlTextWriter writer = new XmlTextWriter(stm, System.Text.Encoding.UTF8);
-                ds.WriteXml(writer, mode);
-                byte[] buffer = stm.ToArray();
-                ret = System.Text.Encoding.UTF8.GetString(buffer);
-            }
-            return ret;
-        }
 
-        /// <summary>
-        /// <summary>
-        /// 把DataSet打成XML字符串
-        /// </summary>
-        /// <param name="ds">要处理的DataSet</param>
-        /// <returns></returns>
-        public static string DataSetToXML(DataSet ds)
-        {
-            return DataSetToXML(ds, XmlWriteMode.WriteSchema);
-        }
 
-        /// <summary>
-        /// XML字符串转成DataSet
-        /// </summary>
-        /// <param name="xml">xml字符串</param>
-        /// <param name="mode">指定如何将 XML 数据和关系架构读入 System.Data.DataSet</param>
-        /// <returns></returns>
-        public static DataSet XMLToDataSet(string xml, XmlReadMode mode)
-        {
-            DataSet ds = new DataSet();
-            using (MemoryStream stm = new MemoryStream())
-            {
-                byte[] buffer = System.Text.Encoding.UTF8.GetBytes(xml);
-                stm.Write(buffer, 0, buffer.Length);
-                stm.Position = 0;
-                ds.ReadXml(stm, mode);
-            }
-            return ds;
-        }
-        /// <summary>
-        /// XML字符串转成DataSet
-        /// </summary>
-        /// <param name="xml">xml字符串</param>
-        /// <returns></returns>
-        private DataSet XMLToDataSet(string xml)
-        {
 
-            return XMLToDataSet(xml, XmlReadMode.ReadSchema);
-        }
         static readonly DateTime StartTimeUTC = TimeZoneInfo.ConvertTime(new System.DateTime(1970, 1, 1), TimeZoneInfo.Utc, TimeZoneInfo.Local);
         static readonly DateTime StartTime = new System.DateTime(1970, 1, 1);
 
@@ -453,17 +277,7 @@ namespace Buffalo.Kernel
                 }
             }
 
-            //System.DateTime time = System.DateTime.MinValue;
-            //System.DateTime startTime = isUTC ? StartTimeUTC : StartTime;
-            //if (useSecond)
-            //{
-            //    time = startTime.AddSeconds(d);
-            //}
-            //else
-            //{
-            //    time = startTime.AddMilliseconds(d);
-            //}
-            //return time;
+
         }
 
         /// <summary>
@@ -508,13 +322,7 @@ namespace Buffalo.Kernel
                     return time.Subtract(StartTime).TotalMilliseconds;
                 }
             }
-            //System.DateTime startTime = isUTC ? StartTimeUTC : StartTime;
-            //TimeSpan ts = time.Subtract(startTime);
-            //if (useSecond)
-            //{
-            //    return ts.TotalSeconds;
-            //}
-            //return ts.TotalMilliseconds;
+
         }
         /// <summary>
         /// 将c# DateTime时间格式转换为Unix时间戳格式(秒)
@@ -527,127 +335,9 @@ namespace Buffalo.Kernel
             return ConvertDateTimeInt(time, true, true);
         }
 
-        /// <summary>
-        /// 反序列化结构体
-        /// </summary>
-        /// <param name="rawdatas"></param>
-        /// <returns></returns>
-        public static object RawDeserialize(byte[] rawdatas, Type objType)
-        {
-
-            //Type anytype = typeof(T);
-
-            int rawsize = Marshal.SizeOf(objType);
-            object retobj = null;
-            if (rawsize > rawdatas.Length)
-            {
-                return retobj;
-            }
-
-            IntPtr buffer = Marshal.AllocHGlobal(rawsize);
-            try
-            {
-                Marshal.Copy(rawdatas, 0, buffer, rawsize);
-
-                retobj = Marshal.PtrToStructure(buffer, objType);
-            }
-            finally
-            {
-                Marshal.FreeHGlobal(buffer);
-            }
-
-            return retobj;
-        }
-        /// <summary>
-        /// 反序列化结构体
-        /// </summary>
-        /// <param name="rawdatas"></param>
-        /// <returns></returns>
-        public static T RawDeserialize<T>(byte[] rawdatas)
-        {
-            object obj = RawDeserialize(rawdatas, typeof(T));
-            return (T)obj;
-        }
-
-        /// <summary>
-        /// 从流中读出元素
-        /// </summary>
-        /// <param name="stm"></param>
-        /// <param name="objType"></param>
-        /// <returns></returns>
-        public static object RawDeserialize(Stream stm, Type objType)
-        {
-            int rawsize = Marshal.SizeOf(objType);
-            byte[] fbuffer = new byte[rawsize];
-            rawsize = stm.Read(fbuffer, 0, rawsize);
-            object retobj = null;
-
-            IntPtr buffer = Marshal.AllocHGlobal(rawsize);
-            try
-            {
-                Marshal.Copy(fbuffer, 0, buffer, rawsize);
-
-                retobj = Marshal.PtrToStructure(buffer, objType);
-            }
-            finally
-            {
-                Marshal.FreeHGlobal(buffer);
-            }
-
-            return retobj;
-        }
-
-        /// <summary>
-        /// 从流中读出元素
-        /// </summary>
-        /// <param name="stm">流</param>
-        /// <returns></returns>
-        public static T RawDeserialize<T>(Stream stm)
-        {
 
 
-            return (T)RawDeserialize(stm, typeof(T));
-        }
 
-        /// <summary>
-        /// 对象序列化成字节数组
-        /// </summary>
-        /// <param name="obj">对象</param>
-        /// <returns></returns>
-        public static byte[] RawSerialize(object obj)
-        {
-
-            int rawsize = Marshal.SizeOf(obj);
-
-            IntPtr buffer = Marshal.AllocHGlobal(rawsize);
-
-            byte[] rawdatas = null;
-            try
-            {
-                Marshal.StructureToPtr(obj, buffer, false);
-
-                rawdatas = new byte[rawsize];
-
-                Marshal.Copy(buffer, rawdatas, 0, rawsize);
-            }
-            finally
-            {
-                Marshal.FreeHGlobal(buffer);
-            }
-
-            return rawdatas;
-        }
-
-        /// <summary>
-        /// 获取本机IP
-        /// </summary>
-        /// <returns></returns>
-        public static IPAddress GetLocalIP()
-        {
-            IPHostEntry ipEntry = Dns.GetHostEntry(Dns.GetHostName());
-            IPAddress ip = ipEntry.AddressList[0];
-            return ip;
-        }
 
         /// <summary>
         /// 实体类型转换
@@ -782,27 +472,7 @@ namespace Buffalo.Kernel
             } while (readed > 0);
 
         }
-        /// <summary>
-        /// 获取字符串里边的所有数字
-        /// </summary>
-        /// <param name="str"></param>
-        /// <returns></returns>
-        public static string GetAllNumber(string str)
-        {
-            if (IsNullOrWhiteSpace(str))
-            {
-                return "";
-            }
-            StringBuilder ret = new StringBuilder(str.Length);
-            for (int i = 0; i < str.Length; i++)
-            {
-                if (char.IsDigit(str, i))
-                {
-                    ret.Append(str[i]);
-                }
-            }
-            return ret.ToString();
-        }
+
 
 
         /// <summary>
@@ -875,133 +545,6 @@ namespace Buffalo.Kernel
         }
 
         /// <summary>
-        /// 格式化字符串
-        /// </summary>
-        /// <param name="str"></param>
-        /// <returns></returns>
-        public static string FormatString(object str)
-        {
-            if (str == null)
-            {
-                return "";
-            }
-            return str.ToString();
-        }
-
-        /// <summary>
-        /// 格式化长字符串
-        /// </summary>
-        /// <param name="str"></param>
-        /// <returns></returns>
-        public static string FormatLongString(object str, int maxchr)
-        {
-            if (str == null)
-            {
-                return "";
-            }
-            string retStr = str.ToString();
-            if (retStr.Length > maxchr)
-            {
-                retStr = retStr.Substring(0, maxchr - 3) + "...";
-            }
-            return retStr;
-        }
-        private static char[] chrs;
-        /// <summary>
-        ///  随机生成字符串
-        /// </summary>
-        /// <param name="length">生成多少位随机字符串</param>
-        /// <returns></returns>
-        public static string GetCode(int length)
-        {
-            string lcode = "";
-            if (chrs == null)//如果字符库还没初始化就初始化
-            {
-                chrs = new char[36];
-                for (int i = 0; i < 26; i++)
-                {
-                    char chr = (char)('A' + i);
-                    chrs[i] = chr;
-                }
-                for (int k = 0; k < 10; k++)
-                {
-                    chrs[26 + k] = (char)('0' + k);
-                }
-            }
-            int seed = DateTime.Now.Day * 1000 + DateTime.Now.Hour * 100 + DateTime.Now.Minute * 10 + DateTime.Now.Second;
-            Random rnd = new Random(seed);
-            for (int x = 0; x < 4; x++)
-            {
-                int ind = (int)((float)(chrs.Length) * rnd.NextDouble());
-                lcode += chrs[ind].ToString();
-            }
-
-            return lcode;
-        }
-
-        /// <summary>
-        /// 格式化输出的日期
-        /// </summary>
-        /// <param name="dt"></param>
-        /// <returns></returns>
-        public static string FormatDateTimeString(DateTime dt)
-        {
-
-            string ret = dt.Year.ToString() + ".";
-
-            string tmp = dt.Month.ToString();
-            if (tmp.Length < 2)
-            {
-                tmp = "0" + tmp;
-            }
-            ret += tmp + ".";
-
-            tmp = dt.Day.ToString();
-            if (tmp.Length < 2)
-            {
-                tmp = "0" + tmp;
-            }
-            ret += tmp + " ";
-
-            tmp = dt.Hour.ToString();
-            if (tmp.Length < 2)
-            {
-                tmp = "0" + tmp;
-            }
-            ret += tmp + ":";
-
-            tmp = dt.Minute.ToString();
-            if (tmp.Length < 2)
-            {
-                tmp = "0" + tmp;
-            }
-            ret += tmp;
-            return ret;
-        }
-
-
-        /// <summary>
-        /// 判断该字符串是否整型数字
-        /// </summary>
-        /// <param name="str">字符串</param>
-        /// <returns></returns>
-        public static bool IsIntNumber(string str)
-        {
-            if (str == null || str == "")
-            {
-                return false;
-            }
-            for (int i = 0; i < str.Length; i++)
-            {
-                if (!char.IsDigit(str, i))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        /// <summary>
         /// 把集合转换成字典类
         /// </summary>
         /// <typeparam name="TKey">键类型</typeparam>
@@ -1039,39 +582,7 @@ namespace Buffalo.Kernel
             return dic;
         }
 
-        /// <summary>
-        /// 判断该字符串是否整型数字
-        /// </summary>
-        /// <param name="str">字符串</param>
-        /// <returns></returns>
-        public static bool IsNumber(string str)
-        {
-            if (str == null || str == "")
-            {
-                return false;
-            }
-            bool hasPoint = false;
-            for (int i = 0; i < str.Length; i++)
-            {
-                char chr = str[i];
-                if (str[i] == '.')
-                {
-                    if (hasPoint)//如果已经出现过点的话，就返回错误
-                    {
-                        return false;
-                    }
-                    hasPoint = true;
-                }
-                else
-                {
-                    if (!char.IsDigit(chr))
-                    {
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
+        
         /// <summary>
         /// 清除事件绑定的函数
         /// </summary>

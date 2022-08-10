@@ -59,7 +59,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CharCollectionEnumerator.cs" />
     <Compile Include="ClassProxyBuilder\DefaultProxyBuilder.cs" />
     <Compile Include="ClassProxyBuilder\IInterceptor.cs" />
     <Compile Include="Collections\LinkedDictionary.cs" />
@@ -69,11 +68,6 @@
     <Compile Include="Collections\LockObjects.cs" />
     <Compile Include="CommonMethods.cs" />
     <Compile Include="ConnStringFilter.cs" />
-    <Compile Include="LinkedDictionary.cs" />
-    <Compile Include="LockObjects.cs" />
-    <Compile Include="NestedLock.cs" />
-    <Compile Include="ContextValue.cs" />
-    <Compile Include="CSVReader.cs" />
     <Compile Include="Defaults\DefaultType.cs" />
     <Compile Include="Defaults\DefaultValue.cs" />
     <Compile Include="Defaults\TypeItem.cs" />
@@ -100,9 +94,7 @@
     <Compile Include="MassManager.cs" />
     <Compile Include="ObjectEventsUnit.cs" />
     <Compile Include="PasswordHash.cs" />
-    <Compile Include="Picture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PropertyType.cs" />
     <Compile Include="TreadPoolManager\BlockThread.cs" />
     <Compile Include="TreadPoolManager\BlockThreadPool.cs" />
     <Compile Include="ValueConvert\ValueConvertExtend.cs" />

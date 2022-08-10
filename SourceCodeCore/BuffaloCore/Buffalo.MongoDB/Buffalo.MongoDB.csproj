@@ -7,7 +7,7 @@
     <Product>Buffalo.MongoDB for .Net Standard 2.0</Product>
     <Description>Buffalo的MongoDB库</Description>
     <PackageProjectUrl>https://github.com/taisandog</PackageProjectUrl>
-    <Version>1.4.1</Version>
+    <Version>1.4.2</Version>
   </PropertyGroup>
 
   <ItemGroup>

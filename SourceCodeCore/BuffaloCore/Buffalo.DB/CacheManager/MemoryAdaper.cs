@@ -321,7 +321,7 @@ namespace Buffalo.DB.CacheManager
             while (cacheEnum.MoveNext())
             {
                 string val = ValueConvertExtend.ConvertValue<string>(cacheEnum.Key);
-                if (!CommonMethods.IsPatternMatch(val, pattern))
+                if (!IsPatternMatch(val, pattern))
                 {
                     continue;
                 }

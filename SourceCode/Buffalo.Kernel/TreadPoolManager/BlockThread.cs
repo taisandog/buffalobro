@@ -27,7 +27,7 @@ namespace Buffalo.Kernel.TreadPoolManager
         {
             get { return _messageHandle; }
             set { _messageHandle = value; }
-            
+
         }
 
         /// <summary>
@@ -37,9 +37,9 @@ namespace Buffalo.Kernel.TreadPoolManager
         /// <summary>
         /// 返回值
         /// </summary>
-        public object ReturnData 
+        public object ReturnData
         {
-            get 
+            get
             {
                 return _returnData;
             }
@@ -53,8 +53,8 @@ namespace Buffalo.Kernel.TreadPoolManager
         /// 带参带返回函数
         /// </summary>
         private ParameterizedReturnThreadStart _runParamReturnMethod;
-        private BlockThread( ThreadStart method, ParameterizedThreadStart paramMethod, ParameterizedReturnThreadStart paramReturnMethod,
-            IBlockThreadMessage messageHandle=null) 
+        private BlockThread(ThreadStart method, ParameterizedThreadStart paramMethod, ParameterizedReturnThreadStart paramReturnMethod,
+            IBlockThreadMessage messageHandle = null)
         {
             _thd = new Thread(new ParameterizedThreadStart(RunMethod));
             _runMethod = method;
@@ -62,16 +62,16 @@ namespace Buffalo.Kernel.TreadPoolManager
             _runParamReturnMethod = paramReturnMethod;
             _messageHandle = messageHandle;
         }
-        
+
 
         /// <summary>
         /// 创建线程信息
         /// </summary>
         /// <param name="thd"></param>
         /// <returns></returns>
-        public static BlockThread Create(ThreadStart method, IBlockThreadMessage messageHandle = null) 
+        public static BlockThread Create(ThreadStart method, IBlockThreadMessage messageHandle = null)
         {
-            return new BlockThread(method,null,null, messageHandle);
+            return new BlockThread(method, null, null, messageHandle);
         }
         /// <summary>
         /// 创建线程信息
@@ -80,7 +80,7 @@ namespace Buffalo.Kernel.TreadPoolManager
         /// <returns></returns>
         public static BlockThread Create(ParameterizedThreadStart method, IBlockThreadMessage messageHandle = null)
         {
-            return new BlockThread( null, method,null, messageHandle);
+            return new BlockThread(null, method, null, messageHandle);
         }
         /// <summary>
         /// 创建线程信息
@@ -104,7 +104,7 @@ namespace Buffalo.Kernel.TreadPoolManager
             }
             try
             {
-                if(info._messageHandle != null) 
+                if (info._messageHandle != null)
                 {
                     info._messageHandle.OnThreadStart(info);
                 }
@@ -112,13 +112,13 @@ namespace Buffalo.Kernel.TreadPoolManager
                 {
                     info._runMethod();
                 }
-                else if (info._runParamMethod!=null)
+                else if (info._runParamMethod != null)
                 {
                     info._runParamMethod(info._args);
                 }
                 else if (info._runParamReturnMethod != null)
                 {
-                    info._returnData=info._runParamReturnMethod(info._args);
+                    info._returnData = info._runParamReturnMethod(info._args);
                 }
             }
             finally
@@ -135,9 +135,9 @@ namespace Buffalo.Kernel.TreadPoolManager
         /// <summary>
         /// 开启线程
         /// </summary>
-        public void StartThread(object args=null) 
+        public void StartThread(object args = null)
         {
-            if (IsRunning) 
+            if (IsRunning)
             {
                 return;
             }
@@ -145,22 +145,22 @@ namespace Buffalo.Kernel.TreadPoolManager
             _isRunning = true;
             _autoHandle = new ManualResetEvent(true);
             _autoHandle.Reset();
-            
+
             _thd.Start(this);
         }
         /// <summary>
         /// 关闭线程
         /// </summary>
-        public void StopThread(int millisecondsTimeout= 10000) 
+        public void StopThread(int millisecondsTimeout = 10000)
         {
             _isRunning = false;
             bool isStop = false;
-            if (_autoHandle != null) 
+            if (_autoHandle != null)
             {
                 isStop = _autoHandle.WaitOne(millisecondsTimeout);
             }
             _autoHandle = null;
-            if (!isStop && _thd != null && _thd.IsAlive) 
+            if (!isStop && _thd != null && _thd.IsAlive)
             {
                 try
                 {
@@ -189,12 +189,12 @@ namespace Buffalo.Kernel.TreadPoolManager
         public void SendThreadStop()
         {
             _isRunning = false;
-            
+
         }
         /// <summary>
         /// 通知线程已经执行完
         /// </summary>
-        public void UnLock() 
+        public void UnLock()
         {
             if (_autoHandle != null)
             {
@@ -220,7 +220,7 @@ namespace Buffalo.Kernel.TreadPoolManager
                 return _thd;
             }
 
-           
+
         }
 
         /// <summary>
@@ -233,7 +233,7 @@ namespace Buffalo.Kernel.TreadPoolManager
                 return _args;
             }
 
-            
+
         }
 
         /// <summary>
@@ -243,20 +243,17 @@ namespace Buffalo.Kernel.TreadPoolManager
         {
             get
             {
-                if (_isRunning) 
-                {
-                    return _thd.IsAlive;
-                }
-                return _isRunning;
+                Thread thd = _thd;
+                return thd != null && thd.IsAlive;
             }
 
-            
+
         }
 
         /// <summary>
         /// 阻塞
         /// </summary>
-        public ManualResetEvent LockHandle 
+        public ManualResetEvent LockHandle
         {
             get { return _autoHandle; }
         }
@@ -269,7 +266,7 @@ namespace Buffalo.Kernel.TreadPoolManager
     /// <summary>
     /// 线程消息
     /// </summary>
-    public interface IBlockThreadMessage 
+    public interface IBlockThreadMessage
     {
         /// <summary>
         /// 线程开始

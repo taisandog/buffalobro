@@ -6,7 +6,7 @@
     <Company>dogcom</Company>
     <Description>Buffalo.DB的Oracle支持</Description>
     <PackageProjectUrl>https://github.com/taisandog</PackageProjectUrl>
-    <Version>1.5.0</Version>
+    <Version>1.5.1</Version>
     <Product>Buffalo.Data.Oracle for .Net Standard 2.0</Product>
   </PropertyGroup>
 

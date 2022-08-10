@@ -4,7 +4,6 @@ using System.Text;
 using System.Windows.Forms;
 using System.Collections.Specialized;
 using System.Runtime.InteropServices;
-using Buffalo.Kernel.Commons;
 
 
 namespace Buffalo.Win32Kernel.Win32

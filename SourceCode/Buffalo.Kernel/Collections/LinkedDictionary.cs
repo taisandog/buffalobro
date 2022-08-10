@@ -205,6 +205,7 @@ namespace Buffalo.Kernel.Collections
         {
             _dic.Clear();
             _lk.Clear();
+
         }
 
         /// <summary>
@@ -280,7 +281,7 @@ namespace Buffalo.Kernel.Collections
                 isRemove = _dic.Remove(key);
                 _lk.Remove(ret);
             }
-
+            ret = null;
             return isRemove;
         }
         /// <summary>
@@ -292,19 +293,29 @@ namespace Buffalo.Kernel.Collections
         {
             LinkedListNode<LinkedValueNode<T, K>> retNode = null;
             bool isRemove = false;
+            K ret = default(K);
             if (_dic.TryGetValue(key, out retNode))
             {
+                ret = retNode.Value.Value;
                 isRemove = _dic.Remove(key);
                 _lk.Remove(retNode);
+                
             }
-            if (!isRemove || retNode == null)
-            {
-                return default(K);
-            }
-            K ret = retNode.Value.Value;
+            
+            ClearLinkedListNode(retNode);
             retNode = null;
             return ret;
         }
+
+        private void ClearLinkedListNode(LinkedListNode<LinkedValueNode<T, K>> retNode) 
+        {
+            if(retNode == null) 
+            {
+                return;
+            }
+            retNode.Value = null;
+        }
+
         /// <summary>
         /// 删除项
         /// </summary>
@@ -318,6 +329,7 @@ namespace Buffalo.Kernel.Collections
             }
             bool isRemove = _dic.Remove(item.Value.Key);
             _lk.Remove(item);
+            ClearLinkedListNode(item);
             return isRemove;
 
         }
@@ -337,6 +349,7 @@ namespace Buffalo.Kernel.Collections
                 isRemove = _dic.Remove(key);
                 _lk.Remove(retNode);
             }
+            ClearLinkedListNode(retNode);
             if (!isRemove || retNode == null)
             {
                 return false;
@@ -392,7 +405,7 @@ namespace Buffalo.Kernel.Collections
                 }
                 if (!Remove(curNode))
                 {
-                    break;
+                    //break;
                 }
             }
         }
@@ -460,7 +473,41 @@ namespace Buffalo.Kernel.Collections
     }
 
 
-
+    public class LinkedUnit 
+    {
+        /// <summary>
+        /// 获取下一个节点
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list">双链表</param>
+        /// <param name="currentNode">当前节点</param>
+        /// <returns></returns>
+        public static LinkedListNode<T> LinkedListNodeMoceNext<T>(LinkedList<T> list, LinkedListNode<T> currentNode)
+        {
+            currentNode = currentNode.Next;
+            if (currentNode == list.First)
+            {
+                return null;
+            }
+            return currentNode;
+        }
+        /// <summary>
+        /// 获取上一个节点
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list">双链表</param>
+        /// <param name="currentNode">当前节点</param>
+        /// <returns></returns>
+        public static LinkedListNode<T> LinkedListNodeMocePrevious<T>(LinkedList<T> list, LinkedListNode<T> currentNode)
+        {
+            currentNode = currentNode.Previous;
+            if (currentNode == list.Last)
+            {
+                return null;
+            }
+            return currentNode;
+        }
+    }
     
 
 }

@@ -258,12 +258,6 @@
     <Compile Include="Exceptions\SQLRunningException.cs" />
     <Compile Include="FaintnessSearchConditions\FullTextConfigManager.cs" />
     <Compile Include="FaintnessSearchConditions\NoiseWord.cs" />
-    <Compile Include="ListExtends\CompareItem.cs" />
-    <Compile Include="ListExtends\CompareItemInfo.cs" />
-    <Compile Include="ListExtends\DataFilter.cs" />
-    <Compile Include="ListExtends\ListXMLExtends.cs" />
-    <Compile Include="ListExtends\SortCompartItem.cs" />
-    <Compile Include="ListExtends\XMLExtendsLoader.cs" />
     <Compile Include="MessageOutPuters\DebugOutputer.cs" />
     <Compile Include="MessageOutPuters\MessageInfo.cs" />
     <Compile Include="MessageOutPuters\MessageOutput.cs" />
@@ -288,7 +282,6 @@
     <Compile Include="QueryConditions\Scope.cs" />
     <Compile Include="QueryConditions\ScopeBaseList.cs" />
     <Compile Include="QueryConditions\ScopeList.cs" />
-    <Compile Include="QueryConditions\ScopeXmlExtend.cs" />
     <Compile Include="QueryConditions\SelectCondition.cs" />
     <Compile Include="QueryConditions\ShowChildCollection.cs" />
     <Compile Include="QueryConditions\ShowChildItem.cs" />

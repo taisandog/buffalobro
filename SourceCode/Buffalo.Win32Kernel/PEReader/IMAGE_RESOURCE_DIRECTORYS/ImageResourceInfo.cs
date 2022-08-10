@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
 using Buffalo.Kernel;
 
@@ -37,7 +39,7 @@ namespace Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS
             this.deep = deep;
             this.baseOffest = baseOffest;
             this.pe = pe;
-            resourceDirectory = CommonMethods.RawDeserialize<IMAGE_RESOURCE_DIRECTORY>(pe.BaseStream);
+            resourceDirectory = RawDeserialize<IMAGE_RESOURCE_DIRECTORY>(pe.BaseStream);
 
             int count = resourceDirectory.NumberOfNamedEntries + resourceDirectory.NumberOfIdEntries;//资源总数
             lstResourceInfo = new List<ResourceDirectoryEntryInfo>(count);
@@ -87,10 +89,119 @@ namespace Buffalo.Win32Kernel.PEReader.IMAGE_RESOURCE_DIRECTORYS
                 }
                 else//如果最高位是0，则指向 ImageResourceDataEntry
                 {
-                    resourceDirectorEntry.ValueData = CommonMethods.RawDeserialize<IMAGE_RESOURCE_DATA_ENTRY>(pe.BaseStream);
+                    resourceDirectorEntry.ValueData = RawDeserialize<IMAGE_RESOURCE_DATA_ENTRY>(pe.BaseStream);
                 }
             }
         }
+        /// <summary>
+        /// 反序列化结构体
+        /// </summary>
+        /// <param name="rawdatas"></param>
+        /// <returns></returns>
+        public static object RawDeserialize(byte[] rawdatas, Type objType)
+        {
 
+            //Type anytype = typeof(T);
+
+            int rawsize = Marshal.SizeOf(objType);
+            object retobj = null;
+            if (rawsize > rawdatas.Length)
+            {
+                return retobj;
+            }
+
+            IntPtr buffer = Marshal.AllocHGlobal(rawsize);
+            try
+            {
+                Marshal.Copy(rawdatas, 0, buffer, rawsize);
+
+                retobj = Marshal.PtrToStructure(buffer, objType);
+            }
+            finally
+            {
+                Marshal.FreeHGlobal(buffer);
+            }
+
+            return retobj;
+        }
+        /// <summary>
+        /// 反序列化结构体
+        /// </summary>
+        /// <param name="rawdatas"></param>
+        /// <returns></returns>
+        public static T RawDeserialize<T>(byte[] rawdatas)
+        {
+            object obj = RawDeserialize(rawdatas, typeof(T));
+            return (T)obj;
+        }
+
+        /// <summary>
+        /// 从流中读出元素
+        /// </summary>
+        /// <param name="stm"></param>
+        /// <param name="objType"></param>
+        /// <returns></returns>
+        public static object RawDeserialize(Stream stm, Type objType)
+        {
+            int rawsize = Marshal.SizeOf(objType);
+            byte[] fbuffer = new byte[rawsize];
+            rawsize = stm.Read(fbuffer, 0, rawsize);
+            object retobj = null;
+
+            IntPtr buffer = Marshal.AllocHGlobal(rawsize);
+            try
+            {
+                Marshal.Copy(fbuffer, 0, buffer, rawsize);
+
+                retobj = Marshal.PtrToStructure(buffer, objType);
+            }
+            finally
+            {
+                Marshal.FreeHGlobal(buffer);
+            }
+
+            return retobj;
+        }
+
+        /// <summary>
+        /// 从流中读出元素
+        /// </summary>
+        /// <param name="stm">流</param>
+        /// <returns></returns>
+        public static T RawDeserialize<T>(Stream stm)
+        {
+
+
+            return (T)RawDeserialize(stm, typeof(T));
+        }
+
+        /// <summary>
+        /// 对象序列化成字节数组
+        /// </summary>
+        /// <param name="obj">对象</param>
+        /// <returns></returns>
+        public static byte[] RawSerialize(object obj)
+        {
+
+            int rawsize = Marshal.SizeOf(obj);
+
+            IntPtr buffer = Marshal.AllocHGlobal(rawsize);
+
+            byte[] rawdatas = null;
+            try
+            {
+                Marshal.StructureToPtr(obj, buffer, false);
+
+                rawdatas = new byte[rawsize];
+
+                Marshal.Copy(buffer, rawdatas, 0, rawsize);
+            }
+            finally
+            {
+                Marshal.FreeHGlobal(buffer);
+            }
+
+            return rawdatas;
+        }
     }
 }

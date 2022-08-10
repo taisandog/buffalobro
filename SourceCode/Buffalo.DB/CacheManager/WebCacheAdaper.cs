@@ -11,6 +11,7 @@ using Buffalo.Kernel;
 using Buffalo.DB.MessageOutPuters;
 using System.Collections.Concurrent;
 using Buffalo.DB.CacheManager.CacheCollection;
+using Buffalo.Kernel.Collections;
 
 namespace Buffalo.DB.CacheManager
 {
