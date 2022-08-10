@@ -243,11 +243,8 @@ namespace Buffalo.Kernel.TreadPoolManager
         {
             get
             {
-                if (_isRunning) 
-                {
-                    return _thd.IsAlive;
-                }
-                return _isRunning;
+                Thread thd = _thd;
+                return thd!=null && thd.IsAlive;
             }
 
             

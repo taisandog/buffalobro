@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Data;
-using Buffalo.Kernel.Commons;
 using Buffalo.Kernel;
 using Buffalo.DB.DataBaseAdapter.IDbAdapters;
 using Buffalo.DB.BQLCommon.BQLConditionCommon;

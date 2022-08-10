@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Text;
 
-using Buffalo.DB.ListExtends;
 using System.Reflection;
 using Buffalo.DB.EntityInfos;
 using Buffalo.Kernel.FastReflection.ClassInfos;

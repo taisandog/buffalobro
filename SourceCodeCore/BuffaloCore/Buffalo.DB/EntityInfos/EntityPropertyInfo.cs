@@ -5,7 +5,6 @@ using Buffalo.DB.PropertyAttributes;
 using System.Data;
 using Buffalo.DB.DataBaseAdapter;
 using Buffalo.Kernel.FastReflection;
-using Buffalo.Kernel.Commons;
 using System.Reflection;
 
 namespace Buffalo.DB.EntityInfos
