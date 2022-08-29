@@ -97,7 +97,7 @@ namespace Buffalo.Kernel.TreadPoolManager
                     foreach (KeyValuePair<BlockThread, bool> kvp in que)
                     {
                         einfo = kvp.Key;
-                        einfo.SendThreadStop();
+                        einfo.SendCancel();
                     }
                     foreach (KeyValuePair<BlockThread, bool> kvp in que)
                     {

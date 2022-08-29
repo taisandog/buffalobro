@@ -29,7 +29,62 @@ namespace Buffalo.Kernel.TreadPoolManager
             set { _messageHandle = value; }
 
         }
+        private object _args;
 
+        private bool _isCancel = false;
+
+        private Thread _thd;
+
+        /// <summary>
+        /// 是否要取消线程
+        /// </summary>
+        public bool IsCancel
+        {
+            get
+            {
+                return _isCancel;
+            }
+        }
+
+        private bool _saveThreadInfo;
+
+        /// <summary>
+        /// 保存当前线程信息，此为true时候线程方法可以通过BlockThread.CurrentThreadInfo获取到当前实例
+        /// </summary>
+        public bool SaveThreadInfo
+        {
+            get
+            {
+                return _saveThreadInfo;
+            }
+            set
+            {
+                _saveThreadInfo = value;
+            }
+        }
+
+        private static ThreadLocal<BlockThread> _tlThreadInfo = new ThreadLocal<BlockThread>();
+
+        /// <summary>
+        /// 当前线程的信息
+        /// </summary>
+        public static BlockThread CurrentThreadInfo
+        {
+            get
+            {
+                return _tlThreadInfo.IsValueCreated ? _tlThreadInfo.Value : null;
+            }
+        }
+        /// <summary>
+        /// 当前线程是否需要取消
+        /// </summary>
+        public static bool CurrentThreadCancelled
+        {
+            get
+            {
+                return _tlThreadInfo.IsValueCreated ? _tlThreadInfo.Value._isCancel : false;
+            }
+        }
         /// <summary>
         /// 返回值
         /// </summary>
@@ -104,6 +159,10 @@ namespace Buffalo.Kernel.TreadPoolManager
             }
             try
             {
+                if (info._saveThreadInfo)
+                {
+                    _tlThreadInfo.Value = info;
+                }
                 if (info._messageHandle != null)
                 {
                     info._messageHandle.OnThreadStart(info);
@@ -123,12 +182,16 @@ namespace Buffalo.Kernel.TreadPoolManager
             }
             finally
             {
-                info._isRunning = false;
-                info.UnLock();
-                if (info._messageHandle != null)
+                try
                 {
-                    info._messageHandle.OnThreadEnd(info);
+                    info.UnLock();
+                    if (info._messageHandle != null)
+                    {
+                        info._messageHandle.OnThreadEnd(info);
+                    }
                 }
+                catch (Exception ex) { }
+                ClearThread(info);
             }
         }
 
@@ -141,8 +204,10 @@ namespace Buffalo.Kernel.TreadPoolManager
             {
                 return;
             }
+            ResetData();
+
             _args = args;
-            _isRunning = true;
+            _isCancel = false;
             _autoHandle = new ManualResetEvent(true);
             _autoHandle.Reset();
 
@@ -153,13 +218,12 @@ namespace Buffalo.Kernel.TreadPoolManager
         /// </summary>
         public void StopThread(int millisecondsTimeout = 10000)
         {
-            _isRunning = false;
             bool isStop = false;
             if (_autoHandle != null)
             {
                 isStop = _autoHandle.WaitOne(millisecondsTimeout);
             }
-            _autoHandle = null;
+
             if (!isStop && _thd != null && _thd.IsAlive)
             {
                 try
@@ -168,7 +232,30 @@ namespace Buffalo.Kernel.TreadPoolManager
                 }
                 catch { }
             }
-            _thd = null;
+            ClearThread(this);
+
+
+        }
+        /// <summary>
+        /// 清理类信息
+        /// </summary>
+        private static void ClearThread(BlockThread info)
+        {
+            if (info._autoHandle != null)
+            {
+                try
+                {
+                    info._autoHandle.Dispose();
+                }
+                catch { }
+            }
+            info._autoHandle = null;
+            info._thd = null;
+            info._messageHandle = null;
+            if (info._saveThreadInfo)
+            {
+                _tlThreadInfo.Value = null;
+            }
         }
 
         /// <summary>
@@ -184,12 +271,11 @@ namespace Buffalo.Kernel.TreadPoolManager
         }
 
         /// <summary>
-        /// 告诉线程要关闭
+        /// 告诉线程要取消
         /// </summary>
-        public void SendThreadStop()
+        public void SendCancel()
         {
-            _isRunning = false;
-
+            _isCancel = true;
         }
         /// <summary>
         /// 通知线程已经执行完
@@ -201,11 +287,7 @@ namespace Buffalo.Kernel.TreadPoolManager
                 _autoHandle.Set();
             }
         }
-        private object _args;
 
-        private bool _isRunning;
-
-        private Thread _thd;
         /// <summary>
         /// 阻塞
         /// </summary>
@@ -261,6 +343,22 @@ namespace Buffalo.Kernel.TreadPoolManager
         public void Dispose()
         {
             StopThread();
+            ResetData();
+
+            _runMethod = null;
+            _runParamMethod = null;
+            _runParamReturnMethod = null;
+        }
+
+        private void ResetData()
+        {
+            _returnData = null;
+            _args = null;
+
+        }
+        ~BlockThread()
+        {
+            Dispose();
         }
     }
     /// <summary>

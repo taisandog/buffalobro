@@ -12,12 +12,12 @@ namespace Buffalo.Kernel.TreadPoolManager
     /// <summary>
     ///  用户线程池
     /// </summary>
-    public class BlockThreadPool: IBlockThreadMessage
+    public class BlockThreadPool : IBlockThreadMessage
     {
         /// <summary>
         /// 线程信息
         /// </summary>
-        private ConcurrentDictionary<BlockThread,bool> _que = new ConcurrentDictionary<BlockThread, bool>();
+        private ConcurrentDictionary<BlockThread, bool> _que = new ConcurrentDictionary<BlockThread, bool>();
 
         /// <summary>
         /// 最后清理日期
@@ -27,26 +27,26 @@ namespace Buffalo.Kernel.TreadPoolManager
         /// <summary>
         /// 检查间隔
         /// </summary>
-        public int Checkmilliseconds 
+        public int Checkmilliseconds
         {
-            get 
+            get
             {
                 return _checkmilliseconds;
             }
         }
-        
-        
-       
+
+
+
 
         /// <summary>
         /// 用户线程池
         /// </summary>
         /// <param name="checkmilliseconds">检查间隔</param>
         /// <param name="threadTimeOut">线程过时</param>
-        public BlockThreadPool(int checkmilliseconds=1000) 
+        public BlockThreadPool(int checkmilliseconds = 1000)
         {
             _checkmilliseconds = checkmilliseconds;
-            
+
         }
 
 
@@ -64,17 +64,17 @@ namespace Buffalo.Kernel.TreadPoolManager
 
             ConcurrentDictionary<BlockThread, bool> que = _que;
             Queue<BlockThread> queDelete = new Queue<BlockThread>();
-            foreach(KeyValuePair<BlockThread,bool> kvp in que)
+            foreach (KeyValuePair<BlockThread, bool> kvp in que)
             {
                 einfo = kvp.Key;
-                if (!einfo.IsRunning) 
+                if (!einfo.IsRunning)
                 {
                     queDelete.Enqueue(einfo);
                 }
-               
+
             }
 
-            foreach(BlockThread thd in queDelete) 
+            foreach (BlockThread thd in queDelete)
             {
                 que.TryRemove(thd, out _);
                 thd.StopThread();
@@ -90,14 +90,14 @@ namespace Buffalo.Kernel.TreadPoolManager
         {
             try
             {
-                ConcurrentDictionary<BlockThread,bool> que = _que;
+                ConcurrentDictionary<BlockThread, bool> que = _que;
                 if (que != null)
                 {
                     BlockThread einfo = null;
                     foreach (KeyValuePair<BlockThread, bool> kvp in que)
                     {
                         einfo = kvp.Key;
-                        einfo.SendThreadStop();
+                        einfo.SendCancel();
                     }
                     foreach (KeyValuePair<BlockThread, bool> kvp in que)
                     {
@@ -108,7 +108,7 @@ namespace Buffalo.Kernel.TreadPoolManager
                         }
                         catch { }
                     }
-                    
+
                 }
                 que.Clear();
             }
@@ -119,18 +119,18 @@ namespace Buffalo.Kernel.TreadPoolManager
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        public void AppendThreadInfo(BlockThread info) 
+        public void AppendThreadInfo(BlockThread info)
         {
             info.MessageHandle = this;
             CleanTimeout();
-            _que[info]=true;
+            _que[info] = true;
         }
 
         /// <summary>
         /// 告诉线程池本线程已经完结
         /// </summary>
         /// <param name="info"></param>
-        public void OnThreadEnd(BlockThread info) 
+        public void OnThreadEnd(BlockThread info)
         {
             _que.TryRemove(info, out _);
         }
@@ -143,7 +143,7 @@ namespace Buffalo.Kernel.TreadPoolManager
         public BlockThread RunThread(ThreadStart method)
         {
 
-            BlockThread info = BlockThread.Create(method,this);
+            BlockThread info = BlockThread.Create(method, this);
             AppendThreadInfo(info);
             info.StartThread();
             return info;
@@ -153,10 +153,10 @@ namespace Buffalo.Kernel.TreadPoolManager
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        public BlockThread RunParamThread(ParameterizedThreadStart method,object args)
+        public BlockThread RunParamThread(ParameterizedThreadStart method, object args)
         {
 
-            BlockThread info = BlockThread.Create(method,this);
+            BlockThread info = BlockThread.Create(method, this);
             AppendThreadInfo(info);
             info.StartThread(args);
             return info;
@@ -177,7 +177,7 @@ namespace Buffalo.Kernel.TreadPoolManager
 
         public void OnThreadStart(BlockThread thd)
         {
-            
+
         }
     }
 }
