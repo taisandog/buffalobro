@@ -357,13 +357,14 @@ namespace Buffalo.DB.CommBase.DataAccessBases
 
             condition.Condition.Append("1=1");
 
-            if (scopeList.UseCache)
-            {
-                condition.CacheTables = CurEntityInfo.DBInfo.QueryCache.CreateMap(CurEntityInfo.TableName);
-            }
+            
 
             if (scopeList != null)
             {
+                if (scopeList.UseCache)
+                {
+                    condition.CacheTables = CurEntityInfo.DBInfo.QueryCache.CreateMap(CurEntityInfo.TableName);
+                }
                 condition.Condition.Append(DataAccessCommon.FillCondition(CurEntityInfo, list, scopeList));
 
                 if (scopeList.Having.Count>0 )
