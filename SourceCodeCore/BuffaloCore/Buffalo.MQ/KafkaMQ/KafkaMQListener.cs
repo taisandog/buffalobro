@@ -1,4 +1,5 @@
-﻿using Confluent.Kafka;
+﻿using Buffalo.Kernel.TreadPoolManager;
+using Confluent.Kafka;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -16,25 +17,25 @@ namespace Buffalo.MQ.KafkaMQ
         
 
         private CancellationTokenSource _running =null;
-        private AutoResetEvent _handle = null;
-        private Thread _thd;
+        //private AutoResetEvent _handle = null;
+        private BlockThread _thd;
         public override void StartListend(IEnumerable<string> listenKeys)
         {
             _running = new CancellationTokenSource();
-            _handle = new AutoResetEvent(true);
+            //_handle = new AutoResetEvent(true);
             ResetWait();
-            _thd = new Thread(new ParameterizedThreadStart(OnListend));
-            
-            _thd.Start(listenKeys);
+            //_thd = new Thread(new ParameterizedThreadStart(OnListend));
+            _thd = BlockThread.Create(OnListend);
+            _thd.StartThread(listenKeys);
         }
         public override void StartListend(IEnumerable<MQOffestInfo> listenKeys)
         {
             _running = new CancellationTokenSource();
-            _handle = new AutoResetEvent(true);
+            //_handle = new AutoResetEvent(true);
             ResetWait();
-            _thd = new Thread(new ParameterizedThreadStart(OnListend));
-            
-            _thd.Start(listenKeys);
+            _thd = BlockThread.Create(OnListend);
+
+            _thd.StartThread(listenKeys);
         }
         
         public override void Close()
@@ -59,6 +60,7 @@ namespace Buffalo.MQ.KafkaMQ
 
             using (IConsumer<byte[], byte[]> consumer = builder.Build())
             {
+                
                 consumer.Subscribe(topics);
                 
                 if (topicsOffest != null)
@@ -92,9 +94,10 @@ namespace Buffalo.MQ.KafkaMQ
                         try
                         {
                             ConsumeResult<byte[], byte[]> res = consumer.Consume(token);
-                            
-                            CallBack(res.Topic, res.Topic, res.Message.Value,res.Partition,res.Offset);
-                            consumer.Commit(res);
+                            KafkaCallbackMessage mess = new KafkaCallbackMessage(res.Topic,res.Message.Value,
+                                res.Partition, res.Offset, consumer, res);
+                            CallBack(mess);
+                            //consumer.Commit(res);
                         }
                         catch (Exception ex)
                         {
@@ -127,22 +130,27 @@ namespace Buffalo.MQ.KafkaMQ
                     OnException(ex);
                 }
             }
-            
-            if (_handle != null && _thd!=null)
+
+            if (_thd != null) 
             {
-                if (!_handle.WaitOne(1000))
-                {
-                    try
-                    {
-                        _thd.Abort();
-                    }
-                    catch(Exception ex)
-                    {
-                        OnException(ex);
-                    }
-                }
+                _thd.StopThread();
             }
-            _handle = null;
+            _thd = null;
+            //if (_handle != null && _thd!=null)
+            //{
+            //    if (!_handle.WaitOne(1000))
+            //    {
+            //        try
+            //        {
+            //            _thd.Abort();
+            //        }
+            //        catch(Exception ex)
+            //        {
+            //            OnException(ex);
+            //        }
+            //    }
+            //}
+            //_handle = null;
             DisponseWait();
         }
 
@@ -150,5 +158,7 @@ namespace Buffalo.MQ.KafkaMQ
         {
             CloseListener();
         }
+
+       
     }
 }

@@ -98,13 +98,24 @@ namespace Buffalo.MQ.KafkaMQ
             Message<byte[], byte[]> message = new Message<byte[], byte[]>();
             message.Key = DefaultEncoding.GetBytes(key);
             message.Value = body;
+            
             IProducer<byte[], byte[]> producer = GetProducer();
             Task<DeliveryResult<byte[], byte[]>> delRes = producer.ProduceAsync(key, message);
             
             _queResault.Enqueue(delRes);
             return ApiCommon.GetSuccess();
         }
-       
+
+        protected override APIResault SendMessage(MQSendMessage mess)
+        {
+            MQKafkaMessage message=mess as MQKafkaMessage;
+
+            IProducer<byte[], byte[]> producer = GetProducer();
+            Task<DeliveryResult<byte[], byte[]>> delRes = producer.ProduceAsync(message.TopicPartition, message.Message, message.CancellationToken);
+
+            _queResault.Enqueue(delRes);
+            return ApiCommon.GetSuccess();
+        }
 
         /// <summary>
         /// 清空缓冲区
@@ -148,22 +159,32 @@ namespace Buffalo.MQ.KafkaMQ
             _queResault = null;
         }
 
-        public override void DeleteTopic(bool ifUnused)
-        {
+        //public override void DeleteTopic(bool ifUnused)
+        //{
 
 
 
-        }
+        //}
 
-        public override void DeleteQueue(IEnumerable<string> queueName, bool ifUnused, bool ifEmpty)
+        //public override void DeleteQueue(IEnumerable<string> queueName, bool ifUnused, bool ifEmpty)
+        //{
+        //    using (IAdminClient admin = _config.AdminBuilder.Build())
+        //    {
+        //        admin.DeleteTopicsAsync(queueName, null);
+
+        //    }
+        //}
+        /// <summary>
+        /// 删除话题
+        /// </summary>
+        /// <param name="queueName"></param>
+        public void DeleteTopicsAsync(IEnumerable<string> queueName)
         {
             using (IAdminClient admin = _config.AdminBuilder.Build())
             {
                 admin.DeleteTopicsAsync(queueName, null);
-
             }
         }
-
 
 
         protected override void Open()

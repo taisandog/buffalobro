@@ -95,6 +95,19 @@ namespace Buffalo.MQ
             return res;
         }
         /// <summary>
+        /// 发送信息
+        /// </summary>
+        /// <param name="message">内容类</param>
+        /// <returns></returns>
+        public APIResault Send(MQSendMessage message)
+        {
+            Open();
+            APIResault res = SendMessage(message);
+
+            AutoClose();
+            return res;
+        }
+        /// <summary>
         /// 开启事务
         /// </summary>
         /// <returns></returns>
@@ -164,8 +177,13 @@ namespace Buffalo.MQ
         protected abstract void Open();
 
 
-        
 
+        /// <summary>
+        /// 发布内容
+        /// </summary>
+        /// <param name="mess">内容类</param>
+        /// <returns></returns>
+        protected abstract APIResault SendMessage(MQSendMessage mess);
 
         /// <summary>
         /// 发布内容
@@ -187,15 +205,15 @@ namespace Buffalo.MQ
             return SendMessage(key, content);
 
         }
-        /// <summary>
-        /// 删除队列(Rabbit可用)
-        /// </summary>
-        /// <param name="queueName">队列名，如果为null则全删除</param>
-        public abstract void DeleteQueue(IEnumerable<string> queueName, bool ifUnused, bool ifEmpty);
-        /// <summary>
-        /// 删除交换器
-        /// </summary>
-        public abstract void DeleteTopic(bool ifUnused);
+        ///// <summary>
+        ///// 删除队列(Rabbit可用)
+        ///// </summary>
+        ///// <param name="queueName">队列名，如果为null则全删除</param>
+        //public abstract void DeleteQueue(IEnumerable<string> queueName, bool ifUnused, bool ifEmpty);
+        ///// <summary>
+        ///// 删除交换器
+        ///// </summary>
+        //public abstract void DeleteTopic(bool ifUnused);
         /// <summary>
         /// 关闭连接
         /// </summary>

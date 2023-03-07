@@ -1,13 +1,8 @@
 ﻿using Buffalo.ArgCommon;
 using Buffalo.Kernel;
-using Buffalo.MQ.MQTTLib.MQTTnet;
-using Buffalo.MQ.MQTTLib.MQTTnet.Adapter;
-using Buffalo.MQ.MQTTLib.MQTTnet.Client;
-using Buffalo.MQ.MQTTLib.MQTTnet.Client.Connecting;
-using Buffalo.MQ.MQTTLib.MQTTnet.Client.Disconnecting;
-using Buffalo.MQ.MQTTLib.MQTTnet.Client.Options;
-using Buffalo.MQ.MQTTLib.MQTTnet.Client.Receiving;
-using Buffalo.MQ.MQTTLib.MQTTnet.Client.Subscribing;
+using MQTTnet;
+using MQTTnet.Adapter;
+using MQTTnet.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +15,7 @@ namespace Buffalo.MQ.MQTTLib
     {
         private MQTTConfig _config;
         MqttClient _mqttClient = null;
-        IMqttClientOptions _options = null;
+        MqttClientOptions _options = null;
         private static Encoding DefaultEncoding = Encoding.UTF8;
         IEnumerable<MQOffestInfo> _lstTopic = null;
         bool _isRunning = false;
@@ -50,14 +45,14 @@ namespace Buffalo.MQ.MQTTLib
 
                     _options = _config.Options.Build();
 
-
-                    _mqttClient.ConnectedHandler = new MqttClientConnectedHandlerDelegate(new Func<MqttClientConnectedEventArgs, Task>(Connected));
-                    _mqttClient.DisconnectedHandler = new MqttClientDisconnectedHandlerDelegate(new Func<MqttClientDisconnectedEventArgs, Task>(Disconnected));
-                    _mqttClient.ApplicationMessageReceivedHandler = new MqttApplicationMessageReceivedHandlerDelegate(new Action<MqttApplicationMessageReceivedEventArgs>(MqttApplicationMessageReceived));
-                    MqttClientAuthenticateResult res = _mqttClient.ConnectAsync(_options).Result;
+                    _mqttClient.ConnectedAsync += Connected;
+                    //_mqttClient.ConnectedHandler = new MqttClientConnectedHandlerDelegate(new Func<MqttClientConnectedEventArgs, Task>(Connected));
+                    _mqttClient.DisconnectedAsync +=Disconnected;
+                    _mqttClient.ApplicationMessageReceivedAsync += ApplicationMessageReceivedAsync;
+                    MqttClientConnectResult res = _mqttClient.ConnectAsync(_options).Result;
                     if (res.ResultCode != MqttClientConnectResultCode.Success)
                     {
-                        throw new MqttConnectingFailedException(res);
+                        throw new MqttConnectingFailedException("Connect Fault", null, res);
                     }
                 }
                 finally 
@@ -70,28 +65,28 @@ namespace Buffalo.MQ.MQTTLib
 
         }
 
-        /// <summary>
-        /// 接收消息触发事件
-        /// </summary>
-        /// <param name="e"></param>
-        private void MqttApplicationMessageReceived(MqttApplicationMessageReceivedEventArgs e)
+        private Task ApplicationMessageReceivedAsync(MqttApplicationMessageReceivedEventArgs arg)
         {
             try
             {
-                byte[] value = e.ApplicationMessage.Payload;
-                string topic = e.ApplicationMessage.Topic;
-                string qos = e.ApplicationMessage.QualityOfServiceLevel.ToString();
-                string retained = e.ApplicationMessage.Retain.ToString();
+                byte[] value = arg.ApplicationMessage.Payload;
+                string topic = arg.ApplicationMessage.Topic;
+                //string qos = e.ApplicationMessage.QualityOfServiceLevel.ToString();
+                //string retained = e.ApplicationMessage.Retain.ToString();
+                MQTTCallbackMessage message = new MQTTCallbackMessage(topic, value, arg);
+                CallBack(message);
 
-                CallBack(topic, topic, value, 0, 0);
-                
             }
             catch (Exception exp)
             {
                 OnException(exp);
             }
-
+            return Task.CompletedTask;
         }
+
+
+
+       
         private async Task Connected(MqttClientConnectedEventArgs e)
         {
             try
@@ -100,7 +95,8 @@ namespace Buffalo.MQ.MQTTLib
                 MqttClientSubscribeOptionsBuilder subBuilder = new MqttClientSubscribeOptionsBuilder();
                 foreach (MQOffestInfo info in _lstTopic)
                 {
-                    subBuilder.WithTopicFilter(info.Key, _config.QualityOfServiceLevel, _config.NoLocal, _config.RetainAsPublished, _config.RetainHandling);
+                    subBuilder.WithTopicFilter(info.Key, _config.QualityOfServiceLevel, _config.NoLocal.GetValueOrDefault(), 
+                        _config.RetainAsPublished.GetValueOrDefault(), _config.RetainHandling.GetValueOrDefault());
                 }
                 await _mqttClient.SubscribeAsync(subBuilder.Build());
 

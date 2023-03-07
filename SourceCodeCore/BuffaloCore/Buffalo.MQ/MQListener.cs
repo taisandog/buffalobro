@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Buffalo.MQ
 {
-    public delegate void DelOnMQReceived(MQListener sender, string exchange, string routingKey, byte[] body, int partition, long offset);
+    public delegate void DelOnMQReceived(MQListener sender, MQCallBackMessage message);
 
     public delegate void DelOnMQException(MQListener sender, Exception ex);
 
@@ -39,6 +39,7 @@ namespace Buffalo.MQ
         /// 关闭连接
         /// </summary>
         public abstract void Close();
+
 
         /// <summary>
         /// 开启监听的句柄
@@ -91,13 +92,13 @@ namespace Buffalo.MQ
         /// <summary>
         /// 监听信息后回调
         /// </summary>
-        protected void CallBack(string routingKey, string exchange, byte[] body, int partition, long offset)
+        protected void CallBack(MQCallBackMessage message)
         {
             if (OnMQReceived == null)
             {
                 return;
             }
-            OnMQReceived(this, exchange, routingKey, body, partition, offset);
+            OnMQReceived(this, message);
         }
         
         /// <summary>

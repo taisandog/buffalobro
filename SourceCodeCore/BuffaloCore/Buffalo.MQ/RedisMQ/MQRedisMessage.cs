@@ -9,16 +9,21 @@ namespace Buffalo.MQ.RedisMQ
     /// <summary>
     /// Redis队列的未发送信息
     /// </summary>
-    public class MQRedisMessage
+    public class MQRedisMessage : MQSendMessage
     {
-        /// <summary>
-        /// 键
-        /// </summary>
-        public string RoutingKey;
-        /// <summary>
-        /// 值
-        /// </summary>
-        public byte[] Value;
+        public MQRedisMessage(string topic, byte[] value) : base(topic, value)
+        {
 
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+        }
+
+        ~MQRedisMessage()
+        {
+            Dispose();
+        }
     }
 }
