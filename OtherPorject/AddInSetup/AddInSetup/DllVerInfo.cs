@@ -43,7 +43,7 @@ namespace AddInSetup
         {
             get 
             {
-                return ConfigLoader.BasePath + "\\" + _path;
+                return System.IO.Path.Combine(ConfigLoader.BasePath , _path);
             }
         }
         /// <summary>
@@ -53,10 +53,24 @@ namespace AddInSetup
         {
             get 
             {
+                if(IsStandard) 
+                {
+                    return ".Net Standard";
+                }
                 return ".Net Framework " + _netVersion;
             }
         }
 
+        /// <summary>
+        /// ÊÇ·ñStandard
+        /// </summary>
+        public bool IsStandard 
+        {
+            get 
+            {
+                return string.Equals(_netVersion, "Standard", StringComparison.CurrentCultureIgnoreCase);
+            }
+        }
         /// <summary>
         /// °ïÖú°´Å¥ÎÄ×Ö
         /// </summary>

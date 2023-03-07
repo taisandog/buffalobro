@@ -21,7 +21,7 @@ namespace AddInSetup
         /// <summary>
         /// 基路径
         /// </summary>
-        public static readonly string BasePath = AppDomain.CurrentDomain.BaseDirectory.TrimEnd('\\');
+        public static readonly string BasePath = AppDomain.CurrentDomain.BaseDirectory;
         
 
         private List<AddInInfo> _lstAddInInfos;
@@ -97,7 +97,7 @@ namespace AddInSetup
         /// </summary>
         public void LoadConfig()
         {
-            string infoFile = ConfigLoader.BasePath + "\\AddInConfig.xml";
+            string infoFile = Path.Combine(ConfigLoader.BasePath ,"AddInConfig.xml");
             if (!File.Exists(infoFile))
             {
                 return;
@@ -119,6 +119,7 @@ namespace AddInSetup
                 }
             }
 
+            string standardPath = null;
             //.net版本
             XmlNodeList dllVerNodes = doc.GetElementsByTagName("DllVer");
             _lstDllVerInfo = new List<DllVerInfo>();
@@ -128,6 +129,10 @@ namespace AddInSetup
                 foreach (XmlNode node in dllVerNode.ChildNodes)
                 {
                     DllVerInfo info = DllVerInfo.LoadForNode(node);
+                    if (info.IsStandard) 
+                    {
+                        standardPath = info.CurPath;
+                    }
                     _lstDllVerInfo.Add(info);
                 }
             }
@@ -145,7 +150,7 @@ namespace AddInSetup
                     _lstDllItem.Add(info);
                 }
             }
-
+            RebuildStandardItem(_lstDllItem, standardPath);
             //帮助文档
             XmlNodeList docNodes = doc.GetElementsByTagName("Docs");
             _lstDocItems = new List<HelpDocItem>();
@@ -157,6 +162,32 @@ namespace AddInSetup
 
                     HelpDocItem info = HelpDocItem.LoadForNode(node);
                     _lstDocItems.Add(info);
+                }
+            }
+        }
+
+        private void RebuildStandardItem(List<DllItem> lstItems,string standardPath) 
+        {
+            List<DllItemFile> lstStandards = new List<DllItemFile>();
+
+            List<DllItem> lst = new List<DllItem>();
+            foreach(DllItem dllfile in lstItems) 
+            {
+                dllfile.FillStandardFileInfo(lstStandards);
+            }
+
+            string[] files=Directory.GetFiles(standardPath);
+            foreach(string fileName in files) 
+            {
+                FileInfo finfo=new FileInfo(fileName);
+                foreach(DllItemFile dfile in lstStandards) 
+                {
+                    if (finfo.Name.IndexOf(dfile.Path) == 0) 
+                    {
+                        dfile.Path = finfo.Name ;
+                        
+                        break;
+                    }
                 }
             }
         }

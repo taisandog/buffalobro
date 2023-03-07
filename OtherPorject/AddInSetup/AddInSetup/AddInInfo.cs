@@ -95,7 +95,7 @@ namespace AddInSetup
                 return null;
             }
 
-            string fileName = ConfigLoader.BasePath + "\\" + _fileName;
+            string fileName =Path.Combine( ConfigLoader.BasePath , _fileName);
             if (!File.Exists(fileName)) 
             {
                 return "不存在文件:" + fileName;

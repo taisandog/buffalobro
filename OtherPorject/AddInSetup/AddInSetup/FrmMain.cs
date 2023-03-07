@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using System.Threading;
 using Buffalo.Kernel;
+using System.IO;
 
 namespace AddInSetup
 {
@@ -248,7 +249,7 @@ namespace AddInSetup
             {
                 return;
             }
-            string path = ConfigLoader.BasePath + (item.Tag as string);
+            string path = Path.Combine(ConfigLoader.BasePath , (item.Tag as string));
             Process.Start(path);
         }
 
