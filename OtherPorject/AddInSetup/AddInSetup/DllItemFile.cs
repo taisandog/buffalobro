@@ -23,6 +23,7 @@ namespace AddInSetup
         public string Path
         {
             get { return _path; }
+            set { _path = value; }
         }
         /// <summary>
         /// 输出的文件路径
@@ -36,6 +37,14 @@ namespace AddInSetup
             get { return _targetPath; }
         }
 
+        private bool _isStandard = false;
+        /// <summary>
+        /// 是否Standard包
+        /// </summary>
+        public bool IsStandard
+        {
+            get { return _isStandard; }
+        }
         private Dictionary<string, bool> _dicIgnore = new Dictionary<string, bool>(StringComparer.CurrentCultureIgnoreCase);
         /// <summary>
         /// 此项要忽略的版本
@@ -75,6 +84,11 @@ namespace AddInSetup
             if (att != null)
             {
                 info._targetPath = att.InnerText ;
+            }
+            att = node.Attributes["isStandard"];
+            if (att != null)
+            {
+                info._isStandard = att.InnerText=="1";
             }
             att = node.Attributes["ignore"];
             if (att != null)

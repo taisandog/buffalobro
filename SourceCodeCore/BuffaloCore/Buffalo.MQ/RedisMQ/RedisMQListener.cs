@@ -87,7 +87,8 @@ namespace Buffalo.MQ.RedisMQ
             else
             {
                 byte[] svalue = (byte[])value;
-                CallBack(skey, skey, svalue, 0, 0);
+                RedisCallbackMessage mess = new RedisCallbackMessage(skey, svalue);
+                CallBack(mess);
             }
         }
 
@@ -134,7 +135,8 @@ namespace Buffalo.MQ.RedisMQ
                             break;
                         }
                         svalue = tmpval;
-                        CallBack(skey, skey, svalue, 0, 0);
+                        RedisCallbackMessage mess = new RedisCallbackMessage(skey,  svalue);
+                        CallBack(mess);
                         count++;
                     }
                     catch (Exception ex)

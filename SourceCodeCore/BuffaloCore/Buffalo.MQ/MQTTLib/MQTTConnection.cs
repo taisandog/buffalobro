@@ -1,12 +1,9 @@
 ﻿using Buffalo.ArgCommon;
-using Buffalo.MQ.MQTTLib.MQTTnet;
-using Buffalo.MQ.MQTTLib.MQTTnet.Adapter;
-using Buffalo.MQ.MQTTLib.MQTTnet.Client;
-using Buffalo.MQ.MQTTLib.MQTTnet.Client.Connecting;
-using Buffalo.MQ.MQTTLib.MQTTnet.Client.Disconnecting;
-using Buffalo.MQ.MQTTLib.MQTTnet.Client.Options;
-using Buffalo.MQ.MQTTLib.MQTTnet.Client.Publishing;
+
 using Buffalo.MQ.RedisMQ;
+using MQTTnet;
+using MQTTnet.Adapter;
+using MQTTnet.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,14 +19,21 @@ namespace Buffalo.MQ.MQTTLib
     {
         private MQTTConfig _config;
         MqttClient _mqttClient = null;
-        IMqttClientOptions _options = null;
-        private static Encoding DefaultEncoding = Encoding.UTF8;
+        MqttClientOptions _options = null;
+        //private static Encoding DefaultEncoding = Encoding.UTF8;
         private Queue<MqttApplicationMessage> _que = null;
         /// <summary>
         /// 消息创建器
         /// </summary>
         private MqttApplicationMessageBuilder _messageBuilder = null;
 
+        /// <summary>
+        /// 消息创建器
+        /// </summary>
+        public MqttApplicationMessageBuilder MessageBuilder 
+        {
+            get { return _messageBuilder; }
+        }
         public override bool IsOpen
         {
             get
@@ -57,22 +61,45 @@ namespace Buffalo.MQ.MQTTLib
         protected override APIResault SendMessage(string key, byte[] body)
         {
             MqttApplicationMessage message = BuildMessage(key, body);
+            return SendMess(message);
+        }
+
+        protected override APIResault SendMessage(MQSendMessage mess)
+        {
+            MQTTMessage msg= mess as MQTTMessage;
+            if(msg == null) 
+            {
+                return ApiCommon.GetFault("mess must to MQTTMessage"); 
+            }
+            MqttApplicationMessage message=msg.Message;
+            return SendMess(message);
+        }
+
+        /// <summary>
+        /// 发送消息
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        private APIResault SendMess(MqttApplicationMessage message) 
+        {
+            if (message == null)
+            {
+                return ApiCommon.GetFault("mess.Message can't be null");
+            }
             if (_que != null)
             {
-                
                 _que.Enqueue(message);
             }
             else
             {
                 MqttClientPublishResult res = _mqttClient.PublishAsync(message).Result;
-                if(res.ReasonCode!= MqttClientPublishReasonCode.Success) 
+                if (res.ReasonCode != MqttClientPublishReasonCode.Success)
                 {
                     return ApiCommon.GetFault(res.ReasonString, res);
                 }
             }
             return ApiCommon.GetSuccess();
         }
-
 
         private MqttApplicationMessage BuildMessage(string key, byte[] body) 
         {
@@ -99,15 +126,15 @@ namespace Buffalo.MQ.MQTTLib
             
         }
 
-        public override void DeleteTopic(bool ifUnused)
-        {
+        //public override void DeleteTopic(bool ifUnused)
+        //{
 
-        }
+        //}
 
-        public override void DeleteQueue(IEnumerable<string> queueName, bool ifUnused, bool ifEmpty)
-        {
+        //public override void DeleteQueue(IEnumerable<string> queueName, bool ifUnused, bool ifEmpty)
+        //{
             
-        }
+        //}
 
 
 
@@ -119,10 +146,10 @@ namespace Buffalo.MQ.MQTTLib
                 _mqttClient = factory.CreateMqttClient() as MqttClient;
 
                 _options = _config.Options.Build();
-                MqttClientAuthenticateResult res = _mqttClient.ConnectAsync(_options).Result;
+                MqttClientConnectResult res = _mqttClient.ConnectAsync(_options).Result;
                 if(res.ResultCode!= MqttClientConnectResultCode.Success) 
                 {
-                    throw new MqttConnectingFailedException(res);
+                    throw new MqttConnectingFailedException("Connect Fault",null, res);
                 }
                 
 

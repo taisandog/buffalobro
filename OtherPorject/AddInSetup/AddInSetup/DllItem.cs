@@ -63,6 +63,9 @@ namespace AddInSetup
                 {
                     continue;
                 }
+
+
+
                 string path = Path.Combine(verPath, file.Path);
                 if (File.Exists(path))
                 {
@@ -70,6 +73,24 @@ namespace AddInSetup
                 }
             }
             return null;
+        }
+
+        // <summary>
+        /// 查找主文件
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        public void FillStandardFileInfo( List<DllItemFile> lstFiles)
+        {
+            foreach (DllItemFile file in _lstFiles)
+            {
+                if (!file.IsStandard)
+                {
+                    continue;
+                }
+
+                lstFiles.Add(file);
+            }
         }
 
         /// <summary>
@@ -100,12 +121,13 @@ namespace AddInSetup
         }
 
         /// <summary>
-        /// 获取主文件版本号
+        /// 判断文件是否存在
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
         public bool ExistsFile(DllVerInfo info)
         {
+            
             DllItemFile mainFile = FindMainFile(info);
             
             if (mainFile == null)
@@ -117,6 +139,8 @@ namespace AddInSetup
             {
                 verPath += '\\';
             }
+
+            
 
             string sourceFile =Path.Combine(verPath ,mainFile.Path);
             if (!File.Exists(sourceFile))
