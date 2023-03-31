@@ -17,6 +17,21 @@ namespace Buffalo.MongoDB
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="query"></param>
+        /// <returns></returns>
+        public List<TDocument> SelectList(ConditionList<TDocument> query)
+        {
+            if (string.IsNullOrWhiteSpace(_entityInfo.CollectionName))
+            {
+                throw new Exception("找不到实体对应的集合名");
+            }
+            return SelectList(query, _entityInfo.CollectionName);
+        }
+
+        /// <summary>
+        /// 查询集合
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="query"></param>
         /// <param name="collectionName"></param>
         /// <returns></returns>
         public List<TDocument> SelectList(ConditionList<TDocument> query, string collectionName)
@@ -50,6 +65,10 @@ namespace Buffalo.MongoDB
             }
             return lst;
         }
+
+
+        
+
         /// <summary>
         /// 多个索引创建成一个创建条件
         /// </summary>
@@ -143,20 +162,7 @@ namespace Buffalo.MongoDB
             return CreateManyIndex(models, _entityInfo.CollectionName, options, cancellationToken);
         }
 
-        /// <summary>
-        /// 查询集合
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="query"></param>
-        /// <returns></returns>
-        public List<TDocument> SelectList(ConditionList<TDocument> query)
-        {
-            if (string.IsNullOrWhiteSpace(_entityInfo.CollectionName))
-            {
-                throw new Exception("找不到实体对应的集合名");
-            }
-            return SelectList(query, _entityInfo.CollectionName);
-        }
+        
 
         /// <summary>
         /// 查询单个
@@ -207,11 +213,11 @@ namespace Buffalo.MongoDB
         /// <param name="cus"></param>
         /// <param name="lstSort"></param>
         /// <returns></returns>
-        private IFindFluent<TDocument, TProjection> FillSort<TProjection>(IFindFluent<TDocument, TProjection> cus, MGSortList lstSort)
+        private IFindFluent<TDoc, TProjection> FillSort<TDoc,TProjection>(IFindFluent<TDoc, TProjection> cus, MGSortList lstSort)
         {
 
-            SortDefinitionBuilder<TDocument> sortBuild = Builders<TDocument>.Sort;
-            SortDefinition<TDocument> sortItem = null;
+            SortDefinitionBuilder<TDoc> sortBuild = Builders<TDoc>.Sort;
+            SortDefinition<TDoc> sortItem = null;
             foreach (MGSort sort in lstSort)
             {
                 if (sort.SortType == MGSortType.ASC)
@@ -246,7 +252,7 @@ namespace Buffalo.MongoDB
         /// <param name="cus"></param>
         /// <param name="lstSort"></param>
         /// <returns></returns>
-        private IFindFluent<TDocument, TProjection> FillPage<TProjection>(IFindFluent<TDocument, TProjection> cus, MGPageContent page)
+        private IFindFluent<TDoc, TProjection> FillPage<TDoc, TProjection>(IFindFluent<TDoc, TProjection> cus, MGPageContent page)
         {
             if (page.PageSize <= 0)
             {

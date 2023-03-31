@@ -155,6 +155,11 @@ namespace Buffalo.MongoDB
             Insert(_entityInfo.CollectionName, entity,hasIdentity, options, cancellationToken);
         }
 
+       
+       
+
+
+
         /// <summary>
         /// 插入批量数据
         /// </summary>
@@ -162,16 +167,16 @@ namespace Buffalo.MongoDB
         /// <param name="lstEntity">实体</param>
         /// <param name="hasIdentity">是否有自增长</param>
 
-        public void InsertList(string collectionName, IEnumerable lstEntity, bool hasIdentity = true,
+        public void InsertList(string collectionName, IEnumerable<TDocument> lstEntity, bool hasIdentity = true,
             InsertManyOptions options = null, CancellationToken cancellationToken = default)
         {
-            IMongoCollection<BsonDocument> col = _db.GetCollection<BsonDocument>(collectionName);
-            List<BsonDocument> lst = new List<BsonDocument>();
+            IMongoCollection<TDocument> col = _db.GetCollection<TDocument>(collectionName);
+            List<TDocument> lst = new List<TDocument>();
             
             MongoEntityInfo info = MongoEntityInfoManager.GetEntityHandle(_entityInfo.EntityType);
             MongoLiquidUnit liquid = info.DBInfo.Liquid;
             
-            foreach (object obj in lstEntity)
+            foreach (TDocument obj in lstEntity)
             {
                 if (obj == null)
                 {
@@ -186,7 +191,7 @@ namespace Buffalo.MongoDB
                     }
                 }
 
-                lst.Add(obj.ToBsonDocument());
+                lst.Add(obj);
             }
             //插入
             col.InsertMany(lst, options, cancellationToken);
@@ -198,7 +203,7 @@ namespace Buffalo.MongoDB
         /// </summary>
         /// <param name="lstEntity">实体</param>
         /// <param name="hasIdentity">是否有自增长</param>
-        public void InsertList(IEnumerable lstEntity, bool hasIdentity = true, 
+        public void InsertList(IEnumerable<TDocument> lstEntity, bool hasIdentity = true, 
             InsertManyOptions options = null, CancellationToken cancellationToken = default)
         {
 
