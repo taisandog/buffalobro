@@ -37,7 +37,7 @@ namespace Buffalo.Kernel.ClassProxyBuilder
                                                                             AssemblyBuilderAccess.RunAndCollect);
             _moduleBuilder = _assemblyBuilder.DefineDynamicModule(classNamespace);
             _interceptorType = interceptorType;
-            //_getDefaultMethod = _interceptorType.GetMethod("GetDefault");
+            _getDefaultMethod = _interceptorType.GetMethod("GetDefault");
             _afterCallMethod = _interceptorType.GetMethod("AfterCall");
             _beforeCallMethod = _interceptorType.GetMethod("BeforeCall");
         }

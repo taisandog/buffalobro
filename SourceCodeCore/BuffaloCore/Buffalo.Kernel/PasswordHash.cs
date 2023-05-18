@@ -207,7 +207,7 @@ namespace Buffalo.Kernel
         /// <param name="toDecrypt">要解密的数据</param>
         /// <param name="pwd">解密密码(32字节数组)</param>
         /// <returns></returns>
-        public static byte[] AESDecrypt(byte[] toDecrypt,byte[] pwd, 
+        public static byte[] AESDecrypt(byte[] toDecrypt,byte[] pwd, byte[] IV = null,
             CipherMode mode = CipherMode.ECB, PaddingMode padding = PaddingMode.PKCS7)
         {
             using (RijndaelManaged rDel = new RijndaelManaged())
@@ -215,8 +215,11 @@ namespace Buffalo.Kernel
                 rDel.Key = pwd;
                 rDel.Mode = mode;
                 rDel.Padding = padding;
-
-                using (ICryptoTransform cTransform = rDel.CreateEncryptor())
+                if (IV != null)
+                {
+                    rDel.IV = IV;
+                }
+                using (ICryptoTransform cTransform = rDel.CreateDecryptor())
                 {
                     byte[] resultArray = cTransform.TransformFinalBlock(toDecrypt, 0, toDecrypt.Length);
 
@@ -231,7 +234,7 @@ namespace Buffalo.Kernel
         /// <param name="toEncrypt">要加密的数据</param>
         /// <param name="pwd">密码(32字节数组)</param>
         /// <returns></returns>
-        public static byte[] AESEncrypt(byte[] toEncrypt, byte[] pwd, 
+        public static byte[] AESEncrypt(byte[] toEncrypt, byte[] pwd, byte[] IV=null,
             CipherMode mode = CipherMode.ECB, PaddingMode padding = PaddingMode.PKCS7)
         {
             using (RijndaelManaged rDel = new RijndaelManaged())
@@ -239,7 +242,10 @@ namespace Buffalo.Kernel
                 rDel.Key = pwd;
                 rDel.Mode = mode;
                 rDel.Padding = padding;
-
+                if (IV != null)
+                {
+                    rDel.IV = IV;
+                }
                 using (ICryptoTransform cTransform = rDel.CreateEncryptor())
                 {
                     byte[] resultArray = cTransform.TransformFinalBlock(toEncrypt, 0, toEncrypt.Length);

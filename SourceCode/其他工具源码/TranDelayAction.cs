@@ -8,6 +8,16 @@ using System.Threading;
 namespace Buffalo.Kernel
 {
     /// <summary>
+    /// 要执行的函数
+    /// </summary>
+    /// <param name="args">参数</param>
+    public delegate void DelDelayActionByArgs(object[] args);
+    /// <summary>
+    /// 要执行的函数
+    /// </summary>
+    /// <param name="args">参数</param>
+    public delegate void DelDelayAction();
+    /// <summary>
     /// 执行优先级
     /// </summary>
     public enum DelayActionLevel:int
@@ -25,52 +35,94 @@ namespace Buffalo.Kernel
         /// </summary>
         High=3
     }
-    public delegate void DelDelayAction();
+    /// <summary>
+    /// 方法信息
+    /// </summary>
+    public class ActionInfo:IDisposable
+    {
+        private DelDelayAction _action;
+        private DelDelayActionByArgs _actionArgs;
+        private object[] _args;
+        /// <summary>
+        /// 方法信息
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="args"></param>
+        public ActionInfo(DelDelayAction action) 
+        {
+            _action = action;
+        }
+        /// <summary>
+        /// 方法信息
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="args"></param>
+        public ActionInfo(DelDelayActionByArgs actionArgs, object[] args)
+        {
+            _actionArgs = actionArgs;
+            _args = args;
+        }
+        public void Dispose()
+        {
+            _action = null;
+            _args = null;
+            _actionArgs = null;
+            GC.SuppressFinalize(this);
+        }
+        /// <summary>
+        /// 方法
+        /// </summary>
+        public DelDelayAction Action
+        {
+            get { return _action; }
+        }
+        /// <summary>
+        /// 参数
+        /// </summary>
+        public object[] Args 
+        {
+            get 
+            {
+                return _args;
+            }
+        }
+        /// <summary>
+        /// 运行动作
+        /// </summary>
+        public void RunAction() 
+        {
+            if (_action != null) 
+            {
+                _action();
+                return;
+            }
+            if (_actionArgs != null) 
+            {
+                _actionArgs(_args);
+                return;
+            }
+        }
+
+        ~ActionInfo() 
+        {
+            Dispose();
+        }
+    }
+
+    
     /// <summary>
     /// 延迟动作（添加当前线程的延迟动作）
     /// </summary>
     public class TranDelayAction:IDisposable
     {
        
-        private Dictionary<DelayActionLevel, Queue<DelDelayAction>> _dic = null;
+        private SortedDictionary<int, Queue<ActionInfo>> _dic = null;
 
-        /// <summary>
-        /// 延迟动作的队列
-        /// </summary>
-        private Queue<DelDelayAction> GetActionQueue(DelayActionLevel level)
-        {
+        
+        private static ThreadLocal<SortedDictionary<int, Queue<ActionInfo>>> _actionHandle = 
+            new ThreadLocal<SortedDictionary<int, Queue<ActionInfo>>>();
 
-            Queue<DelDelayAction> que = null;
-            if (!_dic.TryGetValue(level, out que))
-            {
-                que = new Queue<DelDelayAction>();
-                _dic[level] = que;
-            }
-
-            return que;
-            //ContextValue.Current[ActionKey] = value;
-
-        }
-        private static ThreadLocal<Dictionary<string, bool>> _actionTag = new ThreadLocal<Dictionary<string, bool>>();
-        private static ThreadLocal<Dictionary<DelayActionLevel, Queue<DelDelayAction>>> _actionHandle = 
-            new ThreadLocal<Dictionary<DelayActionLevel, Queue<DelDelayAction>>>();
-
-        /// <summary>
-        /// 获取已经存在的动作去重标记
-        /// </summary>
-        public static Dictionary<string, bool> ActionTag
-        {
-            get
-            {
-                Dictionary<string, bool> dic = _actionTag.Value;
-                if (dic == null)
-                {
-                    dic = new Dictionary<string, bool>();
-                    _actionTag.Value = dic;
-                }
-                return dic;
-            }
-        }
+        
         /// <summary>
         /// 清空延迟动作的队列
         /// </summary>
@@ -80,8 +132,12 @@ namespace Buffalo.Kernel
             {
                 return;
             }
+            if(_dic!=null)
+            {
+                
+                _dic.Clear();
+            }
             _actionHandle.Value = null;
-            _actionTag.Value = null;
         }
 
 
@@ -119,49 +175,97 @@ namespace Buffalo.Kernel
             _dic = _actionHandle.Value;
             if (_dic == null)
             {
-                _dic = new Dictionary<DelayActionLevel, Queue<DelDelayAction>>();
+                _dic = new SortedDictionary<int, Queue<ActionInfo>>();
                 _actionHandle.Value = _dic;
             }
         }
-
         /// <summary>
-        /// 添加延迟动作到队列
+        /// 延迟动作的队列
+        /// </summary>
+        private Queue<ActionInfo> GetActionQueue(int level)
+        {
+
+            Queue<ActionInfo> que = null;
+            if (!_dic.TryGetValue(level, out que))
+            {
+                que = new Queue<ActionInfo>();
+                _dic[level] = que;
+            }
+
+            return que;
+
+        }
+        /// <summary>
+        /// 添加带参数延迟动作到队列
         /// </summary>
         /// <param name="action">执行动作</param>
-        /// <param name="tag">去重标记(null为不去重)</param>
+        /// <param name="args">参数</param>
         /// <param name="level">优先级(High最优先，Medium次之，Low最后)</param>
-        public void AddAction(DelDelayAction action, string tag = null, DelayActionLevel level= DelayActionLevel.Medium)
+        public void AddArgsAction(DelDelayActionByArgs action, object[] args, DelayActionLevel level= DelayActionLevel.Medium)
         {
-            if (!string.IsNullOrWhiteSpace(tag))
-            {
-                Dictionary<string, bool> dic = ActionTag;
-                if (dic.ContainsKey(tag))
-                {
-                    return;
-                }
-                dic[tag] = true;
-            }
-            Queue<DelDelayAction> currentQueue = GetActionQueue(level);
-
-            currentQueue.Enqueue(action);
+            AddArgsActionByLevel(action,args, (int)level);
         }
+        /// <summary>
+        /// 添加带参数延迟动作到队列
+        /// </summary>
+        /// <param name="action">执行动作</param>
+        /// <param name="args">参数</param>
+        /// <param name="level">优先级(越大越优先)</param>
+        public void AddArgsActionByLevel(DelDelayActionByArgs action, object[] args, int level)
+        {
+
+            Queue<ActionInfo> currentQueue = GetActionQueue(level);
+            ActionInfo info = new ActionInfo(action, args);
+            currentQueue.Enqueue(info);
+        }
+
+        /// <summary>
+        /// 添加无参数延迟动作到队列
+        /// </summary>
+        /// <param name="action">执行动作</param>
+        /// <param name="level">优先级(High最优先，Medium次之，Low最后)</param>
+        public void AddAction(DelDelayAction action, DelayActionLevel level = DelayActionLevel.Medium)
+        {
+            AddActionByLevel(action, (int)level);
+        }
+        /// <summary>
+        /// 添加无参数延迟动作到队列
+        /// </summary>
+        /// <param name="action">执行动作</param>
+        /// <param name="level">优先级(越大越优先)</param>
+        public void AddActionByLevel(DelDelayAction action, int level)
+        {
+
+            Queue<ActionInfo> currentQueue = GetActionQueue(level);
+            ActionInfo info = new ActionInfo(action);
+            currentQueue.Enqueue(info);
+        }
+
+
         /// <summary>
         /// 提交动作(-1为未提交，整数为已经提交的条数)
         /// </summary>
         /// <returns></returns>
-        public int Commit(IList<Exception> lstException=null,bool logError=false)
+        public int Commit(IList<Exception> lstException=null)
         {
             if (!_isNew)
             {
                 return -1;
             }
             int count = 0;
-            Queue < DelDelayAction > currentQueue = GetActionQueue(DelayActionLevel.High);
-            count +=RunAction(currentQueue, lstException, logError);
-            currentQueue = GetActionQueue(DelayActionLevel.Medium);
-            count += RunAction(currentQueue, lstException, logError);
-            currentQueue = GetActionQueue(DelayActionLevel.Low);
-            count += RunAction(currentQueue, lstException, logError);
+
+            if (_dic == null) 
+            {
+                return 0;
+            }
+            Queue<ActionInfo> currentQueue = null;
+            foreach (KeyValuePair<int, Queue<ActionInfo>> kvp in _dic.Reverse()) 
+            {
+                currentQueue =kvp.Value;
+                count += RunAction(currentQueue, lstException);
+            }
+
+            
             return count;
         }
 
@@ -171,10 +275,10 @@ namespace Buffalo.Kernel
         /// <param name="currentQueue"></param>
         /// <param name="lstException"></param>
         /// <returns></returns>
-        private int RunAction(Queue<DelDelayAction> currentQueue, IList<Exception> lstException, bool logError)
+        private int RunAction(Queue<ActionInfo> currentQueue, IList<Exception> lstException)
         {
             int count = 0;
-            DelDelayAction action = null;
+            ActionInfo action = null;
             while (currentQueue.Count > 0)
             {
                 action = currentQueue.Dequeue();
@@ -184,7 +288,7 @@ namespace Buffalo.Kernel
                 }
                 try
                 {
-                    action();
+                    action.RunAction();
                     count++;
                 }
                 catch (Exception ex)
@@ -192,10 +296,6 @@ namespace Buffalo.Kernel
                     if (lstException != null)
                     {
                         lstException.Add(ex);
-                    }
-                    if (logError)
-                    {
-                        ApplicationLog.LogException("DelayAction", ex);
                     }
                 }
             }
