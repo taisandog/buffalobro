@@ -450,25 +450,15 @@ namespace Buffalo.Storage.AliCloud.OssAPI
                 ObjectMetadata objectMeta = new ObjectMetadata();
 
                 objectMeta.ContentMd5 = md5;
-                if (len > FileInfoBase.SLICE_UPLOAD_FILE_SIZE)
-                {
-                    res = _cloud.PutBigObject(_bucketName, path, stream, objectMeta);
-                }
-                else
-                {
+               
                     res = _cloud.PutObject(_bucketName, path, stream, objectMeta);
-                }
+                
             }
             else
             {
-                if (len > FileInfoBase.SLICE_UPLOAD_FILE_SIZE)
-                {
-                    res = _cloud.PutBigObject(_bucketName, path, stream, new ObjectMetadata());
-                }
-                else
-                {
+
                     res = _cloud.PutObject(_bucketName, path, stream, new ObjectMetadata());
-                }
+                
 
             }
             return ApiCommon.GetSuccess();
