@@ -63,26 +63,32 @@ namespace AddInSetup.ConnStringUI
         {
             StringBuilder sbStr = new StringBuilder();
             sbStr.Append("Server=");
-            sbStr.Append(HttpUtility.UrlEncode(txtServer.Text));
+            sbStr.Append(HttpUtility.UrlEncode(txtServer.Text.Trim()));
             sbStr.Append(";");
             sbStr.Append("SecretId=");
-            sbStr.Append(HttpUtility.UrlEncode(txtSecretId.Text));
+            sbStr.Append(HttpUtility.UrlEncode(txtSecretId.Text.Trim()));
             sbStr.Append(";");
             sbStr.Append("SecretKey=");
-            sbStr.Append(HttpUtility.UrlEncode(txtSecretKey.Text));
+            sbStr.Append(HttpUtility.UrlEncode(txtSecretKey.Text.Trim()));
             sbStr.Append(";");
             sbStr.Append("BucketName=");
-            sbStr.Append(HttpUtility.UrlEncode(txtBucketName.Text));
+            sbStr.Append(HttpUtility.UrlEncode(txtBucketName.Text.Trim()));
             sbStr.Append(";");
             sbStr.Append("InternetUrl=");
-            sbStr.Append(HttpUtility.UrlEncode(txtInternetUrl.Text));
+            sbStr.Append(HttpUtility.UrlEncode(txtInternetUrl.Text.Trim()));
             sbStr.Append(";");
             sbStr.Append("LanUrl=");
-            sbStr.Append(HttpUtility.UrlEncode(txtLanUrl.Text));
+            sbStr.Append(HttpUtility.UrlEncode(txtLanUrl.Text.Trim()));
             sbStr.Append(";");
             sbStr.Append("NeedHash=");
             sbStr.Append(chkHash.Checked ? "1" : "0");
             sbStr.Append(";");
+            if (!string.IsNullOrWhiteSpace(txtCheckPoint.Text)) 
+            {
+                sbStr.Append("cpDir=");
+                sbStr.Append(HttpUtility.UrlEncode(txtCheckPoint.Text.Trim()));
+                sbStr.Append(";");
+            }
             sbStr.Append("timeout=");
             sbStr.Append(txtTimeout.Value.ToString());
             sbStr.Append(";");
