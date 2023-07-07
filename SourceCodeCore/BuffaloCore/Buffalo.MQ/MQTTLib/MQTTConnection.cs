@@ -72,6 +72,7 @@ namespace Buffalo.MQ.MQTTLib
                 return ApiCommon.GetFault("mess must to MQTTMessage"); 
             }
             MqttApplicationMessage message=msg.Message;
+            
             return SendMess(message);
         }
 
@@ -92,7 +93,9 @@ namespace Buffalo.MQ.MQTTLib
             }
             else
             {
+                message.Retain = false;
                 MqttClientPublishResult res = _mqttClient.PublishAsync(message).Result;
+
                 if (res.ReasonCode != MqttClientPublishReasonCode.Success)
                 {
                     return ApiCommon.GetFault(res.ReasonString, res);
@@ -140,7 +143,7 @@ namespace Buffalo.MQ.MQTTLib
 
         protected override void Open()
         {
-            if (_mqttClient == null)
+            if (!IsOpen)
             {
                 MqttFactory factory = new MqttFactory();
                 _mqttClient = factory.CreateMqttClient() as MqttClient;

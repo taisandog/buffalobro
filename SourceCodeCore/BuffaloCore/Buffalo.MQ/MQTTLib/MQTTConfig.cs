@@ -78,6 +78,8 @@ namespace Buffalo.MQ.MQTTLib
                 Options.WithNoKeepAlive();
             }
 
+            //Options.WithProtocolVersion(MQTTnet.Formatter.MqttProtocolVersion.V311);
+
             string proxy = _configs.GetDicValue<string, string>("proxy");//代理地址
             string proxyUserName = _configs.GetDicValue<string, string>("proxyUserName");//代理用户
             string proxyPassword = _configs.GetDicValue<string, string>("proxyPassword");//代理用户密码
