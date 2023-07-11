@@ -119,8 +119,8 @@ namespace Buffalo.MQ.MQTTLib
                 Task task=_mqttClient.DisconnectAsync();
                 task.Wait();
                 _mqttClient.Dispose();
-                _mqttClient = null;
             }
+            _mqttClient = null;
             if (_que != null)
             {
                 _que.Clear();

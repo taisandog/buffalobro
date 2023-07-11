@@ -57,7 +57,7 @@ namespace Buffalo.MQ
                 return false;
             }
             _oper.CommitTransaction();
-            _oper.AutoClose();
+            //_oper.AutoClose();
 
             _oper = null;
             _isCommit = true;
@@ -80,7 +80,7 @@ namespace Buffalo.MQ
                 return false;
             }
             _oper.RoolbackTransaction();
-            _oper.AutoClose();
+            //_oper.AutoClose();
             _oper = null;
             _isCommit = true;
             return true;

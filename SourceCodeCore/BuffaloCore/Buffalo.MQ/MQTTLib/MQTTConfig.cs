@@ -1,4 +1,5 @@
 ﻿
+using Buffalo.Kernel;
 using MQTTnet.Client;
 using MQTTnet.Protocol;
 using System;
@@ -56,6 +57,10 @@ namespace Buffalo.MQ.MQTTLib
             if (!string.IsNullOrWhiteSpace(clientId))
             {
                 Options.WithClientId(clientId);
+            }
+            else 
+            {
+                Options.WithClientId(CommonMethods.GuidToString(Guid.NewGuid(),true));
             }
             string webSocketServer = _configs.GetDicValue<string, string>("webSocketServer");
             if (!string.IsNullOrWhiteSpace(webSocketServer))

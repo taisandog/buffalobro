@@ -14,7 +14,7 @@ namespace Buffalo.MQ
 {
 
 
-    public abstract class MQConnection 
+    public abstract class MQConnection :IDisposable
     {
         /// <summary>
         /// 默认编码
@@ -41,21 +41,21 @@ namespace Buffalo.MQ
             
         }
 
-        internal bool _isAutoClose=true;
-        /// <summary>
-        /// 是否自动关闭
-        /// </summary>
-        public bool IsAutoClose
-        {
-            get
-            {
-                return _isAutoClose;
-            }
-            set 
-            {
-                _isAutoClose = value;
-            }
-        }
+        //internal bool _isAutoClose=true;
+        ///// <summary>
+        ///// 是否自动关闭
+        ///// </summary>
+        //public bool IsAutoClose
+        //{
+        //    get
+        //    {
+        //        return _isAutoClose;
+        //    }
+        //    set 
+        //    {
+        //        _isAutoClose = value;
+        //    }
+        //}
 
         internal bool _isBatch;
         /// <summary>
@@ -78,7 +78,7 @@ namespace Buffalo.MQ
         {
             Open();
             APIResault res=SendMessage(key, body);
-            AutoClose();
+            //AutoClose();
             return res;
         }
         /// <summary>
@@ -91,7 +91,7 @@ namespace Buffalo.MQ
         {
             Open();
             APIResault res = SendMessage(key, body);
-            AutoClose();
+            //AutoClose();
             return res;
         }
         /// <summary>
@@ -104,7 +104,7 @@ namespace Buffalo.MQ
             Open();
             APIResault res = SendMessage(message);
 
-            AutoClose();
+            //AutoClose();
             return res;
         }
         /// <summary>
@@ -157,19 +157,19 @@ namespace Buffalo.MQ
             _isTran = false;
             return CommitTran();
         }
-        /// <summary>
-        /// 开启批量处理
-        /// </summary>
-        /// <returns></returns>
-        public MQBatchAction StartBatchAction()
-        {
-            if (!_isBatch)
-            {
-                _isBatch = true;
-                return new MQBatchAction(this);
-            }
-            return new MQBatchAction(null);
-        }
+        ///// <summary>
+        ///// 开启批量处理
+        ///// </summary>
+        ///// <returns></returns>
+        //public MQBatchAction StartBatchAction()
+        //{
+        //    if (!_isBatch)
+        //    {
+        //        _isBatch = true;
+        //        return new MQBatchAction(this);
+        //    }
+        //    return new MQBatchAction(null);
+        //}
         
         /// <summary>
         /// 初始化发布者模式
@@ -218,15 +218,22 @@ namespace Buffalo.MQ
         /// 关闭连接
         /// </summary>
         public abstract void Close();
-        /// <summary>
-        /// 自动关闭
-        /// </summary>
-        public void AutoClose()
+        ///// <summary>
+        ///// 自动关闭
+        ///// </summary>
+        //public void AutoClose()
+        //{
+        //    if(!_isBatch && !_isTran && _isAutoClose)
+        //    {
+        //        Close();
+        //    }
+        //}
+
+        public void Dispose()
         {
-            if(!_isBatch && !_isTran && _isAutoClose)
-            {
-                Close();
-            }
+            Close();
+
+            GC.SuppressFinalize(this);
         }
     }
 }
