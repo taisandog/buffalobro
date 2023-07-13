@@ -28,7 +28,7 @@ namespace AddInSetup.ConnStringUI
         protected override void OnLoad(EventArgs e)
         {
             ShowProxy = false;
-           
+
             base.OnLoad(e);
             nulKeepAlivePeriod.Maximum = int.MaxValue - 1;
             nupSessionExpiry.Maximum = int.MaxValue - 1;
@@ -37,7 +37,7 @@ namespace AddInSetup.ConnStringUI
             BindProtocolVersion();
         }
 
-        private void BindQualityOfServiceLevel() 
+        private void BindQualityOfServiceLevel()
         {
             List<EnumInfo> lstInfo = new List<EnumInfo>();
             EnumInfo info = new EnumInfo();
@@ -116,7 +116,7 @@ namespace AddInSetup.ConnStringUI
 
         private void BindRetainHandling()
         {
-            
+
             List<EnumInfo> lstInfo = new List<EnumInfo>();
             EnumInfo info = new EnumInfo();
             info.DisplayName = "[无]";
@@ -164,10 +164,10 @@ namespace AddInSetup.ConnStringUI
             string name = txtName.Text;
 
             string key = "buffalotestmq";
-            
+
             try
             {
-                APIResault res = MQHelper.TestMQ(name, key, MQType, false, sbStrConn,name+"_lis", sbStrLis);
+                APIResault res = MQHelper.TestMQ(name, key, MQType, false, sbStrConn, name + "_lis", sbStrLis);
                 if (!res.IsSuccess)
                 {
                     MessageBox.Show(res.Message, "测试失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -199,8 +199,8 @@ namespace AddInSetup.ConnStringUI
             sbCode.AppendLine("");
 
             sbCode.Append("string type=\"");
-            sbCode.Append(  MQType );
-            sbCode.Append( "\"");
+            sbCode.Append(MQType);
+            sbCode.Append("\"");
             sbCode.AppendLine("");
 
             sbCode.Append("MQUnit.SetMQInfo(name, type, connectString);");
@@ -212,7 +212,7 @@ namespace AddInSetup.ConnStringUI
         /// 获取连接字符串
         /// </summary>
         /// <returns></returns>
-        private string GetConnectionString(string testClientId=null)
+        private string GetConnectionString(string testClientId = null)
         {
             StringBuilder sbStr = new StringBuilder();
             object selected = null;
@@ -238,7 +238,7 @@ namespace AddInSetup.ConnStringUI
             }
 
             svalue = txtClientId.Text;
-            if (string.IsNullOrWhiteSpace(testClientId) )
+            if (!string.IsNullOrWhiteSpace(testClientId))
             {
                 sbStr.Append("clientId=");
                 sbStr.Append(testClientId);
@@ -281,7 +281,7 @@ namespace AddInSetup.ConnStringUI
                         sbStr.Append(";");
                     }
 
-                   
+
                 }
                 svalue = txtDomain.Text;
                 if (!string.IsNullOrWhiteSpace(svalue))
@@ -292,12 +292,12 @@ namespace AddInSetup.ConnStringUI
                 }
             }
 
-            
+
 
 
 
             int ivalue = nupSessionExpiry.Value.ConvertTo<int>();
-            if (ivalue>0)
+            if (ivalue > 0)
             {
                 sbStr.Append("sessionExpiry=");
                 sbStr.Append(ivalue.ToString());
@@ -338,7 +338,7 @@ namespace AddInSetup.ConnStringUI
                 }
             }
 
-            
+
 
             sbStr.Append("RetainAsPublished=");
             sbStr.Append(chkRetainAsPublished.Checked ? "1" : "0");
@@ -363,13 +363,12 @@ namespace AddInSetup.ConnStringUI
                     sbStr.Append(";");
                 }
             }
-            
-            if (!string.IsNullOrWhiteSpace(svalue))
-            {
-                sbStr.Append("CleanSession=");
-                sbStr.Append(chkCleanSession.Checked ? "1" : "0");
-                sbStr.Append(";");
-            }
+
+
+            sbStr.Append("CleanSession=");
+            sbStr.Append(chkCleanSession.Checked ? "1" : "0");
+            sbStr.Append(";");
+
             ivalue = nupSessionExpiryInterval.Value.ConvertTo<int>();
             if (ivalue > 0)
             {

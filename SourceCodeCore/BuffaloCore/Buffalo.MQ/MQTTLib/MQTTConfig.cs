@@ -110,7 +110,7 @@ namespace Buffalo.MQ.MQTTLib
                 Options.WithProtocolVersion(ver); ;
             }
 
-            string cleanSession = _configs.GetDicValue<string, string>("cleanSession");//(秒)用于保持连接的心跳时间的发送间隔
+            string cleanSession = _configs.GetDicValue<string, string>("CleanSession");//(秒)用于保持连接的心跳时间的发送间隔
             
             
 
@@ -133,20 +133,20 @@ namespace Buffalo.MQ.MQTTLib
                 {
                     NoLocal = noLocal == "1";
                 }
-                if (cleanSession == "1")
+                if (cleanSession != "0")
                 {
                     Options.WithCleanStart();
                     uint sessionExpiryInterval = _configs.GetDicValue<string, string>("SessionExpiryInterval").ConvertTo<uint>();
-                    if(sessionExpiryInterval <= 0) 
+                    if(sessionExpiryInterval > 0) 
                     {
-                        Options.WithSessionExpiryInterval(300);
+                        Options.WithSessionExpiryInterval(sessionExpiryInterval);
                     }
                 }
                 
             }
             else 
             {
-                if (cleanSession == "1")
+                if (cleanSession != "0")
                 {
                     Options.WithCleanSession(true);
                 }
@@ -157,7 +157,6 @@ namespace Buffalo.MQ.MQTTLib
                
             }
             
-            //
         }
 
 
