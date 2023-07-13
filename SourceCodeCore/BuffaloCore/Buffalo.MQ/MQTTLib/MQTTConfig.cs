@@ -73,17 +73,18 @@ namespace Buffalo.MQ.MQTTLib
             {
                 Options.WithSessionExpiryInterval(sessionExpiry.ConvertTo<uint>());
             }
-            string keepAlivePeriod = _configs.GetDicValue<string, string>("keepAlivePeriod");//(秒)当超过设置的时间间隔必须回复PONG报文，否则服务器认定为掉线。默认120秒
-            if (!string.IsNullOrWhiteSpace(keepAlivePeriod))
-            {
-                Options.WithKeepAlivePeriod(TimeSpan.FromSeconds(keepAlivePeriod.ConvertTo<long>()));
-            }
+            
             string keepAlive = _configs.GetDicValue<string, string>("keepAlive");//(秒)用于保持连接的心跳时间的发送间隔
             if (keepAlive == "0")
             {
                 Options.WithNoKeepAlive();
             }
-
+            
+            string keepAlivePeriod = _configs.GetDicValue<string, string>("keepAlivePeriod");//(秒)当超过设置的时间间隔必须回复PONG报文，否则服务器认定为掉线。默认120秒
+            if (!string.IsNullOrWhiteSpace(keepAlivePeriod))
+            {
+                Options.WithKeepAlivePeriod(TimeSpan.FromSeconds(keepAlivePeriod.ConvertTo<long>()));
+            }
 
 
             string proxy = _configs.GetDicValue<string, string>("proxy");//代理地址
@@ -101,32 +102,62 @@ namespace Buffalo.MQ.MQTTLib
                 QualityOfServiceLevel = (MqttQualityOfServiceLevel)qualityOfServiceLevel.ConvertTo<int>();
             }
 
-
-            string retainAsPublished = _configs.GetDicValue<string, string>("RetainAsPublished");
-            if (!string.IsNullOrWhiteSpace(retainAsPublished))
-            {
-                RetainAsPublished = retainAsPublished == "1";
-            }
-
-            string retainHandling = _configs.GetDicValue<string, string>("RetainHandling");
-            if (!string.IsNullOrWhiteSpace(retainHandling))
-            {
-                RetainHandling = (MqttRetainHandling)retainHandling.ConvertTo<int>();
-            }
-
-            string noLocal = _configs.GetDicValue<string, string>("NoLocal");
-            if (!string.IsNullOrWhiteSpace(noLocal))
-            {
-                NoLocal = noLocal == "1";
-            }
-
+            MqttProtocolVersion ver = MqttProtocolVersion.Unknown;
             string protocolVersion = _configs.GetDicValue<string, string>("ProtocolVersion");
             if (!string.IsNullOrWhiteSpace(protocolVersion))
             {
-                MqttProtocolVersion ver=(MqttProtocolVersion)protocolVersion.ConvertTo<int>();
+                ver = (MqttProtocolVersion)protocolVersion.ConvertTo<int>();
                 Options.WithProtocolVersion(ver); ;
             }
-            //Options.WithCleanSession(false);
+
+            string cleanSession = _configs.GetDicValue<string, string>("cleanSession");//(秒)用于保持连接的心跳时间的发送间隔
+            
+            
+
+            if (ver == MqttProtocolVersion.V500)
+            {
+                string retainAsPublished = _configs.GetDicValue<string, string>("RetainAsPublished");
+                if (!string.IsNullOrWhiteSpace(retainAsPublished))
+                {
+                    RetainAsPublished = retainAsPublished == "1";
+                }
+
+                string retainHandling = _configs.GetDicValue<string, string>("RetainHandling");
+                if (!string.IsNullOrWhiteSpace(retainHandling))
+                {
+                    RetainHandling = (MqttRetainHandling)retainHandling.ConvertTo<int>();
+                }
+
+                string noLocal = _configs.GetDicValue<string, string>("NoLocal");
+                if (!string.IsNullOrWhiteSpace(noLocal))
+                {
+                    NoLocal = noLocal == "1";
+                }
+                if (cleanSession == "1")
+                {
+                    Options.WithCleanStart();
+                    uint sessionExpiryInterval = _configs.GetDicValue<string, string>("SessionExpiryInterval").ConvertTo<uint>();
+                    if(sessionExpiryInterval <= 0) 
+                    {
+                        Options.WithSessionExpiryInterval(300);
+                    }
+                }
+                
+            }
+            else 
+            {
+                if (cleanSession == "1")
+                {
+                    Options.WithCleanSession(true);
+                }
+                else 
+                {
+                    Options.WithCleanSession(false);
+                }
+               
+            }
+            
+            //
         }
 
 
