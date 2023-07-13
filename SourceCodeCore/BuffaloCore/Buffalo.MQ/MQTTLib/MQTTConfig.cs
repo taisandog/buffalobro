@@ -29,6 +29,7 @@ namespace Buffalo.MQ.MQTTLib
         /// </summary>
         public bool? NoLocal;
 
+        public MqttProtocolVersion ProtocolVersion;
         public MQTTConfig(string connString) : base(connString)
         {
             Options = new MqttClientOptionsBuilder();
@@ -102,19 +103,19 @@ namespace Buffalo.MQ.MQTTLib
                 QualityOfServiceLevel = (MqttQualityOfServiceLevel)qualityOfServiceLevel.ConvertTo<int>();
             }
 
-            MqttProtocolVersion ver = MqttProtocolVersion.Unknown;
+            ProtocolVersion = MqttProtocolVersion.V311;
             string protocolVersion = _configs.GetDicValue<string, string>("ProtocolVersion");
             if (!string.IsNullOrWhiteSpace(protocolVersion))
             {
-                ver = (MqttProtocolVersion)protocolVersion.ConvertTo<int>();
-                Options.WithProtocolVersion(ver); ;
+                ProtocolVersion = (MqttProtocolVersion)protocolVersion.ConvertTo<int>();
+                Options.WithProtocolVersion(ProtocolVersion); ;
             }
 
             string cleanSession = _configs.GetDicValue<string, string>("CleanSession");//(秒)用于保持连接的心跳时间的发送间隔
             
             
 
-            if (ver == MqttProtocolVersion.V500)
+            if (ProtocolVersion == MqttProtocolVersion.V500)
             {
                 string retainAsPublished = _configs.GetDicValue<string, string>("RetainAsPublished");
                 if (!string.IsNullOrWhiteSpace(retainAsPublished))

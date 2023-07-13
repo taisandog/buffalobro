@@ -4,6 +4,7 @@ using Buffalo.MQ.RedisMQ;
 using MQTTnet;
 using MQTTnet.Adapter;
 using MQTTnet.Client;
+using MQTTnet.Formatter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,8 +52,10 @@ namespace Buffalo.MQ.MQTTLib
         private MqttApplicationMessageBuilder CreateMessageBuilder() 
         {
             MqttApplicationMessageBuilder messageBuilder = new MqttApplicationMessageBuilder();
-
-            messageBuilder.WithRetainFlag(_config.RetainAsPublished.Value);
+            if (_config.ProtocolVersion == MqttProtocolVersion.V500)
+            {
+                messageBuilder.WithRetainFlag(_config.RetainAsPublished.GetValueOrDefault());
+            }
             messageBuilder.WithQualityOfServiceLevel(_config.QualityOfServiceLevel);
             
             return messageBuilder;
