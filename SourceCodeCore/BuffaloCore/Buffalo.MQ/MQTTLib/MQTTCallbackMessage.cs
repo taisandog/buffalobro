@@ -26,7 +26,11 @@ namespace Buffalo.MQ.MQTTLib
 
         public override void Commit()
         {
-            _receivedEventArgs.AcknowledgeAsync(CancellationToken.None);
+            if(_receivedEventArgs != null && !_receivedEventArgs.AutoAcknowledge) 
+            {
+                _receivedEventArgs.AcknowledgeAsync(CancellationToken.None);
+            }
+            
         }
 
         public override void Dispose()

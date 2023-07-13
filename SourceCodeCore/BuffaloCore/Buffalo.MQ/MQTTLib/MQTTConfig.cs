@@ -1,6 +1,7 @@
 ﻿
 using Buffalo.Kernel;
 using MQTTnet.Client;
+using MQTTnet.Formatter;
 using MQTTnet.Protocol;
 using System;
 using System.Collections.Generic;
@@ -47,20 +48,20 @@ namespace Buffalo.MQ.MQTTLib
                 }
             }
 
-            string name= _configs.GetDicValue<string, string>("uid");
+            string name = _configs.GetDicValue<string, string>("uid");
             string pwd = _configs.GetDicValue<string, string>("pwd");
             if (!string.IsNullOrWhiteSpace(name))
             {
                 Options.WithCredentials(name, pwd);
             }
-            string clientId= _configs.GetDicValue<string, string>("clientId");
+            string clientId = _configs.GetDicValue<string, string>("clientId");
             if (!string.IsNullOrWhiteSpace(clientId))
             {
                 Options.WithClientId(clientId);
             }
-            else 
+            else
             {
-                Options.WithClientId(CommonMethods.GuidToString(Guid.NewGuid(),true));
+                Options.WithClientId(CommonMethods.GuidToString(Guid.NewGuid(), true));
             }
             string webSocketServer = _configs.GetDicValue<string, string>("webSocketServer");
             if (!string.IsNullOrWhiteSpace(webSocketServer))
@@ -78,12 +79,12 @@ namespace Buffalo.MQ.MQTTLib
                 Options.WithKeepAlivePeriod(TimeSpan.FromSeconds(keepAlivePeriod.ConvertTo<long>()));
             }
             string keepAlive = _configs.GetDicValue<string, string>("keepAlive");//(秒)用于保持连接的心跳时间的发送间隔
-            if (keepAlive=="0")
+            if (keepAlive == "0")
             {
                 Options.WithNoKeepAlive();
             }
 
-            //Options.WithProtocolVersion(MQTTnet.Formatter.MqttProtocolVersion.V311);
+
 
             string proxy = _configs.GetDicValue<string, string>("proxy");//代理地址
             string proxyUserName = _configs.GetDicValue<string, string>("proxyUserName");//代理用户
@@ -94,7 +95,7 @@ namespace Buffalo.MQ.MQTTLib
                 Options.WithProxy(proxy, proxyUserName, proxyPassword, domain);
             }
 
-            string qualityOfServiceLevel= _configs.GetDicValue<string, string>("QualityOfServiceLevel");
+            string qualityOfServiceLevel = _configs.GetDicValue<string, string>("QualityOfServiceLevel");
             if (!string.IsNullOrWhiteSpace(qualityOfServiceLevel))
             {
                 QualityOfServiceLevel = (MqttQualityOfServiceLevel)qualityOfServiceLevel.ConvertTo<int>();
@@ -118,7 +119,15 @@ namespace Buffalo.MQ.MQTTLib
             {
                 NoLocal = noLocal == "1";
             }
-    }
+
+            string protocolVersion = _configs.GetDicValue<string, string>("ProtocolVersion");
+            if (!string.IsNullOrWhiteSpace(protocolVersion))
+            {
+                MqttProtocolVersion ver=(MqttProtocolVersion)protocolVersion.ConvertTo<int>();
+                Options.WithProtocolVersion(ver); ;
+            }
+            //Options.WithCleanSession(false);
+        }
 
 
         public override MQConnection CreateConnection()
