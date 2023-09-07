@@ -16,8 +16,7 @@ using Buffalo.Kernel.FastReflection;
 using System.Web;
 using Buffalo.Kernel.FastReflection.ClassInfos;
 using System.Collections;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Hosting;
+
 using Microsoft.Extensions.Hosting;
 
 namespace Buffalo.Kernel

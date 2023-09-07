@@ -141,7 +141,7 @@ namespace Buffalo.QueryCache.RedisCollections
 
             _guidHash = Guid.NewGuid().GetHashCode();
             bool ret = false;
-
+            
             TimeSpan ts = TimeSpan.FromMilliseconds(millisecondsTimeout);
             for (long i = 0; i < pollingCount; i++)
             {

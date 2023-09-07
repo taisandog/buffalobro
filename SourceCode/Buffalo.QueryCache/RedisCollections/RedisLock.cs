@@ -1,6 +1,7 @@
 ﻿using Buffalo.DB.CacheManager;
 using Buffalo.DB.CacheManager.CacheCollection;
 using Buffalo.Kernel.Collections;
+using Newtonsoft.Json.Linq;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
@@ -37,11 +38,11 @@ namespace Buffalo.QueryCache.RedisCollections
         /// </summary>
         private Dictionary<string, bool> GetThreadContext()
         {
-            if (_threadContext != null) 
+            if (_threadContext != null)
             {
                 return _threadContext;
             }
-            
+
             _threadContext = _threadContextHandle.Value;
             if (_threadContext == null)
             {
@@ -55,7 +56,7 @@ namespace Buffalo.QueryCache.RedisCollections
 
         private CommandFlags _commanfFlags;
 
-        public RedisLock(IDatabase client,string key, CommandFlags commanfFlags) 
+        public RedisLock(IDatabase client, string key, CommandFlags commanfFlags)
         {
             _client = client;
             _commanfFlags = commanfFlags;
@@ -63,7 +64,7 @@ namespace Buffalo.QueryCache.RedisCollections
         }
 
         private bool _islock = false;
-        public bool Islock 
+        public bool Islock
         {
             get { return _islock; }
         }
@@ -81,13 +82,13 @@ namespace Buffalo.QueryCache.RedisCollections
         {
             get
             {
-                
+
                 Dictionary<string, bool> ht = GetThreadContext();
                 return ht.ContainsKey(_key);
             }
             set
             {
-                
+
                 Dictionary<string, bool> ht = GetThreadContext();
                 if (value)
                 {
@@ -111,7 +112,7 @@ namespace Buffalo.QueryCache.RedisCollections
                 return true;
             }
 
-            object lok = _lokKey.GetObject(_key) ;
+            object lok = _lokKey.GetObject(_key);
             lock (lok)
             {
                 _islock = LockObject(millisecondsTimeout, pollingMillisecond);
@@ -139,20 +140,23 @@ namespace Buffalo.QueryCache.RedisCollections
             Random random = new Random();
             _guidHash = random.Next(0, int.MaxValue);
             bool ret = false;
-            
+
             TimeSpan ts = TimeSpan.FromMilliseconds(millisecondsTimeout);
+            //ret = _client.LockTake(_key, _guidHash, ts, _commanfFlags);
+
             for (int i = 0; i < pollingCount; i++)
             {
-                ret = _client.StringSet(_key, _guidHash, ts, When.NotExists, _commanfFlags);
+                ret = _client.LockTake(_key, _guidHash, ts, _commanfFlags);
                 if (ret)
                 {
                     HasLock = true;
-                    return true;
+
+                    break;
                 }
                 Thread.Sleep(pollingMillisecond);
             }
 
-            return false;
+            return ret;
         }
 
         public bool UnLock()
@@ -172,13 +176,27 @@ namespace Buffalo.QueryCache.RedisCollections
         /// <returns></returns>
         private bool UnLockUser()
         {
-            RedisValue value = _client.StringGet(_key);
-            int val= RedisConverter.RedisValueToValue<int>(value, -1);
             bool ret = false;
-            if(val== _guidHash) 
+
+            //RedisValue value = _client.StringGet(_key);
+            //int val= RedisConverter.RedisValueToValue<int>(value, -1);
+
+            //if(val== _guidHash) 
+            //{
+            //    _client.KeyDelete(_key);
+            //    ret = true;
+            //}
+            //RedisKey keyVal = new RedisKey(_key);
+            RedisValue data = _client.LockQuery(_key, _commanfFlags);
+            int val = RedisConverter.RedisValueToValue<int>(data, -1);
+            if (val != _guidHash)
             {
-                _client.KeyDelete(_key);
-                ret = true;
+                return false;
+            }
+            ret = _client.LockRelease(_key, data, _commanfFlags);
+            if (!ret)
+            {
+                return false;
             }
             DeleteLock();
             return ret;
@@ -189,7 +207,7 @@ namespace Buffalo.QueryCache.RedisCollections
         /// </summary>
         private void DeleteLock()
         {
-            
+
             Dictionary<string, bool> ht = GetThreadContext();
             ht.Remove(_key);
         }

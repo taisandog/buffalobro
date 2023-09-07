@@ -6,9 +6,10 @@
     <Company>dogcom</Company>
     <Description>Buffalo.DB的SQLite支持</Description>
     <PackageProjectUrl>https://github.com/taisandog</PackageProjectUrl>
-    <Version>1.5.2</Version>
+    <Version>1.5.3</Version>
     <Product>Buffalo.Data.SQLite  for .Net Standard 2.0</Product>
     <PackageReleaseNotes></PackageReleaseNotes>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -17,7 +18,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.117" />
+    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.118" />
   </ItemGroup>
 
   <ItemGroup>
