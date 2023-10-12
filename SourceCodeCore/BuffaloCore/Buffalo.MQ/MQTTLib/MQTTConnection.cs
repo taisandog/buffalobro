@@ -4,6 +4,7 @@ using Buffalo.MQ.RedisMQ;
 using MQTTnet;
 using MQTTnet.Adapter;
 using MQTTnet.Client;
+using MQTTnet.Formatter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,8 +52,10 @@ namespace Buffalo.MQ.MQTTLib
         private MqttApplicationMessageBuilder CreateMessageBuilder() 
         {
             MqttApplicationMessageBuilder messageBuilder = new MqttApplicationMessageBuilder();
-
-            messageBuilder.WithRetainFlag(_config.RetainAsPublished.Value);
+            if (_config.ProtocolVersion == MqttProtocolVersion.V500)
+            {
+                messageBuilder.WithRetainFlag(_config.RetainAsPublished.GetValueOrDefault());
+            }
             messageBuilder.WithQualityOfServiceLevel(_config.QualityOfServiceLevel);
             
             return messageBuilder;
@@ -72,6 +75,7 @@ namespace Buffalo.MQ.MQTTLib
                 return ApiCommon.GetFault("mess must to MQTTMessage"); 
             }
             MqttApplicationMessage message=msg.Message;
+            
             return SendMess(message);
         }
 
@@ -92,7 +96,9 @@ namespace Buffalo.MQ.MQTTLib
             }
             else
             {
+                message.Retain = false;
                 MqttClientPublishResult res = _mqttClient.PublishAsync(message).Result;
+
                 if (res.ReasonCode != MqttClientPublishReasonCode.Success)
                 {
                     return ApiCommon.GetFault(res.ReasonString, res);
@@ -116,8 +122,8 @@ namespace Buffalo.MQ.MQTTLib
                 Task task=_mqttClient.DisconnectAsync();
                 task.Wait();
                 _mqttClient.Dispose();
-                _mqttClient = null;
             }
+            _mqttClient = null;
             if (_que != null)
             {
                 _que.Clear();
@@ -140,7 +146,7 @@ namespace Buffalo.MQ.MQTTLib
 
         protected override void Open()
         {
-            if (_mqttClient == null)
+            if (!IsOpen)
             {
                 MqttFactory factory = new MqttFactory();
                 _mqttClient = factory.CreateMqttClient() as MqttClient;

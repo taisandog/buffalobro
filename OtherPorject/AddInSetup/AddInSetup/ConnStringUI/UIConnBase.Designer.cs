@@ -30,12 +30,12 @@
         {
             this.components = new System.ComponentModel.Container();
             this.gpOutput = new System.Windows.Forms.GroupBox();
-            this.btnTech = new System.Windows.Forms.Button();
             this.scOut = new System.Windows.Forms.SplitContainer();
             this.txtOutConn = new System.Windows.Forms.RichTextBox();
             this.cmsCopy = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsCopy = new System.Windows.Forms.ToolStripMenuItem();
             this.txtOutCode = new System.Windows.Forms.RichTextBox();
+            this.btnTech = new System.Windows.Forms.Button();
             this.gpSetting = new System.Windows.Forms.GroupBox();
             this.gbProxy = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -47,9 +47,10 @@
             this.txtProxyHost = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.btnOut = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.btnTest = new System.Windows.Forms.Button();
+            this.tsNote = new System.Windows.Forms.ToolTip(this.components);
             this.gpOutput.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scOut)).BeginInit();
             this.scOut.Panel1.SuspendLayout();
@@ -75,18 +76,6 @@
             this.gpOutput.TabStop = false;
             this.gpOutput.Text = "输出";
             this.gpOutput.SizeChanged += new System.EventHandler(this.gpOutput_SizeChanged);
-            // 
-            // btnTech
-            // 
-            this.btnTech.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnTech.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.btnTech.Location = new System.Drawing.Point(9, 8);
-            this.btnTech.Name = "btnTech";
-            this.btnTech.Size = new System.Drawing.Size(138, 39);
-            this.btnTech.TabIndex = 2;
-            this.btnTech.Text = "帮助";
-            this.btnTech.UseVisualStyleBackColor = true;
-            this.btnTech.Click += new System.EventHandler(this.btnTech_Click);
             // 
             // scOut
             // 
@@ -142,6 +131,18 @@
             this.txtOutCode.Size = new System.Drawing.Size(358, 111);
             this.txtOutCode.TabIndex = 2;
             this.txtOutCode.Text = "";
+            // 
+            // btnTech
+            // 
+            this.btnTech.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnTech.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.btnTech.Location = new System.Drawing.Point(9, 8);
+            this.btnTech.Name = "btnTech";
+            this.btnTech.Size = new System.Drawing.Size(138, 39);
+            this.btnTech.TabIndex = 2;
+            this.btnTech.Text = "帮助";
+            this.btnTech.UseVisualStyleBackColor = true;
+            this.btnTech.Click += new System.EventHandler(this.btnTech_Click);
             // 
             // gpSetting
             // 
@@ -258,15 +259,6 @@
             this.panel2.Size = new System.Drawing.Size(659, 50);
             this.panel2.TabIndex = 3;
             // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.btnTech);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel1.Location = new System.Drawing.Point(504, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(155, 50);
-            this.panel1.TabIndex = 2;
-            // 
             // btnOut
             // 
             this.btnOut.Location = new System.Drawing.Point(193, 8);
@@ -276,6 +268,15 @@
             this.btnOut.Text = "输出";
             this.btnOut.UseVisualStyleBackColor = true;
             this.btnOut.Click += new System.EventHandler(this.btnOut_Click);
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.btnTech);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel1.Location = new System.Drawing.Point(504, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(155, 50);
+            this.panel1.TabIndex = 2;
             // 
             // btnTest
             // 
@@ -337,5 +338,6 @@
         private System.Windows.Forms.Panel panel2;
         protected System.Windows.Forms.GroupBox gbProxy;
         private System.Windows.Forms.Panel panel1;
+        public System.Windows.Forms.ToolTip tsNote;
     }
 }

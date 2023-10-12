@@ -7,7 +7,8 @@
     <Description>Buffalo.DB的MySQL支持</Description>
     <PackageProjectUrl>https://github.com/taisandog</PackageProjectUrl>
     <AssemblyVersion>1.0.2.0</AssemblyVersion>
-    <Version>1.5.3</Version>
+    <Version>1.5.4</Version>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -16,7 +17,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MySql.Data" Version="8.0.32.1" />
+    <PackageReference Include="MySql.Data" Version="8.1.0" />
   </ItemGroup>
 
   <ItemGroup>

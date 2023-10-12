@@ -14,6 +14,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Buffalo.Kernel;
+using System.Net;
 
 namespace Buffalo.Storage.AliCloud.OssAPI
 {
@@ -21,7 +22,7 @@ namespace Buffalo.Storage.AliCloud.OssAPI
     {
 
         private OssClient _cloud;
-        
+        private string _checkPointDir = null;
         
 
         /// <summary> 
@@ -32,8 +33,9 @@ namespace Buffalo.Storage.AliCloud.OssAPI
         {
             Dictionary<string, string> hs = ConnStringFilter.GetConnectInfo(connString);
             FillBaseConfig(hs);
-           
-            
+            _checkPointDir = hs.GetDicValue<string, string>("cpDir");
+
+
         }
 
         /// <summary>
@@ -347,9 +349,11 @@ namespace Buffalo.Storage.AliCloud.OssAPI
             PutObjectResult res = null;
             FileInfo finfo=new FileInfo(sourcePath);
             long len=finfo.Length;
+            ObjectMetadata objectMeta = new ObjectMetadata();
             if (_needHash)
             {
-                ObjectMetadata objectMeta = new ObjectMetadata();
+                
+                
                 using (FileStream fs = File.Open(sourcePath, FileMode.Open))
                 {
                     string md5 = OssUtils.ComputeContentMd5(fs, fs.Length);
@@ -359,7 +363,7 @@ namespace Buffalo.Storage.AliCloud.OssAPI
                 //res = _cloud.PutObject(_bucketName, targetPath, sourcePath, objectMeta);
                 if (len > FileInfoBase.SLICE_UPLOAD_FILE_SIZE)
                 {
-                    res = _cloud.PutBigObject(_bucketName, targetPath, sourcePath, objectMeta);
+                    res = _cloud.ResumableUploadObject(_bucketName, targetPath, sourcePath, objectMeta,_checkPointDir);
                 }
                 else 
                 {
@@ -370,11 +374,11 @@ namespace Buffalo.Storage.AliCloud.OssAPI
             {
                 if (len > FileInfoBase.SLICE_UPLOAD_FILE_SIZE)
                 {
-                    res = _cloud.PutBigObject(_bucketName, targetPath, sourcePath, new ObjectMetadata());
+                    res = _cloud.ResumableUploadObject(_bucketName, targetPath, sourcePath, objectMeta, _checkPointDir);
                 }
                 else
                 {
-                    res = _cloud.PutObject(_bucketName, targetPath, sourcePath, new ObjectMetadata());
+                    res = _cloud.PutObject(_bucketName, targetPath, sourcePath, objectMeta);
                 }
             }
             return ApiCommon.GetSuccess();
@@ -394,33 +398,48 @@ namespace Buffalo.Storage.AliCloud.OssAPI
             {
                 len = stream.Length;
             }
+            ObjectMetadata objectMeta = new ObjectMetadata();
+            if (objectMeta.ContentType == null)
+            {
+                objectMeta.ContentType = HttpUtils.GetContentType(path, path);
+            }
             if (_needHash)
             {
-                string md5 = OssUtils.ComputeContentMd5(stream, len);
-
-                ObjectMetadata objectMeta = new ObjectMetadata();
-
-                objectMeta.ContentMd5 = md5;
-                if (len > FileInfoBase.SLICE_UPLOAD_FILE_SIZE)
+                using (MemoryStream mstm = new MemoryStream())
                 {
-                    res = _cloud.PutBigObject(_bucketName, path, stream, objectMeta);
-                }
-                else
-                {
-                    res = _cloud.PutObject(_bucketName, path, stream, objectMeta);
+                    CommonMethods.CopyStreamData(stream, mstm);
+                    string md5 = OssUtils.ComputeContentMd5(mstm, len);
+
+                    objectMeta.ContentMd5 = md5;
+                    mstm.Position = 0;
+                    //if (len > FileInfoBase.SLICE_UPLOAD_FILE_SIZE)
+                    //{
+                    //    res = _cloud.ResumableUploadObject(_bucketName, path, mstm, objectMeta, _checkPointDir);
+                    //}
+                    //else
+                    //{
+                        res = _cloud.PutObject(_bucketName, path, mstm, objectMeta);
+                    //}
                 }
             }
             else
             {
-                if (len > FileInfoBase.SLICE_UPLOAD_FILE_SIZE)
-                {
-                    res = _cloud.PutBigObject(_bucketName, path, stream, new ObjectMetadata());
-                }
-                else
-                {
-                    res = _cloud.PutObject(_bucketName, path, stream, new ObjectMetadata());
-                }
+                stream.Position = 0;
+                //if (len > FileInfoBase.SLICE_UPLOAD_FILE_SIZE)
+                //{
 
+                //    //res = _cloud.PutBigObject(_bucketName, path, stream, objectMeta);
+                //    res= _cloud.ResumableUploadObject(_bucketName, path, stream, objectMeta, _checkPointDir);
+                //}
+                //else
+                //{
+                    res = _cloud.PutObject(_bucketName, path, stream, objectMeta);
+                //}
+
+            }
+            if(res.HttpStatusCode!= HttpStatusCode.OK) 
+            {
+                return ApiCommon.GetFault(res.HttpStatusCode.ToString());
             }
             return ApiCommon.GetSuccess();
         }

@@ -44,12 +44,16 @@
             this.txtLanUrl = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.chkHash = new System.Windows.Forms.CheckBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.txtCheckPoint = new System.Windows.Forms.TextBox();
             this.gpSetting.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtTimeout)).BeginInit();
             this.SuspendLayout();
             // 
             // gpSetting
             // 
+            this.gpSetting.Controls.Add(this.txtCheckPoint);
+            this.gpSetting.Controls.Add(this.label9);
             this.gpSetting.Controls.Add(this.txtLanUrl);
             this.gpSetting.Controls.Add(this.label8);
             this.gpSetting.Controls.Add(this.txtInternetUrl);
@@ -66,7 +70,12 @@
             this.gpSetting.Controls.Add(this.label2);
             this.gpSetting.Controls.Add(this.txtServer);
             this.gpSetting.Controls.Add(this.label1);
-            this.gpSetting.Size = new System.Drawing.Size(714, 370);
+            this.gpSetting.Size = new System.Drawing.Size(714, 420);
+            // 
+            // gbProxy
+            // 
+            this.gbProxy.Location = new System.Drawing.Point(0, 420);
+            this.gbProxy.Size = new System.Drawing.Size(714, 59);
             // 
             // label1
             // 
@@ -165,7 +174,7 @@
             0,
             0});
             this.txtTimeout.Name = "txtTimeout";
-            this.txtTimeout.Size = new System.Drawing.Size(585, 33);
+            this.txtTimeout.Size = new System.Drawing.Size(125, 33);
             this.txtTimeout.TabIndex = 9;
             this.txtTimeout.Value = new decimal(new int[] {
             60000,
@@ -231,12 +240,28 @@
             this.chkHash.TabIndex = 11;
             this.chkHash.UseVisualStyleBackColor = true;
             // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(236, 211);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(159, 25);
+            this.label9.TabIndex = 16;
+            this.label9.Text = "CheckPoint目录:";
+            // 
+            // txtCheckPoint
+            // 
+            this.txtCheckPoint.Location = new System.Drawing.Point(401, 208);
+            this.txtCheckPoint.Name = "txtCheckPoint";
+            this.txtCheckPoint.Size = new System.Drawing.Size(289, 33);
+            this.txtCheckPoint.TabIndex = 17;
+            // 
             // UIOSS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Name = "UIOSS";
-            this.Size = new System.Drawing.Size(714, 570);
+            this.Size = new System.Drawing.Size(714, 672);
             this.gpSetting.ResumeLayout(false);
             this.gpSetting.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtTimeout)).EndInit();
@@ -262,5 +287,7 @@
         private System.Windows.Forms.TextBox txtInternetUrl;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.CheckBox chkHash;
+        private System.Windows.Forms.TextBox txtCheckPoint;
+        private System.Windows.Forms.Label label9;
     }
 }

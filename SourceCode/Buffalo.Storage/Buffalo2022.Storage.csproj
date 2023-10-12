@@ -55,10 +55,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AWSSDK.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Core.3.7.11.2\lib\net45\AWSSDK.Core.dll</HintPath>
+      <HintPath>..\..\dll\dll\Net4.8\AWSSDK.Core.dll</HintPath>
     </Reference>
     <Reference Include="AWSSDK.S3, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.S3.3.7.9.2\lib\net45\AWSSDK.S3.dll</HintPath>
+      <HintPath>..\..\dll\dll\Net4.8\AWSSDK.S3.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -594,6 +597,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AliCloud.OssAPI\Resources\MimeData.txt" />
+    <Fakes Include="Fakes\AWSSDK.Core.fakes" />
     <None Include="packages.config" />
     <None Include="Resources\MimeData.txt" />
   </ItemGroup>
@@ -608,7 +612,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Analyzer Include="..\packages\AWSSDK.S3.3.7.9.2\analyzers\dotnet\cs\AWSSDK.S3.CodeAnalysis.dll" />
+
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

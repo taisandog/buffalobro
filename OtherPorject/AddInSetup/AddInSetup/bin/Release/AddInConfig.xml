@@ -1,215 +1,249 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<root date="2019-08-30 0:28:00">
-  <AddIns>
-    <AddIn file="AddIns\Net2.0\Buffalo.DBTools.dll" version="8.0" addin="Visual Studio 2005"></AddIn>
-    <AddIn file="AddIns\Net3.5\Buffalo.DBTools.dll" version="9.0" addin="Visual Studio 2008"></AddIn>
-    <AddIn file="AddIns\Net4.0\Buffalo.DBTools.dll" version="10.0" addin="Visual Studio 2010"></AddIn>
-    <AddIn file="AddIns\Net4.5\Buffalo.DBTools.dll" version="11.0" addin="Visual Studio 2012"></AddIn>
-    <AddIn file="AddIns\Net4.5.1\Buffalo.DBTools.dll" version="12.0" addin="Visual Studio 2013"></AddIn>
-    <AddIn file="AddIns\Net4.6\Buffalo2015.DBToolsPackage.vsix" version="14.0" addin="Visual Studio 2015" isvsix="1"></AddIn>
-    <AddIn file="AddIns\Net4.6.2\Buffalo.DBToolsPackage2017.vsix" version="15.0" addin="Visual Studio 2017" isvsix="1"></AddIn>
-    <AddIn file="AddIns\Net4.7.2\Buffalo.DBToolsPackage2019.vsix" version="16.0" addin="Visual Studio 2019" isvsix="1"></AddIn>
-  </AddIns>
-  <Docs>
-    <dic title="Buffalo.DB文档" path="\doc\Buffalo.DB.docx"></dic>
-    <dic title="Buffalo.Cache 文档" path="\doc\Buffalo.Cache.docx"></dic>
-    <dic title="Buffalo.Storage文档" path="\doc\Buffalo.Storage.docx"></dic>
-    <dic title="Buffalo.MongoDB文档" path="\doc\BuffaloMongo.docx"></dic>
-    
-  </Docs>
-  <DllVer>
-    <net ver="2.0" path="AddIns\Net2.0\"></net>
-    <net ver="3.5" path="AddIns\Net3.5\"></net>
-    <net ver="4.0" path="AddIns\Net4.0\"></net>
-    <net ver="4.5" path="AddIns\Net4.5\"></net>
-    <net ver="4.5.1" path="AddIns\Net4.5.1\"></net>
-    <net ver="4.6" path="AddIns\Net4.6\"></net>
-    <net ver="4.6.2" path="AddIns\Net4.6.2\"></net>
-    <net ver="4.7.2" path="AddIns\Net4.7.2\"></net>
-    <net ver="Standard 2.0" path="AddIns\netstandard2.0\" helptext="如何使用此包?" helpdoc="doc\UseTheNupkg.docx"></net>
-  </DllVer>
-  <Dlls>
-    <item des="核心库" name="Buffalo.Kernel" selected="1">
-      <file path="Buffalo.Kernel.dll" main="1"></file>
-      <file path="Buffalo.Kernel.XML"></file>
-      <file path="Buffalo.Kernel.1.0.1.nupkg"  main="1"></file>
-    </item>
-    <item des="数据操作库"  name="Buffalo.DB" selected="1">
-      <file path="Buffalo.DB.dll" main="1"></file>
-      <file path="Buffalo.DB.XML"></file>
-      <file path="Buffalo.DB.1.0.3.nupkg" main="1"></file>
-    </item>
-    <item des="Json化的参数值库"  name="Buffalo.ArgCommon" selected="0">
-      <file path="Buffalo.ArgCommon.dll" main="1"></file>
-      <file path="Buffalo.ArgCommon.xml"></file>
-      <file path="Buffalo.ArgCommon.1.0.0.nupkg" main="1"></file>
-      <file path="Newtonsoft.Json.dll"></file>
-      <file path="Newtonsoft.Json.xml"></file>
-    </item>
-    <item des="Web工具库"  name="Buffalo.WebKernel" selected="0">
-      <file path="Buffalo.WebKernel.dll" main="1"></file>
-      <file path="Buffalo.WebKernel.XML"></file>
-      <file path="ICSharpCode.SharpZipLib.dll"></file>
-      <file path="ICSharpCode.SharpZipLib.XML"></file>
-    </item>
-    <item des="Win32工具库"  name="Buffalo.Win32Kernel" selected="0">
-      <file path="Buffalo.Win32Kernel.dll" main="1"></file>
-      <file path="Buffalo.Win32Kernel.XML"></file>
-    </item>
-    <item des="缓存支持(Memcached/Redis)"  name="Buffalo.QueryCache" ignore="2.0" selected="0">
-      <file path="Buffalo.QueryCache.dll" main="1"></file>
-      <file path="Buffalo.QueryCache.XML"></file>
-      <file path="Enyim.Caching.dll"></file>
-      <file path="Enyim.Caching.xml"></file>
-      <file path="ServiceStack.Common.dll"></file>
-      <file path="ServiceStack.Common.xml"></file>
-      <file path="ServiceStack.Interfaces.dll"></file>
-      <file path="ServiceStack.Interfaces.xml"></file>
-      <file path="ServiceStack.Redis.dll"></file>
-      <file path="ServiceStack.Redis.xml"></file>
-      <file path="ServiceStack.Text.dll"></file>
-      <file path="ServiceStack.Text.xml"></file>
-      
-      <file path="StackExchange.Redis.dll"></file>
-      <file path="StackExchange.Redis.xml"></file>
-      <file path="Microsoft.Bcl.AsyncInterfaces.dll"></file>
-      <file path="Microsoft.Bcl.AsyncInterfaces.xml"></file>
-      <file path="System.Buffers.dll"></file>
-      <file path="System.Buffers.xml"></file>
-      <file path="System.Diagnostics.PerformanceCounter.dll"></file>
-      <file path="System.Diagnostics.PerformanceCounter.xml"></file>
-      <file path="System.IO.Pipelines.dll"></file>
-      <file path="System.IO.Pipelines.xml"></file>
-      <file path="System.Memory.dll"></file>
-      <file path="System.Memory.xml"></file>
-      <file path="System.Numerics.Vectors.dll"></file>
-      <file path="System.Numerics.Vectors.xml"></file>
-      <file path="System.Runtime.CompilerServices.Unsafe.dll"></file>
-      <file path="System.Runtime.CompilerServices.Unsafe.xml"></file>
-      <file path="System.Threading.Channels.dll"></file>
-      <file path="System.Threading.Channels.xml"></file>
-      <file path="System.Threading.Tasks.Extensions.dll"></file>
-      <file path="System.Threading.Tasks.Extensions.xml"></file>
-      
-      
-      <file path="Newtonsoft.Json.dll"></file>
-      <file path="Newtonsoft.Json.xml"></file>
-      <file path="Buffalo.QueryCache.1.0.0.nupkg" main="1"></file>
-      <file path="EnyimMemcached.1.0.0.nupkg"></file>
-    </item>
-    <item des="对象存储支持"  name="Buffalo.Storage" ignore="2.0,3.5" selected="0">
-      <file path="Buffalo.Storage.dll" main="1"></file>
-      <file path="Buffalo.Storage.XML"></file>
-      <file path="Buffalo.ArgCommon.dll"></file>
-      <file path="Buffalo.ArgCommon.xml"></file>
-      <file path="Buffalo.Storage.1.0.1.nupkg" main="1"></file>
-    </item>
-    <item des="MySQL支持"  name="Buffalo.Data.MySQL" isDB="1" selected="0">
-      <file path="Buffalo.Data.MySQL.dll" main="1"></file>
-      <file path="Buffalo.Data.MySQL.XML"></file>
-      <file path="MySql.Data.dll"></file>
-      <file path="Google.Protobuf.dll"></file>
-      <file path="Google.Protobuf.xml"></file>
-      <file path="BouncyCastle.Crypto.dll"></file>
-      <file path="Renci.SshNet.dll"></file>
-      <file path="Renci.SshNet.xml"></file>
-      <file path="Buffalo.Data.MySQL.1.0.2.nupkg" main="1"></file>
-    </item>
-    <item des="DB2支持"  name="Buffalo.Data.DB2" isDB="1" selected="0">
-      <file path="Buffalo.Data.DB2.dll" main="1"></file>
-      <file path="Buffalo.Data.DB2.XML"></file>
-      <file path="IBM.Data.DB2.dll"></file>
-      <file path="Buffalo.WebKernel.dll"></file>
-      <file path="Buffalo.WebKernel.XML"></file>
-      <file path="ICSharpCode.SharpZipLib.dll"></file>
-      <file path="ICSharpCode.SharpZipLib.XML"></file>
-      <file path="ICSharpCode.SharpZipLib.XML"></file>
-      <file path="x64\IBM.Data.DB2.dll"></file>
-      <file path="..\Resource\DB2\Windows\clidriver.zip" target="clidriver.zip" ignore="Standard 2.0"></file>
-      <file path="Buffalo.Data.DB2.1.0.2.nupkg" main="1"></file>
-    </item>
-    <item des="PostgreSQL支持"  name="Buffalo.Data.PostgreSQL" isDB="1" selected="0">
-      <file path="Buffalo.Data.PostgreSQL.dll" main="1"></file>
-      <file path="Buffalo.Data.PostgreSQL.XML"></file>
-      <file path="Npgsql.dll"></file>
-      <file path="Npgsql.xml"></file>
-      <file path="Mono.Security.dll"></file>
-      <file path="Buffalo.Data.PostgreSQL.1.0.2.nupkg" main="1"></file>
-    </item>
+<root date="2022-08-10 17:09:00">
+	<AddIns>
+		<AddIn file="AddIns\Net2.0\Buffalo.DBTools.dll" version="8.0" addin="Visual Studio 2005"></AddIn>
+		<AddIn file="AddIns\Net3.5\Buffalo.DBTools.dll" version="9.0" addin="Visual Studio 2008"></AddIn>
+		<AddIn file="AddIns\Net4.0\Buffalo.DBTools.dll" version="10.0" addin="Visual Studio 2010"></AddIn>
+		<AddIn file="AddIns\Net4.5\Buffalo.DBTools.dll" version="11.0" addin="Visual Studio 2012"></AddIn>
+		<AddIn file="AddIns\Net4.5.1\Buffalo.DBTools.dll" version="12.0" addin="Visual Studio 2013"></AddIn>
+		<AddIn file="AddIns\Net4.6\Buffalo2015.DBToolsPackage.vsix" version="14.0" addin="Visual Studio 2015" isvsix="1"></AddIn>
+		<AddIn file="AddIns\Net4.6.2\Buffalo.DBToolsPackage2017.vsix" version="15.0" addin="Visual Studio 2017" isvsix="1"></AddIn>
+		<AddIn file="AddIns\Net4.7.2\Buffalo.DBToolsPackage2019.vsix" version="16.0" addin="Visual Studio 2019" isvsix="1"></AddIn>
+		<AddIn file="AddIns\Net4.8\DBTools.vsix" version="16.0" addin="Visual Studio 2022" isvsix="1"></AddIn>
+	</AddIns>
+	<Docs>
+		<dic title="Buffalo.DB文档" path="\doc\Buffalo.DB.docx"></dic>
+		<dic title="Buffalo.Cache 文档" path="\doc\Buffalo.Cache.docx"></dic>
+		<dic title="Buffalo.Storage文档" path="\doc\Buffalo.Storage.docx"></dic>
+		<dic title="Buffalo.MongoDB文档" path="\doc\BuffaloMongo.docx"></dic>
 
-    <item des="SQLite支持"  name="Buffalo.Data.SQLite" isDB="1" selected="0">
-      <file path="Buffalo.Data.SQLite.dll" main="1"></file>
-      <file path="Buffalo.Data.SQLite.XML"></file>
-      <file path="System.Data.SQLite.dll"></file>
-      <file path="System.Data.SQLite.XML"></file>
-      <file path="x86\SQLite.Interop.dll"></file>
-      <file path="x64\SQLite.Interop.dll"></file>
-      <file path="Buffalo.Data.SQLite.1.0.2.nupkg" main="1"></file>
-    </item>
-    <item des="MongoDB支持"  name="Buffalo.MongoDB" isDB="1" selected="0">
-      <file path="Buffalo.MongoDB.dll" main="1"></file>
-      <file path="Buffalo.MongoDB.XML"></file>
-      <file path="Crc32C.NET.dll"></file>
-      <file path="DnsClient.dll"></file>
-      <file path="DnsClient.xml"></file>
-      <file path="MongoDB.Bson.dll"></file>
-      <file path="MongoDB.Bson.XML"></file>
-      <file path="MongoDB.Driver.Core.dll"></file>
-      <file path="MongoDB.Driver.Core.xml"></file>
-      <file path="MongoDB.Driver.dll"></file>
-      <file path="MongoDB.Driver.xml"></file>
-      <file path="MongoDB.Driver.GridFS.dll"></file>
-      <file path="MongoDB.Driver.GridFS.xml"></file>
-      <file path="SharpCompress.dll"></file>
-      <file path="Snappy.NET.dll"></file>
-      <file path="Snappy.NET.xml"></file>
-      <file path="System.Runtime.InteropServices.RuntimeInformation.dll"></file>
-      <file path="Buffalo.MongoDB.1.0.1.nupkg" main="1"></file>
-    </item>
-    <item des="Oracle支持(OPD.NET)"  name="Buffalo.Data.Oracle" isDB="1" selected="0">
-      <file path="Buffalo.Data.Oracle.dll" main="1"></file>
-      <file path="Buffalo.Data.Oracle.XML"></file>
-      <file path="Oracle.ManagedDataAccess.dll"></file>
-      <file path="Buffalo.Data.Oracle.1.0.2.nupkg" main="1"></file>
-    </item>
-    
-    <item des="Buffalo.MQ队列"  name="Buffalo.MQ" ignore="2.0,3.5,4.0" selected="0">
-      <file path="Buffalo.MQ.dll" main="1"></file>
-      <file path="Buffalo.MQ.XML"></file>
-      
-      <file path="StackExchange.Redis.dll"></file>
-      <file path="StackExchange.Redis.xml"></file>
-      <file path="Microsoft.Bcl.AsyncInterfaces.dll"></file>
-      <file path="Microsoft.Bcl.AsyncInterfaces.xml"></file>
-      <file path="System.Buffers.dll"></file>
-      <file path="System.Buffers.xml"></file>
-      <file path="System.Diagnostics.PerformanceCounter.dll"></file>
-      <file path="System.Diagnostics.PerformanceCounter.xml"></file>
-      <file path="System.IO.Pipelines.dll"></file>
-      <file path="System.IO.Pipelines.xml"></file>
-      <file path="System.Memory.dll"></file>
-      <file path="System.Memory.xml"></file>
-      <file path="System.Numerics.Vectors.dll"></file>
-      <file path="System.Numerics.Vectors.xml"></file>
-      <file path="System.Runtime.CompilerServices.Unsafe.dll"></file>
-      <file path="System.Runtime.CompilerServices.Unsafe.xml"></file>
-      <file path="System.Threading.Channels.dll"></file>
-      <file path="System.Threading.Channels.xml"></file>
-      <file path="System.Threading.Tasks.Extensions.dll"></file>
-      <file path="System.Threading.Tasks.Extensions.xml"></file>
+	</Docs>
+	<DllVer>
+		<net ver="2.0" path="AddIns\Net2.0\"></net>
+		<net ver="3.5" path="AddIns\Net3.5\"></net>
+		<net ver="4.0" path="AddIns\Net4.0\"></net>
+		<net ver="4.5" path="AddIns\Net4.5\"></net>
+		<net ver="4.5.1" path="AddIns\Net4.5.1\"></net>
+		<net ver="4.6" path="AddIns\Net4.6\"></net>
+		<net ver="4.6.2" path="AddIns\Net4.6.2\"></net>
+		<net ver="4.7.2" path="AddIns\Net4.7.2\"></net>
+		<net ver="4.8" path="AddIns\Net4.8\"></net>
+		<net ver="Standard" path="AddIns\netstandard\" helptext="如何使用此包?" helpdoc="doc\UseTheNupkg.docx"></net>
+	</DllVer>
+	<Dlls>
+		<item des="核心库" name="Buffalo.Kernel" selected="1">
+			<file path="Buffalo.Kernel.dll" main="1"></file>
+			<file path="Buffalo.Kernel.XML"></file>
+			<file path="Buffalo.Kernel"  isStandard="1" main="1"></file>
+		</item>
+		<item des="数据操作库"  name="Buffalo.DB" selected="1">
+			<file path="Buffalo.DB.dll" main="1"></file>
+			<file path="Buffalo.DB.XML"></file>
+			<file path="Buffalo.DB" isStandard="1" main="1"></file>
+		</item>
+		<item des="Json化的参数值库"  name="Buffalo.ArgCommon" selected="0">
+			<file path="Buffalo.ArgCommon.dll" main="1"></file>
+			<file path="Buffalo.ArgCommon.xml"></file>
+			<file path="Buffalo.ArgCommon" isStandard="1" main="1"></file>
+			<file path="Newtonsoft.Json.dll"></file>
+			<file path="Newtonsoft.Json.xml"></file>
+		</item>
+		<item des="Web工具库"  name="Buffalo.WebKernel" selected="0">
+			<file path="Buffalo.WebKernel.dll" main="1"></file>
+			<file path="Buffalo.WebKernel.XML"></file>
+			<file path="ICSharpCode.SharpZipLib.dll"></file>
+			<file path="ICSharpCode.SharpZipLib.XML"></file>
+		</item>
+		<item des="Win32工具库"  name="Buffalo.Win32Kernel" selected="0">
+			<file path="Buffalo.Win32Kernel.dll" main="1"></file>
+			<file path="Buffalo.Win32Kernel.XML"></file>
+		</item>
+		<item des="缓存支持(Memcached/Redis)"  name="Buffalo.QueryCache" ignore="2.0" selected="0">
+			<file path="Buffalo.QueryCache.dll" main="1"></file>
+			<file path="Buffalo.QueryCache.XML"></file>
+			<file path="Enyim.Caching.dll"></file>
+			<file path="Enyim.Caching.xml"></file>
+			<file path="ServiceStack.Common.dll"></file>
+			<file path="ServiceStack.Common.xml"></file>
+			<file path="ServiceStack.Interfaces.dll"></file>
+			<file path="ServiceStack.Interfaces.xml"></file>
+			<file path="ServiceStack.Redis.dll"></file>
+			<file path="ServiceStack.Redis.xml"></file>
+			<file path="ServiceStack.Text.dll"></file>
+			<file path="ServiceStack.Text.xml"></file>
+			<file path="Microsoft.Bcl.AsyncInterfaces.dll"></file>
+			<file path="Microsoft.Bcl.AsyncInterfaces.xml"></file>
+			<file path="StackExchange.Redis.dll"></file>
+			<file path="StackExchange.Redis.xml"></file>
+			<file path="Microsoft.Bcl.AsyncInterfaces.dll"></file>
+			<file path="Microsoft.Bcl.AsyncInterfaces.xml"></file>
+			<file path="System.Buffers.dll"></file>
+			<file path="System.Buffers.xml"></file>
+			<file path="System.Diagnostics.PerformanceCounter.dll"></file>
+			<file path="System.Diagnostics.PerformanceCounter.xml"></file>
+			<file path="System.IO.Pipelines.dll"></file>
+			<file path="System.IO.Pipelines.xml"></file>
+			<file path="System.Memory.dll"></file>
+			<file path="System.Memory.xml"></file>
+			<file path="System.Numerics.Vectors.dll"></file>
+			<file path="System.Numerics.Vectors.xml"></file>
+			<file path="System.Runtime.CompilerServices.Unsafe.dll"></file>
+			<file path="System.Runtime.CompilerServices.Unsafe.xml"></file>
+			<file path="System.Threading.Channels.dll"></file>
+			<file path="System.Threading.Channels.xml"></file>
+			<file path="System.Threading.Tasks.Extensions.dll"></file>
+			<file path="System.Threading.Tasks.Extensions.xml"></file>
 
-      <file path="Confluent.Kafka.dll"></file>
-      <file path="Confluent.Kafka.xml"></file>
-      <file path="Microsoft.Diagnostics.Tracing.EventSource.dll"></file>
-      <file path="Microsoft.Diagnostics.Tracing.EventSource.xml"></file>
-      <file path="System.Numerics.Vectors.dll"></file>
-      <file path="System.Numerics.Vectors.xml"></file>
-      <file path="System.Runtime.CompilerServices.Unsafe.dll"></file>
-      <file path="System.Runtime.CompilerServices.Unsafe.xml"></file>
-      
-      <file path="RabbitMQ.Client.dll"></file>
-      <file path="RabbitMQ.Client.xml"></file>
-    </item>
-    
-  </Dlls>
+
+			<file path="Newtonsoft.Json.dll"></file>
+			<file path="Newtonsoft.Json.xml"></file>
+			<file path="Buffalo.QueryCache.1.7.4." isStandard="1" main="1"></file>
+		</item>
+		<item des="对象存储支持"  name="Buffalo.Storage" ignore="2.0,3.5" selected="0">
+			<file path="Buffalo.Storage.dll" main="1"></file>
+			<file path="Buffalo.Storage.XML"></file>
+			<file path="Buffalo.ArgCommon.dll"></file>
+			<file path="Buffalo.ArgCommon.xml"></file>
+			<file path="Buffalo.Storage" isStandard="1" main="1"></file>
+		</item>
+		<item des="MySQL支持"  name="Buffalo.Data.MySQL" isDB="1" selected="0">
+			<file path="Buffalo.Data.MySQL.dll" main="1"></file>
+			<file path="Buffalo.Data.MySQL.XML"></file>
+			<file path="MySql.Data.dll"></file>
+			<file path="Google.Protobuf.dll"></file>
+			<file path="Google.Protobuf.xml"></file>
+			<file path="BouncyCastle.Crypto.dll"></file>
+			<file path="Renci.SshNet.dll"></file>
+			<file path="Renci.SshNet.xml"></file>
+			<file path="Buffalo.Data.MySQL" isStandard="1" main="1"></file>
+		</item>
+		<item des="DB2支持"  name="Buffalo.Data.DB2" isDB="1" selected="0">
+			<file path="Buffalo.Data.DB2.dll" main="1"></file>
+			<file path="Buffalo.Data.DB2.XML"></file>
+			<file path="IBM.Data.DB2.dll"></file>
+			<file path="Buffalo.WebKernel.dll"></file>
+			<file path="Buffalo.WebKernel.XML"></file>
+			<file path="ICSharpCode.SharpZipLib.dll"></file>
+			<file path="ICSharpCode.SharpZipLib.XML"></file>
+			<file path="ICSharpCode.SharpZipLib.XML"></file>
+			<file path="x64\IBM.Data.DB2.dll"></file>
+			<file path="..\Resource\DB2\Windows\clidriver.zip" target="clidriver.zip" ignore="Standard 2.0"></file>
+			<file path="Buffalo.Data.DB2" isStandard="1" main="1"></file>
+		</item>
+		<item des="PostgreSQL支持"  name="Buffalo.Data.PostgreSQL" isDB="1" selected="0">
+			<file path="Buffalo.Data.PostgreSQL.dll" main="1"></file>
+			<file path="Buffalo.Data.PostgreSQL.XML"></file>
+			<file path="Npgsql.dll"></file>
+			<file path="Npgsql.xml"></file>
+			<file path="Mono.Security.dll"></file>
+			<file path="Buffalo.Data.PostgreSQL" isStandard="1" main="1"></file>
+		</item>
+
+		<item des="SQLite支持"  name="Buffalo.Data.SQLite" isDB="1" selected="0">
+			<file path="Buffalo.Data.SQLite.dll" main="1"></file>
+			<file path="Buffalo.Data.SQLite.XML"></file>
+			<file path="System.Data.SQLite.dll"></file>
+			<file path="System.Data.SQLite.XML"></file>
+			<file path="x86\SQLite.Interop.dll"></file>
+			<file path="x64\SQLite.Interop.dll"></file>
+			<file path="Buffalo.Data.SQLite" isStandard="1" main="1"></file>
+		</item>
+		<item des="MongoDB支持"  name="Buffalo.MongoDB" isDB="1" selected="0">
+			<file path="Buffalo.MongoDB.dll" main="1"></file>
+			<file path="Buffalo.MongoDB.XML"></file>
+			<file path="Crc32C.NET.dll"></file>
+			<file path="DnsClient.dll"></file>
+			<file path="DnsClient.xml"></file>
+			<file path="MongoDB.Bson.dll"></file>
+			<file path="MongoDB.Bson.XML"></file>
+			<file path="MongoDB.Driver.Core.dll"></file>
+			<file path="MongoDB.Driver.Core.xml"></file>
+			<file path="MongoDB.Driver.dll"></file>
+			<file path="MongoDB.Driver.xml"></file>
+			<file path="MongoDB.Driver.GridFS.dll"></file>
+			<file path="MongoDB.Driver.GridFS.xml"></file>
+			<file path="SharpCompress.dll"></file>
+			<file path="Snappy.NET.dll"></file>
+			<file path="Snappy.NET.xml"></file>
+			<file path="libzstd.dll.dll"></file>
+			<file path="mongocrypt.dll"></file>
+			<file path="MongoDB.Libmongocrypt.dll"></file>
+			<file path="snappy32.dll"></file>
+			<file path="snappy64.dll"></file>
+			<file path="System.Buffers.dll"></file>
+			<file path="System.Buffers.xml"></file>
+			<file path="System.Runtime.CompilerServices.Unsafe.dll"></file>
+			<file path="System.Runtime.CompilerServices.Unsafe.xml"></file>
+			<file path="System.ValueTuple.dll"></file>
+			<file path="System.ValueTuple.xml"></file>
+			<file path="System.Runtime.InteropServices.RuntimeInformation.dll"></file>
+			<file path="Buffalo.MongoDB" isStandard="1" main="1"></file>
+
+		</item>
+		<item des="Oracle支持(OPD.NET)"  name="Buffalo.Data.Oracle" isDB="1" selected="0">
+			<file path="Buffalo.Data.Oracle.dll" main="1"></file>
+			<file path="Buffalo.Data.Oracle.XML"></file>
+
+			<file path="Oracle.ManagedDataAccess.dll"></file>
+			<file path="Microsoft.Bcl.AsyncInterfaces.dll"></file>
+			<file path="Microsoft.Bcl.AsyncInterfaces.xml"></file>
+			<file path="System.Buffers.dll"></file>
+			<file path="System.Buffers.xml"></file>
+			<file path="System.Memory.dll"></file>
+			<file path="System.Memory.xml"></file>
+			<file path="System.Numerics.Vectors.dll"></file>
+			<file path="System.Numerics.Vectors.xml"></file>
+			<file path="System.Runtime.CompilerServices.Unsafe.dll"></file>
+			<file path="System.Runtime.CompilerServices.Unsafe.xml"></file>
+			<file path="System.Text.Encodings.Web.dll"></file>
+			<file path="System.Text.Encodings.Web.xml"></file>
+			<file path="System.Text.Json.dll"></file>
+			<file path="System.Text.Json.xml"></file>
+			<file path="System.Threading.Tasks.Extensions.dll"></file>
+			<file path="System.Threading.Tasks.Extensions.xml"></file>
+			<file path="System.ValueTuple.dll"></file>
+			<file path="System.ValueTuple.xml"></file>
+			<file path="Buffalo.Data.Oracle" isStandard="1" main="1"></file>
+		</item>
+
+		<item des="Buffalo.MQ队列"  name="Buffalo.MQ" ignore="2.0,3.5,4.0" selected="0">
+			<file path="Buffalo.MQ.dll" main="1"></file>
+			<file path="Buffalo.MQ.XML"></file>
+
+			<file path="StackExchange.Redis.dll"></file>
+			<file path="StackExchange.Redis.xml"></file>
+			<file path="Microsoft.Bcl.AsyncInterfaces.dll"></file>
+			<file path="Microsoft.Bcl.AsyncInterfaces.xml"></file>
+			<file path="System.Buffers.dll"></file>
+			<file path="System.Buffers.xml"></file>
+			<file path="System.Diagnostics.PerformanceCounter.dll"></file>
+			<file path="System.Diagnostics.PerformanceCounter.xml"></file>
+			<file path="System.IO.Pipelines.dll"></file>
+			<file path="System.IO.Pipelines.xml"></file>
+			<file path="System.Memory.dll"></file>
+			<file path="System.Memory.xml"></file>
+			<file path="System.Numerics.Vectors.dll"></file>
+			<file path="System.Numerics.Vectors.xml"></file>
+			<file path="System.Runtime.CompilerServices.Unsafe.dll"></file>
+			<file path="System.Runtime.CompilerServices.Unsafe.xml"></file>
+			<file path="System.Threading.Channels.dll"></file>
+			<file path="System.Threading.Channels.xml"></file>
+			<file path="System.Threading.Tasks.Extensions.dll"></file>
+			<file path="System.Threading.Tasks.Extensions.xml"></file>
+
+			<file path="Confluent.Kafka.dll"></file>
+			<file path="Confluent.Kafka.xml"></file>
+			<file path="Microsoft.Diagnostics.Tracing.EventSource.dll"></file>
+			<file path="Microsoft.Diagnostics.Tracing.EventSource.xml"></file>
+			<file path="System.Numerics.Vectors.dll"></file>
+			<file path="System.Numerics.Vectors.xml"></file>
+			<file path="System.Runtime.CompilerServices.Unsafe.dll"></file>
+			<file path="System.Runtime.CompilerServices.Unsafe.xml"></file>
+
+			<file path="RabbitMQ.Client.dll"></file>
+			<file path="RabbitMQ.Client.xml"></file>
+			<file path="Buffalo.MQ" isStandard="1" main="1"></file>
+		</item>
+
+	</Dlls>
 </root>

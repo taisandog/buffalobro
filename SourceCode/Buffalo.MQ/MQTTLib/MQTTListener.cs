@@ -102,7 +102,8 @@ namespace Buffalo.MQ.MQTTLib
                 {
                     subBuilder.WithTopicFilter(info.Key, _config.QualityOfServiceLevel, _config.NoLocal, _config.RetainAsPublished, _config.RetainHandling);
                 }
-                await _mqttClient.SubscribeAsync(subBuilder.Build());
+                
+                _mqttClient.SubscribeAsync(subBuilder.Build());
 
             }
             catch (Exception exp)

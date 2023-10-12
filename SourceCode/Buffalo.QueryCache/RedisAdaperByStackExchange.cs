@@ -246,7 +246,7 @@ namespace Buffalo.QueryCache
 
             IDatabase client = connection.DB;
             RedisValue value = client.StringGet(key);
-
+            
             return RedisConverter.RedisValueToValue<E>(value,defaultValue);
         }
         /// <summary>

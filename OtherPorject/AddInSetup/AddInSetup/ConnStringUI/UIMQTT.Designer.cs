@@ -59,13 +59,24 @@
             this.label18 = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
             this.chkKeepAlive = new System.Windows.Forms.CheckBox();
+            this.cmbProtocolVersion = new System.Windows.Forms.ComboBox();
+            this.label19 = new System.Windows.Forms.Label();
+            this.chkCleanSession = new System.Windows.Forms.CheckBox();
+            this.nupSessionExpiryInterval = new System.Windows.Forms.NumericUpDown();
+            this.label20 = new System.Windows.Forms.Label();
             this.gpSetting.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nupSessionExpiry)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nulKeepAlivePeriod)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nupSessionExpiryInterval)).BeginInit();
             this.SuspendLayout();
             // 
             // gpSetting
             // 
+            this.gpSetting.Controls.Add(this.nupSessionExpiryInterval);
+            this.gpSetting.Controls.Add(this.label20);
+            this.gpSetting.Controls.Add(this.chkCleanSession);
+            this.gpSetting.Controls.Add(this.cmbProtocolVersion);
+            this.gpSetting.Controls.Add(this.label19);
             this.gpSetting.Controls.Add(this.chkKeepAlive);
             this.gpSetting.Controls.Add(this.label18);
             this.gpSetting.Controls.Add(this.txtName);
@@ -167,6 +178,7 @@
             this.label8.Size = new System.Drawing.Size(70, 21);
             this.label8.TabIndex = 86;
             this.label8.Text = "clientId:";
+            this.tsNote.SetToolTip(this.label8, "客户端id，\r\n如果多个客户端用同一个ID则会互相挤出");
             // 
             // txtClientId
             // 
@@ -218,7 +230,7 @@
             // 
             // nulKeepAlivePeriod
             // 
-            this.nulKeepAlivePeriod.Location = new System.Drawing.Point(498, 252);
+            this.nulKeepAlivePeriod.Location = new System.Drawing.Point(119, 291);
             this.nulKeepAlivePeriod.Maximum = new decimal(new int[] {
             1000000000,
             0,
@@ -232,7 +244,7 @@
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.label11.Location = new System.Drawing.Point(389, 258);
+            this.label11.Location = new System.Drawing.Point(10, 297);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(104, 21);
             this.label11.TabIndex = 92;
@@ -332,30 +344,33 @@
             // chkRetainAsPublished
             // 
             this.chkRetainAsPublished.AutoSize = true;
-            this.chkRetainAsPublished.Checked = true;
-            this.chkRetainAsPublished.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkRetainAsPublished.Location = new System.Drawing.Point(120, 303);
+            this.chkRetainAsPublished.Location = new System.Drawing.Point(14, 344);
             this.chkRetainAsPublished.Name = "chkRetainAsPublished";
-            this.chkRetainAsPublished.Size = new System.Drawing.Size(201, 29);
+            this.chkRetainAsPublished.Size = new System.Drawing.Size(184, 29);
             this.chkRetainAsPublished.TabIndex = 104;
-            this.chkRetainAsPublished.Text = "RetainAsPublished";
+            this.chkRetainAsPublished.Text = "保留为已发布(5.0)";
+            this.tsNote.SetToolTip(this.chkRetainAsPublished, "订阅选项的第 3 位表示保留为已发布(Retain As Published)。\r\n若该值为 1，服务器须将转发消息的 RETAIN flag 设为与接收到的 P" +
+        "UBLISH 报文的 RETAIN flag 一致。\r\n若该值为 0，不管接收到的 PUBLISH 报文中的 RETAIN flag 是何值，\r\n服务器都需将转" +
+        "发消息的 RETAIN flag 置为 0。");
             this.chkRetainAsPublished.UseVisualStyleBackColor = true;
             // 
             // chkNoLocal
             // 
             this.chkNoLocal.AutoSize = true;
-            this.chkNoLocal.Location = new System.Drawing.Point(393, 303);
+            this.chkNoLocal.Location = new System.Drawing.Point(204, 344);
             this.chkNoLocal.Name = "chkNoLocal";
-            this.chkNoLocal.Size = new System.Drawing.Size(106, 29);
+            this.chkNoLocal.Size = new System.Drawing.Size(127, 29);
             this.chkNoLocal.TabIndex = 105;
-            this.chkNoLocal.Text = "NoLocal";
+            this.chkNoLocal.Text = "非本地(5.0)";
+            this.tsNote.SetToolTip(this.chkNoLocal, "订阅选项第 2 位表示非本地选项(No Local)。\r\n如果值为 1，应用消息就不会发布给订阅发布主题的发布者本身，\r\n如果在共享订阅中将该选项设置为 1 的话" +
+        "，\r\n就会触发协议错误。");
             this.chkNoLocal.UseVisualStyleBackColor = true;
             // 
             // cmbRetainHandling
             // 
             this.cmbRetainHandling.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbRetainHandling.FormattingEnabled = true;
-            this.cmbRetainHandling.Location = new System.Drawing.Point(498, 215);
+            this.cmbRetainHandling.Location = new System.Drawing.Point(498, 252);
             this.cmbRetainHandling.Name = "cmbRetainHandling";
             this.cmbRetainHandling.Size = new System.Drawing.Size(244, 33);
             this.cmbRetainHandling.TabIndex = 107;
@@ -364,11 +379,11 @@
             // 
             this.label17.AutoSize = true;
             this.label17.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.label17.Location = new System.Drawing.Point(415, 220);
+            this.label17.Location = new System.Drawing.Point(389, 258);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(78, 21);
+            this.label17.Size = new System.Drawing.Size(110, 21);
             this.label17.TabIndex = 106;
-            this.label17.Text = "保留方式:";
+            this.label17.Text = "保留消息(5.0):";
             // 
             // label18
             // 
@@ -387,18 +402,76 @@
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(244, 29);
             this.txtName.TabIndex = 108;
+            this.tsNote.SetToolTip(this.txtName, "代码里的队列名区分多个队列的链接");
             // 
             // chkKeepAlive
             // 
             this.chkKeepAlive.AutoSize = true;
             this.chkKeepAlive.Checked = true;
             this.chkKeepAlive.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkKeepAlive.Location = new System.Drawing.Point(621, 303);
+            this.chkKeepAlive.Location = new System.Drawing.Point(346, 344);
             this.chkKeepAlive.Name = "chkKeepAlive";
             this.chkKeepAlive.Size = new System.Drawing.Size(121, 29);
             this.chkKeepAlive.TabIndex = 110;
             this.chkKeepAlive.Text = "KeepAlive";
             this.chkKeepAlive.UseVisualStyleBackColor = true;
+            // 
+            // cmbProtocolVersion
+            // 
+            this.cmbProtocolVersion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbProtocolVersion.FormattingEnabled = true;
+            this.cmbProtocolVersion.Location = new System.Drawing.Point(498, 215);
+            this.cmbProtocolVersion.Name = "cmbProtocolVersion";
+            this.cmbProtocolVersion.Size = new System.Drawing.Size(244, 33);
+            this.cmbProtocolVersion.TabIndex = 112;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.label19.Location = new System.Drawing.Point(446, 221);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(46, 21);
+            this.label19.TabIndex = 111;
+            this.label19.Text = "协议:";
+            // 
+            // chkCleanSession
+            // 
+            this.chkCleanSession.AutoSize = true;
+            this.chkCleanSession.Checked = true;
+            this.chkCleanSession.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkCleanSession.Location = new System.Drawing.Point(498, 344);
+            this.chkCleanSession.Name = "chkCleanSession";
+            this.chkCleanSession.Size = new System.Drawing.Size(152, 29);
+            this.chkCleanSession.TabIndex = 113;
+            this.chkCleanSession.Text = "CleanSession";
+            this.tsNote.SetToolTip(this.chkCleanSession, "是用来控制会话状态生命周期的标志位，\r\n为 true 时表示创建一个新的会话，在客户端断开连接时，\r\n会话将自动销毁。\r\n为 false 时表示创建一个持久会话，" +
+        "在客户端断开连接后会话仍然保持，直到会话超时注销。\r\n5.0时候则设置CleanStart");
+            this.chkCleanSession.UseVisualStyleBackColor = true;
+            // 
+            // nupSessionExpiryInterval
+            // 
+            this.nupSessionExpiryInterval.Location = new System.Drawing.Point(536, 293);
+            this.nupSessionExpiryInterval.Maximum = new decimal(new int[] {
+            1000000000,
+            0,
+            0,
+            0});
+            this.nupSessionExpiryInterval.Name = "nupSessionExpiryInterval";
+            this.nupSessionExpiryInterval.Size = new System.Drawing.Size(206, 33);
+            this.nupSessionExpiryInterval.TabIndex = 115;
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.label20.Location = new System.Drawing.Point(364, 298);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(166, 21);
+            this.label20.TabIndex = 114;
+            this.label20.Text = "Session超时秒数(5.0):";
+            this.tsNote.SetToolTip(this.label20, "Session Expiry Interval 以秒为单位，\r\n如果 Session Expiry Interval 设置为 0 或者未指定，\r\n会话将在网络连接" +
+        "关闭时结束。");
             // 
             // UIMQTT
             // 
@@ -410,6 +483,7 @@
             this.gpSetting.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nupSessionExpiry)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nulKeepAlivePeriod)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nupSessionExpiryInterval)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -447,5 +521,10 @@
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.CheckBox chkKeepAlive;
+        private System.Windows.Forms.ComboBox cmbProtocolVersion;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.NumericUpDown nupSessionExpiryInterval;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.CheckBox chkCleanSession;
     }
 }

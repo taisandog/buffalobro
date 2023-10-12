@@ -6,8 +6,9 @@
     <Description>Buffalo存储包(支持阿里云OSS、AWS S3、腾讯云COS、华为云OBS)</Description>
     <Copyright>taisandog</Copyright>
     <PackageProjectUrl>https://github.com/taisandog/buffalobro</PackageProjectUrl>
-    <Product>Buffalo.Storage for .Net Standard 2.0</Product>
-    <Version>1.2.2</Version>
+    <Product>Buffalo.Storage for .Net Standard 2.1</Product>
+    <Version>1.2.4</Version>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -46,10 +47,10 @@
 
   <ItemGroup>
     <PackageReference Include="Aliyun.OSS.SDK.NetCore" Version="2.13.0" />
-    <PackageReference Include="AWSSDK.Core" Version="3.7.105.13" />
-    <PackageReference Include="AWSSDK.S3" Version="3.7.103.21" />
+    <PackageReference Include="AWSSDK.Core" Version="3.7.202.3" />
+    <PackageReference Include="AWSSDK.S3" Version="3.7.203.9" />
     <PackageReference Include="Huawei.OBS" Version="3.0.4" />
-    <PackageReference Include="Tencent.QCloud.Cos.Sdk" Version="5.4.34" />
+    <PackageReference Include="Tencent.QCloud.Cos.Sdk" Version="5.4.35" />
   </ItemGroup>
 
   <ItemGroup>
@@ -78,6 +79,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
 
 </Project>

@@ -2,19 +2,24 @@
 using Buffalo.Kernel;
 using MQTTnet;
 using MQTTnet.Adapter;
+
 using MQTTnet.Client;
+using MQTTnet.Protocol;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Buffalo.MQ.MQTTLib
 {
+
     public class MQTTListener : MQListener
     {
+        public event Func<MqttClientDisconnectedEventArgs, Task> OnDisconnected;
         private MQTTConfig _config;
-        MqttClient _mqttClient = null;
+        MqttClient _mqttClient2 = null;
         MqttClientOptions _options = null;
         private static Encoding DefaultEncoding = Encoding.UTF8;
         IEnumerable<MQOffestInfo> _lstTopic = null;
@@ -34,26 +39,34 @@ namespace Buffalo.MQ.MQTTLib
         /// </summary>
         public void Open()
         {
-            if (_mqttClient == null)
+            if (_mqttClient2 == null)
             {
                 _isRunning = true;
                 ResetWait();
                 try
                 {
                     MqttFactory factory = new MqttFactory();
-                    _mqttClient = factory.CreateMqttClient() as MqttClient;
-
+                    _mqttClient2 = factory.CreateMqttClient() as MqttClient;
+                    
                     _options = _config.Options.Build();
-
-                    _mqttClient.ConnectedAsync += Connected;
+                    
+                    _mqttClient2.ConnectedAsync +=  Connected;
                     //_mqttClient.ConnectedHandler = new MqttClientConnectedHandlerDelegate(new Func<MqttClientConnectedEventArgs, Task>(Connected));
-                    _mqttClient.DisconnectedAsync +=Disconnected;
-                    _mqttClient.ApplicationMessageReceivedAsync += ApplicationMessageReceivedAsync;
-                    MqttClientConnectResult res = _mqttClient.ConnectAsync(_options).Result;
+                    _mqttClient2.DisconnectedAsync +=Disconnected;
+                    
+                    _mqttClient2.ApplicationMessageReceivedAsync += ApplicationMessageReceivedAsync;
+                    Task<MqttClientConnectResult> tsk1 = _mqttClient2.ConnectAsync(_options);
+                   
+                    
+
+                    MqttClientConnectResult res = tsk1.Result;
                     if (res.ResultCode != MqttClientConnectResultCode.Success)
                     {
                         throw new MqttConnectingFailedException("Connect Fault", null, res);
                     }
+
+                    
+                    
                 }
                 finally 
                 {
@@ -65,6 +78,8 @@ namespace Buffalo.MQ.MQTTLib
 
         }
 
+        
+
         private Task ApplicationMessageReceivedAsync(MqttApplicationMessageReceivedEventArgs arg)
         {
             try
@@ -75,6 +90,8 @@ namespace Buffalo.MQ.MQTTLib
                 //string retained = e.ApplicationMessage.Retain.ToString();
                 MQTTCallbackMessage message = new MQTTCallbackMessage(topic, value, arg);
                 CallBack(message);
+                
+
 
             }
             catch (Exception exp)
@@ -84,52 +101,72 @@ namespace Buffalo.MQ.MQTTLib
             return Task.CompletedTask;
         }
 
+        MqttClientSubscribeOptions _option = null;
 
 
-       
-        private async Task Connected(MqttClientConnectedEventArgs e)
+
+        private Task Connected(MqttClientConnectedEventArgs e)
         {
             try
             {
-
-                MqttClientSubscribeOptionsBuilder subBuilder = new MqttClientSubscribeOptionsBuilder();
-                foreach (MQOffestInfo info in _lstTopic)
-                {
-                    subBuilder.WithTopicFilter(info.Key, _config.QualityOfServiceLevel, _config.NoLocal.GetValueOrDefault(), 
-                        _config.RetainAsPublished.GetValueOrDefault(), _config.RetainHandling.GetValueOrDefault());
-                }
-                await _mqttClient.SubscribeAsync(subBuilder.Build());
+                Task<MqttClientSubscribeResult> tsk2 = SubTopic();
+                MqttClientSubscribeResult res1 = tsk2.Result;
 
             }
             catch (Exception exp)
             {
                 OnException(exp);
             }
-            
+            return Task.CompletedTask;
         }
-        private async Task Disconnected(MqttClientDisconnectedEventArgs e)
+
+        private  Task<MqttClientSubscribeResult> SubTopic() 
+        {
+            if (_option == null)
+            {
+                MqttClientSubscribeOptionsBuilder subBuilder = new MqttClientSubscribeOptionsBuilder();
+                foreach (MQOffestInfo info in _lstTopic)
+                {
+                    subBuilder.WithTopicFilter(info.Key, _config.QualityOfServiceLevel, _config.NoLocal.GetValueOrDefault(),
+                        _config.RetainAsPublished.GetValueOrDefault(false), _config.RetainHandling.GetValueOrDefault(MqttRetainHandling.SendAtSubscribe));
+                    //subBuilder.WithTopicFilter(info.Key, _config.QualityOfServiceLevel, _config.NoLocal.GetValueOrDefault(),
+                    //    _config.RetainAsPublished.GetValueOrDefault(false), _config.RetainHandling.GetValueOrDefault(MqttRetainHandling.SendAtSubscribe));
+
+                }
+                _option = subBuilder.Build();
+            }
+            
+            return _mqttClient2.SubscribeAsync(_option);
+        }
+
+        private  async Task Disconnected(MqttClientDisconnectedEventArgs e)
         {
             if (!_isRunning) 
             {
-                return;
+                return  ;
             }
             try
             {
                 
-                await Task.Delay(TimeSpan.FromSeconds(5));
+                //await Task.Delay(TimeSpan.FromSeconds(5));
                 try
                 {
-                    await _mqttClient.ConnectAsync(_options);
+                    await _mqttClient2.ConnectAsync(_options);
                 }
                 catch (Exception exp)
                 {
                     OnException(exp);
                 }
+                if (OnDisconnected != null) 
+                {
+                    await OnDisconnected(e);
+                }
             }
             catch (Exception exp)
             {
                 OnException(exp);
             }
+            return ;
         }
 
 
@@ -150,18 +187,18 @@ namespace Buffalo.MQ.MQTTLib
         public override void Close()
         {
             _isRunning = false;
-            if (_mqttClient != null)
+            if (_mqttClient2 != null)
             {
                 try
                 {
-                    _mqttClient.DisconnectAsync().Wait();
-                    _mqttClient.Dispose();
+                    _mqttClient2.DisconnectAsync().Wait();
+                    _mqttClient2.Dispose();
                 }
                 catch (Exception ex)
                 {
                     OnException(ex);
                 }
-                _mqttClient = null;
+                _mqttClient2 = null;
             }
         }
 

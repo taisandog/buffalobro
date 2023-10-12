@@ -3,6 +3,7 @@ using MQTTnet.Client;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace Buffalo.MQ.MQTTLib
 {
@@ -25,7 +26,11 @@ namespace Buffalo.MQ.MQTTLib
 
         public override void Commit()
         {
-           
+            if(_receivedEventArgs != null && !_receivedEventArgs.AutoAcknowledge) 
+            {
+                _receivedEventArgs.AcknowledgeAsync(CancellationToken.None);
+            }
+            
         }
 
         public override void Dispose()
