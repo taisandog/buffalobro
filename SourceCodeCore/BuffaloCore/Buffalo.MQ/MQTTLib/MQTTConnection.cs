@@ -152,6 +152,7 @@ namespace Buffalo.MQ.MQTTLib
                 _mqttClient = factory.CreateMqttClient() as MqttClient;
 
                 _options = _config.Options.Build();
+                
                 MqttClientConnectResult res = _mqttClient.ConnectAsync(_options).Result;
                 if(res.ResultCode!= MqttClientConnectResultCode.Success) 
                 {

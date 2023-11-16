@@ -42,6 +42,7 @@ namespace Buffalo.MQ.MQTTLib
                 if (serPart.Length > 1)
                 {
                     Options.WithTcpServer(strserver, serPart[1].ConvertTo<int>());
+                    
                 }
                 else
                 {
