@@ -61,7 +61,7 @@
         </member>
         <member name="T:Pipelines.Sockets.Unofficial.Arenas.ArenaOptions">
             <summary>
-            Options that configure the behahaviour of an arena
+            Options that configure the behaviour of an arena
             </summary>
         </member>
         <member name="P:Pipelines.Sockets.Unofficial.Arenas.ArenaOptions.Default">
@@ -1257,6 +1257,12 @@
             Indicates whether a particular delegate is known to be a single-target delegate
             </summary>
         </member>
+        <member name="P:Pipelines.Sockets.Unofficial.Delegates.IsSupported">
+            <summary>
+            Indicates whether optimized usage is supported on this environment; without this, it may still
+            work, but with additional overheads at runtime.
+            </summary>
+        </member>
         <member name="T:Pipelines.Sockets.Unofficial.Delegates.DelegateEnumerable`1">
             <summary>
             Allows allocation-free enumerator over the individual elements of a multicast delegate
@@ -1274,7 +1280,7 @@
         </member>
         <member name="P:Pipelines.Sockets.Unofficial.Delegates.DelegateEnumerator`1.Current">
             <summary>
-            Provides the current value of the seqyence
+            Provides the current value of the sequence
             </summary>
         </member>
         <member name="M:Pipelines.Sockets.Unofficial.Delegates.DelegateEnumerator`1.MoveNext">
@@ -1355,7 +1361,7 @@
         </member>
         <member name="M:Pipelines.Sockets.Unofficial.MemoryMappedPipeReader.TryRead(System.IO.Pipelines.ReadResult@)">
             <summary>
-            Attempt to perfom a synchronous read operation
+            Attempt to perform a synchronous read operation
             </summary>
         </member>
         <member name="T:Pipelines.Sockets.Unofficial.SocketAwaitableEventArgs">

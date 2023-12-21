@@ -823,6 +823,16 @@
             The Id of the last message delivered to the group.
             </summary>
         </member>
+        <member name="P:StackExchange.Redis.StreamGroupInfo.EntriesRead">
+            <summary>
+            Total number of entries the group had read.
+            </summary>
+        </member>
+        <member name="P:StackExchange.Redis.StreamGroupInfo.Lag">
+            <summary>
+            The number of entries in the range between the group's read entries and the stream's entries.
+            </summary>
+        </member>
         <member name="T:StackExchange.Redis.StreamInfo">
             <summary>
             Describes stream information retrieved using the XINFO STREAM command. <see cref="M:StackExchange.Redis.IDatabase.StreamInfo(StackExchange.Redis.RedisKey,StackExchange.Redis.CommandFlags)"/>.
@@ -1090,6 +1100,9 @@
             </summary>
             <param name="flags">The flags to use when unsubscribing.</param>
         </member>
+        <member name="M:StackExchange.Redis.ChannelMessageQueue.GetAsyncEnumerator(System.Threading.CancellationToken)">
+            <inheritdoc cref="M:System.Collections.Generic.IAsyncEnumerable`1.GetAsyncEnumerator(System.Threading.CancellationToken)"/>
+        </member>
         <member name="T:StackExchange.Redis.ClientInfo">
             <summary>
             Represents the state of an individual client connection to redis.
@@ -1251,6 +1264,28 @@
             The class of the connection.
             </summary>
         </member>
+        <member name="P:StackExchange.Redis.ClientInfo.ProtocolVersion">
+            <summary>
+            Client RESP protocol version. Added in Redis 7.0.
+            </summary>
+        </member>
+        <member name="P:StackExchange.Redis.ClientInfo.Protocol">
+            <summary>
+            Client RESP protocol version. Added in Redis 7.0.
+            </summary>
+        </member>
+        <member name="P:StackExchange.Redis.ClientInfo.LibraryName">
+            <summary>
+            Client library name. Added in Redis 7.2.
+            </summary>
+            <remarks><seealso href="https://redis.io/commands/client-setinfo"/></remarks>
+        </member>
+        <member name="P:StackExchange.Redis.ClientInfo.LibraryVersion">
+            <summary>
+            Client library version. Added in Redis 7.2.
+            </summary>
+            <remarks><seealso href="https://redis.io/commands/client-setinfo"/></remarks>
+        </member>
         <member name="T:StackExchange.Redis.SlotRange">
             <summary>
             Indicates a range of slots served by a cluster node.
@@ -1368,6 +1403,17 @@
         <member name="P:StackExchange.Redis.ClusterNode.EndPoint">
             <summary>
             Gets the endpoint of the current node.
+            </summary>
+        </member>
+        <member name="P:StackExchange.Redis.ClusterNode.IsFail">
+            <summary>
+            Gets whether this node is in a failed state.
+            </summary>
+        </member>
+        <member name="P:StackExchange.Redis.ClusterNode.IsPossiblyFail">
+            <summary>
+            Gets whether this node is possibly in a failed state.
+            Possibly here means the node we're getting status from can't communicate with it, but doesn't mean it's down for sure.
             </summary>
         </member>
         <member name="P:StackExchange.Redis.ClusterNode.IsMyself">
@@ -1916,6 +1962,19 @@
             Indicates whether the connection should be encrypted
             </summary>
         </member>
+        <member name="P:StackExchange.Redis.ConfigurationOptions.SetClientLibrary">
+            <summary>
+            Gets or sets whether the library should identify itself by library-name/version when possible.
+            </summary>
+        </member>
+        <member name="P:StackExchange.Redis.ConfigurationOptions.LibraryName">
+            <summary>
+            Gets or sets the library name to use for CLIENT SETINFO lib-name calls to Redis during handshake.
+            Defaults to "SE.Redis".
+            </summary>
+            <remarks>If the value is null, empty or whitespace, then the value from the options-provideer is used;
+            to disable the library name feature, use <see cref="P:StackExchange.Redis.ConfigurationOptions.SetClientLibrary"/> instead.</remarks>
+        </member>
         <member name="P:StackExchange.Redis.ConfigurationOptions.ChannelPrefix">
             <summary>
             Automatically encodes and decodes channels.
@@ -2034,9 +2093,15 @@
             -1 Defaults to 60 Seconds
             </summary>
         </member>
+        <member name="P:StackExchange.Redis.ConfigurationOptions.LoggerFactory">
+            <summary>
+            The <see cref="T:Microsoft.Extensions.Logging.ILoggerFactory"/> to get loggers for connection events.
+            Note: changes here only affect <see cref="T:StackExchange.Redis.ConnectionMultiplexer"/>s created after.
+            </summary>
+        </member>
         <member name="P:StackExchange.Redis.ConfigurationOptions.User">
             <summary>
-            The user to use to authenticate with the server.
+            The username to use to authenticate with the server.
             </summary>
         </member>
         <member name="P:StackExchange.Redis.ConfigurationOptions.Password">
@@ -2179,6 +2244,16 @@
             </summary>
             <param name="includePassword">Whether to include the password.</param>
         </member>
+        <member name="P:StackExchange.Redis.ConfigurationOptions.Tunnel">
+            <summary>
+            Allows custom transport implementations, such as http-tunneling via a proxy.
+            </summary>
+        </member>
+        <member name="P:StackExchange.Redis.ConfigurationOptions.Protocol">
+            <summary>
+            Specify the redis protocol type
+            </summary>
+        </member>
         <member name="T:StackExchange.Redis.Configuration.AzureOptionsProvider">
             <summary>
             Options provider for Azure environments.
@@ -2244,9 +2319,14 @@
             Whether this options provider matches a given endpoint, for automatically selecting a provider based on what's being connected to.
             </summary>
         </member>
-        <member name="P:StackExchange.Redis.Configuration.DefaultOptionsProvider.GetForEndpoints">
+        <member name="M:StackExchange.Redis.Configuration.DefaultOptionsProvider.GetProvider(StackExchange.Redis.EndPointCollection)">
             <summary>
             Gets a provider for the given endpoints, falling back to <see cref="T:StackExchange.Redis.Configuration.DefaultOptionsProvider"/> if nothing more specific is found.
+            </summary>
+        </member>
+        <member name="M:StackExchange.Redis.Configuration.DefaultOptionsProvider.GetProvider(System.Net.EndPoint)">
+            <summary>
+            Gets a provider for a given endpoints, falling back to <see cref="T:StackExchange.Redis.Configuration.DefaultOptionsProvider"/> if nothing more specific is found.
             </summary>
         </member>
         <member name="P:StackExchange.Redis.Configuration.DefaultOptionsProvider.AbortOnConnectFail">
@@ -2322,6 +2402,12 @@
             Specifies the time interval at which connections should be pinged to ensure validity.
             </summary>
         </member>
+        <member name="P:StackExchange.Redis.Configuration.DefaultOptionsProvider.LoggerFactory">
+            <summary>
+            The <see cref="T:Microsoft.Extensions.Logging.ILoggerFactory"/> to get loggers for connection events.
+            Note: changes here only affect <see cref="T:StackExchange.Redis.ConnectionMultiplexer"/>s created after.
+            </summary>
+        </member>
         <member name="P:StackExchange.Redis.Configuration.DefaultOptionsProvider.Proxy">
             <summary>
             Type of proxy to use (if any); for example <see cref="F:StackExchange.Redis.Proxy.Twemproxy"/>.
@@ -2353,6 +2439,16 @@
             Check configuration every n interval.
             </summary>
         </member>
+        <member name="P:StackExchange.Redis.Configuration.DefaultOptionsProvider.User">
+            <summary>
+            The username to use to authenticate with the server.
+            </summary>
+        </member>
+        <member name="P:StackExchange.Redis.Configuration.DefaultOptionsProvider.Password">
+            <summary>
+            The password to use to authenticate with the server.
+            </summary>
+        </member>
         <member name="P:StackExchange.Redis.Configuration.DefaultOptionsProvider.ClientName">
             <summary>
             The default client name for a connection, with the library version appended.
@@ -2363,6 +2459,12 @@
             Gets the default client name for a connection.
             </summary>
         </member>
+        <member name="P:StackExchange.Redis.Configuration.DefaultOptionsProvider.LibraryName">
+            <summary>
+            Gets the library name to use for CLIENT SETINFO lib-name calls to Redis during handshake.
+            Defaults to "SE.Redis".
+            </summary>
+        </member>
         <member name="P:StackExchange.Redis.Configuration.DefaultOptionsProvider.LibraryVersion">
             <summary>
             String version of the StackExchange.Redis library, for use in any options.
@@ -2371,6 +2473,11 @@
         <member name="P:StackExchange.Redis.Configuration.DefaultOptionsProvider.ComputerName">
             <summary>
             Name of the machine we're running on, for use in any options.
+            </summary>
+        </member>
+        <member name="P:StackExchange.Redis.Configuration.DefaultOptionsProvider.SetClientLibrary">
+            <summary>
+            Whether to identify the client by library name/version when possible
             </summary>
         </member>
         <member name="M:StackExchange.Redis.Configuration.DefaultOptionsProvider.TryGetAzureRoleInstanceIdNoThrow">
@@ -2404,6 +2511,36 @@
             </summary>
             <param name="endPoints">The configured endpoints to determine SSL host from (e.g. from the port).</param>
             <returns>The common host, if any, detected from the endpoint collection.</returns>
+        </member>
+        <member name="T:StackExchange.Redis.Configuration.Tunnel">
+            <summary>
+            Allows interception of the transport used to communicate with Redis.
+            </summary>
+        </member>
+        <member name="M:StackExchange.Redis.Configuration.Tunnel.GetSocketConnectEndpointAsync(System.Net.EndPoint,System.Threading.CancellationToken)">
+            <summary>
+            Gets the underlying socket endpoint to use when connecting to a logical endpoint.
+            </summary>
+            <remarks><c>null</c> should be returned if a socket is not required for this endpoint.</remarks>
+        </member>
+        <member name="M:StackExchange.Redis.Configuration.Tunnel.BeforeSocketConnectAsync(System.Net.EndPoint,StackExchange.Redis.ConnectionType,System.Net.Sockets.Socket,System.Threading.CancellationToken)">
+            <summary>
+            Allows modification of a <see cref="T:System.Net.Sockets.Socket"/> between creation and connection.
+            Passed in is the endpoint we're connecting to, which type of connection it is, and the socket itself.
+            For example, a specific local IP endpoint could be bound, linger time altered, etc.
+            </summary>
+        </member>
+        <member name="M:StackExchange.Redis.Configuration.Tunnel.BeforeAuthenticateAsync(System.Net.EndPoint,StackExchange.Redis.ConnectionType,System.Net.Sockets.Socket,System.Threading.CancellationToken)">
+            <summary>
+            Invoked on a connected endpoint before server authentication and other handshakes occur, allowing pre-redis handshakes. By returning a custom <see cref="T:System.IO.Stream"/>,
+            the entire data flow can be intercepted, providing entire custom transports.
+            </summary>
+        </member>
+        <member name="M:StackExchange.Redis.Configuration.Tunnel.HttpProxy(System.Net.EndPoint)">
+            <summary>
+            Create a tunnel via an HTTP proxy server.
+            </summary>
+            <param name="proxy">The endpoint to use as an HTTP proxy server.</param>
         </member>
         <member name="T:StackExchange.Redis.ConnectionCounters">
             <summary>
@@ -2904,20 +3041,11 @@
             </summary>
             <param name="profilingSessionProvider">The session provider to register.</param>
         </member>
-        <member name="M:StackExchange.Redis.ConnectionMultiplexer.GetDefaultSocketManager">
-            <summary>
-            .NET 6.0+ has changes to sync-over-async stalls in the .NET primary thread pool
-            If we're in that environment, by default remove the overhead of our own threadpool
-            This will eliminate some context-switching overhead and better-size threads on both large
-            and small environments, from 16 core machines to single core VMs where the default 10 threads
-            isn't an ideal situation.
-            </summary>
-        </member>
-        <member name="M:StackExchange.Redis.ConnectionMultiplexer.InitializeSentinel(StackExchange.Redis.LogProxy)">
+        <member name="M:StackExchange.Redis.ConnectionMultiplexer.InitializeSentinel(Microsoft.Extensions.Logging.ILogger)">
             <summary>
             Initializes the connection as a Sentinel connection and adds the necessary event handlers to track changes to the managed primaries.
             </summary>
-            <param name="logProxy">The writer to log to, if any.</param>
+            <param name="log">The <see cref="T:Microsoft.Extensions.Logging.ILogger"/> to log to, if any.</param>
         </member>
         <member name="M:StackExchange.Redis.ConnectionMultiplexer.SentinelConnect(System.String,System.IO.TextWriter)">
             <summary>
@@ -2961,7 +3089,7 @@
             for the specified <see cref="P:StackExchange.Redis.ConfigurationOptions.ServiceName"/> in the config and returns a managed connection to the current primary server.
             </summary>
             <param name="configuration">The configuration options to use for this multiplexer.</param>
-            <param name="log">The <see cref="T:System.IO.TextWriter"/> to log to.</param>
+            <param name="writer">The <see cref="T:System.IO.TextWriter"/> to log to.</param>
         </member>
         <member name="M:StackExchange.Redis.ConnectionMultiplexer.GetSentinelMasterConnection(StackExchange.Redis.ConfigurationOptions,System.IO.TextWriter)">
             <summary>
@@ -2976,7 +3104,7 @@
             </summary>
             <param name="switchBlame">The endpoint responsible for the switch.</param>
             <param name="connection">The connection that should be switched over to a new primary endpoint.</param>
-            <param name="log">The writer to log to, if any.</param>
+            <param name="writer">The writer to log to, if any.</param>
         </member>
         <member name="P:StackExchange.Redis.ConnectionMultiplexer.StormLogThreshold">
             <summary>
@@ -3508,12 +3636,17 @@
         </member>
         <member name="F:StackExchange.Redis.CommandStatus.WaitingToBeSent">
             <summary>
-            ConnectionMultiplexer has not yet started writing this command to redis.
+            ConnectionMultiplexer has not yet started writing this command to Redis.
             </summary>
         </member>
         <member name="F:StackExchange.Redis.CommandStatus.Sent">
             <summary>
             Command has been sent to Redis.
+            </summary>
+        </member>
+        <member name="F:StackExchange.Redis.CommandStatus.WaitingInBacklog">
+            <summary>
+            Command is in the backlog, waiting to be processed and written to Redis.
             </summary>
         </member>
         <member name="T:StackExchange.Redis.ConnectionFailureType">
@@ -3930,9 +4063,67 @@
             Bulk strings represent typical user content values.
             </summary>
         </member>
+        <member name="F:StackExchange.Redis.ResultType.Array">
+            <summary>
+            Array of results (former Multi-bulk).
+            </summary>
+        </member>
         <member name="F:StackExchange.Redis.ResultType.MultiBulk">
             <summary>
             Multi-bulk replies represent complex results such as arrays.
+            </summary>
+        </member>
+        <member name="F:StackExchange.Redis.ResultType.Null">
+            <summary>
+            A single null value replacing RESP v2 blob and multi-bulk nulls.
+            </summary>
+        </member>
+        <member name="F:StackExchange.Redis.ResultType.Boolean">
+            <summary>
+            True or false.
+            </summary>
+        </member>
+        <member name="F:StackExchange.Redis.ResultType.Double">
+            <summary>
+            A floating point number.
+            </summary>
+        </member>
+        <member name="F:StackExchange.Redis.ResultType.BigInteger">
+            <summary>
+            A large number non representable by the <see cref="F:StackExchange.Redis.ResultType.Integer"/> type
+            </summary>
+        </member>
+        <member name="F:StackExchange.Redis.ResultType.BlobError">
+            <summary>
+            Binary safe error code and message.
+            </summary>
+        </member>
+        <member name="F:StackExchange.Redis.ResultType.VerbatimString">
+            <summary>
+            A binary safe string that should be displayed to humans without any escaping or filtering. For instance the output of <c>LATENCY DOCTOR</c> in Redis.
+            </summary>
+        </member>
+        <member name="F:StackExchange.Redis.ResultType.Map">
+            <summary>
+            An unordered collection of key-value pairs. Keys and values can be any other RESP3 type.
+            </summary>
+        </member>
+        <member name="F:StackExchange.Redis.ResultType.Set">
+            <summary>
+            An unordered collection of N other types.
+            </summary>
+        </member>
+        <member name="F:StackExchange.Redis.ResultType.Attribute">
+            <summary>
+            Like the <see cref="F:StackExchange.Redis.ResultType.Map"/> type, but the client should keep reading the reply ignoring the attribute type, and return it to the client as additional information.
+            </summary>
+        </member>
+        <member name="F:StackExchange.Redis.ResultType.Push">
+            <summary>
+            Out of band data. The format is like the <see cref="F:StackExchange.Redis.ResultType.Array"/> type, but the client should just check the first string element,
+            stating the type of the out of band data, a call a callback if there is one registered for this specific type of push information.
+            Push types are not related to replies, since they are information that the server may push at any time in the connection,
+            so the client should keep reading if it is reading the reply of a command.
             </summary>
         </member>
         <member name="T:StackExchange.Redis.RetransmissionReasonType">
@@ -4027,7 +4218,7 @@
         </member>
         <member name="M:StackExchange.Redis.ServerTypeExtensions.SupportsAutoConfigure(StackExchange.Redis.ServerType)">
             <summary>
-            Whether a server type supports <see cref="M:StackExchange.Redis.ServerEndPoint.AutoConfigureAsync(StackExchange.Redis.PhysicalConnection,StackExchange.Redis.LogProxy)"/>.
+            Whether a server type supports <see cref="M:StackExchange.Redis.ServerEndPoint.AutoConfigureAsync(StackExchange.Redis.PhysicalConnection,Microsoft.Extensions.Logging.ILogger)"/>.
             </summary>
         </member>
         <member name="T:StackExchange.Redis.SetOperation">
@@ -4554,6 +4745,11 @@
             This usually means primary/replica changes.
             </summary>
         </member>
+        <member name="E:StackExchange.Redis.IConnectionMultiplexer.ServerMaintenanceEvent">
+            <summary>
+            Raised when server indicates a maintenance event is going to happen.
+            </summary>
+        </member>
         <member name="M:StackExchange.Redis.IConnectionMultiplexer.GetEndPoints(System.Boolean)">
             <summary>
             Gets all endpoints defined on the multiplexer.
@@ -5010,7 +5206,7 @@
             <param name="key">The key of the hash.</param>
             <param name="hashField">The field in the hash to delete.</param>
             <param name="flags">The flags to use for this operation.</param>
-            <returns>The number of fields that were removed.</returns>
+            <returns><see langword="true"/> if the field was removed.</returns>
             <remarks><seealso href="https://redis.io/commands/hdel"/></remarks>
         </member>
         <member name="M:StackExchange.Redis.IDatabase.HashDelete(StackExchange.Redis.RedisKey,StackExchange.Redis.RedisValue[],StackExchange.Redis.CommandFlags)">
@@ -6007,6 +6203,31 @@
             <param name="flags">The flags to use for this operation.</param>
             <returns>A dynamic representation of the script's result.</returns>
             <remarks><seealso href="https://redis.io/commands/eval"/></remarks>
+        </member>
+        <member name="M:StackExchange.Redis.IDatabase.ScriptEvaluateReadOnly(System.String,StackExchange.Redis.RedisKey[],StackExchange.Redis.RedisValue[],StackExchange.Redis.CommandFlags)">
+            <summary>
+            Read-only variant of the EVAL command that cannot execute commands that modify data, Execute a Lua script against the server.
+            </summary>
+            <param name="script">The script to execute.</param>
+            <param name="keys">The keys to execute against.</param>
+            <param name="values">The values to execute against.</param>
+            <param name="flags">The flags to use for this operation.</param>
+            <returns>A dynamic representation of the script's result.</returns>
+            <remarks>
+            <seealso href="https://redis.io/commands/eval_ro"/>,
+            <seealso href="https://redis.io/commands/evalsha_ro"/>
+            </remarks>
+        </member>
+        <member name="M:StackExchange.Redis.IDatabase.ScriptEvaluateReadOnly(System.Byte[],StackExchange.Redis.RedisKey[],StackExchange.Redis.RedisValue[],StackExchange.Redis.CommandFlags)">
+            <summary>
+            Read-only variant of the EVALSHA command that cannot execute commands that modify data, Execute a Lua script against the server using just the SHA1 hash.
+            </summary>
+            <param name="hash">The hash of the script to execute.</param>
+            <param name="keys">The keys to execute against.</param>
+            <param name="values">The values to execute against.</param>
+            <param name="flags">The flags to use for this operation.</param>
+            <returns>A dynamic representation of the script's result.</returns>
+            <remarks><seealso href="https://redis.io/commands/evalsha_ro"/></remarks>
         </member>
         <member name="M:StackExchange.Redis.IDatabase.SetAdd(StackExchange.Redis.RedisKey,StackExchange.Redis.RedisValue,StackExchange.Redis.CommandFlags)">
             <summary>
@@ -7861,7 +8082,7 @@
             <param name="key">The key of the hash.</param>
             <param name="hashField">The field in the hash to delete.</param>
             <param name="flags">The flags to use for this operation.</param>
-            <returns>The number of fields that were removed.</returns>
+            <returns><see langword="true"/> if the field was removed.</returns>
             <remarks><seealso href="https://redis.io/commands/hdel"/></remarks>
         </member>
         <member name="M:StackExchange.Redis.IDatabaseAsync.HashDeleteAsync(StackExchange.Redis.RedisKey,StackExchange.Redis.RedisValue[],StackExchange.Redis.CommandFlags)">
@@ -8847,6 +9068,31 @@
             <param name="flags">The flags to use for this operation.</param>
             <returns>A dynamic representation of the script's result.</returns>
             <remarks><seealso href="https://redis.io/commands/eval"/></remarks>
+        </member>
+        <member name="M:StackExchange.Redis.IDatabaseAsync.ScriptEvaluateReadOnlyAsync(System.String,StackExchange.Redis.RedisKey[],StackExchange.Redis.RedisValue[],StackExchange.Redis.CommandFlags)">
+            <summary>
+            Read-only variant of the EVAL command that cannot execute commands that modify data, Execute a Lua script against the server.
+            </summary>
+            <param name="script">The script to execute.</param>
+            <param name="keys">The keys to execute against.</param>
+            <param name="values">The values to execute against.</param>
+            <param name="flags">The flags to use for this operation.</param>
+            <returns>A dynamic representation of the script's result.</returns>
+            <remarks>
+            <seealso href="https://redis.io/commands/eval_ro"/>,
+            <seealso href="https://redis.io/commands/evalsha_ro"/>
+            </remarks>
+        </member>
+        <member name="M:StackExchange.Redis.IDatabaseAsync.ScriptEvaluateReadOnlyAsync(System.Byte[],StackExchange.Redis.RedisKey[],StackExchange.Redis.RedisValue[],StackExchange.Redis.CommandFlags)">
+            <summary>
+            Read-only variant of the EVALSHA command that cannot execute commands that modify data, Execute a Lua script against the server using just the SHA1 hash.
+            </summary>
+            <param name="hash">The hash of the script to execute.</param>
+            <param name="keys">The keys to execute against.</param>
+            <param name="values">The values to execute against.</param>
+            <param name="flags">The flags to use for this operation.</param>
+            <returns>A dynamic representation of the script's result.</returns>
+            <remarks><seealso href="https://redis.io/commands/evalsha_ro"/></remarks>
         </member>
         <member name="M:StackExchange.Redis.IDatabaseAsync.SetAddAsync(StackExchange.Redis.RedisKey,StackExchange.Redis.RedisValue,StackExchange.Redis.CommandFlags)">
             <summary>
@@ -10509,6 +10755,11 @@
             Gets whether the connection to the server is active and usable.
             </summary>
         </member>
+        <member name="P:StackExchange.Redis.IServer.Protocol">
+            <summary>
+            The protocol being used to communicate with this server (if not connected/known, then the anticipated protocol from the configuration is returned, assuming success)
+            </summary>
+        </member>
         <member name="P:StackExchange.Redis.IServer.IsSlave">
             <summary>
             Gets whether the connected server is a replica.
@@ -11851,9 +12102,19 @@
             For now, simplicity in: queue it all, replay or timeout it all.
             </remarks>
         </member>
+        <member name="P:StackExchange.Redis.PhysicalBridge.Protocol">
+            <summary>
+            If we have a connection, report the protocol being used
+            </summary>
+        </member>
         <member name="P:StackExchange.Redis.PhysicalBridge.BridgeStatus.MessagesSinceLastHeartbeat">
             <summary>
             Number of messages sent since the last heartbeat was processed.
+            </summary>
+        </member>
+        <member name="P:StackExchange.Redis.PhysicalBridge.BridgeStatus.ConnectedAt">
+            <summary>
+            The time this connection was connected at, if it's connected currently.
             </summary>
         </member>
         <member name="P:StackExchange.Redis.PhysicalBridge.BridgeStatus.IsWriterActive">
@@ -11929,9 +12190,20 @@
             ...but in those cases, we'll accept any null ref in a race - it's fine.
             </summary>
         </member>
+        <member name="M:StackExchange.Redis.PhysicalConnection.IsRequestedShutdown(Pipelines.Sockets.Unofficial.PipeShutdownKind)">
+            <summary>
+            Did we ask for the shutdown? If so this leads to informational messages for tracking but not errors.
+            </summary>
+        </member>
         <member name="M:StackExchange.Redis.PhysicalConnection.ToString">
             <summary>Returns a string that represents the current object.</summary>
             <returns>A string that represents the current object.</returns>
+        </member>
+        <member name="M:StackExchange.Redis.PhysicalConnection.OnBridgeHeartbeat">
+            <summary>
+            Runs on every heartbeat for a bridge, timing out any commands that are overdue and returning an integer of how many we timed out.
+            </summary>
+            <returns>How many commands were overdue and threw timeout exceptions.</returns>
         </member>
         <member name="P:StackExchange.Redis.PhysicalConnection.ConnectionStatus.MessagesSentAwaitingResponse">
             <summary>
@@ -11951,6 +12223,16 @@
         <member name="P:StackExchange.Redis.PhysicalConnection.ConnectionStatus.BytesInWritePipe">
             <summary>
             Bytes in the writer pipe, waiting to be written to the socket.
+            </summary>
+        </member>
+        <member name="P:StackExchange.Redis.PhysicalConnection.ConnectionStatus.BytesLastResult">
+            <summary>
+            Byte size of the last result we processed.
+            </summary>
+        </member>
+        <member name="P:StackExchange.Redis.PhysicalConnection.ConnectionStatus.BytesInBuffer">
+            <summary>
+            Byte size on the buffer that isn't processed yet.
             </summary>
         </member>
         <member name="P:StackExchange.Redis.PhysicalConnection.ConnectionStatus.ReadStatus">
@@ -12165,6 +12447,37 @@
             Indicates whether the channel-name is either null or a zero-length value.
             </summary>
         </member>
+        <member name="P:StackExchange.Redis.RedisChannel.IsPattern">
+            <summary>
+            Indicates whether this channel represents a wildcard pattern (see <c>PSUBSCRIBE</c>)
+            </summary>
+        </member>
+        <member name="P:StackExchange.Redis.RedisChannel.UseImplicitAutoPattern">
+            <summary>
+            Indicates whether channels should use <see cref="F:StackExchange.Redis.RedisChannel.PatternMode.Auto"/> when no <see cref="T:StackExchange.Redis.RedisChannel.PatternMode"/>
+            is specified; this is enabled by default, but can be disabled to avoid unexpected wildcard scenarios.
+            </summary>
+        </member>
+        <member name="M:StackExchange.Redis.RedisChannel.Literal(System.String)">
+            <summary>
+            Creates a new <see cref="T:StackExchange.Redis.RedisChannel"/> that does not act as a wildcard subscription
+            </summary>
+        </member>
+        <member name="M:StackExchange.Redis.RedisChannel.Literal(System.Byte[])">
+            <summary>
+            Creates a new <see cref="T:StackExchange.Redis.RedisChannel"/> that does not act as a wildcard subscription
+            </summary>
+        </member>
+        <member name="M:StackExchange.Redis.RedisChannel.Pattern(System.String)">
+            <summary>
+            Creates a new <see cref="T:StackExchange.Redis.RedisChannel"/> that acts as a wildcard subscription
+            </summary>
+        </member>
+        <member name="M:StackExchange.Redis.RedisChannel.Pattern(System.Byte[])">
+            <summary>
+            Creates a new <see cref="T:StackExchange.Redis.RedisChannel"/> that acts as a wildcard subscription
+            </summary>
+        </member>
         <member name="M:StackExchange.Redis.RedisChannel.#ctor(System.Byte[],StackExchange.Redis.RedisChannel.PatternMode)">
             <summary>
             Create a new redis channel from a buffer, explicitly controlling the pattern mode.
@@ -12368,6 +12681,11 @@
             Is <see href="https://redis.io/commands/client-setname/">CLIENT SETNAME</see> available?
             </summary>
         </member>
+        <member name="P:StackExchange.Redis.RedisFeatures.ClientId">
+            <summary>
+            Is <see href="https://redis.io/commands/client-id/">CLIENT ID</see> available?
+            </summary>
+        </member>
         <member name="P:StackExchange.Redis.RedisFeatures.ExecAbort">
             <summary>
             Does <see href="https://redis.io/commands/exec/">EXEC</see> support <c>EXECABORT</c> if there are errors?
@@ -12561,6 +12879,11 @@
             Do list-push commands support multiple arguments?
             </summary>
         </member>
+        <member name="P:StackExchange.Redis.RedisFeatures.Resp3">
+            <summary>
+            Is the RESP3 protocol available?
+            </summary>
+        </member>
         <member name="P:StackExchange.Redis.RedisFeatures.Version">
             <summary>
             The Redis version of the server
@@ -12583,6 +12906,15 @@
             <see langword="true"/> if <paramref name="obj" /> and this instance are the same type and represent the same value, <see langword="false"/> otherwise.
             </returns>
             <param name="obj">The object to compare with the current instance.</param>
+        </member>
+        <member name="M:StackExchange.Redis.RedisFeatures.Equals(StackExchange.Redis.RedisFeatures)">
+            <summary>
+            Indicates whether this instance and a specified object are equal.
+            </summary>
+            <returns>
+            <see langword="true"/> if <paramref name="other" /> and this instance are the same type and represent the same value, <see langword="false"/> otherwise.
+            </returns>
+            <param name="other">The object to compare with the current instance.</param>
         </member>
         <member name="M:StackExchange.Redis.RedisFeatures.op_Equality(StackExchange.Redis.RedisFeatures,StackExchange.Redis.RedisFeatures)">
             <summary>
@@ -12743,9 +13075,29 @@
             </summary>
             <param name="suffix">The suffix to append.</param>
         </member>
+        <member name="T:StackExchange.Redis.RedisProtocol">
+            <summary>
+            Indicates the protocol for communicating with the server.
+            </summary>
+        </member>
+        <member name="F:StackExchange.Redis.RedisProtocol.Resp2">
+            <summary>
+            The protocol used by all redis server versions since 1.2, as defined by https://github.com/redis/redis-specifications/blob/master/protocol/RESP2.md
+            </summary>
+        </member>
+        <member name="F:StackExchange.Redis.RedisProtocol.Resp3">
+            <summary>
+            Opt-in variant introduced in server version 6, as defined by https://github.com/redis/redis-specifications/blob/master/protocol/RESP3.md
+            </summary>
+        </member>
         <member name="T:StackExchange.Redis.RedisResult">
             <summary>
             Represents a general-purpose result from redis, that may be cast into various anticipated types.
+            </summary>
+        </member>
+        <member name="M:StackExchange.Redis.RedisResult.#ctor">
+            <summary>
+            Do not use.
             </summary>
         </member>
         <member name="M:StackExchange.Redis.RedisResult.Create(StackExchange.Redis.RedisValue,System.Nullable{StackExchange.Redis.ResultType})">
@@ -12763,6 +13115,14 @@
             <param name="values">The <see cref="T:StackExchange.Redis.RedisValue"/>s to create a result from.</param>
             <returns> new <see cref="T:StackExchange.Redis.RedisResult"/>.</returns>
         </member>
+        <member name="M:StackExchange.Redis.RedisResult.Create(StackExchange.Redis.RedisValue[],StackExchange.Redis.ResultType)">
+            <summary>
+            Create a new RedisResult representing an array of values.
+            </summary>
+            <param name="values">The <see cref="T:StackExchange.Redis.RedisValue"/>s to create a result from.</param>
+            <param name="resultType">The explicit data type.</param>
+            <returns> new <see cref="T:StackExchange.Redis.RedisResult"/>.</returns>
+        </member>
         <member name="M:StackExchange.Redis.RedisResult.Create(StackExchange.Redis.RedisResult[])">
             <summary>
             Create a new RedisResult representing an array of values.
@@ -12770,7 +13130,15 @@
             <param name="values">The <see cref="T:StackExchange.Redis.RedisResult"/>s to create a result from.</param>
             <returns> new <see cref="T:StackExchange.Redis.RedisResult"/>.</returns>
         </member>
-        <member name="P:StackExchange.Redis.RedisResult.EmptyArray">
+        <member name="M:StackExchange.Redis.RedisResult.Create(StackExchange.Redis.RedisResult[],StackExchange.Redis.ResultType)">
+            <summary>
+            Create a new RedisResult representing an array of values.
+            </summary>
+            <param name="values">The <see cref="T:StackExchange.Redis.RedisResult"/>s to create a result from.</param>
+            <param name="resultType">The explicit data type.</param>
+            <returns> new <see cref="T:StackExchange.Redis.RedisResult"/>.</returns>
+        </member>
+        <member name="M:StackExchange.Redis.RedisResult.EmptyArray(StackExchange.Redis.ResultType)">
             <summary>
             An empty array result.
             </summary>
@@ -12785,6 +13153,21 @@
             A null single result, to use as a default for invalid returns.
             </summary>
         </member>
+        <member name="P:StackExchange.Redis.RedisResult.Length">
+            <summary>
+            Gets the number of elements in this item if it is a valid array, or <c>-1</c> otherwise.
+            </summary>
+        </member>
+        <member name="M:StackExchange.Redis.RedisResult.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="M:StackExchange.Redis.RedisResult.ToString(System.String@)">
+            <summary>
+            Gets the string content as per <see cref="M:StackExchange.Redis.RedisResult.ToString"/>, but also obtains the declared type from verbatim strings (for example <c>LATENCY DOCTOR</c>)
+            </summary>
+            <param name="type">The type of the returned string.</param>
+            <returns>The content</returns>
+        </member>
         <member name="M:StackExchange.Redis.RedisResult.TryCreate(StackExchange.Redis.PhysicalConnection,StackExchange.Redis.RawResult@,StackExchange.Redis.RedisResult@)">
             <summary>
             Internally, this is very similar to RawResult, except it is designed to be usable,
@@ -12793,7 +13176,17 @@
         </member>
         <member name="P:StackExchange.Redis.RedisResult.Type">
             <summary>
-            Indicate the type of result that was received from redis.
+            Indicate the type of result that was received from redis, in RESP2 terms.
+            </summary>
+        </member>
+        <member name="P:StackExchange.Redis.RedisResult.Resp3Type">
+            <summary>
+            Indicate the type of result that was received from redis, in RESP3 terms.
+            </summary>
+        </member>
+        <member name="P:StackExchange.Redis.RedisResult.Resp2Type">
+            <summary>
+            Indicate the type of result that was received from redis, in RESP2 terms.
             </summary>
         </member>
         <member name="P:StackExchange.Redis.RedisResult.IsNull">
@@ -12951,6 +13344,11 @@
             </summary>
             <param name="comparer">The key comparator to use, or <see cref="P:System.StringComparer.InvariantCultureIgnoreCase"/> by default.</param>
         </member>
+        <member name="P:StackExchange.Redis.RedisResult.Item(System.Int32)">
+            <summary>
+            Get a sub-item by index.
+            </summary>
+        </member>
         <member name="M:StackExchange.Redis.RedisResult.Create(StackExchange.Redis.RedisKey)">
             <summary>
             Create a <see cref="T:StackExchange.Redis.RedisResult"/> from a key.
@@ -13022,7 +13420,9 @@
         </member>
         <member name="P:StackExchange.Redis.RedisValue.IsInteger">
             <summary>
-            Indicates whether the value is a primitive integer (signed or unsigned).
+            Indicates whether the **underlying** value is a primitive integer (signed or unsigned); this is **not**
+            the same as whether the value can be *treated* as an integer - see <seealso cref="M:StackExchange.Redis.RedisValue.TryParse(System.Int32@)"/>
+            and <seealso cref="M:StackExchange.Redis.RedisValue.TryParse(System.Int64@)"/>, which is usually the more appropriate test.
             </summary>
         </member>
         <member name="P:StackExchange.Redis.RedisValue.IsNull">
@@ -13435,6 +13835,9 @@
             The last replication offset acked by this replica node.
             </summary>
         </member>
+        <member name="M:StackExchange.Redis.Role.Master.Replica.ToString">
+            <inheritdoc/>
+        </member>
         <member name="T:StackExchange.Redis.Role.Replica">
             <summary>
             Result of the ROLE command for a replica node.
@@ -13562,9 +13965,14 @@
             This is memoized because it's accessed on hot paths inside the write lock.
             </remarks>
         </member>
-        <member name="M:StackExchange.Redis.ServerEndPoint.OnConnectedAsync(StackExchange.Redis.LogProxy,System.Boolean,System.Boolean)">
+        <member name="M:StackExchange.Redis.ServerEndPoint.OnConnectedAsync(Microsoft.Extensions.Logging.ILogger,System.Boolean,System.Boolean)">
             <summary>
             Awaitable state seeing if this endpoint is connected.
+            </summary>
+        </member>
+        <member name="P:StackExchange.Redis.ServerEndPoint.Protocol">
+            <summary>
+            If we have a connection (interactive), report the protocol being used
             </summary>
         </member>
         <member name="M:StackExchange.Redis.ServerEndPoint.NextReplicaOffset">
