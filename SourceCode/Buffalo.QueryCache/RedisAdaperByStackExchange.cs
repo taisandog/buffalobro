@@ -16,6 +16,7 @@ using System.Collections;
 using Buffalo.DB.CacheManager.CacheCollection;
 using Buffalo.DB.DbCommon;
 using Buffalo.QueryCache.RedisCollections;
+using System.Security.Authentication;
 
 namespace Buffalo.QueryCache
 {
@@ -163,7 +164,10 @@ namespace Buffalo.QueryCache
             }
 
             _options.Ssl = configs.GetDicValue<string, string>("ssl") == "1";
-            
+            if (_options.Ssl)
+            {
+                _options.SslProtocols = SslProtocols.Tls | SslProtocols.Tls11 | SslProtocols.Tls12 | SslProtocols.Tls13;
+            }
             string throwStr = configs.GetDicValue<string, string>("throw");
             _throwExcertion = (throwStr == "1");
 

@@ -7,7 +7,7 @@
     <Product>Buffalo.MongoDB for .Net Standard 2.0</Product>
     <Description>Buffalo的MongoDB库</Description>
     <PackageProjectUrl>https://github.com/taisandog</PackageProjectUrl>
-    <Version>1.4.8</Version>
+    <Version>1.4.9</Version>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
@@ -16,10 +16,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MongoDB.Bson" Version="2.21.0" />
-    <PackageReference Include="MongoDB.Driver" Version="2.21.0" />
-    <PackageReference Include="MongoDB.Driver.Core" Version="2.21.0" />
-    <PackageReference Include="MongoDB.Driver.GridFS" Version="2.21.0" />
+    <PackageReference Include="MongoDB.Bson" Version="2.23.1" />
+    <PackageReference Include="MongoDB.Driver" Version="2.23.1" />
+    <PackageReference Include="MongoDB.Driver.Core" Version="2.23.1" />
+    <PackageReference Include="MongoDB.Driver.GridFS" Version="2.23.1" />
   </ItemGroup>
 
   <ItemGroup>

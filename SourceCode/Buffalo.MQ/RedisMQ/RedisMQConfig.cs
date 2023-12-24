@@ -3,6 +3,7 @@ using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Authentication;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -104,6 +105,10 @@ namespace Buffalo.MQ.RedisMQ
             _useDatabase = hs.GetDicValue<string, string>("database").ConvertTo<int>(0);
             Options.DefaultDatabase= _useDatabase;
             Options.Ssl = hs.GetDicValue<string, string>("ssl") == "1";
+            if (Options.Ssl)
+            {
+                Options.SslProtocols = SslProtocols.Tls | SslProtocols.Tls11 | SslProtocols.Tls12 | SslProtocols.Tls13;
+            }
             Options.SyncTimeout = hs.GetDicValue<string, string>("syncTimeout").ConvertTo<int>(1000);
             Mode =hs.GetDicValue<string, string>("messageMode") == "1"? RedisMQMessageMode.Subscriber: RedisMQMessageMode.Polling;//消息模式
             if (Mode == RedisMQMessageMode.Subscriber)

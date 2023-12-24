@@ -6,7 +6,7 @@
     <Company>dogcom</Company>
     <Description>Buffalo.DB的PostgreSQL支持</Description>
     <PackageProjectUrl>https://github.com/taisandog</PackageProjectUrl>
-    <Version>1.5.3</Version>
+    <Version>1.5.4</Version>
     <Product>Buffalo.Data.PostgreSQL for .Net Standard 2.0</Product>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
@@ -17,7 +17,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Npgsql" Version="7.0.4" />
+    <PackageReference Include="Npgsql" Version="8.0.1" />
   </ItemGroup>
 
   <ItemGroup>

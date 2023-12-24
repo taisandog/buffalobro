@@ -16,6 +16,7 @@ using System.Collections;
 using Buffalo.DB.CacheManager.CacheCollection;
 using Buffalo.DB.DbCommon;
 using Buffalo.QueryCache.RedisCollections;
+using System.Security.Authentication;
 
 namespace Buffalo.QueryCache
 {
@@ -37,6 +38,10 @@ namespace Buffalo.QueryCache
         /// 命令标记
         /// </summary>
         private CommandFlags _commanfFlags;
+        /// <summary>
+        /// 当前库
+        /// </summary>
+        private IDatabase _dbclient;
         /// <summary>
         /// 命令标记
         /// </summary>
@@ -68,6 +73,7 @@ namespace Buffalo.QueryCache
             set
             {
                 _db = value;
+                _dbclient = null;
             }
         }
 
@@ -112,7 +118,7 @@ namespace Buffalo.QueryCache
                 }
                 catch { }
             }
-            _redis= ConnectionMultiplexer.Connect(_options);
+            CheckConnectionDB();
             
         }
         /// <summary>
@@ -122,7 +128,7 @@ namespace Buffalo.QueryCache
         public RedisAdaperByStackExchange(string connStr, DBInfo info)
         {
             _info = info;
-            _redis = CreateManager(connStr);
+            CreateManager(connStr);
 
         }
         /// <summary>
@@ -135,7 +141,7 @@ namespace Buffalo.QueryCache
         /// </summary>
         /// <param name="connectionString">连接字符串</param>
         /// <returns></returns>
-        private ConnectionMultiplexer CreateManager(string connectionString)
+        private void CreateManager(string connectionString)
         {
             _options = new ConfigurationOptions();
             //ConnectionMultiplexer config = new ConnectionMultiplexer();
@@ -163,7 +169,10 @@ namespace Buffalo.QueryCache
             }
 
             _options.Ssl = configs.GetDicValue<string, string>("ssl") == "1";
-            
+            if (_options.Ssl) 
+            {
+                _options.SslProtocols = SslProtocols.Tls | SslProtocols.Tls11 | SslProtocols.Tls12;
+            }
             string throwStr = configs.GetDicValue<string, string>("throw");
             _throwExcertion = (throwStr == "1");
 
@@ -210,9 +219,31 @@ namespace Buffalo.QueryCache
             _serverCount = servers.Count;
             _commanfFlags = (CommandFlags)configs.GetDicValue<string, string>("commanfFlags").ConvertTo<int>((int)CommandFlags.None);
             _db= configs.GetDicValue<string, string>("database").ConvertTo<int>(0);
-            return ConnectionMultiplexer.Connect(_options);
+            //return ConnectionMultiplexer.Connect(_options);
         }
 
+        private IDatabase CheckConnectionDB()
+        {
+            IDatabase client = _dbclient;
+            if (_redis != null && client != null)
+            {
+                return client;
+            }
+            lock (this)
+            {
+                if (_redis == null)
+                {
+                    _redis = ConnectionMultiplexer.Connect(_options);
+                    _dbclient = null;
+                }
+                if (_dbclient == null)
+                {
+                    client = _redis.GetDatabase(_db);
+                    _dbclient = client;
+                }
+            }
+            return client;
+        }
 
         #region ICacheAdaper 成员
 
@@ -220,9 +251,7 @@ namespace Buffalo.QueryCache
 
         protected override RedisConnection CreateClient(bool realOnly, string cmd)
         {
-            IDatabase client = null;
-
-            client = _redis.GetDatabase(_db);
+            IDatabase client= CheckConnectionDB();
             return new RedisConnection(client);
         }
 
@@ -493,6 +522,7 @@ namespace Buffalo.QueryCache
 
         public override void ClearAll(RedisConnection connection)
         {
+            
             IServer server= _redis.GetServer(_mainServer);
             server.FlushAllDatabases();
         }

@@ -19,6 +19,7 @@ using System.Collections;
 using Buffalo.DB.CacheManager.CacheCollection;
 using Buffalo.QueryCache.RedisCollections;
 using Microsoft.Extensions.Logging;
+using StackExchange.Redis;
 
 namespace Buffalo.QueryCache
 {
@@ -80,10 +81,28 @@ namespace Buffalo.QueryCache
                 }
                 catch { }
             }
-            _client = new MemcachedClient(_loggerFacotry,_config);
+            CheckConnectionDB();
 
         }
-
+        private MemcachedClient CheckConnectionDB()
+        {
+            
+            MemcachedClient client = _client;
+            if (client != null)
+            {
+                return client;
+            }
+            lock (this)
+            {
+                if (_client == null)
+                {
+                    client = new MemcachedClient(_loggerFacotry, _config);
+                    _client = client;
+                }
+                
+            }
+            return client;
+        }
         /// <summary>
         /// memcached的适配器
         /// </summary>
@@ -200,7 +219,7 @@ namespace Buffalo.QueryCache
             _config.Protocol = MemcachedProtocol.Binary;
             _config.SocketPool.MaxPoolSize = poolSize;
             //使用默认的数据桶
-            _client = new MemcachedClient(_loggerFacotry, _config);
+            //_client = new MemcachedClient(_loggerFacotry, _config);
 
         }
         /// <summary>
@@ -211,7 +230,8 @@ namespace Buffalo.QueryCache
         /// <returns></returns>
         protected override MemcachedConnection CreateClient(bool readOnly, string cmd)
         {
-            return new MemcachedConnection(_client);
+            MemcachedClient client = CheckConnectionDB();
+            return new MemcachedConnection(client);
         }
 
         protected override E GetValue<E>(string key, E defaultValue, MemcachedConnection client)

@@ -33,6 +33,19 @@ namespace Buffalo.Storage.AWS.S3
         private S3CannedACL _acl;
 
         private RegionEndpoint _endpoint;
+
+        /// <summary>
+        /// 配置
+        /// </summary>
+        private AmazonS3Config _config;
+
+        public override object ConfigInfo 
+        {
+            get 
+            {
+                return _config;
+            }
+        }
         /// <summary>
         /// 亚马逊适配
         /// </summary>
@@ -46,8 +59,36 @@ namespace Buffalo.Storage.AWS.S3
                 _endpoint = GetRegionEndpoint(_server);
             }
             _acl = GetACL(hs.GetMapValue<string>("acl"));
-            
+            _config = CreateConfig();
         }
+
+        private AmazonS3Config CreateConfig() 
+        {
+            AmazonS3Config config = new AmazonS3Config();
+            if (_endpoint != null)
+            {
+                config.RegionEndpoint = _endpoint;
+            }
+            else
+            {
+                config.ServiceURL = _server;
+            }
+            if (_timeout > 0)
+            {
+                config.Timeout = TimeSpan.FromMilliseconds(_timeout);
+            }
+            if (!string.IsNullOrWhiteSpace(_proxyHost))
+            {
+                config.ProxyHost = _proxyHost;
+                config.ProxyPort = _proxyPort;
+                if (!string.IsNullOrWhiteSpace(_proxyUser))
+                {
+                    config.ProxyCredentials = new NetworkCredential(_proxyUser, _proxyPass);
+                }
+            }
+            return config;
+        }
+
         private S3CannedACL GetACL(string acl)
         {
             if(string.Equals(acl, "read", StringComparison.CurrentCultureIgnoreCase))
@@ -364,30 +405,9 @@ namespace Buffalo.Storage.AWS.S3
 
         public override APIResault Open()
         {
-            AmazonS3Config config = new AmazonS3Config();
-            if (_endpoint != null)
-            {
-                config.RegionEndpoint = _endpoint;
-            }
-            else
-            {
-                config.ServiceURL = _server;
-            }
-            if (_timeout > 0)
-            {
-                config.Timeout = TimeSpan.FromMilliseconds(_timeout);
-            }
-            if (!string.IsNullOrWhiteSpace(_proxyHost))
-            {
-                config.ProxyHost = _proxyHost;
-                config.ProxyPort = _proxyPort;
-                if (!string.IsNullOrWhiteSpace(_proxyUser))
-                {
-                    config.ProxyCredentials = new NetworkCredential(_proxyUser, _proxyPass);
-                }
-            }
+           
 
-            _client = new AmazonS3Client(_secretId,_secretKey,config);
+            _client = new AmazonS3Client(_secretId,_secretKey,_config);
 
             return ApiCommon.GetSuccess();
         }

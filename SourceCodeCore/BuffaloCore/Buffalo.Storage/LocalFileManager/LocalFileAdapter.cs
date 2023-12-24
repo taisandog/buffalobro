@@ -7,6 +7,7 @@ using System.Collections;
 using Buffalo.Kernel;
 using Buffalo.ArgCommon;
 using System.Security.Cryptography;
+using Aliyun.OSS.Common;
 
 namespace Buffalo.Storage.LocalFileManager
 {
@@ -20,15 +21,47 @@ namespace Buffalo.Storage.LocalFileManager
         /// </summary>
         private string _fileRoot;
         /// <summary>
+        /// 存储根目录
+        /// </summary>
+        public string FileRoot 
+        {
+            get { return _fileRoot; }
+            set { _fileRoot = value; }
+        }
+
+
+        /// <summary>
         /// 用户名
         /// </summary>
         private string _userName;
-
+        /// <summary>
+        /// 用户名
+        /// </summary>
+        public string UserName
+        {
+            get { return _userName; }
+            set { _userName = value; }
+        }
         /// <summary>
         /// 密码
         /// </summary>
         private string _password;
+        /// <summary>
+        /// 密码
+        /// </summary>
+        public string Password
+        {
+            get { return _password; }
+            set { _password = value; }
+        }
 
+        public override object ConfigInfo
+        {
+            get
+            {
+                return this;
+            }
+        }
         ///// <summary>
         ///// 
         ///// </summary>

@@ -23,6 +23,14 @@ namespace Buffalo.Storage.HW.OBS
 
         private ObsClient _client;
 
+        private ObsConfig _config;
+        public override object ConfigInfo
+        {
+            get
+            {
+                return _config;
+            }
+        }
         /// <summary> 
         /// 阿里云适配器
         /// </summary>
@@ -31,14 +39,11 @@ namespace Buffalo.Storage.HW.OBS
         {
             Dictionary<string, string> hs = ConnStringFilter.GetConnectInfo(connString);
             FillBaseConfig(hs);
-           
-            
+
+            _config = CreateConfig();
         }
-        /// <summary>
-        /// 打开
-        /// </summary>
-        /// <returns></returns>
-        public override APIResault Open()
+
+        private ObsConfig CreateConfig() 
         {
             ObsConfig config = new ObsConfig();
             config.Timeout = _timeout;
@@ -49,12 +54,21 @@ namespace Buffalo.Storage.HW.OBS
                 config.ProxyPort = _proxyPort;
                 if (!string.IsNullOrWhiteSpace(_proxyUser))
                 {
-                    config.ProxyUserName=_proxyUser;
+                    config.ProxyUserName = _proxyUser;
                     config.ProxyPassword = _proxyPass;
                 }
             }
+            return config;
+        }
+        /// <summary>
+        /// 打开
+        /// </summary>
+        /// <returns></returns>
+        public override APIResault Open()
+        {
+            
 
-            _client = new ObsClient(_secretId, _secretKey, config);
+            _client = new ObsClient(_secretId, _secretKey, _config);
             return ApiCommon.GetSuccess();
         }
         /// <summary>

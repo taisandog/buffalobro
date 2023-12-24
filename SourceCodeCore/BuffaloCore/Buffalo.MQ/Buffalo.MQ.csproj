@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <Version>1.7.17</Version>
+    <Version>1.7.18</Version>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
@@ -13,10 +13,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Confluent.Kafka" Version="2.2.0" />
-    <PackageReference Include="MQTTnet" Version="4.3.1.873" />
-    <PackageReference Include="RabbitMQ.Client" Version="6.5.0" />
-    <PackageReference Include="StackExchange.Redis" Version="2.6.122" />
+    <PackageReference Include="Confluent.Kafka" Version="2.3.0" />
+    <PackageReference Include="MQTTnet" Version="4.3.3.952" />
+    <PackageReference Include="RabbitMQ.Client" Version="6.8.1" />
+    <PackageReference Include="StackExchange.Redis" Version="2.7.10" />
   </ItemGroup>
 
   <ItemGroup>

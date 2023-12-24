@@ -15,6 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Buffalo.Kernel;
 using System.Net;
+using Amazon.S3;
 
 namespace Buffalo.Storage.AliCloud.OssAPI
 {
@@ -23,7 +24,19 @@ namespace Buffalo.Storage.AliCloud.OssAPI
 
         private OssClient _cloud;
         private string _checkPointDir = null;
-        
+
+        /// <summary>
+        /// 配置
+        /// </summary>
+        private ClientConfiguration _config;
+
+        public override object ConfigInfo
+        {
+            get
+            {
+                return _config;
+            }
+        }
 
         /// <summary> 
         /// 阿里云适配器
@@ -34,10 +47,27 @@ namespace Buffalo.Storage.AliCloud.OssAPI
             Dictionary<string, string> hs = ConnStringFilter.GetConnectInfo(connString);
             FillBaseConfig(hs);
             _checkPointDir = hs.GetDicValue<string, string>("cpDir");
-
+            _config = CreateCofig();
 
         }
+        private ClientConfiguration CreateCofig() 
+        {
+            ClientConfiguration conf = new ClientConfiguration();
+            conf.MaxErrorRetry = 3;
+            conf.ConnectionTimeout = _timeout;
 
+            if (!string.IsNullOrWhiteSpace(_proxyHost))
+            {
+                conf.ProxyHost = _proxyHost;
+                conf.ProxyPort = _proxyPort;
+                if (!string.IsNullOrWhiteSpace(_proxyUser))
+                {
+                    conf.ProxyUserName = _proxyUser;
+                    conf.ProxyPassword = _proxyPass;
+                }
+            }
+            return conf;
+        }
         /// <summary>
         /// 哈希类型
         /// </summary>
@@ -298,21 +328,8 @@ namespace Buffalo.Storage.AliCloud.OssAPI
 
         public override APIResault Open()
         {
-            ClientConfiguration conf = new ClientConfiguration();
-            conf.MaxErrorRetry = 3;
-            conf.ConnectionTimeout = _timeout;
-
-            if (!string.IsNullOrWhiteSpace(_proxyHost))
-            {
-                conf.ProxyHost = _proxyHost;
-                conf.ProxyPort = _proxyPort;
-                if (!string.IsNullOrWhiteSpace(_proxyUser))
-                {
-                    conf.ProxyUserName = _proxyUser;
-                    conf.ProxyPassword = _proxyPass;
-                }
-            }
-            _cloud = new OssClient(_server, _secretId, _secretKey, conf);
+           
+            _cloud = new OssClient(_server, _secretId, _secretKey, _config);
 
             
             return ApiCommon.GetSuccess();

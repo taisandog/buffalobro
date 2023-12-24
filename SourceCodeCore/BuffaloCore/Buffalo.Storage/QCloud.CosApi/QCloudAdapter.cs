@@ -39,9 +39,33 @@ namespace Buffalo.Storage.QCloud.CosApi
         /// </summary>
         private CosXmlConfig _cosConfig;
         /// <summary>
+        /// 配置
+        /// </summary>
+        public CosXmlConfig CosConfig 
+        { 
+            get { return _cosConfig; } 
+            set { _cosConfig = value; }
+        }
+        /// <summary>
         /// 登录构造器
         /// </summary>
         private QCloudCredentialProvider _cosCredentialProvider;
+        /// <summary>
+        /// 登录构造器
+        /// </summary>
+        public QCloudCredentialProvider CosCredentialProvider 
+        {
+            get { return _cosCredentialProvider; }
+            set { _cosCredentialProvider = value; }
+        }
+
+        public override object ConfigInfo
+        {
+            get
+            {
+                return _cosConfig;
+            }
+        }
         /// <summary> 
         /// 腾讯云适配器
         /// </summary>
@@ -85,6 +109,15 @@ namespace Buffalo.Storage.QCloud.CosApi
             }
             _cosConfig = builder.Build();
 
+            ReCredential();
+
+
+        }
+        /// <summary>
+        /// 重新注册登录
+        /// </summary>
+        public void ReCredential() 
+        {
             long durationSecond = 600;  //每次请求签名有效时长，单位为秒
             _cosCredentialProvider = new DefaultQCloudCredentialProvider(
               _secretId, _secretKey, durationSecond);

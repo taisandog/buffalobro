@@ -37,6 +37,14 @@ namespace Buffalo.Storage
         /// </summary>
         public abstract HashAlgorithm GetHash();
         /// <summary>
+        /// 配置信息
+        /// </summary>
+        public abstract object ConfigInfo
+        {
+            get;
+        }
+
+        /// <summary>
         /// 获取所有目录
         /// </summary>
         /// <param name="path">基础目录</param>
@@ -206,16 +214,16 @@ namespace Buffalo.Storage
                 return _lanUrl;
             }
         }
-        /// <summary>
-        /// 服务器
-        /// </summary>
-        public string Server
-        {
-            get
-            {
-                return _server;
-            }
-        }
+        ///// <summary>
+        ///// 服务器
+        ///// </summary>
+        //public string Server
+        //{
+        //    get
+        //    {
+        //        return _server;
+        //    }
+        //}
         /// <summary>
         /// 安全账号
         /// </summary>
@@ -266,46 +274,46 @@ namespace Buffalo.Storage
                 return _needHash;
             }
         }
-        /// <summary>
-        /// 代理
-        /// </summary>
-        public string ProxyHost
-        {
-            get
-            {
-                return _proxyHost;
-            }
-        }
-        /// <summary>
-        /// 登录代理密码
-        /// </summary>
-        public string ProxyPass
-        {
-            get
-            {
-                return _proxyPass;
-            }
-        }
-        /// <summary>
-        /// 代理端口
-        /// </summary>
-        public int ProxyPort
-        {
-            get
-            {
-                return _proxyPort;
-            }
-        }
-        /// <summary>
-        /// 登录代理用户
-        /// </summary>
-        public string ProxyUser
-        {
-            get
-            {
-                return _proxyUser;
-            }
-        }
+        ///// <summary>
+        ///// 代理
+        ///// </summary>
+        //public string ProxyHost
+        //{
+        //    get
+        //    {
+        //        return _proxyHost;
+        //    }
+        //}
+        ///// <summary>
+        ///// 登录代理密码
+        ///// </summary>
+        //public string ProxyPass
+        //{
+        //    get
+        //    {
+        //        return _proxyPass;
+        //    }
+        //}
+        ///// <summary>
+        ///// 代理端口
+        ///// </summary>
+        //public int ProxyPort
+        //{
+        //    get
+        //    {
+        //        return _proxyPort;
+        //    }
+        //}
+        ///// <summary>
+        ///// 登录代理用户
+        ///// </summary>
+        //public string ProxyUser
+        //{
+        //    get
+        //    {
+        //        return _proxyUser;
+        //    }
+        //}
        
         /// <summary>
         /// 把文件读取到流

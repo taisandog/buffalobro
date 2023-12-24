@@ -51,6 +51,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\dll\dll\Net4.8\Redis\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions">
+      <HintPath>..\..\dll\dll\Net4.8\Redis\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\dll\dll\Net4.8\Newtonsoft.Json.dll</HintPath>
