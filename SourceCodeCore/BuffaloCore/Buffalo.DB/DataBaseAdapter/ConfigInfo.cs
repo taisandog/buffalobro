@@ -141,6 +141,8 @@ namespace Buffalo.DB.DataBaseAdapter
         /// 等于这个值，相当于like 'XX'
         /// </summary>
         Equal = 4,
+
+       
     }
     /// <summary>
     /// 大小写敏感开关

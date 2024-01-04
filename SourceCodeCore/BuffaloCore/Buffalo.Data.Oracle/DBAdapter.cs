@@ -729,25 +729,60 @@ namespace Buffalo.Data.Oracle
         {
             StringBuilder sbSql = new StringBuilder();
             sbSql.Append(" ");
-            if (caseType == BQLCaseType.CaseIgnore)
+           
+            if (type == BQLLikeType.Like || type == BQLLikeType.StartWith )
             {
-                sbSql.Append("lower(");
-                sbSql.Append(source);
-                sbSql.Append(") like lower(");
-                sbSql.Append(Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter.DBAdapter.GetLikeString(this, type, param));
-                sbSql.Append(")");
-            }
-            else
-            {
-                sbSql.Append(source);
-                sbSql.Append(" like ");
-                sbSql.Append(Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter.DBAdapter.GetLikeString(this, type, param));
-            }
+                sbSql.Append("INSTR(");
 
+                AppendLikePrm(sbSql, source, caseType);
+                sbSql.Append(",");
+                AppendLikePrm(sbSql,  param, caseType);
+                
+                
+                sbSql.Append(")");
+                if (type == BQLLikeType.Like)
+                {
+                    sbSql.Append(">0");
+                }
+                else if (type == BQLLikeType.StartWith)
+                {
+                    sbSql.Append("=1");
+                }
+            }
+            else 
+            {
+                AppendLikePrm(sbSql, source, caseType);
+                if (type == BQLLikeType.Equal)
+                {
+                    sbSql.Append(" = ");
+                }
+                else
+                {
+                    sbSql.Append(" like ");
+                }
+                AppendLikePrm(sbSql, Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter.DBAdapter.GetLikeString(this, type, param), caseType);
+
+            }
             return sbSql.ToString();
         }
-
-
+        /// <summary>
+        /// 格式化字段名
+        /// </summary>
+        /// <param name="pName"></param>
+        /// <returns></returns>
+        private void AppendLikePrm(StringBuilder sbSql,string pName, BQLCaseType caseType) 
+        {
+            if(caseType == BQLCaseType.CaseIgnore) 
+            {
+                sbSql.Append("lower(");
+                sbSql.Append(pName);
+                sbSql.Append(")");
+            }
+            else 
+            {
+                sbSql.Append(pName);
+            }
+        }
         public string DoOrderBy(string param, SortType sortType, BQLCaseType caseType, DBInfo info)
         {
             StringBuilder sb = new StringBuilder();
