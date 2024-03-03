@@ -51,15 +51,26 @@ namespace Buffalo.DB.QueryConditions
             get { return _sqlParams; }
         }
         /// <summary>
-        /// 查询的表
+        /// 表
         /// </summary>
         private StringBuilder _tables = new StringBuilder();
         /// <summary>
-        /// 主键
+        /// 表
         /// </summary>
         public override StringBuilder Tables
         {
             get { return _tables; }
+        }
+        /// <summary>
+        /// 查询的表(不加Lock条件)
+        /// </summary>
+        private StringBuilder _tablesNoLock = new StringBuilder();
+        /// <summary>
+        /// 查询的表(不加Lock条件)
+        /// </summary>
+        public StringBuilder TablesNoLock
+        {
+            get { return _tablesNoLock; }
         }
         /// <summary>
         /// 查询条件
@@ -93,6 +104,15 @@ namespace Buffalo.DB.QueryConditions
         public override StringBuilder Orders
         {
             get { return _orders; }
+        }
+        /// <summary>
+        /// 锁条件
+        /// </summary>
+        private StringBuilder _lockUpdate = new StringBuilder();
+
+        public override StringBuilder LockUpdate
+        {
+            get { return _lockUpdate; }
         }
 
         private bool _hasGroup = false;
@@ -191,6 +211,13 @@ namespace Buffalo.DB.QueryConditions
             {
                 sql.Append(" having ");
                 sql.Append(_sqlHaving.ToString());
+            }
+            if (hasOrder)
+            {
+                if (_lockUpdate.Length > 0)
+                {
+                    sql.Append(_lockUpdate.ToString());
+                }
             }
             return sql.ToString();
         }

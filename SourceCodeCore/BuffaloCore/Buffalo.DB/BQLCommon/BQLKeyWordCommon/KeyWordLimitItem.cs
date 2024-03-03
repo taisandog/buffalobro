@@ -25,7 +25,16 @@ namespace Buffalo.DB.BQLCommon.BQLKeyWordCommon
             this.star = star;
             this.totalRecords = totalRecords;
         }
-
+        /// <summary>
+        /// 锁定行
+        /// </summary>
+        /// <param name="noWait">如果冲突是否不等待</param>
+        /// <returns></returns>
+        public KeyWorkLockUpdateItem LockUpdate(bool noWait)
+        {
+            KeyWorkLockUpdateItem item = new KeyWorkLockUpdateItem(noWait, this);
+            return item;
+        }
         internal override void LoadInfo(KeyWordInfomation info)
         {
             //info.IsPage = true;

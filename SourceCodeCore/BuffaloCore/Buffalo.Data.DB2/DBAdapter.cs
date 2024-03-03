@@ -14,7 +14,6 @@ using Buffalo.DB.BQLCommon.BQLKeyWordCommon;
 using Buffalo.DB.CommBase.DataAccessBases;
 using Buffalo.DB.DataBaseAdapter;
 using Buffalo.DB.BQLCommon.BQLConditions;
-using IBM.Data.DB2.Core;
 
 namespace Buffalo.Data.DB2
 {
@@ -677,6 +676,24 @@ namespace Buffalo.Data.DB2
                 sb.Append(" desc");
             }
             return sb.ToString();
+        }
+
+        public string ShowFromLockUpdate(BQLLockType lockType, DBInfo info)
+        {
+            return "";
+        }
+
+        public string LockUpdate(BQLLockType lockType, DBInfo info)
+        {
+            switch (lockType)
+            {
+                case BQLLockType.LockUpdate:
+                    return "for update";
+                case BQLLockType.LockUpdateNoWait:
+                    return "for update";
+                default:
+                    return "";
+            }
         }
     }
 }

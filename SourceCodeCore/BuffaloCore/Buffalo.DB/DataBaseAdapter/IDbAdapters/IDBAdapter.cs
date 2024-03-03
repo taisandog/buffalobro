@@ -9,11 +9,13 @@ using Buffalo.DB.PropertyAttributes;
 using System.Data.Common;
 using Buffalo.DB.BQLCommon.BQLKeyWordCommon;
 using Buffalo.DB.BQLCommon.BQLConditions;
+using Buffalo.DB.BQLCommon.BQLConditionCommon;
 
 namespace Buffalo.DB.DataBaseAdapter.IDbAdapters
 {
     public interface IDBAdapter
     {
+        
         /// <summary>
         /// 全文搜索时候排序字段是否显示表达式
         /// </summary>
@@ -338,5 +340,19 @@ namespace Buffalo.DB.DataBaseAdapter.IDbAdapters
         /// <param name="info">数据库信息</param>
         /// <returns></returns>
         string DoOrderBy(string param, SortType sortType, BQLCaseType caseType, DBInfo info);
+        /// <summary>
+        /// 在form位置的加锁方式(MSSQL)
+        /// </summary>
+        /// <param name="keyworkInfo"></param>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        string ShowFromLockUpdate(BQLLockType lockType, DBInfo info);
+        /// <summary>
+        /// 结尾位置的加锁方式
+        /// </summary>
+        /// <param name="keyworkInfo"></param>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        string LockUpdate(BQLLockType lockType, DBInfo info);
     }
 }

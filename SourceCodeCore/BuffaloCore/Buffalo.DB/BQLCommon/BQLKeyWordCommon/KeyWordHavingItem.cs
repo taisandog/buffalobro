@@ -25,6 +25,26 @@ namespace Buffalo.DB.BQLCommon.BQLKeyWordCommon
         {
             BQLValueItem.DoFillInfo(condition, info);
         }
+        /// <summary>
+        /// 锁定行
+        /// </summary>
+        /// <param name="noWait">如果冲突是否不等待</param>
+        /// <returns></returns>
+        public KeyWorkLockUpdateItem LockUpdate(bool noWait)
+        {
+            KeyWorkLockUpdateItem item = new KeyWorkLockUpdateItem(noWait, this);
+            return item;
+        }
+        /// <summary>
+        /// 排序
+        /// </summary>
+        /// <param name="paramhandles"></param>
+        /// <returns></returns>
+        public KeyWordOrderByItem OrderBy(params BQLParamHandle[] paramhandles)
+        {
+            KeyWordOrderByItem item = new KeyWordOrderByItem(paramhandles, this);
+            return item;
+        }
         ///// <summary>
         ///// 条件
         ///// </summary>

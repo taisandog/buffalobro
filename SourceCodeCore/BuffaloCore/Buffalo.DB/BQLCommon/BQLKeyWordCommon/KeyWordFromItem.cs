@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using Buffalo.DB.BQLCommon.BQLConditionCommon;
 using Buffalo.DB.CommBase.DataAccessBases.AliasTableMappingManagers;
+using Buffalo.DB.DataBaseAdapter;
+using Buffalo.DB.DataBaseAdapter.IDbAdapters;
+using Buffalo.DB.QueryConditions;
 using Buffalo.Kernel;
 
 namespace Buffalo.DB.BQLCommon.BQLKeyWordCommon
@@ -162,7 +165,16 @@ namespace Buffalo.DB.BQLCommon.BQLKeyWordCommon
             KeyWordGroupByItem item = new KeyWordGroupByItem(paramhandles, this);
             return item;
         }
-
+        /// <summary>
+        /// 锁定行
+        /// </summary>
+        /// <param name="noWait">如果冲突是否不等待</param>
+        /// <returns></returns>
+        public KeyWorkLockUpdateItem LockUpdate(bool noWait) 
+        {
+            KeyWorkLockUpdateItem item=new KeyWorkLockUpdateItem(noWait, this);
+            return item;
+        }
         ///// <summary>
         ///// 查询范围
         ///// </summary>
@@ -206,6 +218,8 @@ namespace Buffalo.DB.BQLCommon.BQLKeyWordCommon
         {
             StringBuilder ret = new StringBuilder();
 
+            StringBuilder retNoLock = new StringBuilder();
+            IDBAdapter idba = info.DBInfo.CurrentDbAdapter;
 
             if (info.AliasManager == null)
             {
@@ -214,14 +228,29 @@ namespace Buffalo.DB.BQLCommon.BQLKeyWordCommon
                     BQLTableHandle table = _tables[i];
                     string tableName = table.DisplayValue(info);
                     ret.Append(tableName);
+                    retNoLock.Append(tableName);
+                    if (info.LockType != BQLLockType.None) //加锁
+                    {
+                        string lockSql = idba.ShowFromLockUpdate(info.LockType, info.DBInfo);
+                        if (!string.IsNullOrWhiteSpace(lockSql))
+                        {
+                            ret.Append(" ");
+                            ret.Append(lockSql);
+                        }
+                    }
                     if (i < _tables.Length - 1)
                     {
                         ret.Append(",");
+                        retNoLock.Append(",");
                     }
                     
                 }
                 info.Condition.Tables.Append(ret.ToString());
-                
+                SelectCondition scon = info.Condition as SelectCondition;
+                if (scon != null)
+                {
+                    scon.TablesNoLock.Append(retNoLock.ToString());
+                }
             }
             else 
             {

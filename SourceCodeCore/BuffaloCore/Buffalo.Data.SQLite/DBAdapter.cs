@@ -477,7 +477,7 @@ namespace Buffalo.Data.SQLite
             return " AUTOINCREMENT";
         }
 
-        public virtual string DBTypeToSQL(DbType dbType, long length,bool canNull)
+        public string DBTypeToSQL(DbType dbType, long length,bool canNull)
         {
             //int type = ToRealDbType(dbType, length);            
             //SqliteType stype = (SqlDbType)type;            
@@ -647,6 +647,15 @@ namespace Buffalo.Data.SQLite
                 sb.Append(" COLLATE NOCASE");
             }
             return sb.ToString();
+        }
+        public string ShowFromLockUpdate(BQLLockType lockType, DBInfo info)
+        {
+            return "";
+        }
+
+        public string LockUpdate(BQLLockType lockType, DBInfo info)
+        {
+            return "";
         }
     }
 }

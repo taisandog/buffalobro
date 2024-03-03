@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Buffalo.DB.BQLCommon.BQLConditionCommon;
 using System.Threading;
+using Buffalo.DB.DataBaseAdapter.IDbAdapters;
 
 namespace Buffalo.DB.BQLCommon.BQLKeyWordCommon
 {
@@ -35,10 +36,31 @@ namespace Buffalo.DB.BQLCommon.BQLKeyWordCommon
 
         internal override void Tran(KeyWordInfomation info)
         {
+            IDBAdapter idba = info.DBInfo.CurrentDbAdapter;
+
             string table0 = _tables[0].DisplayValue(info);
+
             string table1 = _condition.DisplayValue(info);
-            string ret = " " + _keyWord + " join " + table0 + " on " + table1;
-            info.Condition.Tables.Append(ret);
+
+            StringBuilder sbSQL = new StringBuilder();
+            sbSQL.Append(" ");
+            sbSQL.Append(_keyWord);
+            sbSQL.Append(" join");
+            sbSQL.Append(" ");
+            sbSQL.Append(table0);
+
+            if (info.LockType != BQLLockType.None) //¼ÓËø
+            {
+                string lockSql = idba.ShowFromLockUpdate(info.LockType, info.DBInfo);
+                if (!string.IsNullOrWhiteSpace(lockSql))
+                {
+                    sbSQL.Append(" ");
+                    sbSQL.Append(lockSql);
+                }
+            }
+            sbSQL.Append(" on ");
+            sbSQL.Append(table1);
+            info.Condition.Tables.Append(sbSQL.ToString());
         }
     }
 }

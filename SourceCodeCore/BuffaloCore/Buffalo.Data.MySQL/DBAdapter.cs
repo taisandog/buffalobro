@@ -467,7 +467,7 @@ namespace Buffalo.Data.MySQL
             return "auto_increment";
         }
 
-        public string DBTypeToSQL(DbType dbType, long length, bool canNull)
+        public string DBTypeToSQL(DbType dbType, long length,bool canNull)
         {
             switch (dbType)
             {
@@ -476,7 +476,7 @@ namespace Buffalo.Data.MySQL
 
                 case DbType.Byte:
                     return "tinyint unsigned";
-
+                    
                 case DbType.SByte:
                     return "tinyint";
 
@@ -484,7 +484,7 @@ namespace Buffalo.Data.MySQL
                     return "smallint unsigned";
                 case DbType.Int16:
                     return "smallint";
-
+                   
                 case DbType.UInt32:
                     return "int unsigned";
                 case DbType.Int32:
@@ -503,11 +503,11 @@ namespace Buffalo.Data.MySQL
                 case DbType.Currency:
                 case DbType.VarNumeric:
                 case DbType.Decimal:
-                    if (length <= 0)
+                    if (length <= 0) 
                     {
                         return "decimal";
                     }
-                    return DBInfo.GetNumberLengthType("decimal", length);
+                    return DBInfo.GetNumberLengthType("decimal", length); 
 
                 case DbType.Date:
                     return "date";
@@ -520,11 +520,11 @@ namespace Buffalo.Data.MySQL
                 case DbType.Time:
                     return "time";
                 case DbType.AnsiStringFixedLength:
-                    if (length > 8000)
+                    if (length > 8000) 
                     {
                         return "longtext";
                     }
-                    return "char(" + length + ")";
+                    return "char("+length+")";
                 case DbType.StringFixedLength:
                     if (length > 8000)
                     {
@@ -553,6 +553,8 @@ namespace Buffalo.Data.MySQL
                     return "";
             }
         }
+
+        
 
         public int ToRealDbType(DbType dbType, long length)
         {
@@ -640,6 +642,24 @@ namespace Buffalo.Data.MySQL
                 sb.Append(" desc");
             }
             return sb.ToString();
+        }
+
+        public string ShowFromLockUpdate(BQLLockType lockType, DBInfo info)
+        {
+            return "";
+        }
+
+        public string LockUpdate(BQLLockType lockType, DBInfo info)
+        {
+            switch (lockType)
+            {
+                case BQLLockType.LockUpdate:
+                    return "for update";
+                case BQLLockType.LockUpdateNoWait:
+                    return "for update nowait";
+                default:
+                    return "";
+            }
         }
     }
 }

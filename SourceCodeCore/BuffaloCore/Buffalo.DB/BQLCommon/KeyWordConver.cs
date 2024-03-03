@@ -13,7 +13,7 @@ namespace Buffalo.DB.BQLCommon
     /// </summary>
     internal class KeyWordConver
     {
-        private Stack<BQLQuery> stkKeyWord = new Stack<BQLQuery>();
+        private Stack<BQLQuery> _stkKeyWord = new Stack<BQLQuery>();
         
         /// <summary>
         /// ¿ªÊ¼×ª»»
@@ -38,7 +38,7 @@ namespace Buffalo.DB.BQLCommon
             while (curItem != null) 
             {
                 curItem.LoadInfo(info);
-                stkKeyWord.Push(curItem);
+                _stkKeyWord.Push(curItem);
                 curItem = curItem.Previous;
             }
         }
@@ -66,9 +66,9 @@ namespace Buffalo.DB.BQLCommon
 
             
             StringBuilder ret = new StringBuilder(2000);
-            while (stkKeyWord.Count > 0) 
+            while (_stkKeyWord.Count > 0) 
             {
-                BQLQuery item = stkKeyWord.Pop();
+                BQLQuery item = _stkKeyWord.Pop();
                 //LoadParamInfo(item, info);
                 //ret.Append(item.Tran(info)) ;
                 item.Tran(info);
