@@ -152,5 +152,9 @@ namespace Buffalo.DB.QueryConditions
         {
             get { throw new Exception(_itemName + "语句没有Set语句"); }
         }
+        public virtual StringBuilder LockUpdate
+        {
+            get { throw new Exception(_itemName + "语句没有LockUpdate语句"); }
+        }
     }
 }

@@ -61,6 +61,7 @@
     <Compile Include="BQLCommon\BQLKeyWordCommon\KeyWordAlterTableItem.cs" />
     <Compile Include="BQLCommon\BQLKeyWordCommon\KeyWordAddParamItem.cs" />
     <Compile Include="BQLCommon\BQLKeyWordCommon\KeyWordAddForeignkeyItem.cs" />
+    <Compile Include="BQLCommon\BQLKeyWordCommon\KeyWorkLockUpdateItem.cs" />
     <Compile Include="CacheManager\CacheCollection\ICacheHash.cs" />
     <Compile Include="CacheManager\CacheCollection\ICacheList.cs" />
     <Compile Include="CacheManager\CacheCollection\ICacheLock.cs" />

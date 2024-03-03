@@ -6,6 +6,7 @@ using Buffalo.DB.QueryConditions;
 using Buffalo.DB.DbCommon;
 using Buffalo.DB.DataBaseAdapter;
 using Buffalo.DB.CommBase.DataAccessBases.AliasTableMappingManagers;
+using Buffalo.DB.BQLCommon.BQLKeyWordCommon;
 
 namespace Buffalo.DB.BQLCommon.BQLConditionCommon
 {
@@ -109,27 +110,7 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
             get { return _fromTable; }
             set { _fromTable = value; }
         }
-        ///// <summary>
-        ///// 查询显示的属性和字段的对应表
-        ///// </summary>
-        //internal QueryParamCollection QueryParams 
-        //{
-        //    get 
-        //    {
-        //        return queryParams;
-        //    }
-        //}
-
-        ///// <summary>
-        ///// 别名表和其属性
-        ///// </summary>
-        //internal AliasCollection Alias
-        //{
-        //    get
-        //    {
-        //        return alias;
-        //    }
-        //}
+        
 
         private Dictionary<string, bool> _containTables=new Dictionary<string,bool>();
         /// <summary>
@@ -192,6 +173,15 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
             set { _outPutModle = value; }
         }
 
+        private BQLLockType _lockType;
+        /// <summary>
+        /// 行级锁类型
+        /// </summary>
+        public BQLLockType LockType 
+        {
+            get { return _lockType;}
+            set { _lockType = value; }
+        }
         #region ICloneable 成员
 
         public object Clone()

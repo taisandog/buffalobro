@@ -274,7 +274,10 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter
                 sbSql.Append(" having ");
                 sbSql.Append(sql.Having.ToString());
             }
-
+            if (sql.LockUpdate.Length > 0)
+            {
+                sbSql.Append(sql.LockUpdate.ToString());
+            }
             return sbSql.ToString();
         }
         /// <summary>
@@ -832,6 +835,26 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter
 
             sbSql.Append(GetLikeString(this, type, param));
             return sbSql.ToString();
+        }
+
+        
+
+        public string ShowFromLockUpdate(BQLLockType lockType, DBInfo info)
+        {
+            switch (lockType)
+            {
+                case BQLLockType.LockUpdate:
+                    return "with(updlock,holdlock)";
+                case BQLLockType.LockUpdateNoWait:
+                    return "with(updlock,rowlock)";
+                default:
+                    return "";
+            }
+        }
+
+        public string LockUpdate(BQLLockType lockType, DBInfo info)
+        {
+            return "";
         }
     }
 }

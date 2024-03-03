@@ -1,4 +1,5 @@
 ﻿using Buffalo.DB.BQLCommon.BQLConditionCommon;
+using Buffalo.DB.BQLCommon.BQLKeyWordCommon;
 using Buffalo.DB.DataBaseAdapter;
 using Buffalo.Kernel;
 using System;
@@ -46,6 +47,22 @@ namespace Buffalo.DB.QueryConditions
                 if (_hasInner && _parentList != null)
                 {
                     _parentList.HasInner = true;
+                }
+            }
+        }
+        private BQLLockType _forUpdate = BQLLockType.None;
+        /// <summary>
+        /// 给查询行加锁
+        /// </summary>
+        public BQLLockType ForUpdate
+        {
+            get { return _forUpdate; }
+            set 
+            { 
+                _forUpdate = value;
+                if (_forUpdate!=BQLLockType.None)
+                {
+                    HasInner = true;
                 }
             }
         }

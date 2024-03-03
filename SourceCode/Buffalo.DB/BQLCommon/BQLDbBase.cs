@@ -402,6 +402,10 @@ namespace Buffalo.DB.BQLCommon
             {
                 bql = new KeyWordOrderByItem(GetSort(lstScope.OrderBy, table), bql);
             }
+            if (lstScope.ForUpdate != BQLLockType.None) 
+            {
+                bql = new KeyWorkLockUpdateItem(lstScope.ForUpdate, bql);
+            }
 
             return bql;
         }

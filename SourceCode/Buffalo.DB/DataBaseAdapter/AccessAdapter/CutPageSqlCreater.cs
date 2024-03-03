@@ -112,6 +112,11 @@ namespace Buffalo.DB.DataBaseAdapter.AccessAdapter
                     sql.Append(" having ");
                     sql.Append(objCondition.Having.ToString());
                 }
+
+                if (objCondition.LockUpdate.Length > 0)
+                {
+                    sql.Append(objCondition.LockUpdate.ToString());
+                }
             }
             else 
             {
@@ -144,6 +149,7 @@ namespace Buffalo.DB.DataBaseAdapter.AccessAdapter
                     sql.Append(" order by ");
                     sql.Append(FilterGroupOrderBy(objCondition.Orders.ToString(),"tmp"));
                 }
+               
             }
             return sql.ToString();
         }
@@ -270,7 +276,10 @@ namespace Buffalo.DB.DataBaseAdapter.AccessAdapter
                 sql.Append(" having ");
                 sql.Append(objCondition.Having.ToString());
             }
-
+            if (objCondition.LockUpdate.Length > 0)
+            {
+                sql.Append(objCondition.LockUpdate.ToString());
+            }
             return sql.ToString();
         }
 

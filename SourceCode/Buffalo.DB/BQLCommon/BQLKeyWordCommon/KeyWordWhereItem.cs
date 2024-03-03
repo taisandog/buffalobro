@@ -64,6 +64,16 @@ namespace Buffalo.DB.BQLCommon.BQLKeyWordCommon
             KeyWordHavingItem item = new KeyWordHavingItem(condition, this);
             return item;
         }
+        /// <summary>
+        /// 锁定行
+        /// </summary>
+        /// <param name="noWait">如果冲突是否不等待</param>
+        /// <returns></returns>
+        public KeyWorkLockUpdateItem LockUpdate(bool noWait)
+        {
+            KeyWorkLockUpdateItem item = new KeyWorkLockUpdateItem(noWait, this);
+            return item;
+        }
         ///// <summary>
         ///// 查询范围
         ///// </summary>

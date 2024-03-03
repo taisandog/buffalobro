@@ -648,5 +648,14 @@ namespace Buffalo.Data.SQLite
             }
             return sb.ToString();
         }
+        public string ShowFromLockUpdate(BQLLockType lockType, DBInfo info)
+        {
+            return "";
+        }
+
+        public string LockUpdate(BQLLockType lockType, DBInfo info)
+        {
+            return "";
+        }
     }
 }

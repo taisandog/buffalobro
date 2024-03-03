@@ -102,6 +102,10 @@ namespace Buffalo.Data.DB2
                 sql.Append(") \"_tmpInnerTable\"");
             }
             sql.Append(") tmp where " + rowNumberName + " >=" + starIndex + " and " + rowNumberName + " <=" + endIndex);
+            if (objCondition.LockUpdate.Length > 0)
+            {
+                sql.Append(objCondition.LockUpdate.ToString());
+            }
             return sql.ToString();
         }
         /// <summary>

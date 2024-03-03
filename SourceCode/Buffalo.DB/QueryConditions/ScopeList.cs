@@ -86,6 +86,7 @@ namespace Buffalo.DB.QueryConditions
             }
             return propertys;
         }
+       
 
         private ScopePropertyCollection _groupBy =null;
 

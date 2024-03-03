@@ -909,6 +909,16 @@ namespace Buffalo.DB.DataBaseAdapter.AccessAdapter
             }
             return sb.ToString();
         }
+
+        public string ShowFromLockUpdate(BQLLockType lockType, DBInfo info)
+        {
+            return "";
+        }
+
+        public string LockUpdate(BQLLockType lockType, DBInfo info)
+        {
+            return "";
+        }
     }
 
     public class CharCollectionEnumerator : ICloneable, IEnumerator<char>, IDisposable

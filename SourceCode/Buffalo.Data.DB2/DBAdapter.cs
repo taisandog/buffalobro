@@ -677,5 +677,23 @@ namespace Buffalo.Data.DB2
             }
             return sb.ToString();
         }
+
+        public string ShowFromLockUpdate(BQLLockType lockType, DBInfo info)
+        {
+            return "";
+        }
+
+        public string LockUpdate(BQLLockType lockType, DBInfo info)
+        {
+            switch (lockType)
+            {
+                case BQLLockType.LockUpdate:
+                    return "for update";
+                case BQLLockType.LockUpdateNoWait:
+                    return "for update";
+                default:
+                    return "";
+            }
+        }
     }
 }

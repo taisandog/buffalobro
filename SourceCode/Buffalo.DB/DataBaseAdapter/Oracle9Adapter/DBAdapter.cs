@@ -757,5 +757,23 @@ namespace Buffalo.DB.DataBaseAdapter.Oracle9Adapter
             }
             return sb.ToString();
         }
+
+        public string ShowFromLockUpdate(BQLLockType lockType, DBInfo info)
+        {
+            return "";
+        }
+
+        public string LockUpdate(BQLLockType lockType, DBInfo info)
+        {
+            switch (lockType) 
+            {
+                case BQLLockType.LockUpdate:
+                    return "for update";
+                case BQLLockType.LockUpdateNoWait:
+                    return "for update nowait";
+                default:
+                    return "";
+            }
+        }
     }
 }
