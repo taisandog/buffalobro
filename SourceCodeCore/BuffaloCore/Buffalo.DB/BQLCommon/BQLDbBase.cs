@@ -268,6 +268,7 @@ namespace Buffalo.DB.BQLCommon
                     else
                     {
                         SelectCondition sCon = con as SelectCondition;
+
                         reader = con.DBinfo.CurrentDbAdapter.Query(sCon.GetSelect(), objPage, _oper);
                     }
                     retlist = LoadFromReader<E>(con.AliasManager, reader);

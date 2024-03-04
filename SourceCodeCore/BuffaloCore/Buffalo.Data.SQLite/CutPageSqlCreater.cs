@@ -30,45 +30,28 @@ namespace Buffalo.Data.SQLite
             {
                 return "";
             }
-            //StringBuilder sb = new StringBuilder(2000);
-            //sb.Append("select ");
-            //sb.Append(objCondition.SqlParams.ToString());
-            //sb.Append(" from ");
-            //sb.Append(DbAdapterLoader.CurrentDbAdapter.FormatTableName(objCondition.Tables.ToString()));
-            //if (objCondition.Condition.Length > 0)
-            //{
-            //    sb.Append(" where ");
-            //    sb.Append(objCondition.Condition.ToString());
-            //}
-            //if (objCondition.GroupBy.Length > 0)
-            //{
-            //    sb.Append(" group by ");
-            //    sb.Append(objCondition.GroupBy.ToString());
-            //}
-            //if (objCondition.Orders.Length>0) 
-            //{
-            //    sb.Append(" order by ");
-            //    sb.Append(objCondition.Orders.ToString());
-            //}
-            //if (objCondition.Having.Length > 0)
-            //{
-            //    sb.Append(" having ");
-            //    sb.Append(objCondition.Having.ToString());
-            //}
-            string sql = objCondition.GetSelect();
+           
+
+            //string sql = objCondition.GetSelect(true,false);
             if (objPage.IsFillTotalRecords)
             {
-                objPage.TotalRecords = GetTotalRecord(list, oper, objCondition.GetSelect(false), objPage.MaxSelectRecords,
+                objPage.TotalRecords = GetTotalRecord(list, oper, objCondition.GetSelect(false, false), objPage.MaxSelectRecords,
                     (useCache?objCondition.CacheTables:null));//获取总记录数
-                //long totalPage = (long)Math.Ceiling((double)objPage.TotalRecords / (double)objPage.PageSize);
-                //objPage.TotalPage = totalPage;
+
                 if (objPage.CurrentPage >= objPage.TotalPage - 1)
                 {
                     objPage.CurrentPage = objPage.TotalPage - 1;
 
                 }
             }
-            return GetCutPageSql(sql, objPage);
+
+            
+            StringBuilder tmpsql = new StringBuilder(1024);
+            objCondition.FillSelect(tmpsql, true);
+
+            FillCutPageSql(tmpsql,  objPage);
+            objCondition.FillLock(tmpsql);
+            return tmpsql.ToString();
         }
         /// <summary>
         /// 获取分页语句
@@ -76,12 +59,15 @@ namespace Buffalo.Data.SQLite
         /// <param name="sql">要被分页的SQL</param>
         /// <param name="objCondition">分页类</param>
         /// <returns></returns>
-        public static string GetCutPageSql(string sql, PageContent objPage) 
+        public static void FillCutPageSql(StringBuilder tmpsql, PageContent objPage) 
         {
             long starIndex = objPage.GetStarIndex();
-            string tmpsql = sql;
-            tmpsql += " limit " + starIndex + "," + objPage.PageSize;
-            return tmpsql;
+
+            tmpsql.Append(" limit ");
+            tmpsql.Append(starIndex);
+            tmpsql.Append(",");
+            tmpsql.Append(objPage.PageSize);
+            
         }
 
         /// <summary>

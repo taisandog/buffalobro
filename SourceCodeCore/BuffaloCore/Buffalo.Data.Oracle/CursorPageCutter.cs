@@ -35,8 +35,9 @@ namespace Buffalo.Data.Oracle
                 objPage.CurrentPage = objPage.TotalPage - 1;
             }
             IDataReader reader = null;
-
-            string qsql = CutPageSqlCreater.GetCutPageSql(sql, objPage);
+            StringBuilder sbTmp = new StringBuilder();
+            CutPageSqlCreater.FillCutPageSql(sbTmp,sql, objPage);
+            string qsql =sbTmp.ToString();
             reader = oper.Query(qsql, lstParam, null);
 
             return reader;
@@ -68,7 +69,9 @@ namespace Buffalo.Data.Oracle
             IDataReader reader = null;
             try
             {
-                string qsql = CutPageSqlCreater.GetCutPageSql(sql, objPage);
+                StringBuilder sbTmp = new StringBuilder();
+                CutPageSqlCreater.FillCutPageSql(sbTmp, sql, objPage);
+                string qsql = sbTmp.ToString();
                 reader = oper.Query(qsql, lstParam, null);
                 
                 if (curType == null)

@@ -34,8 +34,12 @@ namespace Buffalo.Data.MySQL
                 objPage.CurrentPage = objPage.TotalPage - 1;
             }
             IDataReader reader = null;
-            
-                string qsql = CutPageSqlCreater.GetCutPageSql(sql, objPage);
+
+            StringBuilder sbSQL = new StringBuilder(sql.Length + 50);
+
+            CutPageSqlCreater.FillCutPageSql(sbSQL, objPage);
+            string qsql = sbSQL.ToString();
+            //string qsql = CutPageSqlCreater.GetCutPageSql(sql, objPage);
                 reader = oper.Query(qsql, lstParam,cacheTables);
 
             return reader;
@@ -67,7 +71,12 @@ namespace Buffalo.Data.MySQL
             IDataReader reader = null;
             try
             {
-                string qsql = CutPageSqlCreater.GetCutPageSql(sql, objPage);
+                StringBuilder sbSQL = new StringBuilder(sql.Length + 50);
+
+                CutPageSqlCreater.FillCutPageSql(sbSQL, objPage);
+                string qsql = sbSQL.ToString();
+
+                //string qsql = CutPageSqlCreater.GetCutPageSql(sql, objPage);
                 reader = oper.Query(qsql, lstParam, null);
                 
                 if (curType == null)

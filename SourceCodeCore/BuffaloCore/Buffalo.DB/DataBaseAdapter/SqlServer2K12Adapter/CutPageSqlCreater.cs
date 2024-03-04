@@ -87,7 +87,7 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2K12Adapter
 
                 if (!objCondition.HasGroup)
                 {
-                    sql.Append(objCondition.Tables).ToString();
+                    sql.Append(objCondition.TablesNoLock).ToString();
                     if (objCondition.Condition.Length > 0)
                     {
                         sql.Append(" where " + objCondition.Condition.ToString());
@@ -114,7 +114,7 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2K12Adapter
                 sql.Append("select count(*) from ");
                 if (!objCondition.HasGroup)
                 {
-                    sql.Append(objCondition.Tables.ToString());
+                    sql.Append(objCondition.TablesNoLock.ToString());
                     if (objCondition.Condition.Length > 0)
                     {
                         sql.Append(" where " + objCondition.Condition.ToString());

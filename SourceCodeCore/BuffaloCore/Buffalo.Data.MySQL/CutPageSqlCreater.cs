@@ -5,6 +5,7 @@ using System.Data;
 using Buffalo.DB.CommBase;
 using Buffalo.DB.QueryConditions;
 using Buffalo.DB.DbCommon;
+using System.Linq;
 
 namespace Buffalo.Data.MySQL
 {
@@ -30,35 +31,13 @@ namespace Buffalo.Data.MySQL
             {
                 return "";
             }
-            //StringBuilder sb = new StringBuilder(2000);
-            //sb.Append("select ");
-            //sb.Append(objCondition.SqlParams.ToString());
-            //sb.Append(" from ");
-            //sb.Append(DbAdapterLoader.CurrentDbAdapter.FormatTableName(objCondition.Tables.ToString()));
-            //if (objCondition.Condition.Length > 0)
-            //{
-            //    sb.Append(" where ");
-            //    sb.Append(objCondition.Condition.ToString());
-            //}
-            //if (objCondition.GroupBy.Length > 0)
-            //{
-            //    sb.Append(" group by ");
-            //    sb.Append(objCondition.GroupBy.ToString());
-            //}
-            //if (objCondition.Orders.Length>0) 
-            //{
-            //    sb.Append(" order by ");
-            //    sb.Append(objCondition.Orders.ToString());
-            //}
-            //if (objCondition.Having.Length > 0)
-            //{
-            //    sb.Append(" having ");
-            //    sb.Append(objCondition.Having.ToString());
-            //}
-            string sql = objCondition.GetSelect();
+            
+            
+
+            
             if (objPage.IsFillTotalRecords)
             {
-                objPage.TotalRecords = GetTotalRecord(list, oper, objCondition.GetSelect(false), objPage.MaxSelectRecords,
+                objPage.TotalRecords = GetTotalRecord(list, oper, objCondition.GetSelect(false, false), objPage.MaxSelectRecords,
                     (useCache?objCondition.CacheTables:null));//获取总记录数
                 //long totalPage = (long)Math.Ceiling((double)objPage.TotalRecords / (double)objPage.PageSize);
                 //objPage.TotalPage = totalPage;
@@ -68,7 +47,14 @@ namespace Buffalo.Data.MySQL
 
                 }
             }
-            return GetCutPageSql(sql, objPage);
+            StringBuilder sb = new StringBuilder(2000);
+            objCondition.FillSelect(sb, true);
+
+
+            FillCutPageSql(sb,  objPage);
+            objCondition.FillLock(sb);
+            return sb.ToString();
+
         }
         /// <summary>
         /// 获取分页语句
@@ -76,20 +62,16 @@ namespace Buffalo.Data.MySQL
         /// <param name="sql">要被分页的SQL</param>
         /// <param name="objCondition">分页类</param>
         /// <returns></returns>
-        public static string GetCutPageSql(string sql, PageContent objPage) 
+        public static void FillCutPageSql(StringBuilder sbSQL, PageContent objPage) 
         {
             long starIndex = objPage.GetStarIndex();
-
-            StringBuilder sbSQL = new StringBuilder(sql.Length + 50);
-            sbSQL.Append(sql);
+            
             sbSQL.Append(" limit ");
             sbSQL.Append(starIndex.ToString());
             sbSQL.Append(",");
             sbSQL.Append(objPage.PageSize.ToString());
 
-            //string tmpsql = sql;
-            //tmpsql += " limit " + starIndex + "," + objPage.PageSize;
-            return sbSQL.ToString();
+            
         }
 
         /// <summary>

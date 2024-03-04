@@ -150,7 +150,12 @@ namespace Buffalo.Data.Oracle
             objPage.IsFillTotalRecords = false;
             objPage.StarIndex = 0;
             objPage.PageSize = top;
-            return CutPageSqlCreater.GetCutPageSql(sql.GetSelect(), objPage);
+            StringBuilder sbTmp = new StringBuilder();
+            CutPageSqlCreater.FillCutPageSql(sbTmp, sql.GetSelect(), objPage);
+            sql.FillLock(sbTmp);
+            string qsql = sbTmp.ToString();
+            return qsql;
+            //return CutPageSqlCreater.GetCutPageSql(sql.GetSelect(), objPage);
         }
 
         /// <summary>

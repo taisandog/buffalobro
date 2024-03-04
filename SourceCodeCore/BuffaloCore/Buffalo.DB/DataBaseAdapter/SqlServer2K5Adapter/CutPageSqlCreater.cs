@@ -133,10 +133,8 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2K5Adapter
             sql.Append(") tmp where " + rowNumberName + " between " + starIndex + " and " + topRec);
             sql.Append(" order by ");
             sql.Append(rowNumberName);
-            if (objCondition.LockUpdate.Length > 0)
-            {
-                sql.Append(objCondition.LockUpdate.ToString());
-            }
+            objCondition.FillLock(sql);
+            
             return sql.ToString();
         }
 

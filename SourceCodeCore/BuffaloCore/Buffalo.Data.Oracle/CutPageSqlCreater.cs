@@ -30,36 +30,11 @@ namespace Buffalo.Data.Oracle
             {
                 return "";
             }
-            //string sql = "select " + objCondition.SqlParams + " from " + DbAdapterLoader.CurrentDbAdapter.FormatTableName(objCondition.Tables) + " where " + objCondition.Condition + " order by " + objCondition.Orders;
-            //StringBuilder sql = new StringBuilder(5000);
-            //sql.Append("select ");
-            //sql.Append(objCondition.SqlParams.ToString());
-            //sql.Append(" from ");
-            //sql.Append(DbAdapterLoader.CurrentDbAdapter.FormatTableName(objCondition.Tables.ToString()));
-            //if (objCondition.Condition.Length > 0)
-            //{
-            //    sql.Append(" where ");
-            //    sql.Append(objCondition.Condition.ToString());
-            //}
-            //if (objCondition.GroupBy.Length > 0)
-            //{
-            //    sql.Append(" group by ");
-            //    sql.Append(objCondition.GroupBy.ToString());
-            //}
-            //if (objCondition.Orders.Length>0)
-            //{
-            //    sql.Append(" order by ");
-            //    sql.Append(objCondition.Orders.ToString());
-            //}
-            //if (objCondition.Having.Length > 0)
-            //{
-            //    sql.Append(" having ");
-            //    sql.Append(objCondition.Having.ToString());
-            //}
-            string sql = objCondition.GetSelect();
+            
+            
             if (objPage.IsFillTotalRecords)
             {
-                objPage.TotalRecords = GetTotalRecord(list, oper, objCondition.GetSelect(false), objPage.MaxSelectRecords,
+                objPage.TotalRecords = GetTotalRecord(list, oper, objCondition.GetSelect(false,false), objPage.MaxSelectRecords,
                     (useCache?objCondition.CacheTables:null));//获取总记录数
                 //long totalPage = (long)Math.Ceiling((double)objPage.TotalRecords / (double)objPage.PageSize);
                 //objPage.TotalPage = totalPage;
@@ -69,7 +44,12 @@ namespace Buffalo.Data.Oracle
 
                 }
             }
-            return GetCutPageSql(sql, objPage);
+            string sql = objCondition.GetSelect(false,false);
+            StringBuilder tmpsql = new StringBuilder(1024);
+
+            FillCutPageSql(tmpsql,sql, objPage);
+            objCondition.FillLock(tmpsql);
+            return tmpsql.ToString();
         }
         /// <summary>
         /// 获取分页语句
@@ -77,11 +57,11 @@ namespace Buffalo.Data.Oracle
         /// <param name="sql">要被分页的SQL</param>
         /// <param name="objCondition">分页类</param>
         /// <returns></returns>
-        public static string GetCutPageSql(string sql, PageContent objPage) 
+        public static void FillCutPageSql(StringBuilder tmpsql,  string sql, PageContent objPage) 
         {
             long starIndex = objPage.GetStarIndex() + 1;
             long endIndex = objPage.PageSize + starIndex-1;
-            StringBuilder tmpsql = new StringBuilder(5000);
+           
             string rowNumberName = "\"cur_rowNumber" + objPage.PagerIndex+"\"" ;
             tmpsql.Append("SELECT * FROM (SELECT tmp.*, ROWNUM as " + rowNumberName + " FROM (");
             tmpsql.Append(sql);
@@ -89,7 +69,8 @@ namespace Buffalo.Data.Oracle
             tmpsql.Append(endIndex.ToString());
             tmpsql.Append(") WHERE " + rowNumberName + " >=");
             tmpsql.Append(starIndex.ToString());
-            return tmpsql.ToString();
+
+           
         }
 
         /// <summary>

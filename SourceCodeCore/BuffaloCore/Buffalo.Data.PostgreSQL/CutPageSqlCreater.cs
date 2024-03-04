@@ -30,10 +30,10 @@ namespace Buffalo.Data.PostgreSQL
             {
                 return "";
             }
-            string sql = objCondition.GetSelect();
+            
             if (objPage.IsFillTotalRecords)
             {
-                objPage.TotalRecords = GetTotalRecord(list, oper, objCondition.GetSelect(false), objPage.MaxSelectRecords,
+                objPage.TotalRecords = GetTotalRecord(list, oper, objCondition.GetSelect(false, false), objPage.MaxSelectRecords,
                     (useCache?objCondition.CacheTables:null));//获取总记录数
                 //long totalPage = (long)Math.Ceiling((double)objPage.TotalRecords / (double)objPage.PageSize);
                 //objPage.TotalPage = totalPage;
@@ -43,7 +43,14 @@ namespace Buffalo.Data.PostgreSQL
 
                 }
             }
-            return GetCutPageSql(sql, objPage);
+            StringBuilder sb = new StringBuilder(2000);
+            objCondition.FillSelect(sb, true);
+            string sql = sb.ToString();
+
+            FillCutPageSql(sb,  objPage);
+            objCondition.FillLock(sb);
+            return sb.ToString();
+            //return GetCutPageSql(sql, objPage);
         }
         /// <summary>
         /// 获取分页语句
@@ -51,12 +58,15 @@ namespace Buffalo.Data.PostgreSQL
         /// <param name="sql">要被分页的SQL</param>
         /// <param name="objCondition">分页类</param>
         /// <returns></returns>
-        public static string GetCutPageSql(string sql, PageContent objPage) 
+        public static void FillCutPageSql(StringBuilder sb, PageContent objPage)
         {
             long starIndex = objPage.GetStarIndex();
-            string tmpsql = sql;
-            tmpsql += " limit " + objPage.PageSize + " offset " + starIndex;
-            return tmpsql;
+
+            sb.Append(" limit ");
+            sb.Append(objPage.PageSize);
+            sb.Append(" offset ");
+            sb.Append(starIndex);
+
         }
 
         /// <summary>
