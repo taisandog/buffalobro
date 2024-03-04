@@ -307,16 +307,12 @@
       <Project>{c38522e1-35ba-40f7-a1e9-716d52bb6c04}</Project>
       <Name>Buffalo2022.Data.Oracle</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Buffalo.Data.SQLite\Buffalo2022.Data.SQLite.csproj">
-      <Project>{d7ca14c3-1869-4928-91e4-3584de3823c2}</Project>
-      <Name>Buffalo2022.Data.SQLite</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Buffalo.DB\Buffalo2022.DB.csproj">
       <Project>{9b0043e4-883b-47ba-9a5a-5110c8583902}</Project>
       <Name>Buffalo2022.DB</Name>
     </ProjectReference>
     <ProjectReference Include="..\Buffalo.GeneratorInfo\Buffalo2022.GeneratorInfo.csproj">
-      <Project>{6320C7DC-D4AE-4EA5-A2AB-B08B59062868}</Project>
+      <Project>{6320c7dc-d4ae-4ea5-a2ab-b08b59062868}</Project>
       <Name>Buffalo2022.GeneratorInfo</Name>
     </ProjectReference>
     <ProjectReference Include="..\Buffalo.Kernel\Buffalo2022.Kernel.csproj">

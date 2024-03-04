@@ -37,8 +37,10 @@ namespace Buffalo.Data.SQLite
             }
 
             IDataReader reader = null;
-
-            string qsql = CutPageSqlCreater.GetCutPageSql(sql, objPage);
+            StringBuilder tmpsql = new StringBuilder();
+            tmpsql.Append(sql);
+            CutPageSqlCreater.FillCutPageSql(tmpsql, objPage);
+            string qsql = tmpsql.ToString();
             reader = oper.Query(qsql, lstParam,cacheTables);
 
 
@@ -73,7 +75,10 @@ namespace Buffalo.Data.SQLite
             IDataReader reader = null;
             try
             {
-                string qsql = CutPageSqlCreater.GetCutPageSql(sql, objPage);
+                StringBuilder tmpsql = new StringBuilder();
+                tmpsql.Append(sql);
+                CutPageSqlCreater.FillCutPageSql(tmpsql, objPage);
+                string qsql = tmpsql.ToString();
                 reader = oper.Query(qsql, lstParam,cacheTables);
                 
                 if (curType == null)

@@ -12,7 +12,8 @@ using System.Data.Common;
 using Buffalo.DB.PropertyAttributes;
 using Buffalo.DB.CommBase.DataAccessBases;
 using Buffalo.DB.BQLCommon.BQLKeyWordCommon;
-using Buffalo.DB.BQLCommon.BQLConditions;
+using Buffalo.DB.DataBaseAdapter;
+
 
 namespace Buffalo.DB.DataBaseAdapter.Oracle9Adapter
 {
@@ -112,14 +113,24 @@ namespace Buffalo.DB.DataBaseAdapter.Oracle9Adapter
         {
             switch (type)
             {
+                case DbType.UInt16:
+                    return DbType.Int16;
+
                 case DbType.UInt64:
-                case DbType.Int64:
+                    return DbType.Int64;
+
                 case DbType.UInt32:
                     return DbType.Int32;
+
                 case DbType.DateTime2:
                     return DbType.DateTime;
+
                 case DbType.DateTimeOffset:
                     return DbType.Int32;
+                case DbType.Currency:
+                case DbType.VarNumeric:
+                    return DbType.Decimal;
+                case DbType.Guid:
                 case DbType.Xml:
                     return DbType.String;
                 default:
@@ -139,7 +150,12 @@ namespace Buffalo.DB.DataBaseAdapter.Oracle9Adapter
             objPage.IsFillTotalRecords = false;
             objPage.StarIndex = 0;
             objPage.PageSize = top;
-            return CutPageSqlCreater.GetCutPageSql(sql.GetSelect(), objPage);
+            StringBuilder sbTmp = new StringBuilder();
+            CutPageSqlCreater.FillCutPageSql(sbTmp, sql.GetSelect(), objPage);
+            sql.FillLock(sbTmp);
+            string qsql = sbTmp.ToString();
+            return qsql;
+            //return CutPageSqlCreater.GetCutPageSql(sql.GetSelect(), objPage);
         }
 
         /// <summary>
@@ -259,13 +275,13 @@ namespace Buffalo.DB.DataBaseAdapter.Oracle9Adapter
         {
             switch (dbType)
             {
-                
+
                 default:
                     return "sysdate";
             }
         }
 
-         /// <summary>
+        /// <summary>
         /// 获取当前时间
         /// </summary>
         /// <returns></returns>
@@ -273,7 +289,7 @@ namespace Buffalo.DB.DataBaseAdapter.Oracle9Adapter
         {
             switch (dbType)
             {
-                
+
                 default:
                     return "sys_extract_utc(systimestamp)";
             }
@@ -334,9 +350,9 @@ namespace Buffalo.DB.DataBaseAdapter.Oracle9Adapter
         /// <param name="objPage">分页记录类</param>
         /// <returns></returns>
         public string CreatePageSql(ParamList list, DataBaseOperate oper, SelectCondition objCondition,
-            PageContent objPage,bool useCache)
+            PageContent objPage, bool useCache)
         {
-            return CutPageSqlCreater.CreatePageSql(list, oper, objCondition, objPage,useCache);
+            return CutPageSqlCreater.CreatePageSql(list, oper, objCondition, objPage, useCache);
         }
 
 
@@ -367,7 +383,7 @@ namespace Buffalo.DB.DataBaseAdapter.Oracle9Adapter
         /// <returns></returns>
         public string GetIdentitySQL(EntityPropertyInfo pkInfo)
         {
-            
+
             if (pkInfo == null)
             {
                 throw new Exception("找不到主键属性");
@@ -380,7 +396,7 @@ namespace Buffalo.DB.DataBaseAdapter.Oracle9Adapter
         /// <returns></returns>
         public string GetIdentityValueSQL(EntityPropertyInfo pkInfo)
         {
-            
+
             if (pkInfo == null)
             {
                 throw new Exception("找不到主键属性");
@@ -462,9 +478,9 @@ namespace Buffalo.DB.DataBaseAdapter.Oracle9Adapter
         /// <param name="index">当前Reader的索引</param>
         /// <param name="arg">目标对象</param>
         /// <param name="info">目标属性的句柄</param>
-        public void SetObjectValueFromReader(IDataReader reader, int index, object arg, EntityPropertyInfo info,bool needChangeType)
+        public void SetObjectValueFromReader(IDataReader reader, int index, object arg, EntityPropertyInfo info, bool needChangeType)
         {
-            SqlServer2KAdapter.DBAdapter.ValueFromReader(reader, index, arg, info, needChangeType);
+            DB.DataBaseAdapter.SqlServer2KAdapter.DBAdapter.ValueFromReader(reader, index, arg, info, needChangeType);
         }
 
 
@@ -484,7 +500,7 @@ namespace Buffalo.DB.DataBaseAdapter.Oracle9Adapter
         /// </summary>
         /// <param name="dbType"></param>
         /// <returns></returns>
-        public virtual string DBTypeToSQL(DbType dbType, long length, bool canNull) 
+        public virtual string DBTypeToSQL(DbType dbType, long length, bool canNull)
         {
             switch (dbType)
             {
@@ -539,7 +555,7 @@ namespace Buffalo.DB.DataBaseAdapter.Oracle9Adapter
                     return DBInfo.GetNumberLengthType("Number", length);
                 case DbType.Double:
                     return "BINARY_DOUBLE";
-                
+
                 case DbType.Single:
                     return "BINARY_FLOAT";
                 case DbType.Int64:
@@ -552,8 +568,8 @@ namespace Buffalo.DB.DataBaseAdapter.Oracle9Adapter
                     return "Number(6,0)";
                 case DbType.Int32:
                     return "INTEGER";
-                
-                    
+
+
                 case DbType.SByte:
                     return "Number(4,0)";
                 case DbType.Guid:
@@ -570,7 +586,7 @@ namespace Buffalo.DB.DataBaseAdapter.Oracle9Adapter
                 case DbType.StringFixedLength:
                     if (length < 8000)
                     {
-                        return "NChar("+length+")";
+                        return "NChar(" + length + ")";
                     }
                     else
                     {
@@ -580,8 +596,8 @@ namespace Buffalo.DB.DataBaseAdapter.Oracle9Adapter
                     return "BLOB";
             }
 
-           
-        
+
+
         }
         public int ToRealDbType(DbType dbType, long length)
         {
@@ -633,7 +649,7 @@ namespace Buffalo.DB.DataBaseAdapter.Oracle9Adapter
                 case DbType.Int64:
                 case DbType.Currency:
                     return (int)OracleType.Number;
-                
+
                 case DbType.Int16:
                     return (int)OracleType.Int16;
                 case DbType.UInt16:
@@ -664,7 +680,7 @@ namespace Buffalo.DB.DataBaseAdapter.Oracle9Adapter
                     {
                         return (int)OracleType.LongVarChar;
                     }
-                
+
 
                 default:
                     return (int)OracleType.Blob;
@@ -703,11 +719,11 @@ namespace Buffalo.DB.DataBaseAdapter.Oracle9Adapter
         {
             return null;
         }
+
         public virtual bool KeyWordDEFAULTFront()
         {
             return true;
         }
-
         /// <summary>
         /// like不区分大小写
         /// </summary>
@@ -718,25 +734,60 @@ namespace Buffalo.DB.DataBaseAdapter.Oracle9Adapter
         {
             StringBuilder sbSql = new StringBuilder();
             sbSql.Append(" ");
-            if (caseType == BQLCaseType.CaseIgnore)
+           
+            if (type == BQLLikeType.Like || type == BQLLikeType.StartWith )
             {
-                sbSql.Append("lower(");
-                sbSql.Append(source);
-                sbSql.Append(") like lower(");
-                sbSql.Append(Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter.DBAdapter.GetLikeString(this, type, param));
+                sbSql.Append("INSTR(");
+
+                AppendLikePrm(sbSql, source, caseType);
+                sbSql.Append(",");
+                AppendLikePrm(sbSql,  param, caseType);
+                
+                
                 sbSql.Append(")");
+                if (type == BQLLikeType.Like)
+                {
+                    sbSql.Append(">0");
+                }
+                else if (type == BQLLikeType.StartWith)
+                {
+                    sbSql.Append("=1");
+                }
             }
-            else
+            else 
             {
-                sbSql.Append(source);
-                sbSql.Append(" like ");
-                sbSql.Append(Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter.DBAdapter.GetLikeString(this, type, param));
+                AppendLikePrm(sbSql, source, caseType);
+                if (type == BQLLikeType.Equal)
+                {
+                    sbSql.Append(" = ");
+                }
+                else
+                {
+                    sbSql.Append(" like ");
+                }
+                AppendLikePrm(sbSql, Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter.DBAdapter.GetLikeString(this, type, param), caseType);
+
             }
-            
             return sbSql.ToString();
         }
-        
-
+        /// <summary>
+        /// 格式化字段名
+        /// </summary>
+        /// <param name="pName"></param>
+        /// <returns></returns>
+        private void AppendLikePrm(StringBuilder sbSql,string pName, BQLCaseType caseType) 
+        {
+            if(caseType == BQLCaseType.CaseIgnore) 
+            {
+                sbSql.Append("lower(");
+                sbSql.Append(pName);
+                sbSql.Append(")");
+            }
+            else 
+            {
+                sbSql.Append(pName);
+            }
+        }
         public string DoOrderBy(string param, SortType sortType, BQLCaseType caseType, DBInfo info)
         {
             StringBuilder sb = new StringBuilder();
@@ -757,7 +808,6 @@ namespace Buffalo.DB.DataBaseAdapter.Oracle9Adapter
             }
             return sb.ToString();
         }
-
         public string ShowFromLockUpdate(BQLLockType lockType, DBInfo info)
         {
             return "";
@@ -765,7 +815,7 @@ namespace Buffalo.DB.DataBaseAdapter.Oracle9Adapter
 
         public string LockUpdate(BQLLockType lockType, DBInfo info)
         {
-            switch (lockType) 
+            switch (lockType)
             {
                 case BQLLockType.LockUpdate:
                     return "for update";

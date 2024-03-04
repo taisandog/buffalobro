@@ -9,6 +9,7 @@ using Buffalo.DB.DataFillers;
 using Buffalo.DB.QueryConditions;
 using Buffalo.DB.DbCommon;
 
+
 namespace Buffalo.DB.DataBaseAdapter.Oracle9Adapter
 {
     /// <summary>
@@ -35,8 +36,9 @@ namespace Buffalo.DB.DataBaseAdapter.Oracle9Adapter
                 objPage.CurrentPage = objPage.TotalPage - 1;
             }
             IDataReader reader = null;
-
-            string qsql = CutPageSqlCreater.GetCutPageSql(sql, objPage);
+            StringBuilder sbTmp = new StringBuilder();
+            CutPageSqlCreater.FillCutPageSql(sbTmp,sql, objPage);
+            string qsql =sbTmp.ToString();
             reader = oper.Query(qsql, lstParam, null);
 
             return reader;
@@ -68,7 +70,9 @@ namespace Buffalo.DB.DataBaseAdapter.Oracle9Adapter
             IDataReader reader = null;
             try
             {
-                string qsql = CutPageSqlCreater.GetCutPageSql(sql, objPage);
+                StringBuilder sbTmp = new StringBuilder();
+                CutPageSqlCreater.FillCutPageSql(sbTmp, sql, objPage);
+                string qsql = sbTmp.ToString();
                 reader = oper.Query(qsql, lstParam, null);
                 
                 if (curType == null)

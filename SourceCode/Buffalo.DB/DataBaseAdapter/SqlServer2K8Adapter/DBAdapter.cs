@@ -44,9 +44,9 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2K8Adapter
                     long len = length;
                     if (len <= 0) 
                     {
-                        len = 190002;
+                        len = 19;
                     }
-                    return DBInfo.GetNumberLengthType(stype.ToString(), length);;
+                    return stype.ToString() + "(" + len + ",5)";
                 case SqlDbType.NVarChar:
                     if (length > 8000)
                     {

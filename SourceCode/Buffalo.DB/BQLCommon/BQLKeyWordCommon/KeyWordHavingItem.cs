@@ -30,9 +30,9 @@ namespace Buffalo.DB.BQLCommon.BQLKeyWordCommon
         /// </summary>
         /// <param name="noWait">如果冲突是否不等待</param>
         /// <returns></returns>
-        public KeyWorkLockUpdateItem LockUpdate(bool noWait)
+        public KeyWorkLockUpdateItem LockUpdate(BQLLockType type)
         {
-            KeyWorkLockUpdateItem item = new KeyWorkLockUpdateItem(noWait, this);
+            KeyWorkLockUpdateItem item = new KeyWorkLockUpdateItem(type, this);
             return item;
         }
         /// <summary>
@@ -45,6 +45,18 @@ namespace Buffalo.DB.BQLCommon.BQLKeyWordCommon
             KeyWordOrderByItem item = new KeyWordOrderByItem(paramhandles, this);
             return item;
         }
+        /// <summary>
+        /// 查询范围
+        /// </summary>
+        /// <param name="star">开始条数</param>
+        /// <param name="totalRecord">显示条数</param>
+        /// <returns></returns>
+        public KeyWordLimitItem Limit(uint star, uint totalRecord)
+        {
+            KeyWordLimitItem item = new KeyWordLimitItem(star, totalRecord, this);
+            return item;
+        }
+        
         ///// <summary>
         ///// 条件
         ///// </summary>

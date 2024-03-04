@@ -145,10 +145,7 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter
                     sql.Append(FilterGroupOrderBy(objCondition.Orders.ToString(),"tmp"));
                 }
             }
-            if (objCondition.LockUpdate.Length > 0)
-            {
-                sql.Append(objCondition.LockUpdate.ToString());
-            }
+            objCondition.FillLock(sql);
             return sql.ToString();
         }
 
@@ -274,10 +271,7 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter
                 sql.Append(" having ");
                 sql.Append(objCondition.Having.ToString());
             }
-            if (objCondition.LockUpdate.Length > 0)
-            {
-                sql.Append(objCondition.LockUpdate.ToString());
-            }
+            objCondition.FillLock(sql);
             return sql.ToString();
         }
 

@@ -33,7 +33,7 @@ namespace Buffalo.Data.DB2
             //string sql = objCondition.GetSelect();
             if (objPage.IsFillTotalRecords)
             {
-                objPage.TotalRecords = GetTotalRecord(list, oper, objCondition.GetSelect(false), 
+                objPage.TotalRecords = GetTotalRecord(list, oper, objCondition.GetSelect(false,false), 
                     objPage.MaxSelectRecords,(useCache?objCondition.CacheTables:null));//获取总记录数
                 //long totalPage = (long)Math.Ceiling((double)objPage.TotalRecords / (double)objPage.PageSize);
                 //objPage.TotalPage = totalPage;
@@ -102,10 +102,7 @@ namespace Buffalo.Data.DB2
                 sql.Append(") \"_tmpInnerTable\"");
             }
             sql.Append(") tmp where " + rowNumberName + " >=" + starIndex + " and " + rowNumberName + " <=" + endIndex);
-            if (objCondition.LockUpdate.Length > 0)
-            {
-                sql.Append(objCondition.LockUpdate.ToString());
-            }
+            objCondition.FillLock(sql);
             return sql.ToString();
         }
         /// <summary>
