@@ -36,11 +36,10 @@ namespace Buffalo.Data.MySQL
             IDataReader reader = null;
 
             StringBuilder sbSQL = new StringBuilder(sql.Length + 50);
-
+            sbSQL.Append(sql);
             CutPageSqlCreater.FillCutPageSql(sbSQL, objPage);
             string qsql = sbSQL.ToString();
-            //string qsql = CutPageSqlCreater.GetCutPageSql(sql, objPage);
-                reader = oper.Query(qsql, lstParam,cacheTables);
+            reader = oper.Query(qsql, lstParam,cacheTables);
 
             return reader;
         }
@@ -72,7 +71,7 @@ namespace Buffalo.Data.MySQL
             try
             {
                 StringBuilder sbSQL = new StringBuilder(sql.Length + 50);
-
+                sbSQL.Append(sql);
                 CutPageSqlCreater.FillCutPageSql(sbSQL, objPage);
                 string qsql = sbSQL.ToString();
 

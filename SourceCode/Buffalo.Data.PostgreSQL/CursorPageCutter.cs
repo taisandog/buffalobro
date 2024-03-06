@@ -23,10 +23,10 @@ namespace Buffalo.Data.PostgreSQL
         /// <param name="objPage">分页对象</param>
         /// <param name="oper">数据库对象</param>
         /// <returns></returns>
-        public static IDataReader Query(string sql,ParamList lstParam, PageContent objPage,DataBaseOperate oper)
+        public static IDataReader Query(string sql, ParamList lstParam, PageContent objPage, DataBaseOperate oper)
         {
 
-            objPage.TotalRecords = CutPageSqlCreater.GetTotalRecord(lstParam, oper, sql,objPage.MaxSelectRecords,null);
+            objPage.TotalRecords = CutPageSqlCreater.GetTotalRecord(lstParam, oper, sql, objPage.MaxSelectRecords, null);
             //long totalPage = (long)Math.Ceiling((double)objPage.TotalRecords / (double)objPage.PageSize);
             //objPage.TotalPage = totalPage;
             if (objPage.CurrentPage >= objPage.TotalPage - 1)
@@ -34,9 +34,14 @@ namespace Buffalo.Data.PostgreSQL
                 objPage.CurrentPage = objPage.TotalPage - 1;
             }
             IDataReader reader = null;
-            
-                string qsql = CutPageSqlCreater.GetCutPageSql(sql, objPage);
-                reader = oper.Query(qsql, lstParam,null);
+
+            StringBuilder sb = new StringBuilder(2000);
+            sb.Append(sql);
+            CutPageSqlCreater.FillCutPageSql(sb, objPage);
+
+
+            string qsql = sb.ToString();
+            reader = oper.Query(qsql, lstParam, null);
 
             return reader;
         }
