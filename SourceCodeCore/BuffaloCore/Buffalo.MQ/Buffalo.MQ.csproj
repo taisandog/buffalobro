@@ -16,7 +16,7 @@
     <PackageReference Include="Confluent.Kafka" Version="2.3.0" />
     <PackageReference Include="MQTTnet" Version="4.3.3.952" />
     <PackageReference Include="RabbitMQ.Client" Version="6.8.1" />
-    <PackageReference Include="StackExchange.Redis" Version="2.7.10" />
+    <PackageReference Include="StackExchange.Redis" Version="2.7.27" />
   </ItemGroup>
 
   <ItemGroup>

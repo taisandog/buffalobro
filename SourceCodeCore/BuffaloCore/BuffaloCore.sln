@@ -29,7 +29,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Buffalo.MongoDB", "Buffalo.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Buffalo.MQ", "Buffalo.MQ\Buffalo.MQ.csproj", "{647704CB-689C-4B9D-A07F-E76D1E09EFFD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestDBApp", "..\..\..\..\TestDBApp\TestDBApp.csproj", "{B8F79AE4-DFE4-4042-A110-DBA562DE09D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestDBApp", "..\..\..\..\TestDBApp\TestDBApp.csproj", "{B8F79AE4-DFE4-4042-A110-DBA562DE09D4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buffalo.IOCP", "Buffalo.IOCP\Buffalo.IOCP.csproj", "{F355DA40-3C5C-45DC-A712-4338490F7F8F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetClientDemo", "..\..\OtherPorject\Demo\Buffalo.IOCP.Demo\NetClientDemo\NetClientDemo.csproj", "{6A8F56F2-A430-48AA-90C6-9FAFF3A8AFE5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -89,6 +93,14 @@ Global
 		{B8F79AE4-DFE4-4042-A110-DBA562DE09D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8F79AE4-DFE4-4042-A110-DBA562DE09D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8F79AE4-DFE4-4042-A110-DBA562DE09D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F355DA40-3C5C-45DC-A712-4338490F7F8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F355DA40-3C5C-45DC-A712-4338490F7F8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F355DA40-3C5C-45DC-A712-4338490F7F8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F355DA40-3C5C-45DC-A712-4338490F7F8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A8F56F2-A430-48AA-90C6-9FAFF3A8AFE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A8F56F2-A430-48AA-90C6-9FAFF3A8AFE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A8F56F2-A430-48AA-90C6-9FAFF3A8AFE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A8F56F2-A430-48AA-90C6-9FAFF3A8AFE5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
