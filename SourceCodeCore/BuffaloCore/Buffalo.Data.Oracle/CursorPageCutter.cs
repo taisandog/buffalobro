@@ -70,6 +70,7 @@ namespace Buffalo.Data.Oracle
             try
             {
                 StringBuilder sbTmp = new StringBuilder();
+
                 CutPageSqlCreater.FillCutPageSql(sbTmp, sql, objPage);
                 string qsql = sbTmp.ToString();
                 reader = oper.Query(qsql, lstParam, null);
