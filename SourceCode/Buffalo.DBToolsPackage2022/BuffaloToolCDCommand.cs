@@ -551,6 +551,8 @@ namespace DBTools
 
                 else if (cmd.CommandID.ID == 0x2070)//界面生成
                 {
+                    MessageBox.Show("已关闭功能", "提示", MessageBoxButtons.OK,MessageBoxIcon.Information);
+                    return;
                     SelectedShapesCollection selectedShapes = SelectedShapes;
                     if (selectedShapes == null) return;
                     for (int i = 0; i < selectedShapes.Count; i++)
