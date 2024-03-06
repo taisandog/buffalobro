@@ -34,6 +34,11 @@
                 Refer to <see cref="M:Confluent.Kafka.IAdminClient.CreatePartitionsAsync(System.Collections.Generic.IEnumerable{Confluent.Kafka.Admin.PartitionsSpecification},Confluent.Kafka.Admin.CreatePartitionsOptions)" />
             </summary>
         </member>
+        <member name="M:Confluent.Kafka.AdminClient.DeleteRecordsAsync(System.Collections.Generic.IEnumerable{Confluent.Kafka.TopicPartitionOffset},Confluent.Kafka.Admin.DeleteRecordsOptions)">
+            <summary>
+                Refer to <see cref="M:Confluent.Kafka.IAdminClient.DeleteRecordsAsync(System.Collections.Generic.IEnumerable{Confluent.Kafka.TopicPartitionOffset},Confluent.Kafka.Admin.DeleteRecordsOptions)" />
+            </summary>
+        </member>
         <member name="M:Confluent.Kafka.AdminClient.#ctor(Confluent.Kafka.Handle)">
             <summary>
                 Initialize a new AdminClient instance.
@@ -123,6 +128,11 @@
                 The configured statistics handler.
             </summary>
         </member>
+        <member name="P:Confluent.Kafka.AdminClientBuilder.OAuthBearerTokenRefreshHandler">
+            <summary>
+                The configured OAuthBearer Token Refresh handler.
+            </summary>
+        </member>
         <member name="M:Confluent.Kafka.AdminClientBuilder.#ctor(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.String}})">
             <summary>
                 Initialize a new <see cref="T:Confluent.Kafka.AdminClientBuilder" /> instance.
@@ -179,6 +189,31 @@
                  Confluent.Kafka APIs from within a log handler or perform any
                  prolonged operations.
              </remarks>
+        </member>
+        <member name="M:Confluent.Kafka.AdminClientBuilder.SetOAuthBearerTokenRefreshHandler(System.Action{Confluent.Kafka.IProducer{Confluent.Kafka.Null,Confluent.Kafka.Null},System.String})">
+             <summary>
+                 Set SASL/OAUTHBEARER token refresh callback in provided
+                 conf object. The SASL/OAUTHBEARER token refresh callback
+                 is triggered via <see cref="T:Confluent.Kafka.IAdminClient"/>'s admin methods
+                 (or any of its overloads) whenever OAUTHBEARER is the SASL
+                 mechanism and a token needs to be retrieved, typically
+                 based on the configuration defined in
+                 sasl.oauthbearer.config. The callback should invoke
+                 <see cref="M:Confluent.Kafka.ClientExtensions.OAuthBearerSetToken(Confluent.Kafka.IClient,System.String,System.Int64,System.String,System.Collections.Generic.IDictionary{System.String,System.String})"/>
+                 or <see cref="M:Confluent.Kafka.ClientExtensions.OAuthBearerSetTokenFailure(Confluent.Kafka.IClient,System.String)"/>
+                 to indicate success or failure, respectively.
+            
+                 An unsecured JWT refresh handler is provided by librdkafka
+                 for development and testing purposes, it is enabled by
+                 setting the enable.sasl.oauthbearer.unsecure.jwt property
+                 to true and is mutually exclusive to using a refresh callback.
+             </summary>
+             <param name="oAuthBearerTokenRefreshHandler">
+                 the callback to set; callback function arguments:
+                 IProducer - instance of the admin client's inner producer instance
+                 which should be used to set token or token failure string - Value of configuration
+                 property sasl.oauthbearer.config
+             </param>
         </member>
         <member name="M:Confluent.Kafka.AdminClientBuilder.Build">
             <summary>
@@ -572,6 +607,101 @@
                 Default: null
             </summary>
         </member>
+        <member name="T:Confluent.Kafka.Admin.DeleteRecordsException">
+            <summary>
+                Represents an error that occured during a delete records request.
+            </summary>
+        </member>
+        <member name="M:Confluent.Kafka.Admin.DeleteRecordsException.#ctor(System.Collections.Generic.List{Confluent.Kafka.Admin.DeleteRecordsReport})">
+            <summary>
+                Initializes a new DeleteRecordsException.
+            </summary>
+            <param name="results">
+                The result corresponding to all topic partitions in the request
+                (whether or not they were in error). At least one of these
+                results will be in error.
+            </param>
+        </member>
+        <member name="P:Confluent.Kafka.Admin.DeleteRecordsException.Results">
+            <summary>
+                The result corresponding to all topics partitions in the request 
+                (whether or not they were in error). At least one of these
+                results will be in error.
+            </summary>
+        </member>
+        <member name="T:Confluent.Kafka.Admin.DeleteRecordsOptions">
+            <summary>
+                Options for the DeleteRecordsAsync method.
+            </summary>
+        </member>
+        <member name="P:Confluent.Kafka.Admin.DeleteRecordsOptions.RequestTimeout">
+            <summary>
+                The overall request timeout, including broker lookup, request 
+                transmission, operation time on broker, and response. If set
+                to null, the default request timeout for the AdminClient will
+                be used.
+            
+                Default: null
+            </summary>
+        </member>
+        <member name="P:Confluent.Kafka.Admin.DeleteRecordsOptions.OperationTimeout">
+            <summary>
+                The broker's operation timeout - the maximum time to wait for
+                DeleteRecordsAsync before returning a result to the application.
+                If set to null, will return immediately upon triggering record
+                deletion.
+            
+                Default: null
+            </summary>
+        </member>
+        <member name="T:Confluent.Kafka.Admin.DeleteRecordsReport">
+            <summary>
+                The per-partition result of delete records request
+                (including error status).
+            </summary>
+        </member>
+        <member name="P:Confluent.Kafka.Admin.DeleteRecordsReport.Topic">
+            <summary>
+                The topic name.
+            </summary>
+        </member>
+        <member name="P:Confluent.Kafka.Admin.DeleteRecordsReport.Partition">
+            <summary>
+                The partition.
+            </summary>
+        </member>
+        <member name="P:Confluent.Kafka.Admin.DeleteRecordsReport.Offset">
+            <summary>
+                Post-deletion low-watermark (smallest available offset of all
+                live replicas).
+            </summary>
+        </member>
+        <member name="P:Confluent.Kafka.Admin.DeleteRecordsReport.Error">
+            <summary>
+                Per-partition error status.
+            </summary>
+        </member>
+        <member name="T:Confluent.Kafka.Admin.DeleteRecordsResult">
+            <summary>
+                The per-partition result of delete records request.
+            </summary>
+        </member>
+        <member name="P:Confluent.Kafka.Admin.DeleteRecordsResult.Topic">
+            <summary>
+                The topic name.
+            </summary>
+        </member>
+        <member name="P:Confluent.Kafka.Admin.DeleteRecordsResult.Partition">
+            <summary>
+                The partition.
+            </summary>
+        </member>
+        <member name="P:Confluent.Kafka.Admin.DeleteRecordsResult.Offset">
+            <summary>
+                Post-deletion low-watermark offset (smallest available offset of all
+                live replicas).
+            </summary>
+        </member>
         <member name="T:Confluent.Kafka.Admin.DeleteTopicReport">
             <summary>
                 The result of a request to delete a specific topic.
@@ -835,6 +965,60 @@
             <returns>
                 A JSON representation of the BrokerMetadata object.
             </returns>
+        </member>
+        <member name="T:Confluent.Kafka.ClientExtensions">
+            <summary>
+                IClient extension methods
+            </summary>
+        </member>
+        <member name="M:Confluent.Kafka.ClientExtensions.OAuthBearerSetToken(Confluent.Kafka.IClient,System.String,System.Int64,System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+                Set SASL/OAUTHBEARER token and metadata.
+                The SASL/OAUTHBEARER token refresh callback or
+                event handler should invoke this method upon
+                success. The extension keys must not include
+                the reserved key "`auth`", and all extension
+                keys and values must conform to the required
+                format as per https://tools.ietf.org/html/rfc7628#section-3.1:
+            </summary>
+            <param name="client">
+                the instance of a <see cref="T:Confluent.Kafka.IClient"/>
+            </param>
+            <param name="tokenValue">
+                the mandatory token value to set, often (but
+                not necessarily) a JWS compact serialization
+                as per https://tools.ietf.org/html/rfc7515#section-3.1.
+            </param>
+            <param name="lifetimeMs">
+                when the token expires, in terms of the number
+                of milliseconds since the epoch.
+            </param>
+            <param name="principalName">
+                the mandatory Kafka principal name associated
+                with the token.
+            </param>
+            <param name="extensions">
+                optional SASL extensions dictionary, to be
+                communicated to the broker as additional key-value
+                pairs during the initial client response as per
+                https://tools.ietf.org/html/rfc7628#section-3.1.
+            </param>
+            <seealso cref="M:Confluent.Kafka.ClientExtensions.OAuthBearerSetTokenFailure(Confluent.Kafka.IClient,System.String)"/>
+        </member>
+        <member name="M:Confluent.Kafka.ClientExtensions.OAuthBearerSetTokenFailure(Confluent.Kafka.IClient,System.String)">
+            <summary>
+                SASL/OAUTHBEARER token refresh failure indicator.
+                The SASL/OAUTHBEARER token refresh callback or
+                event handler should invoke this method upon failure.
+            </summary>
+            <param name="client">
+                the instance of a <see cref="T:Confluent.Kafka.IClient"/>
+            </param>
+            <param name="error">
+                mandatory human readable error reason for failing
+                to acquire a token.
+            </param>
+            <seealso cref="M:Confluent.Kafka.ClientExtensions.OAuthBearerSetToken(Confluent.Kafka.IClient,System.String,System.Int64,System.String,System.Collections.Generic.IDictionary{System.String,System.String})"/>
         </member>
         <member name="T:Confluent.Kafka.CommittedOffsets">
             <summary>
@@ -1198,6 +1382,11 @@
                 RoundRobin
             </summary>
         </member>
+        <member name="F:Confluent.Kafka.PartitionAssignmentStrategy.CooperativeSticky">
+            <summary>
+                CooperativeSticky
+            </summary>
+        </member>
         <member name="T:Confluent.Kafka.IsolationLevel">
             <summary>
                 IsolationLevel enum values
@@ -1266,6 +1455,11 @@
         <member name="F:Confluent.Kafka.SaslMechanism.ScramSha512">
             <summary>
                 SCRAM-SHA-512
+            </summary>
+        </member>
+        <member name="F:Confluent.Kafka.SaslMechanism.OAuthBearer">
+            <summary>
+                OAUTHBEARER
             </summary>
         </member>
         <member name="T:Confluent.Kafka.Acks">
@@ -1375,14 +1569,6 @@
                  importance: low
              </summary>
         </member>
-        <member name="P:Confluent.Kafka.ClientConfig.MetadataRequestTimeoutMs">
-             <summary>
-                 Non-topic request timeout in milliseconds. This is for metadata requests, etc.
-            
-                 default: 60000
-                 importance: low
-             </summary>
-        </member>
         <member name="P:Confluent.Kafka.ClientConfig.TopicMetadataRefreshIntervalMs">
              <summary>
                  Period of time in milliseconds at which topic and broker metadata is refreshed in order to proactively discover any new brokers, topics, partitions or partition leader changes. Use -1 to disable the intervalled refresh (not recommended). If there are no locally referenced topics (no topic objects created, no messages produced, no subscription or no assignment) then only the broker list will be refreshed every interval but no more often than every 10s.
@@ -1412,6 +1598,14 @@
                  Sparse metadata requests (consumes less network bandwidth)
             
                  default: true
+                 importance: low
+             </summary>
+        </member>
+        <member name="P:Confluent.Kafka.ClientConfig.TopicMetadataPropagationMaxMs">
+             <summary>
+                 Apache Kafka topic creation is asynchronous and it takes some time for a new topic to propagate throughout the cluster to all brokers. If a client requests topic metadata after manual topic creation but before the topic has been fully propagated to the broker the client is requesting metadata from, the topic will seem to be non-existent and the client will mark the topic as such, failing queued produced messages with `ERR__UNKNOWN_TOPIC`. This setting delays marking a topic as non-existent until the configured propagation max time has passed. The maximum propagation time is calculated from the time the topic is first referenced in the client, e.g., on produce().
+            
+                 default: 30000
                  importance: low
              </summary>
         </member>
@@ -1495,6 +1689,14 @@
                  importance: low
              </summary>
         </member>
+        <member name="P:Confluent.Kafka.ClientConfig.ConnectionsMaxIdleMs">
+             <summary>
+                 Close broker connections after the specified time of inactivity. Disable with 0. If this property is left at its default value some heuristics are performed to determine a suitable default value, this is currently limited to identifying brokers on Azure (see librdkafka issue #3109 for more info).
+            
+                 default: 0
+                 importance: medium
+             </summary>
+        </member>
         <member name="P:Confluent.Kafka.ClientConfig.ReconnectBackoffMs">
              <summary>
                  The initial time to wait before reconnecting to a broker after the connection has been closed. The time is increased exponentially until `reconnect.backoff.max.ms` is reached. -25% to +50% jitter is applied to each reconnect backoff. A value of 0 disables the backoff and reconnects immediately.
@@ -1530,6 +1732,14 @@
         <member name="P:Confluent.Kafka.ClientConfig.LogThreadName">
              <summary>
                  Print internal thread name in log messages (useful for debugging librdkafka internals)
+            
+                 default: true
+                 importance: low
+             </summary>
+        </member>
+        <member name="P:Confluent.Kafka.ClientConfig.EnableRandomSeed">
+             <summary>
+                 If enabled librdkafka will initialize the PRNG with srand(current_time.milliseconds) on the first invocation of rd_kafka_new() (required only if rand_r() is not available on your platform). If disabled the application must call srand() prior to calling rd_kafka_new().
             
                  default: true
                  importance: low
@@ -1657,9 +1867,25 @@
         </member>
         <member name="P:Confluent.Kafka.ClientConfig.SslCaLocation">
              <summary>
-                 File or directory path to CA certificate(s) for verifying the broker's key.
+                 File or directory path to CA certificate(s) for verifying the broker's key. Defaults: On Windows the system's CA certificates are automatically looked up in the Windows Root certificate store. On Mac OSX this configuration defaults to `probe`. It is recommended to install openssl using Homebrew, to provide CA certificates. On Linux install the distribution's ca-certificates package. If OpenSSL is statically linked or `ssl.ca.location` is set to `probe` a list of standard paths will be probed and the first one found will be used as the default CA certificate location path. If OpenSSL is dynamically linked the OpenSSL library's default path will be used (see `OPENSSLDIR` in `openssl version -a`).
             
                  default: ''
+                 importance: low
+             </summary>
+        </member>
+        <member name="P:Confluent.Kafka.ClientConfig.SslCaPem">
+             <summary>
+                 CA certificate string (PEM format) for verifying the broker's key.
+            
+                 default: ''
+                 importance: low
+             </summary>
+        </member>
+        <member name="P:Confluent.Kafka.ClientConfig.SslCaCertificateStores">
+             <summary>
+                 Comma-separated list of Windows Certificate stores to load CA certificates from. Certificates will be loaded in the same order as stores are specified. If no certificates can be loaded from any of the specified stores an error is logged and the OpenSSL library's default CA location is used instead. Store names are typically one or more of: MY, Root, Trust, CA.
+            
+                 default: Root
                  importance: low
              </summary>
         </member>
@@ -1684,6 +1910,22 @@
                  Client's keystore (PKCS#12) password.
             
                  default: ''
+                 importance: low
+             </summary>
+        </member>
+        <member name="P:Confluent.Kafka.ClientConfig.SslEngineLocation">
+             <summary>
+                 Path to OpenSSL engine library. OpenSSL >= 1.1.0 required.
+            
+                 default: ''
+                 importance: low
+             </summary>
+        </member>
+        <member name="P:Confluent.Kafka.ClientConfig.SslEngineId">
+             <summary>
+                 OpenSSL engine id is the name used for loading engine.
+            
+                 default: dynamic
                  importance: low
              </summary>
         </member>
@@ -1865,7 +2107,7 @@
                  A comma separated list of fields that may be optionally set in delivery
                  reports. Disabling delivery report fields that you do not require will
                  improve maximum throughput and reduce memory usage. Allowed values:
-                 key, value, timestamp, headers, all, none.
+                 key, value, timestamp, headers, status, all, none.
             
                  default: all
                  importance: low
@@ -1875,7 +2117,7 @@
              <summary>
                  The ack timeout of the producer request in milliseconds. This value is only enforced by the broker and relies on `request.required.acks` being != 0.
             
-                 default: 5000
+                 default: 30000
                  importance: medium
              </summary>
         </member>
@@ -1955,7 +2197,7 @@
              <summary>
                  Delay in milliseconds to wait for messages in the producer queue to accumulate before constructing message batches (MessageSets) to transmit to brokers. A higher value allows larger and more effective (less overhead, improved compression) batches of messages to accumulate at the expense of increased message delivery latency.
             
-                 default: 0.5
+                 default: 5
                  importance: high
              </summary>
         </member>
@@ -1963,7 +2205,7 @@
              <summary>
                  How many times to retry sending a failing Message. **Note:** retrying may cause reordering unless `enable.idempotence` is set to true.
             
-                 default: 2
+                 default: 2147483647
                  importance: high
              </summary>
         </member>
@@ -1993,10 +2235,26 @@
         </member>
         <member name="P:Confluent.Kafka.ProducerConfig.BatchNumMessages">
              <summary>
-                 Maximum number of messages batched in one MessageSet. The total MessageSet size is also limited by message.max.bytes.
+                 Maximum number of messages batched in one MessageSet. The total MessageSet size is also limited by batch.size and message.max.bytes.
             
                  default: 10000
                  importance: medium
+             </summary>
+        </member>
+        <member name="P:Confluent.Kafka.ProducerConfig.BatchSize">
+             <summary>
+                 Maximum size (in bytes) of all messages batched in one MessageSet, including protocol framing overhead. This limit is applied after the first message has been added to the batch, regardless of the first message's size, this is to ensure that messages that exceed batch.size are produced. The total MessageSet size is also limited by batch.num.messages and message.max.bytes.
+            
+                 default: 1000000
+                 importance: medium
+             </summary>
+        </member>
+        <member name="P:Confluent.Kafka.ProducerConfig.StickyPartitioningLingerMs">
+             <summary>
+                 Delay in milliseconds to wait to assign new sticky partitions for each topic. By default, set to double the time of linger.ms. To disable sticky behavior, set to 0. This behavior affects messages with the key NULL in all cases, and messages with key lengths of zero when the consistent_random partitioner is in use. These messages would otherwise be assigned randomly. A higher value allows for more effective batching of these messages.
+            
+                 default: 10
+                 importance: low
              </summary>
         </member>
         <member name="T:Confluent.Kafka.ConsumerConfig">
@@ -2039,7 +2297,7 @@
         </member>
         <member name="P:Confluent.Kafka.ConsumerConfig.AutoOffsetReset">
              <summary>
-                 Action to take when there is no initial offset in offset store or the desired offset is out of range: 'smallest','earliest' - automatically reset the offset to the smallest offset, 'largest','latest' - automatically reset the offset to the largest offset, 'error' - trigger an error which is retrieved by consuming messages and checking 'message->err'.
+                 Action to take when there is no initial offset in offset store or the desired offset is out of range: 'smallest','earliest' - automatically reset the offset to the smallest offset, 'largest','latest' - automatically reset the offset to the largest offset, 'error' - trigger an error (ERR__AUTO_OFFSET_RESET) which is retrieved by consuming messages and checking 'message->err'.
             
                  default: largest
                  importance: high
@@ -2063,7 +2321,7 @@
         </member>
         <member name="P:Confluent.Kafka.ConsumerConfig.PartitionAssignmentStrategy">
              <summary>
-                 Name of partition assignment strategy to use when elected group leader assigns partitions to group members.
+                 The name of one or more partition assignment strategies. The elected group leader will use a strategy supported by all members of the group to assign partitions to group members. If there is more than one eligible strategy, preference is determined by the order of this list (strategies earlier in the list have higher priority). Cooperative and non-cooperative (eager) strategies must not be mixed. Available strategies: range, roundrobin, cooperative-sticky.
             
                  default: range,roundrobin
                  importance: medium
@@ -2073,7 +2331,7 @@
              <summary>
                  Client group session and failure detection timeout. The consumer sends periodic heartbeats (heartbeat.interval.ms) to indicate its liveness to the broker. If no hearts are received by the broker for a group member within the session timeout, the broker will remove the consumer from the group and trigger a rebalance. The allowed range is configured with the **broker** configuration properties `group.min.session.timeout.ms` and `group.max.session.timeout.ms`. Also see `max.poll.interval.ms`.
             
-                 default: 10000
+                 default: 45000
                  importance: high
              </summary>
         </member>
@@ -2087,7 +2345,7 @@
         </member>
         <member name="P:Confluent.Kafka.ConsumerConfig.GroupProtocolType">
              <summary>
-                 Group protocol type
+                 Group protocol type. NOTE: Currently, the only supported group protocol type is `consumer`.
             
                  default: consumer
                  importance: low
@@ -2143,17 +2401,17 @@
         </member>
         <member name="P:Confluent.Kafka.ConsumerConfig.QueuedMaxMessagesKbytes">
              <summary>
-                 Maximum number of kilobytes per topic+partition in the local consumer queue. This value may be overshot by fetch.message.max.bytes. This property has higher priority than queued.min.messages.
+                 Maximum number of kilobytes of queued pre-fetched messages in the local consumer queue. If using the high-level consumer this setting applies to the single consumer queue, regardless of the number of partitions. When using the legacy simple consumer or when separate partition queues are used this setting applies per partition. This value may be overshot by fetch.message.max.bytes. This property has higher priority than queued.min.messages.
             
-                 default: 1048576
+                 default: 65536
                  importance: medium
              </summary>
         </member>
         <member name="P:Confluent.Kafka.ConsumerConfig.FetchWaitMaxMs">
              <summary>
-                 Maximum time the broker may wait to fill the response with fetch.min.bytes.
+                 Maximum time the broker may wait to fill the Fetch response with fetch.min.bytes of messages.
             
-                 default: 100
+                 default: 500
                  importance: low
              </summary>
         </member>
@@ -2211,6 +2469,14 @@
             
                  default: false
                  importance: medium
+             </summary>
+        </member>
+        <member name="P:Confluent.Kafka.ConsumerConfig.AllowAutoCreateTopics">
+             <summary>
+                 Allow automatic topic creation on the broker when subscribing to or assigning non-existent topics. The broker must also be configured with `auto.create.topics.enable=true` for this configuraiton to take effect. Note: The default value (false) is different from the Java consumer (true). Requires broker version >= 0.11.0.0, for older broker versions only the broker configuration applies.
+            
+                 default: false
+                 importance: low
              </summary>
         </member>
         <member name="T:Confluent.Kafka.ConsumeException">
@@ -2288,6 +2554,15 @@
             <inheritdoc/>
         </member>
         <member name="M:Confluent.Kafka.Consumer`2.Assign(System.Collections.Generic.IEnumerable{Confluent.Kafka.TopicPartition})">
+            <inheritdoc/>
+        </member>
+        <member name="M:Confluent.Kafka.Consumer`2.IncrementalAssign(System.Collections.Generic.IEnumerable{Confluent.Kafka.TopicPartitionOffset})">
+            <inheritdoc/>
+        </member>
+        <member name="M:Confluent.Kafka.Consumer`2.IncrementalAssign(System.Collections.Generic.IEnumerable{Confluent.Kafka.TopicPartition})">
+            <inheritdoc/>
+        </member>
+        <member name="M:Confluent.Kafka.Consumer`2.IncrementalUnassign(System.Collections.Generic.IEnumerable{Confluent.Kafka.TopicPartition})">
             <inheritdoc/>
         </member>
         <member name="M:Confluent.Kafka.Consumer`2.Unassign">
@@ -2414,6 +2689,11 @@
                 The configured statistics handler.
             </summary>
         </member>
+        <member name="P:Confluent.Kafka.ConsumerBuilder`2.OAuthBearerTokenRefreshHandler">
+            <summary>
+                The configured OAuthBearer Token Refresh handler.
+            </summary>
+        </member>
         <member name="P:Confluent.Kafka.ConsumerBuilder`2.KeyDeserializer">
             <summary>
                 The configured key deserializer.
@@ -2432,6 +2712,17 @@
         <member name="P:Confluent.Kafka.ConsumerBuilder`2.PartitionsRevokedHandler">
             <summary>
                 The configured partitions revoked handler.
+            </summary>
+        </member>
+        <member name="F:Confluent.Kafka.ConsumerBuilder`2.RevokedOrLostHandlerIsFunc">
+            <summary>
+                Whether or not the user configured either PartitionsRevokedHandler or PartitionsLostHandler
+                as a Func (as opposed to an Action).
+            </summary>
+        </member>
+        <member name="P:Confluent.Kafka.ConsumerBuilder`2.PartitionsLostHandler">
+            <summary>
+                The configured partitions lost handler.
             </summary>
         </member>
         <member name="P:Confluent.Kafka.ConsumerBuilder`2.OffsetsCommittedHandler">
@@ -2507,6 +2798,31 @@
                  silently ignored.
              </remarks>
         </member>
+        <member name="M:Confluent.Kafka.ConsumerBuilder`2.SetOAuthBearerTokenRefreshHandler(System.Action{Confluent.Kafka.IConsumer{`0,`1},System.String})">
+             <summary>
+                 Set SASL/OAUTHBEARER token refresh callback in provided
+                 conf object. The SASL/OAUTHBEARER token refresh callback
+                 is triggered via <see cref="M:Confluent.Kafka.IConsumer`2.Consume(System.Int32)"/>
+                 (or any of its overloads) whenever OAUTHBEARER is the SASL
+                 mechanism and a token needs to be retrieved, typically
+                 based on the configuration defined in
+                 sasl.oauthbearer.config. The callback should invoke
+                 <see cref="M:Confluent.Kafka.ClientExtensions.OAuthBearerSetToken(Confluent.Kafka.IClient,System.String,System.Int64,System.String,System.Collections.Generic.IDictionary{System.String,System.String})"/>
+                 or <see cref="M:Confluent.Kafka.ClientExtensions.OAuthBearerSetTokenFailure(Confluent.Kafka.IClient,System.String)"/>
+                 to indicate success or failure, respectively.
+            
+                 An unsecured JWT refresh handler is provided by librdkafka
+                 for development and testing purposes, it is enabled by
+                 setting the enable.sasl.oauthbearer.unsecure.jwt property
+                 to true and is mutually exclusive to using a refresh callback.
+             </summary>
+             <param name="oAuthBearerTokenRefreshHandler">
+                 the callback to set; callback function arguments:
+                 IConsumer - instance of the consumer which should be used to
+                 set token or token failure string - Value of configuration
+                 property sasl.oauthbearer.config
+             </param>
+        </member>
         <member name="M:Confluent.Kafka.ConsumerBuilder`2.SetKeyDeserializer(Confluent.Kafka.IDeserializer{`0})">
             <summary>
                 Set the deserializer to use to deserialize keys.
@@ -2531,85 +2847,194 @@
         </member>
         <member name="M:Confluent.Kafka.ConsumerBuilder`2.SetPartitionsAssignedHandler(System.Func{Confluent.Kafka.IConsumer{`0,`1},System.Collections.Generic.List{Confluent.Kafka.TopicPartition},System.Collections.Generic.IEnumerable{Confluent.Kafka.TopicPartitionOffset}})">
              <summary>
-                 This handler is called when a new consumer group partition assignment has been received
-                 by this consumer.
-                 
-                 Note: corresponding to every call to this handler there will be a corresponding call to
-                 the partitions revoked handler (if one has been set using SetPartitionsRevokedHandler).
+                 Specify a handler that will be called when a new consumer group partition assignment has
+                 been received by this consumer.
             
                  The actual partitions to consume from and start offsets are specified by the return value
-                 of the handler. This set of partitions is not required to match the assignment provided
-                 by the consumer group, but typically will. Partition offsets may be a specific offset, or
-                 special value (Beginning, End or Unset). If Unset, consumption will resume from the
-                 last committed offset for each partition, or if there is no committed offset, in accordance
-                 with the `auto.offset.reset` configuration property.
+                 of the handler. Partition offsets may be a specific offset, or special value (Beginning, End
+                 or Unset). If Unset, consumption will resume from the last committed offset for each
+                 partition, or if there is no committed offset, in accordance with the `auto.offset.reset`
+                 configuration property.
+            
+                 Kafka supports two rebalance protocols: EAGER (range and roundrobin assignors) and
+                 COOPERATIVE (incremental) (cooperative-sticky assignor). Use the PartitionAssignmentStrategy
+                 configuration property to specify which assignor to use.
+            
+                 ## EAGER Rebalancing (range, roundrobin)
+            
+                 The set of partitions returned from your handler may differ from that provided by the
+                 group (though they should typically be the same). These partitions are the
+                 entire set of partitions to consume from. There will be exactly one call to the
+                 partitions revoked or partitions lost handler (if they have been set using
+                 SetPartitionsRevokedHandler / SetPartitionsLostHandler) corresponding to every call to
+                 this handler.
+            
+                 ## COOPERATIVE (Incremental) Rebalancing
+            
+                 The set of partitions returned from your handler must match that provided by the
+                 group. These partitions are an incremental assignment - are in addition to those
+                 already being consumed from.
              </summary>
              <remarks>
-                 May execute as a side-effect of the Consumer.Consume call (on the same thread).
+                 Executes as a side-effect of the Consumer.Consume call (on the same thread).
                  
-                 Assign/Unassign must not be called in the handler.
+                 (Incremental)Assign/Unassign must not be called in the handler.
             
-                 Exceptions: Any exception thrown by your partitions assigned handler
-                 will be wrapped in a ConsumeException with ErrorCode
-                 ErrorCode.Local_Application and thrown by the initiating call to Consume.
+                 Exceptions: Any exception thrown by your partitions assigned handler will be wrapped
+                 in a ConsumeException with ErrorCode ErrorCode.Local_Application and thrown by the
+                 initiating call to Consume.
              </remarks>
         </member>
         <member name="M:Confluent.Kafka.ConsumerBuilder`2.SetPartitionsAssignedHandler(System.Action{Confluent.Kafka.IConsumer{`0,`1},System.Collections.Generic.List{Confluent.Kafka.TopicPartition}})">
              <summary>
-                 This handler is called when a new consumer group partition assignment has been received
-                 by this consumer.
-                 
-                 Note: corresponding to every call to this handler there will be a corresponding call to
-                 the partitions revoked handler (if one has been set using SetPartitionsRevokedHandler").
+                 Specify a handler that will be called when a new consumer group partition assignment has
+                 been received by this consumer.
             
-                 Consumption will resume from the last committed offset for each partition, or if there is
-                 no committed offset, in accordance with the `auto.offset.reset` configuration property.
+                 Following execution of the handler, consumption will resume from the last committed offset
+                 for each partition, or if there is no committed offset, in accordance with the
+                 `auto.offset.reset` configuration property.
+            
+                 Kafka supports two rebalance protocols: EAGER (range and roundrobin assignors) and
+                 COOPERATIVE (incremental) (cooperative-sticky assignor). Use the PartitionAssignmentStrategy
+                 configuration property to specify which assignor to use.
+            
+                 ## EAGER Rebalancing (range, roundrobin)
+            
+                 Partitions passed to the handler represent the entire set of partitions to consume from.
+                 There will be exactly one call to the partitions revoked or partitions lost handler (if
+                 they have been set using SetPartitionsRevokedHandler / SetPartitionsLostHandler)
+                 corresponding to every call to this handler.
+            
+                 ## COOPERATIVE (Incremental) Rebalancing
+            
+                 Partitions passed to the handler are an incremental assignment - are in addition to those
+                 already being consumed from.
              </summary>
              <remarks>
-                 May execute as a side-effect of the Consumer.Consume call (on the same thread).
-                 
-                 Assign/Unassign must not be called in the handler.
+                 Executes as a side-effect of the Consumer.Consume call (on the same thread).
             
-                 Exceptions: Any exception thrown by your partitions assigned handler
-                 will be wrapped in a ConsumeException with ErrorCode
-                 ErrorCode.Local_Application and thrown by the initiating call to Consume.
+                 (Incremental)Assign/Unassign must not be called in the handler.
+            
+                 Exceptions: Any exception thrown by your partitions assigned handler will be wrapped
+                 in a ConsumeException with ErrorCode ErrorCode.Local_Application and thrown by the
+                 initiating call to Consume.
              </remarks>
         </member>
         <member name="M:Confluent.Kafka.ConsumerBuilder`2.SetPartitionsRevokedHandler(System.Func{Confluent.Kafka.IConsumer{`0,`1},System.Collections.Generic.List{Confluent.Kafka.TopicPartitionOffset},System.Collections.Generic.IEnumerable{Confluent.Kafka.TopicPartitionOffset}})">
              <summary>
-                 This handler is called immediately prior to a group partition assignment being
-                 revoked. The second parameter provides the set of partitions the consumer is 
-                 currently assigned to, and the current position of the consumer on each of these
-                 partitions.
+                 Specify a handler that will be called immediately prior to the consumer's current assignment
+                 being revoked, allowing the application to take action (e.g. offsets committed to a custom
+                 store) before the consumer gives up ownership of the partitions. The Func partitions revoked
+                 handler variant is not supported in the incremental rebalancing (COOPERATIVE) case.
+            
+                 The value returned from your handler specifies the partitions/offsets the consumer should
+                 be assigned to read from following completion of this method (most typically empty). This
+                 partitions revoked handler variant may not be specified when incremental rebalancing is in use
+                 - in that case, the set of partitions the consumer is reading from may never deviate from
+                 the set that it has been assigned by the group.
+            
+                 The second parameter provided to the handler provides the set of partitions the consumer is
+                 currently assigned to, and the current position of the consumer on each of these partitions.
              </summary>
              <remarks>
-                 May execute as a side-effect of the Consumer.Consume call (on the same thread).
-                 
-                 Assign/Unassign must not be called in the handler.
+                 Executes as a side-effect of the Consumer.Consume/Close/Dispose call (on the same thread).
             
-                 Exceptions: Any exception thrown by your partitions revoked handler
-                 will be wrapped in a ConsumeException with ErrorCode
-                 ErrorCode.Local_Application and thrown by the initiating call to Consume/Close.
+                 (Incremental)Assign/Unassign must not be called in the handler.
+            
+                 Exceptions: Any exception thrown by your partitions revoked handler will be wrapped in a
+                 ConsumeException with ErrorCode ErrorCode.Local_Application and thrown by the initiating call
+                 to Consume/Close.
              </remarks>
         </member>
         <member name="M:Confluent.Kafka.ConsumerBuilder`2.SetPartitionsRevokedHandler(System.Action{Confluent.Kafka.IConsumer{`0,`1},System.Collections.Generic.List{Confluent.Kafka.TopicPartitionOffset}})">
              <summary>
-                 This handler is called immediately prior to a group partition assignment being
-                 revoked. The second parameter provides the set of partitions the consumer is 
-                 currently assigned to, and the current position of the consumer on each of these
-                 partitions.
+                 Specify a handler that will be called immediately prior to partitions being revoked
+                 from the consumer's current assignment, allowing the application to take action
+                 (e.g. commit offsets to a custom store) before the consumer gives up ownership of
+                 the partitions.
             
-                 The return value of the handler specifies the partitions/offsets the consumer 
-                 should be assigned to following completion of this method (typically empty).
+                 Kafka supports two rebalance protocols: EAGER (range and roundrobin assignors) and
+                 COOPERATIVE (incremental) (cooperative-sticky assignor). Use the PartitionAssignmentStrategy
+                 configuration property to specify which assignor to use.
+            
+                 ## EAGER Rebalancing (range, roundrobin)
+            
+                 The second parameter provides the entire set of partitions the consumer is currently
+                 assigned to, and the current position of the consumer on each of these partitions.
+                 The consumer will stop consuming from all partitions following execution of this
+                 handler.
+            
+                 ## COOPERATIVE (Incremental) Rebalancing
+            
+                 The second parameter provides the subset of the partitions assigned to the consumer
+                 which are being revoked, and the current position of the consumer on each of these
+                 partitions. The consumer will stop consuming from this set of partitions following
+                 execution of this handler, and continue reading from any remaining partitions.
              </summary>
              <remarks>
-                 May execute as a side-effect of the Consumer.Consume call (on the same thread).
-                 
-                 Assign/Unassign must not be called in the handler.
+                 May execute as a side-effect of the Consumer.Consume/Close/Dispose call (on the same
+                 thread).
             
-                 Exceptions: Any exception thrown by your partitions revoked handler
-                 will be wrapped in a ConsumeException with ErrorCode
-                 ErrorCode.Local_Application and thrown by the initiating call to Consume.
+                 (Incremental)Assign/Unassign must not be called in the handler.
+            
+                 Exceptions: Any exception thrown by your partitions revoked handler will be wrapped
+                 in a ConsumeException with ErrorCode ErrorCode.Local_Application and thrown by the
+                 initiating call to Consume.
+             </remarks>
+        </member>
+        <member name="M:Confluent.Kafka.ConsumerBuilder`2.SetPartitionsLostHandler(System.Func{Confluent.Kafka.IConsumer{`0,`1},System.Collections.Generic.List{Confluent.Kafka.TopicPartitionOffset},System.Collections.Generic.IEnumerable{Confluent.Kafka.TopicPartitionOffset}})">
+             <summary>
+                 Specify a handler that will be called when the consumer detects that it has lost ownership
+                 of its partition assignment (fallen out of the group). The application should not commit
+                 offsets in this case, since the partitions will likely be owned by other consumers in the
+                 group (offset commits to Kafka will likely fail).
+            
+                 The value returned from your handler specifies the partitions/offsets the consumer should
+                 be assigned to read from following completion of this method (most typically empty). This
+                 partitions lost handler variant may not be specified when incremental rebalancing is in use
+                 - in that case, the set of partitions the consumer is reading from may never deviate from
+                 the set that it has been assigned by the group.
+            
+                 The second parameter provided to the handler provides the set of all partitions the consumer
+                 is currently assigned to, and the current position of the consumer on each of these partitions.
+                 Following completion of this handler, the consumer will stop consuming from all partitions.
+            
+                 If this handler is not specified, the partitions revoked handler (if specified) will be called
+                 instead if partitions are lost.
+             </summary>
+             <remarks>
+                 May execute as a side-effect of the Consumer.Consume/Close/Dispose call (on the same
+                 thread).
+            
+                 (Incremental)Assign/Unassign must not be called in the handler.
+            
+                 Exceptions: Any exception thrown by your partitions revoked handler will be wrapped
+                 in a ConsumeException with ErrorCode ErrorCode.Local_Application and thrown by the
+                 initiating call to Consume.
+             </remarks>
+        </member>
+        <member name="M:Confluent.Kafka.ConsumerBuilder`2.SetPartitionsLostHandler(System.Action{Confluent.Kafka.IConsumer{`0,`1},System.Collections.Generic.List{Confluent.Kafka.TopicPartitionOffset}})">
+             <summary>
+                 Specify a handler that will be called when the consumer detects that it has lost ownership
+                 of its partition assignment (fallen out of the group). The application should not commit
+                 offsets in this case, since the partitions will likely be owned by other consumers in the
+                 group (offset commits to Kafka will likely fail).
+            
+                 The second parameter provided to the handler provides the set of all partitions the consumer
+                 is currently assigned to, and the current position of the consumer on each of these partitions.
+            
+                 If this handler is not specified, the partitions revoked handler (if specified) will be called
+                 instead if partitions are lost.
+             </summary>
+             <remarks>
+                 May execute as a side-effect of the Consumer.Consume/Close/Dispose call (on the same
+                 thread).
+            
+                 (Incremental)Assign/Unassign must not be called in the handler.
+            
+                 Exceptions: Any exception thrown by your partitions revoked handler will be wrapped
+                 in a ConsumeException with ErrorCode ErrorCode.Local_Application and thrown by the
+                 initiating call to Consume.
              </remarks>
         </member>
         <member name="M:Confluent.Kafka.ConsumerBuilder`2.SetOffsetsCommittedHandler(System.Action{Confluent.Kafka.IConsumer{`0,`1},Confluent.Kafka.CommittedOffsets})">
@@ -3955,6 +4380,14 @@
                 a reference to the IClient instance that owns this handle.
             </summary>
         </member>
+        <member name="P:Confluent.Kafka.Handle.IsInvalid">
+            <summary>
+                Gets a value indicating whether the encapsulated librdkafka handle is invalid.
+            </summary>
+            <value>
+                <b>true</b> if the encapsulated librdkafka handle is invalid; otherwise, <b>false</b>.
+            </value>
+        </member>
         <member name="T:Confluent.Kafka.Header">
             <summary>
                 Represents a kafka message header.
@@ -4246,6 +4679,21 @@
             </param>
             <returns>
                 Configs for the specified resources.
+            </returns>
+        </member>
+        <member name="M:Confluent.Kafka.IAdminClient.DeleteRecordsAsync(System.Collections.Generic.IEnumerable{Confluent.Kafka.TopicPartitionOffset},Confluent.Kafka.Admin.DeleteRecordsOptions)">
+            <summary>
+                Delete records (messages) in topic partitions
+                older than the offsets provided.
+            </summary>
+            <param name="topicPartitionOffsets">
+                The offsets to delete up to.
+            </param>
+            <param name="options">
+                The options to use when deleting records.
+            </param>
+            <returns>
+                The result of the delete records request.
             </returns>
         </member>
         <member name="T:Confluent.Kafka.IAsyncDeserializer`1">
@@ -4585,6 +5033,45 @@
                  no offsets have been committed yet.
              </param>
         </member>
+        <member name="M:Confluent.Kafka.IConsumer`2.IncrementalAssign(System.Collections.Generic.IEnumerable{Confluent.Kafka.TopicPartitionOffset})">
+            <summary>
+                Incrementally add <paramref name="partitions" />
+                to the current assignment, starting consumption
+                from the specified offsets.
+            </summary>
+            <param name="partitions">
+                The set of additional partitions to consume from.
+                If an offset value of Offset.Unset (-1001) is
+                specified for a partition, consumption will
+                resume from the last committed offset on that
+                partition, or according to the
+                'auto.offset.reset' configuration parameter if
+                no offsets have been committed yet.
+            </param>
+        </member>
+        <member name="M:Confluent.Kafka.IConsumer`2.IncrementalAssign(System.Collections.Generic.IEnumerable{Confluent.Kafka.TopicPartition})">
+            <summary>
+                Incrementally add <paramref name="partitions" />
+                to the current assignment.
+            </summary>
+            <param name="partitions">
+                The set of additional partitions to consume from.
+                Consumption will resume from the last committed
+                offset on each partition, or according to the
+                'auto.offset.reset' configuration parameter if
+                no offsets have been committed yet.
+            </param>
+        </member>
+        <member name="M:Confluent.Kafka.IConsumer`2.IncrementalUnassign(System.Collections.Generic.IEnumerable{Confluent.Kafka.TopicPartition})">
+            <summary>
+                Incrementally remove <paramref name="partitions" />
+                to the current assignment.
+            </summary>
+            <param name="partitions">
+                The set of partitions to remove from the current
+                assignment.
+            </param>
+        </member>
         <member name="M:Confluent.Kafka.IConsumer`2.Unassign">
             <summary>
                 Remove the current set of assigned partitions
@@ -4904,7 +5391,8 @@
         </member>
         <member name="M:Confluent.Kafka.IConsumer`2.Close">
             <summary>
-                Commits offsets, alerts the group coordinator
+                Commits offsets (if auto commit is enabled),
+                alerts the group coordinator
                 that the consumer is exiting the group then
                 releases all resources used by this consumer.
                 You should call <see cref="M:Confluent.Kafka.Consumer`2.Close" />
@@ -4975,6 +5463,19 @@
                 The serialized header value data.
             </summary>
         </member>
+        <member name="M:Confluent.Kafka.Impl.Librdkafka.Initialize(System.String)">
+             <summary>
+                 Attempt to load librdkafka.
+             </summary>
+             <returns>
+                 true if librdkafka was loaded as a result of this call, false if the
+                 library has already been loaded.
+            
+                 throws DllNotFoundException if librdkafka could not be loaded.
+                 throws FileLoadException if the loaded librdkafka version is too low.
+                 throws InvalidOperationException on other error.
+             </returns>
+        </member>
         <member name="T:Confluent.Kafka.Impl.Librdkafka.ProduceVarTag">
             <summary>
                 Var-arg tag types, used in producev
@@ -5014,7 +5515,7 @@
                 which is relatively simple.
             </remarks>
         </member>
-        <member name="T:Confluent.Kafka.Impl.NativeMethods.NativeMethods_Centos7">
+        <member name="T:Confluent.Kafka.Impl.NativeMethods.NativeMethods_Centos6">
             <summary>
                 This class should be an exact replica of other NativeMethods classes, except
                 for the DllName const.
@@ -5031,7 +5532,7 @@
                 which is relatively simple.
             </remarks>
         </member>
-        <member name="T:Confluent.Kafka.Impl.NativeMethods.NativeMethods_Debian9">
+        <member name="T:Confluent.Kafka.Impl.NativeMethods.NativeMethods_Centos7">
             <summary>
                 This class should be an exact replica of other NativeMethods classes, except
                 for the DllName const.
@@ -5118,6 +5619,11 @@
                 which must destroyed with LibRdKafka.topic_partition_list_destroy()
             </returns>
         </member>
+        <member name="T:Confluent.Kafka.DictionaryExtensions">
+            <summary>
+                Extension methods for the <see cref="T:System.Collections.Generic.IDictionary`2"/> class.
+            </summary>
+        </member>
         <member name="T:Confluent.Kafka.StringExtensions">
             <summary>
                 Extension methods for the <see cref="T:System.String"/> class.
@@ -5139,6 +5645,12 @@
             <returns>
                 The TimeSpan value <paramref name="timespan" /> in milliseconds.
             </returns>
+        </member>
+        <member name="T:Confluent.Kafka.Internal.Util.Marshal.StringAsPinnedUTF8">
+            <summary>
+                Convenience class for generating and pinning the UTF8
+                representation of a string.
+            </summary>
         </member>
         <member name="M:Confluent.Kafka.Internal.Util.Marshal.PtrToStringUTF8(System.IntPtr)">
             <summary>
@@ -5441,8 +5953,8 @@
                  With the transactional producer, ProduceAsync and
                  Prodce calls are only allowed during an on-going
                  transaction, as started with this function.
-                 Any produce call outside an on-going transaction, or for a failed
-                 transaction, will fail.
+                 Any produce call outside an on-going transaction,
+                 or for a failed transaction, will fail.
              </remark>
              <exception cref="T:Confluent.Kafka.KafkaException">
                  Thrown on all errors.
@@ -5458,9 +5970,14 @@
             
                  If any of the outstanding messages fail permanently the current
                  transaction will enter the abortable error state, in this case
-                 the application
-                 must call AbortTransaction before attempting a new
+                 the application must call AbortTransaction before attempting a new
                  transaction with BeginTransaction.
+            
+                 IMPORTANT NOTE: It is currently strongly recommended that the application
+                 call CommitTransaction without specifying a timeout (which will block up
+                 to the remaining transaction timeout - ProducerConfig.TransactionTimeoutMs)
+                 because the Transactional Producer's API timeout handling is inconsistent with
+                 the underlying protocol requests (known issue).
              </summary>
              <remark>
                   This function will block until all outstanding messages are
@@ -5489,14 +6006,57 @@
                  Thrown on all other errors.
              </exception>
         </member>
+        <member name="M:Confluent.Kafka.IProducer`2.CommitTransaction">
+             <summary>
+                 Commit the current transaction (as started with
+                 BeginTransaction).
+            
+                 Any outstanding messages will be flushed (delivered) before actually
+                 committing the transaction.
+            
+                 If any of the outstanding messages fail permanently the current
+                 transaction will enter the abortable error state, in this case
+                 the application must call AbortTransaction before attempting a new
+                 transaction with BeginTransaction.
+             </summary>
+             <remark>
+                 This function will block until all outstanding messages are
+                 delivered and the transaction commit request has been successfully
+                 handled by the transaction coordinator, or until the transaction
+                 times out (ProducerConfig.TransactionTimeoutMs) which ever comes
+                 first. On timeout the application may call the function again.
+             </remark>
+             <remark>
+                 Will automatically call Flush to ensure all queued
+                 messages are delivered before attempting to commit the
+                 transaction.
+             </remark>
+             <exception cref="T:Confluent.Kafka.KafkaTxnRequiresAbortException">
+                 Thrown if the application must call AbortTransaction and
+                 start a new transaction with BeginTransaction if it
+                 wishes to proceed with transactions.
+             </exception>
+             <exception cref="T:Confluent.Kafka.KafkaRetriableException">
+                 Thrown if an error occured, and the operation may be retried.
+             </exception>
+             <exception cref="T:Confluent.Kafka.KafkaException">
+                 Thrown on all other errors.
+             </exception>
+        </member>
         <member name="M:Confluent.Kafka.IProducer`2.AbortTransaction(System.TimeSpan)">
              <summary>
                  Aborts the ongoing transaction.
-             
+            
                  This function should also be used to recover from non-fatal abortable
                  transaction errors.
             
                  Any outstanding messages will be purged and fail.
+            
+                 IMPORTANT NOTE: It is currently strongly recommended that the application
+                 call AbortTransaction without specifying a timeout (which will block up
+                 to the remaining transaction timeout - ProducerConfig.TransactionTimeoutMs)
+                 because the Transactional Producer's API timeout handling is inconsistent with
+                 the underlying protocol requests (known issue).
              </summary>
              <remark>
                  This function will block until all outstanding messages are purged
@@ -5508,6 +6068,29 @@
              <param name="timeout">
                  The maximum length of time this method may block.
              </param>
+             <exception cref="T:Confluent.Kafka.KafkaRetriableException">
+                 Thrown if an error occured, and the operation may be retried.
+             </exception>
+             <exception cref="T:Confluent.Kafka.KafkaException">
+                 Thrown on all other errors.
+             </exception>
+        </member>
+        <member name="M:Confluent.Kafka.IProducer`2.AbortTransaction">
+             <summary>
+                 Aborts the ongoing transaction.
+            
+                 This function should also be used to recover from non-fatal abortable
+                 transaction errors.
+            
+                 Any outstanding messages will be purged and fail.
+             </summary>
+             <remark>
+                 This function will block until all outstanding messages are purged
+                 and the transaction abort request has been successfully
+                 handled by the transaction coordinator, or until the transaction
+                 times out (ProducerConfig.TransactionTimeoutMs), which ever comes
+                 first. On timeout the application may call the function again.
+             </remark>
              <exception cref="T:Confluent.Kafka.KafkaRetriableException">
                  Thrown if an error occured, and the operation may be retried.
              </exception>
@@ -6335,7 +6918,7 @@
         </member>
         <member name="P:Confluent.Kafka.PartitionMetadata.PartitionId">
             <summary>
-                Gets ths id of the partition this metadata relates to.
+                Gets the id of the partition this metadata relates to.
             </summary>
         </member>
         <member name="P:Confluent.Kafka.PartitionMetadata.Leader">
@@ -6487,11 +7070,50 @@
         <member name="M:Confluent.Kafka.Producer`2.CommitTransaction(System.TimeSpan)">
             <inheritdoc/>
         </member>
+        <member name="M:Confluent.Kafka.Producer`2.CommitTransaction">
+            <inheritdoc/>
+        </member>
         <member name="M:Confluent.Kafka.Producer`2.AbortTransaction(System.TimeSpan)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Confluent.Kafka.Producer`2.AbortTransaction">
             <inheritdoc/>
         </member>
         <member name="M:Confluent.Kafka.Producer`2.SendOffsetsToTransaction(System.Collections.Generic.IEnumerable{Confluent.Kafka.TopicPartitionOffset},Confluent.Kafka.IConsumerGroupMetadata,System.TimeSpan)">
             <inheritdoc/>
+        </member>
+        <member name="T:Confluent.Kafka.PartitionerDelegate">
+             <summary>
+                 Calculate a partition number given a <paramref name="partitionCount" />
+                 and serialized <paramref name="keyData" />. The <paramref name="topic" />
+                 is also provided, but is typically not used.
+             </summary>
+             <remarks>
+                 A partioner instance may be called in any thread at any time and
+                 may be called multiple times for the same message/key.
+            
+                 A partitioner:
+                 - MUST NOT call any method on the producer instance.
+                 - MUST NOT block or execute for prolonged periods of time.
+                 - MUST return a value between 0 and partitionCnt-1.
+                 - MUST NOT throw any exception.
+             </remarks>
+             <param name="topic">
+                 The topic.
+             </param>
+             <param name="partitionCount">
+                 The number of partitions in <paramref name="topic" />.
+             </param>
+             <param name="keyData">
+                 The serialized key data.
+             </param>
+             <param name="keyIsNull">
+                 Whether or not the key is null (distinguishes the null and empty case).
+             </param>
+             <returns>
+                 The calculated <seealso cref="T:Confluent.Kafka.Partition"/>, possibly
+                 <seealso cref="F:Confluent.Kafka.Partition.Any"/>.
+             </returns>
         </member>
         <member name="T:Confluent.Kafka.ProducerBuilder`2">
             <summary>
@@ -6516,6 +7138,21 @@
         <member name="P:Confluent.Kafka.ProducerBuilder`2.StatisticsHandler">
             <summary>
                 The configured statistics handler.
+            </summary>
+        </member>
+        <member name="P:Confluent.Kafka.ProducerBuilder`2.OAuthBearerTokenRefreshHandler">
+            <summary>
+                The configured OAuthBearer Token Refresh handler.
+            </summary>
+        </member>
+        <member name="P:Confluent.Kafka.ProducerBuilder`2.Partitioners">
+            <summary>        
+                The per-topic custom partitioners.
+            </summary>
+        </member>
+        <member name="P:Confluent.Kafka.ProducerBuilder`2.DefaultPartitioner">
+            <summary>
+                The default custom partitioner.
             </summary>
         </member>
         <member name="P:Confluent.Kafka.ProducerBuilder`2.KeySerializer">
@@ -6566,6 +7203,18 @@
                  silently ignored.
              </remarks>
         </member>
+        <member name="M:Confluent.Kafka.ProducerBuilder`2.SetPartitioner(System.String,Confluent.Kafka.PartitionerDelegate)">
+            <summary>
+                Set a custom partitioner to use when producing messages to
+                <paramref name="topic" />.
+            </summary>
+        </member>
+        <member name="M:Confluent.Kafka.ProducerBuilder`2.SetDefaultPartitioner(Confluent.Kafka.PartitionerDelegate)">
+            <summary>
+                Set a custom partitioner that will be used for all topics
+                except those for which a partitioner has been explicitly configured.
+            </summary>
+        </member>
         <member name="M:Confluent.Kafka.ProducerBuilder`2.SetErrorHandler(System.Action{Confluent.Kafka.IProducer{`0,`1},Confluent.Kafka.Error})">
              <summary>
                  Set the handler to call on error events e.g. connection failures or all
@@ -6601,6 +7250,30 @@
                  Exceptions: Any exception thrown by your log handler will be
                  silently ignored.
              </remarks>
+        </member>
+        <member name="M:Confluent.Kafka.ProducerBuilder`2.SetOAuthBearerTokenRefreshHandler(System.Action{Confluent.Kafka.IProducer{`0,`1},System.String})">
+             <summary>
+                 Set SASL/OAUTHBEARER token refresh callback in provided
+                 conf object. The SASL/OAUTHBEARER token refresh callback
+                 is triggered via <see cref="M:Confluent.Kafka.IProducer`2.Poll(System.TimeSpan)"/>
+                 whenever OAUTHBEARER is the SASL mechanism and a token
+                 needs to be retrieved, typically based on the configuration
+                 defined in sasl.oauthbearer.config. The callback should
+                 invoke <see cref="M:Confluent.Kafka.ClientExtensions.OAuthBearerSetToken(Confluent.Kafka.IClient,System.String,System.Int64,System.String,System.Collections.Generic.IDictionary{System.String,System.String})"/>
+                 or <see cref="M:Confluent.Kafka.ClientExtensions.OAuthBearerSetTokenFailure(Confluent.Kafka.IClient,System.String)"/>
+                 to indicate success or failure, respectively.
+            
+                 An unsecured JWT refresh handler is provided by librdkafka
+                 for development and testing purposes, it is enabled by
+                 setting the enable.sasl.oauthbearer.unsecure.jwt property
+                 to true and is mutually exclusive to using a refresh callback.
+             </summary>
+             <param name="oAuthBearerTokenRefreshHandler">
+                 the callback to set; callback function arguments:
+                 IConsumer - instance of the consumer which should be used to
+                 set token or token failure string - Value of configuration
+                 property sasl.oauthbearer.config
+             </param>
         </member>
         <member name="M:Confluent.Kafka.ProducerBuilder`2.SetKeySerializer(Confluent.Kafka.ISerializer{`0})">
             <summary>
@@ -7239,6 +7912,18 @@
             </summary>
             <returns>
                 A string that represents the TopicPartition object.
+            </returns>
+        </member>
+        <member name="M:Confluent.Kafka.TopicPartition.CompareTo(System.Object)">
+            <summary>
+                Compares the current instance with another object of the same type and returns
+                an integer that indicates whether the current instance precedes, follows, or
+                occurs in the same position in the sort order as the other object.
+            </summary>
+            <returns>
+                Less than zero:	This instance precedes obj in the sort order.
+                Zero:	This instance occurs in the same position in the sort order as obj.
+                Greater than zero:	This instance follows obj in the sort order.
             </returns>
         </member>
         <member name="T:Confluent.Kafka.TopicPartitionError">

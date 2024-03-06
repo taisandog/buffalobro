@@ -4,22 +4,6 @@
         <name>Buffalo.Kernel</name>
     </assembly>
     <members>
-        <member name="P:Buffalo.Kernel.CharCollectionEnumerator.CurIndex">
-            <summary>
-            当前索引
-            </summary>
-        </member>
-        <member name="M:Buffalo.Kernel.CharCollectionEnumerator.#ctor(System.String)">
-            <summary>
-            字符集合的枚举器
-            </summary>
-            <param name="chrs"></param>
-        </member>
-        <member name="P:Buffalo.Kernel.CharCollectionEnumerator.CurrentChar">
-            <summary>
-            当前字符
-            </summary>
-        </member>
         <member name="T:Buffalo.Kernel.ClassProxyBuilder.DefaultProxyBuilder">
             <summary>
             代理建造类
@@ -87,6 +71,351 @@
             <param name="operationName">方法名</param>
             <param name="returnValue">结果</param>
             <param name="correlationState">状态对象</param>
+        </member>
+        <member name="T:Buffalo.Kernel.Collections.LinkedDictionary`2">
+            <summary>
+            保存了活跃度的Dictionary
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="K"></typeparam>
+        </member>
+        <member name="F:Buffalo.Kernel.Collections.LinkedDictionary`2._dic">
+            <summary>
+            存储数据的字典
+            </summary>
+        </member>
+        <member name="F:Buffalo.Kernel.Collections.LinkedDictionary`2._lk">
+            <summary>
+            存储数据的字典
+            </summary>
+        </member>
+        <member name="F:Buffalo.Kernel.Collections.LinkedDictionary`2._isGetToUpdate">
+            <summary>
+            get值时候是否触发
+            </summary>
+        </member>
+        <member name="M:Buffalo.Kernel.Collections.LinkedDictionary`2.#ctor(System.Collections.Generic.IDictionary{`0,System.Collections.Generic.LinkedListNode{Buffalo.Kernel.Collections.LinkedValueNode{`0,`1}}},System.Boolean)">
+            <summary>
+            保存了活跃度的Dictionary
+            </summary>
+            <param name="dic">托管的字典</param>
+            <param name="isGetToUpdate">Get值时候是否要更新活跃度</param>
+        </member>
+        <member name="M:Buffalo.Kernel.Collections.LinkedDictionary`2.#ctor(System.Boolean)">
+            <summary>
+            保存了活跃度的Dictionary
+            </summary>
+        </member>
+        <member name="P:Buffalo.Kernel.Collections.LinkedDictionary`2.Item(`0)">
+            <summary>
+            存取值
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Kernel.Collections.LinkedDictionary`2.MoveToLast(System.Collections.Generic.LinkedListNode{Buffalo.Kernel.Collections.LinkedValueNode{`0,`1}})">
+            <summary>
+            把节点移动到最新
+            </summary>
+            <param name="node"></param>
+        </member>
+        <member name="P:Buffalo.Kernel.Collections.LinkedDictionary`2.IsGetToUpdate">
+            <summary>
+            get值时候是否触发更新
+            </summary>
+        </member>
+        <member name="P:Buffalo.Kernel.Collections.LinkedDictionary`2.TimeInfos">
+            <summary>
+            活跃度信息
+            </summary>
+        </member>
+        <member name="M:Buffalo.Kernel.Collections.LinkedDictionary`2.Add(`0,`1)">
+            <summary>
+            添加一个带有所提供的键和值的元素
+            </summary>
+            <param name="key"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:Buffalo.Kernel.Collections.LinkedDictionary`2.Add(Buffalo.Kernel.Collections.LinkedValueNode{`0,`1})">
+            <summary>
+            添加一个带有所提供的键和值的元素
+            </summary>
+            <param name="item">项</param>
+        </member>
+        <member name="M:Buffalo.Kernel.Collections.LinkedDictionary`2.OnAddNew(Buffalo.Kernel.Collections.LinkedValueNode{`0,`1})">
+            <summary>
+            当发生AddNew时候
+            </summary>
+            <param name="node"></param>
+        </member>
+        <member name="M:Buffalo.Kernel.Collections.LinkedDictionary`2.OnUpdate(Buffalo.Kernel.Collections.LinkedValueNode{`0,`1})">
+            <summary>
+            当发生AddNew时候
+            </summary>
+            <param name="node"></param>
+        </member>
+        <member name="M:Buffalo.Kernel.Collections.LinkedDictionary`2.Add(System.Collections.Generic.KeyValuePair{`0,`1})">
+            <summary>
+            添加一个带有所提供的键和值的元素
+            </summary>
+            <param name="item">项</param>
+        </member>
+        <member name="M:Buffalo.Kernel.Collections.LinkedDictionary`2.Clear">
+            <summary>
+            清空所有
+            </summary>
+        </member>
+        <member name="M:Buffalo.Kernel.Collections.LinkedDictionary`2.Contains(System.Collections.Generic.KeyValuePair{`0,`1})">
+            <summary>
+            是否包含此项
+            </summary>
+            <param name="item"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Kernel.Collections.LinkedDictionary`2.ContainsKey(`0)">
+            <summary>
+             是否包含此键
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Kernel.Collections.LinkedDictionary`2.CopyTo(System.Collections.Generic.KeyValuePair{`0,`1}[],System.Int32)">
+            <summary>
+            把值复制到数组
+            </summary>
+            <param name="array"></param>
+            <param name="arrayIndex"></param>
+        </member>
+        <member name="M:Buffalo.Kernel.Collections.LinkedDictionary`2.GetEnumerator">
+            <summary>
+            获取枚举
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Kernel.Collections.LinkedDictionary`2.Remove(`0)">
+            <summary>
+            删除键
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Kernel.Collections.LinkedDictionary`2.RemoveKey(`0)">
+            <summary>
+            删除键并返回值
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Kernel.Collections.LinkedDictionary`2.Remove(System.Collections.Generic.LinkedListNode{Buffalo.Kernel.Collections.LinkedValueNode{`0,`1}})">
+            <summary>
+            删除项
+            </summary>
+            <param name="item"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Kernel.Collections.LinkedDictionary`2.Remove(System.Collections.Generic.KeyValuePair{`0,`1})">
+            <summary>
+            删除项
+            </summary>
+            <param name="item"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Kernel.Collections.LinkedDictionary`2.TryGetValue(`0,`1@)">
+            <summary>
+            获取与指定键关联的值
+            </summary>
+            <param name="key"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Kernel.Collections.LinkedDictionary`2.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            获取枚举器
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Kernel.Collections.LinkedDictionary`2.TrimCount(System.Int32)">
+            <summary>
+             按最低活跃度开始裁剪元素集合
+            </summary>
+            <param name="count">保留个数</param>
+        </member>
+        <member name="P:Buffalo.Kernel.Collections.LinkedDictionary`2.OldestNode">
+            <summary>
+            最老的节点
+            </summary>
+        </member>
+        <member name="P:Buffalo.Kernel.Collections.LinkedDictionary`2.LatestNode">
+            <summary>
+            最新的节点
+            </summary>
+        </member>
+        <member name="M:Buffalo.Kernel.Collections.LinkedDictionary`2.GetEnumeratorOldToNew">
+            <summary>
+            获取一个从旧到新的枚举器
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Kernel.Collections.LinkedDictionary`2.GetEnumeratorNewToOld">
+            <summary>
+            获取一个从新到旧的枚举器
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Kernel.Collections.LinkedUnit.LinkedListNodeMoceNext``1(System.Collections.Generic.LinkedList{``0},System.Collections.Generic.LinkedListNode{``0})">
+            <summary>
+            获取下一个节点
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="list">双链表</param>
+            <param name="currentNode">当前节点</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Kernel.Collections.LinkedUnit.LinkedListNodeMocePrevious``1(System.Collections.Generic.LinkedList{``0},System.Collections.Generic.LinkedListNode{``0})">
+            <summary>
+            获取上一个节点
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="list">双链表</param>
+            <param name="currentNode">当前节点</param>
+            <returns></returns>
+        </member>
+        <member name="T:Buffalo.Kernel.Collections.LinkedDictionaryCollection`2">
+            <summary>
+            LRU字典枚举器
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="K"></typeparam>
+        </member>
+        <member name="P:Buffalo.Kernel.Collections.LinkedDictionaryCollection`2.IsMoveNext">
+            <summary>
+            是否向后枚举
+            </summary>
+        </member>
+        <member name="T:Buffalo.Kernel.Collections.LinkedDictionaryEnumerator`2">
+            <summary>
+            LRU字典的枚举,向后枚举
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="K"></typeparam>
+        </member>
+        <member name="F:Buffalo.Kernel.Collections.LinkedDictionaryEnumerator`2._currentNode">
+            <summary>
+            当前节点
+            </summary>
+        </member>
+        <member name="F:Buffalo.Kernel.Collections.LinkedDictionaryEnumerator`2._isStart">
+            <summary>
+            是否已经开始移动了
+            </summary>
+        </member>
+        <member name="M:Buffalo.Kernel.Collections.LinkedDictionaryEnumerator`2.#ctor(System.Collections.Generic.LinkedList{Buffalo.Kernel.Collections.LinkedValueNode{`0,`1}})">
+            <summary>
+            LRU字典的枚举
+            </summary>
+            <param name="enumTk">枚举器</param>
+        </member>
+        <member name="T:Buffalo.Kernel.Collections.LinkedDictionaryEnumeratorMovePrevious`2">
+            <summary>
+            LRU字典的枚举,向前枚举
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="K"></typeparam>
+        </member>
+        <member name="M:Buffalo.Kernel.Collections.LinkedDictionaryEnumeratorMovePrevious`2.#ctor(System.Collections.Generic.LinkedList{Buffalo.Kernel.Collections.LinkedValueNode{`0,`1}})">
+            <summary>
+            LRU字典的枚举
+            </summary>
+            <param name="enumTk">枚举器</param>
+        </member>
+        <member name="P:Buffalo.Kernel.Collections.LinkedValueNode`2.ExpiredDate">
+            <summary>
+            过期时间
+            </summary>
+        </member>
+        <member name="M:Buffalo.Kernel.Collections.LinkedValueNode`2.#ctor(`0,`1)">
+            <summary>
+            节点
+            </summary>
+            <param name="key"></param>
+            <param name="value"></param>
+        </member>
+        <member name="P:Buffalo.Kernel.Collections.LinkedValueNode`2.Key">
+            <summary>
+            键
+            </summary>
+        </member>
+        <member name="P:Buffalo.Kernel.Collections.LinkedValueNode`2.Value">
+            <summary>
+            值
+            </summary>
+        </member>
+        <member name="P:Buffalo.Kernel.Collections.LinkedValueNode`2.KeyValue">
+            <summary>
+            Key/Value值
+            </summary>
+        </member>
+        <member name="T:Buffalo.Kernel.Collections.LockObjects`1">
+            <summary>
+            为某个值提供锁对象的管理器
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:Buffalo.Kernel.Collections.LockObjects`2">
+            <summary>
+            为某个值提供锁对象的管理器
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="F:Buffalo.Kernel.Collections.LockObjects`2._lastClean">
+            <summary>
+            最后清理时间
+            </summary>
+        </member>
+        <member name="F:Buffalo.Kernel.Collections.LockObjects`2.CleanSeconds">
+            <summary>
+            清理间隔(秒)
+            </summary>
+        </member>
+        <member name="M:Buffalo.Kernel.Collections.LockObjects`2.#ctor">
+            <summary>
+            内存锁定记录
+            </summary>
+            <param name="timeoutMillisecond">超时时间(毫秒数)</param>
+        </member>
+        <member name="M:Buffalo.Kernel.Collections.LockObjects`2.GetObject(`0)">
+            <summary>
+            获取要锁的对象
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Kernel.Collections.LockObjects`2.ClearTimeout(System.DateTime)">
+            <summary>
+            清除超时
+            </summary>
+        </member>
+        <member name="M:Buffalo.Kernel.Collections.LockObjects`2.DeleteObject(`0)">
+            <summary>
+            释放对象
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Buffalo.Kernel.Collections.LockItem`2">
+            <summary>
+            要锁的项
+            </summary>
+        </member>
+        <member name="F:Buffalo.Kernel.Collections.LockItem`2.LockObject">
+            <summary>
+            要锁的类
+            </summary>
+        </member>
+        <member name="F:Buffalo.Kernel.Collections.LockItem`2.LastTime">
+            <summary>
+            最后访问时间
+            </summary>
         </member>
         <member name="T:Buffalo.Kernel.CommonMethods">
             <summary>
@@ -170,79 +499,37 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.Kernel.CommonMethods.DataSetToXML(System.Data.DataSet,System.Data.XmlWriteMode)">
+        <member name="M:Buffalo.Kernel.CommonMethods.ConvertIntDateTime(System.Double,System.Boolean,System.Boolean)">
             <summary>
-            把DataSet打成XML字符串
+            将时间戳转换为DateTime类型时间
             </summary>
-            <param name="ds">要处理的DataSet</param>
-            <param name="mode">指定如何从 System.Data.DataSet 写入 XML 数据和关系架构</param>
-            <returns></returns>
-        </member>
-        <!-- Badly formed XML comment ignored for member "M:Buffalo.Kernel.CommonMethods.DataSetToXML(System.Data.DataSet)" -->
-        <member name="M:Buffalo.Kernel.CommonMethods.XMLToDataSet(System.String,System.Data.XmlReadMode)">
-            <summary>
-            XML字符串转成DataSet
-            </summary>
-            <param name="xml">xml字符串</param>
-            <param name="mode">指定如何将 XML 数据和关系架构读入 System.Data.DataSet</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Kernel.CommonMethods.XMLToDataSet(System.String)">
-            <summary>
-            XML字符串转成DataSet
-            </summary>
-            <param name="xml">xml字符串</param>
-            <returns></returns>
+            <param name="d">double 型数字</param>
+            <param name="useSecond">true传入的是秒数,false传入的是毫秒数</param>
+            <param name="isUTC">时间戳是否格林威治标准时间</param>
+            <returns>DateTime</returns>
         </member>
         <member name="M:Buffalo.Kernel.CommonMethods.ConvertIntDateTime(System.Double)">
             <summary>
-            将Unix时间戳转换为DateTime类型时间
+            将UTC时间戳转换为UTC的DateTime类型时间(秒数)
             </summary>
             <param name="d">double 型数字</param>
             <returns>DateTime</returns>
         </member>
+        <member name="M:Buffalo.Kernel.CommonMethods.ConvertDateTimeInt(System.DateTime,System.Boolean,System.Boolean)">
+            <summary>
+            将c# DateTime时间格式转换为时间戳格式
+            </summary>
+            <param name="time">时间</param>
+             <param name="useSecond">true返回秒数,false返回毫秒数</param>
+             <param name="isUTC">是否返回格林威治标准时间戳</param>
+            <returns>double</returns>
+        </member>
         <member name="M:Buffalo.Kernel.CommonMethods.ConvertDateTimeInt(System.DateTime)">
             <summary>
-            将c# DateTime时间格式转换为Unix时间戳格式
+            将c# DateTime时间格式转换为Unix时间戳格式(秒)
             </summary>
             <param name="time">时间</param>
             <returns>double</returns>
-        </member>
-        <member name="M:Buffalo.Kernel.CommonMethods.RawDeserialize(System.Byte[],System.Type)">
-            <summary>
-            反序列化结构体
-            </summary>
-            <param name="rawdatas"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Kernel.CommonMethods.RawDeserialize``1(System.Byte[])">
-            <summary>
-            反序列化结构体
-            </summary>
-            <param name="rawdatas"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Kernel.CommonMethods.RawDeserialize(System.IO.Stream,System.Type)">
-            <summary>
-            从流中读出元素
-            </summary>
-            <param name="stm"></param>
-            <param name="objType"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Kernel.CommonMethods.RawDeserialize``1(System.IO.Stream)">
-            <summary>
-            从流中读出元素
-            </summary>
-            <param name="stm">流</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Kernel.CommonMethods.RawSerialize(System.Object)">
-            <summary>
-            对象序列化成字节数组
-            </summary>
-            <param name="obj">对象</param>
-            <returns></returns>
         </member>
         <member name="M:Buffalo.Kernel.CommonMethods.GetLocalIP">
             <summary>
@@ -329,41 +616,6 @@
             <param name="str">十六进制字符串</param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.Kernel.CommonMethods.FormatString(System.Object)">
-            <summary>
-            格式化字符串
-            </summary>
-            <param name="str"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Kernel.CommonMethods.FormatLongString(System.Object,System.Int32)">
-            <summary>
-            格式化长字符串
-            </summary>
-            <param name="str"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Kernel.CommonMethods.GetCode(System.Int32)">
-            <summary>
-             随机生成字符串
-            </summary>
-            <param name="length">生成多少位随机字符串</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Kernel.CommonMethods.FormatDateTimeString(System.DateTime)">
-            <summary>
-            格式化输出的日期
-            </summary>
-            <param name="dt"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Kernel.CommonMethods.IsIntNumber(System.String)">
-            <summary>
-            判断该字符串是否整型数字
-            </summary>
-            <param name="str">字符串</param>
-            <returns></returns>
-        </member>
         <member name="M:Buffalo.Kernel.CommonMethods.ListToDictionary``2(System.Collections.IEnumerable,System.String)">
             <summary>
             把集合转换成字典类
@@ -374,12 +626,11 @@
             <param name="keyProperty">键名</param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.Kernel.CommonMethods.IsNumber(System.String)">
+        <member name="M:Buffalo.Kernel.CommonMethods.ClearAllEvents(System.Object)">
             <summary>
-            判断该字符串是否整型数字
+            清除事件绑定的函数
             </summary>
-            <param name="str">字符串</param>
-            <returns></returns>
+            <param name="objectHasEvents">拥有事件的实例</param>
         </member>
         <member name="T:Buffalo.Kernel.ConnStringFilter">
             <summary>
@@ -400,67 +651,6 @@
             </summary>
             <param name="connstr">字符串</param>
             <param name="comparer">比较器</param>
-            <returns></returns>
-        </member>
-        <member name="T:Buffalo.Kernel.ContextGetHandle">
-            <summary>
-            获取值的句柄
-            </summary>
-            <param name="key"></param>
-            <returns></returns>
-        </member>
-        <member name="T:Buffalo.Kernel.ContextSetHandle">
-            <summary>
-            设置值的句柄
-            </summary>
-            <param name="key"></param>
-            <param name="value"></param>
-        </member>
-        <member name="T:Buffalo.Kernel.ContextDeleteHandle">
-            <summary>
-            删除值的句柄
-            </summary>
-            <param name="key"></param>
-            <param name="value"></param>
-        </member>
-        <member name="T:Buffalo.Kernel.ContextValue">
-            <summary>
-            上下文值
-            </summary>
-        </member>
-        <member name="F:Buffalo.Kernel.ContextValue.Current">
-            <summary>
-            当前线程上下文
-            </summary>
-        </member>
-        <member name="P:Buffalo.Kernel.ContextValue.Item(System.String)">
-            <summary>
-            上下文值
-            </summary>
-            <param name="key">获取值的键</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Kernel.ContextValue.DeleteValue(System.String)">
-            <summary>
-            删除值
-            </summary>
-            <param name="key"></param>
-        </member>
-        <member name="P:Buffalo.Kernel.CSVReader.IsEnd">
-            <summary>
-            是否已经读完
-            </summary>
-        </member>
-        <member name="M:Buffalo.Kernel.CSVReader.ReaderRow">
-            <summary>
-            读取行
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Kernel.CSVReader.ReadValue">
-            <summary>
-            读取值
-            </summary>
             <returns></returns>
         </member>
         <member name="M:Buffalo.Kernel.Defaults.DefaultType.GetCSharpVariableType(System.Data.DbType)">
@@ -673,6 +863,13 @@
             获取类型的默认值
             </summary>
             <param name="targetType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Kernel.Defaults.DefaultValue.ConvertEnumUnderlyingValue(System.Object)">
+            <summary>
+            转换枚举为基础类型
+            </summary>
+            <param name="enumValue"></param>
             <returns></returns>
         </member>
         <member name="P:Buffalo.Kernel.Defaults.TypeItem.ItemType">
@@ -1474,62 +1671,6 @@
             获取在获取锁时是否发生等待超时
             </summary>
         </member>
-        <member name="T:Buffalo.Kernel.LockObjects`1">
-            <summary>
-            为某个值提供锁对象的管理器
-            </summary>
-            <typeparam name="T"></typeparam>
-        </member>
-        <member name="F:Buffalo.Kernel.LockObjects`1._lastClean">
-            <summary>
-            最后清理时间
-            </summary>
-        </member>
-        <member name="F:Buffalo.Kernel.LockObjects`1.CleanSeconds">
-            <summary>
-            清理间隔(秒)
-            </summary>
-        </member>
-        <member name="M:Buffalo.Kernel.LockObjects`1.#ctor">
-            <summary>
-            内存锁定记录
-            </summary>
-            <param name="timeoutMillisecond">超时时间(毫秒数)</param>
-        </member>
-        <member name="M:Buffalo.Kernel.LockObjects`1.GetObject(`0)">
-            <summary>
-            获取要锁的对象
-            </summary>
-            <param name="key"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Kernel.LockObjects`1.ClearTimeout(System.DateTime)">
-            <summary>
-            清除超时
-            </summary>
-        </member>
-        <member name="M:Buffalo.Kernel.LockObjects`1.DeleteObject(`0)">
-            <summary>
-            释放对象
-            </summary>
-            <param name="key"></param>
-            <returns></returns>
-        </member>
-        <member name="T:Buffalo.Kernel.LockItem`1">
-            <summary>
-            要锁的项
-            </summary>
-        </member>
-        <member name="F:Buffalo.Kernel.LockItem`1.LockObject">
-            <summary>
-            要锁的类
-            </summary>
-        </member>
-        <member name="F:Buffalo.Kernel.LockItem`1.LastTime">
-            <summary>
-            最后访问时间
-            </summary>
-        </member>
         <member name="T:Buffalo.Kernel.MassBase`1">
             <summary>
             常量类的基类
@@ -1620,6 +1761,22 @@
             <param name="objType"></param>
             <returns></returns>
         </member>
+        <member name="T:Buffalo.Kernel.ObjectEventsUnit">
+            <summary>
+            实体事件工具
+            </summary>
+        </member>
+        <member name="F:Buffalo.Kernel.ObjectEventsUnit._dicEventHandle">
+            <summary>
+            缓存类型和拥有事件的集合
+            </summary>
+        </member>
+        <member name="M:Buffalo.Kernel.ObjectEventsUnit.ClearAllEvents(System.Object)">
+            <summary>
+            清除事件绑定的函数
+            </summary>
+            <param name="objectHasEvents">拥有事件的实例</param>
+        </member>
         <member name="T:Buffalo.Kernel.PasswordHash">
             <summary>
             散列辅助类
@@ -1633,26 +1790,12 @@
             <param name="isUpper">字母是否大写</param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.Kernel.PasswordHash.ToMD5String(System.String)">
-            <summary>
-            对字符串进行MD5散列
-            </summary>
-            <param name="str">要散列的字符串</param>
-            <returns></returns>
-        </member>
         <member name="M:Buffalo.Kernel.PasswordHash.ToMD5String(System.Byte[],System.Boolean)">
             <summary>
             对内容进行MD5散列
             </summary>
             <param name="content">要散列的内容</param>
             <param name="isUpper">散列结果是否大写</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Kernel.PasswordHash.ToMD5String(System.Byte[])">
-            <summary>
-            对内容进行MD5散列
-            </summary>
-            <param name="content">要散列的内容</param>
             <returns></returns>
         </member>
         <member name="M:Buffalo.Kernel.PasswordHash.ToMD5String(System.IO.Stream,System.Boolean)">
@@ -1663,11 +1806,34 @@
              <param name="isUpper">散列结果是否大写</param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.Kernel.PasswordHash.ToMD5String(System.IO.Stream)">
+        <member name="M:Buffalo.Kernel.PasswordHash.StartBatchHash">
+            <summary>
+            开启批量哈希
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Kernel.PasswordHash.ToMD5Bytes(System.String)">
+            <summary>
+            对字符串进行MD5散列
+            </summary>
+            <param name="str">要散列的字符串</param>
+            <param name="isUpper">字母是否大写</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Kernel.PasswordHash.ToMD5Bytes(System.Byte[])">
+            <summary>
+            对内容进行MD5散列
+            </summary>
+            <param name="content">要散列的内容</param>
+            <param name="isUpper">散列结果是否大写</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Kernel.PasswordHash.ToMD5Bytes(System.IO.Stream)">
             <summary>
             对字符串进行MD5散列
             </summary>
             <param name="stm">要散列的流</param>
+             <param name="isUpper">散列结果是否大写</param>
             <returns></returns>
         </member>
         <member name="M:Buffalo.Kernel.PasswordHash.ToSHA1String(System.String,System.Boolean)">
@@ -1678,26 +1844,12 @@
             <param name="isUpper">散列结果是否大写</param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.Kernel.PasswordHash.ToSHA1String(System.String)">
-            <summary>
-            对字符串进行SHA1散列
-            </summary>
-            <param name="str">要散列的字符串</param>
-            <returns></returns>
-        </member>
         <member name="M:Buffalo.Kernel.PasswordHash.ToSHA1String(System.Byte[],System.Boolean)">
             <summary>
             对内容进行SHA1散列
             </summary>
             <param name="content">要散列的内容</param>
             <param name="isUpper">散列结果是否大写</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Kernel.PasswordHash.ToSHA1String(System.Byte[])">
-            <summary>
-            对内容进行SHA1散列
-            </summary>
-            <param name="content">要散列的内容</param>
             <returns></returns>
         </member>
         <member name="M:Buffalo.Kernel.PasswordHash.ToSHA1String(System.IO.Stream,System.Boolean)">
@@ -1708,7 +1860,23 @@
             <param name="isUpper">散列结果是否大写</param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.Kernel.PasswordHash.ToSHA1String(System.IO.Stream)">
+        <member name="M:Buffalo.Kernel.PasswordHash.ToSHA1Bytes(System.String)">
+            <summary>
+            对字符串进行SHA1散列
+            </summary>
+            <param name="str">要散列的字符串</param>
+            <param name="isUpper">散列结果是否大写</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Kernel.PasswordHash.ToSHA1Bytes(System.Byte[])">
+            <summary>
+            对内容进行SHA1散列
+            </summary>
+            <param name="content">要散列的内容</param>
+            <param name="isUpper">散列结果是否大写</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Kernel.PasswordHash.ToSHA1Bytes(System.IO.Stream)">
             <summary>
             对内容进行SHA1散列
             </summary>
@@ -1716,7 +1884,7 @@
             <param name="isUpper">散列结果是否大写</param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.Kernel.PasswordHash.AESDecrypt(System.Byte[],System.Byte[])">
+        <member name="M:Buffalo.Kernel.PasswordHash.AESDecrypt(System.Byte[],System.Byte[],System.Security.Cryptography.CipherMode,System.Security.Cryptography.PaddingMode)">
             <summary>
             AES解密
             </summary>
@@ -1724,7 +1892,7 @@
             <param name="pwd">解密密码(32字节数组)</param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.Kernel.PasswordHash.AESEncrypt(System.Byte[],System.Byte[])">
+        <member name="M:Buffalo.Kernel.PasswordHash.AESEncrypt(System.Byte[],System.Byte[],System.Security.Cryptography.CipherMode,System.Security.Cryptography.PaddingMode)">
             <summary>
             AES加密
             </summary>
@@ -1732,382 +1900,290 @@
             <param name="pwd">密码(32字节数组)</param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.Kernel.Picture.ScopeSize(System.Int32,System.Int32,System.Drawing.Size)">
+        <member name="T:Buffalo.Kernel.BatchHash">
             <summary>
-            规范尺寸
+            批量哈希值
             </summary>
-            <param name="maxWidth">最大宽度</param>
-            <param name="maxHeight">最大高度</param>
-            <param name="size">待规范的尺寸</param>
         </member>
-        <member name="M:Buffalo.Kernel.Picture.ReSizePictureInScope(System.Drawing.Image,System.Int32,System.Int32)">
+        <member name="F:Buffalo.Kernel.BatchHash._tlIsBatch">
             <summary>
-            把图片转换大小(大小不能超过指定值)
+            线程变量:是否开启批量
             </summary>
-            <param name="img"></param>
-            <param name="maxWidth"></param>
-            <param name="maxHeight"></param>
+        </member>
+        <member name="F:Buffalo.Kernel.BatchHash._tlMD5">
+            <summary>
+            线程变量:MD5
+            </summary>
+        </member>
+        <member name="F:Buffalo.Kernel.BatchHash._tlSHA1">
+            <summary>
+            线程变量:SHA1
+            </summary>
+        </member>
+        <member name="P:Buffalo.Kernel.BatchHash.IsBatch">
+            <summary>
+            是否开启了批量操作
+            </summary>
+        </member>
+        <member name="M:Buffalo.Kernel.BatchHash.GetMD5">
+            <summary>
+            获取MD5类
+            </summary>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.Kernel.Picture.PictureToBytes(System.IO.Stream,System.Int32,System.Int32,System.Drawing.Imaging.ImageFormat)">
+        <member name="M:Buffalo.Kernel.BatchHash.GetSHA1">
             <summary>
-            把图片流转成字节
+            获取MD5类
             </summary>
-            <param name="fileStm">图片流</param>
-            <param name="width">转换后的宽度</param>
-            <param name="height">转换后的高度</param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.Kernel.Picture.PictureToBytes(System.Drawing.Image)">
+        <member name="M:Buffalo.Kernel.BatchHash.AutoClose(System.IDisposable)">
             <summary>
-            把图片转换成字节
+            自动关闭
             </summary>
-            <param name="img">图片</param>
+            <param name="obj"></param>
+        </member>
+        <member name="F:Buffalo.Kernel.BatchHash._isOpenBatch">
+            <summary>
+            是否此类开启的批量操作
+            </summary>
+        </member>
+        <member name="M:Buffalo.Kernel.BatchHash.#ctor">
+            <summary>
+            开启批量哈希操作
+            </summary>
+        </member>
+        <member name="M:Buffalo.Kernel.BatchHash.Dispose">
+            <summary>
+            清理对象
+            </summary>
+        </member>
+        <member name="T:Buffalo.Kernel.TreadPoolManager.ParameterizedReturnThreadStart">
+            <summary>
+            带参数带返回的线程类
+            </summary>
+            <param name="obj"></param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.Kernel.Picture.GetEncoder(System.Drawing.Imaging.ImageFormat)">
+        <member name="T:Buffalo.Kernel.TreadPoolManager.BlockThread">
             <summary>
-            获取特定的图像编解码信息
+            带阻塞的线程
             </summary>
-            <param name="format"></param>
+        </member>
+        <member name="F:Buffalo.Kernel.TreadPoolManager.BlockThread._runMethod">
+            <summary>
+            无参函数
+            </summary>
+        </member>
+        <member name="P:Buffalo.Kernel.TreadPoolManager.BlockThread.IsCancel">
+            <summary>
+            是否要取消线程
+            </summary>
+        </member>
+        <member name="P:Buffalo.Kernel.TreadPoolManager.BlockThread.SaveThreadInfo">
+            <summary>
+            保存当前线程信息，此为true时候线程方法可以通过BlockThread.CurrentThreadInfo获取到当前实例
+            </summary>
+        </member>
+        <member name="P:Buffalo.Kernel.TreadPoolManager.BlockThread.CurrentThreadInfo">
+            <summary>
+            当前线程的信息
+            </summary>
+        </member>
+        <member name="P:Buffalo.Kernel.TreadPoolManager.BlockThread.CurrentThreadCancelled">
+            <summary>
+            当前线程是否需要取消
+            </summary>
+        </member>
+        <member name="F:Buffalo.Kernel.TreadPoolManager.BlockThread._returnData">
+            <summary>
+            返回值
+            </summary>
+        </member>
+        <member name="P:Buffalo.Kernel.TreadPoolManager.BlockThread.ReturnData">
+            <summary>
+            返回值
+            </summary>
+        </member>
+        <member name="F:Buffalo.Kernel.TreadPoolManager.BlockThread._runParamMethod">
+            <summary>
+            带参函数
+            </summary>
+        </member>
+        <member name="F:Buffalo.Kernel.TreadPoolManager.BlockThread._runParamReturnMethod">
+            <summary>
+            带参带返回函数
+            </summary>
+        </member>
+        <member name="M:Buffalo.Kernel.TreadPoolManager.BlockThread.Create(System.Threading.ThreadStart,Buffalo.Kernel.TreadPoolManager.IBlockThreadMessage)">
+            <summary>
+            创建线程信息
+            </summary>
+            <param name="thd"></param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.Kernel.Picture.PictureToBytes(System.Drawing.Image,System.Drawing.Imaging.ImageFormat)">
+        <member name="M:Buffalo.Kernel.TreadPoolManager.BlockThread.Create(System.Threading.ParameterizedThreadStart,Buffalo.Kernel.TreadPoolManager.IBlockThreadMessage)">
             <summary>
-            把图片转换成字节
+            创建线程信息
             </summary>
-            <param name="img">图片</param>
+            <param name="thd"></param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.Kernel.Picture.PictureToBytes(System.Drawing.Image,System.Drawing.Imaging.ImageCodecInfo,System.Int64)">
+        <member name="M:Buffalo.Kernel.TreadPoolManager.BlockThread.Create(Buffalo.Kernel.TreadPoolManager.ParameterizedReturnThreadStart,Buffalo.Kernel.TreadPoolManager.IBlockThreadMessage)">
             <summary>
-            图片转换为字节
+            创建线程信息
             </summary>
-            <param name="img">图片</param>
-            <param name="codeInfo">编码</param>
-            <param name="qty">质量</param>
+            <param name="thd"></param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.Kernel.Picture.WhitePictureToStream(System.IO.Stream,System.Drawing.Image,System.Drawing.Imaging.ImageCodecInfo,System.Int64)">
+        <member name="M:Buffalo.Kernel.TreadPoolManager.BlockThread.RunMethod(System.Object)">
             <summary>
-            把图片写入流
+            执行函数
             </summary>
-            <param name="img"></param>
-            <param name="codeInfo"></param>
-            <param name="qty"></param>
+            <param name="args"></param>
         </member>
-        <member name="M:Buffalo.Kernel.Picture.BytesToPicture(System.Byte[])">
+        <member name="M:Buffalo.Kernel.TreadPoolManager.BlockThread.StartThread(System.Object)">
             <summary>
-            把字节转换为图片
+            开启线程
             </summary>
-            <param name="byteImage">图片字节</param>
+        </member>
+        <member name="M:Buffalo.Kernel.TreadPoolManager.BlockThread.StopThread(System.Int32)">
+            <summary>
+            关闭线程
+            </summary>
+        </member>
+        <member name="M:Buffalo.Kernel.TreadPoolManager.BlockThread.ClearThread(Buffalo.Kernel.TreadPoolManager.BlockThread)">
+            <summary>
+            清理类信息
+            </summary>
+        </member>
+        <member name="M:Buffalo.Kernel.TreadPoolManager.BlockThread.Wait(System.Int32)">
+            <summary>
+            等待线程结束
+            </summary>
+        </member>
+        <member name="M:Buffalo.Kernel.TreadPoolManager.BlockThread.SendCancel">
+            <summary>
+            告诉线程要取消
+            </summary>
+        </member>
+        <member name="M:Buffalo.Kernel.TreadPoolManager.BlockThread.UnLock">
+            <summary>
+            通知线程已经执行完
+            </summary>
+        </member>
+        <member name="F:Buffalo.Kernel.TreadPoolManager.BlockThread._autoHandle">
+            <summary>
+            阻塞
+            </summary>
+        </member>
+        <member name="P:Buffalo.Kernel.TreadPoolManager.BlockThread.CurrentThread">
+            <summary>
+            当前线程
+            </summary>
+        </member>
+        <member name="P:Buffalo.Kernel.TreadPoolManager.BlockThread.Args">
+            <summary>
+            传入参数
+            </summary>
+        </member>
+        <member name="P:Buffalo.Kernel.TreadPoolManager.BlockThread.IsRunning">
+            <summary>
+            本线程是否正在运行运行
+            </summary>
+        </member>
+        <member name="P:Buffalo.Kernel.TreadPoolManager.BlockThread.LockHandle">
+            <summary>
+            阻塞
+            </summary>
+        </member>
+        <member name="T:Buffalo.Kernel.TreadPoolManager.IBlockThreadMessage">
+            <summary>
+            线程消息
+            </summary>
+        </member>
+        <member name="M:Buffalo.Kernel.TreadPoolManager.IBlockThreadMessage.OnThreadStart(Buffalo.Kernel.TreadPoolManager.BlockThread)">
+            <summary>
+            线程开始
+            </summary>
+            <param name="thd"></param>
+        </member>
+        <member name="M:Buffalo.Kernel.TreadPoolManager.IBlockThreadMessage.OnThreadEnd(Buffalo.Kernel.TreadPoolManager.BlockThread)">
+            <summary>
+            线程结束
+            </summary>
+            <param name="thd"></param>
+        </member>
+        <member name="T:Buffalo.Kernel.TreadPoolManager.BlockThreadPool">
+            <summary>
+             用户线程池
+            </summary>
+        </member>
+        <member name="F:Buffalo.Kernel.TreadPoolManager.BlockThreadPool._que">
+            <summary>
+            线程信息
+            </summary>
+        </member>
+        <member name="F:Buffalo.Kernel.TreadPoolManager.BlockThreadPool._lastClean">
+            <summary>
+            最后清理日期
+            </summary>
+        </member>
+        <member name="P:Buffalo.Kernel.TreadPoolManager.BlockThreadPool.Checkmilliseconds">
+            <summary>
+            检查间隔
+            </summary>
+        </member>
+        <member name="M:Buffalo.Kernel.TreadPoolManager.BlockThreadPool.#ctor(System.Int32)">
+            <summary>
+            用户线程池
+            </summary>
+            <param name="checkmilliseconds">检查间隔</param>
+            <param name="threadTimeOut">线程过时</param>
+        </member>
+        <member name="M:Buffalo.Kernel.TreadPoolManager.BlockThreadPool.CleanTimeout">
+            <summary>
+            清除过时线程
+            </summary>
+        </member>
+        <member name="M:Buffalo.Kernel.TreadPoolManager.BlockThreadPool.StopAll">
+            <summary>
+            停止所有线程
+            </summary>
+        </member>
+        <member name="M:Buffalo.Kernel.TreadPoolManager.BlockThreadPool.AppendThreadInfo(Buffalo.Kernel.TreadPoolManager.BlockThread)">
+            <summary>
+            增加线程信息
+            </summary>
+            <param name="info"></param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.Kernel.Picture.ReSizePicturee(System.Drawing.Image,System.Int32,System.Int32)">
+        <member name="M:Buffalo.Kernel.TreadPoolManager.BlockThreadPool.OnThreadEnd(Buffalo.Kernel.TreadPoolManager.BlockThread)">
             <summary>
-            变换图片大小
+            告诉线程池本线程已经完结
             </summary>
-            <param name="img">源图片</param>
-            <param name="width">变换后的宽</param>
-            <param name="height">变换后的高</param>
+            <param name="info"></param>
+        </member>
+        <member name="M:Buffalo.Kernel.TreadPoolManager.BlockThreadPool.RunThread(System.Threading.ThreadStart)">
+            <summary>
+            启动无参数线程
+            </summary>
+            <param name="info"></param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.Kernel.Picture.ReadFile(System.String)">
+        <member name="M:Buffalo.Kernel.TreadPoolManager.BlockThreadPool.RunParamThread(System.Threading.ParameterizedThreadStart,System.Object)">
             <summary>
-            读取文件
+            启动有参数线程
             </summary>
-            <param name="root">文件路径</param>
+            <param name="info"></param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.Kernel.Picture.ChangeSize(System.Drawing.Image,System.Drawing.Size)">
+        <member name="M:Buffalo.Kernel.TreadPoolManager.BlockThreadPool.RunParamReturnThread(Buffalo.Kernel.TreadPoolManager.ParameterizedReturnThreadStart,System.Object)">
             <summary>
-            改变图片尺寸
+            启动有参数带返回的线程
             </summary>
-            <param name="originalImage">源图片</param>
-            <param name="picSize">尺寸</param>
+            <param name="info"></param>
             <returns></returns>
-        </member>
-        <member name="M:Buffalo.Kernel.Picture.GetEncoderInfo(System.String)">
-            <summary>
-            获取编码信息
-            </summary>
-            <param name="mimeType">类型</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Kernel.Picture.SaveImage(System.IO.Stream,System.String)">
-            <summary>
-            原样保存图片，不做任何格式修改
-            </summary>
-            <param name="stmImg">图片流</param>
-            <param name="root">保存路径</param>
-        </member>
-        <member name="P:Buffalo.Kernel.Commons.PropertyType.IntValue">
-            <summary>
-            整型值
-            </summary>
-        </member>
-        <member name="P:Buffalo.Kernel.Commons.PropertyType.CharValue">
-            <summary>
-            字符型
-            </summary>
-        </member>
-        <member name="P:Buffalo.Kernel.Commons.PropertyType.DoubleValue">
-            <summary>
-            双精度型
-            </summary>
-        </member>
-        <member name="P:Buffalo.Kernel.Commons.PropertyType.ShortValue">
-            <summary>
-            短整型
-            </summary>
-        </member>
-        <member name="P:Buffalo.Kernel.Commons.PropertyType.LongValue">
-            <summary>
-            长整型
-            </summary>
-        </member>
-        <member name="P:Buffalo.Kernel.Commons.PropertyType.FloatValue">
-            <summary>
-            浮点型
-            </summary>
-        </member>
-        <member name="P:Buffalo.Kernel.Commons.PropertyType.ULongValue">
-            <summary>
-            无符号长整型
-            </summary>
-        </member>
-        <member name="P:Buffalo.Kernel.Commons.PropertyType.UIntValue">
-            <summary>
-            无符号整型值
-            </summary>
-        </member>
-        <member name="P:Buffalo.Kernel.Commons.PropertyType.UShortValue">
-            <summary>
-            无符号短整型
-            </summary>
-        </member>
-        <member name="M:Buffalo.Kernel.Commons.PropertyType.GetForLen(System.Byte[])">
-            <summary>
-            获取循环的长度
-            </summary>
-            <param name="arr"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.Kernel.Commons.PropertyType.DoAnd(System.Byte[])">
-            <summary>
-            进行and运算
-            </summary>
-            <param name="val"></param>
-        </member>
-        <member name="M:Buffalo.Kernel.Commons.PropertyType.DoOr(System.Byte[])">
-            <summary>
-            进行Or运算
-            </summary>
-            <param name="val"></param>
-        </member>
-        <member name="M:Buffalo.Kernel.Commons.PropertyType.DoXor(System.Byte[])">
-            <summary>
-            进行Or运算
-            </summary>
-            <param name="val"></param>
-        </member>
-        <member name="M:Buffalo.Kernel.Commons.PropertyType.AddProperty(System.Byte[])">
-            <summary>
-            添加一个属性
-            </summary>
-            <param name="value"></param>
-        </member>
-        <member name="M:Buffalo.Kernel.Commons.PropertyType.AddProperty(System.UInt32)">
-            <summary>
-            添加一个属性
-            </summary>
-            <param name="value"></param>
-        </member>
-        <member name="M:Buffalo.Kernel.Commons.PropertyType.AddProperty(System.Int32)">
-            <summary>
-            添加一个属性
-            </summary>
-            <param name="value"></param>
-        </member>
-        <member name="M:Buffalo.Kernel.Commons.PropertyType.AddProperty(System.Double)">
-            <summary>
-            添加一个属性
-            </summary>
-            <param name="value"></param>
-        </member>
-        <member name="M:Buffalo.Kernel.Commons.PropertyType.AddProperty(System.Single)">
-            <summary>
-            添加一个属性
-            </summary>
-            <param name="value"></param>
-        </member>
-        <member name="M:Buffalo.Kernel.Commons.PropertyType.AddProperty(System.Int64)">
-            <summary>
-            添加一个属性
-            </summary>
-            <param name="value"></param>
-        </member>
-        <member name="M:Buffalo.Kernel.Commons.PropertyType.AddProperty(System.Int16)">
-            <summary>
-            添加一个属性
-            </summary>
-            <param name="value"></param>
-        </member>
-        <member name="M:Buffalo.Kernel.Commons.PropertyType.AddProperty(System.UInt64)">
-            <summary>
-            添加一个属性
-            </summary>
-            <param name="value"></param>
-        </member>
-        <member name="M:Buffalo.Kernel.Commons.PropertyType.AddProperty(System.UInt16)">
-            <summary>
-            添加一个属性
-            </summary>
-            <param name="value"></param>
-        </member>
-        <member name="M:Buffalo.Kernel.Commons.PropertyType.AddProperty(System.Char)">
-            <summary>
-            添加一个属性
-            </summary>
-            <param name="value"></param>
-        </member>
-        <member name="M:Buffalo.Kernel.Commons.PropertyType.AddProperty(System.Enum)">
-            <summary>
-            添加一个属性
-            </summary>
-            <param name="value"></param>
-        </member>
-        <member name="M:Buffalo.Kernel.Commons.PropertyType.DeleteProperty(System.Byte[])">
-            <summary>
-            删除一个属性
-            </summary>
-            <param name="value"></param>
-        </member>
-        <member name="M:Buffalo.Kernel.Commons.PropertyType.DeleteProperty(System.Int32)">
-            <summary>
-            删除一个属性
-            </summary>
-            <param name="value"></param>
-        </member>
-        <member name="M:Buffalo.Kernel.Commons.PropertyType.DeleteProperty(System.UInt32)">
-            <summary>
-            删除一个属性
-            </summary>
-            <param name="value"></param>
-        </member>
-        <member name="M:Buffalo.Kernel.Commons.PropertyType.DeleteProperty(System.Char)">
-            <summary>
-            删除一个属性
-            </summary>
-            <param name="value"></param>
-        </member>
-        <member name="M:Buffalo.Kernel.Commons.PropertyType.DeleteProperty(System.Double)">
-            <summary>
-            删除一个属性
-            </summary>
-            <param name="value"></param>
-        </member>
-        <member name="M:Buffalo.Kernel.Commons.PropertyType.DeleteProperty(System.Single)">
-            <summary>
-            删除一个属性
-            </summary>
-            <param name="value"></param>
-        </member>
-        <member name="M:Buffalo.Kernel.Commons.PropertyType.DeleteProperty(System.Int64)">
-            <summary>
-            删除一个属性
-            </summary>
-            <param name="value"></param>
-        </member>
-        <member name="M:Buffalo.Kernel.Commons.PropertyType.DeleteProperty(System.Int16)">
-            <summary>
-            删除一个属性
-            </summary>
-            <param name="value"></param>
-        </member>
-        <member name="M:Buffalo.Kernel.Commons.PropertyType.DeleteProperty(System.UInt64)">
-            <summary>
-            删除一个属性
-            </summary>
-            <param name="value"></param>
-        </member>
-        <member name="M:Buffalo.Kernel.Commons.PropertyType.DeleteProperty(System.UInt16)">
-            <summary>
-            删除一个属性
-            </summary>
-            <param name="value"></param>
-        </member>
-        <member name="M:Buffalo.Kernel.Commons.PropertyType.DeleteProperty(System.Enum)">
-            <summary>
-            删除一个属性
-            </summary>
-            <param name="value"></param>
-        </member>
-        <member name="M:Buffalo.Kernel.Commons.PropertyType.Contains(System.Byte[])">
-            <summary>
-            返回一个布尔型，指示是否含有指定值
-            </summary>
-            <param name="value"></param>
-        </member>
-        <member name="M:Buffalo.Kernel.Commons.PropertyType.Contains(System.Double)">
-            <summary>
-            返回一个布尔型，指示是否含有指定值
-            </summary>
-            <param name="value"></param>
-        </member>
-        <member name="M:Buffalo.Kernel.Commons.PropertyType.Contains(System.Char)">
-            <summary>
-            返回一个布尔型，指示是否含有指定值
-            </summary>
-            <param name="value"></param>
-        </member>
-        <member name="M:Buffalo.Kernel.Commons.PropertyType.Contains(System.Single)">
-            <summary>
-            返回一个布尔型，指示是否含有指定值
-            </summary>
-            <param name="value"></param>
-        </member>
-        <member name="M:Buffalo.Kernel.Commons.PropertyType.Contains(System.Int32)">
-            <summary>
-            返回一个布尔型，指示是否含有指定值
-            </summary>
-            <param name="value"></param>
-        </member>
-        <member name="M:Buffalo.Kernel.Commons.PropertyType.Contains(System.Int64)">
-            <summary>
-            返回一个布尔型，指示是否含有指定值
-            </summary>
-            <param name="value"></param>
-        </member>
-        <member name="M:Buffalo.Kernel.Commons.PropertyType.Contains(System.Int16)">
-            <summary>
-            返回一个布尔型，指示是否含有指定值
-            </summary>
-            <param name="value"></param>
-        </member>
-        <member name="M:Buffalo.Kernel.Commons.PropertyType.Contains(System.UInt32)">
-            <summary>
-            返回一个布尔型，指示是否含有指定值
-            </summary>
-            <param name="value"></param>
-        </member>
-        <member name="M:Buffalo.Kernel.Commons.PropertyType.Contains(System.UInt64)">
-            <summary>
-            返回一个布尔型，指示是否含有指定值
-            </summary>
-            <param name="value"></param>
-        </member>
-        <member name="M:Buffalo.Kernel.Commons.PropertyType.Contains(System.UInt16)">
-            <summary>
-            返回一个布尔型，指示是否含有指定值
-            </summary>
-            <param name="value"></param>
-        </member>
-        <member name="M:Buffalo.Kernel.Commons.PropertyType.Contains(System.Enum)">
-            <summary>
-            返回一个布尔型，指示是否含有指定值
-            </summary>
-            <param name="value"></param>
         </member>
         <member name="T:ValueConvertExtend">
             <summary>

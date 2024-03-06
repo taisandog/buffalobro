@@ -146,6 +146,11 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="P:Buffalo.DB.BQLCommon.BQLConditionCommon.BQLDataBaseHandle`1.SelectedDataSource">
+            <summary>
+            本线程使用的子数据源（-1则为恢复主数据源）
+            </summary>
+        </member>
         <member name="F:Buffalo.DB.BQLCommon.BQLConditionCommon.BQLDataBaseHandle`1._isInit">
             <summary>
             是否已经初始化
@@ -156,10 +161,12 @@
             初始化数据库
             </summary>
         </member>
-        <member name="M:Buffalo.DB.BQLCommon.BQLConditionCommon.BQLDataBaseHandle`1.InitDB(System.Collections.Generic.IEnumerable{System.String})">
+        <member name="M:Buffalo.DB.BQLCommon.BQLConditionCommon.BQLDataBaseHandle`1.InitDB(System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{Buffalo.DB.DataBaseAdapter.DBInfo})">
             <summary>
             初始化数据库
             </summary>
+            <param name="configPath">自定义配置文件路径</param>
+            <param name="lstChildDBInfo">子数据源</param>
         </member>
         <member name="M:Buffalo.DB.BQLCommon.BQLConditionCommon.BQLDataBaseHandle`1.SetOperatorPrecedenceEnable(System.Boolean)">
             <summary>
@@ -906,6 +913,11 @@
             是否输出SQL语句模式
             </summary>
         </member>
+        <member name="P:Buffalo.DB.BQLCommon.BQLConditionCommon.KeyWordInfomation.LockType">
+            <summary>
+            行级锁类型
+            </summary>
+        </member>
         <member name="T:Buffalo.DB.BQLCommon.BQLKeyWordCommon.KeyWordAddPrimarykeyItem">
             <summary>
             主键
@@ -1140,6 +1152,33 @@
             <param name="paramHandles">字段集合</param>
             <param name="previous">上一个关键字</param>
         </member>
+        <member name="M:Buffalo.DB.BQLCommon.BQLKeyWordCommon.KeyWorkLockUpdateItem.#ctor(Buffalo.DB.BQLCommon.BQLKeyWordCommon.BQLLockType,Buffalo.DB.BQLCommon.BQLKeyWordCommon.BQLQuery)">
+            <summary>
+            锁更新
+            </summary>
+            <param name="isNoWait">是否不堵塞</param>
+            <param name="previous"></param>
+        </member>
+        <member name="T:Buffalo.DB.BQLCommon.BQLKeyWordCommon.BQLLockType">
+            <summary>
+            锁类型
+            </summary>
+        </member>
+        <member name="F:Buffalo.DB.BQLCommon.BQLKeyWordCommon.BQLLockType.None">
+            <summary>
+            不加锁
+            </summary>
+        </member>
+        <member name="F:Buffalo.DB.BQLCommon.BQLKeyWordCommon.BQLLockType.LockUpdate">
+            <summary>
+            锁Update
+            </summary>
+        </member>
+        <member name="F:Buffalo.DB.BQLCommon.BQLKeyWordCommon.BQLLockType.LockUpdateNoWait">
+            <summary>
+             锁Update不堵塞
+            </summary>
+        </member>
         <member name="M:Buffalo.DB.BQLCommon.BQLKeyWordCommon.BQLKeyWordManager.CreateKeywordInfo(Buffalo.DB.DataBaseAdapter.DBInfo)">
             <summary>
             创建查询的中转信息类
@@ -1368,6 +1407,21 @@
             <param name="paramhandles"></param>
             <returns></returns>
         </member>
+        <member name="M:Buffalo.DB.BQLCommon.BQLKeyWordCommon.KeyWordFromItem.Limit(System.UInt32,System.UInt32)">
+            <summary>
+            查询范围
+            </summary>
+            <param name="star">开始条数</param>
+            <param name="totalRecord">显示条数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.BQLCommon.BQLKeyWordCommon.KeyWordFromItem.LockUpdate(Buffalo.DB.BQLCommon.BQLKeyWordCommon.BQLLockType)">
+            <summary>
+            锁定行
+            </summary>
+            <param name="noWait">如果冲突是否不等待</param>
+            <returns></returns>
+        </member>
         <member name="M:Buffalo.DB.BQLCommon.BQLKeyWordCommon.KeyWordFromItem.LoadInfo(Buffalo.DB.BQLCommon.BQLConditionCommon.KeyWordInfomation)">
             <summary>
             加载表的别名信息
@@ -1408,6 +1462,28 @@
             </summary>
             <param name="condition">条件</param>
             <param name="previous">上一个关键字</param>
+        </member>
+        <member name="M:Buffalo.DB.BQLCommon.BQLKeyWordCommon.KeyWordHavingItem.LockUpdate(Buffalo.DB.BQLCommon.BQLKeyWordCommon.BQLLockType)">
+            <summary>
+            锁定行
+            </summary>
+            <param name="noWait">如果冲突是否不等待</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.BQLCommon.BQLKeyWordCommon.KeyWordHavingItem.OrderBy(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLParamHandle[])">
+            <summary>
+            排序
+            </summary>
+            <param name="paramhandles"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.BQLCommon.BQLKeyWordCommon.KeyWordHavingItem.Limit(System.UInt32,System.UInt32)">
+            <summary>
+            查询范围
+            </summary>
+            <param name="star">开始条数</param>
+            <param name="totalRecord">显示条数</param>
+            <returns></returns>
         </member>
         <member name="M:Buffalo.DB.BQLCommon.BQLKeyWordCommon.KeyWordInserItem.#ctor(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLTableHandle,Buffalo.DB.BQLCommon.BQLKeyWordCommon.BQLQuery)">
             <summary>
@@ -1510,6 +1586,13 @@
             <param name="totalRecords">要显示多少条记录</param>
             <param name="previous">上一个语句</param>
         </member>
+        <member name="M:Buffalo.DB.BQLCommon.BQLKeyWordCommon.KeyWordLimitItem.LockUpdate(Buffalo.DB.BQLCommon.BQLKeyWordCommon.BQLLockType)">
+            <summary>
+            锁定行
+            </summary>
+            <param name="noWait">如果冲突是否不等待</param>
+            <returns></returns>
+        </member>
         <member name="T:Buffalo.DB.BQLCommon.BQLKeyWordCommon.KeyWordLinkValueItemBase">
             <summary>
             链式值类型基类
@@ -1538,6 +1621,13 @@
             查询条件
             </summary>
             <param name="condition">条件</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.BQLCommon.BQLKeyWordCommon.KeyWordOrderByItem.LockUpdate(Buffalo.DB.BQLCommon.BQLKeyWordCommon.BQLLockType)">
+            <summary>
+            锁定行
+            </summary>
+            <param name="noWait">如果冲突是否不等待</param>
             <returns></returns>
         </member>
         <member name="M:Buffalo.DB.BQLCommon.BQLKeyWordCommon.KeyWordOrderByItem.Limit(System.UInt32,System.UInt32)">
@@ -1664,6 +1754,21 @@
             查询条件
             </summary>
             <param name="condition">条件</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.BQLCommon.BQLKeyWordCommon.KeyWordWhereItem.Limit(System.UInt32,System.UInt32)">
+            <summary>
+            查询范围
+            </summary>
+            <param name="star">开始条数</param>
+            <param name="totalRecord">显示条数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.BQLCommon.BQLKeyWordCommon.KeyWordWhereItem.LockUpdate(Buffalo.DB.BQLCommon.BQLKeyWordCommon.BQLLockType)">
+            <summary>
+            锁定行
+            </summary>
+            <param name="noWait">如果冲突是否不等待</param>
             <returns></returns>
         </member>
         <member name="M:Buffalo.DB.BQLCommon.BQLKeyWordCommon.UpdateSetParamItem.#ctor(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLParamHandle,Buffalo.DB.BQLCommon.BQLConditionCommon.BQLValueItem)">
@@ -2232,7 +2337,7 @@
             <param name="lstParam"></param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.BQLCommon.BQLConditions.BQLConditionScope.FillCondition(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLCondition,Buffalo.DB.BQLCommon.BQLConditionCommon.BQLTableHandle,Buffalo.DB.QueryConditions.ScopeList,Buffalo.DB.EntityInfos.EntityInfoHandle)">
+        <member name="M:Buffalo.DB.BQLCommon.BQLConditions.BQLConditionScope.FillCondition(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLCondition,Buffalo.DB.BQLCommon.BQLConditionCommon.BQLTableHandle,Buffalo.DB.QueryConditions.ScopeBaseList,Buffalo.DB.EntityInfos.EntityInfoHandle)">
             <summary>
             填充查询条件并返回条件的SQL语句( and 开头)
             </summary>
@@ -2705,7 +2810,7 @@
             <param name="BQL"></param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.BQLCommon.BQLDbBase.FillCondition(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLCondition,Buffalo.DB.BQLCommon.BQLConditionCommon.BQLTableHandle,Buffalo.DB.QueryConditions.ScopeList,System.Type)">
+        <member name="M:Buffalo.DB.BQLCommon.BQLDbBase.FillCondition(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLCondition,Buffalo.DB.BQLCommon.BQLConditionCommon.BQLTableHandle,Buffalo.DB.QueryConditions.ScopeBaseList,System.Type)">
             <summary>
             填充信息
             </summary>
@@ -2714,7 +2819,7 @@
             <param name="lstScope"></param>
             <param name="entityType"></param>
         </member>
-        <member name="M:Buffalo.DB.BQLCommon.BQLDbBase.FillCondition(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLCondition,Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityTableHandle,Buffalo.DB.QueryConditions.ScopeList)">
+        <member name="M:Buffalo.DB.BQLCommon.BQLDbBase.FillCondition(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLCondition,Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityTableHandle,Buffalo.DB.QueryConditions.ScopeBaseList)">
             <summary>
             填充信息
             </summary>
@@ -2847,6 +2952,646 @@
             开始分析
             </summary>
             <returns></returns>
+        </member>
+        <member name="T:Buffalo.DB.CacheManager.CacheCollection.ICacheHash">
+            <summary>
+            Hash方式的缓存项
+            </summary>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.ICacheHash.SetRangeValue(System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            批量给HashSet设置值
+            </summary>
+            <typeparam name="E"></typeparam>
+            <param name="key">键</param>
+            <param name="dicSet">值</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.ICacheHash.SetValue(System.String,System.Object,Buffalo.DB.CacheManager.SetValueType)">
+            <summary>
+            HashSet设置值
+            </summary>
+            <param name="key">哈希表的键</param>
+            <param name="value">哈希表的值</param>
+            <param name="type">设置方式</param>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.ICacheHash.GetValue``1(System.String,``0)">
+            <summary>
+            获取哈希表的值
+            </summary>
+            <typeparam name="E"></typeparam>
+            <param name="key">哈希表的键</param>
+            <param name="defaultValue">默认值</param>
+            <param name="oper"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.ICacheHash.GetAllValues``1(``0)">
+            <summary>
+            获取所有哈希表的值
+            </summary>
+            <typeparam name="E"></typeparam>
+            <param name="defaultValue">默认值</param>
+            <param name="oper"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.ICacheHash.GetAllKeys">
+            <summary>
+            获取所有哈希表的键
+            </summary>
+            <typeparam name="E"></typeparam>
+            <param name="oper"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.ICacheHash.DeleteValue(System.String)">
+            <summary>
+            删除哈希表的值
+            </summary>
+            <typeparam name="E"></typeparam>
+            <param name="key">哈希表的键</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.ICacheHash.DeleteValues(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            批量删除哈希表的值
+            </summary>
+            <typeparam name="E"></typeparam>
+            <param name="keys">要删除哈希表的键</param>
+            <param name="oper"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.ICacheHash.Exists(System.String)">
+            <summary>
+            是否存在此键
+            </summary>
+            <param name="hashkey"></param>
+            <param name="oper"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.ICacheHash.Increment(System.String,System.Int64)">
+            <summary>
+            hash值自增
+            </summary>
+            <param name="key">键</param>
+            <param name="value">要增加的值</param>
+            <param name="oper"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.ICacheHash.Decrement(System.String,System.Int64)">
+            <summary>
+            hash值自减
+            </summary>
+            <param name="hashkey">键</param>
+            <param name="value">值</param>
+            <param name="oper"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Buffalo.DB.CacheManager.CacheCollection.ICacheList">
+            <summary>
+            List方式的缓存项
+            </summary>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.ICacheList.AddValue(System.Object,System.Int64,Buffalo.DB.CacheManager.SetValueType)">
+            <summary>
+            增加到列表
+            </summary>
+            <typeparam name="E"></typeparam>
+            <param name="index">索引(0为增加到头部，-1为增加到尾部)</param>
+            <param name="value">值</param>
+            <param name="setType">设置值方式</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.ICacheList.AddRangValue(System.Collections.IEnumerable,System.Int64,Buffalo.DB.CacheManager.SetValueType)">
+            <summary>
+            增加到列表
+            </summary>
+            <typeparam name="E"></typeparam>
+            <param name="index">索引(0为增加到头部，-1为增加到尾部)</param>
+            <param name="values">值</param>
+            <param name="setType">设置值方式</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.ICacheList.GetValue``1(System.Int64,``0)">
+            <summary>
+            获取值
+            </summary>
+            <typeparam name="E"></typeparam>
+            <param name="index">值位置</param>
+            <param name="defaultValue">默认值</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.ICacheList.GetLength">
+            <summary>
+            获取集合长度
+            </summary>
+            <typeparam name="E"></typeparam>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.ICacheList.RemoveValue(System.Object,System.Int64)">
+            <summary>
+            移除值
+            </summary>
+            <param name="key">键</param>
+            <param name="value">值</param>
+            <param name="count">要移除几个，0则为全部移除</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.ICacheList.AllValues``1(System.Int64,System.Int64)">
+            <summary>
+            获取集合所有值
+            </summary>
+            <typeparam name="E"></typeparam>
+            <param name="key">键</param>
+            <param name="start">起始位置(默认0)</param>
+            <param name="end">结束位置(-1则为读到末尾)</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.ICacheList.InsertAfter(System.Object,System.Object)">
+            <summary>
+            加入到这个值的后边
+            </summary>
+            <param name="pivot">前一个值</param>
+            <param name="value">要插入的值</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.ICacheList.InsertBefore(System.Object,System.Object)">
+            <summary>
+            加入到这个值的前边
+            </summary>
+            <param name="pivot">后一个值</param>
+            <param name="value">要插入的值</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.ICacheList.PopValue``1(System.Boolean,``0)">
+            <summary>
+            移除一个元素并返回
+            </summary>
+            <typeparam name="E"></typeparam>
+            <param name="isPopEnd">是否从尾部弹出</param>
+            <param name="defaultValue">没元素时候的默认值</param>
+            <returns></returns>
+        </member>
+        <member name="T:Buffalo.DB.CacheManager.CacheCollection.ICacheLock">
+            <summary>
+            缓存锁
+            </summary>
+        </member>
+        <member name="P:Buffalo.DB.CacheManager.CacheCollection.ICacheLock.Islock">
+            <summary>
+            是否锁了
+            </summary>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.ICacheLock.Lock(System.Int64,System.Int32)">
+            <summary>
+            锁定用户  
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.ICacheLock.UnLock">
+            <summary>
+            解锁用户  
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Buffalo.DB.CacheManager.CacheCollection.ICacheSortedSet">
+            <summary>
+            SortedSet方式的缓存项
+            </summary>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.ICacheSortedSet.Add(System.Object,System.Double,Buffalo.DB.CacheManager.SetValueType)">
+            <summary>
+            向排序表增加元素
+            </summary>
+            <param name="value">值</param>
+            <param name="key">键</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.ICacheSortedSet.AddRang(System.Collections.Generic.IEnumerable{Buffalo.DB.CacheManager.CacheCollection.SortedSetItem},Buffalo.DB.CacheManager.SetValueType)">
+            <summary>
+            向排序表增加元素
+            </summary>
+            <param name="values">值集合</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.ICacheSortedSet.Decrement(System.Object,System.Double)">
+            <summary>
+            减少排序的元素的排序的分值
+            </summary>
+            <param name="value">值</param>
+            <param name="score">要减少的分</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.ICacheSortedSet.Increment(System.Object,System.Double)">
+            <summary>
+            增加排序的元素的排序分
+            </summary>
+            <param name="value">值</param>
+            <param name="score">要增加的分</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.ICacheSortedSet.GetLength(System.Nullable{System.Double},System.Nullable{System.Double})">
+            <summary>
+            获取符合key范围的集合长度
+            </summary>
+            <param name="min">范围最小值</param>
+            <param name="max">范围最大值</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.ICacheSortedSet.GetRangeByRankWithScores(System.Int64,System.Int64,Buffalo.DB.QueryConditions.SortType)">
+            <summary>
+            根据索引范围获取值
+            </summary>
+            <param name="start">开始索引</param>
+            <param name="stop">结束索引</param>
+            <param name="order">排序方式</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.ICacheSortedSet.GetRangeByRank``1(System.Int64,System.Int64,Buffalo.DB.QueryConditions.SortType)">
+            <summary>
+            根据索引范围获取值
+            </summary>
+            <param name="start">开始索引</param>
+            <param name="stop">结束索引</param>
+            <param name="order">排序方式</param>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.ICacheSortedSet.GetRangeByScore``1(System.Nullable{System.Double},System.Nullable{System.Double},Buffalo.DB.QueryConditions.SortType,System.Int64,System.Int64)">
+            <summary>
+            根据Key范围获取
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="start">Key值开始</param>
+            <param name="stop">Key值结束</param>
+            <param name="order">排序方式</param>
+            <param name="skip">跳过第几条</param>
+            <param name="take">获取几条</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.ICacheSortedSet.GetRangeByScoreWithScores(System.Nullable{System.Double},System.Nullable{System.Double},Buffalo.DB.QueryConditions.SortType,System.Int64,System.Int64)">
+            <summary>
+            根据Key范围获取
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="start">Key值开始</param>
+            <param name="stop">Key值结束</param>
+            <param name="order">排序方式</param>
+            <param name="skip">跳过第几条</param>
+            <param name="take">获取几条</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.ICacheSortedSet.GetRangeByValue``1(System.Object,System.Object,System.Int64,System.Int64)">
+            <summary>
+            根据值范围获取值
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="min">最小值</param>
+            <param name="max">最大值</param>
+            <param name="order">排序方式</param>
+            <param name="skip">跳过</param>
+            <param name="take">获取几条</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.ICacheSortedSet.GetIndex(System.Object,Buffalo.DB.QueryConditions.SortType)">
+            <summary>
+            获取符合此值的索引
+            </summary>
+            <param name="value">值</param>
+            <param name="order">搜索的排序方式</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.ICacheSortedSet.GetKeyByValue(System.Object)">
+            <summary>
+            根据值获取Key
+            </summary>
+            <param name="value">值</param>
+            <param name="order">搜索的排序方式</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.ICacheSortedSet.Remove(System.Object)">
+            <summary>
+            删除值
+            </summary>
+            <param name="value">值</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.ICacheSortedSet.Remove(System.Object[])">
+            <summary>
+            删除值
+            </summary>
+            <param name="values">要删除的值</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.ICacheSortedSet.RemoveRangeByRank(System.Int64,System.Int64)">
+            <summary>
+            根据索引范围删除值
+            </summary>
+            <param name="start">索引开始</param>
+            <param name="stop">结束索引</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.ICacheSortedSet.RemoveRangeByKey(System.Nullable{System.Double},System.Nullable{System.Double})">
+            <summary>
+            根据Key删除值
+            </summary>
+            <param name="start">Key开始</param>
+            <param name="stop">结束Key</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.ICacheSortedSet.RemoveRangeByValue(System.Object,System.Object)">
+            <summary>
+            根据值范围删除
+            </summary>
+            <param name="min">最小值</param>
+            <param name="max">最大值</param>
+            <returns></returns>
+        </member>
+        <member name="T:Buffalo.DB.CacheManager.CacheCollection.MemoryCacheHash">
+            <summary>
+            Hash方式的缓存操作
+            </summary>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.MemoryCacheHash.SetRangeValue(System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            批量给HashSet设置值
+            </summary>
+            <typeparam name="E"></typeparam>
+            <param name="key">键</param>
+            <param name="dicSet">值</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.MemoryCacheHash.SetValue(System.String,System.Object,Buffalo.DB.CacheManager.SetValueType)">
+            <summary>
+            HashSet设置值
+            </summary>
+            <param name="key">哈希表的键</param>
+            <param name="value">哈希表的值</param>
+            <param name="type">设置方式</param>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.MemoryCacheHash.GetValue``1(System.String,``0)">
+            <summary>
+            获取哈希表的值
+            </summary>
+            <typeparam name="E"></typeparam>
+            <param name="key">哈希表的键</param>
+            <param name="defaultValue">默认值</param>
+            <param name="connection"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.MemoryCacheHash.GetAllValues``1(``0)">
+            <summary>
+            获取所有哈希表的值
+            </summary>
+            <typeparam name="E"></typeparam>
+            <param name="key">键</param>
+            <param name="defaultValue">默认值</param>
+            <param name="connection"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.MemoryCacheHash.GetAllKeys">
+            <summary>
+            获取所有哈希表的值
+            </summary>
+            <typeparam name="E"></typeparam>
+            <param name="key">键</param>
+            <param name="defaultValue">默认值</param>
+            <param name="connection"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.MemoryCacheHash.DeleteValue(System.String)">
+            <summary>
+            删除哈希表的值
+            </summary>
+            <typeparam name="E"></typeparam>
+            <param name="key">哈希表的键</param>
+            <param name="connection"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.MemoryCacheHash.DeleteValues(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            批量删除哈希表的值
+            </summary>
+            <typeparam name="E"></typeparam>
+            <param name="keys">要删除哈希表的键</param>
+            <returns></returns>
+        </member>
+        <member name="T:Buffalo.DB.CacheManager.CacheCollection.MemoryCacheList">
+            <summary>
+            List方式的缓存操作
+            </summary>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.MemoryCacheList.#ctor(System.Collections.IList)">
+            <summary>
+             List方式的缓存操作
+            </summary>
+            <param name="lst"></param>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.MemoryCacheList.PopValue``1(System.Boolean,``0)">
+            <summary>
+            Pop形式输出值
+            </summary>
+            <typeparam name="E"></typeparam>
+            <param name="key"></param>
+            <param name="isPopEnd"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.MemoryCacheSortedSet.#ctor(System.Collections.Generic.SortedSet{Buffalo.DB.CacheManager.CacheCollection.SortedSetItem})">
+            <summary>
+             List方式的缓存操作
+            </summary>
+            <param name="lst"></param>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.MemoryCacheSortedSet.Add(System.Object,System.Double,Buffalo.DB.CacheManager.SetValueType)">
+            <summary>
+            向排序表增加元素
+            </summary>
+            <param name="key">key</param>
+            <param name="value">值</param>
+            <param name="source">排序键</param>
+            <param name="oper"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.MemoryCacheSortedSet.AddRang(System.Collections.Generic.IEnumerable{Buffalo.DB.CacheManager.CacheCollection.SortedSetItem},Buffalo.DB.CacheManager.SetValueType)">
+            <summary>
+            向排序表增加元素
+            </summary>
+            <param name="value">值</param>
+            <param name="source">排序键</param>
+            <param name="oper"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.MemoryCacheSortedSet.Decrement(System.Object,System.Double)">
+            <summary>
+            减少排序的元素的排序分
+            </summary>
+            <param name="value">值</param>
+            <param name="source">排序分</param>
+            <param name="oper"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.MemoryCacheSortedSet.Increment(System.Object,System.Double)">
+            <summary>
+            增加排序的元素的排序分
+            </summary>
+            <param name="key">key</param>
+            <param name="value">值</param>
+            <param name="source">排序分</param>
+            <param name="oper"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.MemoryCacheSortedSet.GetLength(System.Nullable{System.Double},System.Nullable{System.Double})">
+            <summary>
+            获取集合长度
+            </summary>
+            <typeparam name="E"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.MemoryCacheSortedSet.Pop(Buffalo.DB.QueryConditions.SortType)">
+            <summary>
+            弹出值
+            </summary>
+            <param name="count">值的数量</param>
+            <param name="order">弹出方向，SortType.ASC是从开头弹出，SortType.DESC是从尾部弹出</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.MemoryCacheSortedSet.Pop(System.Int64,Buffalo.DB.QueryConditions.SortType)">
+            <summary>
+            弹出值
+            </summary>
+            <param name="count">值的数量</param>
+            <param name="order">弹出方向，SortType.ASC是从开头弹出，SortType.DESC是从尾部弹出</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.MemoryCacheSortedSet.GetRangeByRankWithScores(System.Int64,System.Int64,Buffalo.DB.QueryConditions.SortType)">
+            <summary>
+            根据索引范围获取值
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.MemoryCacheSortedSet.GetRangeByRank``1(System.Int64,System.Int64,Buffalo.DB.QueryConditions.SortType)">
+            <summary>
+            根据索引范围获取值
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.MemoryCacheSortedSet.SortedSetItemToValue``1(Buffalo.DB.CacheManager.CacheCollection.SortedSetItem[])">
+            <summary>
+            SortedSetItem数组转成数值数组
+            </summary>
+            <param name="arr"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.MemoryCacheSortedSet.GetRangeByScore``1(System.Nullable{System.Double},System.Nullable{System.Double},Buffalo.DB.QueryConditions.SortType,System.Int64,System.Int64)">
+            <summary>
+            根据索引范围获取值
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.MemoryCacheSortedSet.GetRangeByScoreWithScores(System.Nullable{System.Double},System.Nullable{System.Double},Buffalo.DB.QueryConditions.SortType,System.Int64,System.Int64)">
+            <summary>
+            根据索引范围获取值
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.MemoryCacheSortedSet.GetRangeByValue``1(System.Object,System.Object,System.Int64,System.Int64)">
+            <summary>
+            根据索引范围获取值
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.MemoryCacheSortedSet.GetRangeByValueWithScores(System.Object,System.Object,Buffalo.DB.QueryConditions.SortType,System.Int64,System.Int64)">
+            <summary>
+            根据索引范围获取值
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.MemoryCacheSortedSet.GetIndex(System.Object,Buffalo.DB.QueryConditions.SortType)">
+            <summary>
+            获取索引
+            </summary>
+            <param name="value"></param>
+            <param name="order"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.MemoryCacheSortedSet.GetKeyByValue(System.Object)">
+            <summary>
+            获取索引
+            </summary>
+            <param name="value"></param>
+            <param name="order"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.MemoryCacheSortedSet.Remove(System.Object)">
+            <summary>
+            删除值
+            </summary>
+            <param name="values"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.MemoryCacheSortedSet.Remove(System.Object[])">
+            <summary>
+            删除值
+            </summary>
+            <param name="values"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.MemoryCacheSortedSet.RemoveRangeByRank(System.Int64,System.Int64)">
+            <summary>
+            删除值
+            </summary>
+            <param name="values"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.MemoryCacheSortedSet.RemoveRangeByKey(System.Nullable{System.Double},System.Nullable{System.Double})">
+            <summary>
+            删除值
+            </summary>
+            <param name="values"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.MemoryCacheSortedSet.RemoveRangeByValue(System.Object,System.Object)">
+            <summary>
+            删除值
+            </summary>
+            <param name="values"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.MemoryCacheSortedSet.DeleteItems(System.Collections.Generic.IEnumerable{Buffalo.DB.CacheManager.CacheCollection.SortedSetItem})">
+            <summary>
+            删除信息
+            </summary>
+            <param name="lstDelete">要删除的集合</param>
+            <returns></returns>
+        </member>
+        <member name="T:Buffalo.DB.CacheManager.CacheCollection.SortedSetItem">
+            <summary>
+            排序项
+            </summary>
+        </member>
+        <member name="F:Buffalo.DB.CacheManager.CacheCollection.SortedSetItem._value">
+            <summary>
+            值
+            </summary>
+        </member>
+        <member name="F:Buffalo.DB.CacheManager.CacheCollection.SortedSetItem._key">
+            <summary>
+            排序分
+            </summary>
+        </member>
+        <member name="P:Buffalo.DB.CacheManager.CacheCollection.SortedSetItem.Key">
+            <summary>
+            对比分
+            </summary>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.CacheCollection.SortedSetItem.#ctor(System.Object,System.Double)">
+            <summary>
+            排序项
+            </summary>
+            <param name="value">值</param>
+            <param name="score">对比分</param>
+        </member>
+        <member name="P:Buffalo.DB.CacheManager.CacheCollection.SortedSetItem.Value">
+            <summary>
+            值
+            </summary>
         </member>
         <member name="T:Buffalo.DB.CacheManager.CacheUnit">
             <summary>
@@ -2983,7 +3728,7 @@
             <param name="oper">连接</param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.ICacheAdaper.SetValue``1(System.String,``0,Buffalo.DB.CacheManager.SetValueType,System.Int32,Buffalo.DB.DbCommon.DataBaseOperate)">
+        <member name="M:Buffalo.DB.CacheManager.ICacheAdaper.SetValue``1(System.String,``0,Buffalo.DB.CacheManager.SetValueType,System.TimeSpan,Buffalo.DB.DbCommon.DataBaseOperate)">
             <summary>
             设置值
             </summary>
@@ -2991,10 +3736,10 @@
             <param name="value">值</param>
             <param name="type">设置值方式</param>
             <param name="oper">连接</param>
-            <param name="expirSeconds">过期时间</param>
+            <param name="expir">过期时间</param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.ICacheAdaper.SetValue(System.String,System.Object,Buffalo.DB.CacheManager.SetValueType,System.Int32,Buffalo.DB.DbCommon.DataBaseOperate)">
+        <member name="M:Buffalo.DB.CacheManager.ICacheAdaper.SetValue(System.String,System.Object,Buffalo.DB.CacheManager.SetValueType,System.TimeSpan,Buffalo.DB.DbCommon.DataBaseOperate)">
             <summary>
             设置值
             </summary>
@@ -3002,7 +3747,7 @@
             <param name="value">值</param>
             <param name="type">设置值方式</param>
             <param name="oper">连接</param>
-            <param name="expirSeconds">过期时间</param>
+            <param name="expir">过期时间</param>
             <returns></returns>
         </member>
         <member name="M:Buffalo.DB.CacheManager.ICacheAdaper.ExistsKey(System.String,Buffalo.DB.DbCommon.DataBaseOperate)">
@@ -3011,6 +3756,14 @@
             </summary>
             <param name="key"></param>
             <param name="oper"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.ICacheAdaper.SetKeyExpire(System.String,System.TimeSpan,Buffalo.DB.DbCommon.DataBaseOperate)">
+            <summary>
+            设置键过期
+            </summary>
+            <param name="key"></param>
+            <param name="expirSeconds"></param>
             <returns></returns>
         </member>
         <member name="M:Buffalo.DB.CacheManager.ICacheAdaper.ClearAll">
@@ -3047,228 +3800,66 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.ICacheAdaper.ListAddValue``1(System.String,System.Int64,``0,Buffalo.DB.CacheManager.SetValueType,Buffalo.DB.DbCommon.DataBaseOperate)">
+        <member name="M:Buffalo.DB.CacheManager.ICacheAdaper.GetHashMap(System.String,Buffalo.DB.DbCommon.DataBaseOperate)">
             <summary>
-            增加到列表
+            获取哈希表的操作方式
             </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key">键</param>
-            <param name="index">索引(0为增加到头部，-1为增加到尾部)</param>
-            <param name="value">值</param>
-            <param name="setType">设置值方式</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.ICacheAdaper.ListGetValue``1(System.String,System.Int64,``0,Buffalo.DB.DbCommon.DataBaseOperate)">
-            <summary>
-            获取值
-            </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key">键</param>
-            <param name="index">值位置</param>
-            <param name="defaultValue">默认值</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.ICacheAdaper.ListGetLength(System.String,Buffalo.DB.DbCommon.DataBaseOperate)">
-            <summary>
-            获取集合长度
-            </summary>
-            <typeparam name="E"></typeparam>
             <param name="key"></param>
+            <param name="oper"></param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.ICacheAdaper.ListPopValue``1(System.String,System.Boolean,``0,Buffalo.DB.DbCommon.DataBaseOperate)">
+        <member name="M:Buffalo.DB.CacheManager.ICacheAdaper.GetList(System.String,Buffalo.DB.DbCommon.DataBaseOperate)">
             <summary>
-            移除并返回值
+            获取线性表的操作方式
             </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key">键</param>
-            <param name="isPopEnd">是否从尾部移除(true则从尾部移除，否则从头部移除)</param>
-            <param name="defaultValue">默认值</param>
+            <param name="key"></param>
+            <param name="oper"></param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.ICacheAdaper.ListRemoveValue(System.String,System.Object,System.Int64,Buffalo.DB.DbCommon.DataBaseOperate)">
+        <member name="M:Buffalo.DB.CacheManager.ICacheAdaper.GetCacheLock(System.String,Buffalo.DB.DbCommon.DataBaseOperate)">
             <summary>
-            移除值
+            获取锁的操作方式
             </summary>
-            <param name="key">键</param>
-            <param name="value">值</param>
-            <param name="count">要移除几个，0则为全部移除</param>
+            <param name="key"></param>
+            <param name="oper"></param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.ICacheAdaper.ListAllValues``1(System.String,System.Int64,System.Int64,Buffalo.DB.DbCommon.DataBaseOperate)">
+        <member name="M:Buffalo.DB.CacheManager.ICacheAdaper.GetSortedSet(System.String,Buffalo.DB.DbCommon.DataBaseOperate)">
             <summary>
-            获取集合所有值
+            获取排序表的操作方式
             </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key">键</param>
-            <param name="start">起始位置(默认0)</param>
-            <param name="end">结束位置(-1则为读到末尾)</param>
+            <param name="key"></param>
+            <param name="oper"></param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.ICacheAdaper.HashSetRangeValue(System.String,System.Collections.IDictionary,Buffalo.DB.DbCommon.DataBaseOperate)">
+        <member name="P:Buffalo.DB.CacheManager.ICacheAdaper.ConnectConfiguration">
             <summary>
-            批量给HashSet设置值
+            获取当前缓存连接的配置项
             </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key">键</param>
-            <param name="dicSet">值</param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.ICacheAdaper.HashSetValue(System.String,System.Object,System.Object,Buffalo.DB.CacheManager.SetValueType,Buffalo.DB.DbCommon.DataBaseOperate)">
+        <member name="P:Buffalo.DB.CacheManager.ICacheAdaper.ConnectClient">
             <summary>
-            HashSet设置值
+            获取当前连接
             </summary>
-            <param name="key">键</param>
-            <param name="hashkey">哈希表的键</param>
-            <param name="value">哈希表的值</param>
-            <param name="type">设置方式</param>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.ICacheAdaper.HashGetValue``1(System.String,System.Object,``0,Buffalo.DB.DbCommon.DataBaseOperate)">
-            <summary>
-            获取哈希表的值
-            </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key">键</param>
-            <param name="hashkey">哈希表的键</param>
-            <param name="defaultValue">默认值</param>
-            <param name="connection"></param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.ICacheAdaper.HashGetAllValues``2(System.String,``1,Buffalo.DB.DbCommon.DataBaseOperate)">
+        <member name="M:Buffalo.DB.CacheManager.ICacheAdaper.ReconnectClient">
             <summary>
-            获取所有哈希表的值
+            重新连接
             </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key">键</param>
-            <param name="defaultValue">默认值</param>
-            <param name="connection"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.ICacheAdaper.HashDeleteValue(System.String,System.Object,Buffalo.DB.DbCommon.DataBaseOperate)">
-            <summary>
-            删除哈希表的值
-            </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key">键</param>
-            <param name="hashkey">哈希表的键</param>
-            <param name="connection"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.ICacheAdaper.HashDeleteValues(System.String,System.Collections.IEnumerable,Buffalo.DB.DbCommon.DataBaseOperate)">
-            <summary>
-            批量删除哈希表的值
-            </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key">键</param>
-            <param name="hashkeys">要删除哈希表的键</param>
-            <param name="connection"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.ICacheAdaper.HashExists(System.String,System.Object,Buffalo.DB.DbCommon.DataBaseOperate)">
-            <summary>
-            判断是否存在此key
-            </summary>
-            <param name="key">键</param>
-            <param name="hashkey">哈希表的键</param>
-            <param name="connection"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.ICacheAdaper.HashIncrement(System.String,System.Object,System.Int64,Buffalo.DB.DbCommon.DataBaseOperate)">
-            <summary>
-            哈希表的值自增
-            </summary>
-            <param name="key">键</param>
-            <param name="hashkey">哈希键</param>
-            <param name="value">值</param>
-            <param name="connection"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.ICacheAdaper.HashDecrement(System.String,System.Object,System.Int64,Buffalo.DB.DbCommon.DataBaseOperate)">
-            <summary>
-            哈希表的值自减
-            </summary>
-            <param name="key">键</param>
-            <param name="hashkey">哈希键</param>
-            <param name="value">值</param>
-            <param name="connection"></param>
-            <returns></returns>
         </member>
         <member name="T:Buffalo.DB.CacheManager.LocalCacheBase">
             <summary>
             本地缓存基类
             </summary>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.LocalCacheBase.GetCacheList(System.String)">
+        <member name="M:Buffalo.DB.CacheManager.LocalCacheBase.GetExpir(System.TimeSpan,System.TimeSpan)">
             <summary>
-            获取集合
+            获取过期时间
             </summary>
-            <param name="key"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.LocalCacheBase.GetCacheHash(System.String)">
-            <summary>
-            获取哈希表
-            </summary>
-            <param name="key"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.LocalCacheBase.HashSetRangeValue(System.String,System.Collections.IDictionary,Buffalo.DB.DbCommon.DataBaseOperate)">
-            <summary>
-            批量给HashSet设置值
-            </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key">键</param>
-            <param name="dicSet">值</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.LocalCacheBase.HashSetValue(System.String,System.Object,System.Object,Buffalo.DB.CacheManager.SetValueType,Buffalo.DB.DbCommon.DataBaseOperate)">
-            <summary>
-            HashSet设置值
-            </summary>
-            <param name="key">键</param>
-            <param name="hashkey">哈希表的键</param>
-            <param name="value">哈希表的值</param>
-            <param name="type">设置方式</param>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.LocalCacheBase.HashGetValue``1(System.String,System.Object,``0,Buffalo.DB.DbCommon.DataBaseOperate)">
-            <summary>
-            获取哈希表的值
-            </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key">键</param>
-            <param name="hashkey">哈希表的键</param>
-            <param name="defaultValue">默认值</param>
-            <param name="connection"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.LocalCacheBase.HashGetAllValues``2(System.String,``1,Buffalo.DB.DbCommon.DataBaseOperate)">
-            <summary>
-            获取所有哈希表的值
-            </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key">键</param>
-            <param name="defaultValue">默认值</param>
-            <param name="connection"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.LocalCacheBase.HashDeleteValue(System.String,System.Object,Buffalo.DB.DbCommon.DataBaseOperate)">
-            <summary>
-            删除哈希表的值
-            </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key">键</param>
-            <param name="hashkey">哈希表的键</param>
-            <param name="connection"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.LocalCacheBase.HashDeleteValues(System.String,System.Collections.IEnumerable,Buffalo.DB.DbCommon.DataBaseOperate)">
-            <summary>
-            批量删除哈希表的值
-            </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key">键</param>
-            <param name="hashkeys">要删除哈希表的键</param>
-            <param name="connection"></param>
+            <param name="expiration"></param>
+            <param name="expir"></param>
             <returns></returns>
         </member>
         <member name="T:Buffalo.DB.CacheManager.MemCacheReader">
@@ -3316,7 +3907,12 @@
             数据库信息
             </summary>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.MemoryAdaper.SetData(System.Collections.Generic.IDictionary{System.String,System.Boolean},System.String,System.Data.DataSet,System.Int32,Buffalo.DB.DbCommon.DataBaseOperate)">
+        <member name="M:Buffalo.DB.CacheManager.MemoryAdaper.ReconnectClient">
+            <summary>
+            重连连接redis
+            </summary>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.MemoryAdaper.SetData(System.Collections.Generic.IDictionary{System.String,System.Boolean},System.String,System.Data.DataSet,System.TimeSpan,Buffalo.DB.DbCommon.DataBaseOperate)">
             <summary>
             设置数据
             </summary>
@@ -3372,26 +3968,44 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Buffalo.DB.CacheManager.MemoryAdaper.GetHashMap(System.String,Buffalo.DB.DbCommon.DataBaseOperate)">
+            <summary>
+            获取哈希表的操作方式
+            </summary>
+            <param name="key"></param>
+            <param name="oper"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.MemoryAdaper.GetList(System.String,Buffalo.DB.DbCommon.DataBaseOperate)">
+            <summary>
+            获取哈希表的操作方式
+            </summary>
+            <param name="key"></param>
+            <param name="oper"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.MemoryAdaper.GetCacheLock(System.String,Buffalo.DB.DbCommon.DataBaseOperate)">
+            <summary>
+            获取锁的操作方式
+            </summary>
+            <param name="key"></param>
+            <param name="oper"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.MemoryAdaper.GetSortedSet(System.String,Buffalo.DB.DbCommon.DataBaseOperate)">
+            <summary>
+            获取排序表的操作方式
+            </summary>
+            <param name="key"></param>
+            <param name="oper"></param>
+            <returns></returns>
+        </member>
         <member name="M:Buffalo.DB.CacheManager.MemoryAdaper.ExistsKey(System.String,Buffalo.DB.DbCommon.DataBaseOperate)">
             <summary>
             Key是否存在
             </summary>
             <param name="key"></param>
             <param name="oper"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.MemoryAdaper.GetCacheList(System.String)">
-            <summary>
-            获取集合
-            </summary>
-            <param name="key"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.MemoryAdaper.GetCacheHash(System.String)">
-            <summary>
-            获取哈希表
-            </summary>
-            <param name="key"></param>
             <returns></returns>
         </member>
         <member name="T:Buffalo.DB.CacheManager.NetCacheBase`1">
@@ -3423,6 +4037,19 @@
             <summary>
             抛出异常
             </summary>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.ReconnectClient">
+            <summary>
+            重新连接
+            </summary>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.SetKeyExpire(System.String,System.TimeSpan,Buffalo.DB.DbCommon.DataBaseOperate)">
+            <summary>
+            设置键过期时间
+            </summary>
+            <param name="key"></param>
+            <param name="expirSeconds"></param>
+            <returns></returns>
         </member>
         <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.CreateClient(System.Boolean,System.String)">
             <summary>
@@ -3461,6 +4088,14 @@
             <param name="client">客户端</param>
             <returns></returns>
         </member>
+        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.DoSetKeyExpire(System.String,System.TimeSpan,`0)">
+            <summary>
+            设置键过期时间
+            </summary>
+            <param name="key"></param>
+            <param name="expirSeconds"></param>
+            <returns></returns>
+        </member>
         <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.GetValue``1(System.String,``0,`0)">
             <summary>
             获取值
@@ -3497,7 +4132,7 @@
             <param name="client">客户端</param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.SetValue``1(System.String,``0,Buffalo.DB.CacheManager.SetValueType,System.Int32,`0)">
+        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.SetValue``1(System.String,``0,Buffalo.DB.CacheManager.SetValueType,System.TimeSpan,`0)">
             <summary>
             设置值
             </summary>
@@ -3508,7 +4143,7 @@
             <param name="client">客户端</param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.SetValue(System.String,System.Object,Buffalo.DB.CacheManager.SetValueType,System.Int32,`0)">
+        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.SetValue(System.String,System.Object,Buffalo.DB.CacheManager.SetValueType,System.TimeSpan,`0)">
             <summary>
             设置值
             </summary>
@@ -3527,7 +4162,7 @@
             <param name="client">客户端</param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.DoSetDataSet(System.String,System.Data.DataSet,System.Int32,`0)">
+        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.DoSetDataSet(System.String,System.Data.DataSet,System.TimeSpan,`0)">
             <summary>
             设置DataSet
             </summary>
@@ -3582,7 +4217,7 @@
             <param name="oper"></param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.DoSetEntityList(System.String,System.Collections.IList,System.Int32,`0)">
+        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.DoSetEntityList(System.String,System.Collections.IList,System.TimeSpan,`0)">
             <summary>
             设置属性集合
             </summary>
@@ -3663,7 +4298,7 @@
             </summary>
             <param name="tableName"></param>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.SetData(System.Collections.Generic.IDictionary{System.String,System.Boolean},System.String,System.Data.DataSet,System.Int32,Buffalo.DB.DbCommon.DataBaseOperate)">
+        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.SetData(System.Collections.Generic.IDictionary{System.String,System.Boolean},System.String,System.Data.DataSet,System.TimeSpan,Buffalo.DB.DbCommon.DataBaseOperate)">
             <summary>
             保存数据
             </summary>
@@ -3672,7 +4307,7 @@
             <param name="ds"></param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.SetValue``1(System.String,``0,Buffalo.DB.CacheManager.SetValueType,System.Int32,Buffalo.DB.DbCommon.DataBaseOperate)">
+        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.SetValue``1(System.String,``0,Buffalo.DB.CacheManager.SetValueType,System.TimeSpan,Buffalo.DB.DbCommon.DataBaseOperate)">
             <summary>
             设置值
             </summary>
@@ -3683,7 +4318,7 @@
             <param name="expirSeconds">过期时间(-1为默认)</param>
             <param name="oper">连接</param>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.SetValue(System.String,System.Object,Buffalo.DB.CacheManager.SetValueType,System.Int32,Buffalo.DB.DbCommon.DataBaseOperate)">
+        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.SetValue(System.String,System.Object,Buffalo.DB.CacheManager.SetValueType,System.TimeSpan,Buffalo.DB.DbCommon.DataBaseOperate)">
             <summary>
             设置值
             </summary>
@@ -3716,7 +4351,7 @@
             <param name="inc"></param>
             <param name="oper"></param>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.SetEntityList(System.String,System.Collections.IList,System.Int32,Buffalo.DB.DbCommon.DataBaseOperate)">
+        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.SetEntityList(System.String,System.Collections.IList,System.TimeSpan,Buffalo.DB.DbCommon.DataBaseOperate)">
             <summary>
             保存数据
             </summary>
@@ -3749,307 +4384,71 @@
             </summary>
             <param name="pattern"></param>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.ListAddValue``1(System.String,System.Int64,``0,Buffalo.DB.CacheManager.SetValueType,Buffalo.DB.DbCommon.DataBaseOperate)">
+        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.GetHashMap(System.String,Buffalo.DB.DbCommon.DataBaseOperate)">
             <summary>
-            增加到列表
+            获取哈希集合
             </summary>
-            <typeparam name="E"></typeparam>
             <param name="key">键</param>
-            <param name="index">索引(0为增加到头部，-1为增加到尾部)</param>
-            <param name="value">值</param>
-            <param name="setType">设置值方式</param>
+            <param name="entityType">实体类型</param>
             <param name="oper"></param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.ListGetValue``1(System.String,System.Int64,``0,Buffalo.DB.DbCommon.DataBaseOperate)">
+        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.GetList(System.String,Buffalo.DB.DbCommon.DataBaseOperate)">
             <summary>
-            获取值
+            获取List集合
             </summary>
-            <typeparam name="E"></typeparam>
             <param name="key">键</param>
-            <param name="index">值位置</param>
-            <param name="defaultValue">默认值</param>
+            <param name="entityType">实体类型</param>
             <param name="oper"></param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.ListGetLength(System.String,Buffalo.DB.DbCommon.DataBaseOperate)">
+        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.GetSortedSet(System.String,Buffalo.DB.DbCommon.DataBaseOperate)">
             <summary>
-            获取集合长度
+            获取SortedSet集合
             </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.ListPopValue``1(System.String,System.Boolean,``0,Buffalo.DB.DbCommon.DataBaseOperate)">
-            <summary>
-            移除并返回值
-            </summary>
-            <typeparam name="E"></typeparam>
             <param name="key">键</param>
-            <param name="isPopEnd">是否从尾部移除(true则从尾部移除，否则从头部移除)</param>
-            <param name="defaultValue">默认值</param>
+            <param name="entityType">实体类型</param>
             <param name="oper"></param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.ListRemoveValue(System.String,System.Object,System.Int64,Buffalo.DB.DbCommon.DataBaseOperate)">
+        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.GetCacheLock(System.String,Buffalo.DB.DbCommon.DataBaseOperate)">
             <summary>
-            移除值
+            获取SortedSet集合
             </summary>
             <param name="key">键</param>
-            <param name="value">值</param>
-            <param name="count">要移除几个，0则为全部移除</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.ListAllValues``1(System.String,System.Int64,System.Int64,Buffalo.DB.DbCommon.DataBaseOperate)">
-            <summary>
-            获取集合所有值
-            </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key">键</param>
-            <param name="start">起始位置(默认0)</param>
-            <param name="end">结束位置(-1则为读到末尾)</param>
+            <param name="entityType">实体类型</param>
             <param name="oper"></param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.HashSetRangeValue(System.String,System.Collections.IDictionary,Buffalo.DB.DbCommon.DataBaseOperate)">
+        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.GetHashMap(System.String,`0)">
             <summary>
-            批量给HashSet设置值
+            获取hash操作
             </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key">键</param>
-            <param name="dicSet">值</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.HashSetValue(System.String,System.Object,System.Object,Buffalo.DB.CacheManager.SetValueType,Buffalo.DB.DbCommon.DataBaseOperate)">
-            <summary>
-            HashSet设置值
-            </summary>
-            <param name="key">键</param>
-            <param name="hashkey">哈希表的键</param>
-            <param name="value">哈希表的值</param>
-            <param name="type">设置方式</param>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.HashGetValue``1(System.String,System.Object,``0,Buffalo.DB.DbCommon.DataBaseOperate)">
-            <summary>
-            获取哈希表的值
-            </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key">键</param>
-            <param name="hashkey">哈希表的键</param>
-            <param name="defaultValue">默认值</param>
-            <param name="connection"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.HashGetAllValues``2(System.String,``1,Buffalo.DB.DbCommon.DataBaseOperate)">
-            <summary>
-            获取所有哈希表的值
-            </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key">键</param>
-            <param name="defaultValue">默认值</param>
-            <param name="connection"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.HashDeleteValue(System.String,System.Object,Buffalo.DB.DbCommon.DataBaseOperate)">
-            <summary>
-            删除哈希表的值
-            </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key">键</param>
-            <param name="hashkey">哈希表的键</param>
-            <param name="connection"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.HashDeleteValues(System.String,System.Collections.IEnumerable,Buffalo.DB.DbCommon.DataBaseOperate)">
-            <summary>
-            批量删除哈希表的值
-            </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key">键</param>
-            <param name="hashkeys">要删除哈希表的键</param>
-            <param name="connection"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.HashExists(System.String,System.Object,Buffalo.DB.DbCommon.DataBaseOperate)">
-            <summary>
-            判断是否存在此key
-            </summary>
-            <param name="key">键</param>
-            <param name="hashkey">哈希表的键</param>
-            <param name="connection"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.HashIncrement(System.String,System.Object,System.Int64,Buffalo.DB.DbCommon.DataBaseOperate)">
-            <summary>
-            哈希表的值自增
-            </summary>
-            <param name="key">键</param>
-            <param name="hashkey">哈希键</param>
-            <param name="value">值</param>
-            <param name="connection"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.HashDecrement(System.String,System.Object,System.Int64,Buffalo.DB.DbCommon.DataBaseOperate)">
-            <summary>
-            哈希表的值自减
-            </summary>
-            <param name="key">键</param>
-            <param name="hashkey">哈希键</param>
-            <param name="value">值</param>
-            <param name="connection"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.HashSetRangeValue(System.String,System.Collections.IDictionary,`0)">
-            <summary>
-            批量HashSet设置值
-            </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key">键</param>
-            <param name="dicSet">值</param>
-            <param name="connection"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.HashSetValue(System.String,System.Object,System.Object,Buffalo.DB.CacheManager.SetValueType,`0)">
-            <summary>
-            HashSet设置值
-            </summary>
-            <param name="key">键</param>
-            <param name="hashkey">哈希表的键</param>
-            <param name="value">哈希表的值</param>
-            <param name="type">设置方式</param>
-            <param name="connection"></param>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.HashGetValue``1(System.String,System.Object,``0,`0)">
-            <summary>
-            获取哈希表的值
-            </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key">键</param>
-            <param name="hashkey">哈希表的键</param>
-            <param name="defaultValue">默认值</param>
-            <param name="connection"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.HashGetAllValues``2(System.String,``1,`0)">
-            <summary>
-            获取所有哈希表的值
-            </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key">键</param>
-            <param name="defaultValue">默认值</param>
-            <param name="connection"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.HashDeleteValue(System.String,System.Object,`0)">
-            <summary>
-            删除哈希表的值
-            </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key">键</param>
-            <param name="hashkey">哈希表的键</param>
-            <param name="connection"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.HashDeleteValues(System.String,System.Collections.IEnumerable,`0)">
-            <summary>
-            批量删除哈希表的值
-            </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key">键</param>
-            <param name="hashkeys">要删除哈希表的键</param>
-            <param name="connection"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.HashExists(System.String,System.Object,`0)">
-            <summary>
-            判断是否存在此key
-            </summary>
-            <param name="key">键</param>
-            <param name="hashkey">哈希表的键</param>
-            <param name="connection"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.HashIncrement(System.String,System.Object,System.Int64,`0)">
-            <summary>
-            哈希表的值自增
-            </summary>
-            <param name="key">键</param>
-            <param name="hashkey">哈希键</param>
-            <param name="value">值</param>
-            <param name="connection"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.HashDecrement(System.String,System.Object,System.Int64,`0)">
-            <summary>
-            哈希表的值自减
-            </summary>
-            <param name="key">键</param>
-            <param name="hashkey">哈希键</param>
-            <param name="value">值</param>
-            <param name="connection"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.ListAddValue``1(System.String,System.Int64,``0,Buffalo.DB.CacheManager.SetValueType,`0)">
-            <summary>
-            增加到列表
-            </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key">键</param>
-            <param name="index">索引(0为增加到头部，-1为增加到尾部)</param>
-            <param name="value">值</param>
-            <param name="setType">设置值方式</param>
-            <param name="connection"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.ListGetValue``1(System.String,System.Int64,``0,`0)">
-            <summary>
-            插入
-            </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key"></param>
-            <param name="index"></param>
-            <param name="defaultValue"></param>
-            <param name="connection"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.ListGetLength(System.String,`0)">
-            <summary>
-            获取集合长度
-            </summary>
-            <typeparam name="E"></typeparam>
             <param name="key"></param>
             <param name="connection"></param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.ListPopValue``1(System.String,System.Boolean,``0,`0)">
+        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.GetList(System.String,`0)">
             <summary>
-            移除并返回值
+            获取List
             </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key">键</param>
-            <param name="isPopEnd">是否从尾部移除(true则从尾部移除，否则从头部移除)</param>
-            <param name="defaultValue">默认值</param>
+            <param name="key"></param>
             <param name="connection"></param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.ListRemoveValue(System.String,System.Object,System.Int64,`0)">
+        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.GetCacheLock(System.String,`0)">
             <summary>
-            移除值
+            获取锁
             </summary>
-            <param name="key">键</param>
-            <param name="value">值</param>
-            <param name="count">要移除几个，0则为全部移除</param>
+            <param name="key"></param>
             <param name="connection"></param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.ListAllValues``1(System.String,System.Int64,System.Int64,`0)">
+        <member name="M:Buffalo.DB.CacheManager.NetCacheBase`1.GetSortedSet(System.String,`0)">
             <summary>
-            获取集合所有值
+            获取顺序集
             </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key">键</param>
-            <param name="start">起始位置(默认0)</param>
-            <param name="end">结束位置(-1则为读到末尾)</param>
+            <param name="key"></param>
             <param name="connection"></param>
             <returns></returns>
         </member>
@@ -4112,7 +4511,7 @@
             <param name="lstParam">变量集合</param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.QueryCache.SetDataSet(System.Data.DataSet,System.Collections.Generic.IDictionary{System.String,System.Boolean},System.String,Buffalo.DB.DbCommon.ParamList,System.Int32,Buffalo.DB.DbCommon.DataBaseOperate)">
+        <member name="M:Buffalo.DB.CacheManager.QueryCache.SetDataSet(System.Data.DataSet,System.Collections.Generic.IDictionary{System.String,System.Boolean},System.String,Buffalo.DB.DbCommon.ParamList,System.TimeSpan,Buffalo.DB.DbCommon.DataBaseOperate)">
             <summary>
             获取缓存中的DataSet
             </summary>
@@ -4227,6 +4626,14 @@
             <param name="key">键</param>
             <returns></returns>
         </member>
+        <member name="M:Buffalo.DB.CacheManager.QueryCache.SetKeyExpire(System.String,System.TimeSpan)">
+            <summary>
+            设置key过期
+            </summary>
+            <param name="key">键</param>
+            <param name="expirSeconds">过期时间(秒)</param>
+            <returns></returns>
+        </member>
         <member name="M:Buffalo.DB.CacheManager.QueryCache.Clear">
             <summary>
             清空所有缓存值
@@ -4241,7 +4648,7 @@
             <param name="value">值</param>
             <returns>是否设置成功</returns>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.QueryCache.SetValue``1(System.String,``0,Buffalo.DB.CacheManager.SetValueType,System.Int32)">
+        <member name="M:Buffalo.DB.CacheManager.QueryCache.SetValue``1(System.String,``0,Buffalo.DB.CacheManager.SetValueType,System.TimeSpan)">
             <summary>
             设置值
             </summary>
@@ -4251,7 +4658,7 @@
             <param name="type">设置值方式</param>
             <returns>是否设置成功</returns>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.QueryCache.SetValue(System.String,System.Object,Buffalo.DB.CacheManager.SetValueType,System.Int32)">
+        <member name="M:Buffalo.DB.CacheManager.QueryCache.SetValue(System.String,System.Object,Buffalo.DB.CacheManager.SetValueType,System.TimeSpan)">
             <summary>
             设置值
             </summary>
@@ -4324,7 +4731,7 @@
             <param name="enity">实体</param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.QueryCache.SetEntity(System.String,System.Int32,Buffalo.DB.CommBase.EntityBase)">
+        <member name="M:Buffalo.DB.CacheManager.QueryCache.SetEntity(System.String,System.TimeSpan,Buffalo.DB.CommBase.EntityBase)">
             <summary>
             保存实体
             </summary>
@@ -4346,7 +4753,7 @@
             <param name="key">键</param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.QueryCache.SetList(System.String,System.Int32,System.Collections.IList)">
+        <member name="M:Buffalo.DB.CacheManager.QueryCache.SetList(System.String,System.TimeSpan,System.Collections.IList)">
             <summary>
             设置集合
             </summary>
@@ -4364,181 +4771,41 @@
             <param name="lstEntiity">实体集合</param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.QueryCache.ListAddValue``1(System.String,``0,System.Int64,Buffalo.DB.CacheManager.SetValueType)">
+        <member name="M:Buffalo.DB.CacheManager.QueryCache.GetCacheHashMap(System.String)">
             <summary>
-            增加到列表
+            获取哈希表的操作方式
             </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key">键</param>
-            <param name="index">索引(0为增加到头部，-1为增加到尾部)</param>
-            <param name="value">值</param>
-            <param name="setType">设置值方式</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.QueryCache.ListGetValue``1(System.String,System.Int64,``0)">
-            <summary>
-            获取值
-            </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key">键</param>
-            <param name="index">值位置</param>
-            <param name="defaultValue">默认值</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.QueryCache.ListGetLength(System.String)">
-            <summary>
-            获取集合长度
-            </summary>
-            <typeparam name="E"></typeparam>
             <param name="key"></param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.QueryCache.ListPopValue``1(System.String,System.Boolean,``0)">
+        <member name="M:Buffalo.DB.CacheManager.QueryCache.GetCacheList(System.String)">
             <summary>
-            移除并返回值
+            获取线性表的操作方式
             </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key">键</param>
-            <param name="isPopEnd">是否从尾部移除(true则从尾部移除，否则从头部移除)</param>
-            <param name="defaultValue">默认值</param>
+            <param name="key"></param>
+            <param name="oper"></param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.QueryCache.ListRemoveValue(System.String,System.Object,System.Int64)">
+        <member name="M:Buffalo.DB.CacheManager.QueryCache.GetCacheLock(System.String)">
             <summary>
-            移除值
+            获取锁的操作方式
             </summary>
-            <param name="key">键</param>
-            <param name="value">值</param>
-            <param name="count">要移除几个，0则为全部移除</param>
+            <param name="key"></param>
+            <param name="oper"></param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.QueryCache.ListAllValues``1(System.String,System.Int64,System.Int64)">
+        <member name="M:Buffalo.DB.CacheManager.QueryCache.GetCacheSortedSet(System.String)">
             <summary>
-            获取集合所有值
+            获取排序表的操作方式
             </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key">键</param>
-            <param name="start">起始位置(默认0)</param>
-            <param name="end">结束位置(-1则为读到末尾)</param>
+            <param name="key"></param>
+            <param name="oper"></param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.QueryCache.HashSetRangeValue(System.String,System.Collections.IDictionary)">
+        <member name="P:Buffalo.DB.CacheManager.QueryCache.Client">
             <summary>
-            批量给HashSet设置值
+            当前缓存的连接端
             </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key">键</param>
-            <param name="dicSet">值</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.QueryCache.HashSetValue(System.String,System.Object,System.Object,Buffalo.DB.CacheManager.SetValueType)">
-            <summary>
-            HashSet设置值
-            </summary>
-            <param name="key">键</param>
-            <param name="hashkey">哈希表的键</param>
-            <param name="value">哈希表的值</param>
-            <param name="type">设置方式</param>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.QueryCache.HashSetValue(System.String,System.Object,System.Object)">
-            <summary>
-            HashSet设置值
-            </summary>
-            <param name="key">键</param>
-            <param name="hashkey">哈希表的键</param>
-            <param name="value">哈希表的值</param>
-            <param name="type">设置方式</param>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.QueryCache.HashGetValue``1(System.String,System.Object,``0)">
-            <summary>
-            获取哈希表的值
-            </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key">键</param>
-            <param name="hashkey">哈希表的键</param>
-            <param name="defaultValue">默认值</param>
-            <param name="connection"></param>
-            <returns></returns>
-        </member>
-        <!-- Badly formed XML comment ignored for member "M:Buffalo.DB.CacheManager.QueryCache.HashGetValue``1(System.String,System.Object)" -->
-        <member name="M:Buffalo.DB.CacheManager.QueryCache.HashGetAllValues``2(System.String,``1)">
-            <summary>
-            获取所有哈希表的值
-            </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key">键</param>
-            <param name="defaultValue">默认值</param>
-            <param name="connection"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.QueryCache.HashGetAllValues``2(System.String)">
-            <summary>
-            获取哈希表的所有值
-            </summary>
-            <typeparam name="K"></typeparam>
-            <typeparam name="V"></typeparam>
-            <param name="key">键</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.QueryCache.HashDeleteValue(System.String,System.Object)">
-            <summary>
-            删除哈希表的值
-            </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key">键</param>
-            <param name="hashkey">哈希表的键</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.QueryCache.HashDeleteValues(System.String,System.Collections.IEnumerable)">
-            <summary>
-            批量删除哈希表的值
-            </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key">键</param>
-            <param name="hashkeys">要删除哈希表的键</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.QueryCache.HashExists(System.String,System.Object)">
-            <summary>
-            哈希表的键是否存在
-            </summary>
-            <param name="key">键</param>
-            <param name="hashkey">哈希表的键</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.QueryCache.HashIncrement(System.String,System.Object)">
-            <summary>
-            哈希表自增
-            </summary>
-            <param name="key">键</param>
-            <param name="hashkey">哈希键</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.QueryCache.HashIncrement(System.String,System.Object,System.Int64)">
-            <summary>
-            哈希表自增
-            </summary>
-            <param name="key">键</param>
-            <param name="hashkey">哈希键</param>
-            <param name="value">自增量</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.QueryCache.HashDecrement(System.String,System.Object,System.Int64)">
-            <summary>
-            哈希表自减
-            </summary>
-            <param name="key">键</param>
-            <param name="hashkey">哈希键</param>
-            <param name="value">自减量</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CacheManager.QueryCache.HashDecrement(System.String,System.Object)">
-            <summary>
-            哈希表自减
-            </summary>
-            <param name="key">键</param>
-            <param name="hashkey">哈希键</param>
-            <returns></returns>
         </member>
         <member name="T:Buffalo.DB.CacheManager.QueryCacheCommand">
             <summary>
@@ -4579,6 +4846,11 @@
             过期时间(分钟)
             </summary>
         </member>
+        <member name="M:Buffalo.DB.CacheManager.WebCacheAdaper.ReconnectClient">
+            <summary>
+            重连连接redis
+            </summary>
+        </member>
         <member name="M:Buffalo.DB.CacheManager.WebCacheAdaper.GetAllKeys(System.String)">
             <summary>
             所有键
@@ -4602,7 +4874,7 @@
             数据库信息
             </summary>
         </member>
-        <member name="M:Buffalo.DB.CacheManager.WebCacheAdaper.SetData(System.Collections.Generic.IDictionary{System.String,System.Boolean},System.String,System.Data.DataSet,System.Int32,Buffalo.DB.DbCommon.DataBaseOperate)">
+        <member name="M:Buffalo.DB.CacheManager.WebCacheAdaper.SetData(System.Collections.Generic.IDictionary{System.String,System.Boolean},System.String,System.Data.DataSet,System.TimeSpan,Buffalo.DB.DbCommon.DataBaseOperate)">
             <summary>
             设置数据
             </summary>
@@ -4651,6 +4923,38 @@
             通过表名删除关联项
             </summary>
             <param name="sql"></param>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.WebCacheAdaper.GetHashMap(System.String,Buffalo.DB.DbCommon.DataBaseOperate)">
+            <summary>
+            获取哈希表的操作方式
+            </summary>
+            <param name="key"></param>
+            <param name="oper"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.WebCacheAdaper.GetList(System.String,Buffalo.DB.DbCommon.DataBaseOperate)">
+            <summary>
+            获取哈希表的操作方式
+            </summary>
+            <param name="key"></param>
+            <param name="oper"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.WebCacheAdaper.GetCacheLock(System.String,Buffalo.DB.DbCommon.DataBaseOperate)">
+            <summary>
+            获取锁的操作方式
+            </summary>
+            <param name="key"></param>
+            <param name="oper"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.CacheManager.WebCacheAdaper.GetSortedSet(System.String,Buffalo.DB.DbCommon.DataBaseOperate)">
+            <summary>
+            获取排序表的操作方式
+            </summary>
+            <param name="key"></param>
+            <param name="oper"></param>
+            <returns></returns>
         </member>
         <member name="M:Buffalo.DB.CacheManager.WebCacheAdaper.ExistsKey(System.String,Buffalo.DB.DbCommon.DataBaseOperate)">
             <summary>
@@ -5813,7 +6117,7 @@
             <param name="index">当前的标识</param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.CommBase.DataAccessBases.DataAccessCommon.FillCondition(Buffalo.DB.EntityInfos.EntityInfoHandle,Buffalo.DB.DbCommon.ParamList,Buffalo.DB.QueryConditions.ScopeList)">
+        <member name="M:Buffalo.DB.CommBase.DataAccessBases.DataAccessCommon.FillCondition(Buffalo.DB.EntityInfos.EntityInfoHandle,Buffalo.DB.DbCommon.ParamList,Buffalo.DB.QueryConditions.ScopeBaseList)">
             <summary>
             填充查询条件并返回条件的SQL语句( and 开头)
             </summary>
@@ -5821,7 +6125,7 @@
             <param name="lstScope">范围查询集合</param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.CommBase.DataAccessBases.DataAccessCommon.FillCondition(Buffalo.DB.EntityInfos.EntityInfoHandle,Buffalo.DB.DbCommon.ParamList,Buffalo.DB.QueryConditions.ScopeList,System.Int32@)">
+        <member name="M:Buffalo.DB.CommBase.DataAccessBases.DataAccessCommon.FillCondition(Buffalo.DB.EntityInfos.EntityInfoHandle,Buffalo.DB.DbCommon.ParamList,Buffalo.DB.QueryConditions.ScopeBaseList,System.Int32@)">
             <summary>
             填充查询条件并返回条件的SQL语句( and 开头)
             </summary>
@@ -6549,32 +6853,11 @@
             静态连接管理类
             </summary>
         </member>
-        <member name="M:Buffalo.DB.CommBase.StaticConnection.GetOperate(System.String)">
-            <summary>
-            获取数据连接
-            </summary>
-            <param name="name"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CommBase.StaticConnection.SetOperate(Buffalo.DB.DbCommon.DataBaseOperate,System.String)">
-            <summary>
-            设置数据连接
-            </summary>
-            <param name="value"></param>
-            <param name="name"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.CommBase.StaticConnection.ClearCacheOperate(System.String)">
-            <summary>
-            清空连接缓存
-            </summary>
-            <param name="DbName"></param>
-        </member>
         <member name="M:Buffalo.DB.CommBase.StaticConnection.ClearCacheOperate(Buffalo.DB.DataBaseAdapter.DBInfo)">
             <summary>
             清空连接缓存
             </summary>
-            <param name="DbName"></param>
+            <param name="db"></param>
         </member>
         <member name="M:Buffalo.DB.CommBase.StaticConnection.GetStaticOperate(Buffalo.DB.DataBaseAdapter.DBInfo)">
             <summary>
@@ -7153,6 +7436,22 @@
             <param name="lstParam"></param>
             <returns></returns>
         </member>
+        <member name="P:Buffalo.DB.DataBaseAdapter.AccessAdapter.CharCollectionEnumerator.CurIndex">
+            <summary>
+            当前索引
+            </summary>
+        </member>
+        <member name="M:Buffalo.DB.DataBaseAdapter.AccessAdapter.CharCollectionEnumerator.#ctor(System.String)">
+            <summary>
+            字符集合的枚举器
+            </summary>
+            <param name="chrs"></param>
+        </member>
+        <member name="P:Buffalo.DB.DataBaseAdapter.AccessAdapter.CharCollectionEnumerator.CurrentChar">
+            <summary>
+            当前字符
+            </summary>
+        </member>
         <member name="T:Buffalo.DB.DataBaseAdapter.AccessAdapter.DBStructure">
             <summary>
             数据库结构特性类
@@ -7660,6 +7959,24 @@
             <param name="DataBaseOperate">链接</param>
             <returns></returns>
         </member>
+        <member name="T:Buffalo.DB.DataBaseAdapter.DBInfo">
+            <summary>
+            数据库信息
+            </summary>
+        </member>
+        <member name="M:Buffalo.DB.DataBaseAdapter.DBInfo.GetNumberLengthType(System.String,System.Int64)">
+            <summary>
+            获取浮点型长度(整数部分为10000的倍数，小数部分为小于10000的部分)
+            </summary>
+            <param name="typeName">类型</param>
+            <param name="length">长度</param>
+            <returns></returns>
+        </member>
+        <member name="P:Buffalo.DB.DataBaseAdapter.DBInfo.SelectedOperate">
+            <summary>
+            选中库的数据库连接
+            </summary>
+        </member>
         <member name="P:Buffalo.DB.DataBaseAdapter.DBInfo.OperatorPrecedence">
             <summary>
             生成的SQL语句进行运算符优先级优化可读性
@@ -7680,6 +7997,7 @@
             设置查询缓存
             </summary>
             <param name="ica"></param>
+            <param name="isAlltable"></param>
         </member>
         <member name="M:Buffalo.DB.DataBaseAdapter.DBInfo.GetAdapterLoader(System.String)">
             <summary>
@@ -7692,6 +8010,48 @@
             <summary>
             获取加载器
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.DataBaseAdapter.DBInfo.SetChildDataSource(Buffalo.DB.DataBaseAdapter.DBInfo)">
+            <summary>
+            设置子数据源
+            </summary>
+            <param name="db">数据库信息</param>
+        </member>
+        <member name="M:Buffalo.DB.DataBaseAdapter.DBInfo.CreateChildDataSource(System.Int32,System.String,System.String,System.String,Buffalo.DB.DataBaseAdapter.LazyType,System.String[],Buffalo.DB.CacheManager.QueryCache)">
+            <summary>
+            添加子数据源信息
+            </summary>
+            <param name="key">键</param>
+            <param name="connectionString">连接字符串</param>
+            <param name="readonlyConnectionString">只读连接字符串</param>
+            <param name="dbType">数据库类型</param>
+            <param name="allowLazy">是否延迟加载</param>
+            <param name="dataaccessNamespace">数据层名称</param>
+            <param name="cache">缓存</param>
+        </member>
+        <member name="P:Buffalo.DB.DataBaseAdapter.DBInfo.SelectedDataSource">
+            <summary>
+            本线程使用的子数据源（-1则为恢复主数据源）
+            </summary>
+        </member>
+        <member name="P:Buffalo.DB.DataBaseAdapter.DBInfo.SelectedDBInfo">
+            <summary>
+            选中的数据源
+            </summary>
+        </member>
+        <member name="M:Buffalo.DB.DataBaseAdapter.DBInfo.GetChildDBInfo(System.Int32)">
+            <summary>
+            获取子数据源
+            </summary>
+            <param name="key">键</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.DataBaseAdapter.DBInfo.GetAllChildDBInfo">
+            <summary>
+            获取所有子数据源
+            </summary>
+            <param name="key">键</param>
             <returns></returns>
         </member>
         <member name="M:Buffalo.DB.DataBaseAdapter.DBInfo.#ctor(System.String,System.String,System.String,System.String,Buffalo.DB.DataBaseAdapter.LazyType)">
@@ -7807,6 +8167,16 @@
             数据库的连接字符串
             </summary>
         </member>
+        <member name="P:Buffalo.DB.DataBaseAdapter.DBInfo.SelectedConnectionString">
+            <summary>
+            选中数据源的连接字符串
+            </summary>
+        </member>
+        <member name="P:Buffalo.DB.DataBaseAdapter.DBInfo.SelectedReadOnlyConnectionString">
+            <summary>
+            选中数据源只读数据库的连接字符串
+            </summary>
+        </member>
         <member name="P:Buffalo.DB.DataBaseAdapter.DBInfo.ReadOnlyConnectionString">
             <summary>
             只读数据库的连接字符串
@@ -7846,6 +8216,41 @@
         <member name="P:Buffalo.DB.DataBaseAdapter.DBInfo.ExceptionOption">
             <summary>
             异常信息配置
+            </summary>
+        </member>
+        <member name="P:Buffalo.DB.DataBaseAdapter.DBInfo.ChildKey">
+            <summary>
+            键
+            </summary>
+        </member>
+        <member name="P:Buffalo.DB.DataBaseAdapter.DBInfo.FullName">
+            <summary>
+            全名
+            </summary>
+        </member>
+        <member name="P:Buffalo.DB.DataBaseAdapter.DBInfo.EntityLoaderConfig">
+            <summary>
+            实体跟数据层的映射
+            </summary>
+        </member>
+        <member name="P:Buffalo.DB.DataBaseAdapter.DBInfo.DataaccessEntityMapping">
+            <summary>
+            实体跟数据层的映射
+            </summary>
+        </member>
+        <member name="P:Buffalo.DB.DataBaseAdapter.DBInfo.SelectedDataaccessEntityMapping">
+            <summary>
+            实体跟数据层的映射
+            </summary>
+        </member>
+        <member name="P:Buffalo.DB.DataBaseAdapter.DBInfo.DataaccessInterfaceMapping">
+            <summary>
+            接口跟数据层的映射
+            </summary>
+        </member>
+        <member name="P:Buffalo.DB.DataBaseAdapter.DBInfo.SelectedDataaccessInterfaceMapping">
+            <summary>
+            接口跟数据层的映射
             </summary>
         </member>
         <member name="T:Buffalo.DB.DataBaseAdapter.LazyType">
@@ -8274,6 +8679,22 @@
             <param name="info">数据库信息</param>
             <returns></returns>
         </member>
+        <member name="M:Buffalo.DB.DataBaseAdapter.IDbAdapters.IDBAdapter.ShowFromLockUpdate(Buffalo.DB.BQLCommon.BQLKeyWordCommon.BQLLockType,Buffalo.DB.DataBaseAdapter.DBInfo)">
+            <summary>
+            在form位置的加锁方式(MSSQL)
+            </summary>
+            <param name="keyworkInfo"></param>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.DataBaseAdapter.IDbAdapters.IDBAdapter.LockUpdate(Buffalo.DB.BQLCommon.BQLKeyWordCommon.BQLLockType,Buffalo.DB.DataBaseAdapter.DBInfo)">
+            <summary>
+            结尾位置的加锁方式
+            </summary>
+            <param name="keyworkInfo"></param>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
         <member name="M:Buffalo.DB.DataBaseAdapter.IDbAdapters.IDBStructure.GetAllTableName(Buffalo.DB.DbCommon.DataBaseOperate,Buffalo.DB.DataBaseAdapter.DBInfo)">
             <summary>
             获取所有表名
@@ -8428,7 +8849,7 @@
             <param name="objPage">分页记录类</param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.DataBaseAdapter.Oracle9Adapter.CutPageSqlCreater.GetCutPageSql(System.String,Buffalo.DB.QueryConditions.PageContent)">
+        <member name="M:Buffalo.DB.DataBaseAdapter.Oracle9Adapter.CutPageSqlCreater.FillCutPageSql(System.Text.StringBuilder,System.String,Buffalo.DB.QueryConditions.PageContent)">
             <summary>
             获取分页语句
             </summary>
@@ -8746,6 +9167,13 @@
             </summary>
             <param name="source"></param>
             <param name="lstParam"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.DataBaseAdapter.Oracle9Adapter.DBAdapter.AppendLikePrm(System.Text.StringBuilder,System.String,Buffalo.DB.DataBaseAdapter.BQLCaseType)">
+            <summary>
+            格式化字段名
+            </summary>
+            <param name="pName"></param>
             <returns></returns>
         </member>
         <member name="T:Buffalo.DB.DataBaseAdapter.Oracle9Adapter.DBStructure">
@@ -10723,6 +11151,11 @@
             注释
             </summary>
         </member>
+        <member name="P:Buffalo.DB.EntityInfos.EntityInfoHandle.SelectedTableName">
+            <summary>
+            切换当前使用的表名,null则切换回默认
+            </summary>
+        </member>
         <member name="P:Buffalo.DB.EntityInfos.EntityInfoHandle.TableName">
             <summary>
             对应的表名名
@@ -11166,285 +11599,28 @@
             <param name="chr">字符</param>
             <returns></returns>
         </member>
-        <member name="T:Buffalo.DB.ListExtends.CompareItem">
+        <member name="T:Buffalo.DB.MessageOutPuters.DebugOutputer">
             <summary>
-            List过滤器器中的暂存类
+            Debug输出器
             </summary>
         </member>
-        <member name="M:Buffalo.DB.ListExtends.CompareItem.#ctor(System.Boolean,Buffalo.DB.QueryConditions.ConnectType)">
+        <member name="M:Buffalo.DB.MessageOutPuters.DebugOutputer.TraceWriteLine(System.String)">
             <summary>
-            比较结果存放类
+            Trace.WriteLine模式
             </summary>
-            <param name="curCompare">比较结果</param>
-            <param name="connectType">连接条件</param>
+            <param name="str"></param>
         </member>
-        <member name="P:Buffalo.DB.ListExtends.CompareItem.CurCompare">
+        <member name="M:Buffalo.DB.MessageOutPuters.DebugOutputer.DebugWriteLine(System.String)">
             <summary>
-            比较结果
+            Debug.WriteLine模式
             </summary>
+            <param name="str"></param>
         </member>
-        <member name="P:Buffalo.DB.ListExtends.CompareItem.ConnectType">
+        <member name="M:Buffalo.DB.MessageOutPuters.DebugOutputer.ConsoleWriteLine(System.String)">
             <summary>
-            连接条件
+            Console.WriteLine模式
             </summary>
-        </member>
-        <member name="P:Buffalo.DB.ListExtends.CompareItemInfo.PropertyInfo">
-            <summary>
-            属性信息
-            </summary>
-        </member>
-        <member name="P:Buffalo.DB.ListExtends.CompareItemInfo.ScopeInfo">
-            <summary>
-            条件信息
-            </summary>
-        </member>
-        <member name="T:Buffalo.DB.ListExtends.DataFilter">
-            <summary>
-            提供对IList数据过滤和排序的类
-            </summary>
-        </member>
-        <member name="M:Buffalo.DB.ListExtends.DataFilter.RowFilter(System.Collections.IList,Buffalo.DB.QueryConditions.ScopeList)">
-            <summary>
-            过滤集合
-            </summary>
-            <param name="sourceList">源集合</param>
-            <param name="lstScope">过滤条件</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.ListExtends.DataFilter.IsAllAccord(System.Collections.Generic.List{Buffalo.DB.ListExtends.CompareItem})">
-            <summary>
-            是否通过所有条件
-            </summary>
-            <param name="lstCompareItem">比较结果集合</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.ListExtends.DataFilter.IsAccord(System.Object,Buffalo.DB.QueryConditions.Scope)">
-            <summary>
-            是否通过条件
-            </summary>
-            <param name="value"></param>
-            <param name="condition"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.ListExtends.DataFilter.SortList(System.Collections.IList,Buffalo.DB.QueryConditions.SortType)">
-            <summary>
-            对值集合进行排序
-            </summary>
-            <param name="lst">值集合</param>
-            <param name="lstSort">排序方式</param>
-        </member>
-        <member name="M:Buffalo.DB.ListExtends.DataFilter.IsAccord(System.Object,System.Object,Buffalo.DB.QueryConditions.SortType)">
-            <summary>
-            比较两个值是否合乎排序条件
-            </summary>
-            <param name="val1">值1</param>
-            <param name="val2">值2</param>
-            <param name="objType">排序条件</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.ListExtends.DataFilter.SortList(System.Collections.IList,Buffalo.DB.QueryConditions.SortList)">
-            <summary>
-            对实体集合进行排序
-            </summary>
-            <param name="lst">实体集合</param>
-            <param name="lstSort">排序方式</param>
-        </member>
-        <member name="M:Buffalo.DB.ListExtends.DataFilter.GetSortComparts(System.Object,Buffalo.DB.QueryConditions.SortList)">
-            <summary>
-            根据排序方式列表获取对象的Get属性句柄和对应排序方式
-            </summary>
-            <param name="obj"></param>
-            <param name="lstSort"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.ListExtends.DataFilter.IsAccordCompare(System.Object,System.Object,System.Collections.Generic.List{Buffalo.DB.ListExtends.SortCompartItem})">
-            <summary>
-            根据排序条件对比两个对象(是否符合所有排序条件)
-            </summary>
-            <param name="val1">对象1</param>
-            <param name="val2">对象2</param>
-            <param name="lstSort">比较条件列表</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.ListExtends.ListXMLExtends.CollectValues(System.Collections.IEnumerable,System.String)">
-            <summary>
-            收集集合里边所有对应属性的值
-            </summary>
-            <param name="list">集合</param>
-            <param name="propertyName">属性名</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.ListExtends.ListXMLExtends.CollectValues``2(System.Collections.Generic.IEnumerable{``1},System.String)">
-            <summary>
-            根据集合里边对应属性的值组合出Dictionary
-            </summary>
-            <param name="list">集合</param>
-            <param name="propertyName">属性名</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.ListExtends.ListXMLExtends.CollectValues``1(System.Collections.IEnumerable)">
-            <summary>
-            根据集合组装出Dictionary
-            </summary>
-            <param name="list">集合</param>
-            <param name="propertyName">属性名</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.ListExtends.ListXMLExtends.WriteXml(System.Collections.IList,System.String)">
-            <summary>
-            把集合写入XML文件
-            </summary>
-            <param name="list">集合</param>
-            <param name="root">路径</param>
-        </member>
-        <member name="M:Buffalo.DB.ListExtends.ListXMLExtends.WriteXml(System.Collections.IList,System.IO.Stream,Buffalo.DB.QueryConditions.PageContent,System.Text.Encoding)">
-            <summary>
-            把集合写入XML流
-            </summary>
-            <param name="list">集合</param>
-            <param name="stm">流</param>
-            <param name="objPage">分页</param>
-            <param name="encoding">编码</param>
-        </member>
-        <member name="M:Buffalo.DB.ListExtends.ListXMLExtends.ValueToString(System.Object)">
-            <summary>
-            把类型转换成字符串
-            </summary>
-            <param name="value">类型</param>
-            <returns></returns>
-        </member>
-        <!-- Badly formed XML comment ignored for member "M:Buffalo.DB.ListExtends.ListXMLExtends.WriteXml(System.Collections.IList,System.IO.Stream,System.Text.Encoding)" -->
-        <!-- Badly formed XML comment ignored for member "M:Buffalo.DB.ListExtends.ListXMLExtends.WriteXml(System.Collections.IList,System.IO.Stream)" -->
-        <member name="M:Buffalo.DB.ListExtends.ListXMLExtends.ReadXML``1(System.IO.Stream,Buffalo.DB.QueryConditions.PageContent)">
-            <summary>
-            从流中读取XML
-            </summary>
-            <param name="stm">流</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.ListExtends.ListXMLExtends.StringToValue(System.String,System.Type)">
-            <summary>
-            把字符串的值还原成原类型的值
-            </summary>
-            <param name="value">字符串</param>
-            <param name="type">源类型</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.ListExtends.ListXMLExtends.ReadXML``1(System.IO.Stream)">
-            <summary>
-            从流中读取XML
-            </summary>
-            <param name="stm">流</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.ListExtends.ListXMLExtends.ReadXML``1(System.String)">
-            <summary>
-            从文件中读取XML
-            </summary>
-            <param name="root">文件路径</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.ListExtends.ListXMLExtends.ConvertTo(System.Object,System.Type)">
-            <summary>
-            把该值转成指定类型
-            </summary>
-            <param name="value">值</param>
-            <param name="type">指定类型</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.ListExtends.ListXMLExtends.ToByteString(System.Byte[])">
-            <summary>
-            把字节数组打成字符串
-            </summary>
-            <param name="bytes"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.ListExtends.ListXMLExtends.StringToBytes(System.String)">
-            <summary>
-            把字符串组合回字节数组
-            </summary>
-            <param name="bytes"></param>
-            <returns></returns>
-        </member>
-        <member name="P:Buffalo.DB.ListExtends.SortCompartItem.GetValueHandler">
-            <summary>
-            此排序的取值句柄
-            </summary>
-        </member>
-        <member name="P:Buffalo.DB.ListExtends.SortCompartItem.CurSortType">
-            <summary>
-            排序方式
-            </summary>
-        </member>
-        <member name="M:Buffalo.DB.ListExtends.XMLExtendsLoader.LoadItems``1(System.String)">
-            <summary>
-            读取信息集合
-            </summary>
-            <param name="info">信息</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.ListExtends.XMLExtendsLoader.LoadItems``1(System.String,Buffalo.DB.QueryConditions.PageContent,System.Text.Encoding)">
-            <summary>
-            读取信息集合
-            </summary>
-            <param name="info">信息</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.ListExtends.XMLExtendsLoader.LoadItems``1(System.String,Buffalo.DB.QueryConditions.PageContent)">
-            <summary>
-            读取信息集合
-            </summary>
-            <param name="info">信息</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.ListExtends.XMLExtendsLoader.LoadItem``1(System.String)">
-            <summary>
-            读取信息
-            </summary>
-            <param name="info">信息</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.ListExtends.XMLExtendsLoader.LoadItem``1(System.String,System.Text.Encoding)">
-            <summary>
-            读取信息
-            </summary>
-            <param name="info">信息</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.ListExtends.XMLExtendsLoader.ItemToString(System.Object)">
-            <summary>
-            返回单个项的XML信息
-            </summary>
-            <param name="item">项</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.ListExtends.XMLExtendsLoader.ItemToString(System.Object,System.Text.Encoding)">
-            <summary>
-            返回单个项的XML信息
-            </summary>
-            <param name="item">项</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.ListExtends.XMLExtendsLoader.ItemsToString(System.Collections.IList,Buffalo.DB.QueryConditions.PageContent,System.Text.Encoding)">
-            <summary>
-            返回集合项的XML字符串
-            </summary>
-            <param name="items">集合项</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.ListExtends.XMLExtendsLoader.ItemsToString(System.Collections.IList,Buffalo.DB.QueryConditions.PageContent)">
-            <summary>
-            返回集合项的XML字符串
-            </summary>
-            <param name="items">集合项</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.ListExtends.XMLExtendsLoader.ItemsToString(System.Collections.IList)">
-            <summary>
-            返回集合项的XML字符串
-            </summary>
-            <param name="items">集合项</param>
-            <returns></returns>
+            <param name="str"></param>
         </member>
         <member name="M:Buffalo.DB.MessageOutPuters.DebugOutputer.OutPut(Buffalo.DB.MessageOutPuters.MessageType,Buffalo.DB.MessageOutPuters.MessageInfo)">
             <summary>
@@ -12299,6 +12475,516 @@
             返回此条件对应的属性
             </summary>
         </member>
+        <member name="T:Buffalo.DB.QueryConditions.ScopeBaseList">
+            <summary>
+            条件基集合语句
+            </summary>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.#ctor(Buffalo.DB.QueryConditions.ScopeBaseList)">
+            <summary>
+            条件基集合语句
+            </summary>
+            <param name="parentList">所属集合</param>
+        </member>
+        <member name="P:Buffalo.DB.QueryConditions.ScopeBaseList.HasInner">
+            <summary>
+            判断是否有多表查询
+            </summary>
+        </member>
+        <member name="P:Buffalo.DB.QueryConditions.ScopeBaseList.ForUpdate">
+            <summary>
+            给查询行加锁
+            </summary>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddScopeList(Buffalo.DB.QueryConditions.ScopeList,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新条件的范围
+            </summary>
+            <param name="lstScope">条件集合</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.Add(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLCondition,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新条件的范围
+            </summary>
+            <param name="where">条件</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.IsInnerTable(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle)">
+            <summary>
+            判断是否多表
+            </summary>
+            <param name="property"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddBetween(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的范围
+            </summary>
+            <param name="property">属性</param>
+            <param name="minValue">最小值</param>
+            <param name="maxValue">最大值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddBetween(System.String,System.Object,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的范围
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="minValue">最小值</param>
+            <param name="maxValue">最大值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddContains(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的范围
+            </summary>
+            <param name="property">属性</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddContains(System.String,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的范围
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddMore(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的大于条件
+            </summary>
+            <param name="property">属性名</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddMore(System.String,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的大于条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddMoreThen(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的大于等于条件
+            </summary>
+            <param name="property">属性名</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddMoreThen(System.String,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的大于等于条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddLessThen(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的小于等于条件
+            </summary>
+            <param name="property">属性名</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddLessThen(System.String,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的小于等于条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddLess(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的小于条件
+            </summary>
+            <param name="property">属性名</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddLess(System.String,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的小于条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddIn(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Collections.IEnumerable,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的In条件(如果集合为空，则返回1=2)
+            </summary>
+            <param name="property">属性名</param>
+            <param name="valuesCollection">值集合</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddIn(System.String,System.Collections.IEnumerable,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的In条件(如果集合为空，则返回1=2)
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="valuesCollection">值集合</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddNotIn(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Collections.IEnumerable,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的NotIn条件(如果集合为空，则返回1=1)
+            </summary>
+            <param name="property">属性名</param>
+            <param name="valuesCollection">值集合</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddNotIn(System.String,System.Collections.IEnumerable,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的NotIn条件(如果集合为空，则返回1=1)
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="valuesCollection">值集合</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddNotEqual(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的不等于条件
+            </summary>
+            <param name="property">属性名</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddNotEqual(System.String,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的不等于条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddEqual(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的等于条件
+            </summary>
+            <param name="property">属性名</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddEqual(System.String,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的等于条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddLike(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的Like条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddLike(System.String,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的Like条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddStarWith(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的StarWith条件
+            </summary>
+            <param name="property">属性名</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddStarWith(System.String,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的StarWith条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddEndWith(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的EndWith条件
+            </summary>
+            <param name="property">属性名</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddEndWith(System.String,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
+            <summary>
+            添加新的EndWith条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddBetween(System.String,System.Object,System.Object)">
+            <summary>
+            添加新的范围
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="minValue">最小值</param>
+            <param name="maxValue">最大值</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddContains(System.String,System.Object)">
+            <summary>
+            添加新的范围
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddMore(System.String,System.Object)">
+            <summary>
+            添加新的大于条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddMoreThen(System.String,System.Object)">
+            <summary>
+            添加新的大于等于条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddLessThen(System.String,System.Object)">
+            <summary>
+            添加新的小于等于条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddLess(System.String,System.Object)">
+            <summary>
+            添加新的小于条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddIn(System.String,System.Collections.IEnumerable)">
+            <summary>
+            添加新的In条件(如果集合为空，则返回1=2)
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="valuesCollection">值集合</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddNotIn(System.String,System.Collections.IEnumerable)">
+            <summary>
+            添加新的NotIn条件(如果集合为空，则返回1=1)
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="valuesCollection">值集合</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddNotEqual(System.String,System.Object)">
+            <summary>
+            添加新的不等于条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddEqual(System.String,System.Object)">
+            <summary>
+            添加新的等于条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddLike(System.String,System.Object)">
+            <summary>
+            添加新的等于条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddBetween(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,System.Object)">
+            <summary>
+            添加新的范围
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="minValue">最小值</param>
+            <param name="maxValue">最大值</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddContains(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object)">
+            <summary>
+            添加新的范围
+            </summary>
+            <param name="property">属性</param>
+            <param name="value">最小值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddMore(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object)">
+            <summary>
+            添加新的大于条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddMoreThen(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object)">
+            <summary>
+            添加新的大于等于条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddLessThen(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object)">
+            <summary>
+            添加新的小于等于条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddLess(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object)">
+            <summary>
+            添加新的小于条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddIn(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Collections.IEnumerable)">
+            <summary>
+            添加新的In条件(如果集合为空，则返回1=2)
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="valuesCollection">值集合</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddNotIn(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Collections.IEnumerable)">
+            <summary>
+            添加新的NotIn条件(如果集合为空，则返回1=1)
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="valuesCollection">值集合</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddNotEqual(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object)">
+            <summary>
+            添加新的不等于条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddEqual(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object)">
+            <summary>
+            添加新的等于条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddLike(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object)">
+            <summary>
+            添加新的等于条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddStarWith(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object)">
+            <summary>
+            添加新的StarWith条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddStarWith(System.String,System.Object)">
+            <summary>
+            添加新的StarWith条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddEndWith(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object)">
+            <summary>
+            添加新的EndWith条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddEndWith(System.String,System.Object)">
+            <summary>
+            添加新的EndWith条件
+            </summary>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.AddScopeList(Buffalo.DB.QueryConditions.ScopeList)">
+            <summary>
+            添加新条件的范围
+            </summary>
+            <param name="lstScope">条件集合</param>
+            <returns>返回是否添加成功</returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.ScopeBaseList.Add(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLCondition)">
+            <summary>
+            添加新条件的范围
+            </summary>
+            <param name="where">条件</param>
+            <param name="conntype">连接类型</param>
+            <returns>返回是否添加成功</returns>
+        </member>
         <member name="T:Buffalo.DB.QueryConditions.ScopeList">
             <summary>
             查找条件的集合
@@ -12346,11 +13032,6 @@
             查询时候要隐藏哪些属性的集合
             </summary>
         </member>
-        <member name="P:Buffalo.DB.QueryConditions.ScopeList.HasInner">
-            <summary>
-            判断是否有多表查询
-            </summary>
-        </member>
         <member name="P:Buffalo.DB.QueryConditions.ScopeList.OrderBy">
             <summary>
             排序
@@ -12371,560 +13052,10 @@
             判断是否有排序
             </summary>
         </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddScopeList(Buffalo.DB.QueryConditions.ScopeList,Buffalo.DB.QueryConditions.ConnectType)">
+        <member name="P:Buffalo.DB.QueryConditions.ScopeList.Having">
             <summary>
-            添加新条件的范围
+            Having字句
             </summary>
-            <param name="lstScope">条件集合</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.Add(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLCondition,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新条件的范围
-            </summary>
-            <param name="where">条件</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.IsInnerTable(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle)">
-            <summary>
-            判断是否多表
-            </summary>
-            <param name="property"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddBetween(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的范围
-            </summary>
-            <param name="property">属性</param>
-            <param name="minValue">最小值</param>
-            <param name="maxValue">最大值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddBetween(System.String,System.Object,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的范围
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="minValue">最小值</param>
-            <param name="maxValue">最大值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddContains(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的范围
-            </summary>
-            <param name="property">属性</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddContains(System.String,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的范围
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddMore(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的大于条件
-            </summary>
-            <param name="property">属性名</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddMore(System.String,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的大于条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddMoreThen(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的大于等于条件
-            </summary>
-            <param name="property">属性名</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddMoreThen(System.String,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的大于等于条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddLessThen(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的小于等于条件
-            </summary>
-            <param name="property">属性名</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddLessThen(System.String,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的小于等于条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddLess(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的小于条件
-            </summary>
-            <param name="property">属性名</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddLess(System.String,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的小于条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddIn(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Collections.IEnumerable,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的In条件(如果集合为空，则返回1=2)
-            </summary>
-            <param name="property">属性名</param>
-            <param name="valuesCollection">值集合</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddIn(System.String,System.Collections.IEnumerable,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的In条件(如果集合为空，则返回1=2)
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="valuesCollection">值集合</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddNotIn(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Collections.IEnumerable,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的NotIn条件(如果集合为空，则返回1=1)
-            </summary>
-            <param name="property">属性名</param>
-            <param name="valuesCollection">值集合</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddNotIn(System.String,System.Collections.IEnumerable,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的NotIn条件(如果集合为空，则返回1=1)
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="valuesCollection">值集合</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddNotEqual(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的不等于条件
-            </summary>
-            <param name="property">属性名</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddNotEqual(System.String,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的不等于条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddEqual(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的等于条件
-            </summary>
-            <param name="property">属性名</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddEqual(System.String,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的等于条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddLike(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的Like条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddLike(System.String,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的Like条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddStarWith(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的StarWith条件
-            </summary>
-            <param name="property">属性名</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddStarWith(System.String,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的StarWith条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddEndWith(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的EndWith条件
-            </summary>
-            <param name="property">属性名</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddEndWith(System.String,System.Object,Buffalo.DB.QueryConditions.ConnectType)">
-            <summary>
-            添加新的EndWith条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddBetween(System.String,System.Object,System.Object)">
-            <summary>
-            添加新的范围
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="minValue">最小值</param>
-            <param name="maxValue">最大值</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddContains(System.String,System.Object)">
-            <summary>
-            添加新的范围
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddMore(System.String,System.Object)">
-            <summary>
-            添加新的大于条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddMoreThen(System.String,System.Object)">
-            <summary>
-            添加新的大于等于条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddLessThen(System.String,System.Object)">
-            <summary>
-            添加新的小于等于条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddLess(System.String,System.Object)">
-            <summary>
-            添加新的小于条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddIn(System.String,System.Collections.IEnumerable)">
-            <summary>
-            添加新的In条件(如果集合为空，则返回1=2)
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="valuesCollection">值集合</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddNotIn(System.String,System.Collections.IEnumerable)">
-            <summary>
-            添加新的NotIn条件(如果集合为空，则返回1=1)
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="valuesCollection">值集合</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddNotEqual(System.String,System.Object)">
-            <summary>
-            添加新的不等于条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddEqual(System.String,System.Object)">
-            <summary>
-            添加新的等于条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddLike(System.String,System.Object)">
-            <summary>
-            添加新的等于条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddBetween(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object,System.Object)">
-            <summary>
-            添加新的范围
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="minValue">最小值</param>
-            <param name="maxValue">最大值</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddContains(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object)">
-            <summary>
-            添加新的范围
-            </summary>
-            <param name="property">属性</param>
-            <param name="value">最小值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddMore(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object)">
-            <summary>
-            添加新的大于条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddMoreThen(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object)">
-            <summary>
-            添加新的大于等于条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddLessThen(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object)">
-            <summary>
-            添加新的小于等于条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddLess(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object)">
-            <summary>
-            添加新的小于条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddIn(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Collections.IEnumerable)">
-            <summary>
-            添加新的In条件(如果集合为空，则返回1=2)
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="valuesCollection">值集合</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddNotIn(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Collections.IEnumerable)">
-            <summary>
-            添加新的NotIn条件(如果集合为空，则返回1=1)
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="valuesCollection">值集合</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddNotEqual(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object)">
-            <summary>
-            添加新的不等于条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddEqual(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object)">
-            <summary>
-            添加新的等于条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddLike(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object)">
-            <summary>
-            添加新的等于条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddStarWith(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object)">
-            <summary>
-            添加新的StarWith条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddStarWith(System.String,System.Object)">
-            <summary>
-            添加新的StarWith条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddEndWith(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityParamHandle,System.Object)">
-            <summary>
-            添加新的EndWith条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddEndWith(System.String,System.Object)">
-            <summary>
-            添加新的EndWith条件
-            </summary>
-            <param name="propertyName">属性名</param>
-            <param name="value">值</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.AddScopeList(Buffalo.DB.QueryConditions.ScopeList)">
-            <summary>
-            添加新条件的范围
-            </summary>
-            <param name="lstScope">条件集合</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.Add(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLCondition)">
-            <summary>
-            添加新条件的范围
-            </summary>
-            <param name="where">条件</param>
-            <param name="conntype">连接类型</param>
-            <returns>返回是否添加成功</returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.ToXmlString">
-            <summary>
-            把范围集合转成XML字符串
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeList.LoadXML(System.String)">
-            <summary>
-            根据XML加载范围集合项
-            </summary>
-            <param name="xmlString">xml字符串</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeXmlExtend.GetScopeXml(Buffalo.DB.QueryConditions.ScopeList,System.Text.Encoding,System.IO.Stream)">
-            <summary>
-            获取范围List的XML
-            </summary>
-            <param name="lstScope">范围集合</param>
-            <param name="encode">编码</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeXmlExtend.AppendValue(System.Xml.XmlDocument,System.Xml.XmlElement,System.String,System.Object,Buffalo.DB.QueryConditions.Scope)">
-            <summary>
-            添加一个值
-            </summary>
-            <param name="doc">XML文档</param>
-            <param name="ele">源元素</param>
-            <param name="valueName">值的标签</param>
-            <param name="value">值</param>
-            <param name="objScope">范围对象</param>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeXmlExtend.GetScopeXmlString(Buffalo.DB.QueryConditions.ScopeList,System.Text.Encoding)">
-            <summary>
-            返回集合项的XML字符串
-            </summary>
-            <param name="items">集合项</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeXmlExtend.GetScopeXmlString(Buffalo.DB.QueryConditions.ScopeList)">
-            <summary>
-            返回集合项的XML字符串
-            </summary>
-            <param name="items">集合项</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeXmlExtend.LoadScopeItems(System.IO.Stream,Buffalo.DB.QueryConditions.ScopeList)">
-            <summary>
-            根据XML加载范围查找项
-            </summary>
-            <param name="xml">XML</param>
-            <param name="lstScope">范围集合</param>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeXmlExtend.LoadScopeItems(System.String,Buffalo.DB.QueryConditions.ScopeList,System.Text.Encoding)">
-            <summary>
-            读取信息集合
-            </summary>
-            <param name="info">信息</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.DB.QueryConditions.ScopeXmlExtend.LoadScopeItems(System.String,Buffalo.DB.QueryConditions.ScopeList)">
-            <summary>
-            读取信息集合
-            </summary>
-            <param name="info">信息</param>
-            <returns></returns>
         </member>
         <member name="T:Buffalo.DB.QueryConditions.SelectCondition">
             <summary>
@@ -12948,12 +13079,22 @@
         </member>
         <member name="F:Buffalo.DB.QueryConditions.SelectCondition._tables">
             <summary>
-            查询的表
+            表
             </summary>
         </member>
         <member name="P:Buffalo.DB.QueryConditions.SelectCondition.Tables">
             <summary>
-            主键
+            表
+            </summary>
+        </member>
+        <member name="F:Buffalo.DB.QueryConditions.SelectCondition._tablesNoLock">
+            <summary>
+            查询的表(不加Lock条件)
+            </summary>
+        </member>
+        <member name="P:Buffalo.DB.QueryConditions.SelectCondition.TablesNoLock">
+            <summary>
+            查询的表(不加Lock条件)
             </summary>
         </member>
         <member name="F:Buffalo.DB.QueryConditions.SelectCondition._condition">
@@ -12986,6 +13127,16 @@
             主键
             </summary>
         </member>
+        <member name="F:Buffalo.DB.QueryConditions.SelectCondition._lockUpdate">
+            <summary>
+            锁条件
+            </summary>
+        </member>
+        <member name="P:Buffalo.DB.QueryConditions.SelectCondition.LockUpdate">
+            <summary>
+            锁条件
+            </summary>
+        </member>
         <member name="P:Buffalo.DB.QueryConditions.SelectCondition.HasGroup">
             <summary>
             是否有聚合语句
@@ -12996,19 +13147,25 @@
             分页对象
             </summary>
         </member>
-        <member name="M:Buffalo.DB.QueryConditions.SelectCondition.GetSelect">
+        <member name="M:Buffalo.DB.QueryConditions.SelectCondition.GetSelect(System.Boolean,System.Boolean)">
             <summary>
             获取查询语句
             </summary>
             <param name="hasOrder">是否有排序</param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.DB.QueryConditions.SelectCondition.GetSelect(System.Boolean)">
+        <member name="M:Buffalo.DB.QueryConditions.SelectCondition.FillSelect(System.Text.StringBuilder,System.Boolean)">
             <summary>
             获取查询语句
             </summary>
             <param name="hasOrder">是否有排序</param>
             <returns></returns>
+        </member>
+        <member name="M:Buffalo.DB.QueryConditions.SelectCondition.FillLock(System.Text.StringBuilder)">
+            <summary>
+            填充锁
+            </summary>
+            <param name="sql"></param>
         </member>
         <member name="M:Buffalo.DB.QueryConditions.ShowChildCollection.Add(Buffalo.DB.BQLCommon.BQLConditionCommon.BQLEntityTableHandle,Buffalo.DB.QueryConditions.ScopeList)">
             <summary>
@@ -13215,8 +13372,8 @@
         </member>
         <member name="P:Buffalo.DB.Resource.Culture">
             <summary>
-              重写当前线程的 CurrentUICulture 属性
-              重写当前线程的 CurrentUICulture 属性。
+              重写当前线程的 CurrentUICulture 属性，对
+              使用此强类型资源类的所有资源查找执行重写。
             </summary>
         </member>
         <member name="P:Buffalo.DB.Resource.tableParam2000">

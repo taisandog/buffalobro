@@ -182,6 +182,11 @@
             是否开启了事务
             </summary>
         </member>
+        <member name="P:Buffalo.MQ.MQConnection.IsAutoClose">
+            <summary>
+            是否自动关闭
+            </summary>
+        </member>
         <member name="P:Buffalo.MQ.MQConnection.IsBatch">
             <summary>
             是否在批量处理中
@@ -388,13 +393,19 @@
             队列位置信息
             </summary>
         </member>
-        <member name="M:Buffalo.MQ.MQOffestInfo.#ctor(System.String,System.Int32,System.Int64)">
+        <member name="M:Buffalo.MQ.MQOffestInfo.#ctor(System.String,System.Int32,System.Int64,System.String)">
             <summary>
             监听
             </summary>
             <param name="key">监听键</param>
-            <param name="partition">分区</param>
-            <param name="offset">位置</param>
+            <param name="partition">分区(Kafka有用)</param>
+            <param name="offset">位置(Kafka有用)</param>
+            <param name="queueKey">队列键(Redis有用)</param>
+        </member>
+        <member name="P:Buffalo.MQ.MQOffestInfo.QueueKey">
+            <summary>
+            队列键(Redis有用)
+            </summary>
         </member>
         <member name="F:Buffalo.MQ.MQOffestInfo._key">
             <summary>
@@ -632,11 +643,6 @@
             队列创建器
             </summary>
         </member>
-        <member name="F:Buffalo.MQ.MQUnit.Tag">
-            <summary>
-            线程变量名
-            </summary>
-        </member>
         <member name="M:Buffalo.MQ.MQUnit.GetStaticConnTable">
             <summary>
             获取本线程变量连接
@@ -816,6 +822,13 @@
             订阅
             </summary>
         </member>
+        <member name="T:Buffalo.MQ.RedisMQ.RedisMQFormatKeyHandle">
+            <summary>
+            格式化key的委托
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
         <member name="T:Buffalo.MQ.RedisMQ.RedisMQConfig">
             <summary>
             Redis配置
@@ -860,6 +873,18 @@
             <summary>
             使用数据库
             </summary>
+        </member>
+        <member name="F:Buffalo.MQ.RedisMQ.RedisMQConfig.FormatQueueKeyHandle">
+            <summary>
+            当选择了订阅模式+保存数据到队列时候，自定义格式化队列的key
+            </summary>
+        </member>
+        <member name="M:Buffalo.MQ.RedisMQ.RedisMQConfig.GetDefaultQueueKey(System.String)">
+            <summary>
+            获取队列的默认键
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
         </member>
         <member name="F:Buffalo.MQ.RedisMQ.RedisMQConnection._subscriber">
             <summary>
@@ -946,14 +971,14 @@
             正在运行轮询
             </summary>
         </member>
-        <member name="F:Buffalo.MQ.RedisMQ.RedisMQListener._pollEvent">
-            <summary>
-            阻塞
-            </summary>
-        </member>
         <member name="F:Buffalo.MQ.RedisMQ.RedisMQListener._thdPolling">
             <summary>
             轮询线程
+            </summary>
+        </member>
+        <member name="F:Buffalo.MQ.RedisMQ.RedisMQListener._dicTopicToQueue">
+            <summary>
+            主题和队列的对应关系
             </summary>
         </member>
         <member name="M:Buffalo.MQ.RedisMQ.RedisMQListener.#ctor(Buffalo.MQ.RedisMQ.RedisMQConfig)">
@@ -973,6 +998,13 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Buffalo.MQ.RedisMQ.RedisMQListener.GetQueueKey(System.String)">
+            <summary>
+            通过话题Key获取队列key
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
         <member name="M:Buffalo.MQ.RedisMQ.RedisMQListener.FlushQueue(System.String)">
             <summary>
             读入队列信息
@@ -983,6 +1015,12 @@
             轮询方式监听
             </summary>
             <param name="objKeys"></param>
+        </member>
+        <member name="M:Buffalo.MQ.RedisMQ.RedisMQListener.StartListend(System.Collections.Generic.IEnumerable{Buffalo.MQ.MQOffestInfo})">
+            <summary>
+            开始监听
+            </summary>
+            <param name="listenKeys"></param>
         </member>
         <member name="M:Buffalo.MQ.RedisMQ.RedisMQListener.Close">
             <summary>

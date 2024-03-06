@@ -22,6 +22,26 @@
             利用MemCached做缓存
             </summary>
         </member>
+        <member name="P:Buffalo.QueryCache.MemCachedAdaper.Config">
+            <summary>
+            连接配置
+            </summary>
+        </member>
+        <member name="P:Buffalo.QueryCache.MemCachedAdaper.ConnectConfiguration">
+            <summary>
+            连接配置
+            </summary>
+        </member>
+        <member name="P:Buffalo.QueryCache.MemCachedAdaper.ConnectClient">
+            <summary>
+            连接的客户端
+            </summary>
+        </member>
+        <member name="M:Buffalo.QueryCache.MemCachedAdaper.ReconnectClient">
+            <summary>
+            重连连接redis
+            </summary>
+        </member>
         <member name="M:Buffalo.QueryCache.MemCachedAdaper.#ctor(System.String,Buffalo.DB.DataBaseAdapter.DBInfo)">
             <summary>
             memcached的适配器
@@ -118,6 +138,335 @@
             关联连接
             </summary>
         </member>
+        <member name="F:Buffalo.QueryCache.RedisCollections.MemcachedLock.ContextKey">
+            <summary>
+            在上下文中的Key
+            </summary>
+        </member>
+        <member name="F:Buffalo.QueryCache.RedisCollections.MemcachedLock._key">
+            <summary>
+            要锁的键
+            </summary>
+        </member>
+        <member name="F:Buffalo.QueryCache.RedisCollections.MemcachedLock._guidHash">
+            <summary>
+            标记为本锁的guid
+            </summary>
+        </member>
+        <member name="F:Buffalo.QueryCache.RedisCollections.MemcachedLock._threadContext">
+            <summary>
+            获取线程上下文集合
+            </summary>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisCollections.MemcachedLock.GetThreadContext">
+            <summary>
+            获取线程上下文集合（获取本线程是否已经锁过这个值）
+            </summary>
+        </member>
+        <member name="P:Buffalo.QueryCache.RedisCollections.MemcachedLock.HasLock">
+            <summary>
+            获取此会话是否已经锁定了
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisCollections.MemcachedLock.LockObject(System.Int64,System.Int32)">
+            <summary>
+            锁定Key
+            </summary>
+            <param name="id">ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisCollections.MemcachedLock.UnLockUser">
+            <summary>
+            解锁用户
+            </summary>
+            <param name="id">ID</param>
+            <returns></returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Buffalo.QueryCache.RedisCollections.MemcachedLock.DeleteLock" -->
+        <member name="T:Buffalo.QueryCache.RedisCollections.RedisHash">
+            <summary>
+            Hash方式的缓存操作
+            </summary>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisCollections.RedisHash.SetRangeValue(System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            批量给HashSet设置值
+            </summary>
+            <typeparam name="E"></typeparam>
+            <param name="key">键</param>
+            <param name="dicSet">值</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisCollections.RedisHash.SetValue(System.String,System.Object,Buffalo.DB.CacheManager.SetValueType)">
+            <summary>
+            HashSet设置值
+            </summary>
+            <param name="key">哈希表的键</param>
+            <param name="value">哈希表的值</param>
+            <param name="type">设置方式</param>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisCollections.RedisHash.GetValue``1(System.String,``0)">
+            <summary>
+            获取哈希表的值
+            </summary>
+            <typeparam name="E"></typeparam>
+            <param name="key">哈希表的键</param>
+            <param name="defaultValue">默认值</param>
+            <param name="connection"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisCollections.RedisHash.GetAllValues``1(``0)">
+            <summary>
+            获取所有哈希表的值
+            </summary>
+            <typeparam name="E"></typeparam>
+            <param name="key">键</param>
+            <param name="defaultValue">默认值</param>
+            <param name="connection"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisCollections.RedisHash.GetAllKeys">
+            <summary>
+            获取所有哈希表的键
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisCollections.RedisHash.DeleteValue(System.String)">
+            <summary>
+            删除哈希表的值
+            </summary>
+            <typeparam name="E"></typeparam>
+            <param name="key">哈希表的键</param>
+            <param name="connection"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisCollections.RedisHash.DeleteValues(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            批量删除哈希表的值
+            </summary>
+            <typeparam name="E"></typeparam>
+            <param name="keys">要删除哈希表的键</param>
+            <returns></returns>
+        </member>
+        <member name="T:Buffalo.QueryCache.RedisCollections.RedisList">
+            <summary>
+            List方式的缓存操作
+            </summary>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisCollections.RedisList.#ctor(StackExchange.Redis.IDatabase,System.String,StackExchange.Redis.CommandFlags,System.TimeSpan)">
+            <summary>
+             List方式的缓存操作
+            </summary>
+            <param name="lst"></param>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisCollections.RedisList.PopValue``1(System.Boolean,``0)">
+            <summary>
+            Pop形式输出值
+            </summary>
+            <typeparam name="E"></typeparam>
+            <param name="key"></param>
+            <param name="isPopEnd"></param>
+            <returns></returns>
+        </member>
+        <member name="F:Buffalo.QueryCache.RedisCollections.RedisLock._key">
+            <summary>
+            要锁的键
+            </summary>
+        </member>
+        <member name="F:Buffalo.QueryCache.RedisCollections.RedisLock._guidHash">
+            <summary>
+            标记为本锁的guid
+            </summary>
+        </member>
+        <member name="F:Buffalo.QueryCache.RedisCollections.RedisLock._threadContext">
+            <summary>
+            获取线程上下文集合
+            </summary>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisCollections.RedisLock.GetThreadContext">
+            <summary>
+            获取线程上下文集合（获取本线程是否已经锁过这个值）
+            </summary>
+        </member>
+        <member name="P:Buffalo.QueryCache.RedisCollections.RedisLock.HasLock">
+            <summary>
+            获取此会话是否已经锁定了
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisCollections.RedisLock.LockObject(System.Int64,System.Int32)">
+            <summary>
+            锁定Key
+            </summary>
+            <param name="id">ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisCollections.RedisLock.UnLockUser">
+            <summary>
+            解锁用户
+            </summary>
+            <param name="id">ID</param>
+            <returns></returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Buffalo.QueryCache.RedisCollections.RedisLock.DeleteLock" -->
+        <member name="M:Buffalo.QueryCache.RedisCollections.RedisSortedSet.#ctor(StackExchange.Redis.IDatabase,System.String,StackExchange.Redis.CommandFlags,System.TimeSpan)">
+            <summary>
+             List方式的缓存操作
+            </summary>
+            <param name="lst"></param>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisCollections.RedisSortedSet.Add(System.Object,System.Double,Buffalo.DB.CacheManager.SetValueType)">
+            <summary>
+            向排序表增加元素
+            </summary>
+            <param name="key">key</param>
+            <param name="value">值</param>
+            <param name="source">排序键</param>
+            <param name="oper"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisCollections.RedisSortedSet.AddRang(System.Collections.Generic.IEnumerable{Buffalo.DB.CacheManager.CacheCollection.SortedSetItem},Buffalo.DB.CacheManager.SetValueType)">
+            <summary>
+            向排序表增加元素
+            </summary>
+            <param name="value">值</param>
+            <param name="source">排序键</param>
+            <param name="oper"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisCollections.RedisSortedSet.Decrement(System.Object,System.Double)">
+            <summary>
+            减少排序的元素的排序分
+            </summary>
+            <param name="value">值</param>
+            <param name="source">排序分</param>
+            <param name="oper"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisCollections.RedisSortedSet.Increment(System.Object,System.Double)">
+            <summary>
+            增加排序的元素的排序分
+            </summary>
+            <param name="key">key</param>
+            <param name="value">值</param>
+            <param name="score">排序分</param>
+            <param name="oper"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisCollections.RedisSortedSet.GetLength(System.Nullable{System.Double},System.Nullable{System.Double})">
+            <summary>
+            获取集合长度
+            </summary>
+            <typeparam name="E"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisCollections.RedisSortedSet.GetExclude``1(System.Nullable{``0},System.Nullable{``0})">
+            <summary>
+            获取排除项
+            </summary>
+            <param name="min"></param>
+            <param name="max"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisCollections.RedisSortedSet.GetObjectExclude(System.Object,System.Object)">
+            <summary>
+            获取排除项
+            </summary>
+            <param name="min"></param>
+            <param name="max"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisCollections.RedisSortedSet.GetOeder(Buffalo.DB.QueryConditions.SortType)">
+            <summary>
+            获取Order
+            </summary>
+            <param name="order"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisCollections.RedisSortedSet.GetRangeByRankWithScores(System.Int64,System.Int64,Buffalo.DB.QueryConditions.SortType)">
+            <summary>
+            根据索引范围获取值
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisCollections.RedisSortedSet.GetRangeByRank``1(System.Int64,System.Int64,Buffalo.DB.QueryConditions.SortType)">
+            <summary>
+            根据索引范围获取值
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisCollections.RedisSortedSet.GetRangeByScore``1(System.Nullable{System.Double},System.Nullable{System.Double},Buffalo.DB.QueryConditions.SortType,System.Int64,System.Int64)">
+            <summary>
+            根据索引范围获取值
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisCollections.RedisSortedSet.GetRangeByScoreWithScores(System.Nullable{System.Double},System.Nullable{System.Double},Buffalo.DB.QueryConditions.SortType,System.Int64,System.Int64)">
+            <summary>
+            根据索引范围获取值
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisCollections.RedisSortedSet.GetRangeByValue``1(System.Object,System.Object,System.Int64,System.Int64)">
+            <summary>
+            根据索引范围获取值
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisCollections.RedisSortedSet.GetIndex(System.Object,Buffalo.DB.QueryConditions.SortType)">
+            <summary>
+            获取索引
+            </summary>
+            <param name="value"></param>
+            <param name="order"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisCollections.RedisSortedSet.GetKeyByValue(System.Object)">
+            <summary>
+            获取索引
+            </summary>
+            <param name="value"></param>
+            <param name="order"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisCollections.RedisSortedSet.Remove(System.Object)">
+            <summary>
+            删除值
+            </summary>
+            <param name="values"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisCollections.RedisSortedSet.Remove(System.Object[])">
+            <summary>
+            删除值
+            </summary>
+            <param name="values"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisCollections.RedisSortedSet.RemoveRangeByRank(System.Int64,System.Int64)">
+            <summary>
+            删除值
+            </summary>
+            <param name="values"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisCollections.RedisSortedSet.RemoveRangeByKey(System.Nullable{System.Double},System.Nullable{System.Double})">
+            <summary>
+            删除值
+            </summary>
+            <param name="values"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisCollections.RedisSortedSet.RemoveRangeByValue(System.Object,System.Object)">
+            <summary>
+            删除值
+            </summary>
+            <param name="values"></param>
+            <returns></returns>
+        </member>
         <member name="F:Buffalo.QueryCache.RedisAdaperByStackExchange._mainServer">
             <summary>
             主服务器
@@ -133,9 +482,30 @@
             命令标记
             </summary>
         </member>
+        <member name="P:Buffalo.QueryCache.RedisAdaperByStackExchange.UseCommanfFlags">
+            <summary>
+            命令标记
+            </summary>
+        </member>
         <member name="F:Buffalo.QueryCache.RedisAdaperByStackExchange._db">
             <summary>
             使用第几个库(0-15)
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "P:Buffalo.QueryCache.RedisAdaperByStackExchange.UseDB" -->
+        <member name="P:Buffalo.QueryCache.RedisAdaperByStackExchange.ConnectConfiguration">
+            <summary>
+            连接配置
+            </summary>
+        </member>
+        <member name="P:Buffalo.QueryCache.RedisAdaperByStackExchange.ConnectClient">
+            <summary>
+            连接的客户端
+            </summary>
+        </member>
+        <member name="M:Buffalo.QueryCache.RedisAdaperByStackExchange.ReconnectClient">
+            <summary>
+            重连连接redis
             </summary>
         </member>
         <member name="M:Buffalo.QueryCache.RedisAdaperByStackExchange.#ctor(System.String,Buffalo.DB.DataBaseAdapter.DBInfo)">
@@ -186,160 +556,6 @@
             <param name="key">键</param>
             <param name="valueType">值类型</param>
             <param name="client">客户端</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.QueryCache.RedisAdaperByStackExchange.ListAddValue``1(System.String,System.Int64,``0,Buffalo.DB.CacheManager.SetValueType,Buffalo.QueryCache.RedisConnection)">
-            <summary>
-            增加到列表
-            </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key">键</param>
-            <param name="index">索引(0为增加到头部，-1为增加到尾部)</param>
-            <param name="value">值</param>
-            <param name="setType">设置值方式</param>
-            <param name="connection"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.QueryCache.RedisAdaperByStackExchange.ListGetValue``1(System.String,System.Int64,``0,Buffalo.QueryCache.RedisConnection)">
-            <summary>
-            获取值
-            </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key">键</param>
-            <param name="index">值位置</param>
-            <param name="defaultValue">默认值</param>
-            <param name="connection"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.QueryCache.RedisAdaperByStackExchange.ListGetLength(System.String,Buffalo.QueryCache.RedisConnection)">
-            <summary>
-            获取集合长度
-            </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key"></param>
-            <param name="connection"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.QueryCache.RedisAdaperByStackExchange.ListPopValue``1(System.String,System.Boolean,``0,Buffalo.QueryCache.RedisConnection)">
-            <summary>
-            移除并返回值
-            </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key">键</param>
-            <param name="isPopEnd">是否从尾部移除(true则从尾部移除，否则从头部移除)</param>
-            <param name="defaultValue">默认值</param>
-            <param name="connection"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.QueryCache.RedisAdaperByStackExchange.ListRemoveValue(System.String,System.Object,System.Int64,Buffalo.QueryCache.RedisConnection)">
-            <summary>
-            移除值
-            </summary>
-            <param name="key">键</param>
-            <param name="value">值</param>
-            <param name="count">要移除几个，0则为全部移除</param>
-            <param name="connection"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.QueryCache.RedisAdaperByStackExchange.ListAllValues``1(System.String,System.Int64,System.Int64,Buffalo.QueryCache.RedisConnection)">
-            <summary>
-            获取集合所有值
-            </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key">键</param>
-            <param name="start">起始位置(默认0)</param>
-            <param name="end">结束位置(-1则为读到末尾)</param>
-            <param name="connection"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.QueryCache.RedisAdaperByStackExchange.HashSetRangeValue(System.String,System.Collections.IDictionary,Buffalo.QueryCache.RedisConnection)">
-            <summary>
-            批量HashSet设置值
-            </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key">键</param>
-            <param name="dicSet">值</param>
-            <param name="connection"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.QueryCache.RedisAdaperByStackExchange.HashSetValue(System.String,System.Object,System.Object,Buffalo.DB.CacheManager.SetValueType,Buffalo.QueryCache.RedisConnection)">
-            <summary>
-            HashSet设置值
-            </summary>
-            <param name="key">键</param>
-            <param name="hashkey">哈希表的键</param>
-            <param name="value">哈希表的值</param>
-            <param name="type">设置方式</param>
-            <param name="connection"></param>
-        </member>
-        <member name="M:Buffalo.QueryCache.RedisAdaperByStackExchange.HashExists(System.String,System.Object,Buffalo.QueryCache.RedisConnection)">
-            <summary>
-            判断是否存在此key
-            </summary>
-            <param name="key">键</param>
-            <param name="hashkey">哈希表的键</param>
-            <param name="connection"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.QueryCache.RedisAdaperByStackExchange.HashIncrement(System.String,System.Object,System.Int64,Buffalo.QueryCache.RedisConnection)">
-            <summary>
-            哈希表的值自增
-            </summary>
-            <param name="key">键</param>
-            <param name="hashkey">哈希键</param>
-            <param name="value">值</param>
-            <param name="connection"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.QueryCache.RedisAdaperByStackExchange.HashDecrement(System.String,System.Object,System.Int64,Buffalo.QueryCache.RedisConnection)">
-            <summary>
-            哈希表的值自减
-            </summary>
-            <param name="key">键</param>
-            <param name="hashkey">哈希键</param>
-            <param name="value">值</param>
-            <param name="connection"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.QueryCache.RedisAdaperByStackExchange.HashGetValue``1(System.String,System.Object,``0,Buffalo.QueryCache.RedisConnection)">
-            <summary>
-            获取哈希表的值
-            </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key">键</param>
-            <param name="hashkey">哈希表的键</param>
-            <param name="defaultValue">默认值</param>
-            <param name="connection"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.QueryCache.RedisAdaperByStackExchange.HashGetAllValues``2(System.String,``1,Buffalo.QueryCache.RedisConnection)">
-            <summary>
-            获取所有哈希表的值
-            </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key">键</param>
-            <param name="defaultValue">默认值</param>
-            <param name="connection"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.QueryCache.RedisAdaperByStackExchange.HashDeleteValue(System.String,System.Object,Buffalo.QueryCache.RedisConnection)">
-            <summary>
-            删除哈希表的值
-            </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key">键</param>
-            <param name="hashkey">哈希表的键</param>
-            <param name="connection"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.QueryCache.RedisAdaperByStackExchange.HashDeleteValues(System.String,System.Collections.IEnumerable,Buffalo.QueryCache.RedisConnection)">
-            <summary>
-            批量删除哈希表的值
-            </summary>
-            <typeparam name="E"></typeparam>
-            <param name="key">键</param>
-            <param name="hashkeys">要删除哈希表的键</param>
-            <param name="connection"></param>
             <returns></returns>
         </member>
         <member name="M:Buffalo.QueryCache.RedisAdaperByStackExchange.GetSetValueMode(Buffalo.DB.CacheManager.SetValueType)">

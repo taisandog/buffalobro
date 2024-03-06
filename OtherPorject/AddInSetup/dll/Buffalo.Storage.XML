@@ -5937,16 +5937,6 @@
             <param name="path"></param>
             <returns></returns>
         </member>
-        <member name="P:Buffalo.Storage.AliCloud.OssAPI.OSSAdapter.InternetUrl">
-            <summary>
-            互联网地址
-            </summary>
-        </member>
-        <member name="P:Buffalo.Storage.AliCloud.OssAPI.OSSAdapter.LanUrl">
-            <summary>
-            局域网地址
-            </summary>
-        </member>
         <member name="M:Buffalo.Storage.AliCloud.OssAPI.OSSAdapter.GetUrl(System.String,System.String)">
             <summary>
             获取地址
@@ -6297,6 +6287,26 @@
             <param name="fileLength"></param>
             <returns></returns>
         </member>
+        <member name="M:Buffalo.Storage.FileInfoBase.CombineUriToString(System.String[])">
+            <summary>
+            拼接网址
+            </summary>
+            <param name="baseUri"></param>
+            <param name="relativeOrAbsoluteUri"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.Storage.FileInfoBase.FormatKey(System.String)">
+            <summary>
+            格式化Key
+            </summary>
+            <param name="url"></param>
+        </member>
+        <member name="M:Buffalo.Storage.FileInfoBase.FormatPathKey(System.String)">
+            <summary>
+            格式化Key
+            </summary>
+            <param name="url"></param>
+        </member>
         <member name="T:Buffalo.Storage.HW.OBS.HWOBSAdapter">
             <summary>
             华为OBS适配器
@@ -6591,8 +6601,8 @@
         </member>
         <member name="P:Buffalo.Storage.Properties.OssResources.Culture">
             <summary>
-              重写当前线程的 CurrentUICulture 属性
-              重写当前线程的 CurrentUICulture 属性。
+              重写当前线程的 CurrentUICulture 属性，对
+              使用此强类型资源类的所有资源查找执行重写。
             </summary>
         </member>
         <member name="P:Buffalo.Storage.Properties.OssResources.BucketNameInvalid">
@@ -6625,8 +6635,8 @@
         </member>
         <member name="P:Buffalo.Storage.Properties.Resource.Culture">
             <summary>
-              重写当前线程的 CurrentUICulture 属性
-              重写当前线程的 CurrentUICulture 属性。
+              重写当前线程的 CurrentUICulture 属性，对
+              使用此强类型资源类的所有资源查找执行重写。
             </summary>
         </member>
         <member name="P:Buffalo.Storage.Properties.Resource.ExceptionEndOperationHasBeenCalled">
@@ -6874,6 +6884,66 @@
         <member name="F:Buffalo.Storage.IFileStorage._proxyPass">
             <summary>
             代理服务的用户名
+            </summary>
+        </member>
+        <member name="P:Buffalo.Storage.IFileStorage.InternetUrl">
+            <summary>
+            互联网地址
+            </summary>
+        </member>
+        <member name="P:Buffalo.Storage.IFileStorage.LanUrl">
+            <summary>
+            局域网地址
+            </summary>
+        </member>
+        <member name="P:Buffalo.Storage.IFileStorage.Server">
+            <summary>
+            服务器
+            </summary>
+        </member>
+        <member name="P:Buffalo.Storage.IFileStorage.SecretId">
+            <summary>
+            安全账号
+            </summary>
+        </member>
+        <member name="P:Buffalo.Storage.IFileStorage.SecretKey">
+            <summary>
+            安全Key
+            </summary>
+        </member>
+        <member name="P:Buffalo.Storage.IFileStorage.Timeout">
+            <summary>
+            超时(毫秒)
+            </summary>
+        </member>
+        <member name="P:Buffalo.Storage.IFileStorage.BucketName">
+            <summary>
+            桶
+            </summary>
+        </member>
+        <member name="P:Buffalo.Storage.IFileStorage.NeedHash">
+            <summary>
+            需要哈希
+            </summary>
+        </member>
+        <member name="P:Buffalo.Storage.IFileStorage.ProxyHost">
+            <summary>
+            代理
+            </summary>
+        </member>
+        <member name="P:Buffalo.Storage.IFileStorage.ProxyPass">
+            <summary>
+            登录代理密码
+            </summary>
+        </member>
+        <member name="P:Buffalo.Storage.IFileStorage.ProxyPort">
+            <summary>
+            代理端口
+            </summary>
+        </member>
+        <member name="P:Buffalo.Storage.IFileStorage.ProxyUser">
+            <summary>
+            登录代理用户
             </summary>
         </member>
         <member name="M:Buffalo.Storage.IFileStorage.ReadFileToStream(System.String,System.IO.Stream)">

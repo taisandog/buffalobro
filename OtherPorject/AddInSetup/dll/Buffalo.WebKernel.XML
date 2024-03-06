@@ -25,188 +25,17 @@
               查找 System.Byte[] 类型的本地化资源。
             </summary>
         </member>
-        <!-- 对于成员“P:Buffalo.WebKernel.ARTDialogReource.artdialogshow”忽略有格式错误的 XML 注释 -->
-        <member name="T:Buffalo.WebKernel.ARTDialog.ArtDialog">
+        <!-- Badly formed XML comment ignored for member "P:Buffalo.WebKernel.ARTDialogReource.artdialogshow" -->
+        <member name="P:Buffalo.WebKernel.WebCommons.PagerUrlCreater.Item(System.String)">
             <summary>
-            ArtDialog类
+            根据键值的变量集合
             </summary>
         </member>
-        <member name="F:Buffalo.WebKernel.ARTDialog.ArtDialog._dicSkin">
+        <member name="M:Buffalo.WebKernel.WebCommons.PagerUrlCreater.GetUrl">
             <summary>
-            皮肤信息集合
-            </summary>
-        </member>
-        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.InitDialog">
-            <summary>
-            初始化对话框
+            根据键值生成url
             </summary>
             <returns></returns>
-        </member>
-        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.GetSkin">
-            <summary>
-            获取皮肤信息
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.#ctor">
-            <summary>
-            ArtDialog
-            </summary>
-        </member>
-        <member name="P:Buffalo.WebKernel.ARTDialog.ArtDialog.DefaultTitle">
-            <summary>
-            默认标题
-            </summary>
-        </member>
-        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.#ctor(Buffalo.WebKernel.ARTDialog.DialogSkin)">
-            <summary>
-            ArtDialog
-            </summary>
-        </member>
-        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.#ctor(System.String)">
-            <summary>
-            ArtDialog
-            </summary>
-        </member>
-        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.GetCloseDialogJS(System.Boolean)">
-            <summary>
-            获取关闭窗体的JS
-            </summary>
-            <param name="top">是否关闭顶层窗口</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.GetCloseDialogJS">
-            <summary>
-            获取关闭窗体的JS
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.RegisterJS(System.String)">
-            <summary>
-            引用JS文件
-            </summary>
-            <param name="jsName">文件名</param>
-        </member>
-        <member name="P:Buffalo.WebKernel.ARTDialog.ArtDialog.CurPage">
-            <summary>
-            当前页面
-            </summary>
-        </member>
-        <member name="P:Buffalo.WebKernel.ARTDialog.ArtDialog.DefauleWidth">
-            <summary>
-            默认宽度
-            </summary>
-        </member>
-        <member name="P:Buffalo.WebKernel.ARTDialog.ArtDialog.DefauleHeight">
-            <summary>
-            默认高度
-            </summary>
-        </member>
-        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.GetBooleanString(System.Boolean)">
-            <summary>
-            获取布尔型的字符串
-            </summary>
-            <param name="value"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.GetJSValue(System.String,System.Boolean)">
-            <summary>
-            获取值的JS表示
-            </summary>
-            <param name="value">值</param>
-            <param name="isString">是否字符串</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.ShowDialog(System.String,System.String,System.Int32,System.Int32,System.Boolean,System.String,System.Boolean,System.String)">
-            <summary>
-            显示提示框
-            </summary>
-            <param name="title">标题</param>
-            <param name="content">内容</param>
-            <param name="width">宽</param>
-            <param name="height">高</param>
-            <param name="isDialog">是否模态窗口</param>
-            <param name="findParent">查找父窗体</param>
-             <param name="icon">图标标识(ArtIcons)</param>
-             <param name="closeHandle">关闭时候触发的JS</param>
-        </member>
-        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.Alert(System.String,System.Boolean,System.String)">
-            <summary>
-            显示提示框
-            </summary>
-            <param name="title">标题</param>
-            <param name="top">是否顶层窗口弹出对话框</param>
-            <param name="content">内容</param>
-        </member>
-        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.Alert(System.String)">
-            <summary>
-            显示提示框
-            </summary>
-            <param name="content">内容</param>
-        </member>
-        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.SuccessDialog(System.String,System.Boolean,System.String)">
-            <summary>
-            显示提示框
-            </summary>
-            <param name="title">标题</param>
-            <param name="top">是否顶层窗口弹出对话框</param>
-            <param name="content">内容</param>
-        </member>
-        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.SuccessDialog(System.String)">
-            <summary>
-            显示提示框
-            </summary>
-            <param name="content">内容</param>
-        </member>
-        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.ErrorDialog(System.String,System.Boolean,System.String)">
-            <summary>
-            显示提示框
-            </summary>
-            <param name="title">标题</param>
-            <param name="top">是否顶层窗口弹出对话框</param>
-            <param name="content">内容</param>
-        </member>
-        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.ErrorDialog(System.String)">
-            <summary>
-            显示提示框
-            </summary>
-            <param name="content">内容</param>
-        </member>
-        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.WarningDialog(System.String,System.Boolean,System.String)">
-            <summary>
-            显示提示框
-            </summary>
-            <param name="title">标题</param>
-            <param name="top">是否顶层窗口弹出对话框</param>
-            <param name="content">内容</param>
-        </member>
-        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.WarningDialog(System.String)">
-            <summary>
-            显示提示框
-            </summary>
-            <param name="content">内容</param>
-        </member>
-        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.GetFrameDialog(System.String,System.String,System.Int32,System.Int32,System.Boolean,System.String)">
-            <summary>
-            获取iframe弹出窗的JS
-            </summary>
-            <param name="url">iframe地址</param>
-            <param name="title">标题</param>
-            <param name="width">宽度</param>
-            <param name="height">高度</param>
-            <param name="isDialog">是否模态窗口</param>
-            <param name="closeHandle">关闭时候执行的方法</param>
-            <returns></returns>
-        </member>
-        <member name="T:Buffalo.WebKernel.ARTDialog.ArtIcons">
-            <summary>
-            图标
-            </summary>
-        </member>
-        <member name="T:Buffalo.WebKernel.ARTDialog.DialogSkin">
-            <summary>
-            提示框样式
-            </summary>
         </member>
         <member name="M:Buffalo.WebKernel.WebCommons.ContorlCommons.ContorlCommon.ToColorString(System.Drawing.Color)">
             <summary>
@@ -402,7 +231,7 @@
             输出绑定
             </summary>
         </member>
-        <!-- 对于成员“M:Buffalo.WebKernel.WebCommons.PagerCommon.AutoBtnClick.SaveJs”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:Buffalo.WebKernel.WebCommons.PagerCommon.AutoBtnClick.SaveJs" -->
         <member name="M:Buffalo.WebKernel.WebCommons.PagerCommon.AutoBtnClick.CreateJS">
             <summary>
             生成提交的JS
@@ -467,25 +296,44 @@
             <param name="sender"></param>
             <param name="currentIndex"></param>
         </member>
-        <member name="P:Buffalo.WebKernel.WebCommons.PagerUrlCreater.Item(System.String)">
-            <summary>
-            根据键值的变量集合
-            </summary>
-        </member>
-        <member name="M:Buffalo.WebKernel.WebCommons.PagerUrlCreater.GetUrl">
-            <summary>
-            根据键值生成url
-            </summary>
-            <returns></returns>
-        </member>
         <member name="T:Buffalo.WebKernel.WebCommons.PostForms.FormFile">
             <summary>
             发送请求的文件类
             </summary>
         </member>
+        <member name="F:Buffalo.WebKernel.WebCommons.PostForms.FormFile._data">
+            <summary>
+            上传文件的数据
+            </summary>
+        </member>
+        <member name="F:Buffalo.WebKernel.WebCommons.PostForms.FormFile._fileName">
+            <summary>
+            文件名称
+            </summary>
+        </member>
+        <member name="F:Buffalo.WebKernel.WebCommons.PostForms.FormFile._formName">
+            <summary>
+            表单字段名称
+            </summary>
+        </member>
+        <member name="F:Buffalo.WebKernel.WebCommons.PostForms.FormFile._contentType">
+            <summary>
+            内容类型
+            </summary>
+        </member>
+        <member name="F:Buffalo.WebKernel.WebCommons.PostForms.FormFile._dataStream">
+            <summary>
+            流
+            </summary>
+        </member>
         <member name="P:Buffalo.WebKernel.WebCommons.PostForms.FormFile.Data">
             <summary>
             上传文件的数据
+            </summary>
+        </member>
+        <member name="P:Buffalo.WebKernel.WebCommons.PostForms.FormFile.DataStream">
+            <summary>
+            上传文件的数据流
             </summary>
         </member>
         <member name="P:Buffalo.WebKernel.WebCommons.PostForms.FormFile.FileName">
@@ -513,7 +361,7 @@
             请求头
             </summary>
         </member>
-        <member name="M:Buffalo.WebKernel.WebCommons.PostForms.FormPost.PostData(System.String,System.Collections.Generic.Dictionary{System.String,System.String},System.Collections.Generic.IEnumerable{Buffalo.WebKernel.WebCommons.PostForms.FormFile})">
+        <member name="M:Buffalo.WebKernel.WebCommons.PostForms.FormPost.PostData(System.String,System.Collections.Generic.IDictionary{System.String,System.String},System.Collections.Generic.IEnumerable{Buffalo.WebKernel.WebCommons.PostForms.FormFile})">
             <summary>
             发送数据
             </summary>
@@ -531,7 +379,7 @@
             <param name="files">要发送的文件</param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.WebKernel.WebCommons.PostForms.FormPost.PostDataStream(System.String,System.Collections.Generic.Dictionary{System.String,System.String},Buffalo.WebKernel.WebCommons.PostForms.FormFile[])">
+        <member name="M:Buffalo.WebKernel.WebCommons.PostForms.FormPost.Post(System.String,System.Byte[])">
             <summary>
             发送数据
             </summary>
@@ -540,7 +388,7 @@
             <param name="files">要发送的文件</param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.WebKernel.WebCommons.PostForms.FormPost.PostStream(System.String,System.String)">
+        <member name="M:Buffalo.WebKernel.WebCommons.PostForms.FormPost.PostDataStream(System.String,System.Collections.Generic.IDictionary{System.String,System.String},System.Collections.Generic.IEnumerable{Buffalo.WebKernel.WebCommons.PostForms.FormFile})">
             <summary>
             发送数据
             </summary>
@@ -549,7 +397,7 @@
             <param name="files">要发送的文件</param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.WebKernel.WebCommons.PostForms.FormPost.PostDataReader(System.String,System.Collections.Generic.Dictionary{System.String,System.String},Buffalo.WebKernel.WebCommons.PostForms.FormFile[])">
+        <member name="M:Buffalo.WebKernel.WebCommons.PostForms.FormPost.PostStream(System.String,System.Byte[])">
             <summary>
             发送数据
             </summary>
@@ -558,14 +406,23 @@
             <param name="files">要发送的文件</param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.WebKernel.WebCommons.PostForms.FormPost.GetParamValue(System.Collections.Generic.Dictionary{System.String,System.String})">
+        <member name="M:Buffalo.WebKernel.WebCommons.PostForms.FormPost.PostDataReader(System.String,System.Collections.Generic.IDictionary{System.String,System.String},Buffalo.WebKernel.WebCommons.PostForms.FormFile[])">
+            <summary>
+            发送数据
+            </summary>
+            <param name="actionUrl">发送的链接</param>
+            <param name="prms">发送数据的字段和值</param>
+            <param name="files">要发送的文件</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.WebKernel.WebCommons.PostForms.FormPost.GetParamValue(System.Collections.Generic.IDictionary{System.String,System.String})">
             <summary>
             请求参数
             </summary>
             <param name="prms"></param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.WebKernel.WebCommons.PostForms.FormPost.PostDataResponse(System.String,System.Collections.Generic.Dictionary{System.String,System.String},Buffalo.WebKernel.WebCommons.PostForms.FormFile[])">
+        <member name="M:Buffalo.WebKernel.WebCommons.PostForms.FormPost.PostDataResponse(System.String,System.Collections.Generic.IDictionary{System.String,System.String},Buffalo.WebKernel.WebCommons.PostForms.FormFile[])">
             <summary>
             发送数据
             </summary>
@@ -574,7 +431,7 @@
             <param name="files">要发送的文件</param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.WebKernel.WebCommons.PostForms.FormPost.PostResponse(System.String,System.String)">
+        <member name="M:Buffalo.WebKernel.WebCommons.PostForms.FormPost.PostResponse(System.String,System.Byte[])">
             <summary>
             发送数据
             </summary>
@@ -583,7 +440,7 @@
             <param name="files">要发送的文件</param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.WebKernel.WebCommons.PostForms.FormPost.Post(System.Net.HttpWebRequest,Buffalo.WebKernel.WebCommons.PostForms.PostHead,System.String)">
+        <member name="M:Buffalo.WebKernel.WebCommons.PostForms.FormPost.Post(System.Net.HttpWebRequest,Buffalo.WebKernel.WebCommons.PostForms.PostHead,System.Byte[])">
             <summary>
             发送数据
             </summary>
@@ -592,7 +449,7 @@
             <param name="files">要发送的文件</param>
             <returns></returns>
         </member>
-        <member name="M:Buffalo.WebKernel.WebCommons.PostForms.FormPost.PostData(System.Net.HttpWebRequest,Buffalo.WebKernel.WebCommons.PostForms.PostHead,System.Collections.Generic.Dictionary{System.String,System.String},System.Collections.Generic.IEnumerable{Buffalo.WebKernel.WebCommons.PostForms.FormFile})">
+        <member name="M:Buffalo.WebKernel.WebCommons.PostForms.FormPost.PostData(System.Net.HttpWebRequest,Buffalo.WebKernel.WebCommons.PostForms.PostHead,System.Collections.Generic.IDictionary{System.String,System.String},System.Collections.Generic.IEnumerable{Buffalo.WebKernel.WebCommons.PostForms.FormFile})">
             <summary>
             发送数据
             </summary>
@@ -600,6 +457,13 @@
             <param name="prms">发送数据的字段和值</param>
             <param name="files">要发送的文件</param>
             <returns></returns>
+        </member>
+        <member name="M:Buffalo.WebKernel.WebCommons.PostForms.FormPost.WriteStream(System.IO.Stream,System.IO.Stream)">
+            <summary>
+            写入数据
+            </summary>
+            <param name="stm"></param>
+            <param name="dataStream"></param>
         </member>
         <member name="M:Buffalo.WebKernel.WebCommons.PostForms.FormPost.WriteData(System.IO.Stream,System.Byte[])">
             <summary>
@@ -874,6 +738,198 @@
             </summary>
             <param name="ctr"></param>
             <returns></returns>
+        </member>
+        <member name="T:Buffalo.WebKernel.ARTDialog.ArtDialog">
+            <summary>
+            ArtDialog类
+            </summary>
+        </member>
+        <member name="F:Buffalo.WebKernel.ARTDialog.ArtDialog._dicSkin">
+            <summary>
+            皮肤信息集合
+            </summary>
+        </member>
+        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.InitDialog">
+            <summary>
+            初始化对话框
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.GetSkin">
+            <summary>
+            获取皮肤信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.#ctor">
+            <summary>
+            ArtDialog
+            </summary>
+        </member>
+        <member name="P:Buffalo.WebKernel.ARTDialog.ArtDialog.DefaultTitle">
+            <summary>
+            默认标题
+            </summary>
+        </member>
+        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.#ctor(Buffalo.WebKernel.ARTDialog.DialogSkin)">
+            <summary>
+            ArtDialog
+            </summary>
+        </member>
+        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.#ctor(Buffalo.WebKernel.ARTDialog.DialogSkin,System.String)">
+            <summary>
+            ArtDialog
+            </summary>
+        </member>
+        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.#ctor(System.String)">
+            <summary>
+            ArtDialog
+            </summary>
+        </member>
+        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.#ctor(System.String,System.String)">
+            <summary>
+            ArtDialog
+            </summary>
+        </member>
+        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.GetCloseDialogJS(System.Boolean)">
+            <summary>
+            获取关闭窗体的JS
+            </summary>
+            <param name="top">是否关闭顶层窗口</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.GetCloseDialogJS">
+            <summary>
+            获取关闭窗体的JS
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.RegisterJS(System.String)">
+            <summary>
+            引用JS文件
+            </summary>
+            <param name="jsName">文件名</param>
+        </member>
+        <member name="P:Buffalo.WebKernel.ARTDialog.ArtDialog.CurPage">
+            <summary>
+            当前页面
+            </summary>
+        </member>
+        <member name="P:Buffalo.WebKernel.ARTDialog.ArtDialog.DefauleWidth">
+            <summary>
+            默认宽度
+            </summary>
+        </member>
+        <member name="P:Buffalo.WebKernel.ARTDialog.ArtDialog.DefauleHeight">
+            <summary>
+            默认高度
+            </summary>
+        </member>
+        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.GetBooleanString(System.Boolean)">
+            <summary>
+            获取布尔型的字符串
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.GetJSValue(System.String,System.Boolean)">
+            <summary>
+            获取值的JS表示
+            </summary>
+            <param name="value">值</param>
+            <param name="isString">是否字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.ShowDialog(System.String,System.String,System.Int32,System.Int32,System.Boolean,System.String,System.Boolean,System.String)">
+            <summary>
+            显示提示框
+            </summary>
+            <param name="title">标题</param>
+            <param name="content">内容</param>
+            <param name="width">宽</param>
+            <param name="height">高</param>
+            <param name="isDialog">是否模态窗口</param>
+            <param name="findParent">查找父窗体</param>
+             <param name="icon">图标标识(ArtIcons)</param>
+             <param name="closeHandle">关闭时候触发的JS</param>
+        </member>
+        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.Alert(System.String,System.Boolean,System.String)">
+            <summary>
+            显示提示框
+            </summary>
+            <param name="title">标题</param>
+            <param name="top">是否顶层窗口弹出对话框</param>
+            <param name="content">内容</param>
+        </member>
+        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.Alert(System.String)">
+            <summary>
+            显示提示框
+            </summary>
+            <param name="content">内容</param>
+        </member>
+        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.SuccessDialog(System.String,System.Boolean,System.String)">
+            <summary>
+            显示提示框
+            </summary>
+            <param name="title">标题</param>
+            <param name="top">是否顶层窗口弹出对话框</param>
+            <param name="content">内容</param>
+        </member>
+        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.SuccessDialog(System.String)">
+            <summary>
+            显示提示框
+            </summary>
+            <param name="content">内容</param>
+        </member>
+        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.ErrorDialog(System.String,System.Boolean,System.String)">
+            <summary>
+            显示提示框
+            </summary>
+            <param name="title">标题</param>
+            <param name="top">是否顶层窗口弹出对话框</param>
+            <param name="content">内容</param>
+        </member>
+        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.ErrorDialog(System.String)">
+            <summary>
+            显示提示框
+            </summary>
+            <param name="content">内容</param>
+        </member>
+        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.WarningDialog(System.String,System.Boolean,System.String)">
+            <summary>
+            显示提示框
+            </summary>
+            <param name="title">标题</param>
+            <param name="top">是否顶层窗口弹出对话框</param>
+            <param name="content">内容</param>
+        </member>
+        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.WarningDialog(System.String)">
+            <summary>
+            显示提示框
+            </summary>
+            <param name="content">内容</param>
+        </member>
+        <member name="M:Buffalo.WebKernel.ARTDialog.ArtDialog.GetFrameDialog(System.String,System.String,System.Int32,System.Int32,System.Boolean,System.String)">
+            <summary>
+            获取iframe弹出窗的JS
+            </summary>
+            <param name="url">iframe地址</param>
+            <param name="title">标题</param>
+            <param name="width">宽度</param>
+            <param name="height">高度</param>
+            <param name="isDialog">是否模态窗口</param>
+            <param name="closeHandle">关闭时候执行的方法</param>
+            <returns></returns>
+        </member>
+        <member name="T:Buffalo.WebKernel.ARTDialog.ArtIcons">
+            <summary>
+            图标
+            </summary>
+        </member>
+        <member name="T:Buffalo.WebKernel.ARTDialog.DialogSkin">
+            <summary>
+            提示框样式
+            </summary>
         </member>
         <member name="T:Buffalo.Kernel.ZipUnit.SharpUnZipFile">
             <summary>
