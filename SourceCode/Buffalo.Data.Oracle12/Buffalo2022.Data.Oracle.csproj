@@ -40,11 +40,11 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\Debug\2019\Oracle11\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NET_4_7_2</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NET_4_8;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\Debug\2017\Oracle11\Buffalo.Data.Oracle.xml</DocumentationFile>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>

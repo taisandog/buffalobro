@@ -6,10 +6,10 @@
   <Path source="{sourcePath}\2010\" target="{targetPath}\AddIns\Net4.0\" igore="Buffalo.Data.Oracle11.;Buffalo.Data.Oracle12.;Oracle.DataAccess.;VJSharpCodeProvider.;System.dll;mscorcfg."></Path>
   <Path source="{sourcePath}\2012\" target="{targetPath}\AddIns\Net4.5\" igore="Buffalo.Data.Oracle11.;Buffalo.Data.Oracle12.;Oracle.DataAccess.;VJSharpCodeProvider.;System.dll;mscorcfg."></Path>
   <Path source="{sourcePath}\2013\" target="{targetPath}\AddIns\Net4.5.1\" igore="Buffalo.Data.Oracle11.;Buffalo.Data.Oracle12.;Oracle.DataAccess.;VJSharpCodeProvider.;System.dll;mscorcfg."></Path>
-  <Path source="{sourcePath}\2015\" target="{targetPath}\AddIns\Net4.6\" igore="Buffalo.Data.Oracle11.;Buffalo.Data.Oracle12.;Oracle.DataAccess.;VJSharpCodeProvider.;System.dll;mscorcfg.;EnvDTE;Microsoft.;VSLangProj;VsWebSite.;Buffalo2015.DBToolsPackage"></Path>
-  <Path source="{sourcePath}\2017\" target="{targetPath}\AddIns\Net4.6.2\" igore="Buffalo.Data.Oracle11.;Buffalo.Data.Oracle12.;Oracle.DataAccess.;VJSharpCodeProvider.;System.dll;mscorcfg.;EnvDTE;Microsoft.;VSLangProj;VsWebSite.;Buffalo.DBToolsPackage2017"></Path>
-  <Path source="{sourcePath}\2019\" target="{targetPath}\AddIns\Net4.7.2\" igore="Buffalo.Data.Oracle11.;Buffalo.Data.Oracle12.;Oracle.DataAccess.;VJSharpCodeProvider.;System.dll;mscorcfg.;EnvDTE;Microsoft.;VSLangProj;VsWebSite.;Buffalo.DBToolsPackage2017"></Path>
-<Path source="{sourcePath}\2022\" target="{targetPath}\AddIns\Net4.8\" igore="Buffalo.Data.Oracle11.;Buffalo.Data.Oracle12.;Oracle.DataAccess.;VJSharpCodeProvider.;System.dll;mscorcfg.;EnvDTE;Microsoft.;VSLangProj;VsWebSite.;Buffalo.DBToolsPackage2017"></Path>
+  <Path source="{sourcePath}\2015\" target="{targetPath}\AddIns\Net4.6\" igore="Buffalo.Data.Oracle11.;Buffalo.Data.Oracle12.;Oracle.DataAccess.;VJSharpCodeProvider.;System.dll;mscorcfg.;EnvDTE;Microsoft.VisualStudio.;VSLangProj;VsWebSite.;Buffalo2015.DBToolsPackage"></Path>
+  <Path source="{sourcePath}\2017\" target="{targetPath}\AddIns\Net4.6.2\" igore="Buffalo.Data.Oracle11.;Buffalo.Data.Oracle12.;Oracle.DataAccess.;VJSharpCodeProvider.;System.dll;mscorcfg.;EnvDTE;Microsoft.VisualStudio.;VSLangProj;VsWebSite.;Buffalo.DBToolsPackage2017"></Path>
+  <Path source="{sourcePath}\2019\" target="{targetPath}\AddIns\Net4.7.2\" igore="Buffalo.Data.Oracle11.;Buffalo.Data.Oracle12.;Oracle.DataAccess.;VJSharpCodeProvider.;System.dll;mscorcfg.;EnvDTE;Microsoft.VisualStudio.;VSLangProj;VsWebSite.;Buffalo.DBToolsPackage2017"></Path>
+<Path source="{sourcePath}\2022\" target="{targetPath}\AddIns\Net4.8\" igore="Buffalo.Data.Oracle11.;Buffalo.Data.Oracle12.;Oracle.DataAccess.;VJSharpCodeProvider.;System.dll;mscorcfg.;EnvDTE;Microsoft.VisualStudio.;VSLangProj;VsWebSite.;Buffalo.DBToolsPackage2017"></Path>
 
 
   <Path source="{dllPath}\dll\SQLite.Interop\net20\x64\" target="{targetPath}\AddIns\Net2.0\x64\"></Path>

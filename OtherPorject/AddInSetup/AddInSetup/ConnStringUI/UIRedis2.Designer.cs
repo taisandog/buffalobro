@@ -42,6 +42,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.nupSyncTimeout = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
+            this.chkSkipCert = new System.Windows.Forms.CheckBox();
             this.gpSetting.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtExpir)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtDatabase)).BeginInit();
@@ -50,6 +51,7 @@
             // 
             // gpSetting
             // 
+            this.gpSetting.Controls.Add(this.chkSkipCert);
             this.gpSetting.Controls.Add(this.nupSyncTimeout);
             this.gpSetting.Controls.Add(this.label8);
             this.gpSetting.Controls.Add(this.txtDatabase);
@@ -217,6 +219,16 @@
             this.label8.TabIndex = 64;
             this.label8.Text = "访问超时(毫秒,0表示不指定):";
             // 
+            // chkSkipCert
+            // 
+            this.chkSkipCert.AutoSize = true;
+            this.chkSkipCert.Location = new System.Drawing.Point(266, 268);
+            this.chkSkipCert.Name = "chkSkipCert";
+            this.chkSkipCert.Size = new System.Drawing.Size(139, 29);
+            this.chkSkipCert.TabIndex = 82;
+            this.chkSkipCert.Text = "SSL跳过证书";
+            this.chkSkipCert.UseVisualStyleBackColor = true;
+            // 
             // UIRedis2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
@@ -246,5 +258,6 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.NumericUpDown nupSyncTimeout;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.CheckBox chkSkipCert;
     }
 }

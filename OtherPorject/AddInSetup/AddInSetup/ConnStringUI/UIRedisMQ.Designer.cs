@@ -48,6 +48,7 @@
             this.nupMessageMode = new System.Windows.Forms.NumericUpDown();
             this.nupSyncTimeout = new System.Windows.Forms.NumericUpDown();
             this.label13 = new System.Windows.Forms.Label();
+            this.chkSkipCert = new System.Windows.Forms.CheckBox();
             this.gpSetting.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtExpir)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtDatabase)).BeginInit();
@@ -57,6 +58,7 @@
             // 
             // gpSetting
             // 
+            this.gpSetting.Controls.Add(this.chkSkipCert);
             this.gpSetting.Controls.Add(this.nupSyncTimeout);
             this.gpSetting.Controls.Add(this.label13);
             this.gpSetting.Controls.Add(this.label12);
@@ -174,7 +176,7 @@
             this.chkUseQueue.AutoSize = true;
             this.chkUseQueue.Checked = true;
             this.chkUseQueue.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkUseQueue.Location = new System.Drawing.Point(194, 355);
+            this.chkUseQueue.Location = new System.Drawing.Point(321, 355);
             this.chkUseQueue.Name = "chkUseQueue";
             this.chkUseQueue.Size = new System.Drawing.Size(157, 25);
             this.chkUseQueue.TabIndex = 70;
@@ -303,6 +305,16 @@
             this.label13.TabIndex = 79;
             this.label13.Text = "访问超时(毫秒,0表示不指定):";
             // 
+            // chkSkipCert
+            // 
+            this.chkSkipCert.AutoSize = true;
+            this.chkSkipCert.Location = new System.Drawing.Point(173, 355);
+            this.chkSkipCert.Name = "chkSkipCert";
+            this.chkSkipCert.Size = new System.Drawing.Size(119, 25);
+            this.chkSkipCert.TabIndex = 81;
+            this.chkSkipCert.Text = "SSL跳过证书";
+            this.chkSkipCert.UseVisualStyleBackColor = true;
+            // 
             // UIRedisMQ
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
@@ -340,5 +352,6 @@
         private System.Windows.Forms.ComboBox cmbCommandFlags;
         private System.Windows.Forms.NumericUpDown nupSyncTimeout;
         private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.CheckBox chkSkipCert;
     }
 }

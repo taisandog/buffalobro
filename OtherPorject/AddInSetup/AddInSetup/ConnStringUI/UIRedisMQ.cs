@@ -128,6 +128,12 @@ namespace AddInSetup.ConnStringUI
                 sbStr.Append("useQueue=1");
                 sbStr.Append(";");
             }
+            if (chkSkipCert.Checked)
+            {
+                sbStr.Append("skipCert=1");
+                sbStr.Append(";");
+            }
+            
             int commanfFlags = (int)cmbCommandFlags.SelectedValue;
             if (commanfFlags > 0)
             {

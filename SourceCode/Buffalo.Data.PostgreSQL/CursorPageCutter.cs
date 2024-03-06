@@ -72,7 +72,12 @@ namespace Buffalo.Data.PostgreSQL
             IDataReader reader = null;
             try
             {
-                string qsql = CutPageSqlCreater.GetCutPageSql(sql, objPage);
+                StringBuilder sb = new StringBuilder(2000);
+                sb.Append(sql);
+                CutPageSqlCreater.FillCutPageSql(sb, objPage);
+
+
+                string qsql = sb.ToString();
                 reader = oper.Query(qsql, lstParam, null);
                 
                 if (curType == null)

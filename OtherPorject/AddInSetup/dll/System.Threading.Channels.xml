@@ -122,17 +122,17 @@
     <member name="P:System.Threading.Channels.ChannelOptions.AllowSynchronousContinuations">
       <summary>
         <see langword="true" /> if operations performed on a channel may synchronously invoke continuations subscribed to
-notifications of pending async operations; <see langword="false" /> if all continuations should be invoked asynchronously.</summary>
+            notifications of pending async operations; <see langword="false" /> if all continuations should be invoked asynchronously.</summary>
     </member>
     <member name="P:System.Threading.Channels.ChannelOptions.SingleReader">
       <summary>
         <see langword="true" /> readers from the channel guarantee that there will only ever be at most one read operation at a time;
-<see langword="false" /> if no such constraint is guaranteed.</summary>
+            <see langword="false" /> if no such constraint is guaranteed.</summary>
     </member>
     <member name="P:System.Threading.Channels.ChannelOptions.SingleWriter">
       <summary>
         <see langword="true" /> if writers to the channel guarantee that there will only ever be at most one write operation
-at a time; <see langword="false" /> if no such constraint is guaranteed.</summary>
+            at a time; <see langword="false" /> if no such constraint is guaranteed.</summary>
     </member>
     <member name="T:System.Threading.Channels.ChannelReader`1">
       <summary>Provides a base class for reading from a channel.</summary>
@@ -140,10 +140,6 @@ at a time; <see langword="false" /> if no such constraint is guaranteed.</summar
     </member>
     <member name="M:System.Threading.Channels.ChannelReader`1.#ctor">
       <summary>Initializes an instance of the <see cref="T:System.Threading.Channels.ChannelReader`1" /> class.</summary>
-    </member>
-    <member name="P:System.Threading.Channels.ChannelReader`1.Completion">
-      <summary>Gets a <see cref="T:System.Threading.Tasks.Task" /> that completes when no more data will ever
-be available to be read from this channel.</summary>
     </member>
     <member name="M:System.Threading.Channels.ChannelReader`1.ReadAllAsync(System.Threading.CancellationToken)">
       <summary>Creates an <see cref="T:System.Collections.Generic.IAsyncEnumerable`1" /> that enables reading all of the data from the channel.</summary>
@@ -164,10 +160,22 @@ be available to be read from this channel.</summary>
     <member name="M:System.Threading.Channels.ChannelReader`1.WaitToReadAsync(System.Threading.CancellationToken)">
       <summary>Returns a <see cref="T:System.Threading.Tasks.ValueTask`1" /> that will complete when data is available to read.</summary>
       <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken" /> used to cancel the wait operation.</param>
-      <returns>A <see cref="T:System.Threading.Tasks.ValueTask`1" /> that will complete with a <see langword="true" /> result when data is available to read
-      or with a <see langword="false" /> result when no further data will ever be available to be read due to the channel completing successfully.
-    If the channel completes with an exception, the task will also complete with an exception.
-.</returns>
+      <returns>
+        <para>A <see cref="T:System.Threading.Tasks.ValueTask`1" /> that will complete with a <see langword="true" /> result when data is available to read
+            or with a <see langword="false" /> result when no further data will ever be available to be read due to the channel completing successfully.</para>
+        <para>If the channel completes with an exception, the task will also complete with an exception.</para>
+      </returns>
+    </member>
+    <member name="P:System.Threading.Channels.ChannelReader`1.CanCount">
+      <summary>Gets a value that indicates whether <see cref="P:System.Threading.Channels.ChannelReader`1.Count" /> is available for use on this <see cref="T:System.Threading.Channels.ChannelReader`1" /> instance.</summary>
+    </member>
+    <member name="P:System.Threading.Channels.ChannelReader`1.Completion">
+      <summary>Gets a <see cref="T:System.Threading.Tasks.Task" /> that completes when no more data will ever
+            be available to be read from this channel.</summary>
+    </member>
+    <member name="P:System.Threading.Channels.ChannelReader`1.Count">
+      <summary>Gets the current number of items available from this channel reader.</summary>
+      <exception cref="T:System.NotSupportedException">Counting is not supported on this instance.</exception>
     </member>
     <member name="T:System.Threading.Channels.ChannelWriter`1">
       <summary>Provides a base class for writing to a channel.</summary>
@@ -186,8 +194,8 @@ be available to be read from this channel.</summary>
       <param name="error">An <see cref="T:System.Exception" /> indicating the failure causing no more data to be written, or null for success.</param>
       <returns>
         <see langword="true" /> if this operation successfully completes the channel; otherwise, <see langword="false" /> if the channel could not be marked for completion,
-for example due to having already been marked as such, or due to not supporting completion.
-.</returns>
+            for example due to having already been marked as such, or due to not supporting completion.
+          .</returns>
     </member>
     <member name="M:System.Threading.Channels.ChannelWriter`1.TryWrite(`0)">
       <summary>Attempts to write the specified item to the channel.</summary>
@@ -199,7 +207,7 @@ for example due to having already been marked as such, or due to not supporting 
       <summary>Returns a <see cref="T:System.Threading.Tasks.ValueTask`1" /> that will complete when space is available to write an item.</summary>
       <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken" /> used to cancel the wait operation.</param>
       <returns>A <see cref="T:System.Threading.Tasks.ValueTask`1" /> that will complete with a <see langword="true" /> result when space is available to write an item
-or with a <see langword="false" /> result when no further writing will be permitted.</returns>
+            or with a <see langword="false" /> result when no further writing will be permitted.</returns>
     </member>
     <member name="M:System.Threading.Channels.ChannelWriter`1.WriteAsync(`0,System.Threading.CancellationToken)">
       <summary>Asynchronously writes an item to the channel.</summary>

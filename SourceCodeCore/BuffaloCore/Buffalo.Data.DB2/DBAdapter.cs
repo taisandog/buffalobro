@@ -14,6 +14,7 @@ using Buffalo.DB.BQLCommon.BQLKeyWordCommon;
 using Buffalo.DB.CommBase.DataAccessBases;
 using Buffalo.DB.DataBaseAdapter;
 using Buffalo.DB.BQLCommon.BQLConditions;
+using IBM.Data.DB2.Core;
 
 namespace Buffalo.Data.DB2
 {

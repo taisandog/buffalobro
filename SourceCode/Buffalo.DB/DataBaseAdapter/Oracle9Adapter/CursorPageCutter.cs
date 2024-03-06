@@ -37,6 +37,7 @@ namespace Buffalo.DB.DataBaseAdapter.Oracle9Adapter
             }
             IDataReader reader = null;
             StringBuilder sbTmp = new StringBuilder();
+
             CutPageSqlCreater.FillCutPageSql(sbTmp,sql, objPage);
             string qsql =sbTmp.ToString();
             reader = oper.Query(qsql, lstParam, null);

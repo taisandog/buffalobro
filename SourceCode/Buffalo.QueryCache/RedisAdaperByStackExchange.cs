@@ -167,6 +167,11 @@ namespace Buffalo.QueryCache
             if (_options.Ssl)
             {
                 _options.SslProtocols = SslProtocols.Tls | SslProtocols.Tls11 | SslProtocols.Tls12 | SslProtocols.Tls13;
+                bool skipCert = configs.GetDicValue<string, string>("skipCert") == "1";//跳过验证
+                if (skipCert)
+                {
+                    _options.CertificateValidation += _options_CertificateValidation;
+                }
             }
             string throwStr = configs.GetDicValue<string, string>("throw");
             _throwExcertion = (throwStr == "1");
@@ -217,7 +222,10 @@ namespace Buffalo.QueryCache
             return ConnectionMultiplexer.Connect(_options);
         }
 
-
+        private bool _options_CertificateValidation(object sender, System.Security.Cryptography.X509Certificates.X509Certificate certificate, System.Security.Cryptography.X509Certificates.X509Chain chain, System.Net.Security.SslPolicyErrors sslPolicyErrors)
+        {
+            return true;
+        }
         #region ICacheAdaper 成员
 
 

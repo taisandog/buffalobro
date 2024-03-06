@@ -1,8 +1,10 @@
 ﻿using Buffalo.Kernel;
+using Confluent.Kafka;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Authentication;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -104,6 +106,15 @@ namespace Buffalo.MQ.RedisMQ
             _useDatabase = hs.GetDicValue<string, string>("database").ConvertTo<int>(0);
             Options.DefaultDatabase= _useDatabase;
             Options.Ssl = hs.GetDicValue<string, string>("ssl") == "1";
+            if (Options.Ssl)
+            {
+                Options.SslProtocols = SslProtocols.Tls | SslProtocols.Tls11 | SslProtocols.Tls12;
+                bool skipCert = hs.GetDicValue<string, string>("skipCert") == "1";//跳过验证
+                if (skipCert)
+                {
+                    Options.CertificateValidation += _options_CertificateValidation;
+                }
+            }
             Options.SyncTimeout = hs.GetDicValue<string, string>("syncTimeout").ConvertTo<int>(1000);
             Mode =hs.GetDicValue<string, string>("messageMode") == "1"? RedisMQMessageMode.Subscriber: RedisMQMessageMode.Polling;//消息模式
             if (Mode == RedisMQMessageMode.Subscriber)
@@ -129,7 +140,10 @@ namespace Buffalo.MQ.RedisMQ
 
             }
         }
-
+        private bool _options_CertificateValidation(object sender, System.Security.Cryptography.X509Certificates.X509Certificate certificate, System.Security.Cryptography.X509Certificates.X509Chain chain, System.Net.Security.SslPolicyErrors sslPolicyErrors)
+        {
+            return true;
+        }
         /// <summary>
         /// 当选择了订阅模式+保存数据到队列时候，自定义格式化队列的key
         /// </summary>

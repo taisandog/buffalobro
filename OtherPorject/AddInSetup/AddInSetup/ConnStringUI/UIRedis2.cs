@@ -118,6 +118,11 @@ namespace AddInSetup.ConnStringUI
                 sbStr.Append(commanfFlags.ToString()); 
                 sbStr.Append(";");
             }
+            if (chkSkipCert.Checked)
+            {
+                sbStr.Append("skipCert=1");
+                sbStr.Append(";");
+            }
             sbStr.Append("database=");
             sbStr.Append(((int)txtDatabase.Value).ToString());
             sbStr.Append(";");

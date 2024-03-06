@@ -1972,7 +1972,7 @@
             Gets or sets the library name to use for CLIENT SETINFO lib-name calls to Redis during handshake.
             Defaults to "SE.Redis".
             </summary>
-            <remarks>If the value is null, empty or whitespace, then the value from the options-provideer is used;
+            <remarks>If the value is null, empty or whitespace, then the value from the options-provider is used;
             to disable the library name feature, use <see cref="P:StackExchange.Redis.ConfigurationOptions.SetClientLibrary"/> instead.</remarks>
         </member>
         <member name="P:StackExchange.Redis.ConfigurationOptions.ChannelPrefix">
@@ -2053,6 +2053,12 @@
             This is memoized when a <see cref="T:StackExchange.Redis.ConnectionMultiplexer"/> connects.
             Modifying it afterwards will have no effect on already-created multiplexers.
             </remarks>
+        </member>
+        <member name="P:StackExchange.Redis.ConfigurationOptions.HeartbeatConsistencyChecks">
+            <summary>
+            Whether to enable ECHO checks on every heartbeat to ensure network stream consistency.
+            This is a rare measure to react to any potential network traffic drops ASAP, terminating the connection.
+            </summary>
         </member>
         <member name="P:StackExchange.Redis.ConfigurationOptions.HeartbeatInterval">
             <summary>
@@ -2383,6 +2389,12 @@
             - Sending a server message to keep the connection alive if needed
             </summary>
             <remarks>Be aware setting this very low incurs additional overhead of evaluating the above more often.</remarks>
+        </member>
+        <member name="P:StackExchange.Redis.Configuration.DefaultOptionsProvider.HeartbeatConsistencyChecks">
+            <summary>
+            Whether to enable ECHO checks on every heartbeat to ensure network stream consistency.
+            This is a rare measure to react to any potential network traffic drops ASAP, terminating the connection.
+            </summary>
         </member>
         <member name="P:StackExchange.Redis.Configuration.DefaultOptionsProvider.IncludeDetailInExceptions">
             <summary>
@@ -3032,6 +3044,9 @@
             Returns the state of a feature flag.
             This should only be used under support guidance.
             </summary>
+        </member>
+        <member name="M:StackExchange.Redis.ConnectionMultiplexer.AddLibraryNameSuffix(System.String)">
+            <inheritdoc cref="M:StackExchange.Redis.IConnectionMultiplexer.AddLibraryNameSuffix(System.String)" />
         </member>
         <member name="M:StackExchange.Redis.ConnectionMultiplexer.RegisterProfiler(System.Func{StackExchange.Redis.Profiling.ProfilingSession})">
             <summary>
@@ -4909,6 +4924,14 @@
             </summary>
             <param name="destination">The destination stream to write the export to.</param>
             <param name="options">The options to use for this export.</param>
+        </member>
+        <member name="M:StackExchange.Redis.IConnectionMultiplexer.AddLibraryNameSuffix(System.String)">
+            <summary>
+            Append a usage-specific modifier to the advertised library name; suffixes are de-duplicated
+            and sorted alphabetically (so adding 'a', 'b' and 'a' will result in suffix '-a-b').
+            Connections will be updated as necessary (RESP2 subscription
+            connections will not show updates until those connections next connect).
+            </summary>
         </member>
         <member name="T:StackExchange.Redis.IDatabase">
             <summary>
@@ -12151,6 +12174,12 @@
             <summary>
             The default bridge stats, notable *not* the same as <c>default</c> since initializers don't run.
             </summary>
+        </member>
+        <member name="M:StackExchange.Redis.PhysicalBridge.KeepAlive(System.Boolean)">
+            <summary>
+            Sends a keepalive message (ECHO or PING) to keep connections alive and check validity of response.
+            </summary>
+            <param name="forceRun">Whether to run even then the connection isn't idle.</param>
         </member>
         <member name="M:StackExchange.Redis.PhysicalBridge.CheckBacklogForTimeouts">
             <summary>
