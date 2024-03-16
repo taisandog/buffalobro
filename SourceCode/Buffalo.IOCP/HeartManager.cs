@@ -419,7 +419,7 @@ namespace Buffalo.IOCP
                         lstRemove.Enqueue(connection);
                         continue;
                     }
-                    if (_timeHeartSource > 0&&nowDate.Subtract(connection.LastSendTime).TotalMilliseconds > _timeHeart)
+                    if (_timeHeartSource > 0&&nowDate.Subtract(connection.LastSendTime).TotalMilliseconds >= _timeHeart)
                     {
                         connection.SendHeard();
                         continue;
@@ -457,7 +457,7 @@ namespace Buffalo.IOCP
                         lstRemove.Enqueue(connection);
                         continue;
                     }
-                    if (nowDate.Subtract(connection.LastReceiveTime).TotalMilliseconds > _timeOut)
+                    if (nowDate.Subtract(connection.LastReceiveTime).TotalMilliseconds >= _timeOut)
                     {
                         lstClose.Enqueue(connection);
                         continue;

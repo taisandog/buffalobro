@@ -287,11 +287,11 @@ namespace Buffalo.IOCP.DataProtocol
         /// <summary>
         /// 异步接收事件
         /// </summary>
-        protected SocketAsyncEventArgs RecevieSocketAsync;
+        protected SocketAsyncEventArgs _recevieSocketAsync;
         /// <summary>
         /// 异步发送
         /// </summary>
-        protected SocketAsyncEventArgs SendSocketAsync;
+        protected SocketAsyncEventArgs _sendSocketAsync;
 
         /// <summary>
         /// 是否正在发送
@@ -366,7 +366,7 @@ namespace Buffalo.IOCP.DataProtocol
             _certConfig = certConfig;
             _isServerSocket = isServerSocket;
             //_thdPool = new BlockThreadPool(2000);
-            _dataManager = new DataManager(maxSendPool, maxLostPool, _netProtocol);
+            _dataManager = new DataManager(maxSendPool, maxLostPool,this, _netProtocol);
             _bindSocket = socket;
             lock (autoLock)
             {
@@ -379,20 +379,20 @@ namespace Buffalo.IOCP.DataProtocol
                 }
 
             }
-            RecevieSocketAsync = new SocketAsyncEventArgs();
+            _recevieSocketAsync = new SocketAsyncEventArgs();
             
             int buffLen = _netProtocol.BufferLength;
            
             if (_certConfig == null)
             {
-                RecevieSocketAsync.AcceptSocket = _bindSocket;
-                RecevieSocketAsync.Completed += new EventHandler<SocketAsyncEventArgs>(OnRecCompleted);
+                _recevieSocketAsync.AcceptSocket = _bindSocket;
+                _recevieSocketAsync.Completed += new EventHandler<SocketAsyncEventArgs>(OnRecCompleted);
             }
-            RecevieSocketAsync.SetBuffer(new byte[buffLen], 0, buffLen);
+            _recevieSocketAsync.SetBuffer(new byte[buffLen], 0, buffLen);
 
-            SendSocketAsync = new SocketAsyncEventArgs();
-            SendSocketAsync.AcceptSocket = BindSocket;
-            SendSocketAsync.Completed += new EventHandler<SocketAsyncEventArgs>(OnCompleted);
+            _sendSocketAsync = new SocketAsyncEventArgs();
+            _sendSocketAsync.AcceptSocket = BindSocket;
+            _sendSocketAsync.Completed += new EventHandler<SocketAsyncEventArgs>(OnCompleted);
             
             LastSendTime = DateTime.Now;
             LastReceiveTime = DateTime.Now;
@@ -427,7 +427,7 @@ namespace Buffalo.IOCP.DataProtocol
                     }
                 }
             }
-            Send(SendSocketAsync);
+            Send(_sendSocketAsync);
         }
         /// <summary>
         /// 发送字节数组
@@ -454,6 +454,14 @@ namespace Buffalo.IOCP.DataProtocol
             SendPacket(dp);
             return dp;
         }
+        /// <summary>
+        /// 执行发送方法
+        /// </summary>
+        internal void RunSend() 
+        {
+            Send(_sendSocketAsync);
+        }
+
         /// <summary>
         /// 发送
         /// </summary>
@@ -502,11 +510,7 @@ namespace Buffalo.IOCP.DataProtocol
                     {
                         data = _netProtocol.ToArray(dataPacket);
                     }
-                    //data= GetSendData(data);
-                    //if (_isWebsocketHandShanked)
-                    //{
-                    //    data = ProtocolDraft10.PackageServerData(data, dataPacket.WebSocketMessageType, dataPacket.WebSocketMask);
-                    //}
+                    
                     lock (_lokRootObject)
                     {
                         socket = _bindSocket;
@@ -527,7 +531,7 @@ namespace Buffalo.IOCP.DataProtocol
                     DoSendFault(dataPacket);
                     if (_netProtocol.ShowError)
                     {
-                        _netProtocol.Log("Send Error:" + ex.ToString());
+                        _netProtocol.LogError("Send Error:" + ex.ToString());
                     }
                 }
                 finally
@@ -593,21 +597,21 @@ namespace Buffalo.IOCP.DataProtocol
         /// <param name="dataPacket"></param>
         private void DoSendFault(DataPacketBase dataPacket)
         {
-            if (!dataPacket.IsHeart)
-            {
-                return;
-            }
-            lock (_lokRootObject)
-            {
-                if (Connected && !_dataManager.IsSendPacketFull)
-                {
-                    string err = _dataManager.AddData(dataPacket);
-                    if (err != null )
-                    {
-                        PutMessageEvent(1, err);
-                    }
-                }
-            }
+            //if (dataPacket.IsHeart || (!dataPacket.IsLost))
+            //{
+            //    return;
+            //}
+            //lock (_lokRootObject)
+            //{
+            //    if (Connected && !_dataManager.IsSendPacketFull)
+            //    {
+            //        string err = _dataManager.AddData(dataPacket);
+            //        if (err != null )
+            //        {
+            //            PutMessageEvent(1, err);
+            //        }
+            //    }
+            //}
         }
 
         /// <summary>
@@ -640,7 +644,7 @@ namespace Buffalo.IOCP.DataProtocol
                 return;
             }
             socket = _bindSocket;
-            eventArgs = RecevieSocketAsync;
+            eventArgs = _recevieSocketAsync;
 
             try
             {
@@ -961,17 +965,17 @@ namespace Buffalo.IOCP.DataProtocol
 
                 }
                 _dataManager = null;
-                if (RecevieSocketAsync != null)
+                if (_recevieSocketAsync != null)
                 {
-                    eventArgs = RecevieSocketAsync;
+                    eventArgs = _recevieSocketAsync;
                    
-                    RecevieSocketAsync = null;
+                    _recevieSocketAsync = null;
                 }
-                if (SendSocketAsync != null)
+                if (_sendSocketAsync != null)
                 {
-                    eventSendArgs = SendSocketAsync;
+                    eventSendArgs = _sendSocketAsync;
 
-                    SendSocketAsync = null;
+                    _sendSocketAsync = null;
                 }
             }
             if (socket != null)

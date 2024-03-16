@@ -149,7 +149,9 @@ namespace Buffalo.IOCP.DataProtocol
         /// 缓冲长度
         /// </summary>
         public abstract int BufferLength { get; }
-
-       
+        /// <summary>
+        /// 默认最大重发次数
+        /// </summary>
+        public int DefaultMaxResend { get; }
     }
 }
