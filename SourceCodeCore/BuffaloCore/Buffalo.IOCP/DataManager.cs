@@ -292,8 +292,8 @@ namespace Buffalo.IOCP
         /// <summary>
         /// 将超时的数据添加到要以送的列表
         /// </summary>
-        /// <param name="timeHeart"></param>
-        public void CheckResend(int timeHeart)
+        /// <param name="timeResend"></param>
+        public void CheckResend(int timeResend)
         {
             LinkedDictionary<object, DataPacketBase> diclp = _lostPacket;
             ConcurrentQueue<DataPacketBase> queSend = _sendPacket;
@@ -320,7 +320,7 @@ namespace Buffalo.IOCP
                 {
                     dp = kvp.Value;
                     
-                    if (dt.Subtract(dp.SendTime).TotalMilliseconds >= timeHeart)
+                    if (dt.Subtract(dp.SendTime).TotalMilliseconds >= timeResend)
                     {
                         if (NeedAddResend(dp))
                         {
@@ -329,7 +329,6 @@ namespace Buffalo.IOCP
                             hasAdd = true;
                         }
                         lstRemoveLost.Add(kvp.Key);
-                        //_lostPacket.RemoveAt(i);
                     }
                 }
                 foreach (object packId in lstRemoveLost)
