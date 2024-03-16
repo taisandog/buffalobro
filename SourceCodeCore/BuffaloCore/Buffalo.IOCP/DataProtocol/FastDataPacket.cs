@@ -52,6 +52,7 @@ namespace Buffalo.IOCP.DataProtocol
                 this.PacketID = packetID.ToString();
             }
             this.IsLost = isLost;
+            this.MaxResend = _netProtocol.DefaultMaxResend;
             //this.IsVerify = verify;
 
 

@@ -66,19 +66,16 @@ namespace Buffalo.IOCP.DataProtocol
             }
         }
 
-        private int _resendCount = 0;
+        internal int _resendCount = 0;
         /// <summary>
         /// 当前重发计数
         /// </summary>
         public int ResendCount
         {
-            set
-            {
-                _maxResend = value;
-            }
+            
             get
             {
-                return _maxResend;
+                return _resendCount;
             }
         }
         /// <summary>

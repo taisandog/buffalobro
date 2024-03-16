@@ -2,6 +2,7 @@
 using Buffalo.IOCP.DataProtocol;
 using Newtonsoft.Json;
 using System.Net.Security;
+using System.Net.WebSockets;
 using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 
@@ -183,11 +184,17 @@ namespace FastNetServerDemo
         }
         private static bool Server_OnMessage(ClientSocketBase clientSocket, int type, object message)
         {
+            WebSocketClientSocket socket = clientSocket as WebSocketClientSocket;
             WebSocketHandshake handshake = message as WebSocketHandshake;
             if( handshake != null ) 
             {
                 Console.WriteLine("握手地址:"+handshake.Url+"参数:"+JsonConvert.SerializeObject(handshake.Param));
                 
+            }
+            if (!handshake.Param.ContainsKey("userId")) 
+            {
+                socket.SendHandShakeFail(null, "HTTP/1.1 200 OK",null,"不存在userId参数");
+                return false;
             }
             return true;
         }

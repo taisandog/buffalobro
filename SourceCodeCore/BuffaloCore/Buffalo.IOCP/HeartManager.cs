@@ -273,16 +273,20 @@ namespace Buffalo.IOCP
         {
             int pertimeResend = 0;
 
-            pertimeResend = _timeResend / 10;
-            if (pertimeResend <= 0)
+            int num = _timeResend;
+            if(num<=0|| num> _timeHeart) 
             {
-                pertimeResend = _timeHeart / 10;
+                num = _timeHeart;
             }
-            if (pertimeResend <= 0)
+            if (num <= 0 || num > _timeOut)
             {
-                pertimeResend = _timeOut / 10;
+                num = _timeOut;
             }
             
+            pertimeResend = num / 10;
+            
+
+
             if (pertimeResend > 200)
             {
                 pertimeResend = 200;
@@ -419,7 +423,7 @@ namespace Buffalo.IOCP
                         lstRemove.Enqueue(connection);
                         continue;
                     }
-                    if (_timeHeartSource > 0&&nowDate.Subtract(connection.LastSendTime).TotalMilliseconds > _timeHeart)
+                    if (_timeHeartSource > 0&&nowDate.Subtract(connection.LastSendTime).TotalMilliseconds >= _timeHeart)
                     {
                         connection.SendHeard();
                         continue;
@@ -457,7 +461,7 @@ namespace Buffalo.IOCP
                         lstRemove.Enqueue(connection);
                         continue;
                     }
-                    if (nowDate.Subtract(connection.LastReceiveTime).TotalMilliseconds > _timeOut)
+                    if (nowDate.Subtract(connection.LastReceiveTime).TotalMilliseconds >= _timeOut)
                     {
                         lstClose.Enqueue(connection);
                         continue;

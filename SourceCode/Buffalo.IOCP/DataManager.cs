@@ -325,7 +325,7 @@ namespace Buffalo.IOCP
                         if (NeedAddResend(dp))
                         {
                             queSend.Enqueue(dp);
-                            dp.ResendCount++;
+                            dp._resendCount++;
                             hasAdd = true;
                         }
                         lstRemoveLost.Add(kvp.Key);

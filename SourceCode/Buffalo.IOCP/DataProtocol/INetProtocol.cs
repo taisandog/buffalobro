@@ -152,6 +152,12 @@ namespace Buffalo.IOCP.DataProtocol
         /// <summary>
         /// 默认最大重发次数
         /// </summary>
-        public int DefaultMaxResend { get; }
+        public virtual int DefaultMaxResend 
+        {
+            get 
+            {
+                return 5;
+            }
+        }
     }
 }
