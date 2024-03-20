@@ -8,8 +8,4 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Buffalo.IOCP" Version="1.0.0" />
-  </ItemGroup>
-
 </Project>

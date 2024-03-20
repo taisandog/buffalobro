@@ -268,33 +268,40 @@ namespace Buffalo.IOCP
 
             DataPacketBase dp = null;
             LinkedDictionary<object, DataPacketBase> diclp = _lostPacket;
-            if (diclp != null )
+            if (diclp != null)
             {
                 lock (diclp)
                 {
 
                     dp = diclp.RemoveKey(dataPacket.PacketID);
-
-                    if (dp != null) 
-                    {
-                        if (dataPacket.NetProtocol.ShowError)
-                        {
-                            string str=String.Format("Receive Packet,ID:{0},", dp.PacketID);
-                            dataPacket.NetProtocol.Log(str);
-                        }
-                    }
-
                 }
-               
+                if (dp != null)
+                {
+                    if (dataPacket.NetProtocol.ShowError)
+                    {
+                        string str = String.Format("Receive Packet,ID:{0},", dp.PacketID);
+                        dataPacket.NetProtocol.Log(str);
+                    }
+                }
+
+
+
             }
 
         }
+
+        private DateTime _lastCeckResend = DateTime.MinValue;
+
         /// <summary>
         /// 将超时的数据添加到要以送的列表
         /// </summary>
         /// <param name="timeResend"></param>
-        public void CheckResend(int timeResend)
+        public void CheckResend(int timeResend,DateTime nowDate)
         {
+            if (nowDate.Subtract(_lastCeckResend).TotalMilliseconds< (timeResend/2)) 
+            {
+                return;
+            }
             LinkedDictionary<object, DataPacketBase> diclp = _lostPacket;
             ConcurrentQueue<DataPacketBase> queSend = _sendPacket;
 
@@ -310,35 +317,40 @@ namespace Buffalo.IOCP
             {
                 return;
             }
-            DateTime dt = DateTime.Now;
+            _lastCeckResend = nowDate;
+            DateTime dt = nowDate;
             DataPacketBase dp = null;
-            List<object> lstRemoveLost = new List<object>();
+            Queue<object> lstRemoveLost = new Queue<object>();
             bool hasAdd=false;
             lock (diclp)
             {
-                foreach (KeyValuePair<object, DataPacketBase> kvp in diclp)
+                foreach (LinkedValueNode<object, DataPacketBase> kvp in diclp.GetEnumeratorOldToNew())
                 {
                     dp = kvp.Value;
-                    
-                    if (dt.Subtract(dp.SendTime).TotalMilliseconds >= timeResend)
+
+                    if (dt.Subtract(dp.SendTime).TotalMilliseconds < timeResend)
                     {
-                        if (NeedAddResend(dp))
-                        {
-                            queSend.Enqueue(dp);
-                            dp._resendCount++;
-                            hasAdd = true;
-                        }
-                        lstRemoveLost.Add(kvp.Key);
+                        break;
                     }
+                    if (NeedAddResend(dp))
+                    {
+                        queSend.Enqueue(dp);
+                        dp._resendCount++;
+
+                        hasAdd = true;
+                    }
+                    lstRemoveLost.Enqueue(kvp.Key);
                 }
                 foreach (object packId in lstRemoveLost)
                 {
                     diclp.Remove(packId);
                 }
-                queSend = null;
-                lstRemoveLost = null;
+               
             }
-            if(hasAdd && _socket != null) 
+            queSend = null;
+            lstRemoveLost.Clear();
+            lstRemoveLost = null;
+            if (hasAdd && _socket != null) 
             {
                 _socket.RunSend();
             }

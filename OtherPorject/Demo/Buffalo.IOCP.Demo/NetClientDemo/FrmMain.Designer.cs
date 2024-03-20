@@ -81,6 +81,7 @@
             ucFastNet1.Name = "ucFastNet1";
             ucFastNet1.Size = new Size(738, 188);
             ucFastNet1.TabIndex = 0;
+            ucFastNet1.Load += ucFastNet1_Load;
             // 
             // tbWebSocket
             // 

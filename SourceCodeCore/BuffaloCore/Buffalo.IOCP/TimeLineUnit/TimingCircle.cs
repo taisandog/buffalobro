@@ -60,6 +60,10 @@ namespace Buffalo.Kernel.Collections
                 _scale = 1;
             }
             _arrTimings = new ConcurrentDictionary<T, bool>[len];
+            for(int i = 0; i < len; i++) 
+            {
+                _arrTimings[i] = new ConcurrentDictionary<T, bool>();
+            }
         }
 
         /// <summary>
@@ -78,15 +82,9 @@ namespace Buffalo.Kernel.Collections
         /// <param name="index"></param>
         public bool DeleteValue(T value, int index)
         {
-            lock (_arrTimings)
-            {
-                ConcurrentDictionary<T, bool> item = _arrTimings[index];
-                if(item == null) 
-                {
-                    return false;
-                }
-                return item.TryRemove(value,out _);
-            }
+
+            ConcurrentDictionary<T, bool> item = _arrTimings[index];
+            return item.TryRemove(value, out _);
         }
 
         /// <summary>
@@ -103,11 +101,12 @@ namespace Buffalo.Kernel.Collections
                     continue;
                 }
                 item.Clear();
+                
             }
         }
 
         /// <summary>
-        /// 移动到此时间
+        /// 移动到此时间刻度
         /// </summary>
         /// <param name="curTime">时间</param>
         /// <param name="queItems">填充列表</param>
@@ -124,10 +123,6 @@ namespace Buffalo.Kernel.Collections
             ConcurrentDictionary<T, bool> item = null;
             lock (_arrTimings)
             {
-                if (moveItems > _arrTimings.Length)
-                {
-                    moveItems = _arrTimings.Length;
-                }
                 for (int i = 0; i < moveItems; i++)
                 {
                     index = GetAddIndex(i);
@@ -138,10 +133,9 @@ namespace Buffalo.Kernel.Collections
                     }
                     queItems.Enqueue(item);
                 }
+                _currentIndex = GetAddIndex(moveItems);
+                _lastTick = curTick;
             }
-            _currentIndex = GetAddIndex(moveItems);
-            _lastTick = curTick;
-
         }
         /// <summary>
         /// 添加值到指定时间
@@ -149,24 +143,21 @@ namespace Buffalo.Kernel.Collections
         /// <param name="value">值</param>
         /// <param name="time">时间(-1则为当前时间)</param>
         /// <returns>返回加到刻度索引</returns>
-        public int AddValue(T value, long time=-1) 
+        public int AddValue(T value, long time = -1)
         {
-            int index = _currentIndex;
+            int moveItems = 0;
             if (time > 0)
             {
-                int moveItems = GetMoveCount(time,out _);
-                index += moveItems;
+                moveItems = GetMoveCount(time, out _);
             }
-            lock (_arrTimings) 
-            {
-                ConcurrentDictionary<T, bool> dic = _arrTimings[index];
-                if (dic == null) 
-                {
-                    dic=new ConcurrentDictionary<T, bool>();
-                    _arrTimings[index]=dic;
-                }
-                dic[value] = true;
-            }
+            
+            ConcurrentDictionary<T, bool> dic = null;
+
+            int index= GetAddIndex(moveItems);
+
+            dic = _arrTimings[index];
+
+            dic[value] = true;
             return index;
         }
 
@@ -174,15 +165,19 @@ namespace Buffalo.Kernel.Collections
 
 
         /// <summary>
-        /// 获取当前时间的移动值
+        /// 获取上一次判断到现在为止，经历了几个时间刻度
         /// </summary>
         /// <param name="time">当前时间</param>
-        /// <param name="curTick">计算出来的当前位置</param>
+        /// <param name="curTick">计算出来的当前刻度</param>
         /// <returns>返回经历了几个刻度</returns>
         private int GetMoveCount(long time,out long curTick) 
         {
             curTick = time / _scale;
             int moveItems = (int)Math.Abs(curTick - _lastTick);
+            if (moveItems > _arrTimings.Length)
+            {
+                moveItems = _arrTimings.Length;
+            }
             return moveItems;
         }
 

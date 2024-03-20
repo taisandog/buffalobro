@@ -31,7 +31,7 @@ namespace FastNetServerDemo
             _log.ShowError=true;
             _log.ShowLog = true;
             _heart = new HeartManager(20000, 5000, 1000,0, _log);
-            _heart.StartHeart();
+            _heart.StartHeart(500,10);
             _serverFast = ConnectFast(8587);
             _serverWebSocket = ConnectWebSocket(8588);
             _serverWebSocketTLS = ConnectWebSocketTLS(8589);
@@ -158,7 +158,8 @@ namespace FastNetServerDemo
                 {
                     _log.Log("收到:" + mess);
                 }
-                socket.Send("服务器已收到:"+mess);
+                FastClientSocket fSock = socket as FastClientSocket;
+                fSock.Send(data.PacketID.ConvertTo<int>(),"服务器已收到:" +mess,null);
             }
             catch (Exception e)
             {
@@ -191,11 +192,7 @@ namespace FastNetServerDemo
                 Console.WriteLine("握手地址:"+handshake.Url+"参数:"+JsonConvert.SerializeObject(handshake.Param));
                 
             }
-            if (!handshake.Param.ContainsKey("userId")) 
-            {
-                socket.SendHandShakeFail(null, "HTTP/1.1 200 OK",null,"不存在userId参数");
-                return false;
-            }
+            
             return true;
         }
         private static void Server_OnError(ClientSocketBase clientSocket, Exception ex)

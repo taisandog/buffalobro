@@ -53,6 +53,17 @@ namespace Buffalo.IOCP.DataProtocol
         }
         private int _curId = 0;
 
+        public int NextId() 
+        {
+            int curId = 0;
+            lock (this)
+            {
+                _curId++;
+                curId = _curId;
+            }
+            return curId;
+        }
+
         /// <summary>
         /// 发送数据
         /// </summary>
@@ -61,15 +72,11 @@ namespace Buffalo.IOCP.DataProtocol
         /// param name="mergeTag">合并标签</param>
         /// <param name="verify">是否验证</param>
         public FastDataPacket Send(byte[] data,
-            object mergeTag = null)
+            object mergeTag = null, bool isLost = false)
         {
-            int curId = 0;
-            lock (this)
-            {
-                _curId++;
-                curId = _curId;
-            }
-            return Send(curId, data, mergeTag);
+            int curId = NextId();
+            
+            return Send(curId, data, mergeTag, isLost);
 
         }
 
@@ -81,9 +88,9 @@ namespace Buffalo.IOCP.DataProtocol
         /// param name="mergeTag">合并标签</param>
         /// <param name="verify">是否验证</param>
         public FastDataPacket Send(int packetId, string data,
-            object mergeTag = null)
+            object mergeTag = null, bool isLost = false)
         {
-            return Send(packetId, System.Text.Encoding.UTF8.GetBytes(data), mergeTag);
+            return Send(packetId, System.Text.Encoding.UTF8.GetBytes(data), mergeTag,isLost);
         }
         private static int MaxId = int.MaxValue - 1000;
         /// <summary>
@@ -93,7 +100,7 @@ namespace Buffalo.IOCP.DataProtocol
         /// <param name="lost">是否判断丢失</param>
         /// param name="mergeTag">合并标签</param>
         /// <param name="verify">是否验证</param>
-        public FastDataPacket Send(string data,object mergeTag = null)
+        public FastDataPacket Send(string data,object mergeTag = null, bool isLost = false)
         {
             int curId = 0;
             lock (this)
@@ -105,7 +112,7 @@ namespace Buffalo.IOCP.DataProtocol
                 }
                 curId = _curId;
             }
-            return Send(curId, data, mergeTag);
+            return Send(curId, data, mergeTag,isLost);
 
         }
 
@@ -117,7 +124,7 @@ namespace Buffalo.IOCP.DataProtocol
         /// param name="mergeTag">合并标签</param>
         /// <param name="verify">是否验证</param>
         public FastDataPacket Send(int packetId, byte[] data,
-             object mergeTag = null)
+             object mergeTag = null,bool isLost=false)
         {
             FastDataPacket packet = null;
             if (!Connected)
@@ -125,9 +132,10 @@ namespace Buffalo.IOCP.DataProtocol
                 packet = new FastDataPacket(packetId, data, false, _netProtocol);
                 return packet;
             }
-            packet = new FastDataPacket(packetId, data, false, _netProtocol);
+            packet = new FastDataPacket(packetId, data, isLost, _netProtocol);
             //packet.IsVerify = verify;
             packet.MergeTag = mergeTag;
+           
             _netProtocol.PutSendPacketEvent(packet);
             SendPacket(packet);
             return packet;
