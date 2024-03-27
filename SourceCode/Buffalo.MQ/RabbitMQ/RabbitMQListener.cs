@@ -92,11 +92,10 @@ namespace Buffalo.MQ.RabbitMQ
         }
         private void Consumer_Received(object sender, BasicDeliverEventArgs e)
         {
-            byte[] bytes = e.Body.ToArray();
-            string key = e.RoutingKey;
-            string exchange = e.Exchange;
-            CallBack(key, exchange, bytes,0,0);
-            _channel.BasicAck(e.DeliveryTag, false);//手动应答
+            RabbitCallbackMessage mess = new RabbitCallbackMessage(e.RoutingKey, e.Exchange, e.Body.ToArray(), _channel, e);
+           
+            CallBack(mess);
+            //_channel.BasicAck(e.DeliveryTag, false);//手动应答
         }
 
         

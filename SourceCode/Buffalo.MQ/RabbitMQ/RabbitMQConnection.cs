@@ -92,12 +92,32 @@ namespace Buffalo.MQ.RabbitMQ
             _channel.BasicPublish(_config.ExchangeName, routingKey, false, null, body);
             return ApiCommon.GetSuccess();
         }
-      
+        /// <summary>
+        /// 发布内容
+        /// </summary>
+        /// <param name="routingKey"></param>
+        /// <param name="body"></param>
+        /// <returns></returns>
+        protected override APIResault SendMessage(MQSendMessage message)
+        {
+            MQRabbitMessage mess= message as MQRabbitMessage;
+            if(mess == null) 
+            {
+                return ApiCommon.GetFault("message must been a MQRabbitMessage");
+            }
+            string exchange= mess.Exchange;
+            if (string.IsNullOrWhiteSpace(exchange)) 
+            {
+                exchange = _config.ExchangeName;
+            }
+            _channel.BasicPublish(exchange, mess.Topic, mess.Mandatory, mess.BasicProperties, mess.Value);
+            return ApiCommon.GetSuccess();
+        }
         /// <summary>
         /// 删除队列(Rabbit可用)
         /// </summary>
         /// <param name="queueName">队列名，如果为null则全删除</param>
-        public override void DeleteQueue(IEnumerable<string> queueName, bool ifUnused, bool ifEmpty)
+        public void DeleteQueue(IEnumerable<string> queueName, bool ifUnused, bool ifEmpty)
         {
             IEnumerable<string> curDelete = queueName;
             if (curDelete == null)
@@ -106,14 +126,14 @@ namespace Buffalo.MQ.RabbitMQ
             }
             foreach (string delName in curDelete)
             {
-                _channel.QueueDelete(delName,ifUnused,ifEmpty);
+                _channel.QueueDelete(delName, ifUnused, ifEmpty);
             }
         }
         /// <summary>
         /// 删除交换器
         /// </summary>
-        
-        public override void DeleteTopic(bool ifUnused)
+
+        public void DeleteExchange(bool ifUnused)
         {
             _channel.ExchangeDelete(_config.ExchangeName, ifUnused);
         }

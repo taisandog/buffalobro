@@ -86,25 +86,38 @@ namespace Buffalo.MQ.RedisMQ
 
         }
 
+        protected override APIResault SendMessage(MQSendMessage mess)
+        {
+            if (_que != null)
+            {
+                _que.Enqueue(mess as MQRedisMessage);
+            }
+            else
+            {
+                SendToPublic(mess.Topic, mess.Value);
+            }
+
+            return ApiCommon.GetSuccess();
+        }
+
         /// <summary>
         /// 发布内容
         /// </summary>
         /// <param name="routingKey"></param>
         /// <param name="body"></param>
         /// <returns></returns>
-        protected override APIResault SendMessage(string routingKey, byte[] body)
+        protected override APIResault SendMessage(string topic, byte[] body)
         {
             RedisValue value = body;
             if (_que != null)
             {
-                MQRedisMessage mess = new MQRedisMessage();
-                mess.RoutingKey = routingKey;
-                mess.Value = body;
+                MQRedisMessage mess = new MQRedisMessage(topic, body);
+                
                 _que.Enqueue(mess);
             }
             else
             {
-                SendToPublic(routingKey, body);
+                SendToPublic(topic, body);
             }
 
             return ApiCommon.GetSuccess();
@@ -115,46 +128,46 @@ namespace Buffalo.MQ.RedisMQ
         /// </summary>
         /// <param name="routingKey"></param>
         /// <param name="body"></param>
-        private void SendToPublic(string routingKey, byte[] body)
+        private void SendToPublic(string topic, byte[] body)
         {
             if (_config.Mode == RedisMQMessageMode.Subscriber)
             {
                 if (_config.SaveToQueue)
                 {
 
-                    string key = _config.GetDefaultQueueKey(routingKey);
+                    string key = _config.GetDefaultQueueKey(topic);
                     IDatabase db = GetDB();
                     db.ListLeftPush(key, body);
-                    _subscriber.Publish(routingKey, RedisMQConfig.PublicTag, _config.CommanfFlags);
+                    _subscriber.Publish(topic, RedisMQConfig.PublicTag, _config.CommanfFlags);
                 }
                 else
                 {
-                    _subscriber.Publish(routingKey, body, _config.CommanfFlags);
+                    _subscriber.Publish(topic, body, _config.CommanfFlags);
                 }
             }
             else 
             {
-                string key = _config.GetDefaultQueueKey(routingKey);
+                string key = _config.GetDefaultQueueKey(topic);
                 IDatabase db = GetDB();
                 db.ListLeftPush(key, body);
             }
         }
-        /// <summary>
-        /// 删除队列(Rabbit可用)
-        /// </summary>
-        /// <param name="queueName">队列名，如果为null则全删除</param>
-        public override void DeleteQueue(IEnumerable<string> queueName, bool ifUnused, bool ifEmpty)
-        {
+        ///// <summary>
+        ///// 删除队列(Rabbit可用)
+        ///// </summary>
+        ///// <param name="queueName">队列名，如果为null则全删除</param>
+        //public override void DeleteQueue(IEnumerable<string> queueName, bool ifUnused, bool ifEmpty)
+        //{
             
-        }
-        /// <summary>
-        /// 删除交换器
-        /// </summary>
+        //}
+        ///// <summary>
+        ///// 删除交换器
+        ///// </summary>
 
-        public override void DeleteTopic(bool ifUnused)
-        {
+        //public override void DeleteTopic(bool ifUnused)
+        //{
             
-        }
+        //}
 
         /// <summary>
         /// 关闭连接
@@ -197,7 +210,7 @@ namespace Buffalo.MQ.RedisMQ
                 while (_que.Count > 0)
                 {
                     mess = _que.Dequeue();
-                    SendToPublic(mess.RoutingKey, mess.Value);
+                    SendToPublic(mess.Topic, mess.Value);
 
                 }
             }
