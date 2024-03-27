@@ -200,7 +200,10 @@ namespace Buffalo.MQ.RedisMQ
             }
 
         }
-
+        /// <summary>
+        /// 阻塞队列方式监听
+        /// </summary>
+        /// <param name="objKeys"></param>
         public void DoBlockPopListening(object objKeys)
         {
 
@@ -223,7 +226,7 @@ namespace Buffalo.MQ.RedisMQ
                 }
 
             }
-            _config.Options.SyncTimeout = timeout*1000;
+            _config.Options.SyncTimeout = (timeout * 1000) + 2000;
             string pkey = GetQueueKey(listenKey);
             byte[] svalue = null;
             RedisResult res = null;
@@ -238,27 +241,26 @@ namespace Buffalo.MQ.RedisMQ
                     try
                     {
                         res = db.Execute("brPop", pkey, timeout);
-                        
-                        
-                        if (res != null && !res.IsNull)
+
+
+                        if (res == null || res.IsNull || res.Length < 2)
                         {
-                            if (res.Length < 2)
-                            {
-                                continue;
-                            }
-                            tmpval = (RedisValue)res[1];
-                            if (!tmpval.HasValue)
-                            {
-                                break;
-                            }
-                            svalue = tmpval;
-                            RedisCallbackMessage mess = new RedisCallbackMessage(listenKey, svalue);
-                            CallBack(mess);
+                            continue;
                         }
+
+                        tmpval = (RedisValue)res[1];
+                        if (!tmpval.HasValue)
+                        {
+                            break;
+                        }
+                        svalue = tmpval;
+                        RedisCallbackMessage mess = new RedisCallbackMessage(listenKey, svalue);
+                        CallBack(mess);
+
                     }
-                    catch (TimeoutException tex) 
+                    catch (TimeoutException tex)
                     {
-                       
+
                     }
                     catch (Exception e)
                     {

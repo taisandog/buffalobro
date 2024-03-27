@@ -928,3 +928,11 @@ SourceCode/Release/2019/Oracle.DataAccess.dll
 /SourceCodeCore/BuffaloCore/Buffalo.Storage/obj/Buffalo.Storage.csproj.nuget.g.props
 /SourceCodeCore/BuffaloCore/Buffalo.Storage/obj/Buffalo.Storage.csproj.nuget.g.targets
 /SourceCodeCore/BuffaloCore/Buffalo.Storage/obj/project.assets.json
+/SourceCode/Buffalo.ArgCommon/obj
+/SourceCode/Buffalo.ArgCommon/bin
+obj
+bin
+Debug
+/SourceCode/Release
+bin
+obj
