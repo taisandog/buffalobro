@@ -49,6 +49,8 @@
             this.nupSyncTimeout = new System.Windows.Forms.NumericUpDown();
             this.label13 = new System.Windows.Forms.Label();
             this.chkSkipCert = new System.Windows.Forms.CheckBox();
+            this.txtModeLab = new System.Windows.Forms.TextBox();
+            this.txtModeLabel = new System.Windows.Forms.TextBox();
             this.gpSetting.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtExpir)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtDatabase)).BeginInit();
@@ -58,6 +60,8 @@
             // 
             // gpSetting
             // 
+            this.gpSetting.Controls.Add(this.txtModeLabel);
+            this.gpSetting.Controls.Add(this.txtModeLab);
             this.gpSetting.Controls.Add(this.chkSkipCert);
             this.gpSetting.Controls.Add(this.nupSyncTimeout);
             this.gpSetting.Controls.Add(this.label13);
@@ -196,11 +200,11 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(92, 215);
+            this.label10.Location = new System.Drawing.Point(71, 219);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(94, 21);
+            this.label10.Size = new System.Drawing.Size(115, 21);
             this.label10.TabIndex = 74;
-            this.label10.Text = "使用数据库:";
+            this.label10.Text = "database索引:";
             // 
             // txtDatabase
             // 
@@ -232,9 +236,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cmbMessageMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbMessageMode.FormattingEnabled = true;
-            this.cmbMessageMode.Location = new System.Drawing.Point(194, 246);
+            this.cmbMessageMode.Location = new System.Drawing.Point(458, 246);
             this.cmbMessageMode.Name = "cmbMessageMode";
-            this.cmbMessageMode.Size = new System.Drawing.Size(457, 29);
+            this.cmbMessageMode.Size = new System.Drawing.Size(193, 29);
             this.cmbMessageMode.TabIndex = 75;
             // 
             // cmbCommandFlags
@@ -251,7 +255,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(66, 285);
+            this.label12.Location = new System.Drawing.Point(69, 285);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(120, 21);
             this.label12.TabIndex = 78;
@@ -261,7 +265,7 @@
             // 
             this.nupMessageMode.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.nupMessageMode.Location = new System.Drawing.Point(194, 281);
+            this.nupMessageMode.Location = new System.Drawing.Point(458, 281);
             this.nupMessageMode.Maximum = new decimal(new int[] {
             2147483647,
             0,
@@ -273,7 +277,7 @@
             0,
             0});
             this.nupMessageMode.Name = "nupMessageMode";
-            this.nupMessageMode.Size = new System.Drawing.Size(457, 29);
+            this.nupMessageMode.Size = new System.Drawing.Size(193, 29);
             this.nupMessageMode.TabIndex = 77;
             this.nupMessageMode.Value = new decimal(new int[] {
             500,
@@ -315,6 +319,36 @@
             this.chkSkipCert.Text = "SSL跳过证书";
             this.chkSkipCert.UseVisualStyleBackColor = true;
             // 
+            // txtModeLab
+            // 
+            this.txtModeLab.BackColor = System.Drawing.Color.White;
+            this.txtModeLab.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.txtModeLab.ForeColor = System.Drawing.Color.OliveDrab;
+            this.txtModeLab.Location = new System.Drawing.Point(193, 244);
+            this.txtModeLab.Multiline = true;
+            this.txtModeLab.Name = "txtModeLab";
+            this.txtModeLab.ReadOnly = true;
+            this.txtModeLab.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtModeLab.Size = new System.Drawing.Size(261, 33);
+            this.txtModeLab.TabIndex = 86;
+            this.txtModeLab.Text = "Polling:轮询模式,按照间隔获取队列数据\r\n\r\nSubscriber为订阅发布模式,使用pub/sub实现发布,如果勾选使用队列存储信息,则pub/sub只" +
+    "推送通知，实际数据还是从队列获取，以防止消息丢失\r\n\r\nBlockQueue:阻塞队列模式，利用brpop指令实现阻塞读取队列";
+            // 
+            // txtModeLabel
+            // 
+            this.txtModeLabel.BackColor = System.Drawing.Color.White;
+            this.txtModeLabel.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.txtModeLabel.ForeColor = System.Drawing.Color.OliveDrab;
+            this.txtModeLabel.Location = new System.Drawing.Point(193, 281);
+            this.txtModeLabel.Multiline = true;
+            this.txtModeLabel.Name = "txtModeLabel";
+            this.txtModeLabel.ReadOnly = true;
+            this.txtModeLabel.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtModeLabel.Size = new System.Drawing.Size(261, 33);
+            this.txtModeLabel.TabIndex = 87;
+            this.txtModeLabel.Text = "Polling模式时：此为每次轮询到空队列时候的睡眠时间(越小越实时，但负担更重，为0时候是50ms)\r\n\r\nBlockQueue模式时：此为brPop的超时时间" +
+    "(最小1秒，尽量大，值为0时候是30秒)\r\n\r\n\r\n";
+            // 
             // UIRedisMQ
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
@@ -353,5 +387,7 @@
         private System.Windows.Forms.NumericUpDown nupSyncTimeout;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.CheckBox chkSkipCert;
+        private System.Windows.Forms.TextBox txtModeLab;
+        private System.Windows.Forms.TextBox txtModeLabel;
     }
 }

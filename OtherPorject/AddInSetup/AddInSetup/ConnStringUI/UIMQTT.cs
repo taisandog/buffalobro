@@ -11,9 +11,9 @@ using System.Diagnostics;
 using AddInSetup.Unit;
 using Buffalo.ArgCommon;
 using Buffalo.Kernel;
-using Buffalo.MQ.MQTTLib.MQTTnet.Protocol;
 using System.Web;
-using Buffalo.MQ.MQTTLib.MQTTnet.Formatter;
+using MQTTnet.Protocol;
+using MQTTnet.Formatter;
 
 namespace AddInSetup.ConnStringUI
 {
