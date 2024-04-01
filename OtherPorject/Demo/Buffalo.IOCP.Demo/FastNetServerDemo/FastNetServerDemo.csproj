@@ -8,8 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Buffalo.IOCP" Version="1.0.8" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\SourceCodeCore\BuffaloCore\Buffalo.IOCP\Buffalo.IOCP.csproj" />
   </ItemGroup>
 
 

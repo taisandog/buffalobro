@@ -427,7 +427,7 @@ namespace Buffalo.IOCP.DataProtocol
                     }
                 }
             }
-            Send(_sendSocketAsync);
+            CheckSend();
         }
         /// <summary>
         /// 发送字节数组
@@ -459,14 +459,14 @@ namespace Buffalo.IOCP.DataProtocol
         /// </summary>
         internal void RunSend() 
         {
-            Send(_sendSocketAsync);
+            CheckSend();
         }
 
         /// <summary>
         /// 发送
         /// </summary>
         /// <param name="isAsync">是否异步发送</param>
-        protected void Send(SocketAsyncEventArgs sendSocketAsync)
+        protected void CheckSend()
         {
             lock (_lokSend)
             {
@@ -476,6 +476,7 @@ namespace Buffalo.IOCP.DataProtocol
                 }
                 IsSend = true;
             }
+            SocketAsyncEventArgs sendSocketAsync = _sendSocketAsync;
             bool isSync = true;
             DataPacketBase dataPacket = null;
             
@@ -486,8 +487,6 @@ namespace Buffalo.IOCP.DataProtocol
                 {
                     return;
                 }
-
-
 
                 lock (_lokRootObject)
                 {
@@ -556,10 +555,10 @@ namespace Buffalo.IOCP.DataProtocol
             }
             finally
             {
-                lock (_lokSend)
-                {
-                    IsSend = false;
-                }
+                //lock (_lokSend)
+                //{
+                //    IsSend = false;
+                //}
 
                 if (!isSync)
                 {
@@ -576,7 +575,7 @@ namespace Buffalo.IOCP.DataProtocol
             {
                 return socket.SendAsync(sendSocketAsync);
             }
-            _tlsStream.BeginWrite(sendSocketAsync.Buffer, 0, sendSocketAsync.Buffer.Length, SendCallback, sendSocketAsync);
+            IAsyncResult res=_tlsStream.BeginWrite(sendSocketAsync.Buffer, 0, sendSocketAsync.Buffer.Length, SendCallback, sendSocketAsync);
             //_tlsStream.WriteAsync(sendSocketAsync.Buffer, 0, sendSocketAsync.Buffer.Length, CancellationToken.None).ConfigureAwait(continueOnCapturedContext: false); ;
             return true;
         }
@@ -787,7 +786,7 @@ namespace Buffalo.IOCP.DataProtocol
             {
                 IsSend = false;
             }
-            Send(e);
+            CheckSend();
         }
 
         //protected bool _isWebsocketHandShanked = false;

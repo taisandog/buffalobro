@@ -16,7 +16,7 @@ namespace Buffalo.MQ.RedisMQ
     {
         private ConnectionMultiplexer _redis = null;
 
-        private ConcurrentQueue<ConnectionMultiplexer> _queRedis = null;
+        private ConcurrentQueue<ConnectionMultiplexer> _queRedis =null;
         /// <summary>
         /// 配置
         /// </summary>
@@ -61,7 +61,7 @@ namespace Buffalo.MQ.RedisMQ
         /// </summary>
         public void Open()
         {
-
+            
             if (_redis == null)
             {
                 _redis = RedisMQConnection.CreateManager(_config.Options);
@@ -83,7 +83,7 @@ namespace Buffalo.MQ.RedisMQ
         private void OnRedisCallback(RedisChannel key, RedisValue value)
         {
             string skey = key.ToString();
-
+            
             if (_config.SaveToQueue)
             {
                 FlushQueue(skey);
@@ -96,20 +96,20 @@ namespace Buffalo.MQ.RedisMQ
             }
         }
 
-
+        
         /// <summary>
         /// 通过话题Key获取队列key
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        private string GetQueueKey(string key)
+        private string GetQueueKey(string key) 
         {
-            if (_dicTopicToQueue == null)
+            if (_dicTopicToQueue == null) 
             {
                 return _config.GetDefaultQueueKey(key);
             }
             string ret = null;
-            if (!_dicTopicToQueue.TryGetValue(key, out ret))
+            if(!_dicTopicToQueue.TryGetValue(key,out ret)) 
             {
                 return _config.GetDefaultQueueKey(key);
             }
@@ -166,7 +166,7 @@ namespace Buffalo.MQ.RedisMQ
         public override void StartListend(IEnumerable<string> listenKeys)
         {
             List<MQOffestInfo> listenKeyInfos = new List<MQOffestInfo>();
-            foreach (string listenKey in listenKeys)
+            foreach (string listenKey in listenKeys) 
             {
                 MQOffestInfo info = new MQOffestInfo(listenKey, 0, 0, _config.GetDefaultQueueKey(listenKey));
                 listenKeyInfos.Add(info);
@@ -251,7 +251,11 @@ namespace Buffalo.MQ.RedisMQ
                         tmpval = (RedisValue)res[1];
                         if (!tmpval.HasValue)
                         {
-                            break;
+                            svalue = null;
+                        }
+                        else
+                        {
+                            svalue = tmpval;
                         }
                         svalue = tmpval;
                         RedisCallbackMessage mess = new RedisCallbackMessage(listenKey, svalue);
@@ -279,14 +283,14 @@ namespace Buffalo.MQ.RedisMQ
         public override void StartListend(IEnumerable<MQOffestInfo> listenKeys)
         {
             Close();
-
+            
 
             ResetWait();
             string queKey = null;
             switch (_config.Mode)
             {
                 case RedisMQMessageMode.Subscriber:
-                    _dicTopicToQueue = new Dictionary<string, string>();
+                _dicTopicToQueue = new Dictionary<string, string>();
                     Open();
                     foreach (MQOffestInfo lis in listenKeys)
                     {
@@ -381,19 +385,18 @@ namespace Buffalo.MQ.RedisMQ
             }
             _thdPolling = null;
 
-            if (_queRedis != null)
+            if(_queRedis != null) 
             {
                 ConnectionMultiplexer conn = null;
-                while (_queRedis.Count > 0)
+                while (_queRedis.Count > 0) 
                 {
-
-                    if (_queRedis.TryDequeue(out conn))
+                    
+                    if (_queRedis.TryDequeue(out conn)) 
                     {
-                        try
+                        try 
                         {
                             conn.Close();
-                        }
-                        catch (Exception ex) { }
+                        }catch(Exception ex) { }
                     }
                 }
             }

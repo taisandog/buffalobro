@@ -249,11 +249,9 @@ namespace Buffalo.MQ.RedisMQ
                         }
 
                         tmpval = (RedisValue)res[1];
-                        if (!tmpval.HasValue)
-                        {
-                            break;
-                        }
-                        svalue = tmpval;
+                       
+                            svalue = tmpval;
+                        
                         RedisCallbackMessage mess = new RedisCallbackMessage(listenKey, svalue);
                         CallBack(mess);
 

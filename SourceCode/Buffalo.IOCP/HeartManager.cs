@@ -419,7 +419,7 @@ namespace Buffalo.IOCP
                     {
                         lstClose.Enqueue(connection);
                     }
-                    if (_timeHeartSource > 0 && nowDate.Subtract(connection.LastSendTime).TotalMilliseconds >= _timeHeartSource)//检查心跳发送
+                    if (_needSendheart && _timeHeartSource > 0 && nowDate.Subtract(connection.LastSendTime).TotalMilliseconds >= _timeHeartSource)//检查心跳发送
                     {
                         try
                         {

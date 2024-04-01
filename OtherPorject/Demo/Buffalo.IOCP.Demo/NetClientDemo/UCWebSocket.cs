@@ -148,6 +148,8 @@ namespace NetClientDemo
             if (_heart == null)
             {
                 _heart = new HeartManager(20000, 5000, 1000,0, _messbox);
+                _heart.NeedSendheart = false;
+                _heart.StartHeart(500, 10);
             }
             if (_defaultNetAdapter == null)
             {
