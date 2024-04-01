@@ -2,6 +2,7 @@
 using Buffalo.IOCP.DataProtocol;
 using Newtonsoft.Json;
 using System.Net.Security;
+using System.Net.WebSockets;
 using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 
@@ -30,8 +31,9 @@ namespace FastNetServerDemo
             _log.ShowError=true;
             _log.ShowLog = true;
             _heart = new HeartManager(20000, 5000, 1000,0, _log);
-            _heart.StartHeart();
-            _serverFast = ConnectFast(8587);
+            _heart.NeedSendheart = false;
+            _heart.StartHeart(500,10);
+            _serverFast = ConnectFast(8586);
             _serverWebSocket = ConnectWebSocket(8588);
             _serverWebSocketTLS = ConnectWebSocketTLS(8589);
             Console.WriteLine("服务开启");
@@ -47,6 +49,11 @@ namespace FastNetServerDemo
                 }
 
             }
+            _heart.StopHeart();
+            _serverFast.Stop();
+            _serverWebSocket.Stop();
+            _serverWebSocketTLS.Stop();
+
         }
 
         /// <summary>
@@ -80,7 +87,7 @@ namespace FastNetServerDemo
 
             server.OnAccept += Server_OnAccept;
             server.OnClose += Server_OnClose;
-            server.OnReceiveData += server_OnReceiveData;
+            server.OnReceiveData += server_OnReceiveData2;
             server.OnMessage += Server_OnMessage;
             server.OnError += Server_OnError;
             server.Start();
@@ -107,7 +114,7 @@ namespace FastNetServerDemo
 
             server.OnAccept += Server_OnAccept;
             server.OnClose += Server_OnClose;
-            server.OnReceiveData += server_OnReceiveData;
+            server.OnReceiveData += server_OnReceiveData2;
             server.OnMessage += Server_OnMessage;
             server.OnError += Server_OnError;
             server.Start();
@@ -157,7 +164,28 @@ namespace FastNetServerDemo
                 {
                     _log.Log("收到:" + mess);
                 }
-                socket.Send("服务器已收到:"+mess);
+                FastClientSocket fSock = socket as FastClientSocket;
+                fSock.Send(data.PacketID.ConvertTo<int>(),"服务器已收到:" +mess,null);
+            }
+            catch (Exception e)
+            {
+                _log.LogError(e.ToString());
+            }
+        }
+        static void server_OnReceiveData2(ClientSocketBase socket, DataPacketBase data)
+        {
+            try
+            {
+                string error = null;
+                byte[] bdata = data.Data;
+
+                string mess = System.Text.Encoding.UTF8.GetString(bdata);
+                if (_log.ShowLog)
+                {
+                    _log.Log("收到:" + mess);
+                }
+                WebSocketClientSocket fSock = socket as WebSocketClientSocket;
+                fSock.Send("服务器已收到:" + mess);
             }
             catch (Exception e)
             {
@@ -183,12 +211,14 @@ namespace FastNetServerDemo
         }
         private static bool Server_OnMessage(ClientSocketBase clientSocket, int type, object message)
         {
+            WebSocketClientSocket socket = clientSocket as WebSocketClientSocket;
             WebSocketHandshake handshake = message as WebSocketHandshake;
             if( handshake != null ) 
             {
                 Console.WriteLine("握手地址:"+handshake.Url+"参数:"+JsonConvert.SerializeObject(handshake.Param));
                 
             }
+            
             return true;
         }
         private static void Server_OnError(ClientSocketBase clientSocket, Exception ex)

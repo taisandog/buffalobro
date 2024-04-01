@@ -12,7 +12,7 @@ namespace Buffalo.IOCP
     /// <summary>
     /// 数据管理器
     /// </summary>
-    public class DataManager
+    public class DataManager:IDisposable
     {
         #region 属性
         /// <summary>
@@ -52,6 +52,18 @@ namespace Buffalo.IOCP
             get { return _maxLostMessagePool; }
             set { _maxLostMessagePool = value; }
         }
+        /// <summary>
+        /// 关联连接
+        /// </summary>
+        private ClientSocketBase _socket;
+        /// <summary>
+        /// 关联连接
+        /// </summary>
+        public ClientSocketBase BelongSocket
+        {
+            get { return _socket; }
+        }
+
 
         private INetProtocol _netProtocol = null;
         #endregion
@@ -62,12 +74,13 @@ namespace Buffalo.IOCP
         /// </summary>
         /// <param name="maxSendPool">最大发送消息缓冲池</param>
         /// <param name="maxLostMessagePool">最大验证丢失消息的缓冲池</param>
-        public DataManager(int maxSendPool,int maxLostMessagePool, INetProtocol netProtocol)
+        public DataManager(int maxSendPool,int maxLostMessagePool, ClientSocketBase socket, INetProtocol netProtocol)
         {
             _sendPacket = new ConcurrentQueue<DataPacketBase>();
             _lostPacket = new LinkedDictionary<object, DataPacketBase>();
             _receiverID = new LinkedDictionary<object, bool>();
             _netProtocol = netProtocol;
+            _socket = socket;
             if (_netProtocol == null)
             {
                 throw new NullReferenceException("netProtocol can't be null");
@@ -255,33 +268,40 @@ namespace Buffalo.IOCP
 
             DataPacketBase dp = null;
             LinkedDictionary<object, DataPacketBase> diclp = _lostPacket;
-            if (diclp != null )
+            if (diclp != null)
             {
                 lock (diclp)
                 {
 
                     dp = diclp.RemoveKey(dataPacket.PacketID);
-
-                    if (dp != null) 
-                    {
-                        if (dataPacket.NetProtocol.ShowError)
-                        {
-                            string str=String.Format("Receive Packet,ID:{0},", dp.PacketID);
-                            dataPacket.NetProtocol.Log(str);
-                        }
-                    }
-
                 }
-               
+                if (dp != null)
+                {
+                    if (dataPacket.NetProtocol.ShowError)
+                    {
+                        string str = String.Format("Receive Packet,ID:{0},", dp.PacketID);
+                        dataPacket.NetProtocol.Log(str);
+                    }
+                }
+
+
+
             }
 
         }
+
+        private DateTime _lastCeckResend = DateTime.MinValue;
+
         /// <summary>
         /// 将超时的数据添加到要以送的列表
         /// </summary>
-        /// <param name="timeHeart"></param>
-        public void CheckResend(int timeHeart)
+        /// <param name="timeResend"></param>
+        public void CheckResend(int timeResend,DateTime nowDate)
         {
+            if (nowDate.Subtract(_lastCeckResend).TotalMilliseconds< (timeResend/2)) 
+            {
+                return;
+            }
             LinkedDictionary<object, DataPacketBase> diclp = _lostPacket;
             ConcurrentQueue<DataPacketBase> queSend = _sendPacket;
 
@@ -297,31 +317,60 @@ namespace Buffalo.IOCP
             {
                 return;
             }
-            DateTime dt = DateTime.Now;
+            _lastCeckResend = nowDate;
+            DateTime dt = nowDate;
             DataPacketBase dp = null;
-            List<object> lstRemoveLost = new List<object>();
+            Queue<object> lstRemoveLost = new Queue<object>();
+            bool hasAdd=false;
             lock (diclp)
             {
-                foreach (KeyValuePair<object, DataPacketBase> kvp in diclp)
+                foreach (LinkedValueNode<object, DataPacketBase> kvp in diclp.GetEnumeratorOldToNew())
                 {
                     dp = kvp.Value;
-                    if (dt.Subtract(dp.SendTime).TotalMilliseconds > timeHeart)
+
+                    if (dt.Subtract(dp.SendTime).TotalMilliseconds < timeResend)
                     {
-                        if (!IsSendPacketFull)
-                        {
-                            queSend.Enqueue(dp);
-                        }
-                        lstRemoveLost.Add(kvp.Key);
-                        //_lostPacket.RemoveAt(i);
+                        break;
                     }
+                    if (NeedAddResend(dp))
+                    {
+                        queSend.Enqueue(dp);
+                        dp._resendCount++;
+
+                        hasAdd = true;
+                    }
+                    lstRemoveLost.Enqueue(kvp.Key);
                 }
                 foreach (object packId in lstRemoveLost)
                 {
                     diclp.Remove(packId);
                 }
-                queSend = null;
-                lstRemoveLost = null;
+               
             }
+            queSend = null;
+            lstRemoveLost.Clear();
+            lstRemoveLost = null;
+            if (hasAdd && _socket != null) 
+            {
+                _socket.RunSend();
+            }
+        }
+        /// <summary>
+        /// 是否要加到重发列表
+        /// </summary>
+        /// <param name="dp"></param>
+        /// <returns></returns>
+        private bool NeedAddResend(DataPacketBase dp) 
+        {
+            if (IsLostPacketFull) 
+            {
+                return false;
+            }
+            if (dp.MaxResend == 0) 
+            {
+                return true;
+            }
+            return dp.ResendCount < dp.MaxResend;
         }
 
         /// <summary>
@@ -409,6 +458,15 @@ namespace Buffalo.IOCP
                 return false;
             }
             
+        }
+
+        public void Dispose()
+        {
+            _sendPacket = null;
+            _receiverID = null;
+            _lostPacket = null;
+            _netProtocol = null;
+            _socket = null;
         }
         #endregion
     }

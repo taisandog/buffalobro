@@ -13,17 +13,10 @@ namespace GameBoxIOCP.Sources.TimeLineUnit
     public class TimeIndexColl
     {
         /// <summary>
-        /// 重发时间索引
+        /// 时间索引
         /// </summary>
-        public int ResendTimeIndex;
-        /// <summary>
-        /// 心跳时间集合
-        /// </summary>
-        public int HeartTimeIndex;
-        /// <summary>
-        /// 过期时间集合
-        /// </summary>
-        public int ExpiredTime;
+        public int TimeIndex;
+       
         /// <summary>
         /// 连接
         /// </summary>

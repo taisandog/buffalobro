@@ -136,7 +136,8 @@ namespace NetClientDemo
 
                 if (_heart == null)
                 {
-                    _heart = new HeartManager(20000, 5000, 1000,0, _messbox);
+                    _heart = new HeartManager(20000, 5000, 3000,0, _messbox);
+                    _heart.StartHeart(500, 50);
                 }
                 if (_defaultNetAdapter == null)
                 {
@@ -153,6 +154,7 @@ namespace NetClientDemo
                     String str = String.Format("{0},已经连上服务器:{1}:{2}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"), txtFastIP.Text, (int)nupFastPort.Value);
                     _messbox.Log(str);
                 }
+                
             }
         }
         private void _conn_OnClose(ClientSocketBase clientSocket)
@@ -191,6 +193,8 @@ namespace NetClientDemo
                 {
                     return;
                 }
+
+                socket.DataManager.AddReceive(fdp);
                 string content = System.Text.Encoding.UTF8.GetString(fdp.Data);
                 if (_messbox != null && _messbox.ShowLog)
                 {
@@ -291,10 +295,24 @@ namespace NetClientDemo
             CloseConnect();
             EnableEdit(true);
         }
+        private int _curId = 0;
 
+        public int NextId()
+        {
+            int curId = 0;
+            lock (this)
+            {
+                _curId++;
+                curId = _curId;
+            }
+            return curId;
+        }
         private void btnSend_Click(object sender, EventArgs e)
         {
-            _conn.Send(txtContent.Text);
+            byte[] content=System.Text.Encoding.UTF8.GetBytes(txtContent.Text); 
+            FastDataPacket packet = new FastDataPacket(NextId(), content, true, _defaultNetAdapter);
+            _conn.SendPacket(packet);
+            //_conn.Send(txtContent.Text);
         }
 
         private void UCFastNet_Load(object sender, EventArgs e)

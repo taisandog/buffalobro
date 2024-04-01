@@ -6,6 +6,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
+using System.Timers;
 
 namespace Buffalo.IOCP
 {
@@ -182,19 +183,38 @@ namespace Buffalo.IOCP
                 }
             }
         }
+
+
         /// <summary>
         /// 开始心跳管理
         /// </summary>
-        public void StartHeart()
+        /// <param name="totalCircleTime">时间轮的一圈时间</param>
+        /// <param name="scale">刻度</param>
+        public void StartHeart(int totalCircleTime, int scale)
         {
             StopHeart();
-            _clients = CreateTimelineManager();
+            if (totalCircleTime > 0 && scale > 0)
+            {
+                _clients = CreateTimelineManager(totalCircleTime, scale);
+            }
+            else 
+            {
+                _clients = CreateTimelineManager();
+            }
             _threadHandle = new AutoResetEvent(false);
             _running = true;
             CheckThread = new Thread(new ThreadStart(DoRun));
 
             CheckThread.Start();
 
+        }
+
+        /// <summary>
+        /// 开始心跳管理
+        /// </summary>
+        public void StartHeart()
+        {
+            StartHeart(0,0);
         }
         private bool _running = false;
         /// <summary>
@@ -271,27 +291,43 @@ namespace Buffalo.IOCP
         /// <returns></returns>
         private TimelineManager CreateTimelineManager() 
         {
-            int pertimeResend = 0;
+            int scale = 0;
 
-            pertimeResend = _timeResend / 10;
-            if (pertimeResend <= 0)
+            int minNumber = _timeResend;
+            if(minNumber <= 0|| minNumber > _timeHeart) 
             {
-                pertimeResend = _timeHeart / 10;
+                minNumber = _timeHeart;
             }
-            if (pertimeResend <= 0)
+            if (minNumber <= 0 || minNumber > _timeOut)
             {
-                pertimeResend = _timeOut / 10;
+                minNumber = _timeOut;
             }
+
+            minNumber = minNumber / 2;
+
+            scale = minNumber / 10;
             
-            if (pertimeResend > 200)
+
+
+            if (scale > 200)
             {
-                pertimeResend = 200;
+                scale = 200;
             }
-            if (pertimeResend < 10)
+            if (scale < 10)
             {
-                pertimeResend = 10;
+                scale = 10;
             }
-            TimelineManager time = new TimelineManager(_timeResend, TimeHeart, TimeOut, pertimeResend);
+            return CreateTimelineManager(minNumber, scale);
+        }
+        /// <summary>
+        /// 创建时间线
+        /// </summary>
+        /// <param name="time">时间轮一圈的时间</param>
+        /// <param name="scale">刻度</param>
+        /// <returns></returns>
+        private TimelineManager CreateTimelineManager(int totalTime,int scale) 
+        {
+            TimelineManager time = new TimelineManager(totalTime, scale);
             long nowtime = (long)CommonMethods.ConvertDateTimeInt(DateTime.Now, false, true);
             time.Reset(nowtime);
             return time;
@@ -316,21 +352,19 @@ namespace Buffalo.IOCP
             {
                 
                 _threadHandle.Reset();
-                Queue<ClientSocketBase> lstremovelist = new Queue<ClientSocketBase>();
-                Queue<ClientSocketBase> lstcloselist = new Queue<ClientSocketBase>();
-                Queue<ConcurrentDictionary<ClientSocketBase, bool>> queItems = new Queue<ConcurrentDictionary<ClientSocketBase, bool>>();
+
                 DateTime nowDate = DateTime.Now;
                 long time = (long)CommonMethods.ConvertDateTimeInt(nowDate, false, true);
                 _clients.Reset(time);
+                
                 while (_running)
                 {
                     try
                     {
                         nowDate = DateTime.Now;
-                        time = (long)CommonMethods.ConvertDateTimeInt(nowDate, false, true);
-                        CheckResend(time, queItems, lstremovelist);
-                        CheckHeart(time, queItems, lstremovelist, nowDate);
-                        CheckTimeOut(time, queItems, lstremovelist, lstcloselist, nowDate);
+                       
+
+                        CheckTime(nowDate);
                     }
                     catch (Exception ex)
                     {
@@ -344,9 +378,7 @@ namespace Buffalo.IOCP
                         Thread.Sleep(sleep);
                     }
                 }
-                lstremovelist = null;
-                lstcloselist=null;
-                queItems = null;
+
                
 
             }
@@ -357,93 +389,19 @@ namespace Buffalo.IOCP
             CheckThread = null;
         }
 
-        /// <summary>
-        /// 检查重发
-        /// </summary>
-        /// <param name="curTime"></param>
-        /// <param name="queItems"></param>
-        private void CheckResend(long curTime, Queue<ConcurrentDictionary<ClientSocketBase, bool>> queItems, Queue<ClientSocketBase> lstRemove) 
-        {
-            if (_timeResend < 0) 
-            {
-                return;
-            }
-            _clients.MoveToTimeResendTime(curTime, queItems);
-            ConcurrentDictionary<ClientSocketBase, bool> dic = null;
-            ClientSocketBase connection = null;
-            while (queItems.Count > 0)
-            {
-                dic = queItems.Dequeue();
-                foreach (KeyValuePair<ClientSocketBase, bool> kvp in dic)
-                {
-                    connection = kvp.Key;
-                    if (!connection.Connected)//空连接
-                    {
-                        lstRemove.Enqueue(connection);
-                        continue;
-                    }
-
-                    try
-                    {
-                        connection.DataManager.CheckResend(_timeResend);
-                    }
-                    catch { }
-                }
-                RemoveEmpty(lstRemove, dic);
-            }
-        }
-
-        /// <summary>
-        /// 检查心跳
-        /// </summary>
-        /// <param name="curTime"></param>
-        /// <param name="queItems"></param>
-        private void CheckHeart(long curTime, Queue<ConcurrentDictionary<ClientSocketBase, bool>> queItems, 
-            Queue<ClientSocketBase> lstRemove,DateTime nowDate)
-        {
-            if (TimeHeart < 0 || (!_needSendheart))
-            {
-                return;
-            }
-            _clients.MoveToTimeHeartTime(curTime, queItems);
-            ConcurrentDictionary<ClientSocketBase, bool> dic = null;
-            ClientSocketBase connection=null;
-            while (queItems.Count > 0)
-            {
-                dic = queItems.Dequeue();
-                foreach (KeyValuePair<ClientSocketBase, bool> kvp in dic)
-                {
-                    connection = kvp.Key;
-                    if (!connection.Connected)//空连接
-                    {
-                        lstRemove.Enqueue(connection);
-                        continue;
-                    }
-                    if (_timeHeartSource > 0&&nowDate.Subtract(connection.LastSendTime).TotalMilliseconds > _timeHeart)
-                    {
-                        connection.SendHeard();
-                        continue;
-                    }
-                    
-                }
-                RemoveEmpty(lstRemove, dic);
-            }
-        }
-
 
         /// <summary>
         /// 检查过期
         /// </summary>
-        /// <param name="curTime"></param>
-        /// <param name="queItems"></param>
-        private void CheckTimeOut(long curTime, Queue<ConcurrentDictionary<ClientSocketBase, bool>> queItems,
-            Queue<ClientSocketBase> lstRemove, Queue<ClientSocketBase> lstClose, DateTime nowDate)
+        /// <param name="nowDate">当前时间</param>
+        private void CheckTime( DateTime nowDate)
         {
-            if (_timeOut < 0 )
-            {
-                return;
-            }
-            _clients.MoveToTimeExpiredTime(curTime, queItems);
+            long time = (long)CommonMethods.ConvertDateTimeInt(nowDate, false, true);
+            Queue<ClientSocketBase> lstRemove = new Queue<ClientSocketBase>();
+            Queue<ClientSocketBase> lstClose = new Queue<ClientSocketBase>();
+            Queue<ConcurrentDictionary<ClientSocketBase, bool>> queItems = new Queue<ConcurrentDictionary<ClientSocketBase, bool>>();
+            _clients.MoveToTimeCheckTime(time, queItems);
+
             ConcurrentDictionary<ClientSocketBase, bool> dic = null;
             ClientSocketBase connection = null;
             while (queItems.Count > 0)
@@ -457,15 +415,37 @@ namespace Buffalo.IOCP
                         lstRemove.Enqueue(connection);
                         continue;
                     }
-                    if (nowDate.Subtract(connection.LastReceiveTime).TotalMilliseconds > _timeOut)
+                    if (_timeOut > 0 && nowDate.Subtract(connection.LastReceiveTime).TotalMilliseconds >= _timeOut)//检查过期
                     {
                         lstClose.Enqueue(connection);
-                        continue;
+                    }
+                    if (_needSendheart && _timeHeartSource > 0 && nowDate.Subtract(connection.LastSendTime).TotalMilliseconds >= _timeHeartSource)//检查心跳发送
+                    {
+                        try
+                        {
+                            connection.SendHeard();
+                        }
+                        catch { }
+                    }
+                    if (_timeResend > 0 )//检查重发
+                    {
+                        try
+                        {
+                            connection.DataManager.CheckResend(_timeResend, nowDate);
+                        }
+                        catch(Exception ex)
+                        {
+
+                         }
                     }
                 }
                 RemoveEmpty(lstRemove, dic);
                 CloseConnection(lstClose, dic);
             }
+            
+            lstRemove=null;
+            lstClose = null;
+            queItems = null;
         }
 
         /// <summary>

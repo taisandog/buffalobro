@@ -50,7 +50,7 @@ namespace Buffalo.IOCP.DataProtocol
             }
 
             this.IsLost = lost;
-
+            this.MaxResend = _netProtocol.DefaultMaxResend;
 
             if (data != null)
             {

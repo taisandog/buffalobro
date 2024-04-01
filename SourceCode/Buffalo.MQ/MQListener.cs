@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Buffalo.MQ
 {
-    public delegate void DelOnMQReceived(MQListener sender, string exchange, string routingKey, byte[] body, int partition, long offset);
+    public delegate void DelOnMQReceived(MQListener sender, MQCallBackMessage message);
 
     public delegate void DelOnMQException(MQListener sender, Exception ex);
 
@@ -40,6 +40,7 @@ namespace Buffalo.MQ
         /// </summary>
         public abstract void Close();
 
+
         /// <summary>
         /// 开启监听的句柄
         /// </summary>
@@ -60,10 +61,7 @@ namespace Buffalo.MQ
         /// </summary>
         protected void ResetWait()
         {
-            if (_startHandle == null)
-            {
-                _startHandle = new AutoResetEvent(true);
-            }
+            _startHandle = new AutoResetEvent(true);
             _startHandle.Reset();
         }
         /// <summary>
@@ -71,10 +69,6 @@ namespace Buffalo.MQ
         /// </summary>
         protected void SetWait()
         {
-            if (_startHandle == null)
-            {
-                return;
-            }
             _startHandle.Set();
         }
         /// <summary>
@@ -87,7 +81,6 @@ namespace Buffalo.MQ
                 try
                 {
                     _startHandle.Close();
-                    _startHandle.Dispose();
                 }
                 catch (Exception ex)
                 {
@@ -99,13 +92,13 @@ namespace Buffalo.MQ
         /// <summary>
         /// 监听信息后回调
         /// </summary>
-        protected void CallBack(string routingKey, string exchange, byte[] body, int partition, long offset)
+        protected void CallBack(MQCallBackMessage message)
         {
             if (OnMQReceived == null)
             {
                 return;
             }
-            OnMQReceived(this, exchange, routingKey, body, partition, offset);
+            OnMQReceived(this, message);
         }
         
         /// <summary>

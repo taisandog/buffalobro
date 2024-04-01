@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
 
 namespace AddInSetup.Unit
 {
@@ -44,16 +45,12 @@ namespace AddInSetup.Unit
                 }
                 Thread.Sleep(500);
                 _handle.Reset();
-
-                MQConnection conn = MQUnit.GetMQConnection(name);
                 int num = Guid.NewGuid().GetHashCode();
-                byte[] sendByte = BitConverter.GetBytes(num);
-                //byte[] sendByte = Encoding.UTF8.GetBytes(num.ToString());
-                using (MQBatchAction ba = conn.StartBatchAction())
+                using (MQConnection conn = MQUnit.GetMQConnection(name))
                 {
-#if DEBUG
-                    Debug.WriteLine("send:" + num);
-#endif
+                    
+                    byte[] sendByte = BitConverter.GetBytes(num);
+
                     conn.Send(liskey, sendByte);
                 }
                 if (getlastvalue)
@@ -80,18 +77,20 @@ namespace AddInSetup.Unit
             }
         }
 
+        private static void _lis_OnMQReceived(MQListener sender, MQCallBackMessage message)
+        {
+                        _retNum = BitConverter.ToInt32(message.Body, 0);
+            #if DEBUG
+                        Debug.WriteLine("rec:"+_retNum);
+            #endif
+                        _handle.Set();
+        }
+
         private static void _lis_OnMQException(MQListener sender, Exception ex)
         {
             
         }
 
-        private static void _lis_OnMQReceived(MQListener sender, string exchange, string routingKey, byte[] body, int partition, long offset)
-        {
-            _retNum = BitConverter.ToInt32(body,0);
-#if DEBUG
-            Debug.WriteLine("rec:"+_retNum);
-#endif
-            _handle.Set();
-        }
+        
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Buffalo.Kernel;
-using Confluent.Kafka;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
@@ -23,6 +22,10 @@ namespace Buffalo.MQ.RedisMQ
         /// 订阅
         /// </summary>
         Subscriber =1,
+        /// <summary>
+        /// 阻塞队列
+        /// </summary>
+        BlockQueue = 2,
     }
     /// <summary>
     /// 格式化key的委托
@@ -66,6 +69,10 @@ namespace Buffalo.MQ.RedisMQ
         public int PollingInterval = 500;
 
         private int _useDatabase;
+        /// <summary>
+        /// 使用阻塞队列
+        /// </summary>
+        public bool UseBlockQueue=false;
         /// <summary>
         /// 使用数据库
         /// </summary>
@@ -116,7 +123,14 @@ namespace Buffalo.MQ.RedisMQ
                 }
             }
             Options.SyncTimeout = hs.GetDicValue<string, string>("syncTimeout").ConvertTo<int>(1000);
-            Mode =hs.GetDicValue<string, string>("messageMode") == "1"? RedisMQMessageMode.Subscriber: RedisMQMessageMode.Polling;//消息模式
+            string strmode = hs.GetDicValue<string, string>("messageMode");
+            int mode = 0;
+            Mode = RedisMQMessageMode.Subscriber;//消息模式
+            if (int.TryParse(strmode, out mode)) 
+            {
+                Mode = (RedisMQMessageMode)mode;//消息模式
+            }
+
             if (Mode == RedisMQMessageMode.Subscriber)
             {
                 SaveToQueue = hs.GetDicValue<string, string>("useQueue") == "1";//保存到队列,只对订阅模式有效
@@ -126,11 +140,12 @@ namespace Buffalo.MQ.RedisMQ
                 SaveToQueue = true;
             }
 
-            PollingInterval= hs.GetDicValue<string, string>("pInterval").ConvertTo<int>(500);//轮询间隔时间(毫秒)
-            if (PollingInterval < 10) 
-            {
-                PollingInterval = 10;
-            }
+            PollingInterval= hs.GetDicValue<string, string>("pInterval").ConvertTo<int>(0);//轮询间隔时间(毫秒)
+            //if (PollingInterval < 10) 
+            //{
+            //    PollingInterval = 10;
+            //}
+
             if (servers.Count > 0)
             {
                 foreach (string strServer in servers)

@@ -57,17 +57,17 @@ namespace Buffalo.MQ
         //    }
         //}
 
-        internal bool _isBatch;
-        /// <summary>
-        /// 是否在批量处理中
-        /// </summary>
-        public bool IsBatch
-        {
-            get
-            {
-                return _isBatch;
-            }
-        }
+        //internal bool _isBatch;
+        ///// <summary>
+        ///// 是否在批量处理中
+        ///// </summary>
+        //public bool IsBatch
+        //{
+        //    get
+        //    {
+        //        return _isBatch;
+        //    }
+        //}
         /// <summary>
         /// 发送信息
         /// </summary>

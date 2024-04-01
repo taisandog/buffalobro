@@ -83,5 +83,10 @@ namespace NetClientDemo
         {
 
         }
+
+        private void ucFastNet1_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

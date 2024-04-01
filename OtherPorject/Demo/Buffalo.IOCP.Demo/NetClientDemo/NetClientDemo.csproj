@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Buffalo.IOCP" Version="1.0.0" />
+    <ProjectReference Include="..\..\..\..\SourceCodeCore\BuffaloCore\Buffalo.IOCP\Buffalo.IOCP.csproj" />
   </ItemGroup>
 
 </Project>

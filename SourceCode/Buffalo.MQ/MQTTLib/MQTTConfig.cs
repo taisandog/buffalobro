@@ -1,5 +1,8 @@
-﻿using Buffalo.MQ.MQTTLib.MQTTnet.Client.Options;
-using Buffalo.MQ.MQTTLib.MQTTnet.Protocol;
+﻿
+using Buffalo.Kernel;
+using MQTTnet.Client;
+using MQTTnet.Formatter;
+using MQTTnet.Protocol;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +29,7 @@ namespace Buffalo.MQ.MQTTLib
         /// </summary>
         public bool? NoLocal;
 
+        public MqttProtocolVersion ProtocolVersion;
         public MQTTConfig(string connString) : base(connString)
         {
             Options = new MqttClientOptionsBuilder();
@@ -38,6 +42,7 @@ namespace Buffalo.MQ.MQTTLib
                 if (serPart.Length > 1)
                 {
                     Options.WithTcpServer(strserver, serPart[1].ConvertTo<int>());
+                    
                 }
                 else
                 {
@@ -45,16 +50,20 @@ namespace Buffalo.MQ.MQTTLib
                 }
             }
 
-            string name= _configs.GetDicValue<string, string>("uid");
+            string name = _configs.GetDicValue<string, string>("uid");
             string pwd = _configs.GetDicValue<string, string>("pwd");
             if (!string.IsNullOrWhiteSpace(name))
             {
                 Options.WithCredentials(name, pwd);
             }
-            string clientId= _configs.GetDicValue<string, string>("clientId");
+            string clientId = _configs.GetDicValue<string, string>("clientId");
             if (!string.IsNullOrWhiteSpace(clientId))
             {
                 Options.WithClientId(clientId);
+            }
+            else
+            {
+                Options.WithClientId(CommonMethods.GuidToString(Guid.NewGuid(), true));
             }
             string webSocketServer = _configs.GetDicValue<string, string>("webSocketServer");
             if (!string.IsNullOrWhiteSpace(webSocketServer))
@@ -66,16 +75,19 @@ namespace Buffalo.MQ.MQTTLib
             {
                 Options.WithSessionExpiryInterval(sessionExpiry.ConvertTo<uint>());
             }
+            
+            string keepAlive = _configs.GetDicValue<string, string>("keepAlive");//(秒)用于保持连接的心跳时间的发送间隔
+            if (keepAlive == "0")
+            {
+                Options.WithNoKeepAlive();
+            }
+            
             string keepAlivePeriod = _configs.GetDicValue<string, string>("keepAlivePeriod");//(秒)当超过设置的时间间隔必须回复PONG报文，否则服务器认定为掉线。默认120秒
             if (!string.IsNullOrWhiteSpace(keepAlivePeriod))
             {
                 Options.WithKeepAlivePeriod(TimeSpan.FromSeconds(keepAlivePeriod.ConvertTo<long>()));
             }
-            string keepAlive = _configs.GetDicValue<string, string>("keepAlive");//(秒)用于保持连接的心跳时间的发送间隔
-            if (keepAlive=="0")
-            {
-                Options.WithNoKeepAlive();
-            }
+
 
             string proxy = _configs.GetDicValue<string, string>("proxy");//代理地址
             string proxyUserName = _configs.GetDicValue<string, string>("proxyUserName");//代理用户
@@ -86,31 +98,68 @@ namespace Buffalo.MQ.MQTTLib
                 Options.WithProxy(proxy, proxyUserName, proxyPassword, domain);
             }
 
-            string qualityOfServiceLevel= _configs.GetDicValue<string, string>("QualityOfServiceLevel");
+            string qualityOfServiceLevel = _configs.GetDicValue<string, string>("QualityOfServiceLevel");
             if (!string.IsNullOrWhiteSpace(qualityOfServiceLevel))
             {
                 QualityOfServiceLevel = (MqttQualityOfServiceLevel)qualityOfServiceLevel.ConvertTo<int>();
             }
 
-
-            string retainAsPublished = _configs.GetDicValue<string, string>("RetainAsPublished");
-            if (!string.IsNullOrWhiteSpace(retainAsPublished))
+            ProtocolVersion = MqttProtocolVersion.V311;
+            string protocolVersion = _configs.GetDicValue<string, string>("ProtocolVersion");
+            if (!string.IsNullOrWhiteSpace(protocolVersion))
             {
-                RetainAsPublished = retainAsPublished == "1";
+                ProtocolVersion = (MqttProtocolVersion)protocolVersion.ConvertTo<int>();
+                Options.WithProtocolVersion(ProtocolVersion); ;
             }
 
-            string retainHandling = _configs.GetDicValue<string, string>("RetainHandling");
-            if (!string.IsNullOrWhiteSpace(retainHandling))
-            {
-                RetainHandling = (MqttRetainHandling)retainHandling.ConvertTo<int>();
-            }
+            string cleanSession = _configs.GetDicValue<string, string>("CleanSession");//(秒)用于保持连接的心跳时间的发送间隔
+            
+            
 
-            string noLocal = _configs.GetDicValue<string, string>("NoLocal");
-            if (!string.IsNullOrWhiteSpace(noLocal))
+            if (ProtocolVersion == MqttProtocolVersion.V500)
             {
-                NoLocal = noLocal == "1";
+                string retainAsPublished = _configs.GetDicValue<string, string>("RetainAsPublished");
+                if (!string.IsNullOrWhiteSpace(retainAsPublished))
+                {
+                    RetainAsPublished = retainAsPublished == "1";
+                }
+
+                string retainHandling = _configs.GetDicValue<string, string>("RetainHandling");
+                if (!string.IsNullOrWhiteSpace(retainHandling))
+                {
+                    RetainHandling = (MqttRetainHandling)retainHandling.ConvertTo<int>();
+                }
+
+                string noLocal = _configs.GetDicValue<string, string>("NoLocal");
+                if (!string.IsNullOrWhiteSpace(noLocal))
+                {
+                    NoLocal = noLocal == "1";
+                }
+                if (cleanSession != "0")
+                {
+                    Options.WithCleanStart();
+                    uint sessionExpiryInterval = _configs.GetDicValue<string, string>("SessionExpiryInterval").ConvertTo<uint>();
+                    if(sessionExpiryInterval > 0) 
+                    {
+                        Options.WithSessionExpiryInterval(sessionExpiryInterval);
+                    }
+                }
+                
             }
-    }
+            else 
+            {
+                if (cleanSession != "0")
+                {
+                    Options.WithCleanSession(true);
+                }
+                else 
+                {
+                    Options.WithCleanSession(false);
+                }
+               
+            }
+            
+        }
 
 
         public override MQConnection CreateConnection()
