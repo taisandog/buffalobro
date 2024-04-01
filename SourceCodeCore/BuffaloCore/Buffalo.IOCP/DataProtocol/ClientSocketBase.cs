@@ -427,7 +427,7 @@ namespace Buffalo.IOCP.DataProtocol
                     }
                 }
             }
-            CheckSend();
+            CheckSend(_sendSocketAsync);
         }
         /// <summary>
         /// 发送字节数组
@@ -459,14 +459,14 @@ namespace Buffalo.IOCP.DataProtocol
         /// </summary>
         internal void RunSend() 
         {
-            CheckSend();
+            CheckSend(_sendSocketAsync);
         }
 
         /// <summary>
         /// 发送
         /// </summary>
         /// <param name="isAsync">是否异步发送</param>
-        protected void CheckSend()
+        protected void CheckSend(SocketAsyncEventArgs sendSocketAsync)
         {
             lock (_lokSend)
             {
@@ -476,7 +476,6 @@ namespace Buffalo.IOCP.DataProtocol
                 }
                 IsSend = true;
             }
-            SocketAsyncEventArgs sendSocketAsync = _sendSocketAsync;
             bool isSync = true;
             DataPacketBase dataPacket = null;
             
@@ -555,10 +554,10 @@ namespace Buffalo.IOCP.DataProtocol
             }
             finally
             {
-                //lock (_lokSend)
-                //{
-                //    IsSend = false;
-                //}
+                lock (_lokSend)
+                {
+                    IsSend = false;
+                }
 
                 if (!isSync)
                 {
@@ -781,12 +780,12 @@ namespace Buffalo.IOCP.DataProtocol
         private void DoSocketSend(SocketAsyncEventArgs e)
         {
 
-            //LastSendTime = DateTime.Now;
+            LastSendTime = DateTime.Now;
             lock (_lokSend)
             {
                 IsSend = false;
             }
-            CheckSend();
+            CheckSend(e);
         }
 
         //protected bool _isWebsocketHandShanked = false;

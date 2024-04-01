@@ -35,7 +35,7 @@ namespace Buffalo.IOCP.DataProtocol
     /// <summary>
     /// 一般通知事件
     /// </summary>
-    public delegate bool NormalMessageHandle(ClientSocketBase clientSocket,int type, object message);
+    public delegate bool NormalMessageHandle(ClientSocketBase clientSocket, int type, object message);
     /// <summary>
     /// 连接处理错误
     /// </summary>
@@ -60,7 +60,7 @@ namespace Buffalo.IOCP.DataProtocol
         public SocketCertConfig CertConfig
         {
             get { return _certConfig; }
-            
+
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace Buffalo.IOCP.DataProtocol
         /// </summary>
         private void RebuildTlsStream()
         {
-            
+
             if (_certConfig == null)
             {
                 return;
@@ -76,13 +76,13 @@ namespace Buffalo.IOCP.DataProtocol
             CloseTlsStream();
 
             _netStream = new NetworkStream(_bindSocket);
-            
+
             _tlsStream = _certConfig.CreateStream(_netStream, _isServerSocket);
 
 
         }
 
-        private void CloseTlsStream() 
+        private void CloseTlsStream()
         {
             SslStream sslStream = _tlsStream;
             if (sslStream != null)
@@ -366,7 +366,7 @@ namespace Buffalo.IOCP.DataProtocol
             _certConfig = certConfig;
             _isServerSocket = isServerSocket;
             //_thdPool = new BlockThreadPool(2000);
-            _dataManager = new DataManager(maxSendPool, maxLostPool,this, _netProtocol);
+            _dataManager = new DataManager(maxSendPool, maxLostPool, this, _netProtocol);
             _bindSocket = socket;
             lock (autoLock)
             {
@@ -380,9 +380,9 @@ namespace Buffalo.IOCP.DataProtocol
 
             }
             _recevieSocketAsync = new SocketAsyncEventArgs();
-            
+
             int buffLen = _netProtocol.BufferLength;
-           
+
             if (_certConfig == null)
             {
                 _recevieSocketAsync.AcceptSocket = _bindSocket;
@@ -393,7 +393,7 @@ namespace Buffalo.IOCP.DataProtocol
             _sendSocketAsync = new SocketAsyncEventArgs();
             _sendSocketAsync.AcceptSocket = BindSocket;
             _sendSocketAsync.Completed += new EventHandler<SocketAsyncEventArgs>(OnCompleted);
-            
+
             LastSendTime = DateTime.Now;
             LastReceiveTime = DateTime.Now;
             //SocketCount++;
@@ -421,13 +421,13 @@ namespace Buffalo.IOCP.DataProtocol
                 if (Connected)
                 {
                     string err = _dataManager.AddData(dataPacket);
-                    if (err != null )
+                    if (err != null)
                     {
                         PutMessageEvent(1, err);
                     }
                 }
             }
-            CheckSend();
+            CheckSend(_sendSocketAsync);
         }
         /// <summary>
         /// 发送字节数组
@@ -457,16 +457,16 @@ namespace Buffalo.IOCP.DataProtocol
         /// <summary>
         /// 执行发送方法
         /// </summary>
-        internal void RunSend() 
+        internal void RunSend()
         {
-            CheckSend();
+            CheckSend(_sendSocketAsync);
         }
 
         /// <summary>
         /// 发送
         /// </summary>
         /// <param name="isAsync">是否异步发送</param>
-        protected void CheckSend()
+        protected void CheckSend(SocketAsyncEventArgs sendSocketAsync)
         {
             lock (_lokSend)
             {
@@ -476,10 +476,9 @@ namespace Buffalo.IOCP.DataProtocol
                 }
                 IsSend = true;
             }
-            SocketAsyncEventArgs sendSocketAsync = _sendSocketAsync;
             bool isSync = true;
             DataPacketBase dataPacket = null;
-            
+
             try
             {
 
@@ -509,13 +508,13 @@ namespace Buffalo.IOCP.DataProtocol
                     {
                         data = _netProtocol.ToArray(dataPacket);
                     }
-                    
+
                     lock (_lokRootObject)
                     {
                         socket = _bindSocket;
                     }
                     sendSocketAsync.AcceptSocket = socket;
-                    
+
                     sendSocketAsync.SetBuffer(data, 0, data.Length);
                     sendSocketAsync.UserToken = null;
                     sendSocketAsync.UserToken = dataPacket;
@@ -536,8 +535,8 @@ namespace Buffalo.IOCP.DataProtocol
                 finally
                 {
                     dataPacket = null;
-                    
-                    if (!isSync) 
+
+                    if (!isSync)
                     {
                         OnCompleted(this, sendSocketAsync);
                     }
@@ -555,16 +554,16 @@ namespace Buffalo.IOCP.DataProtocol
             }
             finally
             {
-                //lock (_lokSend)
-                //{
-                //    IsSend = false;
-                //}
+                lock (_lokSend)
+                {
+                    IsSend = false;
+                }
 
                 if (!isSync)
                 {
                     DoSocketSend(sendSocketAsync);
                 }
-               
+
                 sendSocketAsync = null;
             }
         }
@@ -575,7 +574,7 @@ namespace Buffalo.IOCP.DataProtocol
             {
                 return socket.SendAsync(sendSocketAsync);
             }
-            IAsyncResult res=_tlsStream.BeginWrite(sendSocketAsync.Buffer, 0, sendSocketAsync.Buffer.Length, SendCallback, sendSocketAsync);
+            IAsyncResult res = _tlsStream.BeginWrite(sendSocketAsync.Buffer, 0, sendSocketAsync.Buffer.Length, SendCallback, sendSocketAsync);
             //_tlsStream.WriteAsync(sendSocketAsync.Buffer, 0, sendSocketAsync.Buffer.Length, CancellationToken.None).ConfigureAwait(continueOnCapturedContext: false); ;
             return true;
         }
@@ -588,7 +587,7 @@ namespace Buffalo.IOCP.DataProtocol
         }
 
 
-       
+
 
         /// <summary>
         /// 发送失败
@@ -620,11 +619,11 @@ namespace Buffalo.IOCP.DataProtocol
         /// <param name="type"></param>
         /// <param name="message"></param>
         /// <returns></returns>
-        public int PutMessageEvent(int type, object message) 
+        public int PutMessageEvent(int type, object message)
         {
-            if ( OnMessage != null)
+            if (OnMessage != null)
             {
-                return OnMessage(this, type, message)?1:0;
+                return OnMessage(this, type, message) ? 1 : 0;
             }
             return -1;
         }
@@ -647,12 +646,12 @@ namespace Buffalo.IOCP.DataProtocol
 
             try
             {
-                if (!ReceiveAsync(socket,eventArgs))
+                if (!ReceiveAsync(socket, eventArgs))
                 {
-                    DoSocketReceive(eventArgs,-1);
+                    DoSocketReceive(eventArgs, -1);
                 }
             }
-           
+
             catch (Exception ex)
             {
                 if (ShowError)
@@ -664,16 +663,17 @@ namespace Buffalo.IOCP.DataProtocol
             socket = null;
         }
 
-        private bool ReceiveAsync(Socket socket,SocketAsyncEventArgs eventArgs) 
+        private bool ReceiveAsync(Socket socket, SocketAsyncEventArgs eventArgs)
         {
-            if(_tlsStream == null) 
+            if (_tlsStream == null)
             {
                 return socket.ReceiveAsync(eventArgs);
             }
             try
             {
                 _tlsStream.BeginRead(eventArgs.Buffer, 0, eventArgs.Buffer.Length, ReadCallback, eventArgs);
-            }catch(Exception ex) 
+            }
+            catch (Exception ex)
             {
                 Close(true);
                 HandleClose("Client Close");
@@ -682,12 +682,12 @@ namespace Buffalo.IOCP.DataProtocol
             return true;
         }
 
-        public void ReadCallback(IAsyncResult ar) 
+        public void ReadCallback(IAsyncResult ar)
         {
             SocketAsyncEventArgs eventArgs = ar.AsyncState as SocketAsyncEventArgs;
             try
             {
-                if (_tlsStream == null) 
+                if (_tlsStream == null)
                 {
                     return;
                 }
@@ -703,7 +703,7 @@ namespace Buffalo.IOCP.DataProtocol
             {
                 Close(true);
                 HandleClose("Client Close");
-              
+
             }
         }
 
@@ -728,9 +728,9 @@ namespace Buffalo.IOCP.DataProtocol
             //            packet.SetEvent();
             //        }
 
-                    DoCompleted(sender, e);
-                //}
-                //EventHandleClean.ClearAllEvents(ae);
+            DoCompleted(sender, e);
+            //}
+            //EventHandleClean.ClearAllEvents(ae);
             //}
 
         }
@@ -781,12 +781,12 @@ namespace Buffalo.IOCP.DataProtocol
         private void DoSocketSend(SocketAsyncEventArgs e)
         {
 
-            //LastSendTime = DateTime.Now;
+            LastSendTime = DateTime.Now;
             lock (_lokSend)
             {
                 IsSend = false;
             }
-            CheckSend();
+            CheckSend(e);
         }
 
         //protected bool _isWebsocketHandShanked = false;
@@ -795,10 +795,10 @@ namespace Buffalo.IOCP.DataProtocol
         /// 处理接收
         /// </summary>
         /// <param name="e"></param>
-        private void DoSocketReceive(SocketAsyncEventArgs e,int count=-1)
+        private void DoSocketReceive(SocketAsyncEventArgs e, int count = -1)
         {
 
-            if (count < 0) 
+            if (count < 0)
             {
                 count = e.BytesTransferred;
             }
@@ -807,7 +807,7 @@ namespace Buffalo.IOCP.DataProtocol
             if (count <= 0 || e.Buffer == null)
             {
                 Close(true);
-                HandleClose("Client Close:"+ e.SocketError);
+                HandleClose("Client Close:" + e.SocketError);
                 return;
             }
             if (!Connected)
@@ -828,11 +828,11 @@ namespace Buffalo.IOCP.DataProtocol
                     {
                         return;
                     }
-                    AppendToBuffer(bufferData,e.Buffer, e.Offset, count);
+                    AppendToBuffer(bufferData, e.Buffer, e.Offset, count);
                     //byte[] content = new byte[bufferData.Count];
                     //bufferData.ReadBytes(0, content, 0, content.Length);
                     LastReceiveTime = DateTime.Now;
-                    if (socket.Available == 0 || _certConfig!=null)
+                    if (socket.Available == 0 || _certConfig != null)
                     {
 
                         DataPacketBase dataPacket = null;
@@ -846,7 +846,7 @@ namespace Buffalo.IOCP.DataProtocol
                     }
 
                 }
-                
+
                 Receive();
             }
             catch (Exception ex)
@@ -879,7 +879,7 @@ namespace Buffalo.IOCP.DataProtocol
 
         public virtual void DoDataPacket(DataPacketBase dataPacket, DateTime recDate)
         {
-            if ( OnReceiveData != null)
+            if (OnReceiveData != null)
             {
                 OnReceiveData(this, dataPacket);
             }
@@ -927,7 +927,7 @@ namespace Buffalo.IOCP.DataProtocol
         ///  关闭
         /// </summary>
         /// <param name="isHandleMessage">是否已经处理过消息通知</param>
-        public virtual void Close(bool isHandleMessage=false)
+        public virtual void Close(bool isHandleMessage = false)
         {
             //Connected = false;
             try
@@ -947,7 +947,7 @@ namespace Buffalo.IOCP.DataProtocol
                 if (_bindSocket != null)
                 {
                     socket = _bindSocket;
-                    
+
                 }
                 _bindSocket = null;
                 if (_dataManager != null)
@@ -967,7 +967,7 @@ namespace Buffalo.IOCP.DataProtocol
                 if (_recevieSocketAsync != null)
                 {
                     eventArgs = _recevieSocketAsync;
-                   
+
                     _recevieSocketAsync = null;
                 }
                 if (_sendSocketAsync != null)
@@ -999,8 +999,8 @@ namespace Buffalo.IOCP.DataProtocol
                 }
                 catch (Exception)
                 {
-                }  
-                
+                }
+
             }
             eventArgs = null;
 
@@ -1037,7 +1037,7 @@ namespace Buffalo.IOCP.DataProtocol
                 CloseTlsStream();
             }
             _message = null;
-            
+
             _remoteIP = null;
             try
             {
@@ -1046,7 +1046,7 @@ namespace Buffalo.IOCP.DataProtocol
             catch (Exception)
             {
             }
-            if(!isHandleMessage) 
+            if (!isHandleMessage)
             {
                 HandleClose("Auto Close");
             }
@@ -1056,7 +1056,7 @@ namespace Buffalo.IOCP.DataProtocol
         {
             if (ShowWarning)
             {
-                _message.LogWarning(String.Format("{0}:{1}",HostIP , str));
+                _message.LogWarning(String.Format("{0}:{1}", HostIP, str));
             }
             if (OnClose != null)
             {
@@ -1070,11 +1070,11 @@ namespace Buffalo.IOCP.DataProtocol
         /// </summary>
         public virtual void SendHeard()
         {
-            DataPacketBase data = _netProtocol.CreateDataPacket(0, false, null,false);
+            DataPacketBase data = _netProtocol.CreateDataPacket(0, false, null, false);
             data.IsHeart = true;
             SendPacket(data);
         }
-       
+
 
         public void Log(string message)
         {
