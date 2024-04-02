@@ -516,6 +516,7 @@ namespace Buffalo.IOCP.DataProtocol
                     sendSocketAsync.AcceptSocket = socket;
                     
                     sendSocketAsync.SetBuffer(data, 0, data.Length);
+                    
                     sendSocketAsync.UserToken = null;
                     sendSocketAsync.UserToken = dataPacket;
                     if (socket != null && Connected)
@@ -560,12 +561,12 @@ namespace Buffalo.IOCP.DataProtocol
                     ClearIsSend();
                 }
 
-                if (!isSync)
-                {
-                    DoSocketSend(sendSocketAsync);
-                }
+                //if (!isSync)
+                //{
+                //    DoSocketSend(sendSocketAsync);
+                //}
                
-                sendSocketAsync = null;
+                
             }
         }
         /// <summary>
@@ -791,10 +792,7 @@ namespace Buffalo.IOCP.DataProtocol
         {
 
             LastSendTime = DateTime.Now;
-            lock (_lokSend)
-            {
-                IsSend = false;
-            }
+            ClearIsSend();
             CheckSend(e);
         }
 

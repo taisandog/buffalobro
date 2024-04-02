@@ -249,9 +249,9 @@ namespace Buffalo.MQ.RedisMQ
                         }
 
                         tmpval = (RedisValue)res[1];
-                       
-                            svalue = tmpval;
-                        
+
+                        svalue = tmpval;
+
                         RedisCallbackMessage mess = new RedisCallbackMessage(listenKey, svalue);
                         CallBack(mess);
 

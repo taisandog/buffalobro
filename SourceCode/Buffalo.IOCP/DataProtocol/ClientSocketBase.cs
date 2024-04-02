@@ -392,7 +392,7 @@ namespace Buffalo.IOCP.DataProtocol
 
             _sendSocketAsync = new SocketAsyncEventArgs();
             _sendSocketAsync.AcceptSocket = BindSocket;
-            _sendSocketAsync.Completed += new EventHandler<SocketAsyncEventArgs>(OnCompleted);
+            _sendSocketAsync.Completed += new EventHandler<SocketAsyncEventArgs>(OnSendCompleted);
 
             LastSendTime = DateTime.Now;
             LastReceiveTime = DateTime.Now;
@@ -478,7 +478,7 @@ namespace Buffalo.IOCP.DataProtocol
             }
             bool isSync = true;
             DataPacketBase dataPacket = null;
-
+            bool hasSend = false;
             try
             {
 
@@ -516,11 +516,13 @@ namespace Buffalo.IOCP.DataProtocol
                     sendSocketAsync.AcceptSocket = socket;
 
                     sendSocketAsync.SetBuffer(data, 0, data.Length);
+
                     sendSocketAsync.UserToken = null;
                     sendSocketAsync.UserToken = dataPacket;
                     if (socket != null && Connected)
                     {
                         isSync = SendAsync(socket, sendSocketAsync);
+                        hasSend = true;
                     }
                     LastSendTime = DateTime.Now;
                 }
@@ -538,7 +540,7 @@ namespace Buffalo.IOCP.DataProtocol
 
                     if (!isSync)
                     {
-                        OnCompleted(this, sendSocketAsync);
+                        OnSendCompleted(this, sendSocketAsync);
                     }
                     socket = null;
                 }
@@ -554,20 +556,29 @@ namespace Buffalo.IOCP.DataProtocol
             }
             finally
             {
-                lock (_lokSend)
+                if (!hasSend)
                 {
-                    IsSend = false;
+                    ClearIsSend();
                 }
 
-                if (!isSync)
-                {
-                    DoSocketSend(sendSocketAsync);
-                }
+                //if (!isSync)
+                //{
+                //    DoSocketSend(sendSocketAsync);
+                //}
 
-                sendSocketAsync = null;
+
             }
         }
-
+        /// <summary>
+        /// 清空已发送
+        /// </summary>
+        private void ClearIsSend()
+        {
+            lock (_lokSend)
+            {
+                IsSend = false;
+            }
+        }
         private bool SendAsync(Socket socket, SocketAsyncEventArgs sendSocketAsync)
         {
             if (_tlsStream == null)
@@ -716,54 +727,54 @@ namespace Buffalo.IOCP.DataProtocol
         {
 
         }
-        protected void OnCompleted(object sender, SocketAsyncEventArgs e)
-        {
+        //protected void OnCompleted(object sender, SocketAsyncEventArgs e)
+        //{
 
-            //using (SocketAsyncEventArgs ae = e)
-            //{
-            //    using (DataPacketBase packet = ae.UserToken as DataPacketBase)
-            //    {
-            //        if (packet != null)
-            //        {
-            //            packet.SetEvent();
-            //        }
+        //    //using (SocketAsyncEventArgs ae = e)
+        //    //{
+        //    //    using (DataPacketBase packet = ae.UserToken as DataPacketBase)
+        //    //    {
+        //    //        if (packet != null)
+        //    //        {
+        //    //            packet.SetEvent();
+        //    //        }
 
-            DoCompleted(sender, e);
-            //}
-            //EventHandleClean.ClearAllEvents(ae);
-            //}
+        //            DoCompleted(sender, e);
+        //        //}
+        //        //EventHandleClean.ClearAllEvents(ae);
+        //    //}
 
-        }
+        //}
         object _lokBuffdata = new object();
-        protected void DoCompleted(object sender, SocketAsyncEventArgs e)
-        {
+        //protected void DoCompleted(object sender, SocketAsyncEventArgs e)
+        //{
 
-            if (e.SocketError == SocketError.Success)
-            {
-                switch (e.LastOperation)
-                {
-                    case SocketAsyncOperation.Receive:
-                        DoSocketReceive(e);
-                        break;
-                    case SocketAsyncOperation.Send:
-                        DoSocketSend(e);
-                        break;
-                    case SocketAsyncOperation.Disconnect:
-                        DoSocketDisconnect(e);
-                        break;
-                    default:
-                        break;
-                }
-            }
-            else
-            {
+        //    if (e.SocketError == SocketError.Success)
+        //    {
+        //        switch (e.LastOperation)
+        //        {
+        //            case SocketAsyncOperation.Receive:
+        //                DoSocketReceive(e);
+        //                break;
+        //            case SocketAsyncOperation.Send:
+        //                DoSocketSend(e);
+        //                break;
+        //            case SocketAsyncOperation.Disconnect:
+        //                DoSocketDisconnect(e);
+        //                break;
+        //            default:
+        //                break;
+        //        }
+        //    }
+        //    else
+        //    {
 
-                HandleClose("Client error:" + e.SocketError);
-                Close(true);
-                return;
-            }
+        //        HandleClose("Client error:" + e.SocketError);
+        //        Close(true);
+        //        return;
+        //    }
 
-        }
+        //}
         /// <summary>
         /// 处理断开
         /// </summary>
@@ -782,10 +793,7 @@ namespace Buffalo.IOCP.DataProtocol
         {
 
             LastSendTime = DateTime.Now;
-            lock (_lokSend)
-            {
-                IsSend = false;
-            }
+            ClearIsSend();
             CheckSend(e);
         }
 
@@ -918,11 +926,28 @@ namespace Buffalo.IOCP.DataProtocol
         }
         protected void OnRecCompleted(object sender, SocketAsyncEventArgs e)
         {
+            if (e.SocketError != SocketError.Success)
+            {
+                HandleClose("Client error:" + e.SocketError);
+                Close(true);
+                return;
+            }
             DoSocketReceive(e);
             //DoCompleted(sender, e);
 
         }
+        protected void OnSendCompleted(object sender, SocketAsyncEventArgs e)
+        {
+            if (e.SocketError != SocketError.Success)
+            {
+                HandleClose("Client error:" + e.SocketError);
+                Close(true);
+                return;
+            }
+            DoSocketSend(e);
+            //DoCompleted(sender, e);
 
+        }
         /// <summary>
         ///  关闭
         /// </summary>
