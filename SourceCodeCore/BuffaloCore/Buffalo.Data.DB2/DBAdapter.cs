@@ -692,6 +692,8 @@ namespace Buffalo.Data.DB2
                     return "for update";
                 case BQLLockType.LockUpdateNoWait:
                     return "for update";
+                case BQLLockType.LockUpdateSkipLock:
+                    return "for update skip locked";
                 default:
                     return "";
             }

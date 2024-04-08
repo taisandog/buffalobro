@@ -844,6 +844,8 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter
                     return "with(updlock,rowlock)";
                 case BQLLockType.LockUpdateNoWait:
                     return "with(updlock,rowlock,nowait)";
+                case BQLLockType.LockUpdateSkipLock:
+                    return "with(updlock,rowlock,READPAST)";
                 default:
                     return "";
             }

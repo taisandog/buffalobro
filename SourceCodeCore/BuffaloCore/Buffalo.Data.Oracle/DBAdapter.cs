@@ -821,6 +821,8 @@ namespace Buffalo.Data.Oracle
                     return "for update";
                 case BQLLockType.LockUpdateNoWait:
                     return "for update nowait";
+                case BQLLockType.LockUpdateSkipLock:
+                    return "for update skip locked";
                 default:
                     return "";
             }

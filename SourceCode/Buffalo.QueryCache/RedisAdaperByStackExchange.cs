@@ -444,7 +444,7 @@ namespace Buffalo.QueryCache
 
         public override System.Collections.IList DoGetEntityList(string key, Type entityType, RedisConnection connection)
         {
-            c
+           
             IDatabase client = connection.DB;
             byte[] content = client.StringGet(key);
             using (MemoryStream stm = new MemoryStream(content))

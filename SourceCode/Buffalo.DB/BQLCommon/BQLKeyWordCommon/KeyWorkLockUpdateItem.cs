@@ -53,6 +53,10 @@ namespace Buffalo.DB.BQLCommon.BQLKeyWordCommon
         /// <summary>
         ///  锁Update不堵塞
         /// </summary>
-        LockUpdateNoWait = 2
+        LockUpdateNoWait = 2,
+        /// <summary>
+        ///  锁Update，跳过被锁的记录，返回后边的记录
+        /// </summary>
+        LockUpdateSkipLock = 3
     }
 }
