@@ -284,12 +284,37 @@ namespace Buffalo.DBTools.HelperKernel
         /// <returns></returns>
         public static DataTypeInfos GetTypeInfo(Member source) 
         {
-            if (source.MemberType is ClrEnumeration) 
+            bool isEnum = MemberIsEnumType(source);
+            if (isEnum)
             {
                 return GetTypeInfo("int");
             }
             return GetTypeInfo(source.MemberTypeShortName);
         } 
+
+        /// <summary>
+        /// 是否枚举类型
+        /// </summary>
+        /// <param name="source"></param>
+        private static bool MemberIsEnumType(Member source) 
+        {
+            TypeInstance typeIns = source.MemberTypeInstance as TypeInstance;
+            if(typeIns.TypeKind!= TypeKind.Type) 
+            {
+                return false;
+            }
+            return source.MemberType is ClrEnumeration;
+        }
+        //private static ClrType GetMemberType(Member source) 
+        //{
+        //    ClrType result = null;
+        //    string memberTypeLookupName = source.MemberTypeLookupName;
+        //    if (memberTypeLookupName.Length != 0)
+        //    {
+        //        result = source.ClrType.GetLogicalElement(memberTypeLookupName) as ClrType;
+        //    }
+        //    return result;
+        //}
         /// <summary>
         /// 根据类型名获取信息
         /// </summary>

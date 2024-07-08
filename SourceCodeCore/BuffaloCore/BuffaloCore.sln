@@ -31,8 +31,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Buffalo.MQ", "Buffalo.MQ\Bu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Buffalo.IOCP", "Buffalo.IOCP\Buffalo.IOCP.csproj", "{F355DA40-3C5C-45DC-A712-4338490F7F8F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestMQ", "..\..\..\..\TestMQ\TestMQ.csproj", "{D1A72F2E-AA4B-4E6A-8AE4-7A0B737170ED}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,10 +89,6 @@ Global
 		{F355DA40-3C5C-45DC-A712-4338490F7F8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F355DA40-3C5C-45DC-A712-4338490F7F8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F355DA40-3C5C-45DC-A712-4338490F7F8F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D1A72F2E-AA4B-4E6A-8AE4-7A0B737170ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D1A72F2E-AA4B-4E6A-8AE4-7A0B737170ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D1A72F2E-AA4B-4E6A-8AE4-7A0B737170ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D1A72F2E-AA4B-4E6A-8AE4-7A0B737170ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
