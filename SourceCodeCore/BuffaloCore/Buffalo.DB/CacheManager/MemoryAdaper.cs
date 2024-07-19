@@ -10,6 +10,8 @@ using Buffalo.DB.DbCommon;
 using System.Collections.Concurrent;
 using Buffalo.DB.CacheManager.CacheCollection;
 using Buffalo.Kernel.Collections;
+using System.Threading.Tasks;
+using Buffalo.Kernel.Defaults;
 
 namespace Buffalo.DB.CacheManager
 {
@@ -481,7 +483,67 @@ namespace Buffalo.DB.CacheManager
             return true;
         }
 
-        
+        public Task<E> GetValueAsync<E>(string key, E defaultValue, DataBaseOperate oper)
+        {
+            return Task.FromResult(GetValue<E>(key, defaultValue, oper));
+        }
+
+        public Task<object> GetValueAsync(string key, DataBaseOperate oper)
+        {
+            return Task.FromResult(GetValue(key, oper));
+        }
+
+        public Task<IDictionary<string, object>> GetValuesAsync(string[] keys, DataBaseOperate oper)
+        {
+            return Task.FromResult(GetValues(keys, oper));
+        }
+
+        public Task<bool> SetValueAsync<E>(string key, E value, SetValueType type, TimeSpan expir, DataBaseOperate oper)
+        {
+            return Task.FromResult(SetValue(key, value, type, expir, oper));
+        }
+
+        public Task<bool> SetValueAsync(string key, object value, SetValueType type, TimeSpan expir, DataBaseOperate oper)
+        {
+            return Task.FromResult(SetValue(key, value, type, expir, oper));
+        }
+
+        public Task<bool> ExistsKeyAsync(string key, DataBaseOperate oper)
+        {
+            return Task.FromResult(ExistsKey(key, oper));
+        }
+
+        public Task<bool> SetKeyExpireAsync(string key, TimeSpan expir, DataBaseOperate oper)
+        {
+            return Task.FromResult(SetKeyExpire(key, expir, oper));
+        }
+
+        public Task ClearAllAsync()
+        {
+            return Task.FromResult(ClearAllAsync());
+        }
+
+        public Task<bool> DeleteValueAsync(string key, DataBaseOperate oper)
+        {
+            return Task.FromResult(DeleteValue(key, oper));
+        }
+
+        public Task<long> DoIncrementAsync(string key, ulong inc, DataBaseOperate oper)
+        {
+            return Task.FromResult(DoIncrement(key, inc, oper));
+        }
+
+        public Task<long> DoDecrementAsync(string key, ulong dec, DataBaseOperate oper)
+        {
+            return Task.FromResult(DoDecrement(key, dec, oper));
+        }
+
+        public Task<IEnumerable<string>> GetAllKeysAsync(string pattern)
+        {
+            return Task.FromResult(GetAllKeys(pattern));
+        }
+
+
 
         #endregion
     }

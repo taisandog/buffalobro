@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -591,6 +592,91 @@ namespace Buffalo.DB.CacheManager.CacheCollection
                 count += _lst.Remove(item) ? 1 : 0;
             }
             return count;
+        }
+
+        public Task<long> AddAsync(object value, double key, SetValueType setType = SetValueType.Set)
+        {
+            return Task.FromResult(Add(value,  key,  setType));
+        }
+
+        public Task<long> AddRangAsync(IEnumerable<SortedSetItem> values, SetValueType setType = SetValueType.Set)
+        {
+            return Task.FromResult(AddRang(values, setType));
+        }
+
+        public Task<double> DecrementAsync(object value, double score = 1)
+        {
+            return Task.FromResult(Decrement(value, score));
+        }
+
+        public Task<double> IncrementAsync(object value, double score = 1)
+        {
+            return Task.FromResult(Increment(value, score));
+        }
+
+        public Task<long> GetLengthAsync(double? min, double? max)
+        {
+            return Task.FromResult(GetLength(min, max));
+        }
+
+        public Task<SortedSetItem[]> GetRangeByRankWithScoresAsync(long start = 0, long stop = -1, SortType order = SortType.ASC)
+        {
+            return Task.FromResult(GetRangeByRankWithScores(start,  stop, order));
+        }
+
+        public Task<T[]> GetRangeByRankAsync<T>(long start = 0, long stop = -1, SortType order = SortType.ASC)
+        {
+            return Task.FromResult(GetRangeByRank<T>(start, stop, order));
+        }
+
+        public Task<T[]> GetRangeByScoreAsync<T>(double? start, double? stop, SortType order = SortType.ASC, long skip = 0, long take = -1)
+        {
+            return Task.FromResult(GetRangeByScore<T>(start, stop, order, skip, take));
+        }
+
+        public Task<SortedSetItem[]> GetRangeByScoreWithScoresAsync(double? start, double? stop, SortType order = SortType.ASC, long skip = 0, long take = -1)
+        {
+            return Task.FromResult(GetRangeByScoreWithScores(start, stop, order, skip, take));
+        }
+
+        public Task<T[]> GetRangeByValueAsync<T>(object min, object max, long skip = 0, long take = -1)
+        {
+            return Task.FromResult(GetRangeByValue<T>(min,  max,  skip ,  take));
+        }
+
+        public Task<long> GetIndexAsync(object value, SortType order = SortType.ASC)
+        {
+            return Task.FromResult(GetIndex(value,  order));
+        }
+
+        public Task<double?> GetKeyByValueAsync(object value)
+        {
+            return Task.FromResult(GetKeyByValue(value));
+        }
+
+        public Task<long> RemoveAsync(object value)
+        {
+            return Task.FromResult(Remove(value));
+        }
+
+        public Task<long> RemoveAsync(object[] values)
+        {
+            return Task.FromResult(Remove(values));
+        }
+
+        public Task<long> RemoveRangeByRankAsync(long start = 0, long stop = -1)
+        {
+            return Task.FromResult(RemoveRangeByRank(start, stop));
+        }
+
+        public Task<long> RemoveRangeByKeyAsync(double? start, double? stop)
+        {
+            return Task.FromResult(RemoveRangeByKey(start, stop));
+        }
+
+        public Task<long> RemoveRangeByValueAsync(object min, object max)
+        {
+            return Task.FromResult(RemoveRangeByValue(min, max));
         }
     }
 

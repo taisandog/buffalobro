@@ -575,6 +575,75 @@ namespace Buffalo.QueryCache
         {
             return new RedisSortedSet(connection.DB, key, _commanfFlags, _expiration);
         }
+
+        public override Task<bool> DoSetKeyExpireAsync(string key, TimeSpan expir, RedisConnection connection)
+        {
+            IDatabase client = connection.DB;
+            TimeSpan ts = LocalCacheBase.GetExpir(_expiration, expir);
+            return client.KeyExpireAsync(key, ts, _commanfFlags);
+        }
+
+        protected override Task<E> GetValueAsync<E>(string key, E defaultValue, RedisConnection client)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override async Task<object> GetValueAsync(string key, RedisConnection connection)
+        {
+            IDatabase client = connection.DB;
+            RedisValue ret = await client.StringGetAsync(key);
+            if (ret.IsNull)
+            {
+                return null;
+            }
+            return ret;
+        }
+
+        protected override Task<bool> DoExistsKeyAsync(string key, RedisConnection connection)
+        {
+            IDatabase client = connection.DB;
+            return client.KeyExistsAsync(key);
+        }
+
+        protected override Task<IDictionary<string, object>> GetValuesAsync(string[] keys, RedisConnection client)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override Task<bool> SetValueAsync<E>(string key, E value, SetValueType type, TimeSpan expir, RedisConnection client)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override Task<bool> SetValueAsync(string key, object value, SetValueType type, TimeSpan expir, RedisConnection client)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override Task<bool> DeleteValueAsync(string key, RedisConnection client)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override Task<long> DoIncrementAsync(string key, ulong inc, RedisConnection client)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override Task<long> DoDecrementAsync(string key, ulong dec, RedisConnection client)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Task ClearAllAsync(RedisConnection client)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Task<IEnumerable<string>> GetAllKeysAsync(string pattern, RedisConnection client)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     /// <summary>

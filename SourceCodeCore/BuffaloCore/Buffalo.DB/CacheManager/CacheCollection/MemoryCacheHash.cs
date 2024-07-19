@@ -1,4 +1,5 @@
 ﻿using Buffalo.DB.DbCommon;
+using Buffalo.Kernel.Defaults;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -192,6 +193,57 @@ namespace Buffalo.DB.CacheManager.CacheCollection
                 _dic[key] = num;
                 return num;
             }
+        }
+
+        public Task SetRangeValueAsync(IDictionary<string, object> dicSet)
+        {
+            SetRangeValue(dicSet);
+            return Task.CompletedTask;
+        }
+
+        public Task<bool> SetValueAsync(string key, object value, SetValueType type = SetValueType.Set)
+        {
+            return Task.FromResult(SetValue(key, value, type));
+        }
+
+        public Task<E> GetValueAsync<E>(string key, E defaultValue = default)
+        {
+            return Task.FromResult(GetValue<E>(key, defaultValue));
+        }
+
+        public Task<List<KeyValuePair<string, V>>> GetAllValuesAsync<V>(V defaultValue)
+        {
+            return Task.FromResult(GetAllValues<V>(defaultValue));
+        }
+
+        public Task<ICollection<string>> GetAllKeysAsync()
+        {
+            return Task.FromResult(GetAllKeys());
+        }
+
+        public Task<bool> DeleteValueAsync(string key)
+        {
+            return Task.FromResult(DeleteValue(key));
+        }
+
+        public Task<long> DeleteValuesAsync(IEnumerable<string> keys)
+        {
+            return Task.FromResult(DeleteValues(keys));
+        }
+
+        public Task<bool> ExistsAsync(string key)
+        {
+            return Task.FromResult(Exists(key));
+        }
+
+        public Task<long> IncrementAsync(string key, long value = 1)
+        {
+            return Task.FromResult(Increment(key, value));
+        }
+
+        public Task<long> DecrementAsync(string key, long value = 1)
+        {
+            return Task.FromResult(Decrement(key, value));
         }
     }
 }

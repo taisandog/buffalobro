@@ -112,6 +112,7 @@ namespace Buffalo.QueryCache.RedisCollections
         {
             RedisValue val = RedisConverter.ValueToRedisValue(value);
             return _client.SortedSetIncrement(_key, val, score, _commanfFlags);
+            
         }
 
        

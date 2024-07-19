@@ -5,6 +5,7 @@ using Buffalo.DB.DbCommon;
 using Buffalo.DB.CommBase;
 using System.Collections;
 using Buffalo.DB.CacheManager.CacheCollection;
+using System.Threading.Tasks;
 
 namespace Buffalo.DB.CacheManager
 {
@@ -163,5 +164,95 @@ namespace Buffalo.DB.CacheManager
         /// 重新连接
         /// </summary>
         void ReconnectClient();
+
+
+
+        /// <summary>
+        /// 获取值
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="oper">连接</param>
+        /// <returns></returns>
+        Task<E> GetValueAsync<E>(string key, E defaultValue, DataBaseOperate oper);
+        /// <summary>
+        /// 获取值
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="oper">连接</param>
+        /// <returns></returns>
+        Task<object> GetValueAsync(string key, DataBaseOperate oper);
+        /// <summary>
+        /// 获取值
+        /// </summary>
+        /// <param name="key2">键</param>
+        /// <param name="oper">连接</param>
+        /// <returns></returns>
+        Task<IDictionary<string, object>> GetValuesAsync(string[] keys, DataBaseOperate oper);
+
+        /// <summary>
+        /// 设置值
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="value">值</param>
+        /// <param name="type">设置值方式</param>
+        /// <param name="oper">连接</param>
+        /// <param name="expir">过期时间</param>
+        /// <returns></returns>
+        Task<bool> SetValueAsync<E>(string key, E value, SetValueType type, TimeSpan expir, DataBaseOperate oper);
+        /// <summary>
+        /// 设置值
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="value">值</param>
+        /// <param name="type">设置值方式</param>
+        /// <param name="oper">连接</param>
+        /// <param name="expir">过期时间</param>
+        /// <returns></returns>
+        Task<bool> SetValueAsync(string key, object value, SetValueType type, TimeSpan expir, DataBaseOperate oper);
+        /// <summary>
+        /// Key是否存在
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="oper"></param>
+        /// <returns></returns>
+        Task<bool> ExistsKeyAsync(string key, DataBaseOperate oper);
+        /// <summary>
+        /// 设置键过期
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="expirSeconds"></param>
+        /// <returns></returns>
+        Task<bool> SetKeyExpireAsync(string key, TimeSpan expir, DataBaseOperate oper);
+        /// <summary>
+        /// 清空缓存
+        /// </summary>
+        Task ClearAllAsync();
+        /// <summary>
+        /// 删除值
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="oper">连接</param>
+        /// <returns></returns>
+        Task<bool> DeleteValueAsync(string key, DataBaseOperate oper);
+        /// <summary>
+        /// 自增
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="inc"></param>
+        /// <param name="oper">连接</param>
+        Task<long> DoIncrementAsync(string key, ulong inc, DataBaseOperate oper);
+
+        /// <summary>
+        /// 自减
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="client"></param>
+        Task<long> DoDecrementAsync(string key, ulong dec, DataBaseOperate oper);
+        /// <summary>
+        /// 获取所有键
+        /// </summary>
+        /// <param name="pattern"></param>
+        /// <returns></returns>
+        Task<IEnumerable<string>> GetAllKeysAsync(string pattern);
     }
 }

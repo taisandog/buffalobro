@@ -1,8 +1,11 @@
 ﻿using Buffalo.DB.DbCommon;
+using Buffalo.DB.QueryConditions;
+using Buffalo.Kernel.Defaults;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -205,6 +208,51 @@ namespace Buffalo.DB.CacheManager.CacheCollection
                 }
             }
             return ret.ConvertTo<E>();
+        }
+
+        public Task<long> AddValueAsync(object value, long index = -1, SetValueType setType = SetValueType.Set)
+        {
+
+            return Task.FromResult(AddValue(value, index, setType));
+        }
+
+        public Task<long> AddRangValueAsync(IEnumerable values, long index = -1, SetValueType setType = SetValueType.Set)
+        {
+            return Task.FromResult(AddRangValue(values, index, setType));
+        }
+
+        public Task<E> GetValueAsync<E>(long index, E defaultValue = default)
+        {
+            return Task.FromResult(GetValue(index, defaultValue));
+        }
+        public Task<long> GetLengthAsync()
+        {
+            return Task.FromResult(GetLength());
+        }
+
+        public Task<long> RemoveValueAsync(object value, long count = 0)
+        {
+            return Task.FromResult(RemoveValue(value, count));
+        }
+
+        public Task<List<E>> AllValuesAsync<E>(long start = 0, long end = -1)
+        {
+            return Task.FromResult(AllValues<E>(start, end));
+        }
+
+        public Task<long> InsertAfterAsync(object pivot, object value)
+        {
+            return Task.FromResult(InsertAfter(pivot, value));
+        }
+
+        public Task<long> InsertBeforeAsync(object pivot, object value)
+        {
+            return Task.FromResult(InsertBefore(pivot, value));
+        }
+
+        public Task<E> PopValueAsync<E>(bool isPopEnd = false, E defaultValue = default)
+        {
+            return Task.FromResult(PopValue(isPopEnd, defaultValue));
         }
     }
 }

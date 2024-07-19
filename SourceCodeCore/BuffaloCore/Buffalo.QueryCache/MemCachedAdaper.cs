@@ -20,6 +20,9 @@ using Buffalo.DB.CacheManager.CacheCollection;
 using Buffalo.QueryCache.RedisCollections;
 using Microsoft.Extensions.Logging;
 using StackExchange.Redis;
+using System.Threading.Tasks;
+using Buffalo.Kernel.Defaults;
+using Enyim.Caching.Memcached.Results;
 
 namespace Buffalo.QueryCache
 {
@@ -627,6 +630,95 @@ namespace Buffalo.QueryCache
         public override bool DoSetKeyExpire(string key, TimeSpan expir, MemcachedConnection client)
         {
             return true;
+        }
+
+        public override Task<bool> DoSetKeyExpireAsync(string key, TimeSpan expir, MemcachedConnection client)
+        {
+            return Task.FromResult(true);
+        }
+
+        protected override async Task<E> GetValueAsync<E>(string key, E defaultValue, MemcachedConnection client)
+        {
+            IGetOperationResult<E> val = await client.Client.GetAsync<E>(key);
+            if (val.HasValue)
+            {
+                return ValueConvertExtend.ConvertValue<E>(val.Value, defaultValue);
+            }
+            return defaultValue;
+        }
+
+        protected  async override Task<object> GetValueAsync(string key, MemcachedConnection client)
+        {
+            IGetOperationResult val = await client.Client.GetAsync(key);
+            if (val.HasValue)
+            {
+                return ValueConvertExtend.ConvertValue(val.Value, default(object));
+            }
+            return null;
+        }
+
+        protected async override Task<bool> DoExistsKeyAsync(string key, MemcachedConnection client)
+        {
+            IGetOperationResult val = await client.Client.GetAsync(key);
+            return val.HasValue;
+            
+        }
+
+        protected async override Task<IDictionary<string, object>> GetValuesAsync(string[] keys, MemcachedConnection client)
+        {
+            IDictionary<string, object> val = await client.Client.GetAsync<object>(keys);
+            return val;
+        }
+
+        protected override async Task<bool> SetValueAsync<E>(string key, E value, SetValueType type, TimeSpan expir, MemcachedConnection client)
+        {
+            TimeSpan ts = LocalCacheBase.GetExpir(_expiration, expir);
+
+            if (ts > TimeSpan.MinValue)
+            {
+                return await client.Client.StoreAsync(GetSetValueMode(type), key, value, ts);
+            }
+            return await client.Client.StoreAsync(GetSetValueMode(type), key, value, TimeSpan.Zero);
+        }
+
+        protected async override Task<bool> SetValueAsync(string key, object value, SetValueType type, TimeSpan expir, MemcachedConnection client)
+        {
+            TimeSpan ts = LocalCacheBase.GetExpir(_expiration, expir);
+
+            if (ts > TimeSpan.MinValue)
+            {
+                return await client.Client.StoreAsync(GetSetValueMode(type), key, value, ts);
+            }
+            return await client.Client.StoreAsync(GetSetValueMode(type), key, value, TimeSpan.Zero);
+        }
+
+        protected async override Task<bool> DeleteValueAsync(string key, MemcachedConnection client)
+        {
+            return await client.Client.RemoveAsync(key);
+        }
+
+        protected override Task<long> DoIncrementAsync(string key, ulong inc, MemcachedConnection client)
+        {
+            
+            return Task.FromResult(DoIncrement(key, inc, client));
+            
+        }
+
+        protected override Task<long> DoDecrementAsync(string key, ulong dec, MemcachedConnection client)
+        {
+            
+            return Task.FromResult(DoDecrement(key, dec, client));
+        }
+
+        public async override Task ClearAllAsync(MemcachedConnection client)
+        {
+            await client.Client.FlushAllAsync(); 
+        }
+
+        public override Task<IEnumerable<string>> GetAllKeysAsync(string pattern, MemcachedConnection client)
+        {
+            
+            return Task.FromResult(GetAllKeys(pattern,client));
         }
     }
 

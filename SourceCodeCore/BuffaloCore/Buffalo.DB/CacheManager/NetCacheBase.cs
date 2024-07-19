@@ -8,6 +8,8 @@ using Buffalo.Kernel;
 using System.Data;
 using System.Collections;
 using Buffalo.DB.CacheManager.CacheCollection;
+using System.Threading.Tasks;
+using Buffalo.Kernel.Defaults;
 
 namespace Buffalo.DB.CacheManager
 {
@@ -211,6 +213,13 @@ namespace Buffalo.DB.CacheManager
         /// <returns></returns>
         public abstract bool DoSetKeyExpire(string key, TimeSpan expir, T client);
         /// <summary>
+        /// 设置键过期时间
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="expirSeconds"></param>
+        /// <returns></returns>
+        public abstract Task<bool> DoSetKeyExpireAsync(string key, TimeSpan expir, T client);
+        /// <summary>
         /// 获取值
         /// </summary>
         /// <param name="key">键</param>
@@ -225,8 +234,23 @@ namespace Buffalo.DB.CacheManager
         /// <param name="valueType">值类型</param>
         /// <param name="client">客户端</param>
         /// <returns></returns>
+        protected abstract Task<E> GetValueAsync<E>(string key, E defaultValue, T client);
+        /// <summary>
+        /// 获取值
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="valueType">值类型</param>
+        /// <param name="client">客户端</param>
+        /// <returns></returns>
         protected abstract object GetValue(string key, T client);
-
+        /// <summary>
+        /// 获取值
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="valueType">值类型</param>
+        /// <param name="client">客户端</param>
+        /// <returns></returns>
+        protected abstract Task<object> GetValueAsync(string key, T client);
         /// <summary>
         /// 获取值
         /// </summary>
@@ -242,7 +266,24 @@ namespace Buffalo.DB.CacheManager
         /// <param name="valueType">值类型</param>
         /// <param name="client">客户端</param>
         /// <returns></returns>
+        protected abstract Task<bool> DoExistsKeyAsync(string key, T client);
+
+        /// <summary>
+        /// 获取值
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="valueType">值类型</param>
+        /// <param name="client">客户端</param>
+        /// <returns></returns>
         protected abstract IDictionary<string, object> GetValues(string[] keys, T client);
+        /// <summary>
+        /// 获取值
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="valueType">值类型</param>
+        /// <param name="client">客户端</param>
+        /// <returns></returns>
+        protected abstract Task<IDictionary<string, object>> GetValuesAsync(string[] keys, T client);
         /// <summary>
         /// 设置值
         /// </summary>
@@ -262,7 +303,27 @@ namespace Buffalo.DB.CacheManager
         /// <param name="expirSeconds">超时秒数</param>
         /// <param name="client">客户端</param>
         /// <returns></returns>
+        protected abstract Task<bool> SetValueAsync<E>(string key, E value, SetValueType type, TimeSpan expir, T client);
+        /// <summary>
+        /// 设置值
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="value">值</param>
+        /// <param name="type">设置方式</param>
+        /// <param name="expirSeconds">超时秒数</param>
+        /// <param name="client">客户端</param>
+        /// <returns></returns>
         protected abstract bool SetValue(string key, object value, SetValueType type, TimeSpan expir, T client);
+        /// <summary>
+        /// 设置值
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="value">值</param>
+        /// <param name="type">设置方式</param>
+        /// <param name="expirSeconds">超时秒数</param>
+        /// <param name="client">客户端</param>
+        /// <returns></returns>
+        protected abstract Task<bool> SetValueAsync(string key, object value, SetValueType type, TimeSpan expir, T client);
         /// <summary>
         /// 获取DataSet
         /// </summary>
@@ -286,6 +347,13 @@ namespace Buffalo.DB.CacheManager
         /// <returns></returns>
         protected abstract bool DeleteValue(string key, T client);
         /// <summary>
+        /// 删除值
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="client">客户端</param>
+        /// <returns></returns>
+        protected abstract Task<bool> DeleteValueAsync(string key, T client);
+        /// <summary>
         /// 自增
         /// </summary>
         /// <param name="key">键</param>
@@ -293,12 +361,26 @@ namespace Buffalo.DB.CacheManager
         /// <param name="client"></param>
         protected abstract long DoIncrement(string key, ulong inc, T client);
         /// <summary>
+        /// 自增
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="inc">自增值</param>
+        /// <param name="client"></param>
+        protected abstract Task<long> DoIncrementAsync(string key, ulong inc, T client);
+        /// <summary>
         /// 自减
         /// </summary>
         /// <param name="key">键</param>
         /// <param name="dec">自减值</param>
         /// <param name="client"></param>
         protected abstract long DoDecrement(string key, ulong dec, T client);
+        /// <summary>
+        /// 自减
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="dec">自减值</param>
+        /// <param name="client"></param>
+        protected abstract Task<long> DoDecrementAsync(string key, ulong dec, T client);
         /// <summary>
         /// 设置版本号
         /// </summary>
@@ -1097,10 +1179,11 @@ namespace Buffalo.DB.CacheManager
             }
         }
         public abstract void ClearAll(T client);
+        public abstract Task ClearAllAsync(T client);
         public abstract object GetClient();
         public abstract IEnumerable<string> GetAllKeys(string pattern, T client);
 
-   
+        public abstract Task<IEnumerable<string>> GetAllKeysAsync(string pattern, T client);
 
         /// <summary>
         /// 获取hash操作
@@ -1126,6 +1209,10 @@ namespace Buffalo.DB.CacheManager
         /// <returns></returns>
         public abstract ICacheLock GetCacheLock(string key, T connection);
 
+
+
+
+
         /// <summary>
         /// 获取顺序集
         /// </summary>
@@ -1134,5 +1221,334 @@ namespace Buffalo.DB.CacheManager
         /// <returns></returns>
         public abstract ICacheSortedSet GetSortedSet(string key, T connection);
 
+
+
+
+
+
+
+        public async Task<E> GetValueAsync<E>(string key, E defaultValue, DataBaseOperate oper)
+        {
+            try
+            {
+                using (T client = CreateClient(true, QueryCacheCommand.CommandGetValues))
+                {
+                    E ret = await GetValueAsync<E>(key, defaultValue,client);
+                    if (_info.SqlOutputer.HasOutput)
+                    {
+                        OutPutMessage(QueryCacheCommand.CommandGetValues, "key=" + key, oper);
+                    }
+                    return ret;
+                }
+            }
+            catch (Exception ex)
+            {
+                if (_throwExcertion)
+                {
+                    throw ex;
+                }
+                else
+                {
+                    OutExceptionMessage(ex, oper);
+                    return default(E);
+                }
+            }
+        }
+
+        public async Task<object> GetValueAsync(string key,  DataBaseOperate oper) 
+        {
+            try
+            {
+                using (T client = CreateClient(true, QueryCacheCommand.CommandGetValues))
+                {
+                    object ret = await GetValueAsync(key, client);
+                    if (_info.SqlOutputer.HasOutput)
+                    {
+                        OutPutMessage(QueryCacheCommand.CommandGetValues, "key=" + key, oper);
+                    }
+                    return ret;
+                }
+            }
+            catch (Exception ex)
+            {
+                if (_throwExcertion)
+                {
+                    throw ex;
+                }
+                else
+                {
+                    OutExceptionMessage(ex, oper);
+                    return null;
+                }
+            }
+        }
+
+        public async Task<IDictionary<string, object>> GetValuesAsync(string[] keys, DataBaseOperate oper)
+        {
+
+            try
+            {
+                using (T client = CreateClient(true, QueryCacheCommand.CommandGetValues))
+                {
+                    IDictionary<string, object> ret = await GetValuesAsync(keys, client);
+                    if (_info.SqlOutputer.HasOutput)
+                    {
+                        OutPutMessage(QueryCacheCommand.CommandGetValues, "values", oper);
+                    }
+                    return ret;
+                }
+            }
+            catch (Exception ex)
+            {
+                if (_throwExcertion)
+                {
+                    throw ex;
+                }
+                else
+                {
+                    OutExceptionMessage(ex, oper);
+                    return null;
+                }
+            }
+
+        }
+        /// <summary>
+        /// 设置值
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="type"></param>
+        /// <param name="expir"></param>
+        /// <param name="oper"></param>
+        /// <returns></returns>
+        public async Task<bool> SetValueAsync<E>(string key, E value, SetValueType type, TimeSpan expir, DataBaseOperate oper) 
+        {
+            try
+            {
+                using (T client = CreateClient(true, QueryCacheCommand.CommandSetValues))
+                {
+                    bool ret = await SetValueAsync(key, value,type,expir, client);
+                    if (_info.SqlOutputer.HasOutput)
+                    {
+                        OutPutMessage(QueryCacheCommand.CommandSetValues, "key=" + key, oper);
+                    }
+                    return ret;
+                }
+            }
+            catch (Exception ex)
+            {
+                if (_throwExcertion)
+                {
+                    throw ex;
+                }
+                else
+                {
+                    OutExceptionMessage(ex, oper);
+                    return false;
+                }
+            }
+        }
+
+        public async Task<bool> SetValueAsync(string key, object value, SetValueType type, TimeSpan expir, DataBaseOperate oper) 
+        {
+            try
+            {
+                using (T client = CreateClient(true, QueryCacheCommand.CommandSetValues))
+                {
+                    bool ret = await SetValueAsync(key, value, type, expir, client);
+                    if (_info.SqlOutputer.HasOutput)
+                    {
+                        OutPutMessage(QueryCacheCommand.CommandSetValues, "key=" + key, oper);
+                    }
+                    return ret;
+                }
+            }
+            catch (Exception ex)
+            {
+                if (_throwExcertion)
+                {
+                    throw ex;
+                }
+                else
+                {
+                    OutExceptionMessage(ex, oper);
+                    return false;
+                }
+            }
+        }
+
+        public async Task<bool> ExistsKeyAsync(string key, DataBaseOperate oper)
+        {
+            try
+            {
+                using (T client = CreateClient(true, QueryCacheCommand.CommandGetValues))
+                {
+                    bool ret = await DoExistsKeyAsync(key, client);
+                    if (_info.SqlOutputer.HasOutput)
+                    {
+                        OutPutMessage(QueryCacheCommand.CommandGetValues, "key=" + key, oper);
+                    }
+                    return ret;
+                }
+            }
+            catch (Exception ex)
+            {
+                if (_throwExcertion)
+                {
+                    throw ex;
+                }
+                else
+                {
+                    OutExceptionMessage(ex, oper);
+                    return false;
+                }
+            }
+        }
+
+        public async Task<bool> SetKeyExpireAsync(string key, TimeSpan expir, DataBaseOperate oper)
+        {
+            try
+            {
+                using (T client = CreateClient(true, QueryCacheCommand.CommandSetValues))
+                {
+                    bool ret = await DoSetKeyExpireAsync(key, expir, client);
+                    if (_info.SqlOutputer.HasOutput)
+                    {
+                        OutPutMessage(QueryCacheCommand.CommandSetValues, "key=" + key, oper);
+                    }
+                    return ret;
+                }
+            }
+            catch (Exception ex)
+            {
+                if (_throwExcertion)
+                {
+                    throw ex;
+                }
+                else
+                {
+                    OutExceptionMessage(ex, oper);
+                    return false;
+                }
+            }
+        }
+
+        public async Task ClearAllAsync()
+        {
+            try
+            {
+                using (T client = CreateClient(true, QueryCacheCommand.CommandSetValues))
+                {
+                    await ClearAllAsync(client);
+                    
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                if (_throwExcertion)
+                {
+                    throw ex;
+                }
+                else
+                {
+                    
+                    return;
+                }
+            }
+        }
+
+        public async Task<bool> DeleteValueAsync(string key, DataBaseOperate oper) 
+        {
+            try
+            {
+                using (T client = CreateClient(true, QueryCacheCommand.CommandSetValues))
+                {
+                    bool ret = await DeleteValueAsync(key, client);
+                    if (_info.SqlOutputer.HasOutput)
+                    {
+                        OutPutMessage(QueryCacheCommand.CommandSetValues, "key=" + key, oper);
+                    }
+                    return ret;
+                }
+            }
+            catch (Exception ex)
+            {
+                if (_throwExcertion)
+                {
+                    throw ex;
+                }
+                else
+                {
+                    OutExceptionMessage(ex, oper);
+                    return false;
+                }
+            }
+        }
+
+        public async Task<long> DoIncrementAsync(string key, ulong inc, DataBaseOperate oper)
+        {
+            try
+            {
+                using (T client = CreateClient(true, QueryCacheCommand.CommandSetValues))
+                {
+                    long ret = await DoIncrementAsync(key, inc,client);
+                    if (_info.SqlOutputer.HasOutput)
+                    {
+                        OutPutMessage(QueryCacheCommand.CommandSetValues, "key=" + key, oper);
+                    }
+                    return ret;
+                }
+            }
+            catch (Exception ex)
+            {
+                if (_throwExcertion)
+                {
+                    throw ex;
+                }
+                else
+                {
+                    OutExceptionMessage(ex, oper);
+                    return -1;
+                }
+            }
+        }
+
+        public async Task<long> DoDecrementAsync(string key, ulong dec, DataBaseOperate oper)
+        {
+            try
+            {
+                using (T client = CreateClient(true, QueryCacheCommand.CommandSetValues))
+                {
+                    long ret = await DoDecrementAsync(key, dec, client);
+                    if (_info.SqlOutputer.HasOutput)
+                    {
+                        OutPutMessage(QueryCacheCommand.CommandSetValues, "key=" + key, oper);
+                    }
+                    return ret;
+                }
+            }
+            catch (Exception ex)
+            {
+                if (_throwExcertion)
+                {
+                    throw ex;
+                }
+                else
+                {
+                    OutExceptionMessage(ex, oper);
+                    return -1;
+                }
+            }
+        }
+
+        public async Task<IEnumerable<string>> GetAllKeysAsync(string pattern)
+        {
+            using (T client = CreateClient(false, QueryCacheCommand.CommandGetValues))
+            {
+                return await GetAllKeysAsync(pattern, client);
+            }
+        }
     }
 }
