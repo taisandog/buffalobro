@@ -22,6 +22,15 @@ namespace Buffalo.DB.CacheManager
 
         bool SetEntityList(string key, IList lstEntity, TimeSpan expir, DataBaseOperate oper);
 
+        
+        Task RemoveBySQLAsync(IDictionary<string, bool> tableNames, string sql, DataBaseOperate oper);
+        Task RemoveByTableNameAsync(string tableName, DataBaseOperate oper);
+       
+
+        Task<IList> GetEntityListAsync(string key, Type entityType, DataBaseOperate oper);
+
+
+        Task<bool> SetEntityListAsync(string key, IList lstEntity, TimeSpan expir, DataBaseOperate oper);
         /// <summary>
         /// 获取值
         /// </summary>

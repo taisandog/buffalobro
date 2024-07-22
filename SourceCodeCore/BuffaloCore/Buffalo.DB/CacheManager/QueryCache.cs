@@ -173,6 +173,7 @@ namespace Buffalo.DB.CacheManager
 
             return ds;
         }
+       
         /// <summary>
         /// 获取缓存中的DataSet
         /// </summary>
@@ -194,7 +195,7 @@ namespace Buffalo.DB.CacheManager
             return _cache.SetData(tables, sbSql.ToString(), ds, expir, oper);
             
         }
-        /// <summary>
+
         /// 获取缓存中的DataSet
         /// </summary>
         /// <param name="tables">表</param>
@@ -206,6 +207,7 @@ namespace Buffalo.DB.CacheManager
         {
             return SetDataSet(ds,tables,sql,lstParam,TimeSpan.MinValue,oper);
         }
+       
         /// <summary>
         /// 获取所有键
         /// </summary>
@@ -215,6 +217,16 @@ namespace Buffalo.DB.CacheManager
         public IEnumerable<string> GetAllKeys(string pattern)
         {
             return _cache.GetAllKeys(pattern);
+        }
+        /// <summary>
+        /// 获取所有键
+        /// </summary>
+        /// <param name="pattern">通配符 允许使用的通配符：?，*，其中? 代表任意一个字符，* 代表零或多个任意字符</param>
+        /// <param name="oper"></param>
+        /// <returns></returns>
+        public Task<IEnumerable<string>> GetAllKeysAsync(string pattern)
+        {
+            return _cache.GetAllKeysAsync(pattern);
         }
         /// <summary>
         /// 创建缓存关联表信息
@@ -257,6 +269,7 @@ namespace Buffalo.DB.CacheManager
             MemCacheReader reader = new MemCacheReader(ds);
             return reader;
         }
+       
         /// <summary>
         /// 写入缓存中的Reader
         /// </summary>
@@ -277,6 +290,7 @@ namespace Buffalo.DB.CacheManager
             SetDataSet(ds, tables, sql, lstParam,oper);
             return mreader;
         }
+        
         /// <summary>
         /// 删除表的缓存
         /// </summary>
@@ -294,6 +308,27 @@ namespace Buffalo.DB.CacheManager
                 if (IsCacheTable(kvp.Key) || _isAllTableCache)
                 {
                     _cache.RemoveByTableName(kvp.Key,oper);
+                }
+            }
+            return true;
+        }
+        /// <summary>
+        /// 删除表的缓存
+        /// </summary>
+        /// <param name="tables"></param>
+        /// <returns></returns>
+        public  async Task<bool> ClearTableCacheAsync(IDictionary<string, bool> tables, DataBaseOperate oper)
+        {
+            if (_cache == null)
+            {
+                return false;
+            }
+
+            foreach (KeyValuePair<string, bool> kvp in tables)
+            {
+                if (IsCacheTable(kvp.Key) || _isAllTableCache)
+                {
+                    await _cache.RemoveByTableNameAsync(kvp.Key, oper);
                 }
             }
             return true;

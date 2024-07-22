@@ -12,6 +12,7 @@ using Buffalo.DB.CacheManager.CacheCollection;
 using Buffalo.Kernel.Collections;
 using System.Threading.Tasks;
 using Buffalo.Kernel.Defaults;
+using Buffalo.DB.BQLCommon.BQLBaseFunction;
 
 namespace Buffalo.DB.CacheManager
 {
@@ -541,6 +542,39 @@ namespace Buffalo.DB.CacheManager
         public Task<IEnumerable<string>> GetAllKeysAsync(string pattern)
         {
             return Task.FromResult(GetAllKeys(pattern));
+        }
+
+        public Task<DataSet> GetDataAsync(IDictionary<string, bool> tableNames, string sql, DataBaseOperate oper)
+        {
+            return Task.FromResult(GetData(tableNames, sql, oper));
+        }
+
+        public Task RemoveBySQLAsync(IDictionary<string, bool> tableNames, string sql, DataBaseOperate oper)
+        {
+            RemoveBySQL(tableNames, sql, oper);
+            return Task.CompletedTask;
+        }
+
+        public Task RemoveByTableNameAsync(string tableName, DataBaseOperate oper)
+        {
+            
+            RemoveByTableName(tableName, oper);
+            return Task.CompletedTask;
+        }
+
+        public Task<bool> SetDataAsync(IDictionary<string, bool> tableNames, string sql, DataSet ds, TimeSpan expir, DataBaseOperate oper)
+        {
+            return Task.FromResult(SetData(tableNames, sql, ds, expir, oper));
+        }
+
+        public Task<IList> GetEntityListAsync(string key, Type entityType, DataBaseOperate oper)
+        {
+            return Task.FromResult(GetEntityList(key, entityType, oper));
+        }
+
+        public Task<bool> SetEntityListAsync(string key, IList lstEntity, TimeSpan expir, DataBaseOperate oper)
+        {
+            return Task.FromResult(SetEntityList(key, lstEntity, expir, oper));
         }
 
 

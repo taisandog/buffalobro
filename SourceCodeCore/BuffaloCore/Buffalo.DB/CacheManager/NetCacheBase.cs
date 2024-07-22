@@ -332,6 +332,13 @@ namespace Buffalo.DB.CacheManager
         /// <returns></returns>
         protected abstract DataSet DoGetDataSet(string key,  T client);
         /// <summary>
+        /// 获取DataSet
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="client">客户端</param>
+        /// <returns></returns>
+        protected abstract Task<DataSet> DoGetDataSetAsync(string key, T client);
+        /// <summary>
         /// 设置DataSet
         /// </summary>
         /// <param name="key">键</param>
@@ -339,6 +346,14 @@ namespace Buffalo.DB.CacheManager
         /// <param name="client">客户端</param>
         /// <returns></returns>
         protected abstract bool DoSetDataSet(string key, DataSet value, TimeSpan expir, T client);
+        /// <summary>
+        /// 设置DataSet
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="value">DataSet</param>
+        /// <param name="client">客户端</param>
+        /// <returns></returns>
+        protected abstract Task<bool> DoSetDataSetAsync(string key, DataSet value, TimeSpan expir, T client);
         /// <summary>
         /// 删除值
         /// </summary>
@@ -381,12 +396,7 @@ namespace Buffalo.DB.CacheManager
         /// <param name="dec">自减值</param>
         /// <param name="client"></param>
         protected abstract Task<long> DoDecrementAsync(string key, ulong dec, T client);
-        /// <summary>
-        /// 设置版本号
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="client"></param>
-        protected abstract bool DoNewVer(string key, T client);
+
         /// <summary>
         /// 缓存服务器类型
         /// </summary>
@@ -504,7 +514,7 @@ namespace Buffalo.DB.CacheManager
                     }
                     else
                     {
-                        DoNewVer(key, client);
+                        SetValue(key,1,SetValueType.Set,TimeSpan.MinValue, client);
                         objVer = "1";
                     }
                 }
@@ -632,7 +642,7 @@ namespace Buffalo.DB.CacheManager
 
                     if (val <= 0 || val >= MaxVersion)
                     {
-                        DoNewVer(key,  client);
+                        SetValue(key, 1, SetValueType.Set, TimeSpan.MinValue, client);
                         //client.Set(key, 1, _expiration);
                     }
                     else
@@ -1549,6 +1559,87 @@ namespace Buffalo.DB.CacheManager
             {
                 return await GetAllKeysAsync(pattern, client);
             }
+        }
+
+       
+
+        public async Task RemoveBySQLAsync(IDictionary<string, bool> tableNames, string sql, DataBaseOperate oper)
+        {
+            try
+            {
+                using (T client = CreateClient(false, QueryCacheCommand.CommandDeleteSQL))
+                {
+
+                    //client.PrimitiveAsString = true;
+                    string md5 = GetSQLMD5(sql);
+                    string verKey = FormatVersionKey(md5);
+                    if (!string.IsNullOrEmpty(md5))
+                    {
+                        bool ret= await DeleteValueAsync(md5, client);
+                        ret = await DeleteValueAsync(verKey, client);
+                    }
+                    if (_info.SqlOutputer.HasOutput)
+                    {
+                        OutPutMessage(QueryCacheCommand.CommandDeleteSQL, sql, oper);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                if (_throwExcertion)
+                {
+                    throw ex;
+                }
+                else
+                {
+                    OutExceptionMessage(ex, oper);
+                }
+            }
+        }
+
+        public async Task RemoveByTableNameAsync(string tableName, DataBaseOperate oper)
+        {
+            try
+            {
+                string key = GetTableName(tableName);
+                using (T client = CreateClient(false, QueryCacheCommand.CommandDeleteTable))
+                {
+                    //client.PrimitiveAsString = true;
+                    int val = ValueConvertExtend.ConvertValue<int>(GetValue<object>(key, -1, client));
+
+                    if (val <= 0 || val >= MaxVersion)
+                    { 
+                        long ret= await DoIncrementAsync(key, 1, client);
+                    }
+                    if (_info.SqlOutputer.HasOutput)
+                    {
+                        OutPutMessage(QueryCacheCommand.CommandDeleteTable, tableName, oper);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                if (_throwExcertion)
+                {
+                    throw ex;
+                }
+                else
+                {
+                    OutExceptionMessage(ex, oper);
+                }
+            }
+        }
+
+       
+
+        public Task<IList> GetEntityListAsync(string key, Type entityType, DataBaseOperate oper)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> SetEntityListAsync(string key, IList lstEntity, TimeSpan expir, DataBaseOperate oper)
+        {
+            throw new NotImplementedException();
         }
     }
 }

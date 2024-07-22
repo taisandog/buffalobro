@@ -156,7 +156,40 @@ namespace Buffalo.QueryCache.RedisCollections
 
             return false;
         }
+        /// <summary>
+        /// 锁定Key
+        /// </summary>
+        /// <param name="id">ID</param>
+        /// <returns></returns>
+        private async Task<bool> LockObjectAsync(long millisecondsTimeout = -1, int pollingMillisecond = -1)
+        {
+            if (millisecondsTimeout <= 0)
+            {
+                millisecondsTimeout = 1000;
+            }
+            if (pollingMillisecond <= 0)
+            {
+                pollingMillisecond = (int)(millisecondsTimeout / 10);
+            }
+            long pollingCount = millisecondsTimeout / pollingMillisecond;
 
+            _guidHash = Guid.NewGuid().GetHashCode();
+            bool ret = false;
+
+            TimeSpan ts = TimeSpan.FromMilliseconds(millisecondsTimeout);
+            for (long i = 0; i < pollingCount; i++)
+            {
+                ret = await _client.StoreAsync(StoreMode.Add, _key, _guidHash, ts);
+                if (ret)
+                {
+                    HasLock = true;
+                    return true;
+                }
+                Thread.Sleep(pollingMillisecond);
+            }
+
+            return false;
+        }
         public bool UnLock()
         {
             if (_islock)
@@ -179,6 +212,18 @@ namespace Buffalo.QueryCache.RedisCollections
             return true;
 
         }
+        /// <summary>
+        /// 解锁用户
+        /// </summary>
+        /// <param name="id">ID</param>
+        /// <returns></returns>
+        private async Task<bool> UnLockUserAsync()
+        {
+            await _client.RemoveAsync(_key);
+            DeleteLock();
+            return true;
+
+        }
         // <summary>
         /// 删除锁
         /// </summary>
@@ -187,6 +232,33 @@ namespace Buffalo.QueryCache.RedisCollections
             
             Dictionary<string, bool> ht = GetThreadContext();
             ht.Remove(_key);
+        }
+
+        public async Task<bool> LockAsync(long millisecondsTimeout = -1, int pollingMillisecond = -1)
+        {
+            if (_islock)
+            {
+                return true;
+            }
+            if (HasLock)
+            {
+                return true;
+            }
+
+            _islock = await LockObjectAsync(millisecondsTimeout, pollingMillisecond);
+            
+            return _islock;
+        }
+
+        public async Task<bool> UnLockAsync()
+        {
+            if (_islock)
+            {
+                bool ret=await UnLockUserAsync();
+                _islock = !ret;
+            }
+
+            return !_islock;
         }
     }
 }

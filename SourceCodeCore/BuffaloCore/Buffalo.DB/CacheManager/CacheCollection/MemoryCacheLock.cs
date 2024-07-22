@@ -56,5 +56,15 @@ namespace Buffalo.DB.CacheManager.CacheCollection
             
             return false;
         }
+
+        public Task<bool> LockAsync(long millisecondsTimeout = -1, int pollingMillisecond = -1)
+        {
+            return Task.FromResult(Lock(millisecondsTimeout, pollingMillisecond));
+        }
+
+        public Task<bool> UnLockAsync()
+        {
+            return Task.FromResult(UnLock());
+        }
     }
 }

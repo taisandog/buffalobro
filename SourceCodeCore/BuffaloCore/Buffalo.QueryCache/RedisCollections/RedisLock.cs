@@ -158,7 +158,43 @@ namespace Buffalo.QueryCache.RedisCollections
 
             return ret;
         }
+        /// <summary>
+        /// 锁定Key
+        /// </summary>
+        /// <param name="id">ID</param>
+        /// <returns></returns>
+        private async Task<bool> LockObjectAsync(long millisecondsTimeout = -1, int pollingMillisecond = -1)
+        {
+            if (millisecondsTimeout <= 0)
+            {
+                millisecondsTimeout = 1000;
+            }
+            if (pollingMillisecond <= 0)
+            {
+                pollingMillisecond = (int)(millisecondsTimeout / 10);
+            }
+            long pollingCount = millisecondsTimeout / pollingMillisecond;
+            Random random = new Random(Guid.NewGuid().GetHashCode());
+            _guidHash = random.Next(0, int.MaxValue);
+            bool ret = false;
 
+            TimeSpan ts = TimeSpan.FromMilliseconds(millisecondsTimeout);
+            //ret = _client.LockTake(_key, _guidHash, ts, _commanfFlags);
+
+            for (int i = 0; i < pollingCount; i++)
+            {
+                ret = await _client.LockTakeAsync(_key, _guidHash, ts, _commanfFlags);
+                if (ret)
+                {
+                    HasLock = true;
+
+                    break;
+                }
+                Thread.Sleep(pollingMillisecond);
+            }
+
+            return ret;
+        }
         public bool UnLock()
         {
             if (_islock)
@@ -168,7 +204,30 @@ namespace Buffalo.QueryCache.RedisCollections
 
             return !_islock;
         }
+        /// <summary>
+        /// 解锁用户
+        /// </summary>
+        /// <param name="id">ID</param>
+        /// <returns></returns>
+        private async Task<bool> UnLockUserAsync()
+        {
+            bool ret = false;
 
+            RedisValue data = _client.LockQuery(_key, _commanfFlags);
+            int val = RedisConverter.RedisValueToValue<int>(data, -1);
+            if (val != _guidHash)
+            {
+                return false;
+            }
+            ret = await _client.LockReleaseAsync(_key, data, _commanfFlags);
+            if (!ret)
+            {
+                return false;
+            }
+            DeleteLock();
+            return ret;
+
+        }
         /// <summary>
         /// 解锁用户
         /// </summary>
@@ -178,15 +237,6 @@ namespace Buffalo.QueryCache.RedisCollections
         {
             bool ret = false;
 
-            //RedisValue value = _client.StringGet(_key);
-            //int val= RedisConverter.RedisValueToValue<int>(value, -1);
-
-            //if(val== _guidHash) 
-            //{
-            //    _client.KeyDelete(_key);
-            //    ret = true;
-            //}
-            //RedisKey keyVal = new RedisKey(_key);
             RedisValue data = _client.LockQuery(_key, _commanfFlags);
             int val = RedisConverter.RedisValueToValue<int>(data, -1);
             if (val != _guidHash)
@@ -210,6 +260,33 @@ namespace Buffalo.QueryCache.RedisCollections
 
             Dictionary<string, bool> ht = GetThreadContext();
             ht.Remove(_key);
+        }
+
+        public async Task<bool> LockAsync(long millisecondsTimeout = -1, int pollingMillisecond = -1)
+        {
+            if (_islock)
+            {
+                return true;
+            }
+            if (HasLock)
+            {
+                return true;
+            }
+
+             _islock = await LockObjectAsync(millisecondsTimeout, pollingMillisecond);
+            
+            return _islock;
+        }
+
+        public async Task<bool> UnLockAsync()
+        {
+            if (_islock)
+            {
+                bool ret = await UnLockUserAsync();
+                _islock = !ret;
+            }
+
+            return !_islock;
         }
     }
 }

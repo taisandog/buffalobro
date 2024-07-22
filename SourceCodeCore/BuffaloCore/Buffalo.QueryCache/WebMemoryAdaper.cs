@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Buffalo.QueryCache
 {
@@ -553,5 +554,99 @@ namespace Buffalo.QueryCache
         }
 
         #endregion
+
+
+        public Task<E> GetValueAsync<E>(string key, E defaultValue, DataBaseOperate oper)
+        {
+            return Task.FromResult(GetValue<E>(key, defaultValue, oper));
+        }
+
+        public Task<object> GetValueAsync(string key, DataBaseOperate oper)
+        {
+            return Task.FromResult(GetValue(key, oper));
+        }
+
+        public Task<IDictionary<string, object>> GetValuesAsync(string[] keys, DataBaseOperate oper)
+        {
+            return Task.FromResult(GetValues(keys, oper));
+        }
+
+        public Task<bool> SetValueAsync<E>(string key, E value, SetValueType type, TimeSpan expir, DataBaseOperate oper)
+        {
+            return Task.FromResult(SetValue(key, value, type, expir, oper));
+        }
+
+        public Task<bool> SetValueAsync(string key, object value, SetValueType type, TimeSpan expir, DataBaseOperate oper)
+        {
+            return Task.FromResult(SetValue(key, value, type, expir, oper));
+        }
+
+        public Task<bool> ExistsKeyAsync(string key, DataBaseOperate oper)
+        {
+            return Task.FromResult(ExistsKey(key, oper));
+        }
+
+        public Task<bool> SetKeyExpireAsync(string key, TimeSpan expir, DataBaseOperate oper)
+        {
+            return Task.FromResult(SetKeyExpire(key, expir, oper));
+        }
+
+        public Task ClearAllAsync()
+        {
+            return Task.FromResult(ClearAllAsync());
+        }
+
+        public Task<bool> DeleteValueAsync(string key, DataBaseOperate oper)
+        {
+            return Task.FromResult(DeleteValue(key, oper));
+        }
+
+        public Task<long> DoIncrementAsync(string key, ulong inc, DataBaseOperate oper)
+        {
+            return Task.FromResult(DoIncrement(key, inc, oper));
+        }
+
+        public Task<long> DoDecrementAsync(string key, ulong dec, DataBaseOperate oper)
+        {
+            return Task.FromResult(DoDecrement(key, dec, oper));
+        }
+
+        public Task<IEnumerable<string>> GetAllKeysAsync(string pattern)
+        {
+            return Task.FromResult(GetAllKeys(pattern));
+        }
+
+        public Task<DataSet> GetDataAsync(IDictionary<string, bool> tableNames, string sql, DataBaseOperate oper)
+        {
+            return Task.FromResult(GetData(tableNames, sql, oper));
+        }
+
+        public Task RemoveBySQLAsync(IDictionary<string, bool> tableNames, string sql, DataBaseOperate oper)
+        {
+            RemoveBySQL(tableNames, sql, oper);
+            return Task.CompletedTask;
+        }
+
+        public Task RemoveByTableNameAsync(string tableName, DataBaseOperate oper)
+        {
+
+            RemoveByTableName(tableName, oper);
+            return Task.CompletedTask;
+        }
+
+        public Task<bool> SetDataAsync(IDictionary<string, bool> tableNames, string sql, DataSet ds, TimeSpan expir, DataBaseOperate oper)
+        {
+            return Task.FromResult(SetData(tableNames, sql, ds, expir, oper));
+        }
+
+        public Task<IList> GetEntityListAsync(string key, Type entityType, DataBaseOperate oper)
+        {
+            return Task.FromResult(GetEntityList(key, entityType, oper));
+        }
+
+        public Task<bool> SetEntityListAsync(string key, IList lstEntity, TimeSpan expir, DataBaseOperate oper)
+        {
+            return Task.FromResult(SetEntityList(key, lstEntity, expir, oper));
+        }
     }
 }

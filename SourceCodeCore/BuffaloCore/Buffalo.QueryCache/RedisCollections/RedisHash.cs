@@ -179,6 +179,106 @@ namespace Buffalo.QueryCache.RedisCollections
             return (long)_client.HashDecrement(_key, rkey, (double)value, _commanfFlags);
         }
 
-       
+        public Task SetRangeValueAsync(IDictionary<string, object> dicSet)
+        {
+            TimeSpan ts = _expiration;
+            HashEntry[] arrValue = new HashEntry[dicSet.Count];
+            int index = 0;
+            RedisValue rkey = RedisValue.Null;
+            RedisValue rvalue = RedisValue.Null;
+            foreach (KeyValuePair<string, object> kvp in dicSet)
+            {
+                rkey = RedisConverter.ValueToRedisValue(kvp.Key);
+                rvalue = RedisConverter.ValueToRedisValue(kvp.Value);
+                arrValue[index] = new HashEntry(rkey, rvalue);
+                index++;
+            }
+            return _client.HashSetAsync(_key, arrValue, _commanfFlags);
+        }
+
+        public Task<bool> SetValueAsync(string key, object value, SetValueType type = SetValueType.Set)
+        {
+            RedisValue rkey = RedisConverter.ValueToRedisValue(key);
+            RedisValue rvalue = RedisConverter.ValueToRedisValue(value);
+            HashEntry item = new HashEntry(rkey, rvalue);
+
+            return _client.HashSetAsync(_key, rkey, rvalue, RedisAdaperByStackExchange.GetSetValueMode(type), _commanfFlags);
+        }
+
+        public async Task<E> GetValueAsync<E>(string key, E defaultValue = default)
+        {
+            RedisValue rkey = RedisConverter.ValueToRedisValue(key);
+
+            RedisValue rvalue = await _client.HashGetAsync(_key, rkey, _commanfFlags);
+            return RedisConverter.RedisValueToValue<E>(rvalue, defaultValue);
+        }
+
+        public async Task<List<KeyValuePair<string, V>>> GetAllValuesAsync<V>(V defaultValue)
+        {
+            HashEntry[] values = await _client.HashGetAllAsync(_key, _commanfFlags);
+            List<KeyValuePair<string, V>> ret = new List<KeyValuePair<string, V>>(values.Length);
+
+            string vkey = null;
+            V vValue = default(V);
+            foreach (HashEntry entry in values)
+            {
+
+                vValue = RedisConverter.RedisValueToValue<V>(entry.Value, defaultValue);
+                vkey = RedisConverter.RedisValueToValue<string>(entry.Name, null);
+                KeyValuePair<string, V> val = new KeyValuePair<string, V>(vkey, vValue);
+                ret.Add(val);
+            }
+
+            return ret;
+        }
+
+        public async Task<ICollection<string>> GetAllKeysAsync()
+        {
+            RedisValue[] keys = await _client.HashKeysAsync(_key, _commanfFlags);
+            List<string> lst = new List<string>();
+            foreach (RedisValue val in keys)
+            {
+                lst.Add(RedisConverter.RedisValueToValue<string>(val, null));
+            }
+            return lst;
+        }
+
+        public Task<bool> DeleteValueAsync(string key)
+        {
+            RedisValue rkey = RedisConverter.ValueToRedisValue(key);
+
+            return _client.HashDeleteAsync(_key, rkey, _commanfFlags);
+        }
+
+        public Task<long> DeleteValuesAsync(IEnumerable<string> keys)
+        {
+            List<RedisValue> lstrKeys = new List<RedisValue>();
+            RedisValue rkey = RedisValue.Null;
+            foreach (object obj in keys)
+            {
+                rkey = RedisConverter.ValueToRedisValue(obj);
+                lstrKeys.Add(rkey);
+            }
+
+            return _client.HashDeleteAsync(_key, lstrKeys.ToArray(), _commanfFlags);
+        }
+
+        public Task<bool> ExistsAsync(string key)
+        {
+            RedisValue rkey = RedisConverter.ValueToRedisValue(key);
+            return _client.HashExistsAsync(_key, rkey, _commanfFlags);
+        }
+
+        public async Task<long> IncrementAsync(string key, long value = 1)
+        {
+            RedisValue rkey = RedisConverter.ValueToRedisValue(key);
+            return (long) (await _client.HashIncrementAsync(_key, rkey, (double)value, _commanfFlags));
+        }
+
+        public async Task<long> DecrementAsync(string key, long value = 1)
+        {
+            RedisValue rkey = RedisConverter.ValueToRedisValue(key);
+            return (long) (await _client.HashDecrementAsync(_key, rkey, (double)value, _commanfFlags));
+        }
     }
 }

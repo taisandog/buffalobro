@@ -16,10 +16,10 @@ namespace Buffalo.DB.CacheManager.CacheCollection
         /// <summary>
         /// 向排序表增加元素
         /// </summary>
-        /// <param name="value">值</param>
-        /// <param name="key">键</param>
+        /// <param name="member">值</param>
+        /// <param name="score">键</param>
         /// <returns></returns>
-        long Add(object value, double key, SetValueType setType= SetValueType.Set);
+        long Add(object member, double score, SetValueType setType= SetValueType.Set);
         /// <summary>
         /// 向排序表增加元素
         /// </summary>
@@ -168,7 +168,7 @@ namespace Buffalo.DB.CacheManager.CacheCollection
         /// <param name="value">值</param>
         /// <param name="key">键</param>
         /// <returns></returns>
-         Task<long> AddAsync(object value, double key, SetValueType setType = SetValueType.Set);
+         Task<long> AddAsync(object member, double score, SetValueType setType = SetValueType.Set);
         /// <summary>
         /// 向排序表增加元素
         /// </summary>

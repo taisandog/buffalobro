@@ -17,6 +17,7 @@ using Buffalo.DB.CacheManager.CacheCollection;
 using Buffalo.DB.DbCommon;
 using Buffalo.QueryCache.RedisCollections;
 using System.Security.Authentication;
+using System.Net;
 
 namespace Buffalo.QueryCache
 {
@@ -363,23 +364,23 @@ namespace Buffalo.QueryCache
             IDatabase client = connection.DB;
             return client.KeyDelete(key);
         }
-        /// <summary>
-        /// 设置版本号
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="client"></param>
-        protected override bool DoNewVer(string key, RedisConnection connection)
-        {
-            IDatabase client = connection.DB;
-            if (_expiration > TimeSpan.MinValue)
-            {
-                return client.StringSet(key, 1, _expiration,When.Always,_commanfFlags);
-            }
+        ///// <summary>
+        ///// 设置版本号
+        ///// </summary>
+        ///// <param name="key"></param>
+        ///// <param name="client"></param>
+        //protected override bool DoNewVer(string key, RedisConnection connection)
+        //{
+        //    IDatabase client = connection.DB;
+        //    if (_expiration > TimeSpan.MinValue)
+        //    {
+        //        return client.StringSet(key, 1, _expiration,When.Always,_commanfFlags);
+        //    }
             
-            return client.StringSet(key, 1,null, When.Always, _commanfFlags);
+        //    return client.StringSet(key, 1,null, When.Always, _commanfFlags);
             
 
-        }
+        //}
         protected override long DoIncrement(string key, ulong inc, RedisConnection connection)
         {
             IDatabase client = connection.DB;
@@ -428,6 +429,33 @@ namespace Buffalo.QueryCache
                 rkeys[i] = keys[i];
             }
             RedisValue[] values = client.StringGet(rkeys);
+            RedisValue cur = RedisValue.Null;
+            for (int i = 0; i < keys.Length; i++)
+            {
+                cur = values[i];
+                if (cur.IsNull)
+                {
+                    results[keys[i]] = null;
+                }
+                else
+                {
+                    results[keys[i]] = values[i];
+                }
+            }
+
+            return results;
+        }
+        public async Task<IDictionary<string, object>> GetValuesMapAsync(string[] keys, RedisConnection connection)
+        {
+            IDatabase client = connection.DB;
+
+            Dictionary<string, object> results = new Dictionary<string, object>();
+            RedisKey[] rkeys = new RedisKey[keys.Length];
+            for (int i = 0; i < keys.Length; i++)
+            {
+                rkeys[i] = keys[i];
+            }
+            RedisValue[] values = await client.StringGetAsync(rkeys);
             RedisValue cur = RedisValue.Null;
             for (int i = 0; i < keys.Length; i++)
             {
@@ -605,44 +633,109 @@ namespace Buffalo.QueryCache
             return client.KeyExistsAsync(key);
         }
 
-        protected override Task<IDictionary<string, object>> GetValuesAsync(string[] keys, RedisConnection client)
+        protected override Task<IDictionary<string, object>> GetValuesAsync(string[] keys, RedisConnection connection)
         {
-            throw new NotImplementedException();
+            IDatabase client = connection.DB;
+            return GetValuesMapAsync(keys, connection);
         }
 
-        protected override Task<bool> SetValueAsync<E>(string key, E value, SetValueType type, TimeSpan expir, RedisConnection client)
+        protected override Task<bool> SetValueAsync<E>(string key, E value, SetValueType type, TimeSpan expir, RedisConnection connection)
         {
-            throw new NotImplementedException();
+            IDatabase client = connection.DB;
+            TimeSpan ts = LocalCacheBase.GetExpir(_expiration, expir);
+
+            RedisValue val = RedisConverter.ValueToRedisValue(value);
+            When when = GetSetValueMode(type);
+            if (ts > TimeSpan.MinValue)
+            {
+                return client.StringSetAsync(key, val, ts, when, _commanfFlags);
+            }
+
+            return client.StringSetAsync(key, val, null, when, _commanfFlags);
         }
 
-        protected override Task<bool> SetValueAsync(string key, object value, SetValueType type, TimeSpan expir, RedisConnection client)
+        protected override Task<bool> SetValueAsync(string key, object value, SetValueType type, TimeSpan expir, RedisConnection connection)
         {
-            throw new NotImplementedException();
+            IDatabase client = connection.DB;
+            TimeSpan ts = LocalCacheBase.GetExpir(_expiration, expir);
+            RedisValue val = RedisConverter.ValueToRedisValue(value);
+            if (ts > TimeSpan.MinValue)
+            {
+                return client.StringSetAsync(key, val, ts, GetSetValueMode(type), _commanfFlags);
+            }
+
+            return client.StringSetAsync(key, val, null, GetSetValueMode(type), _commanfFlags);
         }
 
-        protected override Task<bool> DeleteValueAsync(string key, RedisConnection client)
+        protected override Task<bool> DeleteValueAsync(string key, RedisConnection connection)
         {
-            throw new NotImplementedException();
+            IDatabase client = connection.DB;
+            return client.KeyDeleteAsync(key);
         }
 
-        protected override Task<long> DoIncrementAsync(string key, ulong inc, RedisConnection client)
+        protected override Task<long> DoIncrementAsync(string key, ulong inc, RedisConnection connection)
         {
-            throw new NotImplementedException();
+            IDatabase client = connection.DB;
+            if (inc == 1)
+            {
+                return client.StringIncrementAsync(key);
+            }
+
+            return client.StringIncrementAsync(key, (long)inc);
+
         }
 
-        protected override Task<long> DoDecrementAsync(string key, ulong dec, RedisConnection client)
+        protected override async Task<long> DoDecrementAsync(string key, ulong dec, RedisConnection connection)
         {
-            throw new NotImplementedException();
+            IDatabase client = connection.DB;
+            if (dec == 1)
+            {
+                return await client.StringDecrementAsync(key);
+            }
+
+            return (long)(await client.StringDecrementAsync(key, dec, _commanfFlags));
+
         }
 
         public override Task ClearAllAsync(RedisConnection client)
         {
-            throw new NotImplementedException();
+            IServer server = _redis.GetServer(_mainServer);
+            return server.FlushAllDatabasesAsync();
         }
 
         public override Task<IEnumerable<string>> GetAllKeysAsync(string pattern, RedisConnection client)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(GetAllKeys(pattern, client));
+
+        }
+
+        protected override async Task<DataSet> DoGetDataSetAsync(string key, RedisConnection connection)
+        {
+            IDatabase client = connection.DB;
+            byte[] content = await client.StringGetAsync(key);
+            using (MemoryStream stm = new MemoryStream(content))
+            {
+                return MemDataSerialize.LoadDataSet(stm);
+            }
+        }
+
+        protected override async Task<bool> DoSetDataSetAsync(string key, DataSet value, TimeSpan expir, RedisConnection connection)
+        {
+            IDatabase client = connection.DB;
+            byte[] bval = MemDataSerialize.DataSetToBytes(value);
+            TimeSpan ts = LocalCacheBase.GetExpir(_expiration, expir);
+            RedisValue val = RedisConverter.ValueToRedisValue(bval);
+            bool ret = false;
+            if (ts > TimeSpan.MinValue)
+            {
+                ret=await client.StringSetAsync(key, val, ts, When.Always, _commanfFlags);
+            }
+            else
+            {
+                ret =await client.StringSetAsync(key, val, null, When.Always, _commanfFlags);
+            }
+
+            return ret;
         }
     }
 

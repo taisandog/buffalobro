@@ -40,13 +40,13 @@ namespace Buffalo.QueryCache.RedisCollections
         /// <param name="source">排序键</param>
         /// <param name="oper"></param>
         /// <returns></returns>
-        public long Add(object value, double sorce, SetValueType setType) 
+        public long Add(object member, double sorce, SetValueType setType) 
         {
             TimeSpan ts = _expiration;
 
-            RedisValue val = RedisConverter.ValueToRedisValue(value);
+            RedisValue mem = RedisConverter.ValueToRedisValue(member);
             When when = RedisAdaperByStackExchange.GetSetValueMode(setType);
-            return _client.SortedSetAdd(_key, val, sorce,when, _commanfFlags)?1:0;
+            return _client.SortedSetAdd(_key, mem, sorce,when, _commanfFlags)?1:0;
             
         }
 
@@ -376,6 +376,141 @@ namespace Buffalo.QueryCache.RedisCollections
             RedisValue valMax = RedisConverter.ValueToRedisValue(max);
             Exclude exclude = GetObjectExclude(min, max);
             return _client.SortedSetRemoveRangeByValue(_key, valMin, valMax,
+                exclude, _commanfFlags);
+        }
+
+        public async Task<long> AddAsync(object member, double score, SetValueType setType = SetValueType.Set)
+        {
+            TimeSpan ts = _expiration;
+
+            RedisValue mem = RedisConverter.ValueToRedisValue(member);
+            When when = RedisAdaperByStackExchange.GetSetValueMode(setType);
+            return await _client.SortedSetAddAsync(_key, mem, score, when, _commanfFlags) ? 1 : 0;
+        }
+
+        public Task<long> AddRangAsync(IEnumerable<SortedSetItem> values, SetValueType setType = SetValueType.Set)
+        {
+            TimeSpan ts = _expiration;
+            List<SortedSetEntry> lstValues = new List<SortedSetEntry>();
+
+            foreach (SortedSetItem item in values) 
+            {
+                lstValues.Add(LoadSortedSetEntry(item));
+
+            }
+            if (lstValues.Count <= 0) 
+            {
+                return Task.FromResult(0L);
+            }
+            When when = RedisAdaperByStackExchange.GetSetValueMode(setType);
+            return _client.SortedSetAddAsync(_key, lstValues.ToArray(), when, _commanfFlags);
+        }
+
+        public Task<double> DecrementAsync(object value, double score = 1)
+        {
+            RedisValue val = RedisConverter.ValueToRedisValue(value);
+            return _client.SortedSetDecrementAsync(_key, val, score, _commanfFlags);
+        }
+
+        public Task<double> IncrementAsync(object value, double score = 1)
+        {
+            RedisValue val = RedisConverter.ValueToRedisValue(value);
+            return _client.SortedSetIncrementAsync(_key, val, score, _commanfFlags);
+        }
+
+        public Task<long> GetLengthAsync(double? min, double? max)
+        {
+            Exclude exclude = GetExclude<double>(min, max);
+            return _client.SortedSetLengthAsync(_key, min.GetValueOrDefault(double.NegativeInfinity),
+                max.GetValueOrDefault(double.PositiveInfinity), exclude, _commanfFlags);
+        }
+
+        public async Task<SortedSetItem[]> GetRangeByRankWithScoresAsync(long start = 0, long stop = -1, DB.QueryConditions.SortType order = DB.QueryConditions.SortType.ASC)
+        {
+            Order corder = GetOeder(order);
+            SortedSetEntry[] ents = await _client.SortedSetRangeByRankWithScoresAsync(_key, start, stop, corder, _commanfFlags);
+            return LoadSortedSetItemArray(ents);
+        }
+
+        public  async Task<T[]> GetRangeByRankAsync<T>(long start = 0, long stop = -1, DB.QueryConditions.SortType order = DB.QueryConditions.SortType.ASC)
+        {
+            Order corder = GetOeder(order);
+            RedisValue[] vals = await _client.SortedSetRangeByRankAsync(_key, start, stop, corder, _commanfFlags);
+            return LoadValues<T>(vals);
+        }
+
+        public async Task<T[]> GetRangeByScoreAsync<T>(double? start, double? stop, DB.QueryConditions.SortType order = DB.QueryConditions.SortType.ASC, long skip = 0, long take = -1)
+        {
+            Order corder = GetOeder(order);
+            Exclude exclude = GetExclude<double>(start, stop);
+            RedisValue[] vals = await _client.SortedSetRangeByScoreAsync(_key, start.GetValueOrDefault(double.NegativeInfinity),
+                stop.GetValueOrDefault(double.PositiveInfinity), exclude, corder, skip, take, _commanfFlags);
+            return LoadValues<T>(vals);
+        }
+
+        public async Task<SortedSetItem[]> GetRangeByScoreWithScoresAsync(double? start, double? stop, DB.QueryConditions.SortType order = DB.QueryConditions.SortType.ASC, long skip = 0, long take = -1)
+        {
+            Order corder = GetOeder(order);
+            Exclude exclude = GetExclude<double>(start, stop);
+            SortedSetEntry[] vals = await _client.SortedSetRangeByScoreWithScoresAsync(_key, start.GetValueOrDefault(double.NegativeInfinity),
+                stop.GetValueOrDefault(double.PositiveInfinity), exclude, corder, skip, take, _commanfFlags);
+            return LoadSortedSetItemArray(vals);
+        }
+
+        public async Task<T[]> GetRangeByValueAsync<T>(object min, object max, long skip = 0, long take = -1)
+        {
+             RedisValue valMin = RedisConverter.ValueToRedisValue(min);
+            RedisValue valMax = RedisConverter.ValueToRedisValue(max);
+            Exclude exclude = GetObjectExclude(min, max);
+            RedisValue[] vals = await _client.SortedSetRangeByValueAsync(_key, valMin, valMax,
+                exclude, skip,take, _commanfFlags);
+            return LoadValues<T>(vals);
+        }
+
+        public async Task<long> GetIndexAsync(object value, DB.QueryConditions.SortType order = DB.QueryConditions.SortType.ASC)
+        {
+            RedisValue val = RedisConverter.ValueToRedisValue(value);
+            Order corder = GetOeder(order);
+            long? ret= await _client.SortedSetRankAsync(_key, val, corder, _commanfFlags);
+            return ret.GetValueOrDefault();
+        }
+
+        public Task<double?> GetKeyByValueAsync(object value)
+        {
+            RedisValue val = RedisConverter.ValueToRedisValue(value);
+            return _client.SortedSetScoreAsync(_key, val, _commanfFlags);
+        }
+
+        public async Task<long> RemoveAsync(object value)
+        {
+            RedisValue val = RedisConverter.ValueToRedisValue(value);
+            return await _client.SortedSetRemoveAsync(_key, val, _commanfFlags) ? 1 : 0;
+        }
+
+        public Task<long> RemoveAsync(object[] values)
+        {
+            RedisValue[] redValues = LoadRedisValues(values);
+            return _client.SortedSetRemoveAsync(_key, redValues, _commanfFlags);
+        }
+
+        public Task<long> RemoveRangeByRankAsync(long start = 0, long stop = -1)
+        {
+            return _client.SortedSetRemoveRangeByRankAsync(_key, start, stop, _commanfFlags);
+        }
+
+        public Task<long> RemoveRangeByKeyAsync(double? start, double? stop)
+        {
+            Exclude exclude = GetExclude<double>(start, stop);
+            return _client.SortedSetRemoveRangeByScoreAsync(_key, start.GetValueOrDefault(double.NegativeInfinity),
+                stop.GetValueOrDefault(double.PositiveInfinity), exclude, _commanfFlags);
+        }
+
+        public Task<long> RemoveRangeByValueAsync(object min, object max)
+        {
+            RedisValue valMin = RedisConverter.ValueToRedisValue(min);
+            RedisValue valMax = RedisConverter.ValueToRedisValue(max);
+            Exclude exclude = GetObjectExclude(min, max);
+            return _client.SortedSetRemoveRangeByValueAsync(_key, valMin, valMax,
                 exclude, _commanfFlags);
         }
     }

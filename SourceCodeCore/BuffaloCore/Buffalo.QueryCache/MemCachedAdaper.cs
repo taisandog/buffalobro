@@ -470,17 +470,7 @@ namespace Buffalo.QueryCache
         {
             return client.Client.Remove(key);
         }
-        /// <summary>
-        /// …Ë÷√∞Ê±æ∫≈
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="client"></param>
-        protected override bool DoNewVer(string key, MemcachedConnection client) 
-        {
-            DoIncrement(key, 1, client);
-            return true;
-            //_client.Increment(key, 1, 1,_expiration);
-        }
+        
         protected override long DoIncrement(string key, ulong inc, MemcachedConnection client)
         {
             TimeSpan ts = _expiration;
@@ -719,6 +709,40 @@ namespace Buffalo.QueryCache
         {
             
             return Task.FromResult(GetAllKeys(pattern,client));
+        }
+
+        protected override async Task<DataSet> DoGetDataSetAsync(string key, MemcachedConnection client)
+        {
+            IGetOperationResult<byte[]> res = ( await client.Client.GetAsync<byte[]>(key));
+            if (!res.Success) 
+            {
+                return null;
+            }
+            byte[] content = res.Value;
+            if (content == null)
+            {
+                return new DataSet();
+            }
+            using (MemoryStream stm = new MemoryStream(content))
+            {
+                return MemDataSerialize.LoadDataSet(stm);
+            }
+        }
+
+        protected override async Task<bool> DoSetDataSetAsync(string key, DataSet value, TimeSpan expir, MemcachedConnection client)
+        {
+            TimeSpan ts = LocalCacheBase.GetExpir(_expiration, expir);
+
+            byte[] bval = MemDataSerialize.DataSetToBytes(value);
+            if (ts > TimeSpan.MinValue)
+            {
+                await client.Client.StoreAsync(StoreMode.Set, key, bval, ts);
+            }
+            else
+            {
+                await client.Client.StoreAsync(StoreMode.Set, key, bval,TimeSpan.MinValue);
+            }
+            return true;
         }
     }
 
