@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Buffalo.DB.DbCommon;
 using Buffalo.DB.MessageOutPuters;
 
@@ -9,7 +10,7 @@ namespace Buffalo.DB.CommBase.BusinessBases
     /// <summary>
     /// 数据库的批量动作
     /// </summary>
-    public class BatchAction : IDisposable
+    public class BatchAction : IDisposable,IAsyncDisposable
     {
 
         /// <summary>
@@ -47,6 +48,7 @@ namespace Buffalo.DB.CommBase.BusinessBases
 
         #region IDisposable 成员
 
+       
         /// <summary>
         /// 释放事务
         /// </summary>
@@ -55,7 +57,6 @@ namespace Buffalo.DB.CommBase.BusinessBases
             EndBatch();
             GC.SuppressFinalize(this);
         }
-
         /// <summary>
         /// 结束批量操作
         /// </summary>
@@ -70,6 +71,27 @@ namespace Buffalo.DB.CommBase.BusinessBases
                 _oper.CommitState = _state;
                 _oper.AutoClose();
             }
+        }
+        /// <summary>
+        /// 结束批量操作
+        /// </summary>
+        private async Task EndBatchAsync()
+        {
+            if (_oper != null)
+            {
+                if (_oper.DBInfo.SqlOutputer.HasOutput)
+                {
+                    _oper.OutMessage(MessageType.OtherOper, "EndBatchAction", null, "");
+                }
+                _oper.CommitState = _state;
+                await _oper.AutoCloseAsync();
+            }
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            await EndBatchAsync();
+            GC.SuppressFinalize(this);
         }
         #endregion
     }

@@ -8,6 +8,7 @@ using Buffalo.DB.BQLCommon;
 using Buffalo.Kernel.Defaults;
 using Buffalo.DB.EntityInfos;
 using Buffalo.DB.DataBaseAdapter;
+using System.Threading.Tasks;
 
 namespace Buffalo.DB.CommBase.BusinessBases
 {
@@ -34,15 +35,7 @@ namespace Buffalo.DB.CommBase.BusinessBases
         }
 
         #region 数据修改
-        /// <summary>
-        /// 保存实体
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        public int Insert() 
-        {
-            return Insert(null,true);
-        }
+        
 
         /// <summary>
         /// 查询时候触发
@@ -102,42 +95,38 @@ namespace Buffalo.DB.CommBase.BusinessBases
 
         }
 
+        
+       
         /// <summary>
         /// 保存实体并填充ID
         /// </summary>
         /// <param name="fillPrimaryKey">是否填充实体</param>
         /// <returns></returns>
-        public virtual int Insert(bool fillPrimaryKey)
-        {
-            return Insert(null, fillPrimaryKey);
-        }
-        /// <summary>
-        /// 保存实体并填充ID
-        /// </summary>
-        /// <param name="fillPrimaryKey">是否填充实体</param>
-        /// <returns></returns>
-        public virtual int Insert(ValueSetList setList, bool fillPrimaryKey)
+        public virtual int Insert(ValueSetList setList=null, bool fillPrimaryKey=false)
         {
             DataAccessSetBase dal = GetBaseDataAccess();
 
             return dal.DoInsert(this, setList, fillPrimaryKey);
         }
         /// <summary>
-        /// 更新实体
+        /// 保存实体并填充ID
         /// </summary>
-        ///  <param name="optimisticConcurrency">是否并发控制</param>
+        /// <param name="fillPrimaryKey">是否填充实体</param>
         /// <returns></returns>
-        public int Update(bool optimisticConcurrency) 
+        public virtual Task<int> InsertAsync(ValueSetList setList=null, bool fillPrimaryKey=false)
         {
-            return Update(null, optimisticConcurrency);
+            DataAccessSetBase dal = GetBaseDataAccess();
+
+            return dal.DoInsertAsync(this, setList, fillPrimaryKey);
         }
+        
         /// <summary>
         /// 更新实体
         /// </summary>
         /// <param name="lstValue">强制设置值</param>
         ///  <param name="optimisticConcurrency">是否并发控制</param>
         /// <returns></returns>
-        public virtual int Update(ValueSetList lstValue,bool optimisticConcurrency)
+        public virtual int Update(ValueSetList lstValue=null,bool optimisticConcurrency = false)
         {
             DataAccessSetBase dal = GetBaseDataAccess();
             foreach (EntityPropertyInfo epPk in dal.EntityInfo.PrimaryProperty)
@@ -153,10 +142,21 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <summary>
         /// 更新实体
         /// </summary>
+        /// <param name="lstValue">强制设置值</param>
+        ///  <param name="optimisticConcurrency">是否并发控制</param>
         /// <returns></returns>
-        public int Update()
+        public virtual Task<int> UpdateAsync(ValueSetList lstValue = null, bool optimisticConcurrency = false)
         {
-            return Update(null,false);
+            DataAccessSetBase dal = GetBaseDataAccess();
+            foreach (EntityPropertyInfo epPk in dal.EntityInfo.PrimaryProperty)
+            {
+                object id = epPk.GetValue(this);
+                if (DefaultType.IsDefaultValue(id))
+                {
+                    throw new Exception("主键:" + epPk.PropertyName + "的值不能为空");
+                }
+            }
+            return dal.UpdateAsync(this, null, lstValue, optimisticConcurrency);
         }
 
         /// <summary>
@@ -164,7 +164,7 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// </summary>
         /// <param name="optimisticConcurrency">是否并发控制</param>
         /// <returns></returns>
-        public virtual int Delete(bool optimisticConcurrency) 
+        public virtual int Delete(bool optimisticConcurrency=false) 
         {
             DataAccessSetBase dal = GetBaseDataAccess();
             ScopeList lstScope = new ScopeList();
@@ -181,18 +181,32 @@ namespace Buffalo.DB.CommBase.BusinessBases
             
             return dal.Delete(this, lstScope, optimisticConcurrency);
         }
-
         /// <summary>
         /// 并发删除
         /// </summary>
+        /// <param name="optimisticConcurrency">是否并发控制</param>
         /// <returns></returns>
-        public int Delete()
+        public virtual Task<int> DeleteAsync(bool optimisticConcurrency = false)
         {
-            return Delete(false);
+            DataAccessSetBase dal = GetBaseDataAccess();
+            ScopeList lstScope = new ScopeList();
+            foreach (EntityPropertyInfo pInfo in dal.EntityInfo.PrimaryProperty)
+            {
+                object id = pInfo.GetValue(this);
+                if (DefaultType.IsDefaultValue(id))
+                {
+                    throw new Exception("主键:" + pInfo.PropertyName + "的值不能为空");
+                }
+                lstScope.AddEqual(pInfo.PropertyName, id);
+            }
+
+
+            return dal.DeleteAsync(this, lstScope, optimisticConcurrency);
         }
 
 
-        
+
+
         #endregion
     }
 }

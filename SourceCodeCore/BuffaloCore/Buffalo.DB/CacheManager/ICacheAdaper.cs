@@ -15,6 +15,7 @@ namespace Buffalo.DB.CacheManager
         void RemoveBySQL(IDictionary<string, bool> tableNames, string sql, DataBaseOperate oper);
         void RemoveByTableName(string tableName, DataBaseOperate oper);
         bool SetData(IDictionary<string, bool> tableNames, string sql, System.Data.DataSet ds, TimeSpan expir, DataBaseOperate oper);
+        Task<bool> SetDataAsync(IDictionary<string, bool> tableNames, string sql, System.Data.DataSet ds, TimeSpan expir, DataBaseOperate oper);
         DBInfo Info{get;}
 
         IList GetEntityList(string key, Type entityType, DataBaseOperate oper);

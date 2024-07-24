@@ -14,6 +14,7 @@ using Buffalo.DB.CommBase.DataAccessBases;
 using Buffalo.DB.BQLCommon.BQLKeyWordCommon;
 using Buffalo.DB.DataBaseAdapter;
 using Buffalo.DB.BQLCommon.BQLConditions;
+using System.Threading.Tasks;
 
 namespace Buffalo.Data.MySQL
 {
@@ -176,9 +177,9 @@ namespace Buffalo.Data.MySQL
         /// 获取SQL命令类
         /// </summary>
         /// <returns></returns>
-        public IDbCommand GetCommand() 
+        public DbCommand GetCommand() 
         {
-            IDbCommand comm = new MySqlCommand();
+            DbCommand comm = new MySqlCommand();
             return comm;
         }
         /// <summary>
@@ -259,18 +260,7 @@ namespace Buffalo.Data.MySQL
         {
             throw new NotImplementedException("MySQL不包含FreeText方法");
         }
-        /// <summary>
-        /// 游标分页
-        /// </summary>
-        /// <typeparam name="T">实体类型</typeparam>
-        /// <param name="sql">sql语句</param>
-        /// <param name="objPage">分页实体</param>
-        /// <param name="oper">数据库链接</param>
-        /// <returns></returns>
-        public IDataReader Query(string sql, PageContent objPage, DataBaseOperate oper)
-        {
-            return CursorPageCutter.Query(sql,null, objPage, oper,null);
-        }
+        
 
         /// <summary>
         /// 查询并且返回DataSet(游标分页)
@@ -295,7 +285,7 @@ namespace Buffalo.Data.MySQL
         /// <param name="objPage">分页实体</param>
         /// <param name="oper">数据库链接</param>
         /// <returns></returns>
-        public IDataReader Query(string sql,ParamList lstParam, PageContent objPage, DataBaseOperate oper)
+        public DbDataReader Query(string sql,ParamList lstParam, PageContent objPage, DataBaseOperate oper)
         {
             return CursorPageCutter.Query(sql, lstParam, objPage, oper,null);
         }
@@ -662,6 +652,21 @@ namespace Buffalo.Data.MySQL
                 default:
                     return "";
             }
+        }
+
+        public Task<string> CreatePageSqlAsync(ParamList list, DataBaseOperate oper, SelectCondition objCondition, PageContent objPage, bool useCache)
+        {
+            return CutPageSqlCreater.CreatePageSqlAsync(list, oper, objCondition, objPage, useCache);
+        }
+
+        public Task<DbDataReader> QueryAsync(string sql, ParamList lstParam, PageContent objPage, DataBaseOperate oper)
+        {
+            return CursorPageCutter.QueryAsync(sql, lstParam, objPage, oper, null);
+        }
+
+        public Task<DataTable> QueryDataTableAsync(string sql, ParamList lstParam, PageContent objPage, DataBaseOperate oper, Type curType)
+        {
+            return CursorPageCutter.QueryDataTableAsync(sql, lstParam, objPage, oper, curType);
         }
     }
 }

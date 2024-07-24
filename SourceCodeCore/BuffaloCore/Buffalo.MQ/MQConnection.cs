@@ -87,10 +87,36 @@ namespace Buffalo.MQ
         /// <param name="key"></param>
         /// <param name="body"></param>
         /// <returns></returns>
+        public async Task<APIResault> SendAsync(string key, byte[] body)
+        {
+            Open();
+            APIResault res = await SendMessageAsync(key, body);
+            //AutoClose();
+            return res;
+        }
+        /// <summary>
+        /// 发送信息
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="body"></param>
+        /// <returns></returns>
         public APIResault Send(string key, string body)
         {
             Open();
             APIResault res = SendMessage(key, body);
+            //AutoClose();
+            return res;
+        }
+        /// <summary>
+        /// 发送信息
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="body"></param>
+        /// <returns></returns>
+        public async Task<APIResault> SendAsync(string key, string body)
+        {
+            Open();
+            APIResault res = await SendMessageAsync(key, body);
             //AutoClose();
             return res;
         }
@@ -107,6 +133,20 @@ namespace Buffalo.MQ
             //AutoClose();
             return res;
         }
+        /// <summary>
+        /// 发送信息
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="body"></param>
+        /// <returns></returns>
+        public async Task<APIResault> SendAsync(MQSendMessage message)
+        {
+            Open();
+            APIResault res = await SendMessageAsync(message);
+            //AutoClose();
+            return res;
+        }
+
         /// <summary>
         /// 开启事务
         /// </summary>
@@ -176,7 +216,10 @@ namespace Buffalo.MQ
         /// </summary>
         protected abstract void Open();
 
-
+        /// <summary>
+        /// 初始化发布者模式
+        /// </summary>
+        protected abstract Task OpenAsync();
 
         /// <summary>
         /// 发布内容
@@ -184,7 +227,12 @@ namespace Buffalo.MQ
         /// <param name="mess">内容类</param>
         /// <returns></returns>
         protected abstract APIResault SendMessage(MQSendMessage mess);
-
+        /// <summary>
+        /// 发布内容
+        /// </summary>
+        /// <param name="mess">内容类</param>
+        /// <returns></returns>
+        protected abstract Task<APIResault> SendMessageAsync(MQSendMessage mess);
         /// <summary>
         /// 发布内容
         /// </summary>
@@ -198,11 +246,31 @@ namespace Buffalo.MQ
         /// <param name="key">筛选的键</param>
         /// <param name="body">内容</param>
         /// <returns></returns>
+        protected abstract Task<APIResault> SendMessageAsync(string key, byte[] body);
+        /// <summary>
+        /// 发布内容
+        /// </summary>
+        /// <param name="key">筛选的键</param>
+        /// <param name="body">内容</param>
+        /// <returns></returns>
         protected virtual APIResault SendMessage(string key, string body)
         {
             byte[] content = DefaultEncoding.GetBytes(body);
 
             return SendMessage(key, content);
+
+        }
+        /// <summary>
+        /// 发布内容
+        /// </summary>
+        /// <param name="key">筛选的键</param>
+        /// <param name="body">内容</param>
+        /// <returns></returns>
+        protected virtual Task<APIResault> SendMessageAsync(string key, string body)
+        {
+            byte[] content = DefaultEncoding.GetBytes(body);
+
+            return SendMessageAsync(key, content);
 
         }
         ///// <summary>

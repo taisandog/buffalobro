@@ -5,6 +5,9 @@ using System.Data;
 using Buffalo.DB.CommBase;
 using Buffalo.DB.QueryConditions;
 using Buffalo.DB.DbCommon;
+using Buffalo.DB.BQLCommon.BQLBaseFunction;
+using System.Data.Common;
+using System.Threading.Tasks;
 
 namespace Buffalo.Data.DB2
 {
@@ -13,7 +16,38 @@ namespace Buffalo.Data.DB2
     /// </summary>
     public class CutPageSqlCreater
     {
-       
+        /// <summary>
+        /// 生成SQL语句
+        /// </summary>
+        /// <param name="list">参数列表</param>
+        /// <param name="oper">连接对象</param>
+        /// <param name="objCondition">条件对象</param>
+        /// <param name="objPage">分页记录类</param>
+        /// <returns></returns>
+        public static async Task<string> CreatePageSqlAsync(ParamList list, DataBaseOperate oper,
+            SelectCondition objCondition, PageContent objPage, bool useCache)
+        {
+
+            if (objPage.CurrentPage < 0 || objPage.PageSize <= 0)//初始化页数
+            {
+                return "";
+            }
+            //string sql = objCondition.GetSelect();
+            if (objPage.IsFillTotalRecords)
+            {
+                objPage.TotalRecords = await GetTotalRecordAsync(list, oper, objCondition.GetSelect(false, false),
+                    objPage.MaxSelectRecords, (useCache ? objCondition.CacheTables : null));//获取总记录数
+                //long totalPage = (long)Math.Ceiling((double)objPage.TotalRecords / (double)objPage.PageSize);
+                //objPage.TotalPage = totalPage;
+                if (objPage.CurrentPage >= objPage.TotalPage - 1)
+                {
+                    objPage.CurrentPage = objPage.TotalPage - 1;
+
+                }
+            }
+            return GetCutPageSql(objCondition, objPage);
+        }
+
         /// <summary>
         /// 生成SQL语句
         /// </summary>
@@ -105,6 +139,29 @@ namespace Buffalo.Data.DB2
             objCondition.FillLock(sql);
             return sql.ToString();
         }
+        private static string GetTotalRecordSQL(string sql,long maxRecords) 
+        {
+            StringBuilder tmpsql = new StringBuilder(5000);
+            if (maxRecords > 0)
+            {
+                tmpsql.Append("select count(*) from (");
+                tmpsql.Append(sql);
+                if (maxRecords > 0)
+                {
+                    tmpsql.Append(" fetch " + maxRecords + " rows only");
+                }
+                tmpsql.Append(")");
+
+            }
+            else
+            {
+                tmpsql.Append("select count(*) from (");
+                tmpsql.Append(sql);
+                tmpsql.Append(")");
+            }
+            return tmpsql.ToString();
+        }
+
         /// <summary>
         /// 获取总记录数
         /// </summary>
@@ -115,25 +172,8 @@ namespace Buffalo.Data.DB2
             long maxRecords,Dictionary<string,bool> cacheTables)
         {
             long totalRecords = 0;
-            StringBuilder tmpsql = new StringBuilder(5000);
-            if (maxRecords > 0)
-            {
-                tmpsql.Append("select count(*) from (");
-                tmpsql.Append(sql);
-                if (maxRecords > 0) 
-                {
-                    tmpsql.Append(" fetch "+maxRecords+" rows only");
-                }
-                tmpsql.Append(")");
-                
-            }
-            else
-            {
-                tmpsql.Append("select count(*) from (");
-                tmpsql.Append(sql);
-                tmpsql.Append(")");
-            }
-            IDataReader reader = oper.Query(tmpsql.ToString(), list, cacheTables);
+            string tmpSql= GetTotalRecordSQL(sql,maxRecords);
+            DbDataReader reader = oper.Query(tmpSql, list, cacheTables);
             try
             {
                 if (reader.Read())
@@ -150,6 +190,33 @@ namespace Buffalo.Data.DB2
             }
             return totalRecords;
         }
-    
+        /// <summary>
+        /// 获取总记录数
+        /// </summary>
+        /// <param name="part">查询条件</param>
+        /// <param name="list">变量列表</param>
+        /// <param name="oper">通用类</param>
+        public static async Task<long> GetTotalRecordAsync(ParamList list, DataBaseOperate oper, string sql,
+            long maxRecords, Dictionary<string, bool> cacheTables)
+        {
+            long totalRecords = 0;
+            string tmpSql = GetTotalRecordSQL(sql, maxRecords);
+            DbDataReader reader = await oper.QueryAsync(tmpSql, list,CommandType.Text, cacheTables);
+            try
+            {
+                if (await reader.ReadAsync())
+                {
+                    if (!reader.IsDBNull(0))
+                    {
+                        totalRecords = Convert.ToInt64(reader[0]);
+                    }
+                }
+            }
+            finally
+            {
+                reader.CloseAsync();
+            }
+            return totalRecords;
+        }
     }
 }

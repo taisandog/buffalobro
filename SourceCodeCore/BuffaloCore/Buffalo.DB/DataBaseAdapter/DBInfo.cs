@@ -61,7 +61,7 @@ namespace Buffalo.DB.DataBaseAdapter
 
         private bool _operatorPrecedence=true;
 
-        private ThreadLocal<DataBaseOperate> _operate = new ThreadLocal<DataBaseOperate>();
+        private AsyncLocal<DataBaseOperate> _operate = new AsyncLocal<DataBaseOperate>();
         /// <summary>
         /// 选中库的数据库连接
         /// </summary>
@@ -240,7 +240,7 @@ namespace Buffalo.DB.DataBaseAdapter
         }
 
         
-        private ThreadLocal<DBInfo> _curDB = new ThreadLocal<DBInfo>();
+        private AsyncLocal<DBInfo> _curDB = new AsyncLocal<DBInfo>();
 
 
         /// <summary>

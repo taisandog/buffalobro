@@ -13,6 +13,8 @@ using Buffalo.DB.EntityInfos;
 using Buffalo.DB.DataBaseAdapter;
 using Buffalo.DB.DataBaseAdapter.IDbAdapters;
 using Buffalo.Kernel.Defaults;
+using System.Threading.Tasks;
+using System.Data.Common;
 namespace Buffalo.DB.DataFillers
 {
     /// <summary>
@@ -21,6 +23,49 @@ namespace Buffalo.DB.DataFillers
     public class CacheReader
     {
         //internal static Dictionary<string, List<PropertyInfoHandle>> dicReaderCache = new Dictionary<string, List<PropertyInfoHandle>>();
+        /// <summary>
+        /// 根据Reader结构生成DataTable
+        /// </summary>
+        /// <param name="reader">Reader</param>
+        /// <param name="datatableName">数据表名</param>
+        /// <param name="isEmpty">是否生成空的DataTable</param>
+        /// <returns></returns>
+        public static async Task<DataTable> GenerateDataTableAsync(DbDataReader reader, string datatableName, bool isEmpty)
+        {
+            DataTable dt = new DataTable();
+            if (!string.IsNullOrEmpty(datatableName))
+            {
+                dt.TableName = datatableName;
+            }
+
+            dt.BeginLoadData();
+            int fieldCount = reader.FieldCount;
+            for (int i = 0; i < fieldCount; i++)
+            {
+                dt.Columns.Add(reader.GetName(i), reader.GetFieldType(i));
+            }
+            if (!isEmpty)
+            {
+
+                while (await reader.ReadAsync())
+                {
+                    DataRow dr = dt.NewRow();
+
+                    for (int i = 0; i < fieldCount; i++)
+                    {
+                        if (!reader.IsDBNull(i))
+                        {
+                            dr[i] = reader[i];
+                        }
+                    }
+                    dt.Rows.Add(dr);
+                    dt.AcceptChanges();
+                }
+
+            }
+            dt.EndLoadData();
+            return dt;
+        }
 
         /// <summary>
         /// 根据Reader结构生成DataTable
@@ -85,6 +130,26 @@ namespace Buffalo.DB.DataFillers
             
             return ds;
         }
+        /// <summary>
+        /// 根据Reader结构生成DataTable
+        /// </summary>
+        /// <param name="reader">Reader</param>
+        /// <param name="datatableName">数据表名</param>
+        /// <param name="isEmpty">是否生成空的DataTable</param>
+        /// <returns></returns>
+        public static async Task<DataSet> GenerateDataSetAsync(DbDataReader reader, bool isEmpty)
+        {
+
+            DataSet ds = new DataSet();
+            int index = 0;
+            do
+            {
+                DataTable dt = await GenerateDataTableAsync(reader, "table" + index, isEmpty);
+                ds.Tables.Add(dt);
+            } while (reader.NextResult());
+
+            return ds;
+        }
 
         /// <summary>
         /// 根据Reader结构和实体属性的映射生成空的DataTable
@@ -134,6 +199,53 @@ namespace Buffalo.DB.DataFillers
             return dt;
         }
         /// <summary>
+        /// 根据Reader结构和实体属性的映射生成空的DataTable
+        /// </summary>
+        /// <param name="reader">Reader</param>
+        /// <param name="datatableName">数据表名</param>
+        /// <param name="entityType">实体类</param>
+        /// <param name="isEmpty">是否生成空的DataTable</param>
+        /// <returns></returns>
+        public static async Task<DataTable> GenerateDataTableAsync(DbDataReader reader, string datatableName, Type entityType, bool isEmpty)
+        {
+            DataTable dt = new DataTable();
+            EntityInfoHandle entityInfo = EntityInfoManager.GetEntityHandle(entityType);
+            List<EntityPropertyInfo> lstParamNames = GenerateCache(reader, entityInfo);
+            dt.BeginLoadData();
+            foreach (EntityPropertyInfo info in lstParamNames)
+            {
+                if (info != null)
+                {
+                    Type fieldType = info.FieldType;
+                    if (DefaultType.EqualType(fieldType, DefaultType.BooleanType))
+                    {
+                        fieldType = typeof(bool);
+                    }
+                    dt.Columns.Add(info.PropertyName, fieldType);
+                }
+            }
+            if (!isEmpty)
+            {
+
+                while (await reader.ReadAsync())
+                {
+                    DataRow dr = dt.NewRow();
+                    for (int i = 0; i < lstParamNames.Count; i++)
+                    {
+                        if (!reader.IsDBNull(i) && lstParamNames[i] != null)
+                        {
+                            dr[i] = reader[i];
+                        }
+                    }
+                    dt.Rows.Add(dr);
+                    dt.AcceptChanges();
+                }
+
+            }
+            dt.EndLoadData();
+            return dt;
+        }
+        /// <summary>
         /// 创建Reader缓存
         /// </summary>
         internal static List<EntityPropertyInfo> GenerateCache(IDataReader reader, EntityInfoHandle entityInfo)
@@ -172,7 +284,7 @@ namespace Buffalo.DB.DataFillers
         /// <typeparam name="T">类型</typeparam>
         /// <param name="reader">reader</param>
         /// <returns></returns>
-        public static T LoadFormReader<T>(IDataReader reader,EntityInfoHandle entityInfo) where T : EntityBase, new()
+        public static T LoadFromReader<T>(IDataReader reader,EntityInfoHandle entityInfo) where T : EntityBase, new()
         {
             //string fullName = typeof(T).FullName;
             if (reader != null && !reader.IsClosed)
@@ -184,13 +296,14 @@ namespace Buffalo.DB.DataFillers
             }
             return default(T);
         }
+       
         /// <summary>
         /// 从Reader里边读取一个对象数据
         /// </summary>
         /// <typeparam name="T">类型</typeparam>
         /// <param name="reader">reader</param>
         /// <returns></returns>
-        public static T LoadFormReader<T>(IDataReader reader) where T : EntityBase, new()
+        public static T LoadFromReader<T>(IDataReader reader) where T : EntityBase, new()
         {
             EntityInfoHandle entityInfo = EntityInfoManager.GetEntityHandle(typeof(T));
             if (reader != null && !reader.IsClosed)
@@ -212,7 +325,29 @@ namespace Buffalo.DB.DataFillers
                 
             }
         }
+        /// <summary>
+        /// 从Reader里边读取数据集合(快速)
+        /// </summary>
+        /// <typeparam name="T">类型</typeparam>
+        /// <param name="reader">reader</param>
+        /// <returns></returns>
+        public static async Task<List<T>> LoadFromReaderListAsync<T>(DbDataReader reader) where T : EntityBase, new()
+        {
+            EntityInfoHandle entityInfo = EntityInfoManager.GetEntityHandle(typeof(T));
+            List<T> retLst = new List<T>();
+            if (reader != null && !reader.IsClosed)
+            {
+                List<EntityPropertyInfo> lstParamNames = GenerateCache(reader, entityInfo);
 
+                while (await reader.ReadAsync())
+                {
+                    T obj = entityInfo.CreateSelectProxyInstance() as T;
+                    FillObjectFromReader(reader, lstParamNames, obj, entityInfo.DBInfo);
+                    retLst.Add(obj);
+                }
+            }
+            return retLst;
+        }
 
         /// <summary>
         /// 从Reader里边读取数据集合(快速)
@@ -220,7 +355,7 @@ namespace Buffalo.DB.DataFillers
         /// <typeparam name="T">类型</typeparam>
         /// <param name="reader">reader</param>
         /// <returns></returns>
-        public static List<T> LoadFormReaderList<T>(IDataReader reader) where T : EntityBase, new()
+        public static List<T> LoadFromReaderList<T>(IDataReader reader) where T : EntityBase, new()
         {
             EntityInfoHandle entityInfo = EntityInfoManager.GetEntityHandle(typeof(T));
             List<T> retLst = new List<T>();
@@ -266,10 +401,10 @@ namespace Buffalo.DB.DataFillers
         /// <param name="entityInfo">实体类信息</param>
         /// <param name="totalSize">集合总大小</param>
         /// <returns></returns>
-        public static List<T> LoadFormReaderList<T>(IDataReader reader,EntityInfoHandle entityInfo, out int totalSize) where T : EntityBase, new()
+        public static List<T> LoadFormReaderList<T>(IDataReader reader,EntityInfoHandle entityInfo) where T : EntityBase, new()
         {
             List<T> retLst = new List<T>();
-            totalSize = 0;//初始化当前记录集总大小
+            //totalSize = 0;//初始化当前记录集总大小
             if (reader != null && !reader.IsClosed)
             {
                 List<EntityPropertyInfo> lstParamNames = GenerateCache(reader, entityInfo);
@@ -278,14 +413,40 @@ namespace Buffalo.DB.DataFillers
                 {
                     T obj = (T)entityInfo.CreateSelectProxyInstance();
                     int curSize = 0;//获取当前值大小
-                    FillObjectFromReader(reader, lstParamNames, obj, out curSize);
-                    totalSize += curSize;//加到当前记录总大小里边
+                    FillObjectFromReader(reader, lstParamNames, obj);
+                    //totalSize += curSize;//加到当前记录总大小里边
                     retLst.Add(obj);
                 }
             }
             return retLst;
         }
+        /// <summary>
+        /// 从Reader里边读取数据集合(快速,返回集合的大小)
+        /// </summary>
+        /// <typeparam name="T">类型</typeparam>
+        /// <param name="reader">reader</param>
+        /// <param name="entityInfo">实体类信息</param>
+        /// <param name="totalSize">集合总大小</param>
+        /// <returns></returns>
+        public static async Task<List<T>> LoadFormReaderListAsync<T>(DbDataReader reader, EntityInfoHandle entityInfo) where T : EntityBase, new()
+        {
+            List<T> retLst = new List<T>();
+            //int totalSize = 0;//初始化当前记录集总大小
+            if (reader != null && !reader.IsClosed)
+            {
+                List<EntityPropertyInfo> lstParamNames = GenerateCache(reader, entityInfo);
 
+                while (await reader.ReadAsync())
+                {
+                    T obj = (T)entityInfo.CreateSelectProxyInstance();
+                    //int curSize = 0;//获取当前值大小
+                    FillObjectFromReader(reader, lstParamNames, obj);
+                    //totalSize += curSize;//加到当前记录总大小里边
+                    retLst.Add(obj);
+                }
+            }
+            return retLst;
+        }
         /// <summary>
         /// 把Reader的值读到对象
         /// </summary>
@@ -293,17 +454,17 @@ namespace Buffalo.DB.DataFillers
         /// <param name="lstParams">方法对应列表</param>
         /// <param name="obj">对象</param>
         /// <param name="itemSize">本条记录的大小</param>
-        internal static void FillObjectFromReader(IDataReader reader, List<EntityPropertyInfo> lstParams, object obj, out int itemSize)
+        internal static void FillObjectFromReader(IDataReader reader, List<EntityPropertyInfo> lstParams, object obj)
         {
-            itemSize = 0;//初始化当前记录总大小
+            //itemSize = 0;//初始化当前记录总大小
             for (int i = 0; i < lstParams.Count; i++)//把Reader的值赋到对象中
             {
                 if (!reader.IsDBNull(i))
                 {
                     object val = reader.GetValue(i);
-                    int curSize=CurValueSize(val);//获取当前值大小
+                    //int curSize=CurValueSize(val);//获取当前值大小
                     lstParams[i].SetValue(obj,val);
-                    itemSize += curSize;//加到当前记录总大小里边
+                    //itemSize += curSize;//加到当前记录总大小里边
                 }
             }
         }

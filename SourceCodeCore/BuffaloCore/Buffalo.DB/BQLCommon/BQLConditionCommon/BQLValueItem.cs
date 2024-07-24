@@ -528,7 +528,7 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
             return info;
         }
         //private static readonly string KeyWordInfomationKey = "$$Buffalo.KeyWordInfomation";
-        private static ThreadLocal<KeyWordInfomation> _curKeyWordInfomation = new System.Threading.ThreadLocal<KeyWordInfomation>();
+        private static AsyncLocal<KeyWordInfomation> _curKeyWordInfomation = new System.Threading.AsyncLocal<KeyWordInfomation>();
         /// <summary>
         /// 获取默认的Key信息
         /// </summary>

@@ -31,7 +31,7 @@ namespace Buffalo.MQ
         ///// 线程变量名
         ///// </summary>
         //private const string Tag = "$*_MQ_Conn&$";
-        private static ThreadLocal<Dictionary<string, MQConnection>> _staticConnTable = new ThreadLocal<Dictionary<string, MQConnection>>();
+        private static AsyncLocal<Dictionary<string, MQConnection>> _staticConnTable = new AsyncLocal<Dictionary<string, MQConnection>>();
         /// <summary>
         /// 获取本线程变量连接
         /// </summary>

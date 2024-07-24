@@ -258,10 +258,13 @@ namespace Buffalo.Storage.HW.OBS
                 ByteRange = byteRange,
             };
             MemoryStream stm = new MemoryStream();
+           
             using (GetObjectResponse response = _client.GetObject(request))
             {
                 CommonMethods.CopyStreamData(response.OutputStream, stm);
+                
             }
+            
             return stm;
         }
 

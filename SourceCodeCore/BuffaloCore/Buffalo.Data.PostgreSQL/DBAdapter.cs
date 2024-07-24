@@ -14,6 +14,7 @@ using Buffalo.DB.BQLCommon.BQLKeyWordCommon;
 using Buffalo.DB.CommBase.DataAccessBases;
 using Buffalo.DB.DataBaseAdapter;
 using Buffalo.DB.BQLCommon.BQLConditions;
+using System.Threading.Tasks;
 
 namespace Buffalo.Data.PostgreSQL
 {
@@ -161,9 +162,9 @@ namespace Buffalo.Data.PostgreSQL
         /// 获取SQL命令类
         /// </summary>
         /// <returns></returns>
-        public IDbCommand GetCommand() 
+        public DbCommand GetCommand() 
         {
-            IDbCommand comm = new NpgsqlCommand();
+            DbCommand comm = new NpgsqlCommand();
             return comm;
         }
         /// <summary>
@@ -244,52 +245,12 @@ namespace Buffalo.Data.PostgreSQL
         {
             throw new NotImplementedException("PostgreSQL不包含FreeText方法");
         }
-        /// <summary>
-        /// 游标分页
-        /// </summary>
-        /// <typeparam name="T">实体类型</typeparam>
-        /// <param name="sql">sql语句</param>
-        /// <param name="objPage">分页实体</param>
-        /// <param name="oper">数据库链接</param>
-        /// <returns></returns>
-        public IDataReader Query(string sql, PageContent objPage, DataBaseOperate oper)
-        {
-            return CursorPageCutter.Query(sql,null, objPage, oper);
-        }
+        
 
         /// <summary>
         /// 查询并且返回DataSet(游标分页)
         /// </summary>
         /// <param name="sql">要查询的SQL语句</param>
-        /// <param name="objPage">分页对象</param>
-        /// <param name="oper">数据库对象</param>
-        /// <param name="curType">映射的实体类型(如果用回数据库的原列名，则此为null)</param>
-        /// <returns></returns>
-        public DataTable QueryDataTable(string sql, PageContent objPage, DataBaseOperate oper, Type curType)
-        {
-            return CursorPageCutter.QueryDataTable(sql,null, objPage, oper, curType);
-        }
-        
-        
-        /// <summary>
-        /// 游标分页
-        /// </summary>
-        /// <typeparam name="T">实体类型</typeparam>
-        /// <param name="lstParam">参数集合</param>
-        /// <param name="sql">sql语句</param>
-        /// <param name="objPage">分页实体</param>
-        /// <param name="oper">数据库链接</param>
-        /// <returns></returns>
-        public IDataReader Query(string sql,ParamList lstParam, PageContent objPage, DataBaseOperate oper)
-        {
-            return CursorPageCutter.Query(sql, lstParam, objPage, oper);
-        }
-
-        /// <summary>
-        /// 查询并且返回DataSet(游标分页)
-        /// </summary>
-        /// <param name="sql">要查询的SQL语句</param>
-        /// <param name="lstParam">参数集合</param>
         /// <param name="objPage">分页对象</param>
         /// <param name="oper">数据库对象</param>
         /// <param name="curType">映射的实体类型(如果用回数据库的原列名，则此为null)</param>
@@ -298,6 +259,23 @@ namespace Buffalo.Data.PostgreSQL
         {
             return CursorPageCutter.QueryDataTable(sql, lstParam, objPage, oper, curType);
         }
+        
+        
+        /// <summary>
+        /// 游标分页
+        /// </summary>
+        /// <typeparam name="T">实体类型</typeparam>
+        /// <param name="lstParam">参数集合</param>
+        /// <param name="sql">sql语句</param>
+        /// <param name="objPage">分页实体</param>
+        /// <param name="oper">数据库链接</param>
+        /// <returns></returns>
+        public DbDataReader Query(string sql,ParamList lstParam, PageContent objPage, DataBaseOperate oper)
+        {
+            return CursorPageCutter.Query(sql, lstParam, objPage, oper);
+        }
+
+       
         /// <summary>
         /// 生成分页SQL语句
         /// </summary>
@@ -623,6 +601,21 @@ namespace Buffalo.Data.PostgreSQL
                 default:
                     return "";
             }
+        }
+
+        public Task<string> CreatePageSqlAsync(ParamList list, DataBaseOperate oper, SelectCondition objCondition, PageContent objPage, bool useCache)
+        {
+            return CutPageSqlCreater.CreatePageSqlAsync(list, oper, objCondition, objPage, useCache);
+        }
+
+        public Task<DbDataReader> QueryAsync(string sql, ParamList lstParam, PageContent objPage, DataBaseOperate oper)
+        {
+            return CursorPageCutter.QueryAsync(sql, lstParam, objPage, oper);
+        }
+
+        public Task<DataTable> QueryDataTableAsync(string sql, ParamList lstParam, PageContent objPage, DataBaseOperate oper, Type curType)
+        {
+            return CursorPageCutter.QueryDataTableAsync(sql, null, objPage, oper, curType);
         }
     }
 }

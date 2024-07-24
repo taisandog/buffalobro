@@ -14,6 +14,7 @@ using Buffalo.DB.PropertyAttributes;
 using Buffalo.DB.CommBase.DataAccessBases;
 using Buffalo.DB.BQLCommon.BQLKeyWordCommon;
 using Buffalo.DB.BQLCommon.BQLConditions;
+using System.Threading.Tasks;
 
 namespace Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter
 {
@@ -351,9 +352,9 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter
         /// 获取SQL命令类
         /// </summary>
         /// <returns></returns>
-        public IDbCommand GetCommand() 
+        public DbCommand GetCommand() 
         {
-            IDbCommand comm = new SqlCommand();
+            DbCommand comm = new SqlCommand();
             return comm;
         }
         /// <summary>
@@ -459,31 +460,9 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter
         {
             return "DATEDIFF(s, '1970-01-01 00:00:00', getutcdate())";
         }
-        /// <summary>
-        /// 游标分页
-        /// </summary>
-        /// <typeparam name="T">实体类型</typeparam>
-        /// <param name="sql">sql语句</param>
-        /// <param name="objPage">分页实体</param>
-        /// <param name="oper">数据库链接</param>
-        /// <returns></returns>
-        public IDataReader Query(string sql, PageContent objPage, DataBaseOperate oper)
-        {
-            return CursorPageCutter.Query(sql, objPage, oper);
-        }
+       
 
-        /// <summary>
-        /// 查询并且返回DataSet(游标分页)
-        /// </summary>
-        /// <param name="sql">要查询的SQL语句</param>
-        /// <param name="objPage">分页对象</param>
-        /// <param name="oper">数据库对象</param>
-        /// <param name="curType">映射的实体类型(如果用回数据库的原列名，则此为null)</param>
-        /// <returns></returns>
-        public DataTable QueryDataTable(string sql, PageContent objPage, DataBaseOperate oper, Type curType)
-        {
-            return CursorPageCutter.QueryDataTable(sql, objPage, oper, curType);
-        }
+        
         /// <summary>
         /// 游标分页
         /// </summary>
@@ -493,7 +472,7 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter
         /// <param name="objPage">分页实体</param>
         /// <param name="oper">数据库链接</param>
         /// <returns></returns>
-        public IDataReader Query(string sql,ParamList lstParam, PageContent objPage, DataBaseOperate oper)
+        public DbDataReader Query(string sql,ParamList lstParam, PageContent objPage, DataBaseOperate oper)
         {
             throw new Exception("SqlServer不支持带参数的游标分页");
         }
@@ -854,6 +833,23 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter
         public string LockUpdate(BQLLockType lockType, DBInfo info)
         {
             return "";
+        }
+
+        public virtual async Task<string> CreatePageSqlAsync(ParamList list, DataBaseOperate oper, SelectCondition objCondition, PageContent objPage, bool useCache)
+        {
+            return await CutPageSqlCreater.CreatePageSqlAsync(list, oper, objCondition, objPage, useCache ? objCondition.CacheTables : null);
+        }
+
+       
+
+        public Task<DbDataReader> QueryAsync(string sql, ParamList lstParam, PageContent objPage, DataBaseOperate oper)
+        {
+            throw new Exception("SqlServer不支持带参数的游标分页");
+        }
+
+        public Task<DataTable> QueryDataTableAsync(string sql, ParamList lstParam, PageContent objPage, DataBaseOperate oper, Type curType)
+        {
+            throw new Exception("SqlServer不支持带参数的游标分页");
         }
     }
 }

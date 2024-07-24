@@ -744,6 +744,43 @@ namespace Buffalo.QueryCache
             }
             return true;
         }
+
+        protected override async Task<MemcachedConnection> CreateClientAsync(bool realOnly, string cmd)
+        {
+            MemcachedClient client = CheckConnectionDB();
+            return new MemcachedConnection(client);
+        }
+
+        public override async Task<IList> DoGetEntityListAsync(string key, Type entityType, MemcachedConnection client)
+        {
+            byte[] content = (await client.Client.GetAsync<byte[]>(key)).Value;
+            if (content == null)
+            {
+                return MemDataSerialize.CreateList(entityType);
+            }
+            using (MemoryStream stm = new MemoryStream(content))
+            {
+                return MemDataSerialize.LoadList(stm, entityType);
+            }
+        }
+
+        public override async Task<bool> DoSetEntityListAsync(string key, IList lstEntity, TimeSpan expir, MemcachedConnection client)
+        {
+            TimeSpan ts = LocalCacheBase.GetExpir(_expiration, expir);
+            byte[] bval = MemDataSerialize.ListToBytes(lstEntity);
+            bool ret = false;
+            if (ts > TimeSpan.MinValue)
+            {
+                ret = await client.Client.StoreAsync(StoreMode.Set, key, bval, ts);
+            }
+            else
+            {
+                ret = await client.Client.StoreAsync(StoreMode.Set, key, bval, TimeSpan.Zero);
+            }
+
+
+            return ret;
+        }
     }
 
     /// <summary>

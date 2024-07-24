@@ -15,6 +15,8 @@ using Buffalo.DB.DataBaseAdapter;
 using Buffalo.Kernel;
 using Buffalo.DB.CommBase.BusinessBases;
 using Buffalo.DB.CommBase.DataAccessBases;
+using System.Threading.Tasks;
+using System.Data.Common;
 
 namespace Buffalo.DB.BQLCommon
 {
@@ -66,18 +68,21 @@ namespace Buffalo.DB.BQLCommon
         {
             return SelectTable(BQL.ToTable(tableName), lstScope, entityType);
         }
-
-
         /// <summary>
-        /// 查询总条数
+        /// 直接查询数据库视图
         /// </summary>
-        /// <param name="lstScope"></param>
+        /// <param name="tableName">表名称</param>
+        /// <param name="lstScope">条件</param>
+        /// <param name="vParams">字段列表</param>
         /// <returns></returns>
-        public virtual long SelectCount<E>(ScopeList lstScope) 
+        public virtual Task<DataSet> SelectTableAsync(string tableName, ScopeList lstScope, Type entityType)
         {
-            long ret = 0;
-            Type eType = typeof(E);
-            TableAliasNameManager aliasManager = new TableAliasNameManager(new BQLEntityTableHandle(EntityInfoManager.GetEntityHandle(typeof(E))));
+            return SelectTableAsync(BQL.ToTable(tableName), lstScope, entityType);
+        }
+        protected BQLQuery GetSelectCountSQL(ScopeList lstScope, Type eType, out TableAliasNameManager aliasManager ) 
+        {
+            
+            aliasManager = new TableAliasNameManager(new BQLEntityTableHandle(EntityInfoManager.GetEntityHandle(eType)));
             BQLEntityTableHandle table = _oper.DBInfo.FindTable(eType);
             if (CommonMethods.IsNull(table))
             {
@@ -94,8 +99,20 @@ namespace Buffalo.DB.BQLCommon
                 BQLCondition having = FillCondition(where, table, lstScope.Having);
                 bql = ((KeyWordWhereItem)bql).Having(having);
             }
+            return bql;
+        }
+        /// <summary>
+        /// 查询总条数
+        /// </summary>
+        /// <param name="lstScope"></param>
+        /// <returns></returns>
+        public virtual long SelectCount<E>(ScopeList lstScope) 
+        {
+            long ret = 0;
+            Type eType = typeof(E);
             //if(lstScope.GroupBy
-
+            TableAliasNameManager aliasManager = null;
+            BQLQuery bql = GetSelectCountSQL(lstScope,eType,out aliasManager);
             using (AbsCondition con = BQLKeyWordManager.ToCondition(bql, _oper.DBInfo, aliasManager, true))
             {
                 Dictionary<string, bool> cacheTables = null;
@@ -114,8 +131,37 @@ namespace Buffalo.DB.BQLCommon
             }
             return ret;
         }
+        /// <summary>
+        /// 查询总条数
+        /// </summary>
+        /// <param name="lstScope"></param>
+        /// <returns></returns>
+        public virtual async Task<long> SelectCountAsync<E>(ScopeList lstScope)
+        {
+            long ret = 0;
+            Type eType = typeof(E);
+            //if(lstScope.GroupBy
+            TableAliasNameManager aliasManager = null;
+            BQLQuery bql = GetSelectCountSQL(lstScope, eType, out aliasManager);
+            using (AbsCondition con = BQLKeyWordManager.ToCondition(bql, _oper.DBInfo, aliasManager, true))
+            {
+                Dictionary<string, bool> cacheTables = null;
+                if (lstScope.UseCache)
+                {
+                    cacheTables = con.CacheTables;
 
-        
+                }
+                using (DbDataReader reader =await _oper.QueryAsync(con.GetSql(lstScope.UseCache), con.DbParamList,CommandType.Text, cacheTables))
+                {
+                    if (await reader.ReadAsync())
+                    {
+                        ret = Convert.ToInt64(reader[0]);
+                    }
+                }
+            }
+            return ret;
+        }
+
 
         /// <summary>
         /// 查询表
@@ -147,7 +193,36 @@ namespace Buffalo.DB.BQLCommon
                 return retlist;
             }
         }
-
+        /// <summary>
+        /// 查询表
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="lstScope">条件</param>
+        /// <returns></returns>
+        public async Task<List<E>> SelectListAsync<E>(ScopeList lstScope)
+            where E : EntityBase, new()
+        {
+            Type eType = typeof(E);
+            List<E> retlist = null;
+            BQLEntityTableHandle table = _oper.DBInfo.FindTable(eType);
+            if (CommonMethods.IsNull(table))
+            {
+                _oper.DBInfo.ThrowNotFondTable(eType);
+            }
+            BQLQuery BQL = GetSelectSql(lstScope, table);
+            if (!lstScope.HasPage)
+            {
+                retlist =await QueryListAsync<E>(BQL, lstScope.ShowEntity, lstScope.UseCache);
+                DataAccessCommon.FillEntityChidList(retlist, lstScope);
+                return retlist;
+            }
+            using (BatchAction ba = _oper.StarBatchAction())
+            {
+                retlist =await QueryPageListAsync<E>(BQL, lstScope.PageContent, lstScope.ShowEntity, lstScope.UseCache);
+                DataAccessCommon.FillEntityChidList(retlist, lstScope);
+                return retlist;
+            }
+        }
         /// <summary>
         /// 获取要显示的字段
         /// </summary>
@@ -206,6 +281,49 @@ namespace Buffalo.DB.BQLCommon
             return QueryDataSet(bql, null,lstScope.UseCache);
         }
         /// <summary>
+        /// 直接查询数据库视图
+        /// </summary>
+        /// <param name="table">表</param>
+        /// <param name="lstScope">条件</param>
+        /// <param name="vParams">字段列表</param>
+        /// <param name="lstSort">排序类型</param>
+        /// <param name="objPage">分页对象</param>
+        /// <returns></returns>
+        public Task<DataSet> SelectTableAsync(BQLOtherTableHandle table, ScopeList lstScope, Type entityType)
+        {
+            List<BQLParamHandle> lstParams = GetParam(table, lstScope);
+
+            List<BQLParamHandle> lstOrders = new List<BQLParamHandle>();
+            BQLParamHandle order = null;
+            foreach (Sort objSort in lstScope.OrderBy)
+            {
+                order = table[objSort.PropertyName];
+                if (objSort.SortType == SortType.ASC)
+                {
+                    order = order.ASC;
+                }
+                else
+                {
+                    order = order.DESC;
+                }
+                lstOrders.Add(order);
+            }
+
+            BQLCondition where = BQLCondition.TrueValue;
+            where = FillCondition(where, table, lstScope, entityType);
+
+            BQLQuery bql = BQL.Select(lstParams.ToArray()).From(table).Where(where).OrderBy(lstOrders.ToArray());
+
+            if (lstScope.HasPage)
+            {
+                using (BatchAction ba = _oper.StarBatchAction())
+                {
+                    return  QueryDataSetAsync(bql, null, lstScope.PageContent, lstScope.UseCache);
+                }
+            }
+            return QueryDataSetAsync(bql, null, lstScope.UseCache);
+        }
+        /// <summary>
         /// 转成条件信息
         /// </summary>
         /// <param name="BQL"></param>
@@ -242,10 +360,6 @@ namespace Buffalo.DB.BQLCommon
             using (AbsCondition con = ToCondition(BQL, outPutTables, false, typeof(E)))
             {
                 con.PageContent = objPage;
-
-
-
-
                 List<E> retlist = null;
                 IDataReader reader = null;
                 try
@@ -269,7 +383,7 @@ namespace Buffalo.DB.BQLCommon
                     {
                         SelectCondition sCon = con as SelectCondition;
 
-                        reader = con.DBinfo.CurrentDbAdapter.Query(sCon.GetSelect(), objPage, _oper);
+                        reader = con.DBinfo.CurrentDbAdapter.Query(sCon.GetSelect(),null, objPage, _oper);
                     }
                     retlist = LoadFromReader<E>(con.AliasManager, reader);
                 }
@@ -284,6 +398,61 @@ namespace Buffalo.DB.BQLCommon
                 return retlist;
             }
         }
+
+        /// <summary>
+        /// 执行sql语句，分页返回List
+        /// </summary>
+        /// <typeparam name="E">实体类型</typeparam>
+        /// <param name="BQL">BQL</param>
+        /// <param name="objPage">分页数据</param>
+        /// <param name="outPutTables">输出表</param>
+        /// <returns></returns>
+        public async Task<List<E>> QueryPageListAsync<E>(BQLQuery BQL, PageContent objPage,
+            IEnumerable<BQLEntityTableHandle> outPutTables, bool useCache)
+            where E : EntityBase, new()
+        {
+            using (AbsCondition con = ToCondition(BQL, outPutTables, false, typeof(E)))
+            {
+                con.PageContent = objPage;
+                List<E> retlist = null;
+                DbDataReader reader = null;
+                try
+                {
+                    Dictionary<string, bool> cacheTables = null;
+                    if (useCache)
+                    {
+                        cacheTables = con.CacheTables;
+                    }
+
+                    if (con.DbParamList != null)
+                    {
+                        con.PageContent = objPage;
+                        con.Oper = _oper;
+                        string sql = con.GetSql(useCache);
+
+                        reader = await _oper.QueryAsync(sql, con.DbParamList,CommandType.Text, cacheTables);
+
+                    }
+                    else
+                    {
+                        SelectCondition sCon = con as SelectCondition;
+
+                        reader = con.DBinfo.CurrentDbAdapter.Query(sCon.GetSelect(), null, objPage, _oper);
+                    }
+                    retlist = await LoadFromReaderAsync<E>(con.AliasManager, reader);
+                }
+                finally
+                {
+                    if (reader != null)
+                    {
+                        await reader.CloseAsync();
+                    }
+                }
+
+                return retlist;
+            }
+        }
+
         /// <summary>
         /// 执行sql语句，返回List
         /// </summary>
@@ -314,7 +483,7 @@ namespace Buffalo.DB.BQLCommon
                         else
                         {
                             SelectCondition sCon = con as SelectCondition;
-                            reader = con.DBinfo.CurrentDbAdapter.Query(sCon.GetSelect(), con.PageContent, _oper);
+                            reader = con.DBinfo.CurrentDbAdapter.Query(sCon.GetSelect(),null, con.PageContent, _oper);
                         }
                         retlist = LoadFromReader<E>(con.AliasManager, reader);
                     }
@@ -324,6 +493,52 @@ namespace Buffalo.DB.BQLCommon
                         if (reader != null)
                         {
                             reader.Close();
+                        }
+                    }
+                }
+                return retlist;
+            }
+        }
+        /// <summary>
+        /// 执行sql语句，返回List
+        /// </summary>
+        /// <typeparam name="E">实体类型</typeparam>
+        /// <param name="BQL">BQL</param>
+        /// <returns></returns>
+        public async Task<List<E>> QueryListAsync<E>(BQLQuery BQL, IEnumerable<BQLEntityTableHandle> outPutTables, bool useCache)
+            where E : EntityBase, new()
+        {
+            using (AbsCondition con = ToCondition(BQL, outPutTables, false, typeof(E)))
+            {
+                List<E> retlist = null;
+                using (BatchAction ba = _oper.StarBatchAction())
+                {
+                    DbDataReader reader = null;
+                    try
+                    {
+                        con.Oper = _oper;
+                        Dictionary<string, bool> cacheTables = null;
+                        if (useCache)
+                        {
+                            cacheTables = con.CacheTables;
+                        }
+                        if (con.DbParamList != null)
+                        {
+                            reader =await _oper.QueryAsync(con.GetSql(useCache), con.DbParamList,CommandType.Text, cacheTables);
+                        }
+                        else
+                        {
+                            SelectCondition sCon = con as SelectCondition;
+                            reader =await con.DBinfo.CurrentDbAdapter.QueryAsync(sCon.GetSelect(), null, con.PageContent, _oper);
+                        }
+                        retlist =await LoadFromReaderAsync<E>(con.AliasManager, reader);
+                    }
+
+                    finally
+                    {
+                        if (reader != null)
+                        {
+                            await reader.CloseAsync();
                         }
                     }
                 }
@@ -374,7 +589,34 @@ namespace Buffalo.DB.BQLCommon
             }
             return lst;
         }
+        /// <summary>
+        /// 加载数据
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="aliasManager"></param>
+        /// <param name="reader"></param>
+        /// <returns></returns>
+        private async Task<List<E>> LoadFromReaderAsync<E>(TableAliasNameManager aliasManager, DbDataReader reader)
+            where E : EntityBase
+        {
+            List<E> lst = new List<E>();
+            if (reader != null && !reader.IsClosed)
+            {
+                aliasManager.InitMapping(reader);
+                while (await reader.ReadAsync())
+                {
 
+                    object value = aliasManager.LoadFromReader(reader);
+                    if (value != null)
+                    {
+                        E obj = value as E;
+                        //obj.SetBaseList(lst);
+                        lst.Add(obj);
+                    }
+                }
+            }
+            return lst;
+        }
         /// <summary>
         /// 获取范围表对应的BQL
         /// </summary>
@@ -425,23 +667,9 @@ namespace Buffalo.DB.BQLCommon
             {
                 _oper.DBInfo.ThrowNotFondTable(eType);
             }
-           // List<BQLParamHandle> lstParams = GetParam(table, lstScope);
-           // BQLCondition where = BQLCondition.TrueValue;
-           // where = FillCondition(where, table, lstScope);
-           // BQLQuery BQL = BQL.Select(lstParams.ToArray())
-           //.From(table)
-           //.Where(where);
-
-           // if (lstScope.GroupBy.Count > 0) 
-           // {
-           //     BQL = new KeyWordGroupByItem(lstScope.GroupBy, BQL);
-           // }
-           // if (lstScope.OrderBy != null && lstScope.OrderBy.Count > 0) 
-           // {
-           //     BQL = new KeyWordOrderByItem(GetSort(lstScope.OrderBy, table), BQL);
-           // }
+          
             BQLQuery BQL = GetSelectSql(lstScope, table);
-           //.OrderBy(GetSort(lstScope.OrderBy, table));
+           
             if (!lstScope.HasPage)
             {
                 return QueryDataSet<E>(BQL,lstScope.UseCache);
@@ -452,7 +680,32 @@ namespace Buffalo.DB.BQLCommon
             }
         }
 
+        /// <summary>
+        /// 查询并返回DataSet
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="lstScope">条件集合</param>
+        /// <returns></returns>
+        public Task<DataSet> SelectDataSetAsync<E>(ScopeList lstScope)
+        {
+            Type eType = typeof(E);
+            BQLEntityTableHandle table = _oper.DBInfo.FindTable(eType);
+            if (CommonMethods.IsNull(table))
+            {
+                _oper.DBInfo.ThrowNotFondTable(eType);
+            }
 
+            BQLQuery BQL = GetSelectSql(lstScope, table);
+
+            if (!lstScope.HasPage)
+            {
+                return QueryDataSetAsync<E>(BQL, lstScope.UseCache);
+            }
+            using (BatchAction ba = _oper.StarBatchAction())
+            {
+                return QueryDataSetAsync<E>(BQL, lstScope.PageContent, lstScope.UseCache);
+            }
+        }
         /// <summary>
         /// 执行sql语句，分页返回DataSet
         /// </summary>
@@ -477,7 +730,40 @@ namespace Buffalo.DB.BQLCommon
                 else
                 {
                     SelectCondition sCon = con as SelectCondition;
-                    DataTable dt = con.DBinfo.CurrentDbAdapter.QueryDataTable(sCon.GetSelect(), sCon.PageContent, _oper, null);
+                    DataTable dt = con.DBinfo.CurrentDbAdapter.QueryDataTable(sCon.GetSelect(),null, sCon.PageContent, _oper, null);
+                    dt.TableName = "newTable";
+                    ds = new DataSet();
+                    ds.Tables.Add(dt);
+                }
+
+                return ds;
+            }
+        }
+        /// <summary>
+        /// 执行sql语句，分页返回DataSet
+        /// </summary>
+        /// <param name="BQL">sql语句</param>
+        public async Task<DataSet> QueryDataSetAsync(BQLQuery BQL, Type tableType, bool useCache)
+        {
+            using (AbsCondition con = ToCondition(BQL, null, true, tableType))
+            {
+                DataSet ds = null;
+
+                con.Oper = _oper;
+                Dictionary<string, bool> cacheTables = null;
+                if (useCache)
+                {
+                    cacheTables = con.CacheTables;
+
+                }
+                if (con.DbParamList != null)
+                {
+                    ds =await _oper.QueryDataSetAsync(con.GetSql(useCache), con.DbParamList,CommandType.Text, cacheTables);
+                }
+                else
+                {
+                    SelectCondition sCon = con as SelectCondition;
+                    DataTable dt =await con.DBinfo.CurrentDbAdapter.QueryDataTableAsync(sCon.GetSelect(), null, sCon.PageContent, _oper, null);
                     dt.TableName = "newTable";
                     ds = new DataSet();
                     ds.Tables.Add(dt);
@@ -509,7 +795,39 @@ namespace Buffalo.DB.BQLCommon
                 else
                 {
                     SelectCondition sCon = con as SelectCondition;
-                    DataTable dt = con.DBinfo.CurrentDbAdapter.QueryDataTable(sCon.GetSelect(), sCon.PageContent, _oper, null);
+                    DataTable dt = con.DBinfo.CurrentDbAdapter.QueryDataTable(sCon.GetSelect(), null, sCon.PageContent, _oper, null);
+                    dt.TableName = "newTable";
+                    ds = new DataSet();
+                    ds.Tables.Add(dt);
+                }
+
+                return ds;
+            }
+        }
+        /// <summary>
+        /// 执行sql语句，分页返回DataSet
+        /// </summary>
+        /// <param name="BQL">sql语句</param>
+        public async Task<DataSet> QueryDataSetAsync<E>(BQLQuery BQL, bool useCache)
+        {
+            using (AbsCondition con = ToCondition(BQL, null, true, typeof(E)))
+            {
+                DataSet ds = null;
+                Dictionary<string, bool> cacheTables = null;
+                if (useCache)
+                {
+                    cacheTables = con.CacheTables;
+
+                }
+                con.Oper = _oper;
+                if (con.DbParamList != null)
+                {
+                    ds =await _oper.QueryDataSetAsync(con.GetSql(useCache), con.DbParamList,CommandType.Text, cacheTables);
+                }
+                else
+                {
+                    SelectCondition sCon = con as SelectCondition;
+                    DataTable dt =await con.DBinfo.CurrentDbAdapter.QueryDataTableAsync(sCon.GetSelect(), null, sCon.PageContent, _oper, null);
                     dt.TableName = "newTable";
                     ds = new DataSet();
                     ds.Tables.Add(dt);
@@ -547,7 +865,7 @@ namespace Buffalo.DB.BQLCommon
                     else
                     {
                         SelectCondition sCon = con as SelectCondition;
-                        DataTable dt = con.DBinfo.CurrentDbAdapter.QueryDataTable(sCon.GetSelect(), objPage, _oper, null);
+                        DataTable dt = con.DBinfo.CurrentDbAdapter.QueryDataTable(sCon.GetSelect(), null, objPage, _oper, null);
                         dt.TableName = "newTable";
                         ds = new DataSet();
                         ds.Tables.Add(dt);
@@ -556,7 +874,44 @@ namespace Buffalo.DB.BQLCommon
                 return ds;
             }
         }
+        /// <summary>
+        /// 执行sql语句，分页返回DataSet
+        /// </summary>
+        /// <param name="BQL">sql语句</param>
+        /// <param name="objPage">分页对象</param>
+        public async Task<DataSet> QueryDataSetAsync<E>(BQLQuery BQL, PageContent objPage, bool useCache)
+        {
 
+            using (AbsCondition con = ToCondition(BQL, null, true, typeof(E)))
+            {
+                DataSet ds = null;
+                Dictionary<string, bool> cacheTables = null;
+                if (useCache)
+                {
+                    cacheTables = con.CacheTables;
+
+                }
+                using (BatchAction ba = _oper.StarBatchAction())
+                {
+                    if (con.DbParamList != null)
+                    {
+                        con.PageContent = objPage;
+                        con.Oper = _oper;
+                        string sql = con.GetSql(useCache);
+                        ds =await _oper.QueryDataSetAsync(sql, con.DbParamList,CommandType.Text, cacheTables);
+                    }
+                    else
+                    {
+                        SelectCondition sCon = con as SelectCondition;
+                        DataTable dt =await con.DBinfo.CurrentDbAdapter.QueryDataTableAsync(sCon.GetSelect(), null, objPage, _oper, null);
+                        dt.TableName = "newTable";
+                        ds = new DataSet();
+                        ds.Tables.Add(dt);
+                    }
+                }
+                return ds;
+            }
+        }
         /// <summary>
         /// 执行sql语句，分页返回DataSet
         /// </summary>
@@ -585,7 +940,7 @@ namespace Buffalo.DB.BQLCommon
                     else
                     {
                         SelectCondition sCon = con as SelectCondition;
-                        DataTable dt = con.DBinfo.CurrentDbAdapter.QueryDataTable(sCon.GetSelect(), objPage, _oper, null);
+                        DataTable dt = con.DBinfo.CurrentDbAdapter.QueryDataTable(sCon.GetSelect(), null, objPage, _oper, null);
                         dt.TableName = "newTable";
                         ds = new DataSet();
                         ds.Tables.Add(dt);
@@ -594,14 +949,51 @@ namespace Buffalo.DB.BQLCommon
                 return ds;
             }
         }
+        /// <summary>
+        /// 执行sql语句，分页返回DataSet
+        /// </summary>
+        /// <param name="BQL">sql语句</param>
+        /// <param name="objPage">分页对象</param>
+        public async Task<DataSet> QueryDataSetAsync(BQLQuery bql, Type tableType, PageContent objPage, bool useCache)
+        {
+            using (AbsCondition con = ToCondition(bql, null, true, tableType))
+            {
+                Dictionary<string, bool> cacheTables = null;
+                if (useCache)
+                {
+                    cacheTables = con.CacheTables;
 
+                }
+                DataSet ds = null;
+                using (BatchAction ba = _oper.StarBatchAction())
+                {
+                    if (con.DbParamList != null)
+                    {
+                        con.PageContent = objPage;
+                        con.Oper = _oper;
+                        string sql = con.GetSql(useCache);
+                        ds =await _oper.QueryDataSetAsync(sql, con.DbParamList,CommandType.Text, cacheTables);
+                    }
+                    else
+                    {
+                        SelectCondition sCon = con as SelectCondition;
+                        DataTable dt =await con.DBinfo.CurrentDbAdapter.QueryDataTableAsync(sCon.GetSelect(), null, objPage, _oper, null);
+                        dt.TableName = "newTable";
+                        ds = new DataSet();
+                        ds.Tables.Add(dt);
+                    }
+                }
+                return ds;
+            }
+        }
+        
         /// <summary>
         /// 执行sql语句，分页返回Reader
         /// </summary>
         /// <param name="BQL">sql语句</param>
         /// <param name="objPage">分页对象</param>
         /// <param name="tableType">表对应的实体类型</param>
-        public IDataReader QueryReader(ScopeList lstScope, PageContent objPage,Type tableType)
+        public DbDataReader QueryReader(ScopeList lstScope, PageContent objPage,Type tableType)
         {
             BQLEntityTableHandle table = _oper.DBInfo.FindTable(tableType);
             if (CommonMethods.IsNull(table))
@@ -612,6 +1004,51 @@ namespace Buffalo.DB.BQLCommon
             BQLQuery BQL = GetSelectSql(lstScope, table);
             return QueryReader(BQL, objPage, tableType, lstScope.UseCache);
         }
+        /// <summary>
+        /// 执行sql语句，分页返回Reader
+        /// </summary>
+        /// <param name="BQL">sql语句</param>
+        /// <param name="objPage">分页对象</param>
+        /// <param name="tableType">表对应的实体类型</param>
+        public Task<DbDataReader> QueryReaderAsync(ScopeList lstScope, PageContent objPage, Type tableType)
+        {
+            BQLEntityTableHandle table = _oper.DBInfo.FindTable(tableType);
+            if (CommonMethods.IsNull(table))
+            {
+                _oper.DBInfo.ThrowNotFondTable(tableType);
+            }
+
+            BQLQuery BQL = GetSelectSql(lstScope, table);
+            return QueryReaderAsync(BQL, objPage, tableType, lstScope.UseCache);
+        }
+        protected string QueryReaderSql(BQLQuery BQL, PageContent objPage, Type tableType, bool useCache,out AbsCondition con, out Dictionary<string, bool> cacheTables ) 
+        {
+            cacheTables = null;
+            con = null;
+
+            if (tableType == null)
+            {
+                con = BQLKeyWordManager.ToCondition(BQL, _oper.DBInfo, null, true);
+
+            }
+            else
+            {
+                con = ToCondition(BQL, new BQLEntityTableHandle[] { }, true, tableType);
+            }
+           
+            if (useCache)
+            {
+                cacheTables = con.CacheTables;
+
+            }
+            con.PageContent = objPage;
+
+
+            con.PageContent = objPage;
+            con.Oper = _oper;
+            string sql = con.GetSql(useCache);
+            return sql;
+        }
 
         /// <summary>
         /// 执行sql语句，分页返回Reader
@@ -619,31 +1056,27 @@ namespace Buffalo.DB.BQLCommon
         /// <param name="BQL">sql语句</param>
         /// <param name="objPage">分页对象</param>
         /// <param name="tableType">表对应的实体类型</param>
-        public IDataReader QueryReader(BQLQuery BQL, PageContent objPage, Type tableType,bool useCache)
+        public DbDataReader QueryReader(BQLQuery BQL, PageContent objPage, Type tableType,bool useCache)
         {
             AbsCondition con = null;
-            if (tableType == null)
-            {
-                con = BQLKeyWordManager.ToCondition(BQL, _oper.DBInfo, null, true);
-
-            }
-            else 
-            {
-                con = ToCondition(BQL, new BQLEntityTableHandle[] { },true,tableType);
-            }
             Dictionary<string, bool> cacheTables = null;
-            if (useCache)
-            {
-                cacheTables = con.CacheTables;
+            string sql = QueryReaderSql(BQL, objPage, tableType, useCache,out con,out cacheTables);
+            DbDataReader reader  = _oper.Query(sql, con.DbParamList,cacheTables);
 
-            }
-            con.PageContent = objPage;
-            IDataReader reader = null;
-
-            con.PageContent = objPage;
-            con.Oper = _oper;
-            string sql = con.GetSql(useCache);
-            reader = _oper.Query(sql, con.DbParamList,cacheTables);
+            return reader;
+        }
+        /// <summary>
+        /// 执行sql语句，分页返回Reader
+        /// </summary>
+        /// <param name="BQL">sql语句</param>
+        /// <param name="objPage">分页对象</param>
+        /// <param name="tableType">表对应的实体类型</param>
+        public async Task<DbDataReader> QueryReaderAsync(BQLQuery BQL, PageContent objPage, Type tableType, bool useCache)
+        {
+            AbsCondition con = null;
+            Dictionary<string, bool> cacheTables = null;
+            string sql = QueryReaderSql(BQL, objPage, tableType, useCache, out con, out cacheTables);
+            DbDataReader reader = await _oper.QueryAsync(sql, con.DbParamList,CommandType.Text, cacheTables);
 
             return reader;
         }
@@ -663,7 +1096,22 @@ namespace Buffalo.DB.BQLCommon
             BQLQuery BQL = GetSelectSql(lstScope, table);
             return QueryReader(BQL, null, lstScope.UseCache);
         }
+        /// <summary>
+        /// 执行sql语句，返回Reader
+        /// </summary>
+        /// <param name="sql">sql语句</param>
+        /// <param name="objPage">分页对象</param>
+        public Task<DbDataReader> QueryReaderAsync(ScopeList lstScope, Type tableType)
+        {
+            BQLEntityTableHandle table = _oper.DBInfo.FindTable(tableType);
+            if (CommonMethods.IsNull(table))
+            {
+                _oper.DBInfo.ThrowNotFondTable(tableType);
+            }
 
+            BQLQuery BQL = GetSelectSql(lstScope, table);
+            return QueryReaderAsync(BQL, null, lstScope.UseCache);
+        }
         /// <summary>
         /// 执行sql语句，返回Reader
         /// </summary>
@@ -687,7 +1135,29 @@ namespace Buffalo.DB.BQLCommon
                 return reader;
             }
         }
+        /// <summary>
+        /// 执行sql语句，返回Reader
+        /// </summary>
+        /// <param name="sql">sql语句</param>
+        /// <param name="objPage">分页对象</param>
+        public async Task<DbDataReader> QueryReaderAsync(BQLQuery BQL, Type tableType, bool useCache)
+        {
 
+            using (AbsCondition con = ToCondition(BQL, null, true, tableType))
+            {
+                Dictionary<string, bool> cacheTables = null;
+                if (useCache)
+                {
+                    cacheTables = con.CacheTables;
+
+                }
+                DbDataReader reader = null;
+                con.Oper = _oper;
+                reader =await _oper.QueryAsync(con.GetSql(useCache), con.DbParamList,CommandType.Text, cacheTables);
+
+                return reader;
+            }
+        }
 
         /// <summary>
         /// 执行Sql命令
@@ -706,14 +1176,25 @@ namespace Buffalo.DB.BQLCommon
             ret = _oper.Execute(con.GetSql(true), con.DbParamList,cacheTables);
             return ret;
         }
-        
         /// <summary>
-        /// 查询是否存在符合条件的记录
+        /// 执行Sql命令
         /// </summary>
         /// <param name="BQL">sql语句</param>
-        /// <returns></returns>
-        public bool ExistsRecord<E>(ScopeList lstScope)
-            where E : EntityBase, new() 
+        public async Task<int> ExecuteCommandAsync(BQLQuery BQL)
+        {
+            AbsCondition con = BQLKeyWordManager.ToCondition(BQL, _oper.DBInfo, null, true);
+            Dictionary<string, bool> cacheTables = null;
+
+            cacheTables = con.CacheTables;
+
+
+            int ret = -1;
+            con.Oper = _oper;
+            ret = await _oper.ExecuteAsync(con.GetSql(true), con.DbParamList,CommandType.Text, cacheTables);
+            return ret;
+        }
+
+        protected BQLQuery ExistsRecordBQL<E>(ScopeList lstScope) 
         {
             Type eType = typeof(E);
             BQLEntityTableHandle table = _oper.DBInfo.FindTable(eType);
@@ -722,13 +1203,13 @@ namespace Buffalo.DB.BQLCommon
                 _oper.DBInfo.ThrowNotFondTable(eType);
             }
             List<BQLParamHandle> lstParams = new List<BQLParamHandle>();
-            if (table.GetEntityInfo().PrimaryProperty.Count<=0)
+            if (table.GetEntityInfo().PrimaryProperty.Count <= 0)
             {
                 throw new MissingPrimaryKeyException("找不到：" + eType.FullName + "的关联主键");
             }
 
             lstParams.Add(table[table.GetEntityInfo().PrimaryProperty[0].PropertyName]);
-                
+
             BQLCondition where = BQLCondition.TrueValue;
             where = FillCondition(where, table, lstScope);
             BQLQuery bql = BQL.Select(lstParams.ToArray())
@@ -740,9 +1221,30 @@ namespace Buffalo.DB.BQLCommon
                 BQLCondition having = FillCondition(where, table, lstScope.Having);
                 bql = ((KeyWordWhereItem)bql).Having(having);
             }
+            return bql;
+        }
+        /// <summary>
+        /// 查询是否存在符合条件的记录
+        /// </summary>
+        /// <param name="BQL">sql语句</param>
+        /// <returns></returns>
+        public bool ExistsRecord<E>(ScopeList lstScope)
+            where E : EntityBase, new() 
+        {
+            BQLQuery bql = ExistsRecordBQL<E>(lstScope);
             return ExistsRecord<E>(bql,lstScope.UseCache);
         }
-
+        /// <summary>
+        /// 查询是否存在符合条件的记录
+        /// </summary>
+        /// <param name="BQL">sql语句</param>
+        /// <returns></returns>
+        public Task<bool> ExistsRecordAsync<E>(ScopeList lstScope)
+            where E : EntityBase, new()
+        {
+            BQLQuery bql = ExistsRecordBQL<E>(lstScope);
+            return ExistsRecordAsync<E>(bql, lstScope.UseCache);
+        }
         /// <summary>
         /// 查询是否存在符合条件的记录
         /// </summary>
@@ -763,32 +1265,49 @@ namespace Buffalo.DB.BQLCommon
                     cacheTables = con.CacheTables;
 
                 }
-                try
+
+                con.Oper = _oper;
+                using (reader = _oper.Query(sql, con.DbParamList, cacheTables))
                 {
-                    con.Oper = _oper;
-                    reader = _oper.Query(sql, con.DbParamList, cacheTables);
                     exists = reader.Read();
                 }
-                finally
-                {
-                    if (reader != null)
-                    {
-                        reader.Close();
-                    }
-                }
+
                 return exists;
             }
         }
-
-
         /// <summary>
-        /// 查询表
+        /// 查询是否存在符合条件的记录
         /// </summary>
-        /// <typeparam name="E"></typeparam>
-        /// <param name="lstScope">条件</param>
+        /// <param name="BQL">sql语句</param>
         /// <returns></returns>
-        public E GetUnique<E>(ScopeList lstScope)
+        public async Task<bool> ExistsRecordAsync<E>(BQLQuery BQL, bool useCache)
             where E : EntityBase, new()
+        {
+            Type tableType = typeof(E);
+            using (AbsCondition con = ToCondition(BQL, null, true, tableType))
+            {
+                string sql = con.DBinfo.CurrentDbAdapter.GetTopSelectSql(con as SelectCondition, 1);
+                bool exists = false;
+                DbDataReader reader = null;
+                Dictionary<string, bool> cacheTables = null;
+                if (useCache)
+                {
+                    cacheTables = con.CacheTables;
+
+                }
+
+                con.Oper = _oper;
+                using (reader = await _oper.QueryAsync(sql, con.DbParamList, CommandType.Text, cacheTables))
+                {
+
+                    exists = await reader.ReadAsync();
+                }
+
+
+                return exists;
+            }
+        }
+        protected BQLQuery GetGetUniqueSQL<E>(ScopeList lstScope) 
         {
             Type eType = typeof(E);
             BQLEntityTableHandle table = _oper.DBInfo.FindTable(eType);
@@ -808,9 +1327,34 @@ namespace Buffalo.DB.BQLCommon
                 BQLCondition having = FillCondition(where, table, lstScope.Having);
                 bql = ((KeyWordWhereItem)bql).Having(having);
             }
+            return bql;
+        }
+        /// <summary>
+        /// 查询表
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="lstScope">条件</param>
+        /// <returns></returns>
+        public E GetUnique<E>(ScopeList lstScope)
+            where E : EntityBase, new()
+        {
+
+            BQLQuery bql= GetGetUniqueSQL<E>(lstScope);
             return GetUnique<E>(bql,lstScope.UseCache);
         }
+        // <summary>
+        /// 查询表
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="lstScope">条件</param>
+        /// <returns></returns>
+        public Task<E> GetUniqueAsync<E>(ScopeList lstScope)
+            where E : EntityBase, new()
+        {
 
+            BQLQuery bql = GetGetUniqueSQL<E>(lstScope);
+            return GetUniqueAsync<E>(bql, lstScope.UseCache);
+        }
         /// <summary>
         /// 获取第一条记录
         /// </summary>
@@ -838,7 +1382,7 @@ namespace Buffalo.DB.BQLCommon
                 try
                 {
                     con.Oper = _oper;
-                    bool hasValue = true;
+                    
                     aliasManager.InitMapping(reader);
                     if (reader.Read())
                     {
@@ -855,7 +1399,50 @@ namespace Buffalo.DB.BQLCommon
                 return ret;
             }
         }
+        /// <summary>
+        /// 获取第一条记录
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="BQL"></param>
+        /// <returns></returns>
+        public async Task<E> GetUniqueAsync<E>(BQLQuery BQL, bool useCache)
+            where E : EntityBase, new()
+        {
+            Type tableType = typeof(E);
+            TableAliasNameManager aliasManager = new TableAliasNameManager(new BQLEntityTableHandle(EntityInfoManager.GetEntityHandle(tableType)));
 
+
+            using (AbsCondition con = BQLKeyWordManager.ToCondition(BQL, _oper.DBInfo, aliasManager, true))
+            {
+                Dictionary<string, bool> cacheTables = null;
+                if (useCache)
+                {
+                    cacheTables = con.CacheTables;
+
+                }
+                string sql = con.DBinfo.CurrentDbAdapter.GetTopSelectSql(con as SelectCondition, 1);
+                E ret = default(E);
+                DbDataReader reader = await _oper.QueryAsync(sql, con.DbParamList,CommandType.Text, cacheTables);
+                try
+                {
+                    con.Oper = _oper;
+
+                    aliasManager.InitMapping(reader);
+                    if (await reader.ReadAsync())
+                    {
+                        ret = aliasManager.LoadFromReader(reader) as E;
+                    }
+                }
+                finally
+                {
+                    if (reader != null)
+                    {
+                        reader.Close();
+                    }
+                }
+                return ret;
+            }
+        }
         /// <summary>
         /// 填充信息
         /// </summary>

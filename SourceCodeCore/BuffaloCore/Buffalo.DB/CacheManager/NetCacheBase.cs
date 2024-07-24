@@ -93,6 +93,11 @@ namespace Buffalo.DB.CacheManager
         /// </summary>
         /// <returns></returns>
         protected abstract T CreateClient(bool realOnly,string cmd);
+        /// <summary>
+        /// 创建客户端
+        /// </summary>
+        /// <returns></returns>
+        protected abstract Task<T> CreateClientAsync(bool realOnly, string cmd);
 
         public System.Data.DataSet GetData(IDictionary<string, bool> tableNames, string sql, DataBaseOperate oper)
         {
@@ -113,8 +118,50 @@ namespace Buffalo.DB.CacheManager
                         return null;
                     }
 
-                    //DataSet dsRet = DoGetDataSet(sqlMD5, client);
                     
+
+                    if (_info.SqlOutputer.HasOutput)
+                    {
+                        OutPutMessage(QueryCacheCommand.CommandGetDataSet, sql, oper);
+                    }
+
+                    return dataItem.Data;
+                }
+            }
+            catch (Exception ex)
+            {
+                if (_throwExcertion)
+                {
+                    throw ex;
+                }
+                else
+                {
+                    OutExceptionMessage(ex, oper);
+                    return null;
+                }
+            }
+        }
+
+        public async Task<System.Data.DataSet> GetDataAsync(IDictionary<string, bool> tableNames, string sql, DataBaseOperate oper)
+        {
+            try
+            {
+                using (T client =await CreateClientAsync(true, QueryCacheCommand.CommandGetDataSet))
+                {
+                    //client.PrimitiveAsString = true;
+                    string sqlMD5 = GetSQLMD5(sql);
+                    DataSetCacheItem dataItem = ValueConvertExtend.GetMapDataValue<DataSetCacheItem>(_dicQueryCache, sqlMD5);
+                    if (dataItem == null)
+                    {
+                        return null;
+                    }
+                    bool isVersion = await ComparVersionAsync(tableNames, sqlMD5, dataItem.TablesVersion, client);//判断版本号
+                    if (!isVersion)
+                    {
+                        return null;
+                    }
+
+
 
                     if (_info.SqlOutputer.HasOutput)
                     {
@@ -149,7 +196,7 @@ namespace Buffalo.DB.CacheManager
             sbInfo.Append(_info.FullName);
             sbInfo.Append(".");
             sbInfo.Append(tableName);
-            return PasswordHash.ToMD5String(sbInfo.ToString());
+            return PasswordHash.ToSHA1String(sbInfo.ToString());
         }
 
         /// <summary>
@@ -165,7 +212,7 @@ namespace Buffalo.DB.CacheManager
             sbSqlInfo.Append(_info.FullName);
             sbSqlInfo.Append(":");
             sbSqlInfo.Append(sql);
-            sbSql.Append(PasswordHash.ToMD5String(sbSqlInfo.ToString()));
+            sbSql.Append(PasswordHash.ToSHA1String(sbSqlInfo.ToString()));
             return sbSql.ToString();
         }
         /// <summary>
@@ -191,6 +238,34 @@ namespace Buffalo.DB.CacheManager
             IDictionary<string, object> tableVars = GetValues(keys, client);
 
             
+            object tmp = null;
+            foreach (KeyValuePair<string, int> kvp in dicTableVers)
+            {
+                if (!tableVars.TryGetValue(kvp.Key, out tmp))
+                {
+                    return false;
+                }
+                if (ValueConvertExtend.ConvertValue<int>(tmp) != kvp.Value)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        /// <summary>
+        /// 对比版本
+        /// </summary>
+        /// <param name="tableNames">表名集合</param>
+        /// <param name="md5">sql语句的MD5</param>
+        /// <param name="client">客户端</param>
+        /// <returns></returns>
+        private async Task<bool> ComparVersionAsync(IDictionary<string, bool> tableNames, string md5, Dictionary<string, int> dicTableVers, T client)
+        {
+            //string sqlKey = FormatVersionKey(md5);
+            string[] keys = GetKeys(tableNames);
+            IDictionary<string, object> tableVars = await GetValuesAsync(keys, client);
+
+
             object tmp = null;
             foreach (KeyValuePair<string, int> kvp in dicTableVers)
             {
@@ -410,7 +485,14 @@ namespace Buffalo.DB.CacheManager
         /// <param name="oper"></param>
         /// <returns></returns>
         public abstract System.Collections.IList DoGetEntityList(string key,Type entityType, T client);
-        
+        /// <summary>
+        /// 获取实体集合
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="oper"></param>
+        /// <returns></returns>
+        public abstract Task<System.Collections.IList> DoGetEntityListAsync(string key, Type entityType, T client);
+
         /// <summary>
         /// 设置属性集合
         /// </summary>
@@ -419,7 +501,14 @@ namespace Buffalo.DB.CacheManager
         /// <param name="oper"></param>
         /// <returns></returns>
         public abstract bool DoSetEntityList(string key, System.Collections.IList lstEntity, TimeSpan expir, T client);
-
+        /// <summary>
+        /// 设置属性集合
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="lstEntity"></param>
+        /// <param name="oper"></param>
+        /// <returns></returns>
+        public abstract Task<bool> DoSetEntityListAsync(string key, System.Collections.IList lstEntity, TimeSpan expir, T client);
         /// <summary>
         /// 获取值
         /// </summary>
@@ -525,6 +614,47 @@ namespace Buffalo.DB.CacheManager
             return dicTableVers;
         }
         /// <summary>
+        /// 获取当前库中所有表的版本号
+        /// </summary>
+        /// <param name="tableNames">表名集合</param>
+        /// <param name="client">Redis连接</param>
+        /// <param name="needCreateTableVer">是否需要创建表的键</param>
+        /// <returns></returns>
+        private async Task<Dictionary<string, int>> GetTablesVersionAsync(IDictionary<string, bool> tableNames,
+            IDictionary<string, object> tableVars, T client, bool needCreateTableVer)
+        {
+            Dictionary<string, int> dicTableVers = new Dictionary<string, int>(StringComparer.CurrentCultureIgnoreCase);
+
+
+            //IDictionary<string, object> tableVars = GetValues(keys, client);
+            object objVer = null;
+            bool ret = false;
+            foreach (KeyValuePair<string, bool> kvp in tableNames)
+            {
+                string key = GetTableName(kvp.Key);
+                if (!tableVars.TryGetValue(key, out objVer))
+                {
+                    objVer = null;
+                }
+                if (objVer == null)
+                {
+                    if (!needCreateTableVer)
+                    {
+                        return null;
+                    }
+                    else
+                    {
+                        ret = await SetValueAsync(key, 1, SetValueType.Set, TimeSpan.MinValue, client);
+                        objVer = "1";
+                    }
+                }
+                dicTableVers[kvp.Key] = ValueConvertExtend.ConvertValue<int>(objVer);
+            }
+
+
+            return dicTableVers;
+        }
+        /// <summary>
         /// 获取当前库中表的版本号字符串
         /// </summary>
         /// <param name="tableNames">表名集合</param>
@@ -536,18 +666,26 @@ namespace Buffalo.DB.CacheManager
             string[] keys = GetKeys(tableNames);
             IDictionary<string, object> tableVars = GetValues(keys, client);
             Dictionary<string, int> dicTableVers = GetTablesVersion(tableNames, tableVars, client, needCreateTableVer);
-            //StringBuilder sbTables = new StringBuilder(dicTableVers.Count * 10);
-            //foreach (KeyValuePair<string, string> kvp in dicTableVers)
-            //{
-            //    sbTables.Append(kvp.Key);
-            //    sbTables.Append("=");
-            //    sbTables.Append(kvp.Value);
-            //    sbTables.Append("\n");
-            //}
-            //if (sbTables.Length > 0)
-            //{
-            //    sbTables.Remove(sbTables.Length - 1, 1);
-            //}
+            Dictionary<string, int> ret = new Dictionary<string, int>(dicTableVers.Count, StringComparer.CurrentCultureIgnoreCase);
+            foreach (KeyValuePair<string, int> kvp in dicTableVers)
+            {
+                ret[GetTableName(kvp.Key)] = kvp.Value;
+            }
+
+            return ret;
+        }
+        /// <summary>
+        /// 获取当前库中表的版本号字符串
+        /// </summary>
+        /// <param name="tableNames">表名集合</param>
+        /// <param name="client">Redis连接</param>
+        /// <param name="needCreateTableVer">是否需要创建表的键</param>
+        /// <returns></returns>
+        private async Task<Dictionary<string, int>> GetTablesVerStringAsync(IDictionary<string, bool> tableNames, T client, bool needCreateTableVer)
+        {
+            string[] keys = GetKeys(tableNames);
+            IDictionary<string, object> tableVars = await GetValuesAsync(keys, client);
+            Dictionary<string, int> dicTableVers = await GetTablesVersionAsync(tableNames, tableVars, client, needCreateTableVer);
             Dictionary<string, int> ret = new Dictionary<string, int>(dicTableVers.Count, StringComparer.CurrentCultureIgnoreCase);
             foreach (KeyValuePair<string, int> kvp in dicTableVers)
             {
@@ -682,9 +820,7 @@ namespace Buffalo.DB.CacheManager
             {
                 using (T client = CreateClient(false, QueryCacheCommand.CommandSetDataSet))
                 {
-                    //client.PrimitiveAsString = true;
                     string md5 = GetSQLMD5(sql);
-                    //string verKey = FormatVersionKey(md5);
                     Dictionary<string,int> verValue = GetTablesVerString(tableNames, client, true);
 
                     if (_info.SqlOutputer.HasOutput)
@@ -714,7 +850,48 @@ namespace Buffalo.DB.CacheManager
                 }
             }
         }
+        /// <summary>
+        /// 保存数据
+        /// </summary>
+        /// <param name="tableNames"></param>
+        /// <param name="sql"></param>
+        /// <param name="ds"></param>
+        /// <returns></returns>
+        public async Task<bool> SetDataAsync(IDictionary<string, bool> tableNames, string sql, System.Data.DataSet ds, TimeSpan expir, DataBaseOperate oper)
+        {
+            try
+            {
+                using (T client = await CreateClientAsync(false, QueryCacheCommand.CommandSetDataSet))
+                {
+                    string md5 = GetSQLMD5(sql);
+                    Dictionary<string, int> verValue = await GetTablesVerStringAsync(tableNames, client, true);
 
+                    if (_info.SqlOutputer.HasOutput)
+                    {
+                        OutPutMessage(QueryCacheCommand.CommandSetDataSet, sql, oper);
+                    }
+                    
+                    DataSetCacheItem item = new DataSetCacheItem();
+                    item.Data = ds;
+                    item.MD5 = md5;
+                    item.TablesVersion = verValue;
+                    _dicQueryCache[md5] = item;
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                if (_throwExcertion)
+                {
+                    throw ex;
+                }
+                else
+                {
+                    OutExceptionMessage(ex, oper);
+                    return false;
+                }
+            }
+        }
         private void OutPutMessage(string type, string message, DataBaseOperate oper)
         {
             oper.OutMessage(MessageType.QueryCache, GetCacheName(), type, message);
@@ -1241,7 +1418,7 @@ namespace Buffalo.DB.CacheManager
         {
             try
             {
-                using (T client = CreateClient(true, QueryCacheCommand.CommandGetValues))
+                using (T client = await CreateClientAsync(true, QueryCacheCommand.CommandGetValues))
                 {
                     E ret = await GetValueAsync<E>(key, defaultValue,client);
                     if (_info.SqlOutputer.HasOutput)
@@ -1269,7 +1446,7 @@ namespace Buffalo.DB.CacheManager
         {
             try
             {
-                using (T client = CreateClient(true, QueryCacheCommand.CommandGetValues))
+                using (T client =await CreateClientAsync(true, QueryCacheCommand.CommandGetValues))
                 {
                     object ret = await GetValueAsync(key, client);
                     if (_info.SqlOutputer.HasOutput)
@@ -1298,7 +1475,7 @@ namespace Buffalo.DB.CacheManager
 
             try
             {
-                using (T client = CreateClient(true, QueryCacheCommand.CommandGetValues))
+                using (T client =await CreateClientAsync(true, QueryCacheCommand.CommandGetValues))
                 {
                     IDictionary<string, object> ret = await GetValuesAsync(keys, client);
                     if (_info.SqlOutputer.HasOutput)
@@ -1336,7 +1513,7 @@ namespace Buffalo.DB.CacheManager
         {
             try
             {
-                using (T client = CreateClient(true, QueryCacheCommand.CommandSetValues))
+                using (T client = await CreateClientAsync(true, QueryCacheCommand.CommandSetValues))
                 {
                     bool ret = await SetValueAsync(key, value,type,expir, client);
                     if (_info.SqlOutputer.HasOutput)
@@ -1364,7 +1541,7 @@ namespace Buffalo.DB.CacheManager
         {
             try
             {
-                using (T client = CreateClient(true, QueryCacheCommand.CommandSetValues))
+                using (T client =await CreateClientAsync(true, QueryCacheCommand.CommandSetValues))
                 {
                     bool ret = await SetValueAsync(key, value, type, expir, client);
                     if (_info.SqlOutputer.HasOutput)
@@ -1392,7 +1569,7 @@ namespace Buffalo.DB.CacheManager
         {
             try
             {
-                using (T client = CreateClient(true, QueryCacheCommand.CommandGetValues))
+                using (T client =await CreateClientAsync(true, QueryCacheCommand.CommandGetValues))
                 {
                     bool ret = await DoExistsKeyAsync(key, client);
                     if (_info.SqlOutputer.HasOutput)
@@ -1420,7 +1597,7 @@ namespace Buffalo.DB.CacheManager
         {
             try
             {
-                using (T client = CreateClient(true, QueryCacheCommand.CommandSetValues))
+                using (T client = await CreateClientAsync(true, QueryCacheCommand.CommandSetValues))
                 {
                     bool ret = await DoSetKeyExpireAsync(key, expir, client);
                     if (_info.SqlOutputer.HasOutput)
@@ -1448,7 +1625,7 @@ namespace Buffalo.DB.CacheManager
         {
             try
             {
-                using (T client = CreateClient(true, QueryCacheCommand.CommandSetValues))
+                using (T client = await CreateClientAsync(true, QueryCacheCommand.CommandSetValues))
                 {
                     await ClearAllAsync(client);
                     
@@ -1473,7 +1650,7 @@ namespace Buffalo.DB.CacheManager
         {
             try
             {
-                using (T client = CreateClient(true, QueryCacheCommand.CommandSetValues))
+                using (T client = await CreateClientAsync(true, QueryCacheCommand.CommandSetValues))
                 {
                     bool ret = await DeleteValueAsync(key, client);
                     if (_info.SqlOutputer.HasOutput)
@@ -1501,7 +1678,7 @@ namespace Buffalo.DB.CacheManager
         {
             try
             {
-                using (T client = CreateClient(true, QueryCacheCommand.CommandSetValues))
+                using (T client =await CreateClientAsync(true, QueryCacheCommand.CommandSetValues))
                 {
                     long ret = await DoIncrementAsync(key, inc,client);
                     if (_info.SqlOutputer.HasOutput)
@@ -1529,7 +1706,7 @@ namespace Buffalo.DB.CacheManager
         {
             try
             {
-                using (T client = CreateClient(true, QueryCacheCommand.CommandSetValues))
+                using (T client =await CreateClientAsync(true, QueryCacheCommand.CommandSetValues))
                 {
                     long ret = await DoDecrementAsync(key, dec, client);
                     if (_info.SqlOutputer.HasOutput)
@@ -1555,7 +1732,7 @@ namespace Buffalo.DB.CacheManager
 
         public async Task<IEnumerable<string>> GetAllKeysAsync(string pattern)
         {
-            using (T client = CreateClient(false, QueryCacheCommand.CommandGetValues))
+            using (T client = await CreateClientAsync(false, QueryCacheCommand.CommandGetValues))
             {
                 return await GetAllKeysAsync(pattern, client);
             }
@@ -1567,7 +1744,7 @@ namespace Buffalo.DB.CacheManager
         {
             try
             {
-                using (T client = CreateClient(false, QueryCacheCommand.CommandDeleteSQL))
+                using (T client =await CreateClientAsync(false, QueryCacheCommand.CommandDeleteSQL))
                 {
 
                     //client.PrimitiveAsString = true;
@@ -1602,7 +1779,7 @@ namespace Buffalo.DB.CacheManager
             try
             {
                 string key = GetTableName(tableName);
-                using (T client = CreateClient(false, QueryCacheCommand.CommandDeleteTable))
+                using (T client =await CreateClientAsync(false, QueryCacheCommand.CommandDeleteTable))
                 {
                     //client.PrimitiveAsString = true;
                     int val = ValueConvertExtend.ConvertValue<int>(GetValue<object>(key, -1, client));
@@ -1632,14 +1809,61 @@ namespace Buffalo.DB.CacheManager
 
        
 
-        public Task<IList> GetEntityListAsync(string key, Type entityType, DataBaseOperate oper)
+        public async Task<IList> GetEntityListAsync(string key, Type entityType, DataBaseOperate oper)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (T client =await CreateClientAsync(true, QueryCacheCommand.CommandGetList))
+                {
+                    IList ret = await DoGetEntityListAsync(key, entityType, client);
+                    if (_info.SqlOutputer.HasOutput)
+                    {
+                        OutPutMessage(QueryCacheCommand.CommandGetList, "key=" + key, oper);
+                    }
+                    return ret;
+                }
+            }
+            catch (Exception ex)
+            {
+                if (_throwExcertion)
+                {
+                    throw ex;
+                }
+                else
+                {
+                    OutExceptionMessage(ex, oper);
+                    return null;
+                }
+            }
         }
 
-        public Task<bool> SetEntityListAsync(string key, IList lstEntity, TimeSpan expir, DataBaseOperate oper)
+        public async Task<bool> SetEntityListAsync(string key, IList lstEntity, TimeSpan expir, DataBaseOperate oper)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (T client = CreateClient(false, QueryCacheCommand.CommandSetList))
+                {
+
+                    bool ret = await DoSetEntityListAsync(key, lstEntity, expir, client);
+                    if (_info.SqlOutputer.HasOutput)
+                    {
+                        OutPutMessage(QueryCacheCommand.CommandSetList, "key=" + key, oper);
+                    }
+                    return ret;
+                }
+            }
+            catch (Exception ex)
+            {
+                if (_throwExcertion)
+                {
+                    throw ex;
+                }
+                else
+                {
+                    OutExceptionMessage(ex, oper);
+                    return false;
+                }
+            }
         }
     }
 }

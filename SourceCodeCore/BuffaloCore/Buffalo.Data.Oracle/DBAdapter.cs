@@ -14,6 +14,7 @@ using Buffalo.DB.CommBase.DataAccessBases;
 using Buffalo.DB.BQLCommon.BQLKeyWordCommon;
 using Buffalo.DB.DataBaseAdapter;
 using Oracle.ManagedDataAccess.Client;
+using System.Threading.Tasks;
 
 namespace Buffalo.Data.Oracle
 {
@@ -171,9 +172,9 @@ namespace Buffalo.Data.Oracle
         /// 获取SQL命令类
         /// </summary>
         /// <returns></returns>
-        public virtual IDbCommand GetCommand()
+        public virtual DbCommand GetCommand()
         {
-            IDbCommand comm = new OracleCommand();
+            DbCommand comm = new OracleCommand();
             return comm;
         }
         /// <summary>
@@ -255,18 +256,7 @@ namespace Buffalo.Data.Oracle
         {
             return " (contains(" + paranName + "," + value + ")>0)";
         }
-        /// <summary>
-        /// 游标分页
-        /// </summary>
-        /// <typeparam name="T">实体类型</typeparam>
-        /// <param name="sql">sql语句</param>
-        /// <param name="objPage">分页实体</param>
-        /// <param name="oper">数据库链接</param>
-        /// <returns></returns>
-        public IDataReader Query(string sql, PageContent objPage, DataBaseOperate oper)
-        {
-            return CursorPageCutter.Query(sql, null, objPage, oper);
-        }
+        
         /// <summary>
         /// 获取当前时间
         /// </summary>
@@ -302,18 +292,7 @@ namespace Buffalo.Data.Oracle
         {
             return "((sysdate -TO_DATE('19700101','yyyymmdd'))*86400 - TO_NUMBER(SUBSTR(TZ_OFFSET(sessiontimezone),1,3))*3600)";
         }
-        /// <summary>
-        /// 查询并且返回DataSet(游标分页)
-        /// </summary>
-        /// <param name="sql">要查询的SQL语句</param>
-        /// <param name="objPage">分页对象</param>
-        /// <param name="oper">数据库对象</param>
-        /// <param name="curType">映射的实体类型(如果用回数据库的原列名，则此为null)</param>
-        /// <returns></returns>
-        public DataTable QueryDataTable(string sql, PageContent objPage, DataBaseOperate oper, Type curType)
-        {
-            return CursorPageCutter.QueryDataTable(sql, null, objPage, oper, curType);
-        }
+        
         /// <summary>
         /// 游标分页
         /// </summary>
@@ -323,7 +302,7 @@ namespace Buffalo.Data.Oracle
         /// <param name="objPage">分页实体</param>
         /// <param name="oper">数据库链接</param>
         /// <returns></returns>
-        public IDataReader Query(string sql, ParamList lstParam, PageContent objPage, DataBaseOperate oper)
+        public DbDataReader Query(string sql, ParamList lstParam, PageContent objPage, DataBaseOperate oper)
         {
             return CursorPageCutter.Query(sql, lstParam, objPage, oper);
         }
@@ -826,6 +805,21 @@ namespace Buffalo.Data.Oracle
                 default:
                     return "";
             }
+        }
+
+        public Task<string> CreatePageSqlAsync(ParamList list, DataBaseOperate oper, SelectCondition objCondition, PageContent objPage, bool useCache)
+        {
+            return CutPageSqlCreater.CreatePageSqlAsync(list, oper, objCondition, objPage, useCache);
+        }
+
+        public Task<DbDataReader> QueryAsync(string sql, ParamList lstParam, PageContent objPage, DataBaseOperate oper)
+        {
+            return CursorPageCutter.QueryAsync(sql, lstParam, objPage, oper);
+        }
+
+        public Task<DataTable> QueryDataTableAsync(string sql, ParamList lstParam, PageContent objPage, DataBaseOperate oper, Type curType)
+        {
+            return CursorPageCutter.QueryDataTableAsync(sql, lstParam, objPage, oper, curType);
         }
     }
 }

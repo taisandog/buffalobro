@@ -3,6 +3,7 @@ using Buffalo.Kernel;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Buffalo.DB.CacheStorage
 {
@@ -69,7 +70,16 @@ namespace Buffalo.DB.CacheStorage
             string key = GetKey(id);
             return _verCache.DoIncrement(key, 1);
         }
-
+        /// <summary>
+        /// 获取组版本自增
+        /// </summary>
+        /// <param name="accid"></param>
+        /// <returns></returns>
+        public virtual Task<long> IncVersionAsync(string id)
+        {
+            string key = GetKey(id);
+            return _verCache.DoIncrementAsync(key, 1);
+        }
         /// <summary>
         /// 获取存储值
         /// </summary>
@@ -107,7 +117,29 @@ namespace Buffalo.DB.CacheStorage
             
             return ret;
         }
+        /// <summary>
+        /// 获取值
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        protected virtual async Task<T> GetValueAsync(string id)
+        {
+            string key = GetKey(id);
+            CacheStorageItem<T> dicItem = await _dataCache.GetValueAsync<CacheStorageItem<T>>(key);
+            int ver = GetVersion(id);
+            if (dicItem == null || dicItem.Version != ver)
+            {
+                T value = await SearchValueAsync(id);
+                dicItem = new CacheStorageItem<T>();
+                dicItem.Key = key;
+                dicItem.Version = ver;
+                dicItem.Value = value;
+                await _dataCache.SetValueAsync<CacheStorageItem<T>>(key, dicItem);
+            }
+            T ret = dicItem.Value;
 
+            return ret;
+        }
         /// <summary>
         /// 对比版本(如果跟数据版本不同则返回false)
         /// </summary>
@@ -125,11 +157,27 @@ namespace Buffalo.DB.CacheStorage
             return true;
         }
         /// <summary>
+        /// 对比版本(如果跟数据版本不同则返回false)
+        /// </summary>
+        /// <param name="id">ID</param>
+        /// <returns></returns>
+        public async Task<bool> EqualVersionAsync(string id)
+        {
+            string key = GetKey(id);
+            CacheStorageItem<T> dicItem = await _dataCache.GetValueAsync<CacheStorageItem<T>>(key);
+            int ver = GetVersion(id);
+            if (dicItem == null || dicItem.Version != ver)
+            {
+                return false;
+            }
+            return true;
+        }
+        /// <summary>
         /// 设置值
         /// </summary>
         /// <param name="id"></param>
         /// <param name="value"></param>
-        protected virtual void SetValue(string id, T value) 
+        protected virtual bool SetValue(string id, T value) 
         {
             string key = GetKey(id);
             IncVersion(id);
@@ -138,15 +186,36 @@ namespace Buffalo.DB.CacheStorage
             dicItem.Key = key;
             dicItem.Version = ver;
             dicItem.Value = value;
-            _dataCache.SetValue<CacheStorageItem<T>>(key, dicItem);
+            return _dataCache.SetValue<CacheStorageItem<T>>(key, dicItem);
         }
-
+        /// <summary>
+        /// 设置值
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="value"></param>
+        protected virtual async Task<bool> SetValueAsync(string id, T value)
+        {
+            string key = GetKey(id);
+            IncVersion(id);
+            int ver = GetVersion(id);
+            CacheStorageItem<T> dicItem = new CacheStorageItem<T>();
+            dicItem.Key = key;
+            dicItem.Version = ver;
+            dicItem.Value = value;
+            return await _dataCache.SetValueAsync<CacheStorageItem<T>>(key, dicItem);
+        }
         /// <summary>
         /// 查询内容
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         protected virtual T SearchValue(string id) { return default(T); }
+        /// <summary>
+        /// 查询内容
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        protected virtual async Task<T> SearchValueAsync(string id) { return default(T); }
     }
 }
 /*

@@ -12,6 +12,7 @@ using Buffalo.DB.PropertyAttributes;
 using System.Data.SQLite;
 using Buffalo.DB.BQLCommon.BQLKeyWordCommon;
 using Buffalo.DB.DataBaseAdapter;
+using System.Threading.Tasks;
 namespace Buffalo.Data.SQLite
 {
     public class DBAdapter : IDBAdapter
@@ -156,9 +157,9 @@ namespace Buffalo.Data.SQLite
         /// 获取SQL命令类
         /// </summary>
         /// <returns></returns>
-        public IDbCommand GetCommand()
+        public DbCommand GetCommand()
         {
-            IDbCommand comm = new SQLiteCommand();
+            DbCommand comm = new SQLiteCommand();
             return comm;
         }
         /// <summary>
@@ -240,32 +241,6 @@ namespace Buffalo.Data.SQLite
         {
             throw new NotImplementedException("SQLite不包含全文检索方法");
         }
-        /// <summary>
-        /// 游标分页
-        /// </summary>
-        /// <typeparam name="T">实体类型</typeparam>
-        /// <param name="sql">sql语句</param>
-        /// <param name="objPage">分页实体</param>
-        /// <param name="oper">数据库链接</param>
-        /// <returns></returns>
-        public IDataReader Query(string sql, PageContent objPage, DataBaseOperate oper)
-        {
-            return CursorPageCutter.Query(sql, null, objPage, oper,null);
-        }
-
-        /// <summary>
-        /// 查询并且返回DataSet(游标分页)
-        /// </summary>
-        /// <param name="sql">要查询的SQL语句</param>
-        /// <param name="objPage">分页对象</param>
-        /// <param name="oper">数据库对象</param>
-        /// <param name="curType">映射的实体类型(如果用回数据库的原列名，则此为null)</param>
-        /// <returns></returns>
-        public DataTable QueryDataTable(string sql, PageContent objPage, DataBaseOperate oper, Type curType)
-        {
-            return CursorPageCutter.QueryDataTable(sql, null, objPage, oper, curType, null);
-        }
-
 
         /// <summary>
         /// 游标分页
@@ -276,7 +251,7 @@ namespace Buffalo.Data.SQLite
         /// <param name="objPage">分页实体</param>
         /// <param name="oper">数据库链接</param>
         /// <returns></returns>
-        public IDataReader Query(string sql, ParamList lstParam, PageContent objPage,
+        public DbDataReader Query(string sql, ParamList lstParam, PageContent objPage,
             DataBaseOperate oper)
         {
             return CursorPageCutter.Query(sql, lstParam, objPage, oper,null);
@@ -656,6 +631,21 @@ namespace Buffalo.Data.SQLite
         public string LockUpdate(BQLLockType lockType, DBInfo info)
         {
             return "";
+        }
+
+        public Task<string> CreatePageSqlAsync(ParamList list, DataBaseOperate oper, SelectCondition objCondition, PageContent objPage, bool useCache)
+        {
+            return CutPageSqlCreater.CreatePageSqlAsync(list, oper, objCondition, objPage, useCache);
+        }
+
+        public Task<DbDataReader> QueryAsync(string sql, ParamList lstParam, PageContent objPage, DataBaseOperate oper)
+        {
+            return CursorPageCutter.QueryAsync(sql, lstParam, objPage, oper, null);
+        }
+
+        public Task<DataTable> QueryDataTableAsync(string sql, ParamList lstParam, PageContent objPage, DataBaseOperate oper, Type curType)
+        {
+            return CursorPageCutter.QueryDataTableAsync(sql, lstParam, objPage, oper, curType, null);
         }
     }
 }

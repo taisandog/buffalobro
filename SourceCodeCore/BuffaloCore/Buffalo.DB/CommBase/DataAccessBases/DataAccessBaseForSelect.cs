@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using Buffalo.DB.EntityInfos;
 using Buffalo.DB.QueryConditions;
 using Buffalo.DB.DbCommon;
+using System.Threading.Tasks;
 
 namespace Buffalo.DB.CommBase.DataAccessBases
 {
@@ -33,62 +34,26 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         {
             Oper = StaticConnection.GetDefaultOperate<T>();
         }
-        ///// <summary>
-        ///// 根据条件查找实体
-        ///// </summary>
-        ///// <param name="lstScope">条件</param>
-        ///// <returns></returns>
-        //public virtual new T GetUnique(ScopeList lstScope)
-        //{
-        //    return base.GetUnique(lstScope);
-        //}
+
         /// <summary>
         /// 根据主键查找实体
         /// </summary>
         /// <param name="id">主键</param>
         /// <returns></returns>
-        public virtual T GetEntityById(object id)
+        public virtual T GetEntityById(object id, bool isSearchByCache = false)
         {
-            return base.GetObjectById(id,false);
+            return base.GetObjectById(id, isSearchByCache);
         }
-        
+
         /// <summary>
-        /// 查找
+        /// 根据主键查找实体
         /// </summary>
-        /// <param name="lstScope">范围集合</param>
+        /// <param name="id">主键</param>
         /// <returns></returns>
-        public virtual new DataSet Select(ScopeList lstScope)
+        public virtual Task<T> GetEntityByIdAsync(object id, bool isSearchByCache = false)
         {
-            return base.Select(lstScope);
+            return base.GetObjectByIdAsync(id, isSearchByCache);
         }
-        /// <summary>
-        /// 查询集合
-        /// </summary>
-        /// <param name="scpoeList">范围查找的集合</param>
-        /// <returns></returns>
-        public virtual new List<T> SelectList(ScopeList scpoeList)
-        {
-            return base.SelectList(scpoeList);
-        }
-       
-        /// <summary>
-        /// 查询符合指定条件的记录条数
-        /// </summary>
-        /// <param name="scpoeList">范围查找的集合</param>
-        /// <returns></returns>
-        public virtual new long SelectCount(ScopeList scpoeList)
-        {
-            return base.SelectCount(scpoeList);
-        }
-        
-        /// <summary>
-        /// 查询符合指定条件的记录条数
-        /// </summary>
-        /// <param name="scpoeList">范围查找的集合</param>
-        /// <returns></returns>
-        public virtual new  bool ExistsRecord(ScopeList scpoeList)
-        {
-            return base.ExistsRecord(scpoeList);
-        }
+
     }
 }

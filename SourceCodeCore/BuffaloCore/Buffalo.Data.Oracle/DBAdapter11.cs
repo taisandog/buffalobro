@@ -76,9 +76,9 @@ namespace Buffalo.Data.Oracle
         /// ªÒ»°SQL√¸¡Ó¿‡
         /// </summary>
         /// <returns></returns>
-        public override IDbCommand GetCommand()
+        public override DbCommand GetCommand()
         {
-            IDbCommand comm = new OracleCommand();
+            DbCommand comm = new OracleCommand();
             return comm;
         }
         /// <summary>

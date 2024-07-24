@@ -127,16 +127,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases.AliasTableMappingManagers
                     }
                     objRet.GetEntityBaseInfo()._dicFilledParent___[childMapping.MappingInfo.PropertyName] = true;
                 }
-                //else if ((!childMapping.MappingInfo.IsParent) && (child != null))
-                //{
-                //    IList lst = childMapping.MappingInfo.GetValue(objRet) as IList;
-                //    if (lst == null)
-                //    {
-                //        lst = Activator.CreateInstance(childMapping.MappingInfo.FieldType) as IList;
-                //        childMapping.MappingInfo.SetValue(objRet, lst);
-                //    }
-                //    lst.Add(child);
-                //}
+               
 
             }
             return objRet;

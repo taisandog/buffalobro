@@ -195,7 +195,10 @@ namespace Buffalo.MQ.KafkaMQ
             //}
             //InitProducerConfig();
         }
-
+        protected override Task OpenAsync()
+        {
+            return Task.CompletedTask;
+        }
         private void CheckInitTransactions()
         {
             
@@ -233,6 +236,29 @@ namespace Buffalo.MQ.KafkaMQ
                 throw new NullReferenceException("还没开启事务");
             }
             _tranProducer.AbortTransaction(_timeout);
+            return ApiCommon.GetSuccess();
+        }
+
+        protected override async Task<APIResault> SendMessageAsync(MQSendMessage mess)
+        {
+            MQKafkaMessage message = mess as MQKafkaMessage;
+
+            IProducer<byte[], byte[]> producer = GetProducer();
+            DeliveryResult<byte[], byte[]> delRes = await producer.ProduceAsync(message.TopicPartition, message.Message, message.CancellationToken);
+            
+            return ApiCommon.GetSuccess();
+        }
+
+        protected override async Task<APIResault> SendMessageAsync(string key, byte[] body)
+        {
+            Message<byte[], byte[]> message = new Message<byte[], byte[]>();
+            message.Key = DefaultEncoding.GetBytes(key);
+            message.Value = body;
+
+            IProducer<byte[], byte[]> producer = GetProducer();
+            DeliveryResult<byte[], byte[]> delRes = await producer.ProduceAsync(key, message);
+
+            
             return ApiCommon.GetSuccess();
         }
     }

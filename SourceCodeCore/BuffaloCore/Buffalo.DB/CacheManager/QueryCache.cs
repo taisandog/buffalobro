@@ -195,7 +195,27 @@ namespace Buffalo.DB.CacheManager
             return _cache.SetData(tables, sbSql.ToString(), ds, expir, oper);
             
         }
+        // <summary>
+        /// 获取缓存中的DataSet
+        /// </summary>
+        /// <param name="tables">表</param>
+        /// <param name="sql">SQL语句</param>
+        /// <param name="lstParam">变量集合</param>
+        /// <returns></returns>
+        public async Task<bool> SetDataSetAsync(DataSet ds, IDictionary<string, bool> tables,
+            string sql, ParamList lstParam, TimeSpan expir, DataBaseOperate oper)
+        {
+            if (_cache == null)
+            {
+                return false;
+            }
+            StringBuilder sbSql = new StringBuilder();
+            sbSql.Append(sql);
+            sbSql.Append(";");
+            sbSql.Append(lstParam.GetParamString(_db, oper));
+            return await _cache.SetDataAsync(tables, sbSql.ToString(), ds, expir, oper);
 
+        }
         /// 获取缓存中的DataSet
         /// </summary>
         /// <param name="tables">表</param>
@@ -277,7 +297,7 @@ namespace Buffalo.DB.CacheManager
         /// <param name="sql">SQL语句</param>
         /// <param name="lstParam">变量集合</param>
         /// <returns></returns>
-        public IDataReader SetReader(IDataReader reader, IDictionary<string, bool> tables,
+        public DbDataReader SetReader(IDataReader reader, IDictionary<string, bool> tables,
             string sql, ParamList lstParam,DataBaseOperate oper)
         {
             if (_cache == null)
@@ -290,7 +310,26 @@ namespace Buffalo.DB.CacheManager
             SetDataSet(ds, tables, sql, lstParam,oper);
             return mreader;
         }
-        
+        /// <summary>
+        /// 写入缓存中的Reader
+        /// </summary>
+        /// <param name="tables">表</param>
+        /// <param name="sql">SQL语句</param>
+        /// <param name="lstParam">变量集合</param>
+        /// <returns></returns>
+        public async Task<DbDataReader> SetReaderAsync(DbDataReader reader, IDictionary<string, bool> tables,
+            string sql, ParamList lstParam, DataBaseOperate oper)
+        {
+            if (_cache == null)
+            {
+                return null;
+            }
+
+            DataSet ds = await CacheReader.GenerateDataSetAsync(reader, false);
+            MemCacheReader mreader = new MemCacheReader(ds);
+            await SetDataSetAsync(ds, tables, sql, lstParam,TimeSpan.MinValue, oper);
+            return mreader;
+        }
         /// <summary>
         /// 删除表的缓存
         /// </summary>

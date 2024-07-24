@@ -44,7 +44,16 @@ namespace Buffalo.MQ.RedisMQ
             
             return ConnectionMultiplexer.Connect(options);
         }
+        /// <summary>
+        /// 创建连接池
+        /// </summary>
+        /// <param name="options">连接字符串</param>
+        /// <returns></returns>
+        internal static async Task<ConnectionMultiplexer> CreateManagerAsync(ConfigurationOptions options)
+        {
 
+            return await ConnectionMultiplexer.ConnectAsync(options);
+        }
         /// <summary>
         /// 打来连接
         /// </summary>
@@ -53,6 +62,23 @@ namespace Buffalo.MQ.RedisMQ
             if (_redis == null)
             {
                 _redis = CreateManager(_config.Options);
+            }
+            if (_config.Mode == RedisMQMessageMode.Subscriber)
+            {
+                if (_subscriber == null)
+                {
+                    _subscriber = _redis.GetSubscriber();
+                }
+            }
+        }
+        /// <summary>
+        /// 打来连接
+        /// </summary>
+        protected override async Task OpenAsync()
+        {
+            if (_redis == null)
+            {
+                _redis = await CreateManagerAsync(_config.Options);
             }
             if (_config.Mode == RedisMQMessageMode.Subscriber)
             {
@@ -152,13 +178,43 @@ namespace Buffalo.MQ.RedisMQ
                 db.ListLeftPush(key, body);
             }
         }
+        /// <summary>
+        /// 发送信息
+        /// </summary>
+        /// <param name="routingKey"></param>
+        /// <param name="body"></param>
+        private async Task SendToPublicAsync(string topic, byte[] body)
+        {
+            long ret = 0;
+            if (_config.Mode == RedisMQMessageMode.Subscriber)
+            {
+                if (_config.SaveToQueue)
+                {
+
+                    string key = _config.GetDefaultQueueKey(topic);
+                    IDatabase db = GetDB();
+                    ret = await db.ListLeftPushAsync(key, body);
+                    ret = await _subscriber.PublishAsync(topic, RedisMQConfig.PublicTag, _config.CommanfFlags);
+                }
+                else
+                {
+                    ret = await _subscriber.PublishAsync(topic, body, _config.CommanfFlags);
+                }
+            }
+            else
+            {
+                string key = _config.GetDefaultQueueKey(topic);
+                IDatabase db = GetDB();
+                ret = await db.ListLeftPushAsync(key, body);
+            }
+        }
         ///// <summary>
         ///// 删除队列(Rabbit可用)
         ///// </summary>
         ///// <param name="queueName">队列名，如果为null则全删除</param>
         //public override void DeleteQueue(IEnumerable<string> queueName, bool ifUnused, bool ifEmpty)
         //{
-            
+
         //}
         ///// <summary>
         ///// 删除交换器
@@ -166,7 +222,7 @@ namespace Buffalo.MQ.RedisMQ
 
         //public override void DeleteTopic(bool ifUnused)
         //{
-            
+
         //}
 
         /// <summary>
@@ -223,6 +279,37 @@ namespace Buffalo.MQ.RedisMQ
             {
                 _que.Clear();
             }
+            return ApiCommon.GetSuccess();
+        }
+
+        protected override async Task<APIResault> SendMessageAsync(MQSendMessage mess)
+        {
+            if (_que != null)
+            {
+                _que.Enqueue(mess as MQRedisMessage);
+            }
+            else
+            {
+                await SendToPublicAsync(mess.Topic, mess.Value);
+            }
+
+            return ApiCommon.GetSuccess();
+        }
+
+        protected override async Task<APIResault> SendMessageAsync(string topic, byte[] body)
+        {
+            RedisValue value = body;
+            if (_que != null)
+            {
+                MQRedisMessage mess = new MQRedisMessage(topic, body);
+
+                _que.Enqueue(mess);
+            }
+            else
+            {
+                await SendToPublicAsync(topic, body);
+            }
+
             return ApiCommon.GetSuccess();
         }
 

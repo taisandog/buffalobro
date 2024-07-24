@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Text;
 using System.Data;
 using Buffalo.Kernel;
+using System.Data.Common;
+using System.Collections;
 
 namespace Buffalo.DB.CacheManager
 {
     /// <summary>
     /// 内存数据行读取器
     /// </summary>
-    public class MemCacheReader : IDataReader
+    public class MemCacheReader : DbDataReader,IDataReader
     {
         /// <summary>
         /// 数据
@@ -40,27 +42,24 @@ namespace Buffalo.DB.CacheManager
 
         #region IDataReader 成员
 
-        public void Close()
-        {
+        
 
-        }
-
-        public int Depth
+        public override int Depth
         {
             get { return 1; }
         }
 
-        public DataTable GetSchemaTable()
+        public override DataTable GetSchemaTable()
         {
             return null;
         }
 
-        public bool IsClosed
+        public override bool IsClosed
         {
             get { return false; }
         }
 
-        public bool NextResult()
+        public override bool NextResult()
         {
             if (_data.Tables.Count < _currentIndex + 2)
             {
@@ -73,9 +72,9 @@ namespace Buffalo.DB.CacheManager
             return true;
         }
 
-        public bool Read()
+        public override bool Read()
         {
-            if (_currentData.Rows.Count < _currentRowIndex + 2)
+            if (!HasRows)
             {
                 return false;
             }
@@ -84,7 +83,7 @@ namespace Buffalo.DB.CacheManager
             return true;
         }
 
-        public int RecordsAffected
+        public override int RecordsAffected
         {
             get
             {
@@ -96,16 +95,13 @@ namespace Buffalo.DB.CacheManager
 
         #region IDisposable 成员
 
-        public void Dispose()
-        {
-
-        }
+       
 
         #endregion
 
         #region IDataRecord 成员
 
-        public int FieldCount
+        public override int FieldCount
         {
             get
             {
@@ -113,96 +109,93 @@ namespace Buffalo.DB.CacheManager
             }
         }
 
-        public bool GetBoolean(int i)
+        public override bool GetBoolean(int i)
         {
             return (bool)_currentRow[i];
         }
 
-        public byte GetByte(int i)
+        public override byte GetByte(int i)
         {
             return (byte)_currentRow[i];
         }
 
-        public long GetBytes(int i, long fieldOffset, byte[] buffer, int bufferoffset, int length)
+        public override long GetBytes(int i, long fieldOffset, byte[] buffer, int bufferoffset, int length)
         {
             byte[] arr = (byte[])_currentRow[i];
             Array.Copy(arr, (int)fieldOffset, buffer, bufferoffset, length);
             return length;
         }
 
-        public char GetChar(int i)
+        public override char GetChar(int i)
         {
             return (char)_currentRow[i];
         }
 
-        public long GetChars(int i, long fieldoffset, char[] buffer, int bufferoffset, int length)
+        public override long GetChars(int i, long fieldoffset, char[] buffer, int bufferoffset, int length)
         {
             char[] arr = (char[])_currentRow[i];
             Array.Copy(arr, (int)bufferoffset, buffer, bufferoffset, length);
             return length;
         }
 
-        public IDataReader GetData(int i)
-        {
-            throw new Exception("The method or operation is not implemented.");
-        }
+       
 
-        public string GetDataTypeName(int i)
+        public override string GetDataTypeName(int i)
         {
             return _currentData.Columns[i].DataType.FullName;
         }
 
-        public DateTime GetDateTime(int i)
+        public override DateTime GetDateTime(int i)
         {
             return (DateTime)_currentRow[i];
         }
 
-        public decimal GetDecimal(int i)
+        public override decimal GetDecimal(int i)
         {
             return (decimal)_currentRow[i];
         }
 
-        public double GetDouble(int i)
+        public override double GetDouble(int i)
         {
             return (double)_currentRow[i];
         }
 
-        public Type GetFieldType(int i)
+        public override Type GetFieldType(int i)
         {
             return _currentData.Columns[i].DataType;
         }
 
-        public float GetFloat(int i)
+        public override float GetFloat(int i)
         {
             return (float)_currentRow[i];
         }
 
-        public Guid GetGuid(int i)
+        public override Guid GetGuid(int i)
         {
             return (Guid)_currentRow[i];
         }
 
-        public short GetInt16(int i)
+        public override short GetInt16(int i)
         {
             return (short)_currentRow[i];
         }
 
-        public int GetInt32(int i)
+        public override int GetInt32(int i)
         {
             return (int)_currentRow[i];
         }
 
-        public long GetInt64(int i)
+        public override long GetInt64(int i)
         {
             return (long)_currentRow[i];
         }
 
-        public string GetName(int i)
+        public override string GetName(int i)
         {
             return _currentData.Columns[i].ColumnName;
         }
 
-        public int GetOrdinal(string name)
+        public override int GetOrdinal(string name)
         {
             for (int i = 0; i < _currentData.Columns.Count; i++)
             {
@@ -215,17 +208,17 @@ namespace Buffalo.DB.CacheManager
             return -1;
         }
 
-        public string GetString(int i)
+        public override string GetString(int i)
         {
             return (string)_currentRow[i];
         }
 
-        public object GetValue(int i)
+        public override object GetValue(int i)
         {
             return _currentRow[i];
         }
 
-        public int GetValues(object[] values)
+        public override int GetValues(object[] values)
         {
             for (int i = 0; i < _currentData.Columns.Count; i++)
             {
@@ -238,12 +231,12 @@ namespace Buffalo.DB.CacheManager
             return _currentData.Columns.Count;
         }
 
-        public bool IsDBNull(int i)
+        public override bool IsDBNull(int i)
         {
             return _currentRow[i] is DBNull;
         }
 
-        public object this[string name]
+        public override object this[string name]
         {
             get
             {
@@ -251,7 +244,7 @@ namespace Buffalo.DB.CacheManager
             }
         }
 
-        public object this[int i]
+        public override object this[int i]
         {
             get
             {
@@ -259,6 +252,17 @@ namespace Buffalo.DB.CacheManager
             }
         }
 
+        public override IEnumerator GetEnumerator()
+        {
+            return _currentData.Rows.GetEnumerator();
+        }
+        public override bool HasRows
+        {
+            get 
+            {
+                return _currentData.Rows.Count > _currentRowIndex + 1;
+            }
+        }
         #endregion
     }
 }

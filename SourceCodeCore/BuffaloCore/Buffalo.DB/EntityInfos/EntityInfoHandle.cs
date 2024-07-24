@@ -140,7 +140,7 @@ namespace Buffalo.DB.EntityInfos
             }
         }
 
-        private ThreadLocal<string> _curTableName = new ThreadLocal<string>();
+        private AsyncLocal<string> _curTableName = new AsyncLocal<string>();
 
         /// <summary>
         /// 切换当前使用的表名,null则切换回默认

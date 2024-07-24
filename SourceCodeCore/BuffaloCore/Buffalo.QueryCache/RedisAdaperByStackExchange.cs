@@ -255,7 +255,27 @@ namespace Buffalo.QueryCache
             }
             return client;
         }
-
+        private async Task<IDatabase> CheckConnectionDBAsync()
+        {
+            IDatabase client = _dbclient;
+            if (_redis != null && client != null)
+            {
+                return client;
+            }
+            
+                if (_redis == null)
+                {
+                    _redis = await ConnectionMultiplexer.ConnectAsync(_options);
+                    _dbclient = null;
+                }
+                if (_dbclient == null)
+                {
+                    client = _redis.GetDatabase(_db);
+                    _dbclient = client;
+                }
+            
+            return client;
+        }
         #region ICacheAdaper 成员
 
 
@@ -611,9 +631,12 @@ namespace Buffalo.QueryCache
             return client.KeyExpireAsync(key, ts, _commanfFlags);
         }
 
-        protected override Task<E> GetValueAsync<E>(string key, E defaultValue, RedisConnection client)
+        protected override async Task<E> GetValueAsync<E>(string key, E defaultValue, RedisConnection connection)
         {
-            throw new NotImplementedException();
+            IDatabase client = connection.DB;
+            RedisValue value =await client.StringGetAsync(key);
+
+            return RedisConverter.RedisValueToValue<E>(value, defaultValue);
         }
 
         protected override async Task<object> GetValueAsync(string key, RedisConnection connection)
@@ -733,6 +756,40 @@ namespace Buffalo.QueryCache
             else
             {
                 ret =await client.StringSetAsync(key, val, null, When.Always, _commanfFlags);
+            }
+
+            return ret;
+        }
+
+        protected override async Task<RedisConnection> CreateClientAsync(bool realOnly, string cmd)
+        {
+            IDatabase client =await CheckConnectionDBAsync();
+            return new RedisConnection(client);
+        }
+
+        public override async Task<IList> DoGetEntityListAsync(string key, Type entityType, RedisConnection connection)
+        {
+            IDatabase client = connection.DB;
+            byte[] content = await client.StringGetAsync(key);
+            using (MemoryStream stm = new MemoryStream(content))
+            {
+                return MemDataSerialize.LoadList(stm, entityType);
+            }
+        }
+
+        public override async Task<bool> DoSetEntityListAsync(string key, IList lstEntity, TimeSpan expir, RedisConnection connection)
+        {
+            IDatabase client = connection.DB;
+            TimeSpan ts = LocalCacheBase.GetExpir(_expiration, expir);
+            byte[] bval = MemDataSerialize.ListToBytes(lstEntity);
+            bool ret = false;
+            if (ts > TimeSpan.MinValue)
+            {
+                ret =  await client.StringSetAsync(key, bval, ts, When.Always, _commanfFlags);
+            }
+            else
+            {
+                ret = await client.StringSetAsync(key, bval, null, When.Always, _commanfFlags);
             }
 
             return ret;

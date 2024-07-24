@@ -5,6 +5,8 @@ using System.Data;
 using Buffalo.DB.CommBase;
 using Buffalo.DB.QueryConditions;
 using Buffalo.DB.DbCommon;
+using System.Threading.Tasks;
+using System.Data.Common;
 
 namespace Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter
 {
@@ -69,7 +71,33 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter
             }
             return CreateCutPageSql(objCondition, objPage);
         }
-
+        /// <summary>
+        /// 生成SQL语句
+        /// </summary>
+        /// <param name="list">参数列表</param>
+        /// <param name="oper">连接对象</param>
+        /// <param name="objCondition">条件对象</param>
+        /// <param name="objPage">分页记录类</param>
+        /// <returns></returns>
+        public static async Task<string> CreatePageSqlAsync(ParamList list, DataBaseOperate oper,
+            SelectCondition objCondition, PageContent objPage, Dictionary<string, bool> cacheTables)
+        {
+            if (objPage.CurrentPage < 0 || objPage.PageSize <= 0)//初始化页数
+            {
+                return "";
+            }
+            if (objPage.IsFillTotalRecords)
+            {
+                objPage.TotalRecords = await GetTotalRecordAsync(list, oper, objCondition, objPage, cacheTables);//获取总记录数
+                //long totalPage = (long)Math.Ceiling((double)objPage.TotalRecords / (double)objPage.PageSize);
+                //objPage.TotalPage = totalPage;
+                if (objPage.CurrentPage >= objPage.TotalPage - 1)
+                {
+                    objPage.CurrentPage = objPage.TotalPage - 1;
+                }
+            }
+            return CreateCutPageSql(objCondition, objPage);
+        }
         /// <summary>
         /// 获取第一页的SQL
         /// </summary>
@@ -275,25 +303,19 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter
             return sql.ToString();
         }
 
-        /// <summary>
-        /// 获取总记录数
-        /// </summary>
-        /// <param name="part">查询条件</param>
-        /// <param name="list">变量列表</param>
-        /// <param name="oper">通用类</param>
-        private static long GetTotalRecord(ParamList list, DataBaseOperate oper,
-            SelectCondition objCondition,PageContent objPage,Dictionary<string,bool> cacheTables)
+        private static string FillGetTotalRecord(ParamList list, DataBaseOperate oper,
+            SelectCondition objCondition, PageContent objPage, Dictionary<string, bool> cacheTables) 
         {
-            long totalRecords = 0;
+           
             StringBuilder sql = new StringBuilder(5000);
 
             if (objPage.MaxSelectRecords > 0)
             {
-                sql.Append("select count(*) from (select top " );
+                sql.Append("select count(*) from (select top ");
                 sql.Append(objPage.MaxSelectRecords.ToString());
-                sql.Append(" * from " );
+                sql.Append(" * from ");
                 sql.Append(objCondition.TablesNoLock);
-                sql.Append("" );
+                sql.Append("");
                 if (objCondition.Condition.Length > 0)
                 {
                     sql.Append(" where ");
@@ -313,10 +335,10 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter
             }
             else
             {
-                sql.Append("select count(*) from " );
+                sql.Append("select count(*) from ");
                 sql.Append(objCondition.TablesNoLock);
-                sql.Append("" );
-                
+                sql.Append("");
+
                 if (objCondition.Condition.Length > 0)
                 {
                     sql.Append(" where ");
@@ -333,9 +355,22 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter
                     sql.Append(objCondition.Having.ToString());
                 }
             }
+            return sql.ToString();
+        }
 
+        /// <summary>
+        /// 获取总记录数
+        /// </summary>
+        /// <param name="part">查询条件</param>
+        /// <param name="list">变量列表</param>
+        /// <param name="oper">通用类</param>
+        private static long GetTotalRecord(ParamList list, DataBaseOperate oper,
+            SelectCondition objCondition,PageContent objPage,Dictionary<string,bool> cacheTables)
+        {
 
-            IDataReader reader = oper.Query(sql.ToString(), list, cacheTables);
+            long totalRecords = 0;
+            string sql = FillGetTotalRecord(list, oper, objCondition, objPage, cacheTables);
+            DbDataReader reader = oper.Query(sql, list, cacheTables);
             try
             {
                 if (reader.Read())
@@ -352,6 +387,34 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter
             }
             return totalRecords;
         }
-    
+        /// <summary>
+        /// 获取总记录数
+        /// </summary>
+        /// <param name="part">查询条件</param>
+        /// <param name="list">变量列表</param>
+        /// <param name="oper">通用类</param>
+        public static async Task<long> GetTotalRecordAsync(ParamList list, DataBaseOperate oper,
+            SelectCondition objCondition, PageContent objPage, Dictionary<string, bool> cacheTables)
+        {
+
+            long totalRecords = 0;
+            string sql = FillGetTotalRecord(list, oper, objCondition, objPage, cacheTables);
+            DbDataReader reader = await oper.QueryAsync(sql, list,CommandType.Text, cacheTables);
+            try
+            {
+                if (await reader.ReadAsync())
+                {
+                    if (!reader.IsDBNull(0))
+                    {
+                        totalRecords = Convert.ToInt64(reader[0]);
+                    }
+                }
+            }
+            finally
+            {
+                await reader.CloseAsync();
+            }
+            return totalRecords;
+        }
     }
 }

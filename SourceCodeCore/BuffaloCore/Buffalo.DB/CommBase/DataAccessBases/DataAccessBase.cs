@@ -17,6 +17,8 @@ using Buffalo.Kernel;
 using Buffalo.DB.BQLCommon;
 using Buffalo.DB.CommBase.BusinessBases;
 using Buffalo.DB.BQLCommon.BQLConditionCommon;
+using System.Threading.Tasks;
+using System.Data.Common;
 
 namespace Buffalo.DB.CommBase.DataAccessBases
 {
@@ -24,7 +26,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
     /// 数据层基类
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class DataAccessBase<T> : DataAccessSetBase
+    public partial class DataAccessBase<T> : DataAccessSetBase
         where T : EntityBase, new()
     {
 
@@ -114,34 +116,18 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <param name="sql">sql语句</param>
         /// <param name="list">参数列表</param>
         /// <param name="commandType">语句类型</param>
-        public List<T> QueryList(string sql, ParamList list, CommandType commandType, Dictionary<string, bool> cachetables)
+        public virtual List<T> QueryList(string sql, ParamList list, CommandType commandType, Dictionary<string, bool> cachetables)
         {
             List<T> retlist = null;
             using (IDataReader reader = _oper.Query(sql, list, commandType,cachetables))
             {
 
-                retlist = LoadFromReaderList(reader);
+                retlist = CacheReader.LoadFromReaderList<T>(reader);
             }
 
             return retlist;
         }
-        /// <summary>
-        /// 执行sql语句，分页返回List(游标分页)
-        /// </summary>
-        /// <param name="sql">sql语句</param>
-        /// <param name="objPage">分页对象</param>
-        public List<T> QueryList(string sql, PageContent objPage)
-        {
-            List<T> retlist = null;
 
-
-            using (IDataReader reader = EntityInfo.DBInfo.CurrentDbAdapter.Query(sql, objPage, _oper))
-            {
-
-                retlist = LoadFromReaderList(reader);
-            }
-            return retlist;
-        }
 
         /// <summary>
         /// 执行sql语句，分页返回List(游标分页)
@@ -149,13 +135,49 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <param name="sql">sql语句</param>
         /// <param name="lstParam">参数集合</param>
         /// <param name="objPage">分页对象</param>
-        public List<T> QueryList(string sql, ParamList lstParam, PageContent objPage)
+        public virtual List<T> QueryList(string sql,  PageContent objPage ,ParamList lstParam = null)
         {
             List<T> retlist = null;
             using (IDataReader reader = EntityInfo.DBInfo.CurrentDbAdapter.Query(sql, lstParam, objPage, _oper))
             {
 
-                retlist = LoadFromReaderList(reader);
+                retlist = CacheReader.LoadFromReaderList<T>(reader);
+            }
+            return retlist;
+        }
+
+        /// <summary>
+        /// 执行sql语句，返回List
+        /// </summary>
+        /// <param name="sql">sql语句</param>
+        /// <param name="list">参数列表</param>
+        /// <param name="commandType">语句类型</param>
+        public virtual async Task<List<T>> QueryListAsync(string sql, ParamList list, CommandType commandType, Dictionary<string, bool> cachetables)
+        {
+            List<T> retlist = null;
+            using (DbDataReader reader = await _oper.QueryAsync(sql, list, commandType, cachetables))
+            {
+
+                retlist =await CacheReader.LoadFromReaderListAsync<T>(reader);
+            }
+
+            return retlist;
+        }
+
+
+        /// <summary>
+        /// 执行sql语句，分页返回List(游标分页)
+        /// </summary>
+        /// <param name="sql">sql语句</param>
+        /// <param name="lstParam">参数集合</param>
+        /// <param name="objPage">分页对象</param>
+        public virtual async Task<List<T>> QueryListAsync(string sql, PageContent objPage, ParamList lstParam = null)
+        {
+            List<T> retlist = null;
+            using (DbDataReader reader = EntityInfo.DBInfo.CurrentDbAdapter.Query(sql, lstParam, objPage, _oper))
+            {
+
+                retlist =await CacheReader.LoadFromReaderListAsync<T>(reader);
             }
             return retlist;
         }
@@ -399,49 +421,41 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         }
         #endregion
         #region 数据集填充
-        /// <summary>
-        /// 从Reader里边读取数据
-        /// </summary>
-        /// <typeparam name="T">类型</typeparam>
-        /// <param name="reader">reader</param>
-        /// <returns></returns>
-        protected T LoadFromReader(IDataReader reader)
-        {
-            return CacheReader.LoadFormReader<T>(reader, CurEntityInfo); ;
-        }
+        ///// <summary>
+        ///// 从Reader里边读取数据
+        ///// </summary>
+        ///// <typeparam name="T">类型</typeparam>
+        ///// <param name="reader">reader</param>
+        ///// <returns></returns>
+        //protected T LoadFromReader(IDataReader reader)
+        //{
+        //    return CacheReader.LoadFormReader<T>(reader, CurEntityInfo); ;
+        //}
 
-        /// <summary>
-        /// 从Reader里边读取数据
-        /// </summary>
-        /// <typeparam name="T">类型</typeparam>
-        /// <param name="reader">reader</param>
-        /// <returns></returns>
-        protected List<T> LoadFromReaderList(IDataReader reader)
-        {
-            return CacheReader.LoadFormReaderList<T>(reader);
-        }
+        ///// <summary>
+        ///// 从Reader里边读取数据
+        ///// </summary>
+        ///// <typeparam name="T">类型</typeparam>
+        ///// <param name="reader">reader</param>
+        ///// <returns></returns>
+        //protected List<T> LoadFromReaderList(IDataReader reader)
+        //{
+        //    return CacheReader.LoadFormReaderList<T>(reader);
+        //}
 
         
         #endregion
         
 
         #endregion
-       /// <summary>
-        /// 根据ID获取记录
-       /// </summary>
-       /// <param name="id">ID</param>
-       /// <param name="isSearchByCache">是否缓存搜索</param>
-       /// <returns></returns>
-        public T GetObjectById(object id, bool isSearchByCache)
+
+        protected SelectCondition GetObjectByIdSQL(object id, bool isSearchByCache, ParamList list, ScopeList lstScope, out Dictionary<string, bool> cacheTables)
         {
-            
-            ParamList list = null;
-            T ret = default(T);
-            list = new ParamList();
             string tabName = CurEntityInfo.DBInfo.CurrentDbAdapter.FormatTableName(CurEntityInfo.TableName);
-            ScopeList lstScope = new ScopeList();
+            
             lstScope.UseCache = isSearchByCache;
             PrimaryKeyInfo pkInfo = id as PrimaryKeyInfo;
+            cacheTables = null;
             if (pkInfo == null)
             {
                 if (CurEntityInfo.PrimaryProperty.Count <= 0)
@@ -451,101 +465,125 @@ namespace Buffalo.DB.CommBase.DataAccessBases
 
                 lstScope.AddEqual(CurEntityInfo.PrimaryProperty[0].PropertyName, id);
             }
-            else 
+            else
             {
                 pkInfo.FillScope(CurEntityInfo.PrimaryProperty, lstScope, true);
             }
             SelectCondition sc = GetSelectContant(list, lstScope, GetSelectParams(lstScope));
             //sql.Append( DataAccessCommon.FillCondition(CurEntityInfo,list, lstScope));
 
-            Dictionary<string,bool> cacheTables=null;
-            if(lstScope.UseCache)
+           
+            if (lstScope.UseCache)
             {
                 cacheTables = _oper.DBInfo.QueryCache.CreateMap(CurEntityInfo.TableName);
             }
+            return sc;
+        }
+
+        /// <summary>
+        /// 根据ID获取记录
+        /// </summary>
+        /// <param name="id">ID</param>
+        /// <param name="isSearchByCache">是否缓存搜索</param>
+        /// <returns></returns>
+        public virtual T GetObjectById(object id, bool isSearchByCache=false)
+        {
+            
+            ParamList list = new ParamList();
+            T ret = default(T);
+            Dictionary<string, bool> cacheTables = null;
+            ScopeList lstScope = new ScopeList();
+            SelectCondition sc = GetObjectByIdSQL(id, isSearchByCache,list,lstScope,out cacheTables);
             using (IDataReader reader = _oper.Query(sc.GetSql(lstScope.UseCache), list, cacheTables))
             {
                 if (reader.Read())
                 {
-                    ret = LoadFromReader(reader);
+                    ret =CacheReader.LoadFromReader<T>(reader);
                 }
             }
             
             return ret;
         }
-        // <summary>
-        // 根据条件获取第一条记录
-        // </summary>
-        // <param name="scopeList">查询信息</param>
-        // <returns></returns>
-        //public T GetUnique(ScopeList scopeList)
-        //{
-        //    if (scopeList.HasInner)
-        //    {
-                
-        //        return _cdal.GetUnique<T>(scopeList);
-        //    }
-        //    ParamList list = null;
-        //    T ret = default(T);
-        //    list = new ParamList();
-
-        //    string sql = null;
-
-        //    SelectCondition sc = GetSelectContant(list, scopeList, GetSelectParams(scopeList));
-        //    sql = CurEntityInfo.DBInfo.CurrentDbAdapter.GetTopSelectSql(sc, 1);
-        //    Dictionary<string,bool> cacheTables=null;
-        //    if(scopeList.UseCache)
-        //    {
-        //        cacheTables=_oper.DBInfo.QueryCache.CreateMap(CurEntityInfo.TableName);
-        //    }
-        //    using (IDataReader reader = _oper.Query(sql, list, cacheTables))
-        //    {
-        //        if (reader.Read())
-        //        {
-        //            ret = LoadFromReader(reader);
-
-        //        }
-        //    }
-
-        //    return ret;
-        //}
 
         /// <summary>
-        /// 修改记录
+        /// 根据ID获取记录
         /// </summary>
-        /// <param name="obj">修改的对象</param>
-        /// <param name="scopeList">条件列表</param>
-        /// <param name="optimisticConcurrency">是否进行并发控制</param>
+        /// <param name="id">ID</param>
+        /// <param name="isSearchByCache">是否缓存搜索</param>
         /// <returns></returns>
-        public int Update(T obj, ScopeList scopeList,ValueSetList lstValue, bool optimisticConcurrency)
+        public virtual async Task<T> GetObjectByIdAsync(object id, bool isSearchByCache = false)
         {
-            return base.Update(obj, scopeList,lstValue, optimisticConcurrency);
+
+            ParamList list = new ParamList();
+            T ret = default(T);
+            Dictionary<string, bool> cacheTables = null;
+            ScopeList lstScope = new ScopeList();
+            SelectCondition sc = GetObjectByIdSQL(id, isSearchByCache, list, lstScope, out cacheTables);
+
+            using (DbDataReader reader = await _oper.QueryAsync(sc.GetSql(lstScope.UseCache), list,CommandType.Text, cacheTables))
+            {
+                if (await reader.ReadAsync())
+                {
+                    ret = CacheReader.LoadFromReader<T>(reader);
+                }
+            }
+
+            return ret;
         }
-       
 
         /// <summary>
         /// 插入一个记录
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public int Insert(T obj,ValueSetList setList, bool fillIdentity)
+        public virtual int Insert(T obj,ValueSetList setList=null, bool fillIdentity = false)
         {
             int ret = -1;
             ret = DoInsert(obj, setList, fillIdentity);
+            return ret;
+        }
+        /// <summary>
+        /// 插入一个记录
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public virtual async Task<int> InsertAsync(T obj, ValueSetList setList = null, bool fillIdentity = false)
+        {
+            int ret = -1;
+            ret = await DoInsertAsync(obj, setList, fillIdentity);
             return ret;
         }
 
         #region Select
 
 
+        protected string GetSelectSQL(ScopeList scopeList,ParamList list,out Dictionary<string, bool> cacheTables) 
+        {
+            string sql = null;
+            if (!scopeList.HasPage)//判断是否分页查询
+            {
+                sql = GetSelectContant(list, scopeList, GetSelectParams(scopeList)).GetSql(scopeList.UseCache);
+            }
+            else
+            {
 
+                sql = GetSelectPageContant(list, scopeList);
+            }
+
+            cacheTables = null;
+            if (scopeList.UseCache)
+            {
+                cacheTables = _oper.DBInfo.QueryCache.CreateMap(CurEntityInfo.TableName);
+            }
+            return sql;
+        }
 
         /// <summary>
         /// 查询表
         /// </summary>
         /// <param name="scopeList">范围查找的集合</param>
         /// <returns></returns>
-        public DataSet Select(ScopeList scopeList)
+        public virtual DataSet Select(ScopeList scopeList)
         {
             if (scopeList.HasInner )
             {
@@ -559,48 +597,61 @@ namespace Buffalo.DB.CommBase.DataAccessBases
                 return _cdal.SelectDataSet<T>(scopeList);
             }
 
-            ParamList list = null;
+            ParamList list = new ParamList();
+            Dictionary<string, bool> cacheTables = null;
+            string sql = GetSelectSQL(scopeList, list, out cacheTables);
 
-            list = new ParamList();
-
-            string sql = null;
-            PageContent objPage = scopeList.PageContent;
             using (BatchAction ba = Oper.StarBatchAction())
             {
-                if (objPage == null)//判断是否分页查询
-                {
-                    sql = GetSelectContant(list, scopeList, GetSelectParams(scopeList)).GetSql(scopeList.UseCache);
-                }
-                else
-                {
-                    sql = GetSelectPageContant(list, scopeList);
-                }
-
-
-                DataSet ds = null;
-                Dictionary<string, bool> cacheTables = null;
-                if (scopeList.UseCache)
-                {
-                    cacheTables = _oper.DBInfo.QueryCache.CreateMap(CurEntityInfo.TableName);
-                }
-                ds = _oper.QueryDataSet(sql, list, CommandType.Text,cacheTables);
+                
+                DataSet ds = _oper.QueryDataSet(sql, list, CommandType.Text,cacheTables);
 
                 return ds;
             }
         }
 
-       
+        /// <summary>
+        /// 查询表
+        /// </summary>
+        /// <param name="scopeList">范围查找的集合</param>
+        /// <returns></returns>
+        public virtual async Task<DataSet> SelectAsync(ScopeList scopeList)
+        {
+            if (scopeList.HasInner)
+            {
+                if (scopeList.OrderBy.Count <= 0 && scopeList.HasPage)
+                {
+                    foreach (EntityPropertyInfo pInfo in CurEntityInfo.PrimaryProperty)
+                    {
+                        scopeList.OrderBy.Add(pInfo.PropertyName, SortType.ASC);
+                    }
+                }
+                return await _cdal.SelectDataSetAsync<T>(scopeList);
+            }
+
+            ParamList list = new ParamList();
+            Dictionary<string, bool> cacheTables = null;
+            string sql = GetSelectSQL(scopeList, list, out cacheTables);
+
+            using (BatchAction ba = Oper.StarBatchAction())
+            {
+
+                DataSet ds = await _oper.QueryDataSetAsync(sql, list, CommandType.Text, cacheTables);
+
+                return ds;
+            }
+        }
 
         /// <summary>
         /// 分页查询表(返回List)
         /// </summary>
         /// <param name="scopeList">范围查找的集合</param>
         /// <returns></returns>
-        public List<T> SelectList(ScopeList scopeList)
+        public virtual List<T> SelectList(ScopeList scopeList)
         {
-            if (scopeList.HasPage) 
+            if (scopeList.HasPage)
             {
-                if (!scopeList.HasSort) 
+                if (!scopeList.HasSort)
                 {
                     foreach (EntityPropertyInfo pInfo in CurEntityInfo.PrimaryProperty)
                     {
@@ -613,31 +664,54 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             {
                 return _cdal.SelectList<T>(scopeList);
             }
+            ParamList list = new ParamList();
+            Dictionary<string, bool> cacheTables = null;
+            string sql = GetSelectSQL(scopeList, list, out cacheTables);
 
-            ParamList list = null;
-
-            list = new ParamList();
-            string sql = null;
             using (BatchAction ba = Oper.StarBatchAction())
             {
-                if (!scopeList.HasPage)//判断是否分页查询
-                {
-                    sql = GetSelectContant(list, scopeList, GetSelectParams(scopeList)).GetSql(scopeList.UseCache);
-                }
-                else
-                {
+               
+                List<T> retlist = null;
 
-                    sql = GetSelectPageContant(list, scopeList);
+                
+                retlist = QueryList(sql, list, CommandType.Text,cacheTables);
+                DataAccessCommon.FillEntityChidList(retlist, scopeList);
+                return retlist;
+            }
+        }
+        /// <summary>
+        /// 分页查询表(返回List)
+        /// </summary>
+        /// <param name="scopeList">范围查找的集合</param>
+        /// <returns></returns>
+        public virtual async Task<List<T>> SelectListAsync(ScopeList scopeList)
+        {
+            if (scopeList.HasPage)
+            {
+                if (!scopeList.HasSort)
+                {
+                    foreach (EntityPropertyInfo pInfo in CurEntityInfo.PrimaryProperty)
+                    {
+                        scopeList.OrderBy.Add(pInfo.PropertyName, SortType.ASC);
+                    }
                 }
+            }
+
+            if (scopeList.HasInner)
+            {
+                return await _cdal.SelectListAsync<T>(scopeList);
+            }
+            ParamList list = new ParamList();
+            Dictionary<string, bool> cacheTables = null;
+            string sql = GetSelectSQL(scopeList, list, out cacheTables);
+
+            using (BatchAction ba = Oper.StarBatchAction())
+            {
 
                 List<T> retlist = null;
 
-                Dictionary<string, bool> cacheTables = null;
-                if (scopeList.UseCache)
-                {
-                    cacheTables = _oper.DBInfo.QueryCache.CreateMap(CurEntityInfo.TableName);
-                }
-                retlist = QueryList(sql, list, CommandType.Text,cacheTables);
+
+                retlist =await QueryListAsync(sql, list, CommandType.Text, cacheTables);
                 DataAccessCommon.FillEntityChidList(retlist, scopeList);
                 return retlist;
             }
@@ -649,37 +723,67 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// </summary>
         /// <param name="scopeList">范围查找的集合</param>
         /// <returns></returns>
-        public long SelectCount(ScopeList scopeList)
+        public virtual long SelectCount(ScopeList scopeList)
         {
             if (scopeList.HasInner)
             {
                 return _cdal.SelectCount<T>(scopeList);
             }
             ParamList list = null;
-                list = new ParamList();
+            list = new ParamList();
 
-            string sql = GetSelectContant(list,scopeList, "count(*)").GetSql(scopeList.UseCache);
+            string sql = GetSelectContant(list, scopeList, "count(*)").GetSql(scopeList.UseCache);
             long count = 0;
-            Dictionary<string,bool> cacheTables=null;
-            if(scopeList.UseCache)
+            Dictionary<string, bool> cacheTables = null;
+            if (scopeList.UseCache)
             {
-                cacheTables=_oper.DBInfo.QueryCache.CreateMap(CurEntityInfo.TableName);
+                cacheTables = _oper.DBInfo.QueryCache.CreateMap(CurEntityInfo.TableName);
             }
-            //try
-            //{
-                using (IDataReader reader = _oper.Query(sql, list,cacheTables))
+            using (IDataReader reader = _oper.Query(sql, list, cacheTables))
+            {
+                if (reader.Read())
                 {
-                    if (reader.Read())
+                    if (!reader.IsDBNull(0))
                     {
-                        if (!reader.IsDBNull(0))
-                        {
-                            count = Convert.ToInt64(reader[0]);
-                        }
+                        count = Convert.ToInt64(reader[0]);
                     }
                 }
+            }
             return count;
         }
+        /// <summary>
+        /// 查询符合指定条件的记录条数
+        /// </summary>
+        /// <param name="scopeList">范围查找的集合</param>
+        /// <returns></returns>
+        public virtual async Task<long> SelectCountAsync(ScopeList scopeList)
+        {
+            if (scopeList.HasInner)
+            {
+                return await _cdal.SelectCountAsync<T>(scopeList);
+            }
+            ParamList list = null;
+            list = new ParamList();
 
+            string sql = GetSelectContant(list, scopeList, "count(*)").GetSql(scopeList.UseCache);
+            long count = 0;
+            Dictionary<string, bool> cacheTables = null;
+            if (scopeList.UseCache)
+            {
+                cacheTables = _oper.DBInfo.QueryCache.CreateMap(CurEntityInfo.TableName);
+            }
+            using (DbDataReader reader = await _oper.QueryAsync(sql, list,CommandType.Text, cacheTables))
+            {
+                if (await reader.ReadAsync())
+                {
+                    if (!reader.IsDBNull(0))
+                    {
+                        count = Convert.ToInt64(reader[0]);
+                    }
+                }
+            }
+            return count;
+        }
         #endregion
 
         #region SelectExists
@@ -688,7 +792,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// </summary>
         /// <param name="scopeList">范围查找的集合</param>
         /// <returns></returns>
-        public bool ExistsRecord(ScopeList scopeList)
+        public virtual bool ExistsRecord(ScopeList scopeList)
         {
             if (scopeList.HasInner)
             {
@@ -713,7 +817,36 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             }
             return exists;
         }
+        /// <summary>
+        /// 查询是否存在符合条件的记录
+        /// </summary>
+        /// <param name="scopeList">范围查找的集合</param>
+        /// <returns></returns>
+        public virtual async Task<bool> ExistsRecordAsync(ScopeList scopeList)
+        {
+            if (scopeList.HasInner)
+            {
+                return await _cdal.ExistsRecordAsync<T>(scopeList);
+            }
+            ParamList list = null;
 
+            SelectCondition sc = GetSelectContant(list, scopeList, CurEntityInfo.DBInfo.CurrentDbAdapter.FormatParam(CurEntityInfo.PrimaryProperty[0].ParamName));
+            string sql = CurEntityInfo.DBInfo.CurrentDbAdapter.GetTopSelectSql(sc, 1);
+            bool exists = false;
+            Dictionary<string, bool> cacheTables = null;
+            if (scopeList.UseCache)
+            {
+                cacheTables = _oper.DBInfo.QueryCache.CreateMap(CurEntityInfo.TableName);
+            }
+            using (DbDataReader reader = await _oper.QueryAsync(sql, list,CommandType.Text, cacheTables))
+            {
+                if ( await reader.ReadAsync())
+                {
+                    exists = true;
+                }
+            }
+            return exists;
+        }
         #endregion
 
     }

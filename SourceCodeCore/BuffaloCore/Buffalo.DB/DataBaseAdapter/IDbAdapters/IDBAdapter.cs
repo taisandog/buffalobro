@@ -10,6 +10,7 @@ using System.Data.Common;
 using Buffalo.DB.BQLCommon.BQLKeyWordCommon;
 using Buffalo.DB.BQLCommon.BQLConditions;
 using Buffalo.DB.BQLCommon.BQLConditionCommon;
+using System.Threading.Tasks;
 
 namespace Buffalo.DB.DataBaseAdapter.IDbAdapters
 {
@@ -107,7 +108,7 @@ namespace Buffalo.DB.DataBaseAdapter.IDbAdapters
         /// 获取SQL命令类
         /// </summary>
         /// <returns></returns>
-        IDbCommand GetCommand();
+        DbCommand GetCommand();
 
 
 
@@ -183,15 +184,7 @@ namespace Buffalo.DB.DataBaseAdapter.IDbAdapters
         /// <param name="str">字符串集合</param>
         /// <returns></returns>
          string ConcatString(params string[] strs);
-        /// <summary>
-        /// 查询并且返回DataSet(游标分页)
-        /// </summary>
-        /// <param name="sql">要查询的SQL语句</param>
-        /// <param name="objPage">分页对象</param>
-        /// <param name="oper">数据库对象</param>
-        /// <param name="curType">映射的实体类型(如果用回数据库的原列名，则此为null)</param>
-        /// <returns></returns>
-        System.Data.DataTable QueryDataTable(string sql, PageContent objPage, DataBaseOperate oper, Type curType);
+       
         /// <summary>
         /// 生成分页SQL语句
         /// </summary>
@@ -204,16 +197,18 @@ namespace Buffalo.DB.DataBaseAdapter.IDbAdapters
         string CreatePageSql(ParamList list, DataBaseOperate oper, SelectCondition objCondition,
             PageContent objPage, bool useCache);
         /// <summary>
-        /// 游标分页
+        /// 生成分页SQL语句
         /// </summary>
-        /// <typeparam name="T">实体类型</typeparam>
-        /// <param name="sql">sql语句</param>
-        /// <param name="objPage">分页实体</param>
-        /// <param name="oper">数据库链接</param>
+        /// <param name="list">参数列表</param>
+        /// <param name="oper">连接对象</param>
+        /// <param name="objCondition">条件对象</param>
+        /// <param name="objPage">分页记录类</param>
+        /// <param name="cacheTables">需要缓存的表名</param>
         /// <returns></returns>
-        IDataReader Query(string sql, PageContent objPage, DataBaseOperate oper);
+        Task<string> CreatePageSqlAsync(ParamList list, DataBaseOperate oper, SelectCondition objCondition,
+            PageContent objPage, bool useCache);
         /// <summary>
-        /// 游标分页
+        ///  查询
         /// </summary>
         /// <typeparam name="T">实体类型</typeparam>
         /// <param name="lstParam">参数集合</param>
@@ -221,8 +216,17 @@ namespace Buffalo.DB.DataBaseAdapter.IDbAdapters
         /// <param name="objPage">分页实体</param>
         /// <param name="oper">数据库链接</param>
         /// <returns></returns>
-        IDataReader Query(string sql, ParamList lstParam, PageContent objPage, DataBaseOperate oper);
-
+        DbDataReader Query(string sql, ParamList lstParam, PageContent objPage, DataBaseOperate oper);
+        /// <summary>
+        ///  查询
+        /// </summary>
+        /// <typeparam name="T">实体类型</typeparam>
+        /// <param name="lstParam">参数集合</param>
+        /// <param name="sql">sql语句</param>
+        /// <param name="objPage">分页实体</param>
+        /// <param name="oper">数据库链接</param>
+        /// <returns></returns>
+        Task<DbDataReader> QueryAsync(string sql, ParamList lstParam, PageContent objPage, DataBaseOperate oper);
         /// <summary>
         /// 查询并且返回DataSet(游标分页)
         /// </summary>
@@ -233,6 +237,17 @@ namespace Buffalo.DB.DataBaseAdapter.IDbAdapters
         /// <param name="curType">映射的实体类型(如果用回数据库的原列名，则此为null)</param>
         /// <returns></returns>
         DataTable QueryDataTable(string sql, ParamList lstParam, PageContent objPage, DataBaseOperate oper, Type curType);
+        
+        /// <summary>
+        /// 查询并且返回DataSet(游标分页)
+        /// </summary>
+        /// <param name="sql">要查询的SQL语句</param>
+        /// <param name="lstParam">参数集合</param>
+        /// <param name="objPage">分页对象</param>
+        /// <param name="oper">数据库对象</param>
+        /// <param name="curType">映射的实体类型(如果用回数据库的原列名，则此为null)</param>
+        /// <returns></returns>
+        Task<DataTable> QueryDataTableAsync(string sql, ParamList lstParam, PageContent objPage, DataBaseOperate oper, Type curType);
         /// <summary>
         /// 把变量转变成SQL语句中的时间表达式
         /// </summary>

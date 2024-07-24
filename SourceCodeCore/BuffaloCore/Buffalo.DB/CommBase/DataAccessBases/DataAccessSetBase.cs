@@ -13,6 +13,8 @@ using Buffalo.DB.ProxyBuilder;
 using Buffalo.DB.CacheManager;
 using Buffalo.Kernel;
 using System.Diagnostics;
+using System.Threading.Tasks;
+using System.Data.Common;
 
 namespace Buffalo.DB.CommBase.DataAccessBases
 {
@@ -56,35 +58,43 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// </summary>
         /// <param name="tableName">要清空的表名</param>
         /// <returns></returns>
-        public int TruncateTable(string tableName)
+        public int TruncateTable(string tableName=null)
         {
+            if (string.IsNullOrWhiteSpace(tableName))
+            {
+                tableName = EntityInfo.TableName;
+            }
+            
             string sql= EntityInfo.DBInfo.CurrentDbAdapter.GetTruncateTable(tableName);
             return ExecuteCommand(sql, null, CommandType.Text, null);
         }
         /// <summary>
         /// 清空表
         /// </summary>
+        /// <param name="tableName">要清空的表名</param>
         /// <returns></returns>
-        public int TruncateTable()
+        public Task<int> TruncateTableAsync(string tableName = null)
         {
-            return TruncateTable(EntityInfo.TableName);
+            if (string.IsNullOrWhiteSpace(tableName))
+            {
+                tableName = EntityInfo.TableName;
+            }
+
+            string sql = EntityInfo.DBInfo.CurrentDbAdapter.GetTruncateTable(tableName);
+            return ExecuteCommandAsync(sql, null, CommandType.Text, null);
         }
-        /// <summary>
-        /// 修改记录
-        /// </summary>
-        /// <param name="obj">修改的对象</param>
-        /// <param name="scopeList">条件列表</param>
-        /// <param name="setList">Set值列表</param>
-        /// <param name="optimisticConcurrency">是否进行并发控制</param>
-        /// <returns></returns>
-        public int Update(EntityBase obj, ScopeList scopeList, ValueSetList setList, bool optimisticConcurrency)
+
+        private bool FillUpdateSql(EntityBase obj, ScopeList scopeList, ValueSetList setList, bool optimisticConcurrency, ParamList list,
+            out UpdateCondition con,out List<VersionInfo> lstVersionInfo, out Dictionary<string, bool> cacheTables) 
         {
             StringBuilder sql = new StringBuilder(500);
-            ParamList list = new ParamList();
+           
             StringBuilder where = new StringBuilder(500);
             //where.Append("1=1");
             Type type = EntityInfo.EntityType;
-            List<VersionInfo> lstVersionInfo = null;
+            lstVersionInfo = null;
+            cacheTables = null;
+            con = null;
             int index = 0;
 
 
@@ -121,17 +131,9 @@ namespace Buffalo.DB.CommBase.DataAccessBases
                         }
                         else
                         {
-                            //string paramVal = CurEntityInfo.DBInfo.CurrentDbAdapter.FormatValueName(DataAccessCommon.FormatParam(info.ParamName, index));
-                            //string paramKey = CurEntityInfo.DBInfo.CurrentDbAdapter.FormatParamKeyName(DataAccessCommon.FormatParam(info.ParamName, index));
                             if (info.IsNormal)
                             {
-                                //if (obj._dicUpdateProperty___ == null || obj._dicUpdateProperty___.Count == 0)
-                                //{
-                                //    //if (DefaultType.IsDefaultValue(curValue))
-                                //    //{
-                                //    continue;
-                                //    //}
-                                //}
+
                                 if (isProxy && !obj.GetEntityBaseInfo().HasPropertyChange(info.PropertyName))
                                 {
                                     continue;
@@ -204,22 +206,22 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             where.Append(DataAccessCommon.FillCondition(EntityInfo, list, scopeList));
             if (sql.Length <= 0)
             {
-                return 0;
+                return false;
             }
             else
             {
                 sql.Remove(0, 1);
 
             }
-            UpdateCondition con = new UpdateCondition(EntityInfo.DBInfo);
+            con = new UpdateCondition(EntityInfo.DBInfo);
             con.Tables.Append(EntityInfo.DBInfo.CurrentDbAdapter.FormatTableName(EntityInfo.TableName));
             con.UpdateSetValue.Append(sql);
             con.Condition.Append("1=1");
 
             con.Condition.Append(where);
 
-            int ret = -1;
-            Dictionary<string, bool> cacheTables = null;
+            
+            
 
             cacheTables = _oper.DBInfo.QueryCache.CreateMap(EntityInfo.TableName);
 
@@ -228,7 +230,11 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             {
                 msql = con.GetSql(true);
             }
-            ret = ExecuteCommand(con.GetSql(true), list, CommandType.Text, cacheTables);
+            return true;
+        }
+
+        private void AfterUpdate(EntityBase obj, List<VersionInfo> lstVersionInfo) 
+        {
             if (obj != null && obj.GetEntityBaseInfo()._dicUpdateProperty___ != null)
             {
                 obj.GetEntityBaseInfo()._dicUpdateProperty___.Clear();
@@ -240,10 +246,47 @@ namespace Buffalo.DB.CommBase.DataAccessBases
                     info.Info.SetValue(obj, info.NewValue);
                 }
             }
+        }
+        /// <summary>
+        /// 修改记录
+        /// </summary>
+        /// <param name="obj">修改的对象</param>
+        /// <param name="scopeList">条件列表</param>
+        /// <param name="setList">Set值列表</param>
+        /// <param name="optimisticConcurrency">是否进行并发控制</param>
+        /// <returns></returns>
+        public int Update(EntityBase obj, ScopeList scopeList=null, ValueSetList setList = null, bool optimisticConcurrency=false)
+        {
+            ParamList list = new ParamList();
+            UpdateCondition con = null;
+            List<VersionInfo> lstVersionInfo = null;
+            Dictionary< string, bool> cacheTables = null;
+            FillUpdateSql(obj, scopeList, setList, optimisticConcurrency, list, out con, out lstVersionInfo, out cacheTables);
 
+            int ret = ExecuteCommand(con.GetSql(true), list, CommandType.Text, cacheTables);
+            AfterUpdate(obj, lstVersionInfo);
             return ret;
         }
+        /// <summary>
+        /// 修改记录
+        /// </summary>
+        /// <param name="obj">修改的对象</param>
+        /// <param name="scopeList">条件列表</param>
+        /// <param name="setList">Set值列表</param>
+        /// <param name="optimisticConcurrency">是否进行并发控制</param>
+        /// <returns></returns>
+        public async Task<int> UpdateAsync(EntityBase obj, ScopeList scopeList, ValueSetList setList, bool optimisticConcurrency)
+        {
+            ParamList list = new ParamList();
+            UpdateCondition con = null;
+            List<VersionInfo> lstVersionInfo = null;
+            Dictionary<string, bool> cacheTables = null;
+            FillUpdateSql(obj, scopeList, setList, optimisticConcurrency, list, out con, out lstVersionInfo, out cacheTables);
 
+            int ret = await ExecuteCommandAsync(con.GetSql(true), list, CommandType.Text, cacheTables);
+            AfterUpdate(obj, lstVersionInfo);
+            return ret;
+        }
         /// <summary>
         /// 填充版本控制的信息
         /// </summary>
@@ -411,21 +454,15 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             }
         }
 
-        /// <summary>
-        /// 进行插入操作
-        /// </summary>
-        /// <param name="obj">要插入的对象</param>
-        /// <param name="fillIdentity">是否要填充刚插入的实体的ID</param>
-        /// <returns></returns>
-        protected internal int DoInsert(EntityBase obj, ValueSetList setList, bool fillIdentity)
+        private bool FillDoInsert(EntityBase obj, ValueSetList setList, bool fillIdentity, InsertCondition con,ParamList list, List<EntityPropertyInfo> identityInfo )
         {
             StringBuilder sqlParams = new StringBuilder(1000);
             StringBuilder sqlValues = new StringBuilder(1000);
-            ParamList list = new ParamList();
+           
             string param = null;
             string svalue = null;
 
-            List<EntityPropertyInfo> identityInfo = new List<EntityPropertyInfo>();
+           
 
             KeyWordInfomation keyinfo = BQLValueItem.GetKeyWordInfomation(EntityInfo.DBInfo);
             keyinfo.ParamList = list;
@@ -527,7 +564,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             }
             else
             {
-                return 0;
+                return false;
             }
             if (sqlValues.Length > 0)
             {
@@ -535,15 +572,34 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             }
             else
             {
-                return 0;
+                return false;
             }
 
-            InsertCondition con = new InsertCondition(EntityInfo.DBInfo);
+            
             con.Tables.Append(EntityInfo.DBInfo.CurrentDbAdapter.FormatTableName(EntityInfo.TableName));
             con.SqlParams.Append(sqlParams.ToString());
             con.SqlValues.Append(sqlValues.ToString());
-            int ret = -1;
+           
             con.DbParamList = list;
+            return true;
+        }
+
+        /// <summary>
+        /// 进行插入操作
+        /// </summary>
+        /// <param name="obj">要插入的对象</param>
+        /// <param name="fillIdentity">是否要填充刚插入的实体的ID</param>
+        /// <returns></returns>
+        protected internal int DoInsert(EntityBase obj, ValueSetList setList, bool fillIdentity)
+        {
+            InsertCondition con = new InsertCondition(EntityInfo.DBInfo);
+            ParamList list = new ParamList();
+            List<EntityPropertyInfo> identityInfo = new List<EntityPropertyInfo>();
+            int ret = -1;
+            if (!FillDoInsert(obj, setList, fillIdentity,con,list, identityInfo)) 
+            {
+                return 0;
+            }
 
 
             using (BatchAction ba = _oper.StarBatchAction())
@@ -581,21 +637,69 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         }
 
         /// <summary>
-        /// 删除指定数据
+        /// 进行插入操作
         /// </summary>
-        /// <param name="obj">要删除的实体</param>
-        /// <param name="scopeList">要删除的条件</param>
-        /// <param name="isConcurrency">是否版本并发删除</param>
+        /// <param name="obj">要插入的对象</param>
+        /// <param name="fillIdentity">是否要填充刚插入的实体的ID</param>
         /// <returns></returns>
-        public int Delete(EntityBase obj, ScopeList scopeList, bool isConcurrency)
+        protected internal async Task<int> DoInsertAsync(EntityBase obj, ValueSetList setList, bool fillIdentity)
         {
-            if( obj==null && scopeList==null)
+            InsertCondition con = new InsertCondition(EntityInfo.DBInfo);
+            ParamList list = new ParamList();
+            List<EntityPropertyInfo> identityInfo = new List<EntityPropertyInfo>();
+            int ret = -1;
+            if (!FillDoInsert(obj, setList, fillIdentity, con, list, identityInfo))
+            {
+                return 0;
+            }
+
+
+            using (BatchAction ba = _oper.StarBatchAction())
+            {
+                string sql = con.GetSql(true);
+                Dictionary<string, bool> cacheTables = null;
+
+                cacheTables = _oper.DBInfo.QueryCache.CreateMap(EntityInfo.TableName);
+
+                ret = await ExecuteCommandAsync(sql, list, CommandType.Text, cacheTables);
+                if (identityInfo.Count > 0 && fillIdentity)
+                {
+                    foreach (EntityPropertyInfo pkInfo in identityInfo)
+                    {
+                        sql = EntityInfo.DBInfo.CurrentDbAdapter.GetIdentitySQL(pkInfo);
+                        using (DbDataReader reader = await _oper.QueryAsync(sql, new ParamList(),CommandType.Text, null))
+                        {
+
+                            if (await reader.ReadAsync())
+                            {
+                                if (!reader.IsDBNull(0))
+                                {
+
+                                    EntityInfo.DBInfo.CurrentDbAdapter.SetObjectValueFromReader(reader, 0, obj, pkInfo, !pkInfo.TypeEqual(reader, 0));
+                                    //obj.PrimaryKeyChange();
+                                    ret = 1;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return ret;
+        }
+
+        private void FillDelete(EntityBase obj, ScopeList scopeList, bool isConcurrency, ParamList list, 
+            out DeleteCondition con,out Dictionary<string, bool> cacheTables)
+        {
+            con = null;
+            cacheTables = null;
+            if (obj == null && scopeList == null)
             {
                 throw new NullReferenceException(" 要删除的实体 和 要删除的条件 不能都为null");
             }
-            DeleteCondition con = new DeleteCondition(EntityInfo.DBInfo);
+            con = new DeleteCondition(EntityInfo.DBInfo);
             con.Tables.Append(EntityInfo.DBInfo.CurrentDbAdapter.FormatTableName(EntityInfo.TableName));
-            ParamList list = new ParamList();
+            
             Type type = EntityInfo.EntityType;
             con.Condition.Append("1=1");
 
@@ -624,28 +728,53 @@ namespace Buffalo.DB.CommBase.DataAccessBases
                     }
                 }
             }
-            Dictionary<string, bool> cacheTables = null;
+            
 
             cacheTables = _oper.DBInfo.QueryCache.CreateMap(EntityInfo.TableName);
+        }
 
+        /// <summary>
+        /// 删除指定数据
+        /// </summary>
+        /// <param name="obj">要删除的实体</param>
+        /// <param name="scopeList">要删除的条件</param>
+        /// <param name="isConcurrency">是否版本并发删除</param>
+        /// <returns></returns>
+        public int Delete(EntityBase obj, ScopeList scopeList=null, bool isConcurrency = false)
+        {
+            DeleteCondition con = null;
+            Dictionary<string, bool> cacheTables = null;
+            ParamList list = new ParamList();
+            FillDelete(obj, scopeList, isConcurrency, list, out con,out cacheTables);
             int ret = -1;
             ret = ExecuteCommand(con.GetSql(true), list, CommandType.Text, cacheTables);
 
             return ret;
         }
-
         /// <summary>
-        /// 根据ID删除记录
+        /// 删除指定数据
         /// </summary>
-        /// <param name="id">要删除的记录ID</param>
+        /// <param name="obj">要删除的实体</param>
+        /// <param name="scopeList">要删除的条件</param>
+        /// <param name="isConcurrency">是否版本并发删除</param>
         /// <returns></returns>
-        public int DeleteById(object id)
+        public async Task<int> DeleteAsync(EntityBase obj, ScopeList scopeList=null, bool isConcurrency=false)
         {
-            int ret = -1;
-
-            DeleteCondition con = new DeleteCondition(EntityInfo.DBInfo);
-            con.Tables.Append(EntityInfo.DBInfo.CurrentDbAdapter.FormatTableName(EntityInfo.TableName));
+            DeleteCondition con = null;
+            Dictionary<string, bool> cacheTables = null;
             ParamList list = new ParamList();
+            FillDelete(obj, scopeList, isConcurrency, list, out con, out cacheTables);
+            int ret = -1;
+            ret = await ExecuteCommandAsync(con.GetSql(true), list, CommandType.Text, cacheTables);
+
+            return ret;
+        }
+
+        private void FillDeleteById(DeleteCondition con, object id, ParamList list, out Dictionary<string, bool> cacheTables ) 
+        {
+           
+            con.Tables.Append(EntityInfo.DBInfo.CurrentDbAdapter.FormatTableName(EntityInfo.TableName));
+            
 
             ScopeList lstScope = new ScopeList();
             PrimaryKeyInfo pkInfo = id as PrimaryKeyInfo;
@@ -665,11 +794,40 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             }
             con.Condition.Append("1=1");
             con.Condition.Append(DataAccessCommon.FillCondition(EntityInfo, list, lstScope));
-            Dictionary<string, bool> cacheTables = null;
+           
 
             cacheTables = _oper.DBInfo.QueryCache.CreateMap(EntityInfo.TableName);
 
+        }
+        /// <summary>
+        /// 根据ID删除记录
+        /// </summary>
+        /// <param name="id">要删除的记录ID</param>
+        /// <returns></returns>
+        public int DeleteById(object id)
+        {
+            int ret = -1;
+            Dictionary<string, bool> cacheTables = null;
+            DeleteCondition con = new DeleteCondition(EntityInfo.DBInfo);
+            ParamList list = new ParamList();
+            FillDeleteById(con, id,list,out cacheTables);
             ret = ExecuteCommand(con.GetSql(true), list, CommandType.Text, cacheTables);
+            return ret;
+
+        }
+        /// <summary>
+        /// 根据ID删除记录
+        /// </summary>
+        /// <param name="id">要删除的记录ID</param>
+        /// <returns></returns>
+        public async Task<int> DeleteByIdAsync(object id)
+        {
+            int ret = -1;
+            Dictionary<string, bool> cacheTables = null;
+            DeleteCondition con = new DeleteCondition(EntityInfo.DBInfo);
+            ParamList list = new ParamList();
+            FillDeleteById(con, id, list, out cacheTables);
+            ret = await ExecuteCommandAsync(con.GetSql(true), list, CommandType.Text, cacheTables);
             return ret;
 
         }
@@ -688,7 +846,20 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             ret = _oper.Execute(sql, list, commandType, cachetables);
             return ret;
         }
-
+        /// <summary>
+        /// 执行Sql命令
+        /// </summary>
+        /// <param name="sql">sql语句</param>
+        /// <param name="list">参数列表</param>
+        /// <param name="commandType">命令类型</param>
+        /// <param name="tables">缓存关联的表</param>
+        public async Task<int> ExecuteCommandAsync(string sql, ParamList list, CommandType commandType,
+            Dictionary<string, bool> cachetables)
+        {
+            int ret = -1;
+            ret = await _oper.ExecuteAsync(sql, list, commandType, cachetables);
+            return ret;
+        }
         /// <summary>
         /// 执行sql语句，返回DataSet
         /// </summary>
@@ -701,43 +872,13 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             ds = _oper.QueryDataSet(sql, list, commandType, cachetables);
             return ds;
         }
-
-
-        /// <summary>
-        /// 执行sql语句，分页返回DataSet(游标分页)
-        /// </summary>
-        /// <param name="sql">sql语句</param>
-        /// <param name="objPage">分页对象</param>
-        public DataSet QueryDataSet(string sql, PageContent objPage)
-        {
-            DataSet ds = new DataSet();
-
-            DataTable retDt = EntityInfo.DBInfo.CurrentDbAdapter.QueryDataTable(sql, objPage, _oper, null);
-            ds.Tables.Add(retDt);
-            return ds;
-        }
-        /// <summary>
-        /// 执行sql语句，分页返回列名用类属性映射的DataSet(游标分页)
-        /// </summary>
-        /// <param name="sql">sql语句</param>
-        /// <param name="objPage">分页对象</param>
-        protected DataSet QueryMappingDataSet(string sql, PageContent objPage)
-        {
-            DataSet ds = new DataSet();
-
-            DataTable retDt = EntityInfo.DBInfo.CurrentDbAdapter.QueryDataTable(sql, objPage, _oper, EntityInfo.EntityType);
-            ds.Tables.Add(retDt);
-            return ds;
-        }
-
-
         /// <summary>
         /// 执行sql语句，分页返回DataSet(游标分页)
         /// </summary>
         /// <param name="sql">sql语句</param>
         /// <param name="lstParam">参数集合</param>
         /// <param name="objPage">分页对象</param>
-        public DataSet QueryDataSet(string sql, ParamList lstParam, PageContent objPage)
+        public DataSet QueryDataSet(string sql, PageContent objPage, ParamList lstParam=null)
         {
             DataSet ds = new DataSet();
             DataTable retDt = EntityInfo.DBInfo.CurrentDbAdapter.QueryDataTable(sql, lstParam, objPage, _oper, null);
@@ -745,15 +886,60 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             return ds;
         }
         /// <summary>
+        /// 执行sql语句，返回DataSet
+        /// </summary>
+        /// <param name="sql">sql语句</param>
+        /// <param name="list">参数列表</param>
+        /// <param name="commandType">语句类型</param>
+        public async Task<DataSet> QueryDataSetAsync(string sql, ParamList list, CommandType commandType, Dictionary<string, bool> cachetables)
+        {
+            DataSet ds = null;
+            ds =await _oper.QueryDataSetAsync(sql, list, commandType, cachetables);
+            return ds;
+        }
+        /// <summary>
+        /// 执行sql语句，分页返回DataSet(游标分页)
+        /// </summary>
+        /// <param name="sql">sql语句</param>
+        /// <param name="lstParam">参数集合</param>
+        /// <param name="objPage">分页对象</param>
+        public async Task<DataSet> QueryDataSetAsync(string sql, PageContent objPage, ParamList lstParam = null)
+        {
+            DataSet ds = new DataSet();
+            DataTable retDt = await EntityInfo.DBInfo.CurrentDbAdapter.QueryDataTableAsync(sql, lstParam, objPage, _oper, null);
+            ds.Tables.Add(retDt);
+            return ds;
+        }
+
+
+
+        
+        /// <summary>
         /// 执行sql语句，分页返回列名用类属性映射的DataSet(游标分页)
         /// </summary>
         /// <param name="sql">sql语句</param>
         /// <param name="lstParam">参数集合</param>
         /// <param name="objPage">分页对象</param>
-        protected DataSet QueryMappingDataSet(string sql, ParamList lstParam, PageContent objPage)
+        protected DataSet QueryMappingDataSet(string sql, PageContent objPage, ParamList lstParam=null)
         {
             DataSet ds = new DataSet();
             DataTable retDt = EntityInfo.DBInfo.CurrentDbAdapter.QueryDataTable(sql, lstParam, objPage, _oper, EntityInfo.EntityType);
+            ds.Tables.Add(retDt);
+            return ds;
+        }
+        
+
+
+        /// <summary>
+        /// 执行sql语句，分页返回列名用类属性映射的DataSet(游标分页)
+        /// </summary>
+        /// <param name="sql">sql语句</param>
+        /// <param name="lstParam">参数集合</param>
+        /// <param name="objPage">分页对象</param>
+        protected async Task<DataSet> QueryMappingDataSetAsync(string sql, PageContent objPage, ParamList lstParam=null)
+        {
+            DataSet ds = new DataSet();
+            DataTable retDt =await EntityInfo.DBInfo.CurrentDbAdapter.QueryDataTableAsync(sql, lstParam, objPage, _oper, EntityInfo.EntityType);
             ds.Tables.Add(retDt);
             return ds;
         }

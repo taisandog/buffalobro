@@ -106,7 +106,33 @@ namespace Buffalo.MQ.MQTTLib
             }
             return ApiCommon.GetSuccess();
         }
+        /// <summary>
+        /// 发送消息
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        private async Task<APIResault> SendMessAsync(MqttApplicationMessage message)
+        {
+            if (message == null)
+            {
+                return ApiCommon.GetFault("mess.Message can't be null");
+            }
+            if (_que != null)
+            {
+                _que.Enqueue(message);
+            }
+            else
+            {
+                message.Retain = false;
+                MqttClientPublishResult res = await _mqttClient.PublishAsync(message);
 
+                if (res.ReasonCode != MqttClientPublishReasonCode.Success)
+                {
+                    return ApiCommon.GetFault(res.ReasonString, res);
+                }
+            }
+            return ApiCommon.GetSuccess();
+        }
         private MqttApplicationMessage BuildMessage(string key, byte[] body) 
         {
 
@@ -163,7 +189,25 @@ namespace Buffalo.MQ.MQTTLib
             }
             
         }
-        
+        protected override async Task OpenAsync()
+        {
+            if (!IsOpen)
+            {
+                MqttFactory factory = new MqttFactory();
+                _mqttClient = factory.CreateMqttClient() as MqttClient;
+
+                _options = _config.Options.Build();
+
+                MqttClientConnectResult res = await _mqttClient.ConnectAsync(_options);
+                if (res.ResultCode != MqttClientConnectResultCode.Success)
+                {
+                    throw new MqttConnectingFailedException("Connect Fault", null, res);
+                }
+
+
+            }
+
+        }
 
         protected override APIResault StartTran()
         {
@@ -203,6 +247,29 @@ namespace Buffalo.MQ.MQTTLib
             }
             return ApiCommon.GetSuccess();
         }
+
+        protected override async Task<APIResault> SendMessageAsync(MQSendMessage mess)
+        {
+            MQTTMessage msg = mess as MQTTMessage;
+            if (msg == null)
+            {
+                return ApiCommon.GetFault("mess must to MQTTMessage");
+            }
+            MqttApplicationMessage message = msg.Message;
+
+            return await SendMessAsync(message);
+        }
+
+        protected async override Task<APIResault> SendMessageAsync(string key, byte[] body)
+        {
+            MqttApplicationMessage message = BuildMessage(key, body);
+            if (message == null)
+            {
+                return ApiCommon.GetFault("mess must to MQTTMessage");
+            }
+            return await SendMessAsync(message);
+        }
+
         ~MQTTConnection()
         {
             Close();

@@ -3,6 +3,7 @@ using Buffalo.DB.QueryConditions;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Buffalo.DB.DataBaseAdapter.SqlServer2K12Adapter
 {
@@ -12,6 +13,11 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2K12Adapter
             SelectCondition objCondition, PageContent objPage, bool useCache)
         {
             return CutPageSqlCreater.CreatePageSql(list, oper, objCondition, objPage, useCache);
+        }
+        public override Task<string> CreatePageSqlAsync(ParamList list, DataBaseOperate oper,
+           SelectCondition objCondition, PageContent objPage, bool useCache)
+        {
+            return CutPageSqlCreater.CreatePageSqlAsync(list, oper, objCondition, objPage, useCache);
         }
     }
 }
