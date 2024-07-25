@@ -256,7 +256,7 @@ namespace Buffalo.Data.Oracle
         {
             return " (contains(" + paranName + "," + value + ")>0)";
         }
-        
+
         /// <summary>
         /// 获取当前时间
         /// </summary>
@@ -292,7 +292,7 @@ namespace Buffalo.Data.Oracle
         {
             return "((sysdate -TO_DATE('19700101','yyyymmdd'))*86400 - TO_NUMBER(SUBSTR(TZ_OFFSET(sessiontimezone),1,3))*3600)";
         }
-        
+
         /// <summary>
         /// 游标分页
         /// </summary>
@@ -473,7 +473,7 @@ namespace Buffalo.Data.Oracle
 
             return "";
         }
-        
+
         /// <summary>
         /// 把DBType类型转成对应的SQLType
         /// </summary>
@@ -713,16 +713,16 @@ namespace Buffalo.Data.Oracle
         {
             StringBuilder sbSql = new StringBuilder();
             sbSql.Append(" ");
-           
-            if (type == BQLLikeType.Like || type == BQLLikeType.StartWith )
+
+            if (type == BQLLikeType.Like || type == BQLLikeType.StartWith)
             {
                 sbSql.Append("INSTR(");
 
                 AppendLikePrm(sbSql, source, caseType);
                 sbSql.Append(",");
-                AppendLikePrm(sbSql,  param, caseType);
-                
-                
+                AppendLikePrm(sbSql, param, caseType);
+
+
                 sbSql.Append(")");
                 if (type == BQLLikeType.Like)
                 {
@@ -733,7 +733,7 @@ namespace Buffalo.Data.Oracle
                     sbSql.Append("=1");
                 }
             }
-            else 
+            else
             {
                 AppendLikePrm(sbSql, source, caseType);
                 if (type == BQLLikeType.Equal)
@@ -754,15 +754,15 @@ namespace Buffalo.Data.Oracle
         /// </summary>
         /// <param name="pName"></param>
         /// <returns></returns>
-        private void AppendLikePrm(StringBuilder sbSql,string pName, BQLCaseType caseType) 
+        private void AppendLikePrm(StringBuilder sbSql, string pName, BQLCaseType caseType)
         {
-            if(caseType == BQLCaseType.CaseIgnore) 
+            if (caseType == BQLCaseType.CaseIgnore)
             {
                 sbSql.Append("lower(");
                 sbSql.Append(pName);
                 sbSql.Append(")");
             }
-            else 
+            else
             {
                 sbSql.Append(pName);
             }

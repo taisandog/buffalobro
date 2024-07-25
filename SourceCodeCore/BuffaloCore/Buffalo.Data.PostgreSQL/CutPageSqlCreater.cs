@@ -15,7 +15,7 @@ namespace Buffalo.Data.PostgreSQL
     /// </summary>
     public class CutPageSqlCreater
     {
-       
+
         /// <summary>
         /// 生成SQL语句
         /// </summary>
@@ -32,11 +32,11 @@ namespace Buffalo.Data.PostgreSQL
             {
                 return "";
             }
-            
+
             if (objPage.IsFillTotalRecords)
             {
                 objPage.TotalRecords = GetTotalRecord(list, oper, objCondition.GetSelect(false, false), objPage.MaxSelectRecords,
-                    (useCache?objCondition.CacheTables:null));//获取总记录数
+                    (useCache ? objCondition.CacheTables : null));//获取总记录数
                 //long totalPage = (long)Math.Ceiling((double)objPage.TotalRecords / (double)objPage.PageSize);
                 //objPage.TotalPage = totalPage;
                 if (objPage.CurrentPage >= objPage.TotalPage - 1)
@@ -49,7 +49,7 @@ namespace Buffalo.Data.PostgreSQL
             objCondition.FillSelect(sb, true);
             string sql = sb.ToString();
 
-            FillCutPageSql(sb,  objPage);
+            FillCutPageSql(sb, objPage);
             objCondition.FillLock(sb);
             return sb.ToString();
             //return GetCutPageSql(sql, objPage);
@@ -73,7 +73,7 @@ namespace Buffalo.Data.PostgreSQL
 
             if (objPage.IsFillTotalRecords)
             {
-                objPage.TotalRecords =await GetTotalRecordAsync(list, oper, objCondition.GetSelect(false, false), objPage.MaxSelectRecords,
+                objPage.TotalRecords = await GetTotalRecordAsync(list, oper, objCondition.GetSelect(false, false), objPage.MaxSelectRecords,
                     (useCache ? objCondition.CacheTables : null));//获取总记录数
                 //long totalPage = (long)Math.Ceiling((double)objPage.TotalRecords / (double)objPage.PageSize);
                 //objPage.TotalPage = totalPage;
@@ -109,7 +109,7 @@ namespace Buffalo.Data.PostgreSQL
 
         }
 
-        private static string GetTotalRecordSql(string sql,long maxRecords) 
+        private static string GetTotalRecordSql(string sql, long maxRecords)
         {
             StringBuilder tmpsql = new StringBuilder(2000);
             if (maxRecords > 0)
@@ -134,12 +134,12 @@ namespace Buffalo.Data.PostgreSQL
         /// <param name="part">查询条件</param>
         /// <param name="list">变量列表</param>
         /// <param name="oper">通用类</param>
-        public static long GetTotalRecord(ParamList list, DataBaseOperate oper,string sql,
-            long maxRecords,Dictionary<string,bool> cacheTables)
+        public static long GetTotalRecord(ParamList list, DataBaseOperate oper, string sql,
+            long maxRecords, Dictionary<string, bool> cacheTables)
         {
             long totalRecords = 0;
             string tmpsql = GetTotalRecordSql(sql, maxRecords);
-            
+
             IDataReader reader = oper.Query(tmpsql, list, cacheTables);
             try
             {
@@ -169,7 +169,7 @@ namespace Buffalo.Data.PostgreSQL
             long totalRecords = 0;
             string tmpsql = GetTotalRecordSql(sql, maxRecords);
 
-            DbDataReader reader = await oper.QueryAsync(tmpsql, list,CommandType.Text, cacheTables);
+            DbDataReader reader = await oper.QueryAsync(tmpsql, list, CommandType.Text, cacheTables);
             try
             {
                 if (await reader.ReadAsync())

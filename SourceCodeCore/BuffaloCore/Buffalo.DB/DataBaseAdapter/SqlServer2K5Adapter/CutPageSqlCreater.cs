@@ -15,7 +15,7 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2K5Adapter
     /// </summary>
     public class CutPageSqlCreater
     {
-       
+
         /// <summary>
         /// 生成SQL语句
         /// </summary>
@@ -37,8 +37,8 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2K5Adapter
             }
             if (objPage.IsFillTotalRecords)
             {
-                objPage.TotalRecords = GetTotalRecord(list, oper, objCondition,objPage,
-                    (useCache?objCondition.CacheTables:null));//获取总记录数
+                objPage.TotalRecords = GetTotalRecord(list, oper, objCondition, objPage,
+                    (useCache ? objCondition.CacheTables : null));//获取总记录数
                 //long totalPage = (long)Math.Ceiling((double)objPage.TotalRecords / (double)objPage.PageSize);
                 //objPage.TotalPage = totalPage;
                 if (objPage.CurrentPage >= objPage.TotalPage - 1)
@@ -60,7 +60,7 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2K5Adapter
         public static async Task<string> CreatePageSqlAsync(ParamList list, DataBaseOperate oper,
             SelectCondition objCondition, PageContent objPage, bool useCache)
         {
-            
+
             if (objPage.CurrentPage < 0 || objPage.PageSize <= 0)//初始化页数
             {
                 return "";
@@ -69,11 +69,11 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2K5Adapter
             {
                 objPage.TotalRecords = await GetTotalRecordAsync(list, oper, objCondition, objPage,
                     (useCache ? objCondition.CacheTables : null));//获取总记录数
-                
+
                 if (objPage.CurrentPage >= objPage.TotalPage - 1)
                 {
                     objPage.CurrentPage = objPage.TotalPage - 1;
-                   
+
                 }
             }
             return CreateCutPageSql(objCondition, objPage);
@@ -86,7 +86,7 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2K5Adapter
         private static string CreateCutPageSql(SelectCondition objCondition, PageContent objPage)
         {
             string orderBy = null;
-            if (objCondition.Orders.Length>0)//如果有排序就用本身排序
+            if (objCondition.Orders.Length > 0)//如果有排序就用本身排序
             {
                 orderBy = objCondition.Orders.ToString();
             }
@@ -111,7 +111,7 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2K5Adapter
             }
 
             long starIndex = objPage.GetStarIndex() + 1;
-            string rowNumberName = "[cur_rowNumber" + objPage.PagerIndex+"]";
+            string rowNumberName = "[cur_rowNumber" + objPage.PagerIndex + "]";
             long topRec = objPage.GetStarIndex() + objPage.PageSize;
 
             //sql.Append("select top " + objPage.PageSize + " * from(");
@@ -122,7 +122,7 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2K5Adapter
                 sql.Append("*");
                 newOrderBy = Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter.CutPageSqlCreater.FilterGroupOrderBy(orderBy, "[_tmpInnerTable]");
             }
-            else 
+            else
             {
                 sql.Append("*");
                 newOrderBy = orderBy;
@@ -151,27 +151,27 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2K5Adapter
                     sql.Append(" having ");
                     sql.Append(objCondition.Having.ToString());
                 }
-                
+
             }
-            else 
+            else
             {
                 sql.Append("[_tmpInnerTable].*");
                 sql.Append("  from (");
-               Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter.CutPageSqlCreater.GetGroupPart(objCondition, sql);
+                Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter.CutPageSqlCreater.GetGroupPart(objCondition, sql);
                 sql.Append(") [_tmpInnerTable]");
             }
             sql.Append(") tmp where " + rowNumberName + " between " + starIndex + " and " + topRec);
             sql.Append(" order by ");
             sql.Append(rowNumberName);
             objCondition.FillLock(sql);
-            
+
             return sql.ToString();
         }
 
         private static string GetTotalRecordSQL(ParamList list, DataBaseOperate oper,
-            SelectCondition objCondition, PageContent objPage, Dictionary<string, bool> cacheTables) 
+            SelectCondition objCondition, PageContent objPage, Dictionary<string, bool> cacheTables)
         {
-            
+
             StringBuilder sql = new StringBuilder();
             if (objPage.MaxSelectRecords > 0)
             {
@@ -229,7 +229,7 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2K5Adapter
                     sql.Append(") tmp");
 
                 }
-                
+
             }
             return sql.ToString();
         }
@@ -241,11 +241,11 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2K5Adapter
         /// <param name="list">变量列表</param>
         /// <param name="oper">通用类</param>
         internal static long GetTotalRecord(ParamList list, DataBaseOperate oper,
-            SelectCondition objCondition, PageContent objPage,Dictionary<string,bool> cacheTables)
+            SelectCondition objCondition, PageContent objPage, Dictionary<string, bool> cacheTables)
         {
             long totalRecords = 0;
             string csql = GetTotalRecordSQL(list, oper, objCondition, objPage, cacheTables);
-            IDataReader reader = oper.Query(csql, list,cacheTables);
+            IDataReader reader = oper.Query(csql, list, cacheTables);
             try
             {
                 if (reader.Read())
@@ -273,7 +273,7 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2K5Adapter
         {
             long totalRecords = 0;
             string csql = GetTotalRecordSQL(list, oper, objCondition, objPage, cacheTables);
-            DbDataReader reader = await oper.QueryAsync(csql, list,CommandType.Text, cacheTables);
+            DbDataReader reader = await oper.QueryAsync(csql, list, CommandType.Text, cacheTables);
             try
             {
                 if (await reader.ReadAsync())

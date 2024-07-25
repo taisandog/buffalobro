@@ -104,7 +104,42 @@ namespace Buffalo.DB.CommBase.BusinessBases
 
 
         #region Update
-       
+        /// <summary>
+        /// 更新
+        /// </summary>
+        /// <param name="entity">对象</param>
+        /// <param name="scorpList">范围更新的列表 不为null时候 entity.主键 条件无效</param>
+        /// <param name="lstValue">set实体 此列表的更新值优先于entity</param>
+        /// <param name="optimisticConcurrency">并发控制</param>
+        /// <returns>null:更新完毕,不为null:更新失败</returns>
+        public virtual object Update( ScopeList scorpList = null, ValueSetList lstValue = null, bool optimisticConcurrency = false)
+        {
+            _affectedRows = 0;
+            DataAccessModel<T> entityDao = new DataAccessModel<T>();
+            object ret = null;
+           
+            _affectedRows = entityDao.Update(null, scorpList, lstValue, optimisticConcurrency);
+            return ret;
+
+        }
+        /// <summary>
+        /// 更新
+        /// </summary>
+        /// <param name="entity">对象</param>
+        /// <param name="scorpList">范围更新的列表 不为null时候 entity.主键 条件无效</param>
+        /// <param name="lstValue">set实体 此列表的更新值优先于entity</param>
+        /// <param name="optimisticConcurrency">并发控制</param>
+        /// <returns>null:更新完毕,不为null:更新失败</returns>
+        public virtual async Task<object> UpdateAsync(ScopeList scorpList = null, ValueSetList lstValue = null, bool optimisticConcurrency = false)
+        {
+            _affectedRows = 0;
+            DataAccessModel<T> entityDao = new DataAccessModel<T>();
+            object ret = null;
+
+            _affectedRows = await entityDao.UpdateAsync(null, scorpList, lstValue, optimisticConcurrency);
+            return ret;
+
+        }
         /// <summary>
         /// 更新
         /// </summary>

@@ -53,7 +53,7 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter
         /// <param name="objPage">分页记录类</param>
         /// <returns></returns>
         public static string CreatePageSql(ParamList list, DataBaseOperate oper,
-            SelectCondition objCondition, PageContent objPage,Dictionary<string,bool> cacheTables)
+            SelectCondition objCondition, PageContent objPage, Dictionary<string, bool> cacheTables)
         {
             if (objPage.CurrentPage < 0 || objPage.PageSize <= 0)//初始化页数
             {
@@ -61,7 +61,7 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter
             }
             if (objPage.IsFillTotalRecords)
             {
-                objPage.TotalRecords = GetTotalRecord(list, oper, objCondition, objPage,cacheTables);//获取总记录数
+                objPage.TotalRecords = GetTotalRecord(list, oper, objCondition, objPage, cacheTables);//获取总记录数
                 //long totalPage = (long)Math.Ceiling((double)objPage.TotalRecords / (double)objPage.PageSize);
                 //objPage.TotalPage = totalPage;
                 if (objPage.CurrentPage >= objPage.TotalPage - 1)
@@ -105,13 +105,13 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter
         /// <param name="objCondition"></param>
         /// <param name="objPage"></param>
         /// <returns></returns>
-        protected internal static string GetFristPageSql(SelectCondition objCondition, PageContent objPage) 
+        protected internal static string GetFristPageSql(SelectCondition objCondition, PageContent objPage)
         {
             StringBuilder sql = new StringBuilder(5000);
             sql.Append("select top ");
             sql.Append(objPage.PageSize.ToString());
             sql.Append(" ");
-            
+
             if (!objCondition.HasGroup)
             {
                 sql.Append(objCondition.SqlParams);
@@ -141,7 +141,7 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter
                     sql.Append(objCondition.Having.ToString());
                 }
             }
-            else 
+            else
             {
                 sql.Append("*  from ");
                 sql.Append("(");
@@ -160,7 +160,7 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter
                     sql.Append(" group by ");
                     sql.Append(objCondition.GroupBy.ToString());
                 }
-                
+
                 if (objCondition.Having.Length > 0)
                 {
                     sql.Append(" having ");
@@ -170,7 +170,7 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter
                 if (objCondition.Orders.Length > 0)
                 {
                     sql.Append(" order by ");
-                    sql.Append(FilterGroupOrderBy(objCondition.Orders.ToString(),"tmp"));
+                    sql.Append(FilterGroupOrderBy(objCondition.Orders.ToString(), "tmp"));
                 }
             }
             objCondition.FillLock(sql);
@@ -183,21 +183,21 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter
         /// <param name="group">groupBy</param>
         /// <param name="newAlias">新别名</param>
         /// <returns></returns>
-        protected internal static string FilterGroupOrderBy(string group, string newAlias) 
+        protected internal static string FilterGroupOrderBy(string group, string newAlias)
         {
             string[] prms = group.Split(',');
             StringBuilder sbItem = new StringBuilder();
-            foreach (string prm in prms) 
+            foreach (string prm in prms)
             {
                 string tmp = prm;
-                int index=tmp.IndexOf('.');
-                if (index >= 0) 
+                int index = tmp.IndexOf('.');
+                if (index >= 0)
                 {
-                    tmp = newAlias+tmp.Substring(index, tmp.Length - index);
+                    tmp = newAlias + tmp.Substring(index, tmp.Length - index);
                 }
-                sbItem.Append(tmp+",");
+                sbItem.Append(tmp + ",");
             }
-            if (sbItem.Length > 0) 
+            if (sbItem.Length > 0)
             {
                 sbItem.Remove(sbItem.Length - 1, 1);
             }
@@ -223,14 +223,14 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter
             }
 
             string pkKey = null;
-            if (objCondition.PrimaryKey.Count> 1)
+            if (objCondition.PrimaryKey.Count > 1)
             {
                 StringBuilder sb = new StringBuilder();
-                foreach (string pk in objCondition.PrimaryKey) 
+                foreach (string pk in objCondition.PrimaryKey)
                 {
                     sb.Append("convert(varchar," + pk + ",21)+'|'+");
                 }
-                if (sb.Length > 0) 
+                if (sb.Length > 0)
                 {
                     sb.Remove(sb.Length - 5, 5);
                 }
@@ -276,7 +276,7 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter
                 sql.Append(objCondition.Having.ToString());
             }
             sql.Append(")");
-            
+
             sql.Append(")");
             if (objCondition.Condition.Length > 0)
             {
@@ -304,9 +304,9 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter
         }
 
         private static string FillGetTotalRecord(ParamList list, DataBaseOperate oper,
-            SelectCondition objCondition, PageContent objPage, Dictionary<string, bool> cacheTables) 
+            SelectCondition objCondition, PageContent objPage, Dictionary<string, bool> cacheTables)
         {
-           
+
             StringBuilder sql = new StringBuilder(5000);
 
             if (objPage.MaxSelectRecords > 0)
@@ -365,7 +365,7 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter
         /// <param name="list">变量列表</param>
         /// <param name="oper">通用类</param>
         private static long GetTotalRecord(ParamList list, DataBaseOperate oper,
-            SelectCondition objCondition,PageContent objPage,Dictionary<string,bool> cacheTables)
+            SelectCondition objCondition, PageContent objPage, Dictionary<string, bool> cacheTables)
         {
 
             long totalRecords = 0;
@@ -399,7 +399,7 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter
 
             long totalRecords = 0;
             string sql = FillGetTotalRecord(list, oper, objCondition, objPage, cacheTables);
-            DbDataReader reader = await oper.QueryAsync(sql, list,CommandType.Text, cacheTables);
+            DbDataReader reader = await oper.QueryAsync(sql, list, CommandType.Text, cacheTables);
             try
             {
                 if (await reader.ReadAsync())

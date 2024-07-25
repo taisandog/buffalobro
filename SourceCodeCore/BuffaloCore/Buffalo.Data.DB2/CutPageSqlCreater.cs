@@ -57,7 +57,7 @@ namespace Buffalo.Data.DB2
         /// <param name="objPage">分页记录类</param>
         /// <returns></returns>
         public static string CreatePageSql(ParamList list, DataBaseOperate oper,
-            SelectCondition objCondition, PageContent objPage,bool useCache)
+            SelectCondition objCondition, PageContent objPage, bool useCache)
         {
 
             if (objPage.CurrentPage < 0 || objPage.PageSize <= 0)//初始化页数
@@ -67,8 +67,8 @@ namespace Buffalo.Data.DB2
             //string sql = objCondition.GetSelect();
             if (objPage.IsFillTotalRecords)
             {
-                objPage.TotalRecords = GetTotalRecord(list, oper, objCondition.GetSelect(false,false), 
-                    objPage.MaxSelectRecords,(useCache?objCondition.CacheTables:null));//获取总记录数
+                objPage.TotalRecords = GetTotalRecord(list, oper, objCondition.GetSelect(false, false),
+                    objPage.MaxSelectRecords, (useCache ? objCondition.CacheTables : null));//获取总记录数
                 //long totalPage = (long)Math.Ceiling((double)objPage.TotalRecords / (double)objPage.PageSize);
                 //objPage.TotalPage = totalPage;
                 if (objPage.CurrentPage >= objPage.TotalPage - 1)
@@ -94,7 +94,7 @@ namespace Buffalo.Data.DB2
             else//如果没有就用主键排序
             {
                 StringBuilder sbOrder = new StringBuilder();
-                foreach (string pkName in objCondition.PrimaryKey) 
+                foreach (string pkName in objCondition.PrimaryKey)
                 {
                     sbOrder.Append(pkName + ",");
                 }
@@ -105,11 +105,11 @@ namespace Buffalo.Data.DB2
                 }
             }
             long starIndex = objPage.GetStarIndex() + 1;
-            string rowNumberName = "\"__cur_rowNumber" + objPage.PagerIndex+"\"";
+            string rowNumberName = "\"__cur_rowNumber" + objPage.PagerIndex + "\"";
             long endIndex = objPage.PageSize * (objPage.CurrentPage + 1);
             StringBuilder sql = new StringBuilder(5000);
             sql.Append("select * from (");
-            sql.Append("select ROW_NUMBER() over(order by " + orderBy + ") as " + rowNumberName + "," );
+            sql.Append("select ROW_NUMBER() over(order by " + orderBy + ") as " + rowNumberName + ",");
 
             if (!objCondition.HasGroup)
             {
@@ -128,18 +128,18 @@ namespace Buffalo.Data.DB2
                     sql.Append(objCondition.Having.ToString());
                 }
             }
-            else 
+            else
             {
                 sql.Append("\"_tmpInnerTable\".*");
                 sql.Append("  from (");
-               Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter.CutPageSqlCreater.GetGroupPart(objCondition, sql);
+                Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter.CutPageSqlCreater.GetGroupPart(objCondition, sql);
                 sql.Append(") \"_tmpInnerTable\"");
             }
             sql.Append(") tmp where " + rowNumberName + " >=" + starIndex + " and " + rowNumberName + " <=" + endIndex);
             objCondition.FillLock(sql);
             return sql.ToString();
         }
-        private static string GetTotalRecordSQL(string sql,long maxRecords) 
+        private static string GetTotalRecordSQL(string sql, long maxRecords)
         {
             StringBuilder tmpsql = new StringBuilder(5000);
             if (maxRecords > 0)
@@ -168,11 +168,11 @@ namespace Buffalo.Data.DB2
         /// <param name="part">查询条件</param>
         /// <param name="list">变量列表</param>
         /// <param name="oper">通用类</param>
-        public static long GetTotalRecord(ParamList list, DataBaseOperate oper,string sql,
-            long maxRecords,Dictionary<string,bool> cacheTables)
+        public static long GetTotalRecord(ParamList list, DataBaseOperate oper, string sql,
+            long maxRecords, Dictionary<string, bool> cacheTables)
         {
             long totalRecords = 0;
-            string tmpSql= GetTotalRecordSQL(sql,maxRecords);
+            string tmpSql = GetTotalRecordSQL(sql, maxRecords);
             DbDataReader reader = oper.Query(tmpSql, list, cacheTables);
             try
             {
@@ -201,7 +201,7 @@ namespace Buffalo.Data.DB2
         {
             long totalRecords = 0;
             string tmpSql = GetTotalRecordSQL(sql, maxRecords);
-            DbDataReader reader = await oper.QueryAsync(tmpSql, list,CommandType.Text, cacheTables);
+            DbDataReader reader = await oper.QueryAsync(tmpSql, list, CommandType.Text, cacheTables);
             try
             {
                 if (await reader.ReadAsync())
@@ -214,7 +214,7 @@ namespace Buffalo.Data.DB2
             }
             finally
             {
-                reader.CloseAsync();
+                await reader.CloseAsync();
             }
             return totalRecords;
         }

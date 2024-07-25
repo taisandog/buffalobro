@@ -29,7 +29,7 @@ namespace Buffalo.DB.DbCommon
         /// </summary>
         UserCommit
     }
-
+    
 	/// <summary>
 	/// 数据库访问类
 	/// </summary>

@@ -11,6 +11,7 @@ using Buffalo.DB.BQLCommon.BQLKeyWordCommon;
 using Buffalo.DB.DataBaseAdapter;
 using System.Diagnostics;
 using System.Threading;
+using Buffalo.Kernel.FastReflection;
 
 namespace Buffalo.DB.BQLCommon.BQLConditionCommon
 {
@@ -528,7 +529,7 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
             return info;
         }
         //private static readonly string KeyWordInfomationKey = "$$Buffalo.KeyWordInfomation";
-        private static AsyncLocal<KeyWordInfomation> _curKeyWordInfomation = new System.Threading.AsyncLocal<KeyWordInfomation>();
+        private static CallContext<KeyWordInfomation> _curKeyWordInfomation = new CallContext<KeyWordInfomation>();
         /// <summary>
         /// 获取默认的Key信息
         /// </summary>

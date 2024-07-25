@@ -11,9 +11,9 @@ namespace Buffalo.DB.QueryConditions
     /// </summary>
     public class SelectCondition : AbsCondition
     {
-        public SelectCondition(DBInfo db) :base(db)
+        public SelectCondition(DBInfo db) : base(db)
         {
-            
+
             _itemName = "Select";
         }
         /// <summary>
@@ -122,30 +122,30 @@ namespace Buffalo.DB.QueryConditions
         /// <summary>
         /// 是否有聚合语句
         /// </summary>
-        public bool HasGroup 
+        public bool HasGroup
         {
-            get 
+            get
             {
                 return _hasGroup;
             }
-            set 
+            set
             {
                 _hasGroup = value;
             }
         }
-        
-        PageContent _pageContente =null;
+
+        PageContent _pageContente = null;
 
         /// <summary>
         /// 分页对象
         /// </summary>
-        public override  PageContent PageContent
+        public override PageContent PageContent
         {
             get { return _pageContente; }
             set { _pageContente = value; }
         }
 
-        
+
 
         #region ICondition 成员
 
@@ -153,13 +153,13 @@ namespace Buffalo.DB.QueryConditions
 
         public override string GetSql(bool useCache)
         {
-            string ret=null;
+            string ret = null;
             DataAccessCommon.TrimHead(_condition);
             if (_pageContente != null && _pageContente.PageSize > 0)
             {
                 ret = _dbInfo.CurrentDbAdapter.CreatePageSql(_paramList, _oper, this, _pageContente, useCache);
             }
-            else 
+            else
             {
                 ret = GetSelect();
             }
@@ -167,17 +167,17 @@ namespace Buffalo.DB.QueryConditions
             return ret;
         }
 
-        
+
         /// <summary>
         /// 获取查询语句
         /// </summary>
         /// <param name="hasOrder">是否有排序</param>
         /// <returns></returns>
-        public string GetSelect(bool hasOrder=true,bool fillLock=true) 
+        public string GetSelect(bool hasOrder = true, bool fillLock = true)
         {
             StringBuilder sql = new StringBuilder(5000);
-            FillSelect(sql,hasOrder);
-            if(hasOrder && fillLock) 
+            FillSelect(sql, hasOrder);
+            if (hasOrder && fillLock)
             {
                 FillLock(sql);
             }
@@ -188,9 +188,9 @@ namespace Buffalo.DB.QueryConditions
         /// </summary>
         /// <param name="hasOrder">是否有排序</param>
         /// <returns></returns>
-        public void FillSelect(StringBuilder sql,bool hasOrder)
+        public void FillSelect(StringBuilder sql, bool hasOrder)
         {
-            
+
             sql.Append("select ");
             sql.Append(_sqlParams.ToString());
             sql.Append(" from ");
@@ -221,13 +221,13 @@ namespace Buffalo.DB.QueryConditions
                 sql.Append(" having ");
                 sql.Append(_sqlHaving.ToString());
             }
-            
+
         }
         /// <summary>
         /// 填充锁
         /// </summary>
         /// <param name="sql"></param>
-        public void FillLock(StringBuilder sql) 
+        public void FillLock(StringBuilder sql)
         {
             if (_lockUpdate.Length > 0)
             {

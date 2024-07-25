@@ -15,7 +15,7 @@ namespace Buffalo.Data.SQLite
     /// </summary>
     public class CutPageSqlCreater
     {
-       
+
         /// <summary>
         /// 生成SQL语句
         /// </summary>
@@ -24,21 +24,21 @@ namespace Buffalo.Data.SQLite
         /// <param name="objCondition">条件对象</param>
         /// <param name="objPage">分页记录类</param>
         /// <returns></returns>
-        public static string CreatePageSql(ParamList list, DataBaseOperate oper, 
-            SelectCondition objCondition, PageContent objPage,bool useCache)
+        public static string CreatePageSql(ParamList list, DataBaseOperate oper,
+            SelectCondition objCondition, PageContent objPage, bool useCache)
         {
 
             if (objPage.CurrentPage < 0 || objPage.PageSize <= 0)//初始化页数
             {
                 return "";
             }
-           
+
 
             //string sql = objCondition.GetSelect(true,false);
             if (objPage.IsFillTotalRecords)
             {
                 objPage.TotalRecords = GetTotalRecord(list, oper, objCondition.GetSelect(false, false), objPage.MaxSelectRecords,
-                    (useCache?objCondition.CacheTables:null));//获取总记录数
+                    (useCache ? objCondition.CacheTables : null));//获取总记录数
 
                 if (objPage.CurrentPage >= objPage.TotalPage - 1)
                 {
@@ -47,11 +47,11 @@ namespace Buffalo.Data.SQLite
                 }
             }
 
-            
+
             StringBuilder tmpsql = new StringBuilder(1024);
             objCondition.FillSelect(tmpsql, true);
 
-            FillCutPageSql(tmpsql,  objPage);
+            FillCutPageSql(tmpsql, objPage);
             objCondition.FillLock(tmpsql);
             return tmpsql.ToString();
         }
@@ -98,7 +98,7 @@ namespace Buffalo.Data.SQLite
         /// <param name="sql">要被分页的SQL</param>
         /// <param name="objCondition">分页类</param>
         /// <returns></returns>
-        public static void FillCutPageSql(StringBuilder tmpsql, PageContent objPage) 
+        public static void FillCutPageSql(StringBuilder tmpsql, PageContent objPage)
         {
             long starIndex = objPage.GetStarIndex();
 
@@ -106,11 +106,11 @@ namespace Buffalo.Data.SQLite
             tmpsql.Append(starIndex);
             tmpsql.Append(",");
             tmpsql.Append(objPage.PageSize);
-            
+
         }
-        private static string GetTotalRecordSQL(string sql,long maxRecords) 
+        private static string GetTotalRecordSQL(string sql, long maxRecords)
         {
-            
+
             //string tmpsql = "select count(*) from (" + sql + ")tmp";
             StringBuilder tmpsql = new StringBuilder(2000);
             if (maxRecords > 0)
@@ -135,11 +135,11 @@ namespace Buffalo.Data.SQLite
         /// <param name="part">查询条件</param>
         /// <param name="list">变量列表</param>
         /// <param name="oper">通用类</param>
-        public static long GetTotalRecord(ParamList list, DataBaseOperate oper,string sql,
-            long maxRecords,Dictionary<string,bool> cacheTables)
+        public static long GetTotalRecord(ParamList list, DataBaseOperate oper, string sql,
+            long maxRecords, Dictionary<string, bool> cacheTables)
         {
             long totalRecords = 0;
-            string tmpsql= GetTotalRecordSQL(sql,maxRecords);
+            string tmpsql = GetTotalRecordSQL(sql, maxRecords);
             DbDataReader reader = oper.Query(tmpsql, list, cacheTables);
             try
             {
@@ -168,7 +168,7 @@ namespace Buffalo.Data.SQLite
         {
             long totalRecords = 0;
             string tmpsql = GetTotalRecordSQL(sql, maxRecords);
-            DbDataReader reader =await oper.QueryAsync(tmpsql, list,CommandType.Text, cacheTables);
+            DbDataReader reader = await oper.QueryAsync(tmpsql, list, CommandType.Text, cacheTables);
             try
             {
                 if (await reader.ReadAsync())

@@ -28,7 +28,7 @@ namespace Buffalo.Data.MySQL
         public static DbDataReader Query(string sql, ParamList lstParam, PageContent objPage, DataBaseOperate oper, Dictionary<string, bool> cacheTables)
         {
 
-            objPage.TotalRecords = CutPageSqlCreater.GetTotalRecord(lstParam, oper, sql,objPage.MaxSelectRecords,cacheTables);
+            objPage.TotalRecords = CutPageSqlCreater.GetTotalRecord(lstParam, oper, sql, objPage.MaxSelectRecords, cacheTables);
             if (objPage.CurrentPage >= objPage.TotalPage - 1)
             {
                 objPage.CurrentPage = objPage.TotalPage - 1;
@@ -39,7 +39,7 @@ namespace Buffalo.Data.MySQL
             sbSQL.Append(sql);
             CutPageSqlCreater.FillCutPageSql(sbSQL, objPage);
             string qsql = sbSQL.ToString();
-            reader = oper.Query(qsql, lstParam,cacheTables);
+            reader = oper.Query(qsql, lstParam, cacheTables);
 
             return reader;
         }
@@ -65,7 +65,7 @@ namespace Buffalo.Data.MySQL
             sbSQL.Append(sql);
             CutPageSqlCreater.FillCutPageSql(sbSQL, objPage);
             string qsql = sbSQL.ToString();
-            reader = await oper.QueryAsync(qsql, lstParam,CommandType.Text, cacheTables);
+            reader = await oper.QueryAsync(qsql, lstParam, CommandType.Text, cacheTables);
 
             return reader;
         }
@@ -80,7 +80,7 @@ namespace Buffalo.Data.MySQL
         /// <returns></returns>
         public static DataTable QueryDataTable(string sql, ParamList lstParam, PageContent objPage, DataBaseOperate oper, Type curType)
         {
-            objPage.TotalRecords = CutPageSqlCreater.GetTotalRecord(lstParam, oper, sql, objPage.MaxSelectRecords,null);
+            objPage.TotalRecords = CutPageSqlCreater.GetTotalRecord(lstParam, oper, sql, objPage.MaxSelectRecords, null);
             if (objPage.CurrentPage >= objPage.TotalPage - 1)
             {
                 objPage.CurrentPage = objPage.TotalPage - 1;
@@ -101,14 +101,14 @@ namespace Buffalo.Data.MySQL
 
                 //string qsql = CutPageSqlCreater.GetCutPageSql(sql, objPage);
                 reader = oper.Query(qsql, lstParam, null);
-                
+
                 if (curType == null)
                 {
                     ret = CacheReader.GenerateDataTable(reader, "newDt", false);
                 }
-                else 
+                else
                 {
-                    ret = CacheReader.GenerateDataTable(reader, "newDt",curType, false);
+                    ret = CacheReader.GenerateDataTable(reader, "newDt", curType, false);
                 }
             }
             finally
@@ -150,7 +150,7 @@ namespace Buffalo.Data.MySQL
                 string qsql = sbSQL.ToString();
 
                 //string qsql = CutPageSqlCreater.GetCutPageSql(sql, objPage);
-                reader = await oper.QueryAsync(qsql, lstParam,CommandType.Text, null);
+                reader = await oper.QueryAsync(qsql, lstParam, CommandType.Text, null);
 
                 if (curType == null)
                 {

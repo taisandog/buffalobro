@@ -44,9 +44,9 @@ namespace Buffalo.DB.BQLCommon.BQLKeyWordCommon
         /// </summary>
         /// <param name="noWait">如果冲突是否不等待</param>
         /// <returns></returns>
-        public KeyWorkLockUpdateItem LockUpdate(BQLLockType type)
+        public KeyWorkLockUpdateItem LockUpdate(bool noWait)
         {
-            KeyWorkLockUpdateItem item = new KeyWorkLockUpdateItem(type, this);
+            KeyWorkLockUpdateItem item = new KeyWorkLockUpdateItem(noWait, this);
             return item;
         }
 

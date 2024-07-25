@@ -16,7 +16,7 @@ namespace Buffalo.Data.MySQL
     /// </summary>
     public class CutPageSqlCreater
     {
-       
+
         /// <summary>
         /// 生成SQL语句
         /// </summary>
@@ -26,19 +26,19 @@ namespace Buffalo.Data.MySQL
         /// <param name="objPage">分页记录类</param>
         /// <returns></returns>
         public static string CreatePageSql(ParamList list, DataBaseOperate oper,
-            SelectCondition objCondition, PageContent objPage,bool useCache)
+            SelectCondition objCondition, PageContent objPage, bool useCache)
         {
 
             if (objPage.CurrentPage < 0 || objPage.PageSize <= 0)//初始化页数
             {
                 return "";
             }
-            
-            
+
+
             if (objPage.IsFillTotalRecords)
             {
                 objPage.TotalRecords = GetTotalRecord(list, oper, objCondition.GetSelect(false, false), objPage.MaxSelectRecords,
-                    (useCache?objCondition.CacheTables:null));//获取总记录数
+                    (useCache ? objCondition.CacheTables : null));//获取总记录数
                 if (objPage.CurrentPage >= objPage.TotalPage - 1)
                 {
                     objPage.CurrentPage = objPage.TotalPage - 1;
@@ -49,7 +49,7 @@ namespace Buffalo.Data.MySQL
             objCondition.FillSelect(sb, true);
 
 
-            FillCutPageSql(sb,  objPage);
+            FillCutPageSql(sb, objPage);
             objCondition.FillLock(sb);
             return sb.ToString();
 
@@ -97,16 +97,16 @@ namespace Buffalo.Data.MySQL
         /// <param name="sql">要被分页的SQL</param>
         /// <param name="objCondition">分页类</param>
         /// <returns></returns>
-        public static void FillCutPageSql(StringBuilder sbSQL, PageContent objPage) 
+        public static void FillCutPageSql(StringBuilder sbSQL, PageContent objPage)
         {
             long starIndex = objPage.GetStarIndex();
-            
+
             sbSQL.Append(" limit ");
             sbSQL.Append(starIndex.ToString());
             sbSQL.Append(",");
             sbSQL.Append(objPage.PageSize.ToString());
 
-            
+
         }
 
         private static string GetTotalRecordSQL(string sql, long maxRecords)
@@ -136,7 +136,7 @@ namespace Buffalo.Data.MySQL
         /// <param name="list">变量列表</param>
         /// <param name="oper">通用类</param>
         public static long GetTotalRecord(ParamList list, DataBaseOperate oper,
-            string sql,long maxRecords,Dictionary<string,bool> cacheTables)
+            string sql, long maxRecords, Dictionary<string, bool> cacheTables)
         {
             long totalRecords = 0;
             string tmpsql = GetTotalRecordSQL(sql, maxRecords);
@@ -168,7 +168,7 @@ namespace Buffalo.Data.MySQL
         {
             long totalRecords = 0;
             string tmpsql = GetTotalRecordSQL(sql, maxRecords);
-            DbDataReader reader =await oper.QueryAsync(tmpsql, list,CommandType.Text, cacheTables);
+            DbDataReader reader = await oper.QueryAsync(tmpsql, list, CommandType.Text, cacheTables);
             try
             {
                 if (await reader.ReadAsync())

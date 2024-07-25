@@ -16,6 +16,14 @@ namespace Buffalo.DB.BQLCommon.BQLKeyWordCommon
         /// </summary>
         /// <param name="isNoWait">是否不堵塞</param>
         /// <param name="previous"></param>
+        public KeyWorkLockUpdateItem(bool isNoWait,BQLQuery previous) : base(previous)
+        {
+            _type = isNoWait? BQLLockType.LockUpdateNoWait: BQLLockType.LockUpdate;
+        } /// <summary>
+          /// 锁更新
+          /// </summary>
+          /// <param name="isNoWait">是否不堵塞</param>
+          /// <param name="previous"></param>
         public KeyWorkLockUpdateItem(BQLLockType lockType, BQLQuery previous) : base(previous)
         {
             _type = lockType;
@@ -23,7 +31,7 @@ namespace Buffalo.DB.BQLCommon.BQLKeyWordCommon
         internal override void LoadInfo(KeyWordInfomation info)
         {
             info.LockType = _type;
-
+            
         }
 
         internal override void Tran(KeyWordInfomation info)

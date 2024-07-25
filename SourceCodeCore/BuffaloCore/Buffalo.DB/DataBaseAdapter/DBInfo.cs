@@ -14,6 +14,7 @@ using System.ComponentModel;
 using System.Collections.Concurrent;
 using Buffalo.Kernel;
 using System.Threading;
+using Buffalo.Kernel.FastReflection;
 
 namespace Buffalo.DB.DataBaseAdapter
 {
@@ -61,7 +62,7 @@ namespace Buffalo.DB.DataBaseAdapter
 
         private bool _operatorPrecedence=true;
 
-        private AsyncLocal<DataBaseOperate> _operate = new AsyncLocal<DataBaseOperate>();
+        private CallContext<DataBaseOperate> _operate = new CallContext<DataBaseOperate>();
         /// <summary>
         /// 选中库的数据库连接
         /// </summary>
@@ -240,7 +241,7 @@ namespace Buffalo.DB.DataBaseAdapter
         }
 
         
-        private AsyncLocal<DBInfo> _curDB = new AsyncLocal<DBInfo>();
+        private CallContext<DBInfo> _curDB = new CallContext<DBInfo>();
 
 
         /// <summary>

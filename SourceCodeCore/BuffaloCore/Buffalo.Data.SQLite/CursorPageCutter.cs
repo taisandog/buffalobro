@@ -26,7 +26,7 @@ namespace Buffalo.Data.SQLite
         /// <param name="oper">数据库对象</param>
         /// <returns></returns>
         public static DbDataReader Query(string sql, ParamList lstParam, PageContent objPage,
-            DataBaseOperate oper,Dictionary<string,bool> cacheTables)
+            DataBaseOperate oper, Dictionary<string, bool> cacheTables)
         {
 
             objPage.TotalRecords = CutPageSqlCreater.GetTotalRecord(lstParam, oper, sql,
@@ -43,7 +43,7 @@ namespace Buffalo.Data.SQLite
             tmpsql.Append(sql);
             CutPageSqlCreater.FillCutPageSql(tmpsql, objPage);
             string qsql = tmpsql.ToString();
-            reader = oper.Query(qsql, lstParam,cacheTables);
+            reader = oper.Query(qsql, lstParam, cacheTables);
 
 
             return reader;
@@ -73,7 +73,7 @@ namespace Buffalo.Data.SQLite
             tmpsql.Append(sql);
             CutPageSqlCreater.FillCutPageSql(tmpsql, objPage);
             string qsql = tmpsql.ToString();
-            reader =await oper.QueryAsync(qsql, lstParam,CommandType.Text, cacheTables);
+            reader = await oper.QueryAsync(qsql, lstParam, CommandType.Text, cacheTables);
 
 
             return reader;
@@ -88,10 +88,10 @@ namespace Buffalo.Data.SQLite
         /// <param name="curType">映射的实体类型(如果用回数据库的原列名，则此为null)</param>
         /// <returns></returns>
         public static DataTable QueryDataTable(string sql, ParamList lstParam, PageContent objPage,
-            DataBaseOperate oper, Type curType,Dictionary<string,bool> cacheTables)
+            DataBaseOperate oper, Type curType, Dictionary<string, bool> cacheTables)
         {
             objPage.TotalRecords = CutPageSqlCreater.GetTotalRecord(lstParam, oper,
-                sql,objPage.MaxSelectRecords,cacheTables);
+                sql, objPage.MaxSelectRecords, cacheTables);
             //long totalPage = (long)Math.Ceiling((double)objPage.TotalRecords / (double)objPage.PageSize);
             //objPage.TotalPage = totalPage;
             if (objPage.CurrentPage >= objPage.TotalPage - 1)
@@ -111,15 +111,15 @@ namespace Buffalo.Data.SQLite
                 tmpsql.Append(sql);
                 CutPageSqlCreater.FillCutPageSql(tmpsql, objPage);
                 string qsql = tmpsql.ToString();
-                reader = oper.Query(qsql, lstParam,cacheTables);
-                
+                reader = oper.Query(qsql, lstParam, cacheTables);
+
                 if (curType == null)
                 {
                     ret = CacheReader.GenerateDataTable(reader, "newDt", false);
                 }
-                else 
+                else
                 {
-                    ret = CacheReader.GenerateDataTable(reader, "newDt",curType, false);
+                    ret = CacheReader.GenerateDataTable(reader, "newDt", curType, false);
                 }
             }
             finally
@@ -142,7 +142,7 @@ namespace Buffalo.Data.SQLite
         public static async Task<DataTable> QueryDataTableAsync(string sql, ParamList lstParam, PageContent objPage,
             DataBaseOperate oper, Type curType, Dictionary<string, bool> cacheTables)
         {
-            objPage.TotalRecords =await CutPageSqlCreater.GetTotalRecordAsync(lstParam, oper,
+            objPage.TotalRecords = await CutPageSqlCreater.GetTotalRecordAsync(lstParam, oper,
                 sql, objPage.MaxSelectRecords, cacheTables);
 
             if (objPage.CurrentPage >= objPage.TotalPage - 1)
@@ -162,7 +162,7 @@ namespace Buffalo.Data.SQLite
                 tmpsql.Append(sql);
                 CutPageSqlCreater.FillCutPageSql(tmpsql, objPage);
                 string qsql = tmpsql.ToString();
-                reader = await oper.QueryAsync(qsql, lstParam,CommandType.Text, cacheTables);
+                reader = await oper.QueryAsync(qsql, lstParam, CommandType.Text, cacheTables);
 
                 if (curType == null)
                 {
@@ -170,7 +170,7 @@ namespace Buffalo.Data.SQLite
                 }
                 else
                 {
-                    ret =await CacheReader.GenerateDataTableAsync(reader, "newDt", curType, false);
+                    ret = await CacheReader.GenerateDataTableAsync(reader, "newDt", curType, false);
                 }
             }
             finally

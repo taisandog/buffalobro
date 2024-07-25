@@ -29,7 +29,7 @@ namespace Buffalo.Data.Oracle
         public static DbDataReader Query(string sql, ParamList lstParam, PageContent objPage, DataBaseOperate oper)
         {
 
-            objPage.TotalRecords = CutPageSqlCreater.GetTotalRecord(lstParam, oper, sql, objPage.MaxSelectRecords,null);
+            objPage.TotalRecords = CutPageSqlCreater.GetTotalRecord(lstParam, oper, sql, objPage.MaxSelectRecords, null);
             //long totalPage = (long)Math.Ceiling((double)objPage.TotalRecords / (double)objPage.PageSize);
             //objPage.TotalPage = totalPage;
             if (objPage.CurrentPage >= objPage.TotalPage - 1)
@@ -38,8 +38,8 @@ namespace Buffalo.Data.Oracle
             }
             DbDataReader reader = null;
             StringBuilder sbTmp = new StringBuilder();
-            CutPageSqlCreater.FillCutPageSql(sbTmp,sql, objPage);
-            string qsql =sbTmp.ToString();
+            CutPageSqlCreater.FillCutPageSql(sbTmp, sql, objPage);
+            string qsql = sbTmp.ToString();
             reader = oper.Query(qsql, lstParam, null);
 
             return reader;
@@ -66,7 +66,7 @@ namespace Buffalo.Data.Oracle
             StringBuilder sbTmp = new StringBuilder();
             CutPageSqlCreater.FillCutPageSql(sbTmp, sql, objPage);
             string qsql = sbTmp.ToString();
-            reader = await oper.QueryAsync(qsql, lstParam,CommandType.Text, null);
+            reader = await oper.QueryAsync(qsql, lstParam, CommandType.Text, null);
 
             return reader;
         }
@@ -102,14 +102,14 @@ namespace Buffalo.Data.Oracle
                 CutPageSqlCreater.FillCutPageSql(sbTmp, sql, objPage);
                 string qsql = sbTmp.ToString();
                 reader = oper.Query(qsql, lstParam, null);
-                
+
                 if (curType == null)
                 {
                     ret = CacheReader.GenerateDataTable(reader, "newDt", false);
                 }
-                else 
+                else
                 {
-                    ret = CacheReader.GenerateDataTable(reader, "newDt",curType, false);
+                    ret = CacheReader.GenerateDataTable(reader, "newDt", curType, false);
                 }
             }
             finally
@@ -150,7 +150,7 @@ namespace Buffalo.Data.Oracle
 
                 CutPageSqlCreater.FillCutPageSql(sbTmp, sql, objPage);
                 string qsql = sbTmp.ToString();
-                reader = await oper.QueryAsync(qsql, lstParam,CommandType.Text, null);
+                reader = await oper.QueryAsync(qsql, lstParam, CommandType.Text, null);
 
                 if (curType == null)
                 {
