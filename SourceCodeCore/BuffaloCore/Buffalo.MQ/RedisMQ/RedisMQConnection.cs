@@ -59,15 +59,26 @@ namespace Buffalo.MQ.RedisMQ
         /// </summary>
         protected override void Open()
         {
-            if (_redis == null)
+            if (IsOpen)
             {
-                _redis = CreateManager(_config.Options);
+                return;
             }
-            if (_config.Mode == RedisMQMessageMode.Subscriber)
+            lock (this)
             {
-                if (_subscriber == null)
+                if (IsOpen)
                 {
-                    _subscriber = _redis.GetSubscriber();
+                    return;
+                }
+                if (_redis == null)
+                {
+                    _redis = CreateManager(_config.Options);
+                }
+                if (_config.Mode == RedisMQMessageMode.Subscriber)
+                {
+                    if (_subscriber == null)
+                    {
+                        _subscriber = _redis.GetSubscriber();
+                    }
                 }
             }
         }
@@ -76,17 +87,18 @@ namespace Buffalo.MQ.RedisMQ
         /// </summary>
         protected override async Task OpenAsync()
         {
-            if (_redis == null)
-            {
-                _redis = await CreateManagerAsync(_config.Options);
-            }
-            if (_config.Mode == RedisMQMessageMode.Subscriber)
-            {
-                if (_subscriber == null)
-                {
-                    _subscriber = _redis.GetSubscriber();
-                }
-            }
+            //if (_redis == null)
+            //{
+            //    _redis = await CreateManagerAsync(_config.Options);
+            //}
+            //if (_config.Mode == RedisMQMessageMode.Subscriber)
+            //{
+            //    if (_subscriber == null)
+            //    {
+            //        _subscriber = _redis.GetSubscriber();
+            //    }
+            //}
+            Open();
         }
         /// <summary>
         /// 获取Redis操作类

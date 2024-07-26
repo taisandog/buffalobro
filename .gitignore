@@ -936,3 +936,4 @@ Debug
 /SourceCode/Release
 bin
 obj
+/SourceCodeCore/BuffaloCore/.vs

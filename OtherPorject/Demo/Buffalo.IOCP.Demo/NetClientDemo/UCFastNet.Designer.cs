@@ -28,120 +28,133 @@
         /// </summary>
         private void InitializeComponent()
         {
-            label3 = new Label();
-            btnSend = new Button();
-            btnStart = new Button();
-            nupFastPort = new NumericUpDown();
-            label2 = new Label();
-            txtFastIP = new TextBox();
-            label1 = new Label();
-            btnStop = new Button();
-            txtContent = new RichTextBox();
-            ((System.ComponentModel.ISupportInitialize)nupFastPort).BeginInit();
-            SuspendLayout();
+            this.label3 = new System.Windows.Forms.Label();
+            this.btnSend = new System.Windows.Forms.Button();
+            this.btnStart = new System.Windows.Forms.Button();
+            this.nupFastPort = new System.Windows.Forms.NumericUpDown();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtFastIP = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.btnStop = new System.Windows.Forms.Button();
+            this.txtContent = new System.Windows.Forms.RichTextBox();
+            ((System.ComponentModel.ISupportInitialize)(this.nupFastPort)).BeginInit();
+            this.SuspendLayout();
             // 
             // label3
             // 
-            label3.AutoSize = true;
-            label3.Location = new Point(13, 82);
-            label3.Name = "label3";
-            label3.Size = new Size(35, 17);
-            label3.TabIndex = 15;
-            label3.Text = "消息:";
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(13, 82);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(35, 17);
+            this.label3.TabIndex = 15;
+            this.label3.Text = "消息:";
             // 
             // btnSend
             // 
-            btnSend.Location = new Point(273, 56);
-            btnSend.Name = "btnSend";
-            btnSend.Size = new Size(86, 43);
-            btnSend.TabIndex = 13;
-            btnSend.Text = "发消息";
-            btnSend.UseVisualStyleBackColor = true;
-            btnSend.Click += btnSend_Click;
+            this.btnSend.Location = new System.Drawing.Point(273, 56);
+            this.btnSend.Name = "btnSend";
+            this.btnSend.Size = new System.Drawing.Size(86, 43);
+            this.btnSend.TabIndex = 13;
+            this.btnSend.Text = "发消息";
+            this.btnSend.UseVisualStyleBackColor = true;
+            this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
             // 
             // btnStart
             // 
-            btnStart.Location = new Point(169, 105);
-            btnStart.Name = "btnStart";
-            btnStart.Size = new Size(86, 31);
-            btnStart.TabIndex = 12;
-            btnStart.Text = "连接";
-            btnStart.UseVisualStyleBackColor = true;
-            btnStart.Click += btnStart_Click;
+            this.btnStart.Location = new System.Drawing.Point(169, 105);
+            this.btnStart.Name = "btnStart";
+            this.btnStart.Size = new System.Drawing.Size(86, 31);
+            this.btnStart.TabIndex = 12;
+            this.btnStart.Text = "连接";
+            this.btnStart.UseVisualStyleBackColor = true;
+            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
             // nupFastPort
             // 
-            nupFastPort.Location = new Point(186, 14);
-            nupFastPort.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
-            nupFastPort.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
-            nupFastPort.Name = "nupFastPort";
-            nupFastPort.Size = new Size(86, 23);
-            nupFastPort.TabIndex = 11;
-            nupFastPort.Value = new decimal(new int[] { 8587, 0, 0, 0 });
+            this.nupFastPort.Location = new System.Drawing.Point(186, 14);
+            this.nupFastPort.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.nupFastPort.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nupFastPort.Name = "nupFastPort";
+            this.nupFastPort.Size = new System.Drawing.Size(86, 23);
+            this.nupFastPort.TabIndex = 11;
+            this.nupFastPort.Value = new decimal(new int[] {
+            8586,
+            0,
+            0,
+            0});
             // 
             // label2
             // 
-            label2.AutoSize = true;
-            label2.Location = new Point(169, 17);
-            label2.Name = "label2";
-            label2.Size = new Size(11, 17);
-            label2.TabIndex = 10;
-            label2.Text = ":";
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(169, 17);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(11, 17);
+            this.label2.TabIndex = 10;
+            this.label2.Text = ":";
             // 
             // txtFastIP
             // 
-            txtFastIP.Location = new Point(54, 14);
-            txtFastIP.Name = "txtFastIP";
-            txtFastIP.Size = new Size(109, 23);
-            txtFastIP.TabIndex = 9;
-            txtFastIP.Text = "localhost";
+            this.txtFastIP.Location = new System.Drawing.Point(54, 14);
+            this.txtFastIP.Name = "txtFastIP";
+            this.txtFastIP.Size = new System.Drawing.Size(109, 23);
+            this.txtFastIP.TabIndex = 9;
+            this.txtFastIP.Text = "localhost";
             // 
             // label1
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(13, 17);
-            label1.Name = "label1";
-            label1.Size = new Size(35, 17);
-            label1.TabIndex = 8;
-            label1.Text = "地址:";
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(13, 17);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(35, 17);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "地址:";
             // 
             // btnStop
             // 
-            btnStop.Location = new Point(273, 105);
-            btnStop.Name = "btnStop";
-            btnStop.Size = new Size(86, 31);
-            btnStop.TabIndex = 16;
-            btnStop.Text = "停止";
-            btnStop.UseVisualStyleBackColor = true;
-            btnStop.Click += btnStop_Click;
+            this.btnStop.Location = new System.Drawing.Point(273, 105);
+            this.btnStop.Name = "btnStop";
+            this.btnStop.Size = new System.Drawing.Size(86, 31);
+            this.btnStop.TabIndex = 16;
+            this.btnStop.Text = "停止";
+            this.btnStop.UseVisualStyleBackColor = true;
+            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
             // 
             // txtContent
             // 
-            txtContent.Location = new Point(54, 43);
-            txtContent.Name = "txtContent";
-            txtContent.Size = new Size(218, 56);
-            txtContent.TabIndex = 17;
-            txtContent.Text = "";
+            this.txtContent.Location = new System.Drawing.Point(54, 43);
+            this.txtContent.Name = "txtContent";
+            this.txtContent.Size = new System.Drawing.Size(218, 56);
+            this.txtContent.TabIndex = 17;
+            this.txtContent.Text = "";
             // 
             // UCFastNet
             // 
-            AutoScaleDimensions = new SizeF(7F, 17F);
-            AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(txtContent);
-            Controls.Add(btnStop);
-            Controls.Add(label3);
-            Controls.Add(btnSend);
-            Controls.Add(btnStart);
-            Controls.Add(nupFastPort);
-            Controls.Add(label2);
-            Controls.Add(txtFastIP);
-            Controls.Add(label1);
-            Name = "UCFastNet";
-            Size = new Size(387, 190);
-            Load += UCFastNet_Load;
-            ((System.ComponentModel.ISupportInitialize)nupFastPort).EndInit();
-            ResumeLayout(false);
-            PerformLayout();
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.txtContent);
+            this.Controls.Add(this.btnStop);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.btnSend);
+            this.Controls.Add(this.btnStart);
+            this.Controls.Add(this.nupFastPort);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.txtFastIP);
+            this.Controls.Add(this.label1);
+            this.Name = "UCFastNet";
+            this.Size = new System.Drawing.Size(387, 190);
+            this.Load += new System.EventHandler(this.UCFastNet_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.nupFastPort)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #endregion

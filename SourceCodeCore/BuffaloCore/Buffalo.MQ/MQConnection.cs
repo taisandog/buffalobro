@@ -89,7 +89,7 @@ namespace Buffalo.MQ
         /// <returns></returns>
         public async Task<APIResault> SendAsync(string key, byte[] body)
         {
-            Open();
+            await OpenAsync();
             APIResault res = await SendMessageAsync(key, body);
             //AutoClose();
             return res;
@@ -115,7 +115,7 @@ namespace Buffalo.MQ
         /// <returns></returns>
         public async Task<APIResault> SendAsync(string key, string body)
         {
-            Open();
+            await OpenAsync();
             APIResault res = await SendMessageAsync(key, body);
             //AutoClose();
             return res;
@@ -141,7 +141,7 @@ namespace Buffalo.MQ
         /// <returns></returns>
         public async Task<APIResault> SendAsync(MQSendMessage message)
         {
-            Open();
+            await OpenAsync();
             APIResault res = await SendMessageAsync(message);
             //AutoClose();
             return res;

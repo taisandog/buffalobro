@@ -2,6 +2,7 @@
 using Buffalo.IOCP.DataProtocol;
 using Newtonsoft.Json;
 using System.Net.Security;
+using System.Net.Sockets;
 using System.Net.WebSockets;
 using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
@@ -69,7 +70,7 @@ namespace FastNetServerDemo
             server.OnReceiveData += server_OnReceiveData;
             server.OnMessage += Server_OnMessage;
             server.OnError += Server_OnError;
-            server.Start();
+            server.Start(0);
             Console.WriteLine("Fast:0.0.0.0:" + port);
             return server;
         }
@@ -231,10 +232,9 @@ namespace FastNetServerDemo
         }
         static void Server_OnAccept(ClientSocketBase clientSocket)
         {
-            //if (FCRUnit.IsDebug) 
-            //{
-            //    Console.WriteLine("当前连接数:" + _heart.Clients.Count);
-            //}
+            Console.WriteLine("当前连接:" + clientSocket.RemoteIP+"_"+ clientSocket.BindSocket.LocalEndPoint+"_"+clientSocket.BindSocket.RemoteEndPoint);
+            
+
         }
         public static bool DoRemoteCertificateValidation(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
         {

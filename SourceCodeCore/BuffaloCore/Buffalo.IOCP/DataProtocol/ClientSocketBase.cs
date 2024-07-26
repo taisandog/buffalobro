@@ -521,7 +521,7 @@ namespace Buffalo.IOCP.DataProtocol
                     sendSocketAsync.UserToken = dataPacket;
                     if (socket != null && Connected)
                     {
-                        isSync = SendAsync(socket, sendSocketAsync);
+                        isSync = TlsSendAsync(socket, sendSocketAsync);
                         hasSend = true;
                     }
                     LastSendTime = DateTime.Now;
@@ -579,7 +579,7 @@ namespace Buffalo.IOCP.DataProtocol
                 IsSend = false;
             }
         }
-        private bool SendAsync(Socket socket, SocketAsyncEventArgs sendSocketAsync)
+        private bool TlsSendAsync(Socket socket, SocketAsyncEventArgs sendSocketAsync)
         {
             if (_tlsStream == null)
             {

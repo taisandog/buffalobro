@@ -257,24 +257,7 @@ namespace Buffalo.QueryCache
         }
         private async Task<IDatabase> CheckConnectionDBAsync()
         {
-            IDatabase client = _dbclient;
-            if (_redis != null && client != null)
-            {
-                return client;
-            }
-            
-                if (_redis == null)
-                {
-                    _redis = await ConnectionMultiplexer.ConnectAsync(_options);
-                    _dbclient = null;
-                }
-                if (_dbclient == null)
-                {
-                    client = _redis.GetDatabase(_db);
-                    _dbclient = client;
-                }
-            
-            return client;
+            return CheckConnectionDB();
         }
         #region ICacheAdaper 成员
 

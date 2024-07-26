@@ -172,41 +172,31 @@ namespace Buffalo.MQ.MQTTLib
 
         protected override void Open()
         {
-            if (!IsOpen)
+            if (IsOpen)
             {
-                MqttFactory factory = new MqttFactory();
-                _mqttClient = factory.CreateMqttClient() as MqttClient;
-
-                _options = _config.Options.Build();
-                
-                MqttClientConnectResult res = _mqttClient.ConnectAsync(_options).Result;
-                if(res.ResultCode!= MqttClientConnectResultCode.Success) 
-                {
-                    throw new MqttConnectingFailedException("Connect Fault",null, res);
-                }
-                
-
+                return;
             }
-            
+            lock(this){
+                if (!IsOpen)
+                {
+                    MqttFactory factory = new MqttFactory();
+                    _mqttClient = factory.CreateMqttClient() as MqttClient;
+
+                    _options = _config.Options.Build();
+
+                    MqttClientConnectResult res = _mqttClient.ConnectAsync(_options).Result;
+                    if (res.ResultCode != MqttClientConnectResultCode.Success)
+                    {
+                        throw new MqttConnectingFailedException("Connect Fault", null, res);
+                    }
+
+
+                }
+            }
         }
         protected override async Task OpenAsync()
         {
-            if (!IsOpen)
-            {
-                MqttFactory factory = new MqttFactory();
-                _mqttClient = factory.CreateMqttClient() as MqttClient;
-
-                _options = _config.Options.Build();
-
-                MqttClientConnectResult res = await _mqttClient.ConnectAsync(_options);
-                if (res.ResultCode != MqttClientConnectResultCode.Success)
-                {
-                    throw new MqttConnectingFailedException("Connect Fault", null, res);
-                }
-
-
-            }
-
+           Open();
         }
 
         protected override APIResault StartTran()

@@ -261,7 +261,10 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             UpdateCondition con = null;
             List<VersionInfo> lstVersionInfo = null;
             Dictionary< string, bool> cacheTables = null;
-            FillUpdateSql(obj, scopeList, setList, optimisticConcurrency, list, out con, out lstVersionInfo, out cacheTables);
+            if(!FillUpdateSql(obj, scopeList, setList, optimisticConcurrency, list, out con, out lstVersionInfo, out cacheTables)) 
+            {
+                return 0;
+            }
 
             int ret = ExecuteCommand(con.GetSql(true), list, CommandType.Text, cacheTables);
             AfterUpdate(obj, lstVersionInfo);
@@ -281,8 +284,10 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             UpdateCondition con = null;
             List<VersionInfo> lstVersionInfo = null;
             Dictionary<string, bool> cacheTables = null;
-            FillUpdateSql(obj, scopeList, setList, optimisticConcurrency, list, out con, out lstVersionInfo, out cacheTables);
-
+            if (!FillUpdateSql(obj, scopeList, setList, optimisticConcurrency, list, out con, out lstVersionInfo, out cacheTables))
+            {
+                return 0;
+            }
             int ret = await ExecuteCommandAsync(con.GetSql(true), list, CommandType.Text, cacheTables);
             AfterUpdate(obj, lstVersionInfo);
             return ret;

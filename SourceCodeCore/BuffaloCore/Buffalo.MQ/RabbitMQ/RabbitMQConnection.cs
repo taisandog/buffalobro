@@ -55,57 +55,43 @@ namespace Buffalo.MQ.RabbitMQ
         /// </summary>
         protected override void Open()
         {
+
             if (IsOpen)
             {
                 return;
             }
-            _connection = _config.Factory.CreateConnection();
-            _channel = _connection.CreateModel();
-            IBasicProperties properties = _channel.CreateBasicProperties();
-            properties.DeliveryMode = _config.DeliveryMode;
-
-            //UInt32 prefetchSize,  每次取的长度
-            //UInt16 prefetchCount,     每次取几条
-            //Boolean global    是否对connection通用
-            _channel.BasicQos(0, 1, true);
-            _channel.ExchangeDeclare(_config.ExchangeName, _config.ExchangeMode, _config.DeliveryMode == 2, _config.AutoDelete, null);
-            if (_config.QueueName != null)
+            lock (this)
             {
-                foreach (string name in _config.QueueName)
+                if (IsOpen)
                 {
-                    _channel.QueueDeclare(name, _config.DeliveryMode == 2, false, _config.AutoDelete, null);
-                    _channel.QueueBind(name, _config.ExchangeName, "", null);
+                    return;
+                }
+                _connection = _config.Factory.CreateConnection();
+                _channel = _connection.CreateModel();
+                IBasicProperties properties = _channel.CreateBasicProperties();
+                properties.DeliveryMode = _config.DeliveryMode;
+
+                //UInt32 prefetchSize,  每次取的长度
+                //UInt16 prefetchCount,     每次取几条
+                //Boolean global    是否对connection通用
+                _channel.BasicQos(0, 1, true);
+                _channel.ExchangeDeclare(_config.ExchangeName, _config.ExchangeMode, _config.DeliveryMode == 2, _config.AutoDelete, null);
+                if (_config.QueueName != null)
+                {
+                    foreach (string name in _config.QueueName)
+                    {
+                        _channel.QueueDeclare(name, _config.DeliveryMode == 2, false, _config.AutoDelete, null);
+                        _channel.QueueBind(name, _config.ExchangeName, "", null);
+                    }
                 }
             }
-
         }
         /// <summary>
         /// 打来连接
         /// </summary>
         protected override async Task OpenAsync()
         {
-            if (IsOpen)
-            {
-                return;
-            }
-            _connection = _config.Factory.CreateConnection();
-            _channel = _connection.CreateModel();
-            IBasicProperties properties = _channel.CreateBasicProperties();
-            properties.DeliveryMode = _config.DeliveryMode;
-
-            //UInt32 prefetchSize,  每次取的长度
-            //UInt16 prefetchCount,     每次取几条
-            //Boolean global    是否对connection通用
-            _channel.BasicQos(0, 1, true);
-            _channel.ExchangeDeclare(_config.ExchangeName, _config.ExchangeMode, _config.DeliveryMode == 2, _config.AutoDelete, null);
-            if (_config.QueueName != null)
-            {
-                foreach (string name in _config.QueueName)
-                {
-                    _channel.QueueDeclare(name, _config.DeliveryMode == 2, false, _config.AutoDelete, null);
-                    _channel.QueueBind(name, _config.ExchangeName, "", null);
-                }
-            }
+            Open();
 
         }
         /// <summary>

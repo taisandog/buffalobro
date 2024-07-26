@@ -1841,7 +1841,7 @@ namespace Buffalo.DB.CacheManager
         {
             try
             {
-                using (T client = CreateClient(false, QueryCacheCommand.CommandSetList))
+                using (T client = await CreateClientAsync(false, QueryCacheCommand.CommandSetList))
                 {
 
                     bool ret = await DoSetEntityListAsync(key, lstEntity, expir, client);
