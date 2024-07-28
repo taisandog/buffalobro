@@ -276,7 +276,7 @@ namespace Buffalo.QueryCache.RedisCollections
             object lok = _lokKey.GetObject(_key);
             using (AsyncLock aslok = new AsyncLock(lok))
             {
-                if (!(await aslok.LockAsync(millisecondsTimeout, pollingMillisecond)))
+                if (!(await aslok.LockAsync(millisecondsTimeout, pollingMillisecond)))//先锁内存
                 {
                     return false;
                 }
