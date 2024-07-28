@@ -1,4 +1,5 @@
-﻿using Buffalo.Kernel.Collections;
+﻿using Buffalo.Kernel;
+using Buffalo.Kernel.Collections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +12,9 @@ namespace Buffalo.DB.CacheManager.CacheCollection
     public class MemoryCacheLock : ICacheLock
     {
         private static LockObjects<string> _lok = new LockObjects<string>();
-
+        private static AsyncLock _asyncLick = null;
         private object _lokObj = null;
-
+        
         public MemoryCacheLock(string key) 
         {
             _lokObj = _lok.GetObject(key);
@@ -59,12 +60,20 @@ namespace Buffalo.DB.CacheManager.CacheCollection
 
         public Task<bool> LockAsync(long millisecondsTimeout = -1, int pollingMillisecond = -1)
         {
-            return Task.FromResult(Lock(millisecondsTimeout, pollingMillisecond));
+            _asyncLick = new AsyncLock(_lokObj);
+            return _asyncLick.LockAsync(millisecondsTimeout, pollingMillisecond);
         }
 
-        public Task<bool> UnLockAsync()
+        public async Task<bool> UnLockAsync()
         {
-            return Task.FromResult(UnLock());
+            _asyncLick.ReleaseLock();
+            return true;
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            await UnLockAsync();
+
         }
     }
 }

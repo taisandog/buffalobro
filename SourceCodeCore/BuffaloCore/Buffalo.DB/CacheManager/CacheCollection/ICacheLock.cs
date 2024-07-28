@@ -9,7 +9,7 @@ namespace Buffalo.DB.CacheManager.CacheCollection
     /// <summary>
     /// 缓存锁
     /// </summary>
-    public interface ICacheLock:IDisposable
+    public interface ICacheLock:IDisposable,IAsyncDisposable
     {
         /// <summary>
         /// 是否锁了

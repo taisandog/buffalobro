@@ -1,5 +1,6 @@
 ﻿using Buffalo.DB.CacheManager;
 using Buffalo.DB.CacheManager.CacheCollection;
+using Buffalo.Kernel;
 using Buffalo.Kernel.Collections;
 using Enyim.Caching;
 using Enyim.Caching.Memcached;
@@ -185,7 +186,7 @@ namespace Buffalo.QueryCache.RedisCollections
                     HasLock = true;
                     return true;
                 }
-                Thread.Sleep(pollingMillisecond);
+                await Task.Delay(pollingMillisecond);
             }
 
             return false;
@@ -244,8 +245,15 @@ namespace Buffalo.QueryCache.RedisCollections
             {
                 return true;
             }
-
-            _islock = await LockObjectAsync(millisecondsTimeout, pollingMillisecond);
+            object lok = _lokKey.GetObject(_key);
+            using (AsyncLock aslok = new AsyncLock(lok))
+            {
+                if (!(await aslok.LockAsync(millisecondsTimeout, pollingMillisecond)))
+                {
+                    return false;
+                }
+                _islock = await LockObjectAsync(millisecondsTimeout, pollingMillisecond);
+            }
             
             return _islock;
         }
@@ -259,6 +267,12 @@ namespace Buffalo.QueryCache.RedisCollections
             }
 
             return !_islock;
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            await UnLockAsync();
+
         }
     }
 }
