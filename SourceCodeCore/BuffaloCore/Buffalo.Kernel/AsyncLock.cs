@@ -111,10 +111,7 @@ namespace Buffalo.Kernel
             {
 
                 bool isSucess = _dicAllKey.TryAdd(_key, true);
-                if (isSucess)
-                {
-                    _dicAllKey[key] = true;
-                }
+               
                 return isSucess;
             }
            
