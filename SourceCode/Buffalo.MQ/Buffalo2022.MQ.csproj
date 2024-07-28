@@ -42,8 +42,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\dll\dll\Net4.8\Redis\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
-    <Reference Include="MQTTnet">
-      <HintPath>..\..\dll\dll\Net4.8\MQTTnet.dll</HintPath>
+    <Reference Include="MQTTnet, Version=4.3.6.1152, Culture=neutral, PublicKeyToken=fdb7629f2e364a63, processorArchitecture=MSIL">
+      <HintPath>..\packages\MQTTnet.4.3.6.1152\lib\net48\MQTTnet.dll</HintPath>
     </Reference>
     <Reference Include="Pipelines.Sockets.Unofficial">
       <HintPath>..\..\dll\dll\Net4.8\Redis\Pipelines.Sockets.Unofficial.dll</HintPath>

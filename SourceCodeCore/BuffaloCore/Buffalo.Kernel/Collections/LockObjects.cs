@@ -51,7 +51,7 @@ namespace Buffalo.Kernel.Collections
                 {
                     ret = new LockItem<K, V>();
                     ret.Key = key;
-                    ret.LockObject = (V)Activator.CreateInstance(typeof(V));
+                    ret.LockObject = CreateInstance();
 
                     _dic[key] = ret;
                 }
@@ -60,6 +60,11 @@ namespace Buffalo.Kernel.Collections
 
                 return ret.LockObject;
             }
+        }
+
+        protected virtual V CreateInstance() 
+        {
+            return (V)Activator.CreateInstance(typeof(V));
         }
         /// <summary>
         /// 清除超时
@@ -81,13 +86,22 @@ namespace Buffalo.Kernel.Collections
                 }
                 queNeedDelete.Enqueue(kvp.Key);
             }
+            LockItem<K, V> val =null;
             foreach (K key in queNeedDelete)
             {
-                _dic.Remove(key);
+                _dic.RemoveValue(key,out val);
+                if(val != null) 
+                {
+                    ReleaseValue(val);
+                }
             }
             _lastClean = DateTime.Now;
         }
 
+        protected virtual void ReleaseValue(LockItem<K, V> value) 
+        {
+
+        }
         /// <summary>
         /// 释放对象
         /// </summary>
@@ -95,10 +109,14 @@ namespace Buffalo.Kernel.Collections
         /// <returns></returns>
         public void DeleteObject(K key)
         {
-
+            LockItem<K, V> val = null;
             lock (_dic)
             {
                 _dic.Remove(key);
+                if (val != null)
+                {
+                    ReleaseValue(val);
+                }
             }
         }
 

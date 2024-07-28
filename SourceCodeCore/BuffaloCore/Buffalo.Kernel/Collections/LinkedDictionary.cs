@@ -272,17 +272,30 @@ namespace Buffalo.Kernel.Collections
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public bool Remove(T key)
+        public bool RemoveValue(T key,out K value)
         {
             LinkedListNode<LinkedValueNode<T, K>> ret = null;
             bool isRemove = false;
+            value=default(K);
             if (_dic.TryGetValue(key, out ret))
             {
+                value = ret.Value.Value;
                 isRemove = _dic.Remove(key);
                 _lk.Remove(ret);
+
             }
             ret = null;
             return isRemove;
+        }
+        /// <summary>
+        /// 删除键
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public bool Remove(T key)
+        {
+            K val=default(K);
+            return RemoveValue(key,out val);
         }
         /// <summary>
         /// 删除键并返回值

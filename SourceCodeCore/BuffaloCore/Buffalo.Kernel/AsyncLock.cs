@@ -1,7 +1,10 @@
-﻿using Buffalo.Kernel.FastReflection;
+﻿using Buffalo.Kernel.Collections;
+using Buffalo.Kernel.FastReflection;
+using Microsoft.VisualStudio.Threading;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Buffalo.Kernel
@@ -9,16 +12,16 @@ namespace Buffalo.Kernel
     /// <summary>
     /// 异步锁
     /// </summary>
-    public class AsyncLock:IDisposable
+    public class AsyncLock<T>:IDisposable
     {
         /// <summary>
         /// 当前任务的变量
         /// </summary>
-        private static CallContext<Dictionary<object, bool>> _dicCurLock = new CallContext<Dictionary<object, bool>>();
+        private static CallContext<Dictionary<T, bool>> _dicCurLock = new CallContext<Dictionary<T, bool>>();
         /// <summary>
         /// 所有资源变量
         /// </summary>
-        private static Dictionary<object, bool> _dicAllKey = new Dictionary<object, bool>();
+        private static AutoResetLockObject<T> _dicAllKey = new AutoResetLockObject<T>();
 
         
         /// <summary>
@@ -32,7 +35,7 @@ namespace Buffalo.Kernel
         /// <summary>
         /// 被锁的键
         /// </summary>
-        protected object _key;
+        protected T _key;
         /// <summary>
         /// 是否锁定
         /// </summary>
@@ -41,11 +44,11 @@ namespace Buffalo.Kernel
         /// <summary>
         /// 被锁的键
         /// </summary>
-        public object Key
+        public T Key
         {
             get { return _key; }
         }
-        public AsyncLock(object key)
+        public AsyncLock(T key)
         {
             
             _key = key;
@@ -61,78 +64,80 @@ namespace Buffalo.Kernel
         /// <summary>
         /// 锁定资源
         /// </summary>
-        /// <param name="pollingMillisecond">轮询次数(小于等于0则为默认值)</param>
-        /// <param name="millisecondsTimeout">超时时间(小于等于0则为默认值)</param>
+        /// <param name="cancellationToke">取消Token</param>
         /// <returns></returns>
-        public async Task<bool> LockAsync(long millisecondsTimeout = -1, int pollingMillisecond = -1) 
+        public async Task<bool> LockAsync(CancellationToken cancellationToke) 
         {
-            Dictionary<object, bool> curLock = _dicCurLock.Value;
+            Dictionary<T, bool> curLock = _dicCurLock.Value;
             if(curLock == null) 
             {
-                curLock = new Dictionary<object, bool>();
+                curLock = new Dictionary<T, bool>();
                 _dicCurLock.Value = curLock;
             }
             if (curLock.ContainsKey(_key)) //已经被锁过，不重复锁
             {
                 return true;
             }
-            if (millisecondsTimeout <= 0)
+            if (await TryLockAsync(_key, cancellationToke))
             {
-                millisecondsTimeout = 2000;
+                curLock[_key] = true;
+                _hasLock = true;
             }
-            if (pollingMillisecond <= 0)
-            {
-                pollingMillisecond = (int)(millisecondsTimeout / 10);
-            }
-            long pollingCount = millisecondsTimeout / pollingMillisecond;
-            for (int i = 0; i < pollingCount; i++) 
-            {
-                if (TryLock(_key)) 
-                {
-                    _hasLock = true;
-                    break;
-                }
-                await Task.Delay(pollingMillisecond);
-            }
-            if (!_hasLock) 
-            {
-                return false;
-            }
-            curLock[_key] = true;
             return true;
+        }
+        /// <summary>
+        /// 锁定资源
+        /// </summary>
+        /// <param name="cancellationToke">取消Token</param>
+        /// <returns></returns>
+        public Task<bool> LockAsync()
+        {
+            
+            return LockAsync(CancellationToken.None);
         }
         /// <summary>
         /// 尝试锁定
         /// </summary>
         /// <returns></returns>
-        private bool TryLock(object key) 
+        private async Task<bool> TryLockAsync(T key, CancellationToken cancellationToken) 
         {
-            lock (_dicAllKey)
-            {
+            AsyncAutoResetEvent ret = null;
+            ret = _dicAllKey.GetObject(_key);
+            
 
-                bool isSucess = _dicAllKey.TryAdd(_key, true);
-               
-                return isSucess;
-            }
-           
+            await ret.WaitAsync(cancellationToken);
+            return true;
         }
+
         /// <summary>
         /// 释放键
         /// </summary>
         public void ReleaseLock() 
         {
-            if (_hasLock) 
+            if (!_hasLock) 
             {
                 return;
             }
-            Dictionary<object, bool> curLock = _dicCurLock.Value;
+            Dictionary<T, bool> curLock = _dicCurLock.Value;
             curLock.Remove(_key);
-            lock (_dicAllKey)
-            {
-                _dicAllKey.Remove(_key);
-                _hasLock = false;
-            }
-            _key = null;
+
+            _key =default(T);
+        }
+    }
+
+
+    public class AutoResetLockObject<T>: LockObjects<T, AsyncAutoResetEvent>
+    {
+        protected override AsyncAutoResetEvent CreateInstance()
+        {
+            AsyncAutoResetEvent ret= new AsyncAutoResetEvent(false);
+            ret.Set();
+            return ret;
+        }
+        protected override void ReleaseValue(LockItem<T, AsyncAutoResetEvent> value)
+        {
+           
+            
         }
     }
 }
