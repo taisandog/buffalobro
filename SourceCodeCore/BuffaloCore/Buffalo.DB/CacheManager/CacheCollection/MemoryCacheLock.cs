@@ -12,12 +12,13 @@ namespace Buffalo.DB.CacheManager.CacheCollection
     public class MemoryCacheLock : ICacheLock
     {
         private static LockObjects<string> _lok = new LockObjects<string>();
-        private static AsyncLock _asyncLick = null;
+        private static AsyncLock<string> _asyncLock = null;
         private object _lokObj = null;
-        
+        private string _key;
         public MemoryCacheLock(string key) 
         {
             _lokObj = _lok.GetObject(key);
+            _key = key;
         }
 
         private bool _islock = false;
@@ -60,13 +61,13 @@ namespace Buffalo.DB.CacheManager.CacheCollection
 
         public Task<bool> LockAsync(long millisecondsTimeout = -1, int pollingMillisecond = -1)
         {
-            _asyncLick = new AsyncLock(_lokObj);
-            return _asyncLick.LockAsync(millisecondsTimeout, pollingMillisecond);
+            _asyncLock = new AsyncLock<string>(_key);
+            return _asyncLock.LockAsync();
         }
 
         public async Task<bool> UnLockAsync()
         {
-            _asyncLick.ReleaseLock();
+            _asyncLock.ReleaseLock();
             return true;
         }
 
