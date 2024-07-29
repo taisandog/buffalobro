@@ -22,15 +22,7 @@ namespace Buffalo.Kernel
         /// </summary>
         private static AutoResetLockObject<T> _dicAllKey = new AutoResetLockObject<T>();
 
-        
-        /// <summary>
-        /// 每次轮询的时间
-        /// </summary>
-        protected int _pollingMillisecond = -1;
-        /// <summary>
-        /// 超时时间
-        /// </summary>
-        protected int _millisecondsTimeout = -1;
+
         /// <summary>
         /// 被锁的键
         /// </summary>
