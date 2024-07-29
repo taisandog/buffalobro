@@ -10,15 +10,19 @@ namespace Buffalo.Kernel.FastReflection
     public class CallContext<T>
     {
         ThreadLocal<T> _thdValue = new ThreadLocal<T>();
-        AsyncLocal<T> _asyncValue = new AsyncLocal<T>();
+        AsyncLocal<AsyncLocalValue<T>> _asyncValue = new AsyncLocal<AsyncLocalValue<T>>();
         public T Value
         {
             get 
             {
                 if (Thread.CurrentThread.IsThreadPoolThread) 
                 {
-                    
-                    return _asyncValue.Value;
+                    AsyncLocalValue<T> val = _asyncValue.Value;
+                    if(val == null) 
+                    {
+                        return default(T);
+                    }
+                    return val.Value;
                 }
                 return _thdValue.Value;
             }
@@ -26,12 +30,23 @@ namespace Buffalo.Kernel.FastReflection
             {
                 if (Thread.CurrentThread.IsThreadPoolThread)
                 {
-                    _asyncValue.Value = value;
+                    AsyncLocalValue<T> val = _asyncValue.Value;
+                    if (val == null)
+                    {
+                        val = new AsyncLocalValue<T>();
+                        _asyncValue.Value = val;
+                    }
+                    val.Value = value;
                     return;
                 }
                 _thdValue.Value = value;
             }
         }
 
-    } 
+    }
+
+    public class AsyncLocalValue<T> 
+    {
+        public T Value;
+    }
 }

@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 
 namespace Buffalo.MQ.MQTTLib
@@ -228,7 +229,21 @@ namespace Buffalo.MQ.MQTTLib
             }
             return ApiCommon.GetSuccess();
         }
+        protected override async Task<APIResault> CommitTranAsync()
+        {
+            if (_que != null)
+            {
+                MqttApplicationMessage mess = null;
+                while (_que.Count > 0)
+                {
+                    mess = _que.Dequeue();
+                    await _mqttClient.PublishAsync(mess);
+                }
 
+                
+            }
+            return ApiCommon.GetSuccess();
+        }
         protected override APIResault RoolbackTran()
         {
             if (_que != null)

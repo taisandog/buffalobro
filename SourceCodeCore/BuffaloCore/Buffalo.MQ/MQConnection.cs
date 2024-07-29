@@ -158,6 +158,11 @@ namespace Buffalo.MQ
         /// <returns></returns>
         protected abstract APIResault CommitTran();
         /// <summary>
+        /// 提交事务
+        /// </summary>
+        /// <returns></returns>
+        protected abstract Task<APIResault> CommitTranAsync();
+        /// <summary>
         /// 回滚事务
         /// </summary>
         /// <returns></returns>
@@ -197,6 +202,15 @@ namespace Buffalo.MQ
             _isTran = false;
             return CommitTran();
         }
+        /// <summary>
+        /// 提交事务
+        /// </summary>
+        /// <returns></returns>
+        internal Task<APIResault> CommitTransactionAsync()
+        {
+            _isTran = false;
+            return CommitTranAsync();
+        }
         ///// <summary>
         ///// 开启批量处理
         ///// </summary>
@@ -210,7 +224,7 @@ namespace Buffalo.MQ
         //    }
         //    return new MQBatchAction(null);
         //}
-        
+
         /// <summary>
         /// 初始化发布者模式
         /// </summary>

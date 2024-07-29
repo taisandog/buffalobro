@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Buffalo.ArgCommon;
 using Buffalo.Kernel;
 using Confluent.Kafka;
+using MQTTnet;
 
 namespace Buffalo.MQ.KafkaMQ
 {
@@ -228,7 +229,15 @@ namespace Buffalo.MQ.KafkaMQ
             _tranProducer.CommitTransaction(_timeout);
             return ApiCommon.GetSuccess();
         }
-
+        protected override async Task<APIResault> CommitTranAsync()
+        {
+            if (_tranProducer == null)
+            {
+                throw new NullReferenceException("还没开启事务");
+            }
+            _tranProducer.CommitTransaction(_timeout);
+            return ApiCommon.GetSuccess();
+        }
         protected override APIResault RoolbackTran()
         {
             if (_tranProducer == null)

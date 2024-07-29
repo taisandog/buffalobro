@@ -1,5 +1,6 @@
 ﻿using Buffalo.ArgCommon;
 using Buffalo.Kernel;
+using Buffalo.MQ.RedisMQ;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System;
@@ -183,7 +184,11 @@ namespace Buffalo.MQ.RabbitMQ
             _channel.TxCommit();
             return ApiCommon.GetSuccess();
         }
-
+        protected override async Task<APIResault> CommitTranAsync()
+        {
+            _channel.TxCommit();
+            return ApiCommon.GetSuccess();
+        }
         protected override APIResault RoolbackTran()
         {
             _channel.TxRollback();

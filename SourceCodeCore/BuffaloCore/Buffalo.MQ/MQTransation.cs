@@ -64,7 +64,28 @@ namespace Buffalo.MQ
            
             return true;
         }
+        /// <summary>
+        /// 提交事务
+        /// </summary>
+        /// <returns></returns>
+        public async Task<bool> CommitAsync()
+        {
+            if (_oper == null)
+            {
+                return false;
+            }
+            if (_isCommit)
+            {
+                return false;
+            }
+            await _oper.CommitTransactionAsync();
+            //_oper.AutoClose();
 
+            _oper = null;
+            _isCommit = true;
+
+            return true;
+        }
         /// <summary>
         /// 回滚事务
         /// </summary>

@@ -61,6 +61,23 @@ namespace Buffalo.DB.CacheStorage
             return ver;
         }
         /// <summary>
+        /// 获取组版本
+        /// </summary>
+        /// <param name="accid"></param>
+        /// <returns></returns>
+        protected virtual async Task<int> GetVersionAsync(string id)
+        {
+            string key = GetKey(id);
+            int ver = 0;
+            try
+            {
+                object objVal = await _verCache.GetValueAsync(key);
+                ver = ValueConvertExtend.ConvertValue<int>(objVal);
+            }
+            catch { }
+            return ver;
+        }
+        /// <summary>
         /// 获取组版本自增
         /// </summary>
         /// <param name="accid"></param>
@@ -126,7 +143,7 @@ namespace Buffalo.DB.CacheStorage
         {
             string key = GetKey(id);
             CacheStorageItem<T> dicItem = await _dataCache.GetValueAsync<CacheStorageItem<T>>(key);
-            int ver = GetVersion(id);
+            int ver =await GetVersionAsync(id);
             if (dicItem == null || dicItem.Version != ver)
             {
                 T value = await SearchValueAsync(id);
@@ -165,7 +182,7 @@ namespace Buffalo.DB.CacheStorage
         {
             string key = GetKey(id);
             CacheStorageItem<T> dicItem = await _dataCache.GetValueAsync<CacheStorageItem<T>>(key);
-            int ver = GetVersion(id);
+            int ver =await GetVersionAsync(id);
             if (dicItem == null || dicItem.Version != ver)
             {
                 return false;
@@ -197,7 +214,7 @@ namespace Buffalo.DB.CacheStorage
         {
             string key = GetKey(id);
             IncVersion(id);
-            int ver = GetVersion(id);
+            int ver =await GetVersionAsync(id);
             CacheStorageItem<T> dicItem = new CacheStorageItem<T>();
             dicItem.Key = key;
             dicItem.Version = ver;

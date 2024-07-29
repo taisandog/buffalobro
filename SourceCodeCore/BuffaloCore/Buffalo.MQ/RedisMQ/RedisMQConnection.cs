@@ -284,7 +284,20 @@ namespace Buffalo.MQ.RedisMQ
             }
             return ApiCommon.GetSuccess();
         }
+        protected override async Task<APIResault> CommitTranAsync()
+        {
+            if (_que != null)
+            {
+                MQRedisMessage mess = null;
+                while (_que.Count > 0)
+                {
+                    mess = _que.Dequeue();
+                    await SendToPublicAsync(mess.Topic, mess.Value);
 
+                }
+            }
+            return ApiCommon.GetSuccess();
+        }
         protected override APIResault RoolbackTran()
         {
             if (_que != null)
