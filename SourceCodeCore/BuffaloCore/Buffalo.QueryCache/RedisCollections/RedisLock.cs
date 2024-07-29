@@ -274,7 +274,7 @@ namespace Buffalo.QueryCache.RedisCollections
                 return true;
             }
             object lok = _lokKey.GetObject(_key);
-            using (AsyncLock<string> aslok = new AsyncLock<string>(_key))
+            using (AsyncTaskLock<string> aslok = new AsyncTaskLock<string>(_key))
             {
                 if (!(await aslok.LockAsync()))
                 {

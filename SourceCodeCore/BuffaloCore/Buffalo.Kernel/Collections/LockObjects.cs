@@ -15,7 +15,7 @@ namespace Buffalo.Kernel.Collections
     /// 为某个值提供锁对象的管理器
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class LockObjects<K, V>: IDisposable where V : new()
+    public class LockObjects<K, V>: IDisposable 
     {
         private LinkedDictionary<K, LockItem<K, V>> _dic;
         /// <summary>
@@ -25,11 +25,13 @@ namespace Buffalo.Kernel.Collections
         /// <summary>
         /// 清理间隔(秒)
         /// </summary>
-        private const int CleanSeconds = 60;
+        protected virtual int CleanSeconds
+        {
+            get {  return 60; }
+        }
         /// <summary>
         /// 内存锁定记录
         /// </summary>
-        /// <param name="timeoutMillisecond">超时时间(毫秒数)</param>
         public LockObjects()
         {
             _dic = new LinkedDictionary<K, LockItem<K, V>>();
@@ -71,7 +73,8 @@ namespace Buffalo.Kernel.Collections
         /// </summary>
         private void ClearTimeout(DateTime nowDate)
         {
-            if (nowDate.Subtract(_lastClean).TotalSeconds < CleanSeconds)//自动清理很久不用的变量
+            int clearSeconds = CleanSeconds;
+            if (nowDate.Subtract(_lastClean).TotalSeconds < clearSeconds)//自动清理很久不用的变量
             {
                 return;
             }
@@ -80,7 +83,7 @@ namespace Buffalo.Kernel.Collections
             
             foreach (LinkedValueNode<K, LockItem<K, V>> kvp in _dic.GetEnumeratorOldToNew())
             {
-                if (dt.Subtract(kvp.Value.LastTime).TotalSeconds < CleanSeconds)
+                if (dt.Subtract(kvp.Value.LastTime).TotalSeconds < clearSeconds)
                 {
                     break;
                 }

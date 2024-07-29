@@ -17,15 +17,7 @@ namespace Buffalo.Kernel.FastReflection
             {
                 if (Thread.CurrentThread.IsThreadPoolThread) 
                 {
-                    //if (typeof(T).FullName== "Buffalo.DB.DbCommon.DataBaseOperate")
-                    //{
-                    //    Debug.WriteLine("线程池获取值");
-                    //    T ret = _asyncValue.Value;
-                    //    if (ret == null)
-                    //    {
-                    //        Debug.WriteLine("线程池空值");
-                    //    }
-                    //}
+                    
                     return _asyncValue.Value;
                 }
                 return _thdValue.Value;
@@ -41,5 +33,5 @@ namespace Buffalo.Kernel.FastReflection
             }
         }
 
-    }
+    } 
 }
