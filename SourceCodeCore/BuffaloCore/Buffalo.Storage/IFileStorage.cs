@@ -43,7 +43,13 @@ namespace Buffalo.Storage
         {
             get;
         }
-
+        /// <summary>
+        /// 操作客户端
+        /// </summary>
+        public abstract object Client
+        {
+            get;
+        }
         /// <summary>
         /// 获取所有目录
         /// </summary>

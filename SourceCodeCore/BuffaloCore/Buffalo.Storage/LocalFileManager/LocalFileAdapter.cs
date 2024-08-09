@@ -62,6 +62,13 @@ namespace Buffalo.Storage.LocalFileManager
                 return this;
             }
         }
+        public override object Client
+        {
+            get
+            {
+                return this;
+            }
+        }
         ///// <summary>
         ///// 
         ///// </summary>

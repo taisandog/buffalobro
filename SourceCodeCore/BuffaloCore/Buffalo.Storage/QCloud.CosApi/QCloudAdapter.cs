@@ -66,6 +66,13 @@ namespace Buffalo.Storage.QCloud.CosApi
                 return _cosConfig;
             }
         }
+        public override object Client
+        {
+            get
+            {
+                return _cloud;
+            }
+        }
         /// <summary> 
         /// 腾讯云适配器
         /// </summary>

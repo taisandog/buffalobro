@@ -46,6 +46,13 @@ namespace Buffalo.Storage.AWS.S3
                 return _config;
             }
         }
+        public override object Client
+        {
+            get
+            {
+                return _client;
+            }
+        }
         /// <summary>
         /// 亚马逊适配
         /// </summary>

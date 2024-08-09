@@ -38,6 +38,13 @@ namespace Buffalo.Storage.AliCloud.OssAPI
             }
         }
 
+        public override object Client
+        {
+            get
+            {
+                return _cloud;
+            }
+        }
         /// <summary> 
         /// 阿里云适配器
         /// </summary>

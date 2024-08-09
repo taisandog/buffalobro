@@ -22,7 +22,13 @@ namespace Buffalo.Storage.HW.OBS
 
 
         private ObsClient _client;
-
+        public override object Client
+        {
+            get
+            {
+                return _client;
+            }
+        }
         private ObsConfig _config;
         public override object ConfigInfo
         {
