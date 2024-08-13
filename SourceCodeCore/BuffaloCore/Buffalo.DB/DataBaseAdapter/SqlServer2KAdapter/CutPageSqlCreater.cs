@@ -404,9 +404,10 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter
             {
                 if (await reader.ReadAsync())
                 {
-                    if (!reader.IsDBNull(0))
+                    if (!(await reader.IsDBNullAsync(0)))
                     {
-                        totalRecords = Convert.ToInt64(reader[0]);
+                        object obj = reader.GetFieldValueAsync<object>(0);
+                        totalRecords = Convert.ToInt64(obj);
                     }
                 }
             }

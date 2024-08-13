@@ -165,7 +165,7 @@ namespace Buffalo.DB.CacheManager
 
                     if (_info.SqlOutputer.HasOutput)
                     {
-                        OutPutMessage(QueryCacheCommand.CommandGetDataSet, sql, oper);
+                        await OutPutMessageAsync(QueryCacheCommand.CommandGetDataSet, sql, oper);
                     }
 
                     return dataItem.Data;
@@ -179,7 +179,7 @@ namespace Buffalo.DB.CacheManager
                 }
                 else
                 {
-                    OutExceptionMessage(ex, oper);
+                    await OutExceptionMessageAsync(ex, oper);
                     return null;
                 }
             }
@@ -868,7 +868,7 @@ namespace Buffalo.DB.CacheManager
 
                     if (_info.SqlOutputer.HasOutput)
                     {
-                        OutPutMessage(QueryCacheCommand.CommandSetDataSet, sql, oper);
+                        await OutPutMessageAsync(QueryCacheCommand.CommandSetDataSet, sql, oper);
                     }
                     
                     DataSetCacheItem item = new DataSetCacheItem();
@@ -887,7 +887,7 @@ namespace Buffalo.DB.CacheManager
                 }
                 else
                 {
-                    OutExceptionMessage(ex, oper);
+                    await OutExceptionMessageAsync(ex, oper);
                     return false;
                 }
             }
@@ -897,12 +897,25 @@ namespace Buffalo.DB.CacheManager
             oper.OutMessage(MessageType.QueryCache, GetCacheName(), type, message);
 
         }
+        private async Task OutPutMessageAsync(string type, string message, DataBaseOperate oper)
+        {
+            await oper.OutMessageAsync(MessageType.QueryCache, GetCacheName(), type, message);
+
+        }
         private void OutExceptionMessage(Exception ex, DataBaseOperate oper)
         {
             MessageInfo info = new MessageInfo();
             info.Value = ex;
             info.Type = GetCacheName();
             oper.OutMessage(MessageType.CacheException, info);
+
+        }
+        private async Task OutExceptionMessageAsync(Exception ex, DataBaseOperate oper)
+        {
+            MessageInfo info = new MessageInfo();
+            info.Value = ex;
+            info.Type = GetCacheName();
+            await oper.OutMessageAsync(MessageType.CacheException, info);
 
         }
         #endregion
@@ -1423,7 +1436,7 @@ namespace Buffalo.DB.CacheManager
                     E ret = await GetValueAsync<E>(key, defaultValue,client);
                     if (_info.SqlOutputer.HasOutput)
                     {
-                        OutPutMessage(QueryCacheCommand.CommandGetValues, "key=" + key, oper);
+                        await OutPutMessageAsync(QueryCacheCommand.CommandGetValues, "key=" + key, oper);
                     }
                     return ret;
                 }
@@ -1436,7 +1449,7 @@ namespace Buffalo.DB.CacheManager
                 }
                 else
                 {
-                    OutExceptionMessage(ex, oper);
+                    await OutExceptionMessageAsync(ex, oper);
                     return default(E);
                 }
             }
@@ -1451,7 +1464,7 @@ namespace Buffalo.DB.CacheManager
                     object ret = await GetValueAsync(key, client);
                     if (_info.SqlOutputer.HasOutput)
                     {
-                        OutPutMessage(QueryCacheCommand.CommandGetValues, "key=" + key, oper);
+                        await OutPutMessageAsync(QueryCacheCommand.CommandGetValues, "key=" + key, oper);
                     }
                     return ret;
                 }
@@ -1464,7 +1477,7 @@ namespace Buffalo.DB.CacheManager
                 }
                 else
                 {
-                    OutExceptionMessage(ex, oper);
+                    await OutExceptionMessageAsync(ex, oper);
                     return null;
                 }
             }
@@ -1480,7 +1493,7 @@ namespace Buffalo.DB.CacheManager
                     IDictionary<string, object> ret = await GetValuesAsync(keys, client);
                     if (_info.SqlOutputer.HasOutput)
                     {
-                        OutPutMessage(QueryCacheCommand.CommandGetValues, "values", oper);
+                        await OutPutMessageAsync(QueryCacheCommand.CommandGetValues, "values", oper);
                     }
                     return ret;
                 }
@@ -1493,7 +1506,7 @@ namespace Buffalo.DB.CacheManager
                 }
                 else
                 {
-                    OutExceptionMessage(ex, oper);
+                    await OutExceptionMessageAsync(ex, oper);
                     return null;
                 }
             }
@@ -1518,7 +1531,7 @@ namespace Buffalo.DB.CacheManager
                     bool ret = await SetValueAsync(key, value,type,expir, client);
                     if (_info.SqlOutputer.HasOutput)
                     {
-                        OutPutMessage(QueryCacheCommand.CommandSetValues, "key=" + key, oper);
+                        await OutPutMessageAsync(QueryCacheCommand.CommandSetValues, "key=" + key, oper);
                     }
                     return ret;
                 }
@@ -1531,7 +1544,7 @@ namespace Buffalo.DB.CacheManager
                 }
                 else
                 {
-                    OutExceptionMessage(ex, oper);
+                    await OutExceptionMessageAsync(ex, oper);
                     return false;
                 }
             }
@@ -1546,7 +1559,7 @@ namespace Buffalo.DB.CacheManager
                     bool ret = await SetValueAsync(key, value, type, expir, client);
                     if (_info.SqlOutputer.HasOutput)
                     {
-                        OutPutMessage(QueryCacheCommand.CommandSetValues, "key=" + key, oper);
+                        await OutPutMessageAsync(QueryCacheCommand.CommandSetValues, "key=" + key, oper);
                     }
                     return ret;
                 }
@@ -1559,7 +1572,7 @@ namespace Buffalo.DB.CacheManager
                 }
                 else
                 {
-                    OutExceptionMessage(ex, oper);
+                    await OutExceptionMessageAsync(ex, oper);
                     return false;
                 }
             }
@@ -1574,7 +1587,7 @@ namespace Buffalo.DB.CacheManager
                     bool ret = await DoExistsKeyAsync(key, client);
                     if (_info.SqlOutputer.HasOutput)
                     {
-                        OutPutMessage(QueryCacheCommand.CommandGetValues, "key=" + key, oper);
+                        await OutPutMessageAsync(QueryCacheCommand.CommandGetValues, "key=" + key, oper);
                     }
                     return ret;
                 }
@@ -1587,7 +1600,7 @@ namespace Buffalo.DB.CacheManager
                 }
                 else
                 {
-                    OutExceptionMessage(ex, oper);
+                    await OutExceptionMessageAsync(ex, oper);
                     return false;
                 }
             }
@@ -1602,7 +1615,7 @@ namespace Buffalo.DB.CacheManager
                     bool ret = await DoSetKeyExpireAsync(key, expir, client);
                     if (_info.SqlOutputer.HasOutput)
                     {
-                        OutPutMessage(QueryCacheCommand.CommandSetValues, "key=" + key, oper);
+                        await OutPutMessageAsync(QueryCacheCommand.CommandSetValues, "key=" + key, oper);
                     }
                     return ret;
                 }
@@ -1615,7 +1628,7 @@ namespace Buffalo.DB.CacheManager
                 }
                 else
                 {
-                    OutExceptionMessage(ex, oper);
+                    await OutExceptionMessageAsync(ex, oper);
                     return false;
                 }
             }
@@ -1655,7 +1668,7 @@ namespace Buffalo.DB.CacheManager
                     bool ret = await DeleteValueAsync(key, client);
                     if (_info.SqlOutputer.HasOutput)
                     {
-                        OutPutMessage(QueryCacheCommand.CommandSetValues, "key=" + key, oper);
+                        await OutPutMessageAsync(QueryCacheCommand.CommandSetValues, "key=" + key, oper);
                     }
                     return ret;
                 }
@@ -1668,7 +1681,7 @@ namespace Buffalo.DB.CacheManager
                 }
                 else
                 {
-                    OutExceptionMessage(ex, oper);
+                    await OutExceptionMessageAsync(ex, oper);
                     return false;
                 }
             }
@@ -1683,7 +1696,7 @@ namespace Buffalo.DB.CacheManager
                     long ret = await DoIncrementAsync(key, inc,client);
                     if (_info.SqlOutputer.HasOutput)
                     {
-                        OutPutMessage(QueryCacheCommand.CommandSetValues, "key=" + key, oper);
+                        await OutPutMessageAsync(QueryCacheCommand.CommandSetValues, "key=" + key, oper);
                     }
                     return ret;
                 }
@@ -1696,7 +1709,7 @@ namespace Buffalo.DB.CacheManager
                 }
                 else
                 {
-                    OutExceptionMessage(ex, oper);
+                    await OutExceptionMessageAsync(ex, oper);
                     return -1;
                 }
             }
@@ -1711,7 +1724,7 @@ namespace Buffalo.DB.CacheManager
                     long ret = await DoDecrementAsync(key, dec, client);
                     if (_info.SqlOutputer.HasOutput)
                     {
-                        OutPutMessage(QueryCacheCommand.CommandSetValues, "key=" + key, oper);
+                        await OutPutMessageAsync(QueryCacheCommand.CommandSetValues, "key=" + key, oper);
                     }
                     return ret;
                 }
@@ -1724,7 +1737,7 @@ namespace Buffalo.DB.CacheManager
                 }
                 else
                 {
-                    OutExceptionMessage(ex, oper);
+                    await OutExceptionMessageAsync(ex, oper);
                     return -1;
                 }
             }
@@ -1757,7 +1770,7 @@ namespace Buffalo.DB.CacheManager
                     }
                     if (_info.SqlOutputer.HasOutput)
                     {
-                        OutPutMessage(QueryCacheCommand.CommandDeleteSQL, sql, oper);
+                        await OutPutMessageAsync(QueryCacheCommand.CommandDeleteSQL, sql, oper);
                     }
                 }
             }
@@ -1769,7 +1782,7 @@ namespace Buffalo.DB.CacheManager
                 }
                 else
                 {
-                    OutExceptionMessage(ex, oper);
+                    await OutExceptionMessageAsync(ex, oper);
                 }
             }
         }
@@ -1790,7 +1803,7 @@ namespace Buffalo.DB.CacheManager
                     }
                     if (_info.SqlOutputer.HasOutput)
                     {
-                        OutPutMessage(QueryCacheCommand.CommandDeleteTable, tableName, oper);
+                        await OutPutMessageAsync(QueryCacheCommand.CommandDeleteTable, tableName, oper);
                     }
                 }
             }
@@ -1802,7 +1815,7 @@ namespace Buffalo.DB.CacheManager
                 }
                 else
                 {
-                    OutExceptionMessage(ex, oper);
+                    await OutExceptionMessageAsync(ex, oper);
                 }
             }
         }
@@ -1818,7 +1831,7 @@ namespace Buffalo.DB.CacheManager
                     IList ret = await DoGetEntityListAsync(key, entityType, client);
                     if (_info.SqlOutputer.HasOutput)
                     {
-                        OutPutMessage(QueryCacheCommand.CommandGetList, "key=" + key, oper);
+                        await OutPutMessageAsync(QueryCacheCommand.CommandGetList, "key=" + key, oper);
                     }
                     return ret;
                 }
@@ -1831,7 +1844,7 @@ namespace Buffalo.DB.CacheManager
                 }
                 else
                 {
-                    OutExceptionMessage(ex, oper);
+                    await OutExceptionMessageAsync(ex, oper);
                     return null;
                 }
             }
@@ -1847,7 +1860,7 @@ namespace Buffalo.DB.CacheManager
                     bool ret = await DoSetEntityListAsync(key, lstEntity, expir, client);
                     if (_info.SqlOutputer.HasOutput)
                     {
-                        OutPutMessage(QueryCacheCommand.CommandSetList, "key=" + key, oper);
+                        await OutPutMessageAsync(QueryCacheCommand.CommandSetList, "key=" + key, oper);
                     }
                     return ret;
                 }
@@ -1860,7 +1873,7 @@ namespace Buffalo.DB.CacheManager
                 }
                 else
                 {
-                    OutExceptionMessage(ex, oper);
+                    await OutExceptionMessageAsync(ex, oper);
                     return false;
                 }
             }

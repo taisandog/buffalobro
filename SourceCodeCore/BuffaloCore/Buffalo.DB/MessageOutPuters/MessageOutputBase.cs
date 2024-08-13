@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Buffalo.DB.MessageOutPuters
 {
@@ -15,6 +16,12 @@ namespace Buffalo.DB.MessageOutPuters
         /// <param name="messType">信息类型</param>
         /// <param name="mess">信息</param>
         public abstract void OutPut(MessageType messType, MessageInfo mess);
+        /// <summary>
+        /// 输出信息
+        /// </summary>
+        /// <param name="messType">信息类型</param>
+        /// <param name="mess">信息</param>
+        public abstract Task OutPutAsync(MessageType messType, MessageInfo mess);
 
         private bool _showBinary;
         /// <summary>
@@ -54,6 +61,25 @@ namespace Buffalo.DB.MessageOutPuters
             }
             mess.Value = value;
             OutPut(messType, mess);
+        }
+        /// <summary>
+        /// 输出信息
+        /// </summary>
+        /// <param name="messType">消息类型</param>
+        /// <param name="type">类型</param>
+        /// <param name="extendType">扩展类型</param>
+        /// <param name="value">值</param>
+        /// <returns></returns>
+        public async Task OutPutAsync(MessageType messType, string type, string extendType, string value)
+        {
+            MessageInfo mess = new MessageInfo();
+            mess.Type = type;
+            if (extendType != null)
+            {
+                mess.ExtendType = extendType;
+            }
+            mess.Value = value;
+            await OutPutAsync(messType, mess);
         }
     }
 }

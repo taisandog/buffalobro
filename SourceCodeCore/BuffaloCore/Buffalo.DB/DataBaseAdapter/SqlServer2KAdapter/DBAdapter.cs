@@ -611,6 +611,27 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter
             info.SetValue(arg, val);
         }
         /// <summary>
+        /// 根据Reader的内容把数值赋进实体
+        /// </summary>
+        /// <param name="reader">Reader</param>
+        /// <param name="index">当前Reader的索引</param>
+        /// <param name="arg">目标对象</param>
+        /// <param name="info">目标属性的句柄</param>
+        public static async Task ValueFromReaderAsync(DbDataReader reader, int index, object arg, EntityPropertyInfo info, bool needChangeType)
+        {
+            object val = await reader.GetFieldValueAsync<object>(index);
+            //if (val is DBNull || val == null) 
+            //{
+            //    return;
+            //}
+            if (needChangeType)
+            {
+                Type resType = info.RealFieldType;//字段值类型
+                val = CommonMethods.ChangeType(val, resType);
+            }
+            info.SetValue(arg, val);
+        }
+        /// <summary>
         /// 获取创建注释的SQL
         /// </summary>
         /// <param name="table">表</param>
@@ -641,6 +662,17 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter
         public void SetObjectValueFromReader(IDataReader reader, int index, object arg, EntityPropertyInfo info,bool needChangeType)
         {
             ValueFromReader(reader, index, arg, info,needChangeType);
+        }
+        /// <summary>
+        /// 根据Reader的内容把数值赋进实体
+        /// </summary>
+        /// <param name="reader">Reader</param>
+        /// <param name="index">当前Reader的索引</param>
+        /// <param name="arg">目标对象</param>
+        /// <param name="info">目标属性的句柄</param>
+        public async Task SetObjectValueFromReaderAsync(DbDataReader reader, int index, object arg, EntityPropertyInfo info, bool needChangeType)
+        {
+            await ValueFromReaderAsync(reader, index, arg, info, needChangeType);
         }
         public bool OnConnectionClosed(DbConnection conn, DBInfo db)
         {

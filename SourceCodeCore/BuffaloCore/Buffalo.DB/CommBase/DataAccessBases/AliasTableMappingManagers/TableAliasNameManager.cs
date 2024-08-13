@@ -9,6 +9,8 @@ using Buffalo.Kernel;
 using System.Data;
 using Buffalo.DB.BQLCommon;
 using Buffalo.DB.DataBaseAdapter.IDbAdapters;
+using System.Threading.Tasks;
+using System.Data.Common;
 
 namespace Buffalo.DB.CommBase.DataAccessBases.AliasTableMappingManagers
 {
@@ -51,7 +53,18 @@ namespace Buffalo.DB.CommBase.DataAccessBases.AliasTableMappingManagers
 
             return _primaryTable.LoadFromReader(reader);
         }
+        /// <summary>
+        /// ¥”Reader∂¡»°
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <param name="hasValue"></param>
+        /// <returns></returns>
+        public async Task<object> LoadFromReaderAsync(DbDataReader reader)
+        {
 
+
+            return await _primaryTable.LoadFromReaderAsync(reader);
+        }
         public TableAliasNameManager(BQLEntityTableHandle pEntityinfo) 
         {
             _primaryTable = new AliasTableMapping(pEntityinfo, this,null);

@@ -4,6 +4,7 @@ using System.Text;
 using System.Diagnostics;
 using Buffalo.Kernel;
 using System.Collections;
+using System.Threading.Tasks;
 
 namespace Buffalo.DB.MessageOutPuters
 {
@@ -65,12 +66,38 @@ namespace Buffalo.DB.MessageOutPuters
             {
                 smsg.Append(":"+val);
             }
-#if DEBUG
+
             Debug.WriteLine(smsg.ToString());
-#else
-            Trace.WriteLine(smsg.ToString());
-#endif
+
         }
 
+        public async override Task OutPutAsync(MessageType messType, MessageInfo mess)
+        {
+            string messName = messType.ToString();
+            StringBuilder smsg = new StringBuilder();
+            smsg.Append(messName);
+
+            object val = mess.Type;
+            smsg.Append("[");
+            if (val != null)
+            {
+                smsg.Append(val);
+            }
+            val = mess.ExtendType;
+            if (val != null)
+            {
+                smsg.Append("," + val);
+            }
+            smsg.Append("]");
+
+            val = mess.Value;
+            if (val != null)
+            {
+                smsg.Append(":" + val);
+            }
+
+            Debug.WriteLine(smsg.ToString());
+
+        }
     }
 }

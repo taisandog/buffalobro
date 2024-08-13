@@ -53,9 +53,9 @@ namespace Buffalo.DB.DataFillers
 
                     for (int i = 0; i < fieldCount; i++)
                     {
-                        if (!reader.IsDBNull(i))
+                        if (!(await reader.IsDBNullAsync(i)))
                         {
-                            dr[i] = reader[i];
+                            dr[i] = await reader.GetFieldValueAsync<object>(i);
                         }
                     }
                     dt.Rows.Add(dr);
@@ -232,9 +232,9 @@ namespace Buffalo.DB.DataFillers
                     DataRow dr = dt.NewRow();
                     for (int i = 0; i < lstParamNames.Count; i++)
                     {
-                        if (!reader.IsDBNull(i) && lstParamNames[i] != null)
+                        if (!(await reader.IsDBNullAsync(i)) && lstParamNames[i] != null)
                         {
-                            dr[i] = reader[i];
+                            dr[i] =await reader.GetFieldValueAsync<object>(i);
                         }
                     }
                     dt.Rows.Add(dr);
@@ -342,7 +342,7 @@ namespace Buffalo.DB.DataFillers
                 while (await reader.ReadAsync())
                 {
                     T obj = entityInfo.CreateSelectProxyInstance() as T;
-                    FillObjectFromReader(reader, lstParamNames, obj, entityInfo.DBInfo);
+                    await FillObjectFromReaderAsync(reader, lstParamNames, obj, entityInfo.DBInfo);
                     retLst.Add(obj);
                 }
             }
@@ -384,15 +384,34 @@ namespace Buffalo.DB.DataFillers
         internal static void FillObjectFromReader(IDataReader reader, List<EntityPropertyInfo> lstParams, object obj,DBInfo db) 
         {
             IDBAdapter dbAdapter = db.CurrentDbAdapter;
+            EntityPropertyInfo info = null;
             for (int i = 0; i < lstParams.Count; i++)//把Reader的值赋到对象中
             {
-                if (!reader.IsDBNull(i) && lstParams[i]!=null)
+                if (!reader.IsDBNull(i) && info != null)
                 {
-                    dbAdapter.SetObjectValueFromReader(reader, i, obj, lstParams[i], !lstParams[i].TypeEqual(reader, i));
+                    dbAdapter.SetObjectValueFromReader(reader, i, obj, info, !info.TypeEqual(reader, i));
                 }
             }
         }
-
+        /// <summary>
+        /// 把Reader的值读到对象
+        /// </summary>
+        /// <param name="reader">reader</param>
+        /// <param name="lstParams">方法对应列表</param>
+        /// <param name="obj">对象</param>
+        internal static async Task FillObjectFromReaderAsync(DbDataReader reader, List<EntityPropertyInfo> lstParams, object obj, DBInfo db)
+        {
+            IDBAdapter dbAdapter = db.CurrentDbAdapter;
+            EntityPropertyInfo info = null;
+            for (int i = 0; i < lstParams.Count; i++)//把Reader的值赋到对象中
+            {
+                info = lstParams[i];
+                if (!(await reader.IsDBNullAsync(i)) && info != null)
+                {
+                    await dbAdapter.SetObjectValueFromReaderAsync(reader, i, obj, info, !info.TypeEqual(reader, i));
+                }
+            }
+        }
         /// <summary>
         /// 从Reader里边读取数据集合(快速,返回集合的大小)
         /// </summary>
@@ -440,7 +459,7 @@ namespace Buffalo.DB.DataFillers
                 {
                     T obj = (T)entityInfo.CreateSelectProxyInstance();
                     //int curSize = 0;//获取当前值大小
-                    FillObjectFromReader(reader, lstParamNames, obj);
+                    await FillObjectFromReaderAsync(reader, lstParamNames, obj);
                     //totalSize += curSize;//加到当前记录总大小里边
                     retLst.Add(obj);
                 }
@@ -468,7 +487,27 @@ namespace Buffalo.DB.DataFillers
                 }
             }
         }
-
+        /// <summary>
+        /// 把Reader的值读到对象
+        /// </summary>
+        /// <param name="reader">reader</param>
+        /// <param name="lstParams">方法对应列表</param>
+        /// <param name="obj">对象</param>
+        /// <param name="itemSize">本条记录的大小</param>
+        internal static async Task FillObjectFromReaderAsync(DbDataReader reader, List<EntityPropertyInfo> lstParams, object obj)
+        {
+            //itemSize = 0;//初始化当前记录总大小
+            for (int i = 0; i < lstParams.Count; i++)//把Reader的值赋到对象中
+            {
+                if (!(await reader.IsDBNullAsync(i)))
+                {
+                    object val =await reader.GetFieldValueAsync<object>(i);
+                    //int curSize=CurValueSize(val);//获取当前值大小
+                    lstParams[i].SetValue(obj, val);
+                    //itemSize += curSize;//加到当前记录总大小里边
+                }
+            }
+        }
         /// <summary>
         /// 获取此值占用的空间
         /// </summary>

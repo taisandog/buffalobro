@@ -14,6 +14,8 @@ using Buffalo.DB.BQLCommon.BQLConditionCommon;
 using Buffalo.Kernel;
 using Buffalo.DB.DataFillers;
 using Buffalo.DB.BQLCommon;
+using System.Threading.Tasks;
+using System.Data.Common;
 
 namespace Buffalo.DB.CommBase.DataAccessBases
 {
@@ -307,7 +309,24 @@ namespace Buffalo.DB.CommBase.DataAccessBases
                 FillEntityChidList(lst, showTable);
             }
         }
+        /// <summary>
+        /// 填充子属性列表
+        /// </summary>
+        /// <param name="lst"></param>
+        /// <param name="childName"></param>
+        public static async Task FillEntityChidListAsync(IList lst, ScopeList lstScope)
+        {
+            ShowChildCollection childs = lstScope.ShowChild;
+            if (childs == null)
+            {
+                return;
+            }
+            foreach (ShowChildItem showTable in childs)
+            {
 
+                await FillEntityChidListAsync(lst, showTable);
+            }
+        }
         /// <summary>
         /// 填充子集合
         /// </summary>
@@ -347,7 +366,45 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             }
 
         }
+        /// <summary>
+        /// 填充子集合
+        /// </summary>
+        /// <param name="showTable"></param>
+        /// <param name="?"></param>
+        public static async Task FillEntityChidListAsync(IList lst, ShowChildItem showTable)
+        {
+            Stack<BQLEntityTableHandle> stkTables = new Stack<BQLEntityTableHandle>();
+            BQLEntityTableHandle curTable = showTable.ChildItem;
+            while (true)
+            {
+                stkTables.Push(curTable);
+                curTable = curTable.GetParentTable();
+                if (CommonMethods.IsNull(curTable) || string.IsNullOrEmpty(curTable.GetPropertyName()))
+                {
+                    break;
+                }
+            }
+            IEnumerable curList = lst;
+            Queue<object> lastObjects = new Queue<object>();
+            ScopeList empty = new ScopeList();
+            while (stkTables.Count > 0)
+            {
+                BQLEntityTableHandle table = stkTables.Pop();
+                ScopeList lstScope = null;
+                if (stkTables.Count == 0)
+                {
+                    lstScope = showTable.FilterScope;
+                }
+                else
+                {
+                    lstScope = empty;
+                }
+                await FillEntityChidListAsync(curList, table.GetPropertyName(), lastObjects, table.GetParentTable().GetEntityInfo().EntityType, lstScope);
+                curList = lastObjects;
+                lastObjects = new Queue<object>();
+            }
 
+        }
         /// <summary>
         /// 填充子属性列表
         /// </summary>
@@ -378,7 +435,36 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             Dictionary<string, List<object>> dic = GetEntityDictionary(lst, mappingInfo);
             FillChilds(pks, childHandle, mappingInfo, dic, childPropertyName, objs, filter);
         }
+        /// <summary>
+        /// 填充子属性列表
+        /// </summary>
+        /// <param name="lst">集合</param>
+        /// <param name="childPropertyName">子属性名</param>
+        /// <param name="objs">实体</param>
+        /// <param name="objType">类型</param>
+        /// <param name="filter">筛选条件</param>
+        private static async Task FillEntityChidListAsync(IEnumerable lst, string childPropertyName, Queue<object> objs, Type objType, ScopeList filter)
+        {
+            if (lst == null)
+            {
+                return;
+            }
 
+            EntityInfoHandle entityInfo = EntityInfoManager.GetEntityHandle(objType);
+            if (entityInfo == null)
+            {
+                throw new Exception("找不到类:" + objType.FullName + "的映射");
+            }
+            EntityMappingInfo mappingInfo = entityInfo.MappingInfo[childPropertyName];
+            if (mappingInfo == null)
+            {
+                throw new Exception("找不到子属性:" + childPropertyName);
+            }
+            Queue<object> pks = CollectFks(lst, mappingInfo.SourceProperty);
+            EntityInfoHandle childHandle = mappingInfo.TargetProperty.BelongInfo;//获取子元素的信息
+            Dictionary<string, List<object>> dic = GetEntityDictionary(lst, mappingInfo);
+            await FillChildsAsync(pks, childHandle, mappingInfo, dic, childPropertyName, objs, filter);
+        }
         /// <summary>
         /// 把集合转成字典形式
         /// </summary>
@@ -453,18 +539,50 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             DataBaseOperate oper = childHandle.DBInfo.DefaultOperate;
             BQLDbBase dao = new BQLDbBase(oper);
             Queue<object> needCollect = null;
-            List<EntityPropertyInfo> lstParamNames=null;
+            List<EntityPropertyInfo> lstParamNames=new List<EntityPropertyInfo>();
             try
             {
                 while (pks.Count>0) 
                 {
                     needCollect = GetCurPks(pks);
-                    FillChildReader(needCollect, mappingInfo, dicEntity, dao, ref lstParamNames, db,curObjs,filter);
+                    FillChildReader(needCollect, mappingInfo, dicEntity, dao, lstParamNames, db,curObjs,filter);
                 }
             }
             finally 
             {
                 oper.AutoClose();
+            }
+        }
+        /// <summary>
+        /// 填充字类列表
+        /// </summary>
+        /// <param name="pks">ID集合</param>
+        /// <param name="childHandle">子元素的信息句柄</param>
+        /// <param name="mappingInfo">映射信息</param>
+        /// <param name="dicElement">元素</param>
+        /// <param name="propertyName">属性名</param>
+        /// <param name="curObjs"></param>
+        /// <param name="filter"></param>
+        private static async Task FillChildsAsync(Queue<object> pks, EntityInfoHandle childHandle, EntityMappingInfo mappingInfo,
+            Dictionary<string, List<object>> dicEntity, string propertyName, Queue<object> curObjs, ScopeList filter)
+        {
+
+            DBInfo db = childHandle.DBInfo;
+            DataBaseOperate oper = childHandle.DBInfo.DefaultOperate;
+            BQLDbBase dao = new BQLDbBase(oper);
+            Queue<object> needCollect = null;
+            List<EntityPropertyInfo> lstParamNames = new List<EntityPropertyInfo>();
+            try
+            {
+                while (pks.Count > 0)
+                {
+                    needCollect = GetCurPks(pks);
+                    await FillChildReaderAsync(needCollect, mappingInfo, dicEntity, dao, lstParamNames, db, curObjs, filter);
+                }
+            }
+            finally
+            {
+                await oper.AutoCloseAsync();
             }
         }
         /// <summary>
@@ -500,7 +618,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <param name="curObjs"></param>
         /// <param name="filter"></param>
         private static void FillChildReader(Queue<object> pks, EntityMappingInfo mappingInfo, Dictionary<string, List<object>> dicEntity, BQLDbBase dao,
-            ref List<EntityPropertyInfo> lstParamNames, DBInfo db,Queue<object> curObjs,ScopeList filter) 
+            List<EntityPropertyInfo> lstParamNames, DBInfo db,Queue<object> curObjs,ScopeList filter) 
         {
             EntityInfoHandle childInfo = mappingInfo.TargetProperty.BelongInfo;
             string fullName = mappingInfo.TargetProperty.BelongInfo.EntityType.FullName;
@@ -521,10 +639,9 @@ namespace Buffalo.DB.CommBase.DataAccessBases
                 using (IDataReader reader = dao.QueryReader(lstScope, childInfo.EntityType))
                 {
                     //获取子表的get列表
-                    if (lstParamNames == null)
-                    {
+                   
                         lstParamNames = CacheReader.GenerateCache(reader, childInfo);//创建一个缓存数值列表
-                    }
+                    
 
                     
                     while (reader.Read())
@@ -559,7 +676,74 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             }
         
         }
+        /// <summary>
+        /// 查询并填充子类信息
+        /// </summary>
+        /// <param name="pks"></param>
+        /// <param name="mappingInfo"></param>
+        /// <param name="dicEntity"></param>
+        /// <param name="dao"></param>
+        /// <param name="lstParamNames"></param>
+        /// <param name="db"></param>
+        /// <param name="curObjs"></param>
+        /// <param name="filter"></param>
+        private static async Task FillChildReaderAsync(Queue<object> pks, EntityMappingInfo mappingInfo, Dictionary<string, List<object>> dicEntity, BQLDbBase dao,
+            List<EntityPropertyInfo> lstParamNames, DBInfo db, Queue<object> curObjs, ScopeList filter)
+        {
+            EntityInfoHandle childInfo = mappingInfo.TargetProperty.BelongInfo;
+            string fullName = mappingInfo.TargetProperty.BelongInfo.EntityType.FullName;
+            Type childType = mappingInfo.TargetProperty.BelongInfo.EntityType;
+            List<object> senders = null;
 
+            while (pks.Count > 0)
+            {
+                Queue<object> searchPks = GetSearchPKs(pks);
+                if (searchPks.Count <= 0)
+                {
+                    break;
+                }
+
+                ScopeList lstScope = new ScopeList();
+                lstScope.AddScopeList(filter);
+                lstScope.AddIn(mappingInfo.TargetProperty.PropertyName, searchPks);
+                 using (DbDataReader reader =await dao.QueryReaderAsync(lstScope, childInfo.EntityType))
+                {
+                    //获取子表的get列表
+                    
+
+
+                    while (await reader.ReadAsync())
+                    {
+                        string fk = reader[mappingInfo.TargetProperty.ParamName].ToString();
+                        if (!dicEntity.TryGetValue(fk, out senders))
+                        {
+                            continue;
+                        }
+                        object obj = childInfo.CreateSelectProxyInstance();
+
+                        if (curObjs != null)
+                        {
+                            curObjs.Enqueue(obj);
+                        }
+                        CacheReader.FillObjectFromReader(reader, lstParamNames, obj, db);
+
+                        foreach (object sender in senders)
+                        {
+                            if (mappingInfo.IsParent)
+                            {
+                                mappingInfo.SetValue(sender, obj);
+                            }
+                            else
+                            {
+                                IList lst = (IList)mappingInfo.GetValue(sender);
+                                lst.Add(obj);
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
         /// <summary>
         /// 每次查询的条数
         /// </summary>

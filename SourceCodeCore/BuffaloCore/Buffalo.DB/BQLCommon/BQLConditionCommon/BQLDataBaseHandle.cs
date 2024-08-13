@@ -9,6 +9,7 @@ using Buffalo.DB.CommBase.BusinessBases;
 using Buffalo.Kernel.FastReflection;
 using System.Reflection;
 using Buffalo.DB.MessageOutPuters;
+using System.Threading.Tasks;
 
 namespace Buffalo.DB.BQLCommon.BQLConditionCommon
 {
@@ -115,6 +116,15 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
             return GetDefaultOperate().StartTransaction();
         }
         /// <summary>
+        /// 开启事务
+        /// </summary>
+        /// <returns></returns>
+        public static Task<DBTransaction> StartTransactionAsync()
+        {
+
+            return GetDefaultOperate().StartTransactionAsync();
+        }
+        /// <summary>
         /// 开始非事务的批量动作
         /// </summary>
         /// <returns></returns>
@@ -123,7 +133,7 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
 
             return GetDefaultOperate().StarBatchAction();
         }
-
+        
         /// <summary>
         /// 添加到库信息
         /// </summary>

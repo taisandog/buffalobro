@@ -396,6 +396,17 @@ namespace Buffalo.Data.MySQL
             Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter.DBAdapter.ValueFromReader(reader, index, arg, info,needChangeType);
         }
         /// <summary>
+        /// 根据Reader的内容把数值赋进实体
+        /// </summary>
+        /// <param name="reader">Reader</param>
+        /// <param name="index">当前Reader的索引</param>
+        /// <param name="arg">目标对象</param>
+        /// <param name="info">目标属性的句柄</param>
+        public async Task SetObjectValueFromReaderAsync(DbDataReader reader, int index, object arg, EntityPropertyInfo info, bool needChangeType)
+        {
+            await DB.DataBaseAdapter.SqlServer2KAdapter.DBAdapter.ValueFromReaderAsync(reader, index, arg, info, needChangeType);
+        }
+        /// <summary>
         /// 获取创建注释的SQL
         /// </summary>
         /// <param name="table">表</param>

@@ -338,7 +338,6 @@ namespace Buffalo.Storage.AliCloud.OssAPI
            
             _cloud = new OssClient(_server, _secretId, _secretKey, _config);
 
-            
             return ApiCommon.GetSuccess();
         }
         /// <summary>

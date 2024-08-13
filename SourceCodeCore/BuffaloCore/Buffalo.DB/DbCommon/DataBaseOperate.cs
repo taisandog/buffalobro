@@ -211,11 +211,11 @@ namespace Buffalo.DB.DbCommon
             BatchAction action = new BatchAction(this);
             return action;
         }
-
-		/// <summary>
-		/// 实例化数据库访问对象
-		/// </summary>
-		internal DataBaseOperate(DBInfo db,bool isAutoClose)
+        
+        /// <summary>
+        /// 实例化数据库访问对象
+        /// </summary>
+        internal DataBaseOperate(DBInfo db,bool isAutoClose)
 		{
             _db = db;
             _dbAdapter = db.CurrentDbAdapter;
@@ -358,7 +358,7 @@ namespace Buffalo.DB.DbCommon
                     }
                     if (_db.SqlOutputer.HasOutput)
                     {
-                        OutMessage(MessageType.OtherOper, "Connect Readonly DataBase", null, "");
+                        await OutMessageAsync(MessageType.OtherOper, "Connect Readonly DataBase", null, "");
                     }
                     if (_readcomm == null)
                     {
@@ -433,7 +433,7 @@ namespace Buffalo.DB.DbCommon
                     }
                     if (_db.SqlOutputer.HasOutput)
                     {
-                        OutMessage(MessageType.OtherOper, "Connect DataBase", null, "");
+                        await OutMessageAsync(MessageType.OtherOper, "Connect DataBase", null, "");
                     }
                     if (_comm == null)
                     {
@@ -598,7 +598,7 @@ namespace Buffalo.DB.DbCommon
                 {
                     if (_db.SqlOutputer.HasOutput)
                     {
-                        OutMessage(MessageType.CacheException, ex.Message, null, ex.ToString());
+                        await OutMessageAsync(MessageType.CacheException, ex.Message, null, ex.ToString());
                     }
                 }
                 finally
@@ -616,7 +616,7 @@ namespace Buffalo.DB.DbCommon
                 {
                     if (_db.SqlOutputer.HasOutput)
                     {
-                        OutMessage(MessageType.DataBaseException, ex.Message, null, ex.ToString());
+                        await OutMessageAsync(MessageType.DataBaseException, ex.Message, null, ex.ToString());
                     }
                 }
                 finally
@@ -631,7 +631,7 @@ namespace Buffalo.DB.DbCommon
 
                     if (_db.SqlOutputer.HasOutput)
                     {
-                        OutMessage(MessageType.DataBaseException, "Closed DataBase", null, "");
+                        await OutMessageAsync(MessageType.DataBaseException, "Closed DataBase", null, "");
                     }
                     await _conn.CloseAsync();
                     await _conn.DisposeAsync();
@@ -643,7 +643,7 @@ namespace Buffalo.DB.DbCommon
             {
                 if (_db.SqlOutputer.HasOutput)
                 {
-                    OutMessage(MessageType.DataBaseException, ex.Message, null, ex.ToString());
+                    await OutMessageAsync(MessageType.DataBaseException, ex.Message, null, ex.ToString());
                 }
             }
             finally
@@ -659,7 +659,7 @@ namespace Buffalo.DB.DbCommon
 
                     if (_db.SqlOutputer.HasOutput)
                     {
-                        OutMessage(MessageType.OtherOper, "Closed Readonly DataBase", null, "");
+                        await OutMessageAsync(MessageType.OtherOper, "Closed Readonly DataBase", null, "");
                     }
                     _readconn.Close();
                     _readconn.Dispose();
@@ -671,7 +671,7 @@ namespace Buffalo.DB.DbCommon
             {
                 if (_db.SqlOutputer.HasOutput)
                 {
-                    OutMessage(MessageType.DataBaseException, ex.Message, null, ex.ToString());
+                    await OutMessageAsync(MessageType.DataBaseException, ex.Message, null, ex.ToString());
                 }
             }
             finally
@@ -917,7 +917,7 @@ namespace Buffalo.DB.DbCommon
                 if (_db.SqlOutputer.HasOutput)
                 {
 
-                    OutMessage(MessageType.Query, "DataSet", null, sql + ";" + paramInfo);
+                    await OutMessageAsync(MessageType.Query, "DataSet", null, sql + ";" + paramInfo);
                 }
                 sda.Fill(dataSet);
                 if (paramList != null)
@@ -927,7 +927,7 @@ namespace Buffalo.DB.DbCommon
 
                 if (cacheTables != null && cacheTables.Count > 0)
                 {
-                    _db.QueryCache.SetDataSet(dataSet, cacheTables, sql, paramList, this);
+                    await _db.QueryCache.SetDataSetAsync(dataSet, cacheTables, sql, paramList,TimeSpan.MinValue, this);
 
                 }
             }
@@ -939,7 +939,7 @@ namespace Buffalo.DB.DbCommon
             }
             finally
             {
-                AutoClose();
+                await AutoCloseAsync();
             }
 
             return dataSet;
@@ -1120,7 +1120,7 @@ namespace Buffalo.DB.DbCommon
 
                     if (_db.SqlOutputer.HasOutput)
                     {
-                        OutMessage(MessageType.Query, "AutoCloseReader", null, sql + ";" + paramInfo);
+                        await OutMessageAsync(MessageType.Query, "AutoCloseReader", null, sql + ";" + paramInfo);
                     }
 
                     reader = await comm.ExecuteReaderAsync(CommandBehavior.CloseConnection);
@@ -1133,7 +1133,7 @@ namespace Buffalo.DB.DbCommon
 
                     if (_db.SqlOutputer.HasOutput)
                     {
-                        OutMessage(MessageType.Query, "Reader", null, sql + ";" + paramInfo);
+                        await OutMessageAsync(MessageType.Query, "Reader", null, sql + ";" + paramInfo);
                     }
 
                     reader = await comm.ExecuteReaderAsync();
@@ -1146,17 +1146,17 @@ namespace Buffalo.DB.DbCommon
                 //读入缓存
                 if (cacheTables != null && cacheTables.Count > 0)
                 {
-                    DbDataReader nreader = _db.QueryCache.SetReader(reader, cacheTables, sql, paramList, this);
+                    DbDataReader nreader = await _db.QueryCache.SetReaderAsync(reader, cacheTables, sql, paramList, this);
                     if (nreader != null)
                     {
-                        reader.Close();
+                        await reader.CloseAsync();
                         reader = nreader;
                     }
                 }
             }
             catch (Exception e)
             {
-                AutoClose();
+                await AutoCloseAsync();
                 //如果正在执行事务，回滚
                 //RoolBack();
                 throw new SQLRunningException(sql, paramList, _db, e);
@@ -1218,7 +1218,7 @@ namespace Buffalo.DB.DbCommon
 
                     if (_db.SqlOutputer.HasOutput)
                     {
-                        OutMessage(MessageType.OtherOper, "RollbackTransaction", null, "");
+                        await OutMessageAsync(MessageType.OtherOper, "RollbackTransaction", null, "");
                     }
 
 
@@ -1361,7 +1361,7 @@ namespace Buffalo.DB.DbCommon
 
                 if (_db.SqlOutputer.HasOutput)
                 {
-                    OutMessage(MessageType.Execute, "NonQuery", null, sql + ";" + paramInfo);
+                    await OutMessageAsync(MessageType.Execute, "NonQuery", null, sql + ";" + paramInfo);
                 }
 
                 ret = await _comm.ExecuteNonQueryAsync();
@@ -1384,7 +1384,7 @@ namespace Buffalo.DB.DbCommon
             }
             finally
             {
-                AutoClose();
+                await AutoCloseAsync();
             }
 
             return ret;
@@ -1460,7 +1460,7 @@ namespace Buffalo.DB.DbCommon
 
                 if (_db.SqlOutputer.HasOutput)
                 {
-                    OutMessage(MessageType.OtherOper, "BeginTransaction", null, "Level=" + isolationLevel.ToString());
+                    await OutMessageAsync(MessageType.OtherOper, "BeginTransaction", null, "Level=" + isolationLevel.ToString());
                 }
 
                 _tran = await _conn.BeginTransactionAsync(isolationLevel);
@@ -1522,7 +1522,7 @@ namespace Buffalo.DB.DbCommon
 
                 if (_db.SqlOutputer.HasOutput)
                 {
-                    OutMessage(MessageType.OtherOper, "CommitTransaction", null, "");
+                    await OutMessageAsync(MessageType.OtherOper, "CommitTransaction", null, "");
                 }
 
                 await _tran.CommitAsync();
@@ -1571,7 +1571,34 @@ namespace Buffalo.DB.DbCommon
             }
         }
 
-        
+        /// <summary>
+        /// 输出信息
+        /// </summary>
+        /// <param name="messType">信息类型</param>
+        /// <param name="type">具体类型</param>
+        /// <param name="extendType">开展类型</param>
+        /// <param name="value">值</param>
+        public async Task OutMessageAsync(MessageType messType, string type, string extendType, string value)
+        {
+            if (_outputer != null)
+            {
+                await _outputer.OutPutAsync(messType, type, extendType, value);
+            }
+        }
+        /// <summary>
+        /// 输出信息
+        /// </summary>
+        /// <param name="messType">信息类型</param>
+        /// <param name="type">具体类型</param>
+        /// <param name="extendType">开展类型</param>
+        /// <param name="value">值</param>
+        public async Task OutMessageAsync(MessageType messType, MessageInfo info)
+        {
+            if (_outputer != null)
+            {
+                await _outputer.OutPutAsync(messType, info);
+            }
+        }
 
         /// <summary>
         /// 信息输出器

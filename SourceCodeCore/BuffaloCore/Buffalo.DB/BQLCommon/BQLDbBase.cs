@@ -213,13 +213,13 @@ namespace Buffalo.DB.BQLCommon
             if (!lstScope.HasPage)
             {
                 retlist = await QueryListAsync<E>(BQL, lstScope.ShowEntity, lstScope.UseCache);
-                DataAccessCommon.FillEntityChidList(retlist, lstScope);
+                await DataAccessCommon.FillEntityChidListAsync(retlist, lstScope);
                 return retlist;
             }
-            using (BatchAction ba = _oper.StarBatchAction())
+            await using (BatchAction ba = _oper.StarBatchAction())
             {
                 retlist = await QueryPageListAsync<E>(BQL, lstScope.PageContent, lstScope.ShowEntity, lstScope.UseCache);
-                DataAccessCommon.FillEntityChidList(retlist, lstScope);
+                await DataAccessCommon.FillEntityChidListAsync(retlist, lstScope);
                 return retlist;
             }
         }
@@ -289,7 +289,7 @@ namespace Buffalo.DB.BQLCommon
         /// <param name="lstSort">排序类型</param>
         /// <param name="objPage">分页对象</param>
         /// <returns></returns>
-        public Task<DataSet> SelectTableAsync(BQLOtherTableHandle table, ScopeList lstScope, Type entityType)
+        public async Task<DataSet> SelectTableAsync(BQLOtherTableHandle table, ScopeList lstScope, Type entityType)
         {
             List<BQLParamHandle> lstParams = GetParam(table, lstScope);
 
@@ -316,12 +316,12 @@ namespace Buffalo.DB.BQLCommon
 
             if (lstScope.HasPage)
             {
-                using (BatchAction ba = _oper.StarBatchAction())
+                await using (BatchAction ba = _oper.StarBatchAction())
                 {
-                    return QueryDataSetAsync(bql, null, lstScope.PageContent, lstScope.UseCache);
+                    return await QueryDataSetAsync(bql, null, lstScope.PageContent, lstScope.UseCache);
                 }
             }
-            return QueryDataSetAsync(bql, null, lstScope.UseCache);
+            return await QueryDataSetAsync(bql, null, lstScope.UseCache);
         }
         /// <summary>
         /// 转成条件信息
@@ -511,7 +511,7 @@ namespace Buffalo.DB.BQLCommon
             using (AbsCondition con = ToCondition(BQL, outPutTables, false, typeof(E)))
             {
                 List<E> retlist = null;
-                using (BatchAction ba = _oper.StarBatchAction())
+                await using (BatchAction ba = _oper.StarBatchAction())
                 {
                     DbDataReader reader = null;
                     try
@@ -606,7 +606,7 @@ namespace Buffalo.DB.BQLCommon
                 while (await reader.ReadAsync())
                 {
 
-                    object value = aliasManager.LoadFromReader(reader);
+                    object value =await aliasManager.LoadFromReaderAsync(reader);
                     if (value != null)
                     {
                         E obj = value as E;
@@ -686,7 +686,7 @@ namespace Buffalo.DB.BQLCommon
         /// <typeparam name="E"></typeparam>
         /// <param name="lstScope">条件集合</param>
         /// <returns></returns>
-        public Task<DataSet> SelectDataSetAsync<E>(ScopeList lstScope)
+        public async Task<DataSet> SelectDataSetAsync<E>(ScopeList lstScope)
         {
             Type eType = typeof(E);
             BQLEntityTableHandle table = _oper.DBInfo.FindTable(eType);
@@ -699,11 +699,11 @@ namespace Buffalo.DB.BQLCommon
 
             if (!lstScope.HasPage)
             {
-                return QueryDataSetAsync<E>(BQL, lstScope.UseCache);
+                return await QueryDataSetAsync<E>(BQL, lstScope.UseCache);
             }
-            using (BatchAction ba = _oper.StarBatchAction())
+            await using (BatchAction ba = _oper.StarBatchAction())
             {
-                return QueryDataSetAsync<E>(BQL, lstScope.PageContent, lstScope.UseCache);
+                return await QueryDataSetAsync<E>(BQL, lstScope.PageContent, lstScope.UseCache);
             }
         }
         /// <summary>
@@ -891,7 +891,7 @@ namespace Buffalo.DB.BQLCommon
                     cacheTables = con.CacheTables;
 
                 }
-                using (BatchAction ba = _oper.StarBatchAction())
+                await using (BatchAction ba = _oper.StarBatchAction())
                 {
                     if (con.DbParamList != null)
                     {
@@ -965,7 +965,7 @@ namespace Buffalo.DB.BQLCommon
 
                 }
                 DataSet ds = null;
-                using (BatchAction ba = _oper.StarBatchAction())
+                await using (BatchAction ba = _oper.StarBatchAction())
                 {
                     if (con.DbParamList != null)
                     {
@@ -1430,7 +1430,7 @@ namespace Buffalo.DB.BQLCommon
                     aliasManager.InitMapping(reader);
                     if (await reader.ReadAsync())
                     {
-                        ret = aliasManager.LoadFromReader(reader) as E;
+                        ret = await aliasManager.LoadFromReaderAsync(reader) as E;
                     }
                 }
                 finally

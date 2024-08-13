@@ -6,6 +6,7 @@ using Buffalo.DB.BQLCommon;
 using Buffalo.DB.QueryConditions;
 using System.Data;
 using Buffalo.DB.EntityInfos;
+using System.Threading.Tasks;
 
 namespace Buffalo.DB.CommBase.BusinessBases
 {
@@ -70,6 +71,16 @@ namespace Buffalo.DB.CommBase.BusinessBases
             DataAccessBase<T> baseDal = GetBaseContext();
 
             return baseDal.Oper.StartTransaction();
+        }
+        /// <summary>
+        /// 开启事务
+        /// </summary>
+        /// <returns></returns>
+        public Task<DBTransaction> StartTransactionAsync()
+        {
+            DataAccessBase<T> baseDal = GetBaseContext();
+
+            return baseDal.Oper.StartTransactionAsync();
         }
         /// <summary>
         /// 查找

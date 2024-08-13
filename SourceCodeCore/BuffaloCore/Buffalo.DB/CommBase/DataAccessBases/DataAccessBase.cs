@@ -633,7 +633,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             Dictionary<string, bool> cacheTables = null;
             string sql = GetSelectSQL(scopeList, list, out cacheTables);
 
-            using (BatchAction ba = Oper.StarBatchAction())
+            await using (BatchAction ba = Oper.StarBatchAction())
             {
 
                 DataSet ds = await _oper.QueryDataSetAsync(sql, list, CommandType.Text, cacheTables);
@@ -705,14 +705,14 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             Dictionary<string, bool> cacheTables = null;
             string sql = GetSelectSQL(scopeList, list, out cacheTables);
 
-            using (BatchAction ba = Oper.StarBatchAction())
+            await using (BatchAction ba = Oper.StarBatchAction())
             {
 
                 List<T> retlist = null;
 
 
                 retlist =await QueryListAsync(sql, list, CommandType.Text, cacheTables);
-                DataAccessCommon.FillEntityChidList(retlist, scopeList);
+                await DataAccessCommon.FillEntityChidListAsync(retlist, scopeList);
                 return retlist;
             }
         }
@@ -776,9 +776,10 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             {
                 if (await reader.ReadAsync())
                 {
-                    if (!reader.IsDBNull(0))
+                    if (!(await reader.IsDBNullAsync(0)))
                     {
-                        count = Convert.ToInt64(reader[0]);
+                        object obj =await reader.GetFieldValueAsync<object>(0);
+                        count = Convert.ToInt64(obj);
                     }
                 }
             }

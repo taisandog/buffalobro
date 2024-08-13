@@ -10,6 +10,8 @@ using System.Data;
 using Buffalo.DB.DataBaseAdapter.IDbAdapters;
 using System.Collections;
 using Buffalo.DB.BQLCommon;
+using System.Data.Common;
+using System.Threading.Tasks;
 
 namespace Buffalo.DB.CommBase.DataAccessBases.AliasTableMappingManagers
 {
@@ -133,8 +135,51 @@ namespace Buffalo.DB.CommBase.DataAccessBases.AliasTableMappingManagers
             return objRet;
         }
 
+        /// <summary>
+        /// 读取信息
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <returns></returns>
+        public async Task<EntityBase> LoadFromReaderAsync(DbDataReader reader)
+        {
 
-        
+            IDBAdapter dbAdapter = _entityInfo.DBInfo.CurrentDbAdapter;
+
+            EntityBase objRet = null;
+
+            objRet = _entityInfo.CreateSelectProxyInstance() as EntityBase;
+
+            foreach (AliasReaderMapping readMapping in _lstReaderMapping)
+            {
+                int index = readMapping.ReaderIndex;
+                EntityPropertyInfo info = readMapping.PropertyInfo;
+                if (!(await reader.IsDBNullAsync(index)))
+                {
+                    if (info.IsPrimaryKey)
+                    {
+                        objRet.GetEntityBaseInfo().HasPKValue = true;
+                    }
+                    await dbAdapter.SetObjectValueFromReaderAsync(reader, index, objRet, info, readMapping.NeedChangeType);
+                }
+            }
+            foreach (KeyValuePair<string, AliasTableMapping> keyPair in _dicChildTables)//写入父表属性
+            {
+                AliasTableMapping childMapping = keyPair.Value;
+                EntityBase child =await childMapping.LoadFromReaderAsync(reader);
+                if (childMapping.MappingInfo.IsParent)
+                {
+                    if (child.GetEntityBaseInfo().HasPKValue)
+                    {
+                        childMapping.MappingInfo.SetValue(objRet, child);
+                    }
+                    objRet.GetEntityBaseInfo()._dicFilledParent___[childMapping.MappingInfo.PropertyName] = true;
+                }
+
+
+            }
+            return objRet;
+        }
+
 
         /// <summary>
         /// 实体信息

@@ -310,7 +310,10 @@ namespace Buffalo.QueryCache
         {
             oper.OutMessage(MessageType.QueryCache, "Web", type, message);
         }
-
+        private async void OutPutMessageAsync(string type, string message, DataBaseOperate oper)
+        {
+            await oper.OutMessageAsync(MessageType.QueryCache, "Web", type, message);
+        }
         #region ICacheAdaper 成员
 
 

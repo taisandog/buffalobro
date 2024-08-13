@@ -274,8 +274,15 @@ namespace Buffalo.DB.DataBaseAdapter.IDbAdapters
         /// <param name="arg">目标对象</param>
         /// <param name="info">目标属性的句柄</param>
         void SetObjectValueFromReader(IDataReader reader, int index, object arg, EntityPropertyInfo info,bool needChangeType);
+        /// <summary>
+        /// 根据Reader的内容把数值赋进实体
+        /// </summary>
+        /// <param name="reader">Reader</param>
+        /// <param name="index">当前Reader的索引</param>
+        /// <param name="arg">目标对象</param>
+        /// <param name="info">目标属性的句柄</param>
+        Task SetObjectValueFromReaderAsync(DbDataReader reader, int index, object arg, EntityPropertyInfo info, bool needChangeType);
 
-        
 
         /// <summary>
         /// 获取序列名

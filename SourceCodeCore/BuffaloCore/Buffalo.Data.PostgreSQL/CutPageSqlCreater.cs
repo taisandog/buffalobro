@@ -174,9 +174,10 @@ namespace Buffalo.Data.PostgreSQL
             {
                 if (await reader.ReadAsync())
                 {
-                    if (!reader.IsDBNull(0))
+                    if (!(await reader.IsDBNullAsync(0)))
                     {
-                        totalRecords = reader.GetInt64(0);
+                        object obj = await reader.GetFieldValueAsync<object>(0);
+                        totalRecords = Convert.ToInt64(obj);
                     }
                 }
             }

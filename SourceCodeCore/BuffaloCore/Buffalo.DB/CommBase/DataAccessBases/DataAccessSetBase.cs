@@ -677,10 +677,10 @@ namespace Buffalo.DB.CommBase.DataAccessBases
 
                             if (await reader.ReadAsync())
                             {
-                                if (!reader.IsDBNull(0))
+                                if (!(await reader.IsDBNullAsync(0)))
                                 {
 
-                                    EntityInfo.DBInfo.CurrentDbAdapter.SetObjectValueFromReader(reader, 0, obj, pkInfo, !pkInfo.TypeEqual(reader, 0));
+                                    await EntityInfo.DBInfo.CurrentDbAdapter.SetObjectValueFromReaderAsync(reader, 0, obj, pkInfo, !pkInfo.TypeEqual(reader, 0));
                                     //obj.PrimaryKeyChange();
                                     ret = 1;
                                 }

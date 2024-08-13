@@ -81,7 +81,7 @@ namespace Buffalo.DB.CommBase.BusinessBases
             {
                 if (_oper.DBInfo.SqlOutputer.HasOutput)
                 {
-                    _oper.OutMessage(MessageType.OtherOper, "EndBatchAction", null, "");
+                    await _oper.OutMessageAsync(MessageType.OtherOper, "EndBatchAction", null, "");
                 }
                 _oper.CommitState = _state;
                 await _oper.AutoCloseAsync();
