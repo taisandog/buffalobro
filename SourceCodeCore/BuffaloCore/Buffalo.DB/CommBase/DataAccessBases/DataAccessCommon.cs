@@ -640,7 +640,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
                 {
                     //获取子表的get列表
                    
-                        lstParamNames = CacheReader.GenerateCache(reader, childInfo);//创建一个缓存数值列表
+                        CacheReader.GenerateCache(reader, childInfo, lstParamNames );//创建一个缓存数值列表
                     
 
                     
@@ -706,7 +706,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
                 ScopeList lstScope = new ScopeList();
                 lstScope.AddScopeList(filter);
                 lstScope.AddIn(mappingInfo.TargetProperty.PropertyName, searchPks);
-                 using (DbDataReader reader =await dao.QueryReaderAsync(lstScope, childInfo.EntityType))
+                await using (DbDataReader reader =await dao.QueryReaderAsync(lstScope, childInfo.EntityType))
                 {
                     //获取子表的get列表
                     
@@ -725,7 +725,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
                         {
                             curObjs.Enqueue(obj);
                         }
-                        CacheReader.FillObjectFromReader(reader, lstParamNames, obj, db);
+                        await CacheReader.FillObjectFromReaderAsync(reader, lstParamNames, obj, db);
 
                         foreach (object sender in senders)
                         {

@@ -19,6 +19,7 @@ using Buffalo.DB.BQLCommon.BQLConditionCommon;
 using Buffalo.DB.QueryConditions;
 using Buffalo.DB.BQLCommon.BQLKeyWordCommon;
 using Buffalo.DB.BQLCommon.BQLBaseFunction;
+using Buffalo.DB.BQLCommon.IdentityInfos;
 namespace Buffalo.DB.DataFillers
 {
     /// <summary>
@@ -99,7 +100,8 @@ namespace Buffalo.DB.DataFillers
                 Type childType = mappingInfo.TargetProperty.BelongInfo.EntityType;
 
                 //获取子表的get列表
-                List<EntityPropertyInfo> lstParamNames = CacheReader.GenerateCache(reader, childInfo);//创建一个缓存数值列表
+                List<EntityPropertyInfo> lstParamNames = new List<EntityPropertyInfo>();
+                CacheReader.GenerateCache(reader, childInfo, lstParamNames);
                 IList lst = (IList)mappingInfo.GetValue(sender);
                 while (reader.Read())
                 {
@@ -176,9 +178,9 @@ namespace Buffalo.DB.DataFillers
                 EntityPropertyInfo senderHandle = mappingInfo.SourceProperty;//本类的主键属性句柄
 
                 //IList pks = CollectFks(baseList, senderHandle, mappingInfo, dicElement, senderInfo.DBInfo);
-                EntityInfoHandle fatherInfo =mappingInfo.TargetProperty.BelongInfo;
+                EntityInfoHandle parentInfo =mappingInfo.TargetProperty.BelongInfo;
                 object pk = senderHandle.GetValue(sender);
-                FillParent(pk, fatherInfo, mappingInfo,propertyName,sender);
+                FillParent(pk, parentInfo, mappingInfo,propertyName,sender);
             }
             sender.GetEntityBaseInfo()._dicFilledParent___[propertyName] = true;
         }
@@ -187,27 +189,28 @@ namespace Buffalo.DB.DataFillers
         /// 填充字类列表
         /// </summary>
         /// <param name="pks">ID集合</param>
-        /// <param name="fatherInfo">父表对应类的信息</param>
+        /// <param name="parentInfo">父表对应类的信息</param>
         /// <param name="dicElement">元素</param>
         /// <param name="mappingInfo">当前父表对应属性的映射信息</param>
-        private static void FillParent(object pk, EntityInfoHandle fatherInfo,
+        private static void FillParent(object pk, EntityInfoHandle parentInfo,
              EntityMappingInfo mappingInfo, string propertyName, EntityBase sender)
         {
-            DBInfo db = fatherInfo.DBInfo;
-            DataBaseOperate oper = fatherInfo.DBInfo.DefaultOperate;
+            DBInfo db = parentInfo.DBInfo;
+            DataBaseOperate oper = parentInfo.DBInfo.DefaultOperate;
             BQLDbBase dao = new BQLDbBase(oper);
             ScopeList lstScope = new ScopeList();
 
             sender.OnFillParent(propertyName, lstScope);
             lstScope.AddEqual(mappingInfo.TargetProperty.PropertyName, pk);
-            IDataReader reader = dao.QueryReader(lstScope, fatherInfo.EntityType);
+            IDataReader reader = dao.QueryReader(lstScope, parentInfo.EntityType);
             try
             {
                 //获取子表的get列表
-                List<EntityPropertyInfo> lstParamNames = CacheReader.GenerateCache(reader, fatherInfo);//创建一个缓存数值列表
+                List<EntityPropertyInfo> lstParamNames = new List<EntityPropertyInfo>();
+                CacheReader.GenerateCache(reader, parentInfo, lstParamNames);
                 while (reader.Read())
                 {
-                    object newObj = fatherInfo.CreateSelectProxyInstance();
+                    object newObj = parentInfo.CreateSelectProxyInstance();
                     mappingInfo.SetValue(sender, newObj);
                     CacheReader.FillObjectFromReader(reader, lstParamNames, newObj, db);
                 }

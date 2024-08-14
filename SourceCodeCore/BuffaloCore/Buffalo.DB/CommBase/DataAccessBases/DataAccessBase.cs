@@ -520,11 +520,11 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             ScopeList lstScope = new ScopeList();
             SelectCondition sc = GetObjectByIdSQL(id, isSearchByCache, list, lstScope, out cacheTables);
 
-            using (DbDataReader reader = await _oper.QueryAsync(sc.GetSql(lstScope.UseCache), list,CommandType.Text, cacheTables))
+            await using (DbDataReader reader = await _oper.QueryAsync(sc.GetSql(lstScope.UseCache), list,CommandType.Text, cacheTables))
             {
                 if (await reader.ReadAsync())
                 {
-                    ret = CacheReader.LoadFromReader<T>(reader);
+                    ret =await CacheReader.LoadFromReaderAsync<T>(reader);
                 }
             }
 

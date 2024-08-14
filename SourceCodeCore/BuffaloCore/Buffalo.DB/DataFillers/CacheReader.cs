@@ -163,7 +163,8 @@ namespace Buffalo.DB.DataFillers
         {
             DataTable dt = new DataTable();
             EntityInfoHandle entityInfo = EntityInfoManager.GetEntityHandle(entityType);
-            List<EntityPropertyInfo> lstParamNames = GenerateCache(reader, entityInfo);
+            List<EntityPropertyInfo> lstParamNames = new List<EntityPropertyInfo>();
+            GenerateCache(reader, entityInfo, lstParamNames);
             dt.BeginLoadData();
             foreach (EntityPropertyInfo info in lstParamNames)
             {
@@ -210,7 +211,8 @@ namespace Buffalo.DB.DataFillers
         {
             DataTable dt = new DataTable();
             EntityInfoHandle entityInfo = EntityInfoManager.GetEntityHandle(entityType);
-            List<EntityPropertyInfo> lstParamNames = GenerateCache(reader, entityInfo);
+            List<EntityPropertyInfo> lstParamNames = new List<EntityPropertyInfo>();
+            GenerateCache(reader, entityInfo, lstParamNames);
             dt.BeginLoadData();
             foreach (EntityPropertyInfo info in lstParamNames)
             {
@@ -248,7 +250,7 @@ namespace Buffalo.DB.DataFillers
         /// <summary>
         /// 创建Reader缓存
         /// </summary>
-        internal static List<EntityPropertyInfo> GenerateCache(IDataReader reader, EntityInfoHandle entityInfo)
+        internal static void GenerateCache(IDataReader reader, EntityInfoHandle entityInfo,List<EntityPropertyInfo> cacheReader)
         {
             IDBAdapter idb = entityInfo.DBInfo.CurrentDbAdapter;
             Dictionary<string, EntityPropertyInfo> dicParamHandle = new Dictionary<string, EntityPropertyInfo>();//获取字段名跟属性对照的集合
@@ -260,7 +262,7 @@ namespace Buffalo.DB.DataFillers
                 dicParamHandle[idb.FormatParam(info.ParamName)]=info;
             }
 
-            List<EntityPropertyInfo> cacheReader = new List<EntityPropertyInfo>();
+            //List<EntityPropertyInfo> cacheReader = new List<EntityPropertyInfo>();
             
             for (int i = 0; i < reader.FieldCount; i++) //把属性按照指定字段名顺序排列到List里边
             {
@@ -274,7 +276,7 @@ namespace Buffalo.DB.DataFillers
                     cacheReader.Add(null);
                 }
             }
-            return cacheReader;
+            //return cacheReader;
             //dicReaderCache.Add(type.FullName,cacheReader);
         }
 
@@ -289,7 +291,8 @@ namespace Buffalo.DB.DataFillers
             //string fullName = typeof(T).FullName;
             if (reader != null && !reader.IsClosed)
             {
-                List<EntityPropertyInfo> lstParamNames = GenerateCache(reader, entityInfo);
+                List<EntityPropertyInfo> lstParamNames =new List<EntityPropertyInfo>();
+                GenerateCache(reader, entityInfo, lstParamNames);
                 T ret = (T)entityInfo.CreateSelectProxyInstance();//实例化对象
                 FillObjectFromReader(reader, lstParamNames, ret, entityInfo.DBInfo);
                 return ret;
@@ -308,9 +311,31 @@ namespace Buffalo.DB.DataFillers
             EntityInfoHandle entityInfo = EntityInfoManager.GetEntityHandle(typeof(T));
             if (reader != null && !reader.IsClosed)
             {
-                List<EntityPropertyInfo> lstParamNames = GenerateCache(reader, entityInfo);
+
+                List<EntityPropertyInfo> lstParamNames =new List<EntityPropertyInfo>();
+                GenerateCache(reader, entityInfo, lstParamNames);
                 T ret = (T)entityInfo.CreateSelectProxyInstance();//实例化对象
                 FillObjectFromReader(reader, lstParamNames, ret, entityInfo.DBInfo);
+                return ret;
+            }
+            return default(T);
+        }
+        /// <summary>
+        /// 从Reader里边读取一个对象数据
+        /// </summary>
+        /// <typeparam name="T">类型</typeparam>
+        /// <param name="reader">reader</param>
+        /// <returns></returns>
+        public static async Task<T> LoadFromReaderAsync<T>(DbDataReader reader) where T : EntityBase, new()
+        {
+            EntityInfoHandle entityInfo = EntityInfoManager.GetEntityHandle(typeof(T));
+            if (reader != null && !reader.IsClosed)
+            {
+
+                List<EntityPropertyInfo> lstParamNames = new List<EntityPropertyInfo>();
+                GenerateCache(reader, entityInfo, lstParamNames);
+                T ret = (T)entityInfo.CreateSelectProxyInstance();//实例化对象
+                await FillObjectFromReaderAsync(reader, lstParamNames, ret, entityInfo.DBInfo);
                 return ret;
             }
             return default(T);
@@ -319,7 +344,8 @@ namespace Buffalo.DB.DataFillers
         {
             if (reader != null && !reader.IsClosed && obj!=null)
             {
-                List<EntityPropertyInfo> lstParamNames = GenerateCache(reader, entityInfo);
+                List<EntityPropertyInfo> lstParamNames = new List<EntityPropertyInfo>();
+                GenerateCache(reader, entityInfo, lstParamNames);
 
                 FillObjectFromReader(reader, lstParamNames, obj, entityInfo.DBInfo);
                 
@@ -337,7 +363,8 @@ namespace Buffalo.DB.DataFillers
             List<T> retLst = new List<T>();
             if (reader != null && !reader.IsClosed)
             {
-                List<EntityPropertyInfo> lstParamNames = GenerateCache(reader, entityInfo);
+                List<EntityPropertyInfo> lstParamNames = new List<EntityPropertyInfo>();
+                GenerateCache(reader, entityInfo, lstParamNames);
 
                 while (await reader.ReadAsync())
                 {
@@ -361,8 +388,9 @@ namespace Buffalo.DB.DataFillers
             List<T> retLst = new List<T>();
             if (reader != null && !reader.IsClosed)
             {
-                List<EntityPropertyInfo> lstParamNames = GenerateCache(reader, entityInfo);
-               
+                List<EntityPropertyInfo> lstParamNames = new List<EntityPropertyInfo>();
+                GenerateCache(reader, entityInfo, lstParamNames);
+
                 while (reader.Read())
                 {
                     T obj = entityInfo.CreateSelectProxyInstance() as T;
@@ -387,6 +415,7 @@ namespace Buffalo.DB.DataFillers
             EntityPropertyInfo info = null;
             for (int i = 0; i < lstParams.Count; i++)//把Reader的值赋到对象中
             {
+                info = lstParams[i];
                 if (!reader.IsDBNull(i) && info != null)
                 {
                     dbAdapter.SetObjectValueFromReader(reader, i, obj, info, !info.TypeEqual(reader, i));
@@ -426,8 +455,9 @@ namespace Buffalo.DB.DataFillers
             //totalSize = 0;//初始化当前记录集总大小
             if (reader != null && !reader.IsClosed)
             {
-                List<EntityPropertyInfo> lstParamNames = GenerateCache(reader, entityInfo);
-                
+                List<EntityPropertyInfo> lstParamNames = new List<EntityPropertyInfo>();
+                GenerateCache(reader, entityInfo, lstParamNames);
+
                 while (reader.Read())
                 {
                     T obj = (T)entityInfo.CreateSelectProxyInstance();
@@ -453,7 +483,8 @@ namespace Buffalo.DB.DataFillers
             //int totalSize = 0;//初始化当前记录集总大小
             if (reader != null && !reader.IsClosed)
             {
-                List<EntityPropertyInfo> lstParamNames = GenerateCache(reader, entityInfo);
+                List<EntityPropertyInfo> lstParamNames = new List<EntityPropertyInfo>();
+                GenerateCache(reader, entityInfo, lstParamNames);
 
                 while (await reader.ReadAsync())
                 {
