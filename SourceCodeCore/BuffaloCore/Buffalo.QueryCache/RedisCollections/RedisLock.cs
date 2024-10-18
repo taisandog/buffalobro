@@ -214,7 +214,7 @@ namespace Buffalo.QueryCache.RedisCollections
         {
             bool ret = false;
 
-            RedisValue data = _client.LockQuery(_key, _commanfFlags);
+            RedisValue data = await _client.LockQueryAsync(_key, _commanfFlags);
             int val = RedisConverter.RedisValueToValue<int>(data, -1);
             if (val != _guidHash)
             {
@@ -273,7 +273,7 @@ namespace Buffalo.QueryCache.RedisCollections
             {
                 return true;
             }
-            object lok = _lokKey.GetObject(_key);
+            
             using (AsyncTaskLock<string> aslok = new AsyncTaskLock<string>(_key))
             {
                 if (!(await aslok.LockAsync()))
