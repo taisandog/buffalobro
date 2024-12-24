@@ -14,7 +14,7 @@ namespace Buffalo.MQ
 {
 
 
-    public abstract class MQConnection :IDisposable
+    public abstract class MQConnection :IDisposable, IAsyncDisposable
     {
         /// <summary>
         /// 默认编码
@@ -153,6 +153,11 @@ namespace Buffalo.MQ
         /// <returns></returns>
         protected abstract APIResault StartTran();
         /// <summary>
+        /// 开启事务
+        /// </summary>
+        /// <returns></returns>
+        protected abstract Task<APIResault> StartTranAsync();
+        /// <summary>
         /// 提交事务
         /// </summary>
         /// <returns></returns>
@@ -167,7 +172,11 @@ namespace Buffalo.MQ
         /// </summary>
         /// <returns></returns>
         protected abstract APIResault RoolbackTran();
-
+        /// <summary>
+        /// 回滚事务
+        /// </summary>
+        /// <returns></returns>
+        protected abstract Task<APIResault> RoolbackTranAsync();
         /// <summary>
         /// 开启事务
         /// </summary>
@@ -185,6 +194,22 @@ namespace Buffalo.MQ
             return new MQTransaction(null);
         }
         /// <summary>
+        /// 开启事务
+        /// </summary>
+        /// <returns></returns>
+        public async Task<MQTransaction> StartTransactionAsync()
+        {
+
+            if (!_isTran)
+            {
+
+                APIResault res= await StartTranAsync();
+                _isTran = true;
+                return new MQTransaction(this);
+            }
+            return new MQTransaction(null);
+        }
+        /// <summary>
         /// 回滚事务
         /// </summary>
         /// <returns></returns>
@@ -192,6 +217,15 @@ namespace Buffalo.MQ
         {
             _isTran = false;
             return RoolbackTran();
+        }
+        /// <summary>
+        /// 回滚事务
+        /// </summary>
+        /// <returns></returns>
+        internal Task<APIResault> RoolbackTransactionAsync()
+        {
+            _isTran = false;
+            return RoolbackTranAsync();
         }
         /// <summary>
         /// 提交事务
@@ -300,6 +334,10 @@ namespace Buffalo.MQ
         /// 关闭连接
         /// </summary>
         public abstract void Close();
+        /// <summary>
+        /// 关闭连接
+        /// </summary>
+        public abstract Task CloseAsync();
         ///// <summary>
         ///// 自动关闭
         ///// </summary>
@@ -314,6 +352,13 @@ namespace Buffalo.MQ
         public void Dispose()
         {
             Close();
+
+            GC.SuppressFinalize(this);
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            await CloseAsync();
 
             GC.SuppressFinalize(this);
         }

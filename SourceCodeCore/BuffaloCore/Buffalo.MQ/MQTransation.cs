@@ -9,7 +9,7 @@ namespace Buffalo.MQ
     /// <summary>
     /// 数据库的自释放事务类
     /// </summary>
-    public class MQTransaction : IDisposable
+    public class MQTransaction : IDisposable,IAsyncDisposable
     {
         /// <summary>
         /// 自释放事务类
@@ -106,7 +106,26 @@ namespace Buffalo.MQ
             _isCommit = true;
             return true;
         }
-
+        /// <summary>
+        /// 回滚事务
+        /// </summary>
+        /// <returns></returns>
+        public async Task<bool> RollbackAsync()
+        {
+            if (_oper == null)
+            {
+                return false;
+            }
+            if (_isCommit)
+            {
+                return false;
+            }
+            await _oper.RoolbackTransactionAsync();
+            //_oper.AutoClose();
+            _oper = null;
+            _isCommit = true;
+            return true;
+        }
         #region IDisposable 成员
 
         /// <summary>
@@ -115,6 +134,12 @@ namespace Buffalo.MQ
         public void Dispose()
         {
             Rollback();
+            GC.SuppressFinalize(this);
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            await RollbackAsync();
             GC.SuppressFinalize(this);
         }
 

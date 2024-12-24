@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Buffalo.MQ
 {
@@ -28,6 +29,11 @@ namespace Buffalo.MQ
         /// kafka和Rabbit的autocommit为false情况下此调用为Ark应答
         /// </summary>
         public abstract void Commit();
+
+        /// <summary>
+        /// kafka和Rabbit的autocommit为false情况下此调用为Ark应答
+        /// </summary>
+        public abstract Task CommitAsync();
 
         public virtual void Dispose()
         {

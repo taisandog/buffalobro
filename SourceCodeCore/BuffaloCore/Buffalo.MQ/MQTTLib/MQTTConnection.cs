@@ -144,19 +144,7 @@ namespace Buffalo.MQ.MQTTLib
 
         public override void Close()
         {
-            if (_mqttClient != null)
-            {
-                Task task=_mqttClient.DisconnectAsync();
-                task.Wait();
-                _mqttClient.Dispose();
-            }
-            _mqttClient = null;
-            if (_que != null)
-            {
-                _que.Clear();
-            }
-            _que = null;
-            
+            CloseAsync().Wait();
         }
 
         //public override void DeleteTopic(bool ifUnused)
@@ -273,6 +261,35 @@ namespace Buffalo.MQ.MQTTLib
                 return ApiCommon.GetFault("mess must to MQTTMessage");
             }
             return await SendMessAsync(message);
+        }
+
+        protected override async Task<APIResault> StartTranAsync()
+        {
+            await OpenAsync();
+           
+            _que = new Queue<MqttApplicationMessage>();
+            return ApiCommon.GetSuccess();
+        }
+
+        protected override async Task<APIResault> RoolbackTranAsync()
+        {
+            return RoolbackTran();
+        }
+
+        public override async Task CloseAsync()
+        {
+            if (_mqttClient != null)
+            {
+                await _mqttClient.DisconnectAsync();
+                
+                _mqttClient.Dispose();
+            }
+            _mqttClient = null;
+            if (_que != null)
+            {
+                _que.Clear();
+            }
+            _que = null;
         }
 
         ~MQTTConnection()

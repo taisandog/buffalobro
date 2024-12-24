@@ -142,7 +142,7 @@ namespace Buffalo.MQ.KafkaMQ
                 DeliveryResult<byte[], byte[]> re = delRes.Result;
             }
         }
-
+       
         public override void Close()
         {
             if (_producer != null)
@@ -269,6 +269,27 @@ namespace Buffalo.MQ.KafkaMQ
 
             
             return ApiCommon.GetSuccess();
+        }
+
+        protected override async Task<APIResault> StartTranAsync()
+        {
+            await OpenAsync();
+            if (_tranProducer == null)
+            {
+                InitTranProducerConfig();
+            }
+            _tranProducer.BeginTransaction();
+            return ApiCommon.GetSuccess();
+        }
+
+        protected override async Task<APIResault> RoolbackTranAsync()
+        {
+            return RoolbackTran();
+        }
+
+        public override async Task CloseAsync()
+        {
+            Close();
         }
     }
 }

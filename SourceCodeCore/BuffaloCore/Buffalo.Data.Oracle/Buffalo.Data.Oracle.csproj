@@ -6,7 +6,7 @@
     <Company>dogcom</Company>
     <Description>Buffalo.DB的Oracle支持</Description>
     <PackageProjectUrl>https://github.com/taisandog</PackageProjectUrl>
-    <Version>1.5.8</Version>
+    <Version>1.5.9</Version>
     <Product>Buffalo.Data.Oracle for .Net Standard 2.0</Product>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="3.21.130" />
+    <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="23.6.1" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Buffalo.MQ.RedisMQ
 {
@@ -23,6 +24,11 @@ namespace Buffalo.MQ.RedisMQ
         {
            
             base.Dispose();
+        }
+
+        public override async Task CommitAsync()
+        {
+            
         }
 
         ~RedisCallbackMessage()

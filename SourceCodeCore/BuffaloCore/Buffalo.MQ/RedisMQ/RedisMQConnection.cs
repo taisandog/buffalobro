@@ -343,5 +343,39 @@ namespace Buffalo.MQ.RedisMQ
             Close();
             
         }
+
+
+        protected override async Task<APIResault> StartTranAsync()
+        {
+            return StartTran();
+        }
+
+        protected override async Task<APIResault> RoolbackTranAsync()
+        {
+            
+            return RoolbackTran();
+        }
+
+        public override async Task CloseAsync()
+        {
+            if (_db != null)
+            {
+
+                _db = null;
+            }
+            if (_redis != null)
+            {
+                await _redis.CloseAsync();
+                await _redis.DisposeAsync();
+                _redis = null;
+            }
+            if (_que != null)
+            {
+                _que.Clear();
+            }
+            _que = null;
+            
+            _subscriber = null;
+        }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using Confluent.Kafka;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Buffalo.MQ.KafkaMQ
 {
@@ -72,6 +74,11 @@ namespace Buffalo.MQ.KafkaMQ
             _consumeResult = null;
            
             base.Dispose();
+        }
+
+        public override async Task CommitAsync()
+        {
+            Commit();
         }
 
         ~KafkaCallbackMessage()

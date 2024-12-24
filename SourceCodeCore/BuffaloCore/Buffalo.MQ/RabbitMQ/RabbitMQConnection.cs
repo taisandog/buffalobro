@@ -1,6 +1,7 @@
 ﻿using Buffalo.ArgCommon;
 using Buffalo.Kernel;
 using Buffalo.MQ.RedisMQ;
+using MQTTnet.Internal;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System;
@@ -19,12 +20,12 @@ namespace Buffalo.MQ.RabbitMQ
     {
        
         private IConnection _connection;
-        private IModel _channel;
+        private IChannel _channel;
         private RabbitMQConfig _config;
         /// <summary>
         /// 信道
         /// </summary>
-        public IModel Channel
+        public IChannel Channel
         {
             get
             {
@@ -56,43 +57,38 @@ namespace Buffalo.MQ.RabbitMQ
         /// </summary>
         protected override void Open()
         {
-
-            if (IsOpen)
-            {
-                return;
-            }
-            lock (this)
-            {
-                if (IsOpen)
-                {
-                    return;
-                }
-                _connection = _config.Factory.CreateConnection();
-                _channel = _connection.CreateModel();
-                IBasicProperties properties = _channel.CreateBasicProperties();
-                properties.DeliveryMode = _config.DeliveryMode;
-
-                //UInt32 prefetchSize,  每次取的长度
-                //UInt16 prefetchCount,     每次取几条
-                //Boolean global    是否对connection通用
-                _channel.BasicQos(0, 1, true);
-                _channel.ExchangeDeclare(_config.ExchangeName, _config.ExchangeMode, _config.DeliveryMode == 2, _config.AutoDelete, null);
-                if (_config.QueueName != null)
-                {
-                    foreach (string name in _config.QueueName)
-                    {
-                        _channel.QueueDeclare(name, _config.DeliveryMode == 2, false, _config.AutoDelete, null);
-                        _channel.QueueBind(name, _config.ExchangeName, "", null);
-                    }
-                }
-            }
+            OpenAsync().Wait();
         }
         /// <summary>
         /// 打来连接
         /// </summary>
         protected override async Task OpenAsync()
         {
-            Open();
+            if (IsOpen)
+            {
+                return;
+            }
+
+            
+            _connection = await _config.Factory.CreateConnectionAsync();
+            _channel =await _connection.CreateChannelAsync();
+            //IBasicProperties properties = _channel.CreateBasicProperties();
+            //properties.DeliveryMode = (DeliveryModes)_config.DeliveryMode;
+
+            //UInt32 prefetchSize,  每次取的长度
+            //UInt16 prefetchCount,     每次取几条
+            //Boolean global    是否对connection通用
+             await _channel.BasicQosAsync(0, 1, true);
+            await _channel.ExchangeDeclareAsync(_config.ExchangeName, _config.ExchangeMode, _config.DeliveryMode == 2, _config.AutoDelete, null);
+            if (_config.QueueName != null)
+            {
+                foreach (string name in _config.QueueName)
+                {
+                    await _channel.QueueDeclareAsync(name, _config.DeliveryMode == 2, false, _config.AutoDelete, null);
+                    await _channel.QueueBindAsync(name, _config.ExchangeName, "", null);
+                }
+            }
+
 
         }
         /// <summary>
@@ -103,9 +99,9 @@ namespace Buffalo.MQ.RabbitMQ
         /// <returns></returns>
         protected override APIResault SendMessage(string routingKey, byte[] body)
         {
+            return SendMessageAsync(routingKey, body).Result;
 
-            _channel.BasicPublish(_config.ExchangeName, routingKey, false, null, body);
-            return ApiCommon.GetSuccess();
+
         }
         /// <summary>
         /// 发布内容
@@ -115,18 +111,7 @@ namespace Buffalo.MQ.RabbitMQ
         /// <returns></returns>
         protected override APIResault SendMessage(MQSendMessage message)
         {
-            MQRabbitMessage mess= message as MQRabbitMessage;
-            if(mess == null) 
-            {
-                return ApiCommon.GetFault("message must been a MQRabbitMessage");
-            }
-            string exchange= mess.Exchange;
-            if (string.IsNullOrWhiteSpace(exchange)) 
-            {
-                exchange = _config.ExchangeName;
-            }
-            _channel.BasicPublish(exchange, mess.Topic, mess.Mandatory, mess.BasicProperties, mess.Value);
-            return ApiCommon.GetSuccess();
+            return SendMessageAsync(message).Result;
         }
         /// <summary>
         /// 删除队列(Rabbit可用)
@@ -141,7 +126,7 @@ namespace Buffalo.MQ.RabbitMQ
             }
             foreach (string delName in curDelete)
             {
-                _channel.QueueDelete(delName, ifUnused, ifEmpty);
+                _channel.QueueDeleteAsync(delName, ifUnused, ifEmpty).Wait();
             }
         }
         /// <summary>
@@ -150,7 +135,7 @@ namespace Buffalo.MQ.RabbitMQ
 
         public void DeleteExchange(bool ifUnused)
         {
-            _channel.ExchangeDelete(_config.ExchangeName, ifUnused);
+            _channel.ExchangeDeleteAsync(_config.ExchangeName, ifUnused).Wait();
         }
 
         /// <summary>
@@ -158,51 +143,78 @@ namespace Buffalo.MQ.RabbitMQ
         /// </summary>
         public override void Close()
         {
-            if (_channel != null)
-            {
-                _channel.Close();
-                _channel = null;
-            }
-            if (_connection != null)
-            {
-                _connection.Close();
-                _connection = null;
-            }
+            CloseAsync().Wait();
         }
 
 
 
         protected override APIResault StartTran()
         {
-            Open();
-            _channel.TxSelect();
-            return ApiCommon.GetSuccess();
+            
+            return StartTranAsync().Result;
         }
 
         protected override APIResault CommitTran()
         {
-            _channel.TxCommit();
-            return ApiCommon.GetSuccess();
+            return CommitTranAsync().Result;
         }
         protected override async Task<APIResault> CommitTranAsync()
         {
-            _channel.TxCommit();
+             await _channel.TxCommitAsync();
             return ApiCommon.GetSuccess();
         }
         protected override APIResault RoolbackTran()
         {
-            _channel.TxRollback();
-            return ApiCommon.GetSuccess();
+            return RoolbackTranAsync().Result;
         }
 
         protected override async Task<APIResault> SendMessageAsync(MQSendMessage message)
         {
-            return SendMessage(message);
+            MQRabbitMessage mess = message as MQRabbitMessage;
+            if (mess == null)
+            {
+                return ApiCommon.GetFault("message must been a MQRabbitMessage");
+            }
+            string exchange = mess.Exchange;
+            if (string.IsNullOrWhiteSpace(exchange))
+            {
+                exchange = _config.ExchangeName;
+            }
+            await _channel.BasicPublishAsync(exchange, mess.Topic, mess.Mandatory, mess.Value);
+            return ApiCommon.GetSuccess();
         }
 
         protected override async Task<APIResault> SendMessageAsync(string key, byte[] body)
         {
-            return SendMessage(key, body);
+            await _channel.BasicPublishAsync(_config.ExchangeName, key, false,  body);
+            return ApiCommon.GetSuccess();
+        }
+
+        protected override async Task<APIResault> StartTranAsync()
+        {
+            await OpenAsync();
+            await _channel.TxSelectAsync();
+            return ApiCommon.GetSuccess();
+        }
+
+        protected override async Task<APIResault> RoolbackTranAsync()
+        {
+            await _channel.TxRollbackAsync();
+            return ApiCommon.GetSuccess();
+        }
+
+        public override async Task CloseAsync()
+        {
+            if (_channel != null)
+            {
+                await _channel.CloseAsync();
+                _channel = null;
+            }
+            if (_connection != null)
+            {
+                await _connection.CloseAsync();
+                _connection = null;
+            }
         }
     }
 }

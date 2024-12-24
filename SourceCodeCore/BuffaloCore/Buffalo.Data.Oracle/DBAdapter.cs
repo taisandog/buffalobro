@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Data;
-using System.Data.OracleClient;
 using Buffalo.DB.DataBaseAdapter.IDbAdapters;
 using Buffalo.DB.CommBase;
 using Buffalo.DB.EntityInfos;
