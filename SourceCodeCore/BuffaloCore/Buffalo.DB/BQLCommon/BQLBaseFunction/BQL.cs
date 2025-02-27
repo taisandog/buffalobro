@@ -177,6 +177,20 @@ namespace Buffalo.DB.BQLCommon.BQLBaseFunction
         {
             return new BQLOtherParamHandle(null, paramName);
         }
+        // <summary>
+        /// 任意字段（占位符为{0},{1},例如:min({0},{1})）
+        /// </summary>
+        public static BQLAnyParamHandle ToAnyParam(string paramValue, IEnumerable<BQLValueItem> valueHandle)
+        {
+            return new BQLAnyParamHandle(paramValue, valueHandle);
+        }
+        /// <summary>
+        ///  任意条件（占位符为{0},{1},例如:{0} like {1}）
+        /// </summary>
+        public static BQLAnyCondition ToAnyCondition(string condition, IEnumerable<BQLValueItem> valueHandle)
+        {
+            return new BQLAnyCondition(condition, valueHandle);
+        }
         //private static BQLAlias _alias = new BQLAlias();
         ///// <summary>
         ///// 别名函数
