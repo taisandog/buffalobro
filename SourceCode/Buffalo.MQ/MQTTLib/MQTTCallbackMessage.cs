@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Buffalo.MQ.MQTTLib
 {
@@ -28,7 +29,7 @@ namespace Buffalo.MQ.MQTTLib
         {
             if(_receivedEventArgs != null && !_receivedEventArgs.AutoAcknowledge) 
             {
-                _receivedEventArgs.AcknowledgeAsync(CancellationToken.None);
+                _receivedEventArgs.AcknowledgeAsync(CancellationToken.None).Wait() ;
             }
             
         }
@@ -37,6 +38,14 @@ namespace Buffalo.MQ.MQTTLib
         {
             _receivedEventArgs = null;
             base.Dispose();
+        }
+
+        public override async Task CommitAsync()
+        {
+            if (_receivedEventArgs != null && !_receivedEventArgs.AutoAcknowledge)
+            {
+                await _receivedEventArgs.AcknowledgeAsync(CancellationToken.None);
+            }
         }
 
         ~MQTTCallbackMessage()

@@ -73,6 +73,10 @@ namespace Buffalo.DBTools
         /// <returns></returns>
         public string GetNameSpace()
         {
+            if (_selectDocView == null) 
+            {
+                throw new NullReferenceException("获取当前文件错误，请关闭.cd类图文件重新打开重试");
+            }
             FileInfo docFile = new FileInfo(SelectDocView.DocData.FileName);
             FileInfo projectFile = new FileInfo(CurrentProject.FileName);
             string dic = docFile.Directory.Name.Replace(projectFile.Directory.Name, "");

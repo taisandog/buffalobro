@@ -3,14 +3,15 @@ using RabbitMQ.Client.Events;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Buffalo.MQ.RabbitMQ
 {
     public class RabbitCallbackMessage : MQCallBackMessage
     {
-        protected IModel _channel;
+        protected IChannel _channel;
 
-        public IModel Channel 
+        public IChannel Channel 
         {
             get { return _channel; }
         }
@@ -23,8 +24,8 @@ namespace Buffalo.MQ.RabbitMQ
             get { return _basicDeliverEventArgs; }
         }
 
-        public RabbitCallbackMessage(string topic, string exchange, byte[] body, 
-            IModel channel, BasicDeliverEventArgs basicDeliverEventArgs) :
+        public RabbitCallbackMessage(string topic, string exchange, byte[] body,
+            IChannel channel, BasicDeliverEventArgs basicDeliverEventArgs) :
             base(topic, body)
         {
             _channel = channel;
@@ -39,9 +40,18 @@ namespace Buffalo.MQ.RabbitMQ
                 return;
             }
 
-            _channel.BasicAck(_basicDeliverEventArgs.DeliveryTag,false);
+            var res= _channel.BasicAckAsync(_basicDeliverEventArgs.DeliveryTag,false);
+            
         }
+        public override async Task CommitAsync()
+        {
+            if (_channel == null || _basicDeliverEventArgs == null)
+            {
+                return;
+            }
 
+             await _channel.BasicAckAsync(_basicDeliverEventArgs.DeliveryTag, false);
+        }
         public override void Dispose()
         {
             _channel=null;

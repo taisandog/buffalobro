@@ -40,11 +40,11 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\Release\2022\</OutputPath>
+    <OutputPath>..\Release\2022\DBTools\</OutputPath>
     <DefineConstants>TRACE;NET_4_8</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\Release\2022\DBTools.xml</DocumentationFile>
+    <DocumentationFile>..\Release\2022\DBTools\DBTools.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="BuffaloToolCDCommand.cs" />
@@ -256,9 +256,11 @@
     <None Include="Resources\uiconfigitem.xml" />
     <Content Include="x64\SQLite.Interop.dll">
       <IncludeInVSIX>true</IncludeInVSIX>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="x86\SQLite.Interop.dll">
       <IncludeInVSIX>true</IncludeInVSIX>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
@@ -306,6 +308,14 @@
     <ProjectReference Include="..\Buffalo.Data.Oracle12\Buffalo2022.Data.Oracle.csproj">
       <Project>{c38522e1-35ba-40f7-a1e9-716d52bb6c04}</Project>
       <Name>Buffalo2022.Data.Oracle</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Buffalo.Data.PostgreSQL\Buffalo2022.Data.PostgreSQL.csproj">
+      <Project>{ef96ea11-c57a-4de0-97f7-1ab7e20ca0bd}</Project>
+      <Name>Buffalo2022.Data.PostgreSQL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Buffalo.Data.SQLite\Buffalo2022.Data.SQLite.csproj">
+      <Project>{2e4a32f0-f84b-4e73-a48c-d1c816bc81fc}</Project>
+      <Name>Buffalo2022.Data.SQLite</Name>
     </ProjectReference>
     <ProjectReference Include="..\Buffalo.DB\Buffalo2022.DB.csproj">
       <Project>{9b0043e4-883b-47ba-9a5a-5110c8583902}</Project>

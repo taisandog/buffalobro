@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Buffalo.ArgCommon;
 using Buffalo.Kernel;
 using Confluent.Kafka;
+using MQTTnet;
 
 namespace Buffalo.MQ.KafkaMQ
 {
@@ -141,7 +142,7 @@ namespace Buffalo.MQ.KafkaMQ
                 DeliveryResult<byte[], byte[]> re = delRes.Result;
             }
         }
-
+       
         public override void Close()
         {
             if (_producer != null)
@@ -195,7 +196,10 @@ namespace Buffalo.MQ.KafkaMQ
             //}
             //InitProducerConfig();
         }
-
+        protected override Task OpenAsync()
+        {
+            return Task.CompletedTask;
+        }
         private void CheckInitTransactions()
         {
             
@@ -225,7 +229,15 @@ namespace Buffalo.MQ.KafkaMQ
             _tranProducer.CommitTransaction(_timeout);
             return ApiCommon.GetSuccess();
         }
-
+        protected override async Task<APIResault> CommitTranAsync()
+        {
+            if (_tranProducer == null)
+            {
+                throw new NullReferenceException("还没开启事务");
+            }
+            _tranProducer.CommitTransaction(_timeout);
+            return ApiCommon.GetSuccess();
+        }
         protected override APIResault RoolbackTran()
         {
             if (_tranProducer == null)
@@ -234,6 +246,50 @@ namespace Buffalo.MQ.KafkaMQ
             }
             _tranProducer.AbortTransaction(_timeout);
             return ApiCommon.GetSuccess();
+        }
+
+        protected override async Task<APIResault> SendMessageAsync(MQSendMessage mess)
+        {
+            MQKafkaMessage message = mess as MQKafkaMessage;
+
+            IProducer<byte[], byte[]> producer = GetProducer();
+            DeliveryResult<byte[], byte[]> delRes = await producer.ProduceAsync(message.TopicPartition, message.Message, message.CancellationToken);
+            
+            return ApiCommon.GetSuccess();
+        }
+
+        protected override async Task<APIResault> SendMessageAsync(string key, byte[] body)
+        {
+            Message<byte[], byte[]> message = new Message<byte[], byte[]>();
+            message.Key = DefaultEncoding.GetBytes(key);
+            message.Value = body;
+
+            IProducer<byte[], byte[]> producer = GetProducer();
+            DeliveryResult<byte[], byte[]> delRes = await producer.ProduceAsync(key, message);
+
+            
+            return ApiCommon.GetSuccess();
+        }
+
+        protected override async Task<APIResault> StartTranAsync()
+        {
+            await OpenAsync();
+            if (_tranProducer == null)
+            {
+                InitTranProducerConfig();
+            }
+            _tranProducer.BeginTransaction();
+            return ApiCommon.GetSuccess();
+        }
+
+        protected override async Task<APIResault> RoolbackTranAsync()
+        {
+            return RoolbackTran();
+        }
+
+        public override async Task CloseAsync()
+        {
+            Close();
         }
     }
 }

@@ -17,6 +17,7 @@ using System.Net;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Buffalo.Storage.AWS.S3
@@ -116,7 +117,7 @@ namespace Buffalo.Storage.AWS.S3
                 DeleteObjectsResponse dresponse = _client.DeleteObjects(drequest);
                 request.Marker = response.NextMarker;
             }
-            while (response.IsTruncated);
+            while (response.IsTruncated.GetValueOrDefault());
 
 
             return ApiCommon.GetSuccess();
@@ -166,7 +167,7 @@ namespace Buffalo.Storage.AWS.S3
                 string url = OSSAdapter.GetUrl(_internetUrl, request.Key);
                 string accessUrl = OSSAdapter.GetUrl(_internetUrl, request.Key);
 
-                NetStorageFileInfo info = new NetStorageFileInfo(response.LastModified, response.LastModified,
+                NetStorageFileInfo info = new NetStorageFileInfo(response.LastModified.GetValueOrDefault(), response.LastModified.GetValueOrDefault(),
                 path , url, accessUrl, response.ETag, response.ContentLength);
 
                 return info;
@@ -360,7 +361,7 @@ namespace Buffalo.Storage.AWS.S3
                 response = _client.ListObjects(request);
 
 
-                
+
                 foreach (S3Object entry in response.S3Objects)
                 {
                     if (entry.Key.EndsWith("/"))
@@ -369,16 +370,16 @@ namespace Buffalo.Storage.AWS.S3
                     }
                     url = OSSAdapter.GetUrl(_internetUrl, entry.Key);
                     accessUrl = OSSAdapter.GetUrl(_internetUrl, entry.Key);
-                    NetStorageFileInfo info = new NetStorageFileInfo(entry.LastModified, entry.LastModified,
-                            entry.Key, url, accessUrl, entry.ETag, entry.Size);
+                    NetStorageFileInfo info = new NetStorageFileInfo(entry.LastModified.GetValueOrDefault(), entry.LastModified.GetValueOrDefault(),
+                            entry.Key, url, accessUrl, entry.ETag, entry.Size.GetValueOrDefault());
                     lst.Add(info);
 
                 }
 
-                
+
                 request.Marker = response.NextMarker;
             }
-            while (response.IsTruncated);
+            while (response.IsTruncated.GetValueOrDefault());
 
             return lst;
 

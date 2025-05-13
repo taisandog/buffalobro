@@ -14,7 +14,7 @@ namespace Buffalo.MQ
 {
 
 
-    public abstract class MQConnection :IDisposable
+    public abstract class MQConnection :IDisposable, IAsyncDisposable
     {
         /// <summary>
         /// 默认编码
@@ -57,17 +57,17 @@ namespace Buffalo.MQ
         //    }
         //}
 
-        internal bool _isBatch;
-        /// <summary>
-        /// 是否在批量处理中
-        /// </summary>
-        public bool IsBatch
-        {
-            get
-            {
-                return _isBatch;
-            }
-        }
+        //internal bool _isBatch;
+        ///// <summary>
+        ///// 是否在批量处理中
+        ///// </summary>
+        //public bool IsBatch
+        //{
+        //    get
+        //    {
+        //        return _isBatch;
+        //    }
+        //}
         /// <summary>
         /// 发送信息
         /// </summary>
@@ -87,10 +87,36 @@ namespace Buffalo.MQ
         /// <param name="key"></param>
         /// <param name="body"></param>
         /// <returns></returns>
+        public async Task<APIResault> SendAsync(string key, byte[] body)
+        {
+            await OpenAsync();
+            APIResault res = await SendMessageAsync(key, body);
+            //AutoClose();
+            return res;
+        }
+        /// <summary>
+        /// 发送信息
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="body"></param>
+        /// <returns></returns>
         public APIResault Send(string key, string body)
         {
             Open();
             APIResault res = SendMessage(key, body);
+            //AutoClose();
+            return res;
+        }
+        /// <summary>
+        /// 发送信息
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="body"></param>
+        /// <returns></returns>
+        public async Task<APIResault> SendAsync(string key, string body)
+        {
+            await OpenAsync();
+            APIResault res = await SendMessageAsync(key, body);
             //AutoClose();
             return res;
         }
@@ -108,21 +134,49 @@ namespace Buffalo.MQ
             return res;
         }
         /// <summary>
+        /// 发送信息
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="body"></param>
+        /// <returns></returns>
+        public async Task<APIResault> SendAsync(MQSendMessage message)
+        {
+            await OpenAsync();
+            APIResault res = await SendMessageAsync(message);
+            //AutoClose();
+            return res;
+        }
+
+        /// <summary>
         /// 开启事务
         /// </summary>
         /// <returns></returns>
         protected abstract APIResault StartTran();
+        /// <summary>
+        /// 开启事务
+        /// </summary>
+        /// <returns></returns>
+        protected abstract Task<APIResault> StartTranAsync();
         /// <summary>
         /// 提交事务
         /// </summary>
         /// <returns></returns>
         protected abstract APIResault CommitTran();
         /// <summary>
+        /// 提交事务
+        /// </summary>
+        /// <returns></returns>
+        protected abstract Task<APIResault> CommitTranAsync();
+        /// <summary>
         /// 回滚事务
         /// </summary>
         /// <returns></returns>
         protected abstract APIResault RoolbackTran();
-
+        /// <summary>
+        /// 回滚事务
+        /// </summary>
+        /// <returns></returns>
+        protected abstract Task<APIResault> RoolbackTranAsync();
         /// <summary>
         /// 开启事务
         /// </summary>
@@ -140,6 +194,22 @@ namespace Buffalo.MQ
             return new MQTransaction(null);
         }
         /// <summary>
+        /// 开启事务
+        /// </summary>
+        /// <returns></returns>
+        public async Task<MQTransaction> StartTransactionAsync()
+        {
+
+            if (!_isTran)
+            {
+
+                APIResault res= await StartTranAsync();
+                _isTran = true;
+                return new MQTransaction(this);
+            }
+            return new MQTransaction(null);
+        }
+        /// <summary>
         /// 回滚事务
         /// </summary>
         /// <returns></returns>
@@ -149,6 +219,15 @@ namespace Buffalo.MQ
             return RoolbackTran();
         }
         /// <summary>
+        /// 回滚事务
+        /// </summary>
+        /// <returns></returns>
+        internal Task<APIResault> RoolbackTransactionAsync()
+        {
+            _isTran = false;
+            return RoolbackTranAsync();
+        }
+        /// <summary>
         /// 提交事务
         /// </summary>
         /// <returns></returns>
@@ -156,6 +235,15 @@ namespace Buffalo.MQ
         {
             _isTran = false;
             return CommitTran();
+        }
+        /// <summary>
+        /// 提交事务
+        /// </summary>
+        /// <returns></returns>
+        internal Task<APIResault> CommitTransactionAsync()
+        {
+            _isTran = false;
+            return CommitTranAsync();
         }
         ///// <summary>
         ///// 开启批量处理
@@ -170,13 +258,16 @@ namespace Buffalo.MQ
         //    }
         //    return new MQBatchAction(null);
         //}
-        
+
         /// <summary>
         /// 初始化发布者模式
         /// </summary>
         protected abstract void Open();
 
-
+        /// <summary>
+        /// 初始化发布者模式
+        /// </summary>
+        protected abstract Task OpenAsync();
 
         /// <summary>
         /// 发布内容
@@ -184,7 +275,12 @@ namespace Buffalo.MQ
         /// <param name="mess">内容类</param>
         /// <returns></returns>
         protected abstract APIResault SendMessage(MQSendMessage mess);
-
+        /// <summary>
+        /// 发布内容
+        /// </summary>
+        /// <param name="mess">内容类</param>
+        /// <returns></returns>
+        protected abstract Task<APIResault> SendMessageAsync(MQSendMessage mess);
         /// <summary>
         /// 发布内容
         /// </summary>
@@ -198,11 +294,31 @@ namespace Buffalo.MQ
         /// <param name="key">筛选的键</param>
         /// <param name="body">内容</param>
         /// <returns></returns>
+        protected abstract Task<APIResault> SendMessageAsync(string key, byte[] body);
+        /// <summary>
+        /// 发布内容
+        /// </summary>
+        /// <param name="key">筛选的键</param>
+        /// <param name="body">内容</param>
+        /// <returns></returns>
         protected virtual APIResault SendMessage(string key, string body)
         {
             byte[] content = DefaultEncoding.GetBytes(body);
 
             return SendMessage(key, content);
+
+        }
+        /// <summary>
+        /// 发布内容
+        /// </summary>
+        /// <param name="key">筛选的键</param>
+        /// <param name="body">内容</param>
+        /// <returns></returns>
+        protected virtual Task<APIResault> SendMessageAsync(string key, string body)
+        {
+            byte[] content = DefaultEncoding.GetBytes(body);
+
+            return SendMessageAsync(key, content);
 
         }
         ///// <summary>
@@ -218,6 +334,10 @@ namespace Buffalo.MQ
         /// 关闭连接
         /// </summary>
         public abstract void Close();
+        /// <summary>
+        /// 关闭连接
+        /// </summary>
+        public abstract Task CloseAsync();
         ///// <summary>
         ///// 自动关闭
         ///// </summary>
@@ -232,6 +352,13 @@ namespace Buffalo.MQ
         public void Dispose()
         {
             Close();
+
+            GC.SuppressFinalize(this);
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            await CloseAsync();
 
             GC.SuppressFinalize(this);
         }
