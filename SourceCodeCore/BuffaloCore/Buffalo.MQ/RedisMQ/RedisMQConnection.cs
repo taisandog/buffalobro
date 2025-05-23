@@ -2,6 +2,7 @@
 using Buffalo.Kernel;
 using StackExchange.Redis;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,6 +25,8 @@ namespace Buffalo.MQ.RedisMQ
         
         private Queue<MQRedisMessage> _que = null;
         private IDatabase _db;
+       
+
         /// <summary>
         /// RabbitMQ适配
         /// </summary>
@@ -63,6 +66,7 @@ namespace Buffalo.MQ.RedisMQ
             {
                 return;
             }
+            
             lock (this)
             {
                 if (IsOpen)
@@ -109,10 +113,12 @@ namespace Buffalo.MQ.RedisMQ
             if (_db == null)
             {
                 _db = _redis.GetDatabase(_config.UseDatabase);
+                
             }
+            
             return _db;
         }
-
+       
 
         public override bool IsOpen
         {
@@ -183,13 +189,24 @@ namespace Buffalo.MQ.RedisMQ
                     _subscriber.Publish(topic, body, _config.CommanfFlags);
                 }
             }
-            else 
+            if (_config.Mode == RedisMQMessageMode.Stream)
+            {
+
+                _db.StreamAdd(topic, new NameValueEntry[]
+                {
+                    new NameValueEntry(_config.DefaultStreamDataKey, body)
+                });
+            }
+            else
             {
                 string key = _config.GetDefaultQueueKey(topic);
                 IDatabase db = GetDB();
                 db.ListLeftPush(key, body);
+
             }
+            
         }
+        
         /// <summary>
         /// 发送信息
         /// </summary>
@@ -204,14 +221,23 @@ namespace Buffalo.MQ.RedisMQ
                 {
 
                     string key = _config.GetDefaultQueueKey(topic);
-                    IDatabase db = GetDB();
+                    IDatabase db =GetDB();
                     ret = await db.ListLeftPushAsync(key, body);
                     ret = await _subscriber.PublishAsync(topic, RedisMQConfig.PublicTag, _config.CommanfFlags);
                 }
+
                 else
                 {
                     ret = await _subscriber.PublishAsync(topic, body, _config.CommanfFlags);
                 }
+            }
+            if (_config.Mode == RedisMQMessageMode.Stream)
+            {
+
+                await _db.StreamAddAsync(topic, new NameValueEntry[]
+                {
+                    new NameValueEntry(_config.DefaultStreamDataKey, body)
+                });
             }
             else
             {

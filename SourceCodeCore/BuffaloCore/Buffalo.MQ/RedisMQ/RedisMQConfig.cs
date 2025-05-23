@@ -26,6 +26,10 @@ namespace Buffalo.MQ.RedisMQ
         /// 阻塞队列
         /// </summary>
         BlockQueue = 2,
+        /// <summary>
+        /// Stream模式(需要Ack)
+        /// </summary>
+        Stream = 3,
     }
     /// <summary>
     /// 格式化key的委托
@@ -69,10 +73,31 @@ namespace Buffalo.MQ.RedisMQ
         public int PollingInterval = 500;
 
         private int _useDatabase;
+
         /// <summary>
-        /// 使用阻塞队列
+        /// 消费者(Stream模式)
         /// </summary>
-        public bool UseBlockQueue=false;
+        public string ConsumerName;
+        /// <summary>
+        /// 组名(Stream模式)
+        /// </summary>
+        public string ConsumerGroupName;
+        /// <summary>
+        /// 消费组流起始(Stream模式)
+        /// </summary>
+        public RedisValue ConsumerGroupPosition =StreamPosition.NewMessages;
+        /// <summary>
+        /// 读取消息时候的流位置(Stream模式,如：>)
+        /// </summary>
+        public string ReadGroupPosition=">";
+        /// <summary>
+        /// 每次读取的记录数(Stream模式)
+        /// </summary>
+        public int StreamPageSize=10;
+        /// <summary>
+        /// 默认消息键(Stream模式)
+        /// </summary>
+        public string DefaultStreamDataKey = "bufmq.data";
         /// <summary>
         /// 使用数据库
         /// </summary>
@@ -80,6 +105,7 @@ namespace Buffalo.MQ.RedisMQ
         {
             get
             {
+                
                 return _useDatabase;
             }
         }
@@ -125,6 +151,7 @@ namespace Buffalo.MQ.RedisMQ
             Options.SyncTimeout = hs.GetDicValue<string, string>("syncTimeout").ConvertTo<int>(1000);
             string strmode = hs.GetDicValue<string, string>("messageMode");
             int mode = 0;
+            
             Mode = RedisMQMessageMode.Subscriber;//消息模式
             if (int.TryParse(strmode, out mode)) 
             {
@@ -141,10 +168,10 @@ namespace Buffalo.MQ.RedisMQ
             }
 
             PollingInterval= hs.GetDicValue<string, string>("pInterval").ConvertTo<int>(0);//轮询间隔时间(毫秒)
-            //if (PollingInterval < 10) 
-            //{
-            //    PollingInterval = 10;
-            //}
+
+            ConsumerName = hs.GetDicValue<string, string>("consumerName");
+
+            ConsumerGroupName = hs.GetDicValue<string, string>("consumerGroupName");
 
             if (servers.Count > 0)
             {

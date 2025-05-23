@@ -68,8 +68,8 @@ namespace Buffalo.MQ.RabbitMQ
             {
                 return;
             }
-
             
+
             _connection = await _config.Factory.CreateConnectionAsync();
             _channel =await _connection.CreateChannelAsync();
             //IBasicProperties properties = _channel.CreateBasicProperties();

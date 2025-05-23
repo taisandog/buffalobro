@@ -1,6 +1,7 @@
 ﻿using Buffalo.Kernel.Collections;
 using Buffalo.Kernel.TreadPoolManager;
 using Confluent.Kafka;
+using Newtonsoft.Json.Linq;
 using StackExchange.Redis;
 using System;
 using System.Collections.Concurrent;
@@ -77,9 +78,12 @@ namespace Buffalo.MQ.RedisMQ
             if (_db == null)
             {
                 _db = _redis.GetDatabase(_config.UseDatabase);
+                
             }
+
             return _db;
         }
+        
         private void OnRedisCallback(RedisChannel key, RedisValue value)
         {
             string skey = key.ToString();
@@ -269,6 +273,71 @@ namespace Buffalo.MQ.RedisMQ
 
             }
         }
+        /// <summary>
+        /// Stream方式监听
+        /// </summary>
+        /// <param name="objKeys"></param>
+        public void DoStreamListening(object objKeys)
+        {
+            string listenKey = objKeys as string;
+            if (string.IsNullOrWhiteSpace(listenKey))
+            {
+                return;
+            }
+            string pkey = GetQueueKey(listenKey);
+            IDatabase db = GetDB();
+
+            int sleep = _config.PollingInterval;
+            if (sleep <= 0)
+            {
+                sleep = 50;
+            }
+            RedisValue tmpval = RedisValue.Null;
+            byte[] svalue = null;
+            while (_pollrunning)
+            {
+                
+                try
+                {
+                    StreamEntry[] entries = db.StreamReadGroup(
+                    pkey,
+                    _config.ConsumerGroupName,
+                    _config.ConsumerName,
+                    _config.ReadGroupPosition, // 从未处理的消息开始读取
+                    count: _config.StreamPageSize // 每次读取10条
+                    );
+                    if (entries.Length <= 0)
+                    {
+                        Thread.Sleep(sleep);
+                        continue;
+                    }
+                    foreach (var entry in entries)
+                    {
+                        try
+                        {
+                            tmpval = entry[RedisMQConfig.DefaultStreamDataKey];
+                            svalue = tmpval;
+                            
+                            RedisCallbackMessage mess = new RedisCallbackMessage(listenKey, svalue,db,_config.ConsumerGroupName,entry.Id,
+                                _config.CommanfFlags);
+                            CallBack(mess);
+                            
+                        }
+                        catch (Exception ex)
+                        {
+                            OnException(ex);
+                            Thread.Sleep(300);
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    OnException(e);
+                    Thread.Sleep(300);
+                }
+            }
+
+        }
 
         /// <summary>
         /// 开始监听
@@ -330,11 +399,25 @@ namespace Buffalo.MQ.RedisMQ
                         _thdPolling.RunParamThread(DoBlockPopListening, lisKey.Key);
                     }
                     break;
+                case RedisMQMessageMode.Stream://阻塞队列不需要Open，自己新建连接池
+                   
+                    foreach (MQOffestInfo lisKey in listenKeys)
+                    {
+                        try
+                        {
+                            _db.StreamCreateConsumerGroup(lisKey.Key, _config.ConsumerGroupName,
+                                _config.ConsumerGroupPosition, _config.CommanfFlags);
+                        }
+                        catch (Exception ex) { }
+                        _pollrunning = true;
+                        _thdPolling.RunParamThread(DoStreamListening, lisKey.Key);
+                    }
+                    break;
                 default:
                     break;
             }
             SetWait();
-
+            
             //StartListend(MQUnit.GetLintenKeys(listenKeys));
         }
         /// <summary>
