@@ -189,14 +189,40 @@ namespace AddInSetup
         private void tsIndex_Click(object sender, EventArgs e)
         {
             string page = System.Configuration.ConfigurationManager.AppSettings["App.Index"];
-            Process.Start(page);
+          
+            try
+            {
+                // 使用默认浏览器打开链接
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = page,
+                    UseShellExecute = true // 确保使用系统默认程序打开
+                });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"打开链接失败: {ex.Message}", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void tsVedio_Click(object sender, EventArgs e)
         {
             string page = System.Configuration.ConfigurationManager.AppSettings["App.TechVedio"];
-            Process.Start(page);
             
+            try
+            {
+                // 使用默认浏览器打开链接
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = page,
+                    UseShellExecute = true // 确保使用系统默认程序打开
+                });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"打开链接失败: {ex.Message}", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        
         }
 
         private void tsNew_Click(object sender, EventArgs e)

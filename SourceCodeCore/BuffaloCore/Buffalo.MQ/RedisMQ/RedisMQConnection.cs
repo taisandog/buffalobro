@@ -34,6 +34,7 @@ namespace Buffalo.MQ.RedisMQ
         public RedisMQConnection(RedisMQConfig config)
         {
             _config = config;
+            
         }
 
 
@@ -174,13 +175,14 @@ namespace Buffalo.MQ.RedisMQ
         /// <param name="body"></param>
         private void SendToPublic(string topic, byte[] body)
         {
+            IDatabase db = GetDB();
             if (_config.Mode == RedisMQMessageMode.Subscriber)
             {
                 if (_config.SaveToQueue)
                 {
 
                     string key = _config.GetDefaultQueueKey(topic);
-                    IDatabase db = GetDB();
+                    
                     db.ListLeftPush(key, body);
                     _subscriber.Publish(topic, RedisMQConfig.PublicTag, _config.CommanfFlags);
                 }
@@ -192,7 +194,7 @@ namespace Buffalo.MQ.RedisMQ
             if (_config.Mode == RedisMQMessageMode.Stream)
             {
 
-                _db.StreamAdd(topic, new NameValueEntry[]
+                db.StreamAdd(topic, new NameValueEntry[]
                 {
                     new NameValueEntry(_config.DefaultStreamDataKey, body)
                 });
@@ -200,7 +202,7 @@ namespace Buffalo.MQ.RedisMQ
             else
             {
                 string key = _config.GetDefaultQueueKey(topic);
-                IDatabase db = GetDB();
+                
                 db.ListLeftPush(key, body);
 
             }

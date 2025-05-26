@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <Version>1.8.13</Version>
+    <Version>1.9.2</Version>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
@@ -10,6 +10,10 @@
     <Compile Remove="MQTTLib\MQTTNet\**" />
     <EmbeddedResource Remove="MQTTLib\MQTTNet\**" />
     <None Remove="MQTTLib\MQTTNet\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="MQOffestInfo.cs" />
   </ItemGroup>
 
   <ItemGroup>

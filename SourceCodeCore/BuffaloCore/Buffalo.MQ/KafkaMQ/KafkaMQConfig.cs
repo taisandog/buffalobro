@@ -23,6 +23,16 @@ namespace Buffalo.MQ.KafkaMQ
         public readonly ProducerConfig TranProducerConfig;
 
         private ProducerBuilder<byte[], byte[]> _producerBuilder;
+
+        /// <summary>
+        /// 话题分区起始位置
+        /// </summary>
+        public int TopicPartitionOffset = 0;
+
+        /// <summary>
+        /// 话题分区
+        /// </summary>
+        public int TopicPartitionIndex = 0;
         /// <summary>
         /// 生产者构造器
         /// </summary>

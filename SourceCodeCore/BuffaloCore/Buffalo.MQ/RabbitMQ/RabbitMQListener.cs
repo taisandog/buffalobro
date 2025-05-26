@@ -39,8 +39,8 @@ namespace Buffalo.MQ.RabbitMQ
         /// </summary>
         private async Task OpenAsync()
         {
-            
 
+            
             _connection = await _config.Factory.CreateConnectionAsync();
             _channel = await _connection.CreateChannelAsync();
             //IBasicProperties properties = _channel.CreateBasicProperties();
@@ -84,9 +84,10 @@ namespace Buffalo.MQ.RabbitMQ
         /// </summary>
         public override void StartListend(IEnumerable<string> listenKeys)
         {
-            
+           
             OpenAsync().Wait();
             ResetWait();
+
             AsyncEventingBasicConsumer consumer = new AsyncEventingBasicConsumer(_channel);
             if (_config.QueueName != null)
             {
@@ -107,15 +108,15 @@ namespace Buffalo.MQ.RabbitMQ
             consumer.ReceivedAsync += Consumer_Received;
             SetWait();
         }
-        public override void StartListend(IEnumerable<MQOffestInfo> listenKeys)
-        {
-            StartListend(MQUnit.GetLintenKeys(listenKeys));
-        }
+        //public override void StartListend(IEnumerable<MQOffestInfo> listenKeys)
+        //{
+        //    StartListend(MQUnit.GetLintenKeys(listenKeys));
+        //}
         private async Task Consumer_Received(object sender, BasicDeliverEventArgs e)
         {
             RabbitCallbackMessage mess = new RabbitCallbackMessage(e.RoutingKey, e.Exchange, e.Body.ToArray(), _channel, e);
            
-            CallBack(mess);
+            await CallBack(mess);
             //_channel.BasicAck(e.DeliveryTag, false);//手动应答
         }
 
@@ -136,7 +137,7 @@ namespace Buffalo.MQ.RabbitMQ
                 }
                 catch (Exception ex)
                 {
-                    OnException(ex);
+                    OnException(ex).Wait();
                 }
                 _channel = null;
             }
@@ -148,11 +149,11 @@ namespace Buffalo.MQ.RabbitMQ
                 }
                 catch (Exception ex)
                 {
-                    OnException(ex);
+                    OnException(ex).Wait();
                 }
                 _connection = null;
             }
-            DisponseWait();
+            DisponseWait().Wait();
         }
     }
 }

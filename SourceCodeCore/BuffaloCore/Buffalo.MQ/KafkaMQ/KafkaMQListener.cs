@@ -28,15 +28,15 @@ namespace Buffalo.MQ.KafkaMQ
             _thd = BlockThread.Create(OnListend);
             _thd.StartThread(listenKeys);
         }
-        public override void StartListend(IEnumerable<MQOffestInfo> listenKeys)
-        {
-            _running = new CancellationTokenSource();
-            //_handle = new AutoResetEvent(true);
-            ResetWait();
-            _thd = BlockThread.Create(OnListend);
+        //public override void StartListend(IEnumerable<MQOffestInfo> listenKeys)
+        //{
+        //    _running = new CancellationTokenSource();
+        //    //_handle = new AutoResetEvent(true);
+        //    ResetWait();
+        //    _thd = BlockThread.Create(OnListend);
 
-            _thd.StartThread(listenKeys);
-        }
+        //    _thd.StartThread(listenKeys);
+        //}
         
         public override void Close()
         {
@@ -50,9 +50,9 @@ namespace Buffalo.MQ.KafkaMQ
         /// </summary>
         private void OnListend(object arg)
         {
-            IEnumerable<string> topics = MQUnit.GetLintenKeys(arg);
+            IEnumerable<string> topics = arg as IEnumerable<string>;
 
-            IEnumerable<MQOffestInfo> topicsOffest = MQUnit.GetLintenOffest(arg);
+            //IEnumerable<MQOffestInfo> topicsOffest = MQUnit.GetLintenOffest(arg);
 
             ConsumerBuilder<byte[], byte[]> builder = _config.KConsumerBuilder;
 
@@ -63,16 +63,17 @@ namespace Buffalo.MQ.KafkaMQ
                 
                 consumer.Subscribe(topics);
                 
-                if (topicsOffest != null)
-                {
+                //if (topicsOffest != null)
+                //{
                     
-                    foreach (MQOffestInfo info in topicsOffest)
+                    foreach (string key in topics)
                     {
                         for (int i = 0; i < 50; i++)
                         {
                             try
                             {
-                                consumer.Seek(new TopicPartitionOffset(new TopicPartition(info.Key, info.Partition), info.Offest));
+                                consumer.Seek(new TopicPartitionOffset(new TopicPartition(key, _config.TopicPartitionIndex), 
+                                    _config.TopicPartitionOffset));
                                 break;
                             }
                             catch(Exception ex)
@@ -84,7 +85,7 @@ namespace Buffalo.MQ.KafkaMQ
                         }
 
                     }
-                }
+                //}
                 
                 try
                 {
@@ -96,12 +97,12 @@ namespace Buffalo.MQ.KafkaMQ
                             ConsumeResult<byte[], byte[]> res = consumer.Consume(token);
                             KafkaCallbackMessage mess = new KafkaCallbackMessage(res.Topic,res.Message.Value,
                                 res.Partition, res.Offset, consumer, res);
-                            CallBack(mess);
+                            CallBack(mess).Wait();
                             //consumer.Commit(res);
                         }
                         catch (Exception ex)
                         {
-                            OnException(ex);
+                            OnException(ex).Wait();
                         }
                     }
                 }
@@ -127,7 +128,7 @@ namespace Buffalo.MQ.KafkaMQ
 
                 catch (Exception ex)
                 {
-                    OnException(ex);
+                    OnException(ex).Wait();
                 }
             }
 
@@ -151,7 +152,7 @@ namespace Buffalo.MQ.KafkaMQ
             //    }
             //}
             //_handle = null;
-            DisponseWait();
+            DisponseWait().Wait();
         }
 
         public override void Dispose()

@@ -89,7 +89,7 @@ namespace Buffalo.MQ.RedisMQ
         /// <summary>
         /// 读取消息时候的流位置(Stream模式,如：>)
         /// </summary>
-        public string ReadGroupPosition=">";
+        public string ReadGroupPosition= ">";
         /// <summary>
         /// 每次读取的记录数(Stream模式)
         /// </summary>

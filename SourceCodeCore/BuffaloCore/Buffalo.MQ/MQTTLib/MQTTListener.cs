@@ -22,7 +22,7 @@ namespace Buffalo.MQ.MQTTLib
         MqttClient _mqttClient2 = null;
         MqttClientOptions _options = null;
         private static Encoding DefaultEncoding = Encoding.UTF8;
-        IEnumerable<MQOffestInfo> _lstTopic = null;
+        IEnumerable<string> _lstTopic = null;
         bool _isRunning = false;
         /// <summary>
         /// RabbitMQ适配
@@ -80,44 +80,44 @@ namespace Buffalo.MQ.MQTTLib
 
         
 
-        private Task ApplicationMessageReceivedAsync(MqttApplicationMessageReceivedEventArgs arg)
+        private async Task ApplicationMessageReceivedAsync(MqttApplicationMessageReceivedEventArgs arg)
         {
             try
             {
-                byte[] value = arg.ApplicationMessage.Payload;
+                byte[] value = arg.ApplicationMessage.PayloadSegment.ToArray();
+
+                ;
                 string topic = arg.ApplicationMessage.Topic;
                 //string qos = e.ApplicationMessage.QualityOfServiceLevel.ToString();
                 //string retained = e.ApplicationMessage.Retain.ToString();
                 MQTTCallbackMessage message = new MQTTCallbackMessage(topic, value, arg);
-                CallBack(message);
+                await CallBack(message);
                 
 
 
             }
             catch (Exception exp)
             {
-                OnException(exp);
+                await OnException(exp);
             }
-            return Task.CompletedTask;
         }
 
         MqttClientSubscribeOptions _option = null;
 
 
 
-        private Task Connected(MqttClientConnectedEventArgs e)
+        private async Task Connected(MqttClientConnectedEventArgs e)
         {
             try
             {
-                Task<MqttClientSubscribeResult> tsk2 = SubTopic();
-                MqttClientSubscribeResult res1 = tsk2.Result;
+                MqttClientSubscribeResult res1 = await SubTopic();
+                 
 
             }
             catch (Exception exp)
             {
-                OnException(exp);
+                await OnException(exp);
             }
-            return Task.CompletedTask;
         }
 
         private  Task<MqttClientSubscribeResult> SubTopic() 
@@ -125,9 +125,9 @@ namespace Buffalo.MQ.MQTTLib
             if (_option == null)
             {
                 MqttClientSubscribeOptionsBuilder subBuilder = new MqttClientSubscribeOptionsBuilder();
-                foreach (MQOffestInfo info in _lstTopic)
+                foreach (string key in _lstTopic)
                 {
-                    subBuilder.WithTopicFilter(info.Key, _config.QualityOfServiceLevel, _config.NoLocal.GetValueOrDefault(),
+                    subBuilder.WithTopicFilter(key, _config.QualityOfServiceLevel, _config.NoLocal.GetValueOrDefault(),
                         _config.RetainAsPublished.GetValueOrDefault(false), _config.RetainHandling.GetValueOrDefault(MqttRetainHandling.SendAtSubscribe));
                     //subBuilder.WithTopicFilter(info.Key, _config.QualityOfServiceLevel, _config.NoLocal.GetValueOrDefault(),
                     //    _config.RetainAsPublished.GetValueOrDefault(false), _config.RetainHandling.GetValueOrDefault(MqttRetainHandling.SendAtSubscribe));
@@ -155,7 +155,7 @@ namespace Buffalo.MQ.MQTTLib
                 }
                 catch (Exception exp)
                 {
-                    OnException(exp);
+                    await OnException(exp);
                 }
                 if (OnDisconnected != null) 
                 {
@@ -164,7 +164,7 @@ namespace Buffalo.MQ.MQTTLib
             }
             catch (Exception exp)
             {
-                OnException(exp);
+                await OnException(exp);
             }
             return ;
         }
@@ -172,15 +172,17 @@ namespace Buffalo.MQ.MQTTLib
 
         public override void StartListend(IEnumerable<string> listenKeys)
         {
-            StartListend(MQUnit.GetLintenOffest(listenKeys));
-            
-        }
-        public override void StartListend(IEnumerable<MQOffestInfo> listenKeys)
-        {
+            //StartListend(MQUnit.GetLintenOffest(listenKeys));
             _lstTopic = listenKeys;
-            
+
             Open();
         }
+        //public override void StartListend(IEnumerable<MQOffestInfo> listenKeys)
+        //{
+        //    _lstTopic = listenKeys;
+            
+        //    Open();
+        //}
         /// <summary>
         /// 关闭连接
         /// </summary>
@@ -196,7 +198,7 @@ namespace Buffalo.MQ.MQTTLib
                 }
                 catch (Exception ex)
                 {
-                    OnException(ex);
+                    OnException(ex).Wait();
                 }
                 _mqttClient2 = null;
             }

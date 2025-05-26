@@ -1,6 +1,8 @@
-﻿using Buffalo.Kernel.Collections;
+﻿using Buffalo.Kernel;
+using Buffalo.Kernel.Collections;
 using Buffalo.Kernel.TreadPoolManager;
 using Confluent.Kafka;
+using MQTTnet.Internal;
 using Newtonsoft.Json.Linq;
 using StackExchange.Redis;
 using System;
@@ -90,13 +92,13 @@ namespace Buffalo.MQ.RedisMQ
             
             if (_config.SaveToQueue)
             {
-                FlushQueue(skey);
+                FlushQueueAsync(skey).Wait();
             }
             else
             {
                 byte[] svalue = (byte[])value;
                 RedisCallbackMessage mess = new RedisCallbackMessage(skey, svalue);
-                CallBack(mess);
+                CallBack(mess).Wait();
             }
         }
 
@@ -122,21 +124,27 @@ namespace Buffalo.MQ.RedisMQ
         /// <summary>
         /// 读入队列信息
         /// </summary>
-        private long FlushQueue(string skey)
+        private async Task<long> FlushQueueAsync(string skey)
         {
             string pkey = GetQueueKey(skey);
             IDatabase db = GetDB();
-            return FlushQueue(skey, pkey, db);
+            return await FlushQueueAsync(skey, pkey, db);
         }
+       
         /// <summary>
         /// 读入队列信息
         /// </summary>
-        private long FlushQueue(string skey, string pkey, IDatabase db)
+        private async Task<long> FlushQueueAsync(string skey, string pkey, IDatabase db)
         {
-            object lok = _lok.GetObject(skey);
+            
+            
             long count = 0;
-            lock (lok)
+            using (AsyncTaskLock<string> lok = new AsyncTaskLock<string>(pkey))
             {
+                if (! (await lok.LockAsync())) 
+                {
+                    return 0;
+                }
                 //string pkey = GetQueueKey(skey);
                 byte[] svalue = null;
                 //IDatabase db = GetDB();
@@ -146,37 +154,38 @@ namespace Buffalo.MQ.RedisMQ
                 {
                     try
                     {
-                        tmpval = db.ListRightPop(pkey, _config.CommanfFlags);
+                        tmpval =await db.ListRightPopAsync(pkey, _config.CommanfFlags);
                         if (!tmpval.HasValue)
                         {
                             break;
                         }
                         svalue = tmpval;
                         RedisCallbackMessage mess = new RedisCallbackMessage(skey, svalue);
-                        CallBack(mess);
+                        await CallBack(mess);
                         count++;
                     }
                     catch (Exception ex)
                     {
-                        OnException(ex);
-                        Thread.Sleep(300);
+                        await OnException(ex);
+                       await Task.Delay(300);
                     }
 
                 } while (tmpval.HasValue);
             }
             return count;
+            
         }
 
-        public override void StartListend(IEnumerable<string> listenKeys)
-        {
-            List<MQOffestInfo> listenKeyInfos = new List<MQOffestInfo>();
-            foreach (string listenKey in listenKeys) 
-            {
-                MQOffestInfo info = new MQOffestInfo(listenKey, 0, 0, _config.GetDefaultQueueKey(listenKey));
-                listenKeyInfos.Add(info);
-            }
-            StartListend(listenKeyInfos);
-        }
+        //public override void StartListend(IEnumerable<string> listenKeys)
+        //{
+        //    List<MQOffestInfo> listenKeyInfos = new List<MQOffestInfo>();
+        //    foreach (string listenKey in listenKeys) 
+        //    {
+        //        MQOffestInfo info = new MQOffestInfo(listenKey,  _config.GetDefaultQueueKey(listenKey));
+        //        listenKeyInfos.Add(info);
+        //    }
+        //    StartListend(listenKeyInfos);
+        //}
 
         /// <summary>
         /// 轮询方式监听
@@ -199,7 +208,8 @@ namespace Buffalo.MQ.RedisMQ
             }
             while (_pollrunning)
             {
-                FlushQueue(listenKey, pkey, db);
+                FlushQueueAsync(listenKey, pkey, db).Wait();
+
                 Thread.Sleep(sleep);
             }
 
@@ -257,7 +267,7 @@ namespace Buffalo.MQ.RedisMQ
                         svalue = tmpval;
 
                         RedisCallbackMessage mess = new RedisCallbackMessage(listenKey, svalue);
-                        CallBack(mess);
+                        CallBack(mess).Wait();
 
                     }
                     catch (TimeoutException tex)
@@ -266,7 +276,7 @@ namespace Buffalo.MQ.RedisMQ
                     }
                     catch (Exception e)
                     {
-                        OnException(e);
+                        OnException(e).Wait();
                         Thread.Sleep(300);
                     }
                 }
@@ -284,8 +294,15 @@ namespace Buffalo.MQ.RedisMQ
             {
                 return;
             }
-            string pkey = GetQueueKey(listenKey);
-            IDatabase db = GetDB();
+
+            //string pkey = GetQueueKey(listenKey);
+            string pkey = listenKey;
+            IDatabase db = GetDB ();
+
+            db.StreamAdd(pkey, new NameValueEntry[]
+                {
+                    new NameValueEntry(_config.DefaultStreamDataKey, new byte[]{ })
+                });
 
             int sleep = _config.PollingInterval;
             if (sleep <= 0)
@@ -299,7 +316,7 @@ namespace Buffalo.MQ.RedisMQ
                 
                 try
                 {
-                    StreamEntry[] entries = db.StreamReadGroup(
+                    StreamEntry[] entries =db.StreamReadGroup(
                     pkey,
                     _config.ConsumerGroupName,
                     _config.ConsumerName,
@@ -315,24 +332,36 @@ namespace Buffalo.MQ.RedisMQ
                     {
                         try
                         {
-                            tmpval = entry[RedisMQConfig.DefaultStreamDataKey];
+                            tmpval = entry[_config.DefaultStreamDataKey];
                             svalue = tmpval;
-                            
+                            if(svalue == null || svalue.Length <= 0) 
+                            {
+                                RedisCallbackMessage messEmpty = new RedisCallbackMessage(listenKey, svalue, db, _config.ConsumerGroupName, entry.Id,
+                               _config.CommanfFlags);
+
+                                messEmpty.Commit();
+                                continue;
+                            }
                             RedisCallbackMessage mess = new RedisCallbackMessage(listenKey, svalue,db,_config.ConsumerGroupName,entry.Id,
                                 _config.CommanfFlags);
-                            CallBack(mess);
+                            CallBack(mess).Wait();
                             
                         }
                         catch (Exception ex)
                         {
-                            OnException(ex);
+                            OnException(ex).Wait();
                             Thread.Sleep(300);
                         }
+                    }
+                    if (entries.Length < _config.StreamPageSize)
+                    {
+                        Thread.Sleep(sleep);
+                        continue;
                     }
                 }
                 catch (Exception e)
                 {
-                    OnException(e);
+                    OnException(e).Wait();
                     Thread.Sleep(300);
                 }
             }
@@ -343,74 +372,78 @@ namespace Buffalo.MQ.RedisMQ
         /// 开始监听
         /// </summary>
         /// <param name="listenKeys"></param>
-        public override void StartListend(IEnumerable<MQOffestInfo> listenKeys)
+        public override void StartListend(IEnumerable<string> listenKeys)
         {
             Close();
             
 
             ResetWait();
+            Open();
+
             string queKey = null;
             switch (_config.Mode)
             {
                 case RedisMQMessageMode.Subscriber:
                 _dicTopicToQueue = new Dictionary<string, string>();
-                    Open();
-                    foreach (MQOffestInfo lis in listenKeys)
+                    
+                    foreach (string key in listenKeys)
                     {
-                        queKey = lis.QueueKey;
+                        queKey = _config.GetDefaultQueueKey(key) ;
                         if (string.IsNullOrWhiteSpace(queKey))
                         {
-                            queKey = _config.GetDefaultQueueKey(lis.Key);
+                            queKey = _config.GetDefaultQueueKey(key);
                         }
-                        _dicTopicToQueue[lis.Key] = queKey;
+                        _dicTopicToQueue[key] = queKey;
                     }
 
                     if (_config.SaveToQueue)
                     {
-                        foreach (MQOffestInfo lis in listenKeys)
+                        foreach (string key in listenKeys)
                         {
-                            FlushQueue(lis.Key);
+                            FlushQueueAsync(key).Wait();
                         }
                     }
 
                     _subscriber = _redis.GetSubscriber();
-                    foreach (MQOffestInfo lis in listenKeys)
+                    foreach (string key in listenKeys)
                     {
-                        _subscriber.Subscribe(lis.Key, OnRedisCallback, _config.CommanfFlags);
+                        _subscriber.Subscribe(key, OnRedisCallback, _config.CommanfFlags);
                     }
                     break;
 
                 case RedisMQMessageMode.Polling:
-                    Open();
+                   
                     _thdPolling = new BlockThreadPool();
                     _pollrunning = true;
 
-                    foreach (MQOffestInfo lisKey in listenKeys)
+                    foreach (string lisKey in listenKeys)
                     {
-                        _thdPolling.RunParamThread(DoListening, lisKey.Key);
+                        _thdPolling.RunParamThread(DoListening, lisKey);
                     }
                     break;
                 case RedisMQMessageMode.BlockQueue://阻塞队列不需要Open，自己新建连接池
                     _thdPolling = new BlockThreadPool();
                     _pollrunning = true;
                     _queRedis = new ConcurrentQueue<ConnectionMultiplexer>();
-                    foreach (MQOffestInfo lisKey in listenKeys)
+                    foreach (string lisKey in listenKeys)
                     {
-                        _thdPolling.RunParamThread(DoBlockPopListening, lisKey.Key);
+                        _thdPolling.RunParamThread(DoBlockPopListening, lisKey);
                     }
                     break;
                 case RedisMQMessageMode.Stream://阻塞队列不需要Open，自己新建连接池
-                   
-                    foreach (MQOffestInfo lisKey in listenKeys)
+                    
+                    IDatabase db = GetDB();
+                    foreach (string lisKey in listenKeys)
                     {
                         try
                         {
-                            _db.StreamCreateConsumerGroup(lisKey.Key, _config.ConsumerGroupName,
+                            db.StreamCreateConsumerGroup(lisKey, _config.ConsumerGroupName,
                                 _config.ConsumerGroupPosition, _config.CommanfFlags);
                         }
                         catch (Exception ex) { }
                         _pollrunning = true;
-                        _thdPolling.RunParamThread(DoStreamListening, lisKey.Key);
+                        _thdPolling = new BlockThreadPool();
+                        _thdPolling.RunParamThread(DoStreamListening, lisKey);
                     }
                     break;
                 default:
@@ -436,7 +469,7 @@ namespace Buffalo.MQ.RedisMQ
                 }
                 catch (Exception ex)
                 {
-                    OnException(ex);
+                    OnException(ex).Wait();
                 }
             }
 
@@ -478,7 +511,7 @@ namespace Buffalo.MQ.RedisMQ
                 }
             }
             _queRedis = null;
-            DisponseWait();
+            DisponseWait().Wait();
         }
 
         public override void Dispose()

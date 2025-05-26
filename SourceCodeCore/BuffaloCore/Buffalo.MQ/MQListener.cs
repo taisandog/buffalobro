@@ -9,14 +9,19 @@ namespace Buffalo.MQ
 {
     public delegate void DelOnMQReceived(MQListener sender, MQCallBackMessage message);
 
-    public delegate void DelOnMQException(MQListener sender, Exception ex);
+
+    public delegate Task DelOnMQReceivedAsync(MQListener sender, MQCallBackMessage message);
+
+
+    public delegate Task DelOnMQException(MQListener sender, Exception ex);
 
     public abstract class MQListener
     {
         /// <summary>
         /// 接收数据
         /// </summary>
-        public event DelOnMQReceived OnMQReceived;
+        public event DelOnMQReceivedAsync OnMQReceivedAsync;
+
         /// <summary>
         /// 发生异常
         /// </summary>
@@ -27,11 +32,11 @@ namespace Buffalo.MQ
         /// </summary>
         /// <param name="listenKeys">监听键</param>
         public abstract void StartListend(IEnumerable<string> listenKeys);
-        /// <summary>
-        /// 打开事件监听
-        /// </summary>
-        /// <param name="listenKeys">监听键</param>
-        public abstract void StartListend(IEnumerable<MQOffestInfo> listenKeys);
+        ///// <summary>
+        ///// 打开事件监听
+        ///// </summary>
+        ///// <param name="listenKeys">监听键</param>
+        //public abstract void StartListend(IEnumerable<MQOffestInfo> listenKeys);
 
         public abstract void Dispose();
 
@@ -74,7 +79,7 @@ namespace Buffalo.MQ
         /// <summary>
         /// 清空阻塞
         /// </summary>
-        protected void DisponseWait()
+        protected async Task DisponseWait()
         {
             if (_startHandle != null)
             {
@@ -84,7 +89,7 @@ namespace Buffalo.MQ
                 }
                 catch (Exception ex)
                 {
-                    OnException(ex);
+                    await OnException(ex);
                 }
             }
             _startHandle = null;
@@ -92,25 +97,25 @@ namespace Buffalo.MQ
         /// <summary>
         /// 监听信息后回调
         /// </summary>
-        protected void CallBack(MQCallBackMessage message)
+        protected async Task CallBack(MQCallBackMessage message)
         {
-            if (OnMQReceived == null)
+            if (OnMQReceivedAsync == null)
             {
                 return;
             }
-            OnMQReceived(this, message);
+            await OnMQReceivedAsync(this, message);
         }
-        
+       
         /// <summary>
         /// 监听信息后回调
         /// </summary>
-        protected void OnException(Exception ex)
+        protected async Task OnException(Exception ex)
         {
             if (OnMQException == null)
             {
                 return;
             }
-            OnMQException(this, ex);
+            await OnMQException(this, ex);
         }
     }
 }

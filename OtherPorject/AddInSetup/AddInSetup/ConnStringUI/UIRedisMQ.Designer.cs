@@ -28,339 +28,372 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.chkSSL = new System.Windows.Forms.CheckBox();
-            this.txtPwd = new System.Windows.Forms.TextBox();
-            this.txtExpir = new System.Windows.Forms.NumericUpDown();
-            this.txtServer = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.txtName = new System.Windows.Forms.TextBox();
-            this.chkUseQueue = new System.Windows.Forms.CheckBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.txtDatabase = new System.Windows.Forms.NumericUpDown();
-            this.label11 = new System.Windows.Forms.Label();
-            this.cmbMessageMode = new System.Windows.Forms.ComboBox();
-            this.cmbCommandFlags = new System.Windows.Forms.ComboBox();
-            this.label12 = new System.Windows.Forms.Label();
-            this.nupMessageMode = new System.Windows.Forms.NumericUpDown();
-            this.nupSyncTimeout = new System.Windows.Forms.NumericUpDown();
-            this.label13 = new System.Windows.Forms.Label();
-            this.chkSkipCert = new System.Windows.Forms.CheckBox();
-            this.txtModeLab = new System.Windows.Forms.TextBox();
-            this.txtModeLabel = new System.Windows.Forms.TextBox();
-            this.gpSetting.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.txtExpir)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtDatabase)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nupMessageMode)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nupSyncTimeout)).BeginInit();
-            this.SuspendLayout();
+            chkSSL = new System.Windows.Forms.CheckBox();
+            txtPwd = new System.Windows.Forms.TextBox();
+            txtExpir = new System.Windows.Forms.NumericUpDown();
+            txtServer = new System.Windows.Forms.TextBox();
+            label5 = new System.Windows.Forms.Label();
+            label6 = new System.Windows.Forms.Label();
+            label7 = new System.Windows.Forms.Label();
+            label8 = new System.Windows.Forms.Label();
+            txtName = new System.Windows.Forms.TextBox();
+            chkUseQueue = new System.Windows.Forms.CheckBox();
+            label9 = new System.Windows.Forms.Label();
+            label10 = new System.Windows.Forms.Label();
+            txtDatabase = new System.Windows.Forms.NumericUpDown();
+            label11 = new System.Windows.Forms.Label();
+            cmbMessageMode = new System.Windows.Forms.ComboBox();
+            cmbCommandFlags = new System.Windows.Forms.ComboBox();
+            label12 = new System.Windows.Forms.Label();
+            nupMessageMode = new System.Windows.Forms.NumericUpDown();
+            nupSyncTimeout = new System.Windows.Forms.NumericUpDown();
+            label13 = new System.Windows.Forms.Label();
+            chkSkipCert = new System.Windows.Forms.CheckBox();
+            txtModeLab = new System.Windows.Forms.TextBox();
+            txtModeLabel = new System.Windows.Forms.TextBox();
+            groupBox1 = new System.Windows.Forms.GroupBox();
+            label15 = new System.Windows.Forms.Label();
+            txtConsumerGroupName = new System.Windows.Forms.TextBox();
+            label14 = new System.Windows.Forms.Label();
+            txtConsumerName = new System.Windows.Forms.TextBox();
+            gpSetting.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)txtExpir).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)txtDatabase).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)nupMessageMode).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)nupSyncTimeout).BeginInit();
+            groupBox1.SuspendLayout();
+            SuspendLayout();
             // 
             // gpSetting
             // 
-            this.gpSetting.Controls.Add(this.txtModeLabel);
-            this.gpSetting.Controls.Add(this.txtModeLab);
-            this.gpSetting.Controls.Add(this.chkSkipCert);
-            this.gpSetting.Controls.Add(this.nupSyncTimeout);
-            this.gpSetting.Controls.Add(this.label13);
-            this.gpSetting.Controls.Add(this.label12);
-            this.gpSetting.Controls.Add(this.nupMessageMode);
-            this.gpSetting.Controls.Add(this.label11);
-            this.gpSetting.Controls.Add(this.cmbMessageMode);
-            this.gpSetting.Controls.Add(this.label10);
-            this.gpSetting.Controls.Add(this.txtDatabase);
-            this.gpSetting.Controls.Add(this.label9);
-            this.gpSetting.Controls.Add(this.cmbCommandFlags);
-            this.gpSetting.Controls.Add(this.chkUseQueue);
-            this.gpSetting.Controls.Add(this.label8);
-            this.gpSetting.Controls.Add(this.txtName);
-            this.gpSetting.Controls.Add(this.label7);
-            this.gpSetting.Controls.Add(this.label6);
-            this.gpSetting.Controls.Add(this.label5);
-            this.gpSetting.Controls.Add(this.chkSSL);
-            this.gpSetting.Controls.Add(this.txtPwd);
-            this.gpSetting.Controls.Add(this.txtExpir);
-            this.gpSetting.Controls.Add(this.txtServer);
-            this.gpSetting.Font = new System.Drawing.Font("微软雅黑", 12F);
+            gpSetting.Controls.Add(groupBox1);
+            gpSetting.Controls.Add(txtModeLabel);
+            gpSetting.Controls.Add(txtModeLab);
+            gpSetting.Controls.Add(chkSkipCert);
+            gpSetting.Controls.Add(nupSyncTimeout);
+            gpSetting.Controls.Add(label13);
+            gpSetting.Controls.Add(label12);
+            gpSetting.Controls.Add(nupMessageMode);
+            gpSetting.Controls.Add(label11);
+            gpSetting.Controls.Add(cmbMessageMode);
+            gpSetting.Controls.Add(label10);
+            gpSetting.Controls.Add(txtDatabase);
+            gpSetting.Controls.Add(label9);
+            gpSetting.Controls.Add(cmbCommandFlags);
+            gpSetting.Controls.Add(chkUseQueue);
+            gpSetting.Controls.Add(label8);
+            gpSetting.Controls.Add(txtName);
+            gpSetting.Controls.Add(label7);
+            gpSetting.Controls.Add(label6);
+            gpSetting.Controls.Add(label5);
+            gpSetting.Controls.Add(chkSSL);
+            gpSetting.Controls.Add(txtPwd);
+            gpSetting.Controls.Add(txtExpir);
+            gpSetting.Controls.Add(txtServer);
+            gpSetting.Font = new System.Drawing.Font("微软雅黑", 12F);
+            gpSetting.Size = new System.Drawing.Size(659, 524);
+            // 
+            // gbProxy
+            // 
+            gbProxy.Location = new System.Drawing.Point(0, 524);
             // 
             // chkSSL
             // 
-            this.chkSSL.AutoSize = true;
-            this.chkSSL.Location = new System.Drawing.Point(112, 355);
-            this.chkSSL.Name = "chkSSL";
-            this.chkSSL.Size = new System.Drawing.Size(55, 25);
-            this.chkSSL.TabIndex = 64;
-            this.chkSSL.Text = "SSL";
-            this.chkSSL.UseVisualStyleBackColor = true;
+            chkSSL.AutoSize = true;
+            chkSSL.Location = new System.Drawing.Point(111, 380);
+            chkSSL.Name = "chkSSL";
+            chkSSL.Size = new System.Drawing.Size(55, 25);
+            chkSSL.TabIndex = 64;
+            chkSSL.Text = "SSL";
+            chkSSL.UseVisualStyleBackColor = true;
             // 
             // txtPwd
             // 
-            this.txtPwd.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtPwd.Location = new System.Drawing.Point(194, 104);
-            this.txtPwd.Name = "txtPwd";
-            this.txtPwd.Size = new System.Drawing.Size(457, 29);
-            this.txtPwd.TabIndex = 63;
+            txtPwd.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            txtPwd.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            txtPwd.Location = new System.Drawing.Point(194, 104);
+            txtPwd.Name = "txtPwd";
+            txtPwd.Size = new System.Drawing.Size(457, 29);
+            txtPwd.TabIndex = 63;
             // 
             // txtExpir
             // 
-            this.txtExpir.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtExpir.Location = new System.Drawing.Point(194, 139);
-            this.txtExpir.Maximum = new decimal(new int[] {
-            999999999,
-            0,
-            0,
-            0});
-            this.txtExpir.Name = "txtExpir";
-            this.txtExpir.Size = new System.Drawing.Size(457, 29);
-            this.txtExpir.TabIndex = 61;
+            txtExpir.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            txtExpir.Location = new System.Drawing.Point(194, 139);
+            txtExpir.Maximum = new decimal(new int[] { 999999999, 0, 0, 0 });
+            txtExpir.Name = "txtExpir";
+            txtExpir.Size = new System.Drawing.Size(457, 29);
+            txtExpir.TabIndex = 61;
             // 
             // txtServer
             // 
-            this.txtServer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtServer.Location = new System.Drawing.Point(194, 69);
-            this.txtServer.Name = "txtServer";
-            this.txtServer.Size = new System.Drawing.Size(457, 29);
-            this.txtServer.TabIndex = 60;
-            this.txtServer.Text = "127.0.0.1:6379";
+            txtServer.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            txtServer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            txtServer.Location = new System.Drawing.Point(194, 69);
+            txtServer.Name = "txtServer";
+            txtServer.Size = new System.Drawing.Size(457, 29);
+            txtServer.TabIndex = 60;
+            txtServer.Text = "127.0.0.1:6379";
             // 
             // label5
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(2, 69);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(184, 21);
-            this.label5.TabIndex = 65;
-            this.label5.Text = "服务器(多个用逗号隔开):";
+            label5.AutoSize = true;
+            label5.Location = new System.Drawing.Point(2, 69);
+            label5.Name = "label5";
+            label5.Size = new System.Drawing.Size(184, 21);
+            label5.TabIndex = 65;
+            label5.Text = "服务器(多个用逗号隔开):";
             // 
             // label6
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(140, 105);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(46, 21);
-            this.label6.TabIndex = 66;
-            this.label6.Text = "密码:";
+            label6.AutoSize = true;
+            label6.Location = new System.Drawing.Point(140, 105);
+            label6.Name = "label6";
+            label6.Size = new System.Drawing.Size(46, 21);
+            label6.TabIndex = 66;
+            label6.Text = "密码:";
             // 
             // label7
             // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.label7.Location = new System.Drawing.Point(13, 143);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(173, 20);
-            this.label7.TabIndex = 67;
-            this.label7.Text = "保存时间(秒数,0表示一直):";
+            label7.AutoSize = true;
+            label7.Font = new System.Drawing.Font("微软雅黑", 10F);
+            label7.Location = new System.Drawing.Point(13, 143);
+            label7.Name = "label7";
+            label7.Size = new System.Drawing.Size(173, 20);
+            label7.TabIndex = 67;
+            label7.Text = "保存时间(秒数,0表示一直):";
             // 
             // label8
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(124, 33);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(62, 21);
-            this.label8.TabIndex = 69;
-            this.label8.Text = "队列名:";
+            label8.AutoSize = true;
+            label8.Location = new System.Drawing.Point(124, 33);
+            label8.Name = "label8";
+            label8.Size = new System.Drawing.Size(62, 21);
+            label8.TabIndex = 69;
+            label8.Text = "队列名:";
             // 
             // txtName
             // 
-            this.txtName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtName.Location = new System.Drawing.Point(194, 34);
-            this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(457, 29);
-            this.txtName.TabIndex = 68;
-            this.txtName.Text = "myTest";
+            txtName.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            txtName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            txtName.Location = new System.Drawing.Point(194, 34);
+            txtName.Name = "txtName";
+            txtName.Size = new System.Drawing.Size(457, 29);
+            txtName.TabIndex = 68;
+            txtName.Text = "myTest";
             // 
             // chkUseQueue
             // 
-            this.chkUseQueue.AutoSize = true;
-            this.chkUseQueue.Checked = true;
-            this.chkUseQueue.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkUseQueue.Location = new System.Drawing.Point(321, 355);
-            this.chkUseQueue.Name = "chkUseQueue";
-            this.chkUseQueue.Size = new System.Drawing.Size(157, 25);
-            this.chkUseQueue.TabIndex = 70;
-            this.chkUseQueue.Text = "使用队列存储信息";
-            this.chkUseQueue.UseVisualStyleBackColor = true;
+            chkUseQueue.AutoSize = true;
+            chkUseQueue.Checked = true;
+            chkUseQueue.CheckState = System.Windows.Forms.CheckState.Checked;
+            chkUseQueue.Location = new System.Drawing.Point(320, 380);
+            chkUseQueue.Name = "chkUseQueue";
+            chkUseQueue.Size = new System.Drawing.Size(157, 25);
+            chkUseQueue.TabIndex = 70;
+            chkUseQueue.Text = "使用队列存储信息";
+            chkUseQueue.UseVisualStyleBackColor = true;
             // 
             // label9
             // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.label9.Location = new System.Drawing.Point(54, 321);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(133, 21);
-            this.label9.TabIndex = 72;
-            this.label9.Text = "CommandFlags:";
+            label9.AutoSize = true;
+            label9.Font = new System.Drawing.Font("微软雅黑", 12F);
+            label9.Location = new System.Drawing.Point(53, 346);
+            label9.Name = "label9";
+            label9.Size = new System.Drawing.Size(133, 21);
+            label9.TabIndex = 72;
+            label9.Text = "CommandFlags:";
             // 
             // label10
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(71, 219);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(115, 21);
-            this.label10.TabIndex = 74;
-            this.label10.Text = "database索引:";
+            label10.AutoSize = true;
+            label10.Location = new System.Drawing.Point(71, 219);
+            label10.Name = "label10";
+            label10.Size = new System.Drawing.Size(115, 21);
+            label10.TabIndex = 74;
+            label10.Text = "database索引:";
             // 
             // txtDatabase
             // 
-            this.txtDatabase.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtDatabase.Location = new System.Drawing.Point(194, 211);
-            this.txtDatabase.Maximum = new decimal(new int[] {
-            2147483647,
-            0,
-            0,
-            0});
-            this.txtDatabase.Name = "txtDatabase";
-            this.txtDatabase.Size = new System.Drawing.Size(457, 29);
-            this.txtDatabase.TabIndex = 73;
+            txtDatabase.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            txtDatabase.Location = new System.Drawing.Point(194, 211);
+            txtDatabase.Maximum = new decimal(new int[] { int.MaxValue, 0, 0, 0 });
+            txtDatabase.Name = "txtDatabase";
+            txtDatabase.Size = new System.Drawing.Size(457, 29);
+            txtDatabase.TabIndex = 73;
             // 
             // label11
             // 
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.label11.Location = new System.Drawing.Point(108, 250);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(78, 21);
-            this.label11.TabIndex = 76;
-            this.label11.Text = "推送模式:";
+            label11.AutoSize = true;
+            label11.Font = new System.Drawing.Font("微软雅黑", 12F);
+            label11.Location = new System.Drawing.Point(108, 250);
+            label11.Name = "label11";
+            label11.Size = new System.Drawing.Size(78, 21);
+            label11.TabIndex = 76;
+            label11.Text = "推送模式:";
             // 
             // cmbMessageMode
             // 
-            this.cmbMessageMode.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmbMessageMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbMessageMode.FormattingEnabled = true;
-            this.cmbMessageMode.Location = new System.Drawing.Point(458, 246);
-            this.cmbMessageMode.Name = "cmbMessageMode";
-            this.cmbMessageMode.Size = new System.Drawing.Size(193, 29);
-            this.cmbMessageMode.TabIndex = 75;
+            cmbMessageMode.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            cmbMessageMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            cmbMessageMode.FormattingEnabled = true;
+            cmbMessageMode.Location = new System.Drawing.Point(458, 246);
+            cmbMessageMode.Name = "cmbMessageMode";
+            cmbMessageMode.Size = new System.Drawing.Size(193, 29);
+            cmbMessageMode.TabIndex = 75;
             // 
             // cmbCommandFlags
             // 
-            this.cmbCommandFlags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmbCommandFlags.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbCommandFlags.FormattingEnabled = true;
-            this.cmbCommandFlags.Location = new System.Drawing.Point(194, 316);
-            this.cmbCommandFlags.Name = "cmbCommandFlags";
-            this.cmbCommandFlags.Size = new System.Drawing.Size(457, 29);
-            this.cmbCommandFlags.TabIndex = 71;
+            cmbCommandFlags.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            cmbCommandFlags.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            cmbCommandFlags.FormattingEnabled = true;
+            cmbCommandFlags.Location = new System.Drawing.Point(193, 341);
+            cmbCommandFlags.Name = "cmbCommandFlags";
+            cmbCommandFlags.Size = new System.Drawing.Size(457, 29);
+            cmbCommandFlags.TabIndex = 71;
             // 
             // label12
             // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(69, 285);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(120, 21);
-            this.label12.TabIndex = 78;
-            this.label12.Text = "轮询间隔(毫秒):";
+            label12.AutoSize = true;
+            label12.Location = new System.Drawing.Point(69, 285);
+            label12.Name = "label12";
+            label12.Size = new System.Drawing.Size(120, 21);
+            label12.TabIndex = 78;
+            label12.Text = "轮询间隔(毫秒):";
             // 
             // nupMessageMode
             // 
-            this.nupMessageMode.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.nupMessageMode.Location = new System.Drawing.Point(458, 281);
-            this.nupMessageMode.Maximum = new decimal(new int[] {
-            2147483647,
-            0,
-            0,
-            0});
-            this.nupMessageMode.Minimum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.nupMessageMode.Name = "nupMessageMode";
-            this.nupMessageMode.Size = new System.Drawing.Size(193, 29);
-            this.nupMessageMode.TabIndex = 77;
-            this.nupMessageMode.Value = new decimal(new int[] {
-            500,
-            0,
-            0,
-            0});
+            nupMessageMode.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            nupMessageMode.Location = new System.Drawing.Point(458, 295);
+            nupMessageMode.Maximum = new decimal(new int[] { int.MaxValue, 0, 0, 0 });
+            nupMessageMode.Minimum = new decimal(new int[] { 10, 0, 0, 0 });
+            nupMessageMode.Name = "nupMessageMode";
+            nupMessageMode.Size = new System.Drawing.Size(193, 29);
+            nupMessageMode.TabIndex = 77;
+            nupMessageMode.Value = new decimal(new int[] { 500, 0, 0, 0 });
             // 
             // nupSyncTimeout
             // 
-            this.nupSyncTimeout.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.nupSyncTimeout.Location = new System.Drawing.Point(194, 174);
-            this.nupSyncTimeout.Maximum = new decimal(new int[] {
-            999999999,
-            0,
-            0,
-            0});
-            this.nupSyncTimeout.Name = "nupSyncTimeout";
-            this.nupSyncTimeout.Size = new System.Drawing.Size(457, 29);
-            this.nupSyncTimeout.TabIndex = 80;
+            nupSyncTimeout.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            nupSyncTimeout.Location = new System.Drawing.Point(194, 174);
+            nupSyncTimeout.Maximum = new decimal(new int[] { 999999999, 0, 0, 0 });
+            nupSyncTimeout.Name = "nupSyncTimeout";
+            nupSyncTimeout.Size = new System.Drawing.Size(457, 29);
+            nupSyncTimeout.TabIndex = 80;
             // 
             // label13
             // 
-            this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.label13.Location = new System.Drawing.Point(1, 179);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(187, 20);
-            this.label13.TabIndex = 79;
-            this.label13.Text = "访问超时(毫秒,0表示不指定):";
+            label13.AutoSize = true;
+            label13.Font = new System.Drawing.Font("微软雅黑", 10F);
+            label13.Location = new System.Drawing.Point(1, 179);
+            label13.Name = "label13";
+            label13.Size = new System.Drawing.Size(187, 20);
+            label13.TabIndex = 79;
+            label13.Text = "访问超时(毫秒,0表示不指定):";
             // 
             // chkSkipCert
             // 
-            this.chkSkipCert.AutoSize = true;
-            this.chkSkipCert.Location = new System.Drawing.Point(173, 355);
-            this.chkSkipCert.Name = "chkSkipCert";
-            this.chkSkipCert.Size = new System.Drawing.Size(119, 25);
-            this.chkSkipCert.TabIndex = 81;
-            this.chkSkipCert.Text = "SSL跳过证书";
-            this.chkSkipCert.UseVisualStyleBackColor = true;
+            chkSkipCert.AutoSize = true;
+            chkSkipCert.Location = new System.Drawing.Point(172, 380);
+            chkSkipCert.Name = "chkSkipCert";
+            chkSkipCert.Size = new System.Drawing.Size(119, 25);
+            chkSkipCert.TabIndex = 81;
+            chkSkipCert.Text = "SSL跳过证书";
+            chkSkipCert.UseVisualStyleBackColor = true;
             // 
             // txtModeLab
             // 
-            this.txtModeLab.BackColor = System.Drawing.Color.White;
-            this.txtModeLab.Font = new System.Drawing.Font("微软雅黑", 8F);
-            this.txtModeLab.ForeColor = System.Drawing.Color.OliveDrab;
-            this.txtModeLab.Location = new System.Drawing.Point(193, 244);
-            this.txtModeLab.Multiline = true;
-            this.txtModeLab.Name = "txtModeLab";
-            this.txtModeLab.ReadOnly = true;
-            this.txtModeLab.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtModeLab.Size = new System.Drawing.Size(261, 33);
-            this.txtModeLab.TabIndex = 86;
-            this.txtModeLab.Text = "Polling:轮询模式,按照间隔获取队列数据\r\n\r\nSubscriber为订阅发布模式,使用pub/sub实现发布,如果勾选使用队列存储信息,则pub/sub只" +
-    "推送通知，实际数据还是从队列获取，以防止消息丢失\r\n\r\nBlockQueue:阻塞队列模式，利用brpop指令实现阻塞读取队列";
+            txtModeLab.BackColor = System.Drawing.Color.White;
+            txtModeLab.Font = new System.Drawing.Font("微软雅黑", 8F);
+            txtModeLab.ForeColor = System.Drawing.Color.OliveDrab;
+            txtModeLab.Location = new System.Drawing.Point(193, 244);
+            txtModeLab.Multiline = true;
+            txtModeLab.Name = "txtModeLab";
+            txtModeLab.ReadOnly = true;
+            txtModeLab.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            txtModeLab.Size = new System.Drawing.Size(261, 33);
+            txtModeLab.TabIndex = 86;
+            txtModeLab.Text = "Polling:轮询模式,按照间隔获取队列数据\r\n\r\nSubscriber为订阅发布模式,使用pub/sub实现发布,如果勾选使用队列存储信息,则pub/sub只推送通知，实际数据还是从队列获取，以防止消息丢失\r\n\r\nBlockQueue:阻塞队列模式，利用brpop指令实现阻塞读取队列";
             // 
             // txtModeLabel
             // 
-            this.txtModeLabel.BackColor = System.Drawing.Color.White;
-            this.txtModeLabel.Font = new System.Drawing.Font("微软雅黑", 8F);
-            this.txtModeLabel.ForeColor = System.Drawing.Color.OliveDrab;
-            this.txtModeLabel.Location = new System.Drawing.Point(193, 281);
-            this.txtModeLabel.Multiline = true;
-            this.txtModeLabel.Name = "txtModeLabel";
-            this.txtModeLabel.ReadOnly = true;
-            this.txtModeLabel.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtModeLabel.Size = new System.Drawing.Size(261, 33);
-            this.txtModeLabel.TabIndex = 87;
-            this.txtModeLabel.Text = "Polling模式时：此为每次轮询到空队列时候的睡眠时间(越小越实时，但负担更重，为0时候是50ms)\r\n\r\nBlockQueue模式时：此为brPop的超时时间" +
-    "(最小1秒，尽量大，值为0时候是30秒)\r\n\r\n\r\n";
+            txtModeLabel.BackColor = System.Drawing.Color.White;
+            txtModeLabel.Font = new System.Drawing.Font("微软雅黑", 8F);
+            txtModeLabel.ForeColor = System.Drawing.Color.OliveDrab;
+            txtModeLabel.Location = new System.Drawing.Point(193, 281);
+            txtModeLabel.Multiline = true;
+            txtModeLabel.Name = "txtModeLabel";
+            txtModeLabel.ReadOnly = true;
+            txtModeLabel.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            txtModeLabel.Size = new System.Drawing.Size(261, 54);
+            txtModeLabel.TabIndex = 87;
+            txtModeLabel.Text = "Polling模式时：此为每次轮询到空队列时候的睡眠时间(越小越实时，但负担更重，为0时候是50ms)\r\n\r\nBlockQueue模式时：此为brPop的超时时间(最小1秒，尽量大，值为0时候是30秒)\r\n\r\n\r\n";
+            // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(label15);
+            groupBox1.Controls.Add(txtConsumerGroupName);
+            groupBox1.Controls.Add(label14);
+            groupBox1.Controls.Add(txtConsumerName);
+            groupBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            groupBox1.Location = new System.Drawing.Point(3, 428);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new System.Drawing.Size(653, 93);
+            groupBox1.TabIndex = 88;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Stream模式";
+            // 
+            // label15
+            // 
+            label15.AutoSize = true;
+            label15.Location = new System.Drawing.Point(17, 61);
+            label15.Name = "label15";
+            label15.Size = new System.Drawing.Size(78, 21);
+            label15.TabIndex = 92;
+            label15.Text = "消费者组:";
+            // 
+            // txtConsumerGroupName
+            // 
+            txtConsumerGroupName.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            txtConsumerGroupName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            txtConsumerGroupName.Location = new System.Drawing.Point(101, 58);
+            txtConsumerGroupName.Name = "txtConsumerGroupName";
+            txtConsumerGroupName.Size = new System.Drawing.Size(200, 29);
+            txtConsumerGroupName.TabIndex = 91;
+            // 
+            // label14
+            // 
+            label14.AutoSize = true;
+            label14.Location = new System.Drawing.Point(17, 25);
+            label14.Name = "label14";
+            label14.Size = new System.Drawing.Size(78, 21);
+            label14.TabIndex = 90;
+            label14.Text = "消费者名:";
+            // 
+            // txtConsumerName
+            // 
+            txtConsumerName.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            txtConsumerName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            txtConsumerName.Location = new System.Drawing.Point(101, 22);
+            txtConsumerName.Name = "txtConsumerName";
+            txtConsumerName.Size = new System.Drawing.Size(200, 29);
+            txtConsumerName.TabIndex = 89;
             // 
             // UIRedisMQ
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Name = "UIRedisMQ";
-            this.gpSetting.ResumeLayout(false);
-            this.gpSetting.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.txtExpir)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtDatabase)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nupMessageMode)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nupSyncTimeout)).EndInit();
-            this.ResumeLayout(false);
+            AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            Name = "UIRedisMQ";
+            Size = new System.Drawing.Size(659, 776);
+            gpSetting.ResumeLayout(false);
+            gpSetting.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)txtExpir).EndInit();
+            ((System.ComponentModel.ISupportInitialize)txtDatabase).EndInit();
+            ((System.ComponentModel.ISupportInitialize)nupMessageMode).EndInit();
+            ((System.ComponentModel.ISupportInitialize)nupSyncTimeout).EndInit();
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
+            ResumeLayout(false);
 
         }
 
@@ -389,5 +422,10 @@
         private System.Windows.Forms.CheckBox chkSkipCert;
         private System.Windows.Forms.TextBox txtModeLab;
         private System.Windows.Forms.TextBox txtModeLabel;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.TextBox txtConsumerGroupName;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TextBox txtConsumerName;
     }
 }

@@ -15,14 +15,11 @@ namespace Buffalo.MQ
         /// 监听
         /// </summary>
         /// <param name="key">监听键</param>
-        /// <param name="partition">分区(Kafka有用)</param>
-        /// <param name="offset">位置(Kafka有用)</param>
         /// <param name="queueKey">队列键(Redis有用)</param>
-        public MQOffestInfo(string key, int partition, long offset,string queueKey)
+        public MQOffestInfo(string key, string queueKey)
         {
             _key = key;
-            _partition = partition;
-            _offest = offset;
+
             _queueKey = queueKey;
         }
 
@@ -48,35 +45,9 @@ namespace Buffalo.MQ
                 return _key;
             }
         }
-        /// <summary>
-        /// 分区
-        /// </summary>
-        private int _partition;
-        /// <summary>
-        /// 分区
-        /// </summary>
-        public int Partition
-        {
-            get
-            {
-                return _partition;
-            }
-        }
+        
 
-        /// <summary>
-        /// 位置
-        /// </summary>
-        private long _offest;
-        /// <summary>
-        /// 分区
-        /// </summary>
-        public long Offest
-        {
-            get
-            {
-                return _offest;
-            }
-        }
+       
         
     }
 }

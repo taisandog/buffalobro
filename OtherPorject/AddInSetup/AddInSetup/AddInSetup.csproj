@@ -1,23 +1,9 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="14.0">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{C609C74D-9385-48B1-9DB5-D53D0B476D3A}</ProjectGuid>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <OutputType>WinExe</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AddInSetup</RootNamespace>
     <AssemblyName>Setup</AssemblyName>
     <ApplicationIcon>slogo.ico</ApplicationIcon>
-    <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <UpgradeBackupLocation>
-    </UpgradeBackupLocation>
-    <OldToolsVersion>2.0</OldToolsVersion>
-    <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -33,397 +19,103 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+    <Version>1.5.0</Version>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>true</Prefer32Bit>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Buffalo.ArgCommon, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\dll\Buffalo.ArgCommon.dll</HintPath>
-    </Reference>
-    <Reference Include="Buffalo.DB, Version=1.8.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\dll\Buffalo.DB.dll</HintPath>
-    </Reference>
-    <Reference Include="Buffalo.Kernel, Version=1.3.13.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\dll\Buffalo.Kernel.dll</HintPath>
-    </Reference>
-    <Reference Include="Buffalo.MQ, Version=1.8.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\dll\Buffalo.MQ.dll</HintPath>
-    </Reference>
-    <Reference Include="Buffalo.QueryCache, Version=1.8.8.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\dll\Buffalo.QueryCache.dll</HintPath>
-    </Reference>
-    <Reference Include="Buffalo.Storage, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\dll\Buffalo.Storage.dll</HintPath>
-    </Reference>
-    <Reference Include="Buffalo.WebKernel, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\dll\Buffalo.WebKernel.dll</HintPath>
-    </Reference>
-    <Reference Include="Confluent.Kafka, Version=1.8.2.0, Culture=neutral, PublicKeyToken=12c514ca49093d1e, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\dll\Confluent.Kafka.dll</HintPath>
-    </Reference>
-    <Reference Include="Enyim.Caching, Version=2.16.0.0, Culture=neutral, PublicKeyToken=cec98615db04012e, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\dll\Enyim.Caching.dll</HintPath>
-    </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib, Version=1.3.3.11, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\dll\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\dll\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Bcl.HashCode, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\dll\Microsoft.Bcl.HashCode.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\dll\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="MQTTnet">
-      <HintPath>..\dll\MQTTnet.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\dll\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Pipelines.Sockets.Unofficial, Version=1.0.0.0, Culture=neutral, PublicKeyToken=42ea0a778e13fbe2, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\dll\Pipelines.Sockets.Unofficial.dll</HintPath>
-    </Reference>
-    <Reference Include="RabbitMQ.Client, Version=6.0.0.0, Culture=neutral, PublicKeyToken=89e7d7c5feba84ce, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\dll\RabbitMQ.Client.dll</HintPath>
-    </Reference>
-    <Reference Include="StackExchange.Redis, Version=2.0.0.0, Culture=neutral, PublicKeyToken=c219ff1ca8c2ce46, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\dll\StackExchange.Redis.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\dll\System.Buffers.dll</HintPath>
-    </Reference>
-    <Reference Include="System.configuration" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
-    <Reference Include="System.Diagnostics.PerformanceCounter">
-      <HintPath>..\dll\System.Diagnostics.PerformanceCounter.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.IO.Pipelines, Version=6.0.0.3, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\dll\System.IO.Pipelines.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\dll\System.Memory.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\dll\System.Numerics.Vectors.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\dll\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Threading.Channels, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\dll\System.Threading.Channels.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\dll\System.Threading.Tasks.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
+    <PackageReference Include="Buffalo.ArgCommon" Version="1.3.2" />
+    <PackageReference Include="Buffalo.DB" Version="1.10.1" />
+    <PackageReference Include="Buffalo.Kernel" Version="1.5.10" />
+    <PackageReference Include="Buffalo.MQ" Version="1.9.1" />
+    <PackageReference Include="Buffalo.QueryCache" Version="1.8.0" />
+    <PackageReference Include="Buffalo.Storage" Version="1.2.8" />
+    <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="9.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.SystemWebAdapters" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.SystemWebAdapters.CoreServices" Version="2.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.5" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddInInfo.cs" />
-    <Compile Include="ConnStringUI\UIAWS.cs">
+    <Compile Update="ConnStringUI\UIAWS.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ConnStringUI\UIAWS.Designer.cs">
-      <DependentUpon>UIAWS.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ConnStringUI\UIConnBase.cs">
+    <Compile Update="ConnStringUI\UIConnBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ConnStringUI\UIConnBase.Designer.cs">
-      <DependentUpon>UIConnBase.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ConnStringUI\UICOS.cs">
+    <Compile Update="ConnStringUI\UICOS.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ConnStringUI\UICOS.Designer.cs">
-      <DependentUpon>UICOS.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ConnStringUI\UIKafkaMQ.cs">
+    <Compile Update="ConnStringUI\UIKafkaMQ.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ConnStringUI\UIKafkaMQ.Designer.cs">
-      <DependentUpon>UIKafkaMQ.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ConnStringUI\UILocationStorage.cs">
+    <Compile Update="ConnStringUI\UILocationStorage.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ConnStringUI\UILocationStorage.Designer.cs">
-      <DependentUpon>UILocationStorage.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ConnStringUI\UIMemcached.cs">
+    <Compile Update="ConnStringUI\UIMemcached.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ConnStringUI\UIMemcached.Designer.cs">
-      <DependentUpon>UIMemcached.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ConnStringUI\UIMQTT.cs">
+    <Compile Update="ConnStringUI\UIMQTT.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ConnStringUI\UIMQTT.Designer.cs">
-      <DependentUpon>UIMQTT.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ConnStringUI\UIOBS.cs">
+    <Compile Update="ConnStringUI\UIOBS.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ConnStringUI\UIOBS.Designer.cs">
-      <DependentUpon>UIOBS.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ConnStringUI\UIOSS.cs">
+    <Compile Update="ConnStringUI\UIOSS.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ConnStringUI\UIOSS.Designer.cs">
-      <DependentUpon>UIOSS.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ConnStringUI\UIRabbitMQ.cs">
+    <Compile Update="ConnStringUI\UIRabbitMQ.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ConnStringUI\UIRabbitMQ.Designer.cs">
-      <DependentUpon>UIRabbitMQ.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ConnStringUI\UIRedis.cs">
+    <Compile Update="ConnStringUI\UIRedis.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ConnStringUI\UIRedis.Designer.cs">
-      <DependentUpon>UIRedis.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ConnStringUI\UIRedis2.cs">
+    <Compile Update="ConnStringUI\UIRedis2.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ConnStringUI\UIRedis2.Designer.cs">
-      <DependentUpon>UIRedis2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ConnStringUI\UIRedisMQ.cs">
+    <Compile Update="ConnStringUI\UIRedisMQ.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ConnStringUI\UIRedisMQ.Designer.cs">
-      <DependentUpon>UIRedisMQ.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ConnStringUI\UISysMemory.cs">
+    <Compile Update="ConnStringUI\UISysMemory.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ConnStringUI\UISysMemory.Designer.cs">
-      <DependentUpon>UISysMemory.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ConnStringUI\UIWebCache.cs">
+    <Compile Update="ConnStringUI\UIWebCache.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ConnStringUI\UIWebCache.Designer.cs">
-      <DependentUpon>UIWebCache.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FrmConnString.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FrmConnString.Designer.cs">
-      <DependentUpon>FrmConnString.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FrmMain.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FrmMain.Designer.cs">
-      <DependentUpon>FrmMain.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FrmPutFile.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FrmPutFile.Designer.cs">
-      <DependentUpon>FrmPutFile.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FrmUpdate.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FrmUpdate.Designer.cs">
-      <DependentUpon>FrmUpdate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="HelpDocItem.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Unit\MQHelper.cs" />
-    <Compile Include="UpdateInfo.cs" />
-    <EmbeddedResource Include="ConnStringUI\UIAWS.resx">
-      <DependentUpon>UIAWS.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ConnStringUI\UIConnBase.resx">
-      <DependentUpon>UIConnBase.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ConnStringUI\UICOS.resx">
-      <DependentUpon>UICOS.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ConnStringUI\UIKafkaMQ.resx">
-      <DependentUpon>UIKafkaMQ.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ConnStringUI\UILocationStorage.resx">
-      <DependentUpon>UILocationStorage.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ConnStringUI\UIMemcached.resx">
-      <DependentUpon>UIMemcached.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ConnStringUI\UIMQTT.resx">
-      <DependentUpon>UIMQTT.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ConnStringUI\UIOBS.resx">
-      <DependentUpon>UIOBS.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ConnStringUI\UIOSS.resx">
-      <DependentUpon>UIOSS.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ConnStringUI\UIRabbitMQ.resx">
-      <DependentUpon>UIRabbitMQ.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ConnStringUI\UIRedis.resx">
-      <DependentUpon>UIRedis.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ConnStringUI\UIRedis2.resx">
-      <DependentUpon>UIRedis2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ConnStringUI\UIRedisMQ.resx">
-      <DependentUpon>UIRedisMQ.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ConnStringUI\UISysMemory.resx">
-      <DependentUpon>UISysMemory.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ConnStringUI\UIWebCache.resx">
-      <DependentUpon>UIWebCache.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FrmConnString.resx">
-      <DependentUpon>FrmConnString.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FrmMain.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>FrmMain.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FrmPutFile.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>FrmPutFile.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FrmUpdate.resx">
-      <DependentUpon>FrmUpdate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <SubType>Designer</SubType>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <None Include="App.config" />
-    <None Include="doc\aws.docx">
+    <None Update="doc\aws.docx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="doc\Buffalo.Cache.docx">
+    <None Update="doc\Buffalo.Cache.docx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="doc\Buffalo.DB.docx">
+    <None Update="doc\Buffalo.DB.docx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="doc\Buffalo.MQ.docx">
+    <None Update="doc\Buffalo.Storage.docx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="doc\Buffalo.Storage.docx">
+    <None Update="doc\cos.docx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="doc\cos.docx">
+    <None Update="doc\obs.docx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="doc\obs.docx">
+    <None Update="doc\oss.docx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="doc\oss.docx">
+    <None Update="doc\UseTheNupkg.docx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="doc\UseTheNupkg.docx">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="DllVerInfo.cs" />
-    <Compile Include="DllItem.cs" />
-    <Compile Include="DllItemFile.cs" />
-    <Compile Include="ConfigLoader.cs" />
-    <Compile Include="ToolVersionInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AddInConfig.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="librdkafka.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="librdkafkacpp.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="libzstd.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="msvcp120.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="msvcr120.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Resources\DBTools.txt" />
-    <Content Include="zlib.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <None Include="Resources\svnupdate.png" />
     <Content Include="slogo.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -438,12 +130,4 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

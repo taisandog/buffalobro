@@ -122,17 +122,30 @@ namespace AddInSetup.ConnStringUI
                 sbStr.Append("ssl=1");
                 sbStr.Append(";");
             }
-
-            if (chkUseQueue.Checked)
-            {
-                sbStr.Append("useQueue=1");
-                sbStr.Append(";");
-            }
             if (chkSkipCert.Checked)
             {
                 sbStr.Append("skipCert=1");
                 sbStr.Append(";");
             }
+
+            int messageMode = (int)cmbMessageMode.SelectedValue;
+            if (messageMode > 0)
+            {
+                sbStr.Append("MessageMode=");
+                sbStr.Append(messageMode.ToString());
+                sbStr.Append(";");
+            }
+            RedisMQMessageMode mode = (RedisMQMessageMode)messageMode;
+            if (mode == RedisMQMessageMode.Subscriber)
+            {
+                if (chkUseQueue.Checked)
+                {
+                    sbStr.Append("useQueue=1");
+                    sbStr.Append(";");
+                }
+            }
+
+            
             
             int commanfFlags = (int)cmbCommandFlags.SelectedValue;
             if (commanfFlags > 0)
@@ -141,19 +154,14 @@ namespace AddInSetup.ConnStringUI
                 sbStr.Append(commanfFlags.ToString());
                 sbStr.Append(";");
             }
+
             if (nupSyncTimeout.Value > 0)
             {
                 sbStr.Append("syncTimeout=");
                 sbStr.Append(((int)nupSyncTimeout.Value).ToString());
                 sbStr.Append(";");
             }
-            int messageMode = (int)cmbMessageMode.SelectedValue;
-            if (messageMode > 0)
-            {
-                sbStr.Append("MessageMode=");
-                sbStr.Append(messageMode.ToString());
-                sbStr.Append(";");
-            }
+           
             int pInterval = (int)nupMessageMode.Value;
             if (pInterval > 0)
             {
@@ -161,6 +169,18 @@ namespace AddInSetup.ConnStringUI
                 sbStr.Append(pInterval.ToString());
                 sbStr.Append(";");
             }
+
+            if (mode == RedisMQMessageMode.Stream)
+            {
+                sbStr.Append("consumerName=");
+                sbStr.Append(txtConsumerName.Text);
+                sbStr.Append(";");
+
+                sbStr.Append("consumerGroupName=");
+                sbStr.Append(txtConsumerGroupName.Text);
+                sbStr.Append(";");
+            }
+
             sbStr.Append("database=");
             sbStr.Append(((int)txtDatabase.Value).ToString());
             return sbStr.ToString();

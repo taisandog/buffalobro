@@ -33,7 +33,7 @@ namespace AddInSetup.Unit
             }
 
             _lis = MQUnit.GetMQListener(lisName);
-            _lis.OnMQReceived += _lis_OnMQReceived;
+            _lis.OnMQReceivedAsync += _lis_OnMQReceived;
             _lis.OnMQException += _lis_OnMQException;
             try
             {
@@ -77,16 +77,16 @@ namespace AddInSetup.Unit
             }
         }
 
-        private static void _lis_OnMQReceived(MQListener sender, MQCallBackMessage message)
+        private static async Task _lis_OnMQReceived(MQListener sender, MQCallBackMessage message)
         {
-                        _retNum = BitConverter.ToInt32(message.Body, 0);
-            #if DEBUG
+            _retNum = BitConverter.ToInt32(message.Body, 0);
+#if DEBUG
                         Debug.WriteLine("rec:"+_retNum);
-            #endif
-                        _handle.Set();
+#endif
+            _handle.Set();
         }
 
-        private static void _lis_OnMQException(MQListener sender, Exception ex)
+        private static async Task _lis_OnMQException(MQListener sender, Exception ex)
         {
             
         }

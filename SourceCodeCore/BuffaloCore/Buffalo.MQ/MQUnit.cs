@@ -172,54 +172,54 @@ namespace Buffalo.MQ
             return new RabbitMQConfig(connectString);
         }
 #endif
-        /// <summary>
-        /// 获取监听信息
-        /// </summary>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        internal static IEnumerable<string> GetLintenKeys(object args)
-        {
-            IEnumerable<string> topics = args as IEnumerable<string>;
-            if (topics != null)
-            {
-                return topics;
-            }
-            IEnumerable<MQOffestInfo> topicsOffest = args as IEnumerable<MQOffestInfo>;
-            if (topicsOffest == null)
-            {
-                return null;
-            }
-            List<string> lstKey = new List<string>();
-            foreach(MQOffestInfo info in topicsOffest)
-            {
-                lstKey.Add(info.Key);
-            }
-            return lstKey;
-        }
-        /// <summary>
-        /// 获取监听信息
-        /// </summary>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        internal static IEnumerable<MQOffestInfo> GetLintenOffest(object args)
-        {
+        ///// <summary>
+        ///// 获取监听信息
+        ///// </summary>
+        ///// <param name="args"></param>
+        ///// <returns></returns>
+        //internal static IEnumerable<string> GetLintenKeys(object args)
+        //{
+        //    IEnumerable<string> topics = args as IEnumerable<string>;
+        //    if (topics != null)
+        //    {
+        //        return topics;
+        //    }
+        //    IEnumerable<MQOffestInfo> topicsOffest = args as IEnumerable<MQOffestInfo>;
+        //    if (topicsOffest == null)
+        //    {
+        //        return null;
+        //    }
+        //    List<string> lstKey = new List<string>();
+        //    foreach(MQOffestInfo info in topicsOffest)
+        //    {
+        //        lstKey.Add(info.Key);
+        //    }
+        //    return lstKey;
+        //}
+        ///// <summary>
+        ///// 获取监听信息
+        ///// </summary>
+        ///// <param name="args"></param>
+        ///// <returns></returns>
+        //internal static IEnumerable<MQOffestInfo> GetLintenOffest(object args)
+        //{
            
-            IEnumerable<MQOffestInfo> topicsOffest = args as IEnumerable<MQOffestInfo>;
-            if (topicsOffest != null)
-            {
-                return topicsOffest;
-            }
-            IEnumerable<string> lsttopicsOffest= args as IEnumerable<string>;
-            if (lsttopicsOffest != null)
-            {
-                List<MQOffestInfo> lst = new List<MQOffestInfo>();
-                foreach(string key in lsttopicsOffest)
-                {
-                    lst.Add(new MQOffestInfo(key, 0, 0,null));
-                }
-                return lst;
-            }
-            return null;
-        }
+        //    IEnumerable<MQOffestInfo> topicsOffest = args as IEnumerable<MQOffestInfo>;
+        //    if (topicsOffest != null)
+        //    {
+        //        return topicsOffest;
+        //    }
+        //    IEnumerable<string> lsttopicsOffest= args as IEnumerable<string>;
+        //    if (lsttopicsOffest != null)
+        //    {
+        //        List<MQOffestInfo> lst = new List<MQOffestInfo>();
+        //        foreach(string key in lsttopicsOffest)
+        //        {
+        //            lst.Add(new MQOffestInfo(key,null));
+        //        }
+        //        return lst;
+        //    }
+        //    return null;
+        //}
     }
 }
