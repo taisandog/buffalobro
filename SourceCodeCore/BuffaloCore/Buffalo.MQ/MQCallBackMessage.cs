@@ -10,6 +10,8 @@ namespace Buffalo.MQ
     /// </summary>
     public abstract class MQCallBackMessage:IDisposable
     {
+        protected bool _isOldMessage=false;
+
         /// <summary>
         /// 回调信息
         /// </summary>
@@ -23,8 +25,16 @@ namespace Buffalo.MQ
             _topic = topic;
             _body = body;
             
+            
         }
-       
+        /// <summary>
+        /// 是否还没ack的旧消息
+        /// </summary>
+        public bool IsOldMessage 
+        {
+            get { return _isOldMessage; }
+            internal set { _isOldMessage = value; }
+        }
         /// <summary>
         /// kafka和Rabbit的autocommit为false情况下此调用为Ark应答
         /// </summary>

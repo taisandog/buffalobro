@@ -99,6 +99,19 @@ namespace Buffalo.MQ.RedisMQ
         /// </summary>
         public string DefaultStreamDataKey = "bufmq.data";
         /// <summary>
+        /// 话题内容的最大长度
+        /// </summary>
+        public int TopicMaxLength = 1024;
+        /// <summary>
+        /// 启动时候是否加载未ack的旧消息
+        /// </summary>
+        public bool LoadNoAck = true;
+
+        /// <summary>
+        /// 修剪Stream记录的时间间隔(0则为不修剪)
+        /// </summary>
+        public int XTrimTimeout = 30*60 * 1000 ;
+        /// <summary>
         /// 使用数据库
         /// </summary>
         public int UseDatabase
@@ -172,6 +185,21 @@ namespace Buffalo.MQ.RedisMQ
             ConsumerName = hs.GetDicValue<string, string>("consumerName");
 
             ConsumerGroupName = hs.GetDicValue<string, string>("consumerGroupName");
+
+            LoadNoAck = hs.GetDicValue<string, string>("loadNoAck")=="1";
+
+            TopicMaxLength = hs.GetDicValue<string, string>("topicMaxLength").ConvertTo<int>(1024);//话题最大长度,0则为无限制
+            if (Mode == RedisMQMessageMode.Stream)
+            {
+                if (string.IsNullOrWhiteSpace(ConsumerGroupName)) 
+                {
+                    throw new MissingMemberException("redis stream模式必须配置consumerGroupName");
+                }
+                if (string.IsNullOrWhiteSpace(ConsumerName))
+                {
+                    throw new MissingMemberException("redis stream模式必须配置consumerName");
+                }
+            }
 
             if (servers.Count > 0)
             {

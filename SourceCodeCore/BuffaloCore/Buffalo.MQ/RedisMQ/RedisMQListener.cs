@@ -8,7 +8,9 @@ using StackExchange.Redis;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO.Pipelines;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -255,7 +257,7 @@ namespace Buffalo.MQ.RedisMQ
                     try
                     {
                         res = db.Execute("brPop", pkey, timeout);
-
+                       
 
                         if (res == null || res.IsNull || res.Length < 2)
                         {
@@ -280,94 +282,17 @@ namespace Buffalo.MQ.RedisMQ
                         Thread.Sleep(300);
                     }
                 }
-
             }
         }
-        /// <summary>
-        /// Stream方式监听
-        /// </summary>
-        /// <param name="objKeys"></param>
-        public void DoStreamListening(object objKeys)
+        
+        
+
+       
+
+        private static void ToUnifiedInt64(PipeWriter writer, long value)
         {
-            string listenKey = objKeys as string;
-            if (string.IsNullOrWhiteSpace(listenKey))
-            {
-                return;
-            }
-
-            //string pkey = GetQueueKey(listenKey);
-            string pkey = listenKey;
-            IDatabase db = GetDB ();
-
-            db.StreamAdd(pkey, new NameValueEntry[]
-                {
-                    new NameValueEntry(_config.DefaultStreamDataKey, new byte[]{ })
-                });
-
-            int sleep = _config.PollingInterval;
-            if (sleep <= 0)
-            {
-                sleep = 50;
-            }
-            RedisValue tmpval = RedisValue.Null;
-            byte[] svalue = null;
-            while (_pollrunning)
-            {
-                
-                try
-                {
-                    StreamEntry[] entries =db.StreamReadGroup(
-                    pkey,
-                    _config.ConsumerGroupName,
-                    _config.ConsumerName,
-                    _config.ReadGroupPosition, // 从未处理的消息开始读取
-                    count: _config.StreamPageSize // 每次读取10条
-                    );
-                    if (entries.Length <= 0)
-                    {
-                        Thread.Sleep(sleep);
-                        continue;
-                    }
-                    foreach (var entry in entries)
-                    {
-                        try
-                        {
-                            tmpval = entry[_config.DefaultStreamDataKey];
-                            svalue = tmpval;
-                            if(svalue == null || svalue.Length <= 0) 
-                            {
-                                RedisCallbackMessage messEmpty = new RedisCallbackMessage(listenKey, svalue, db, _config.ConsumerGroupName, entry.Id,
-                               _config.CommanfFlags);
-
-                                messEmpty.Commit();
-                                continue;
-                            }
-                            RedisCallbackMessage mess = new RedisCallbackMessage(listenKey, svalue,db,_config.ConsumerGroupName,entry.Id,
-                                _config.CommanfFlags);
-                            CallBack(mess).Wait();
-                            
-                        }
-                        catch (Exception ex)
-                        {
-                            OnException(ex).Wait();
-                            Thread.Sleep(300);
-                        }
-                    }
-                    if (entries.Length < _config.StreamPageSize)
-                    {
-                        Thread.Sleep(sleep);
-                        continue;
-                    }
-                }
-                catch (Exception e)
-                {
-                    OnException(e).Wait();
-                    Thread.Sleep(300);
-                }
-            }
-
+            
         }
-
         /// <summary>
         /// 开始监听
         /// </summary>
@@ -433,16 +358,13 @@ namespace Buffalo.MQ.RedisMQ
                 case RedisMQMessageMode.Stream://阻塞队列不需要Open，自己新建连接池
                     
                     IDatabase db = GetDB();
+                    _thdPolling = new BlockThreadPool();
+                    _pollrunning = true;
+                    _queRedis = new ConcurrentQueue<ConnectionMultiplexer>();
                     foreach (string lisKey in listenKeys)
                     {
-                        try
-                        {
-                            db.StreamCreateConsumerGroup(lisKey, _config.ConsumerGroupName,
-                                _config.ConsumerGroupPosition, _config.CommanfFlags);
-                        }
-                        catch (Exception ex) { }
+                       
                         _pollrunning = true;
-                        _thdPolling = new BlockThreadPool();
                         _thdPolling.RunParamThread(DoStreamListening, lisKey);
                     }
                     break;
