@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="DBTools.d2a11940-2161-44f6-93c4-ab9dfe801a61" Version="1.6" Language="en-US" Publisher="XP taisandog" />
+        <Identity Id="DBTools.d2a11940-2161-44f6-93c4-ab9dfe801a61" Version="1.7" Language="en-US" Publisher="XP taisandog" />
         <DisplayName>DBTools</DisplayName>
         <Description xml:space="preserve">Buffalo的实体配置工具</Description>
     </Metadata>
