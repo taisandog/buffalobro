@@ -1,0 +1,455 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>17.0</MinimumVisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <UseWinFormsOutOfProcDesigner>True</UseWinFormsOutOfProcDesigner>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <UseWinFormsOutOfProcDesigner>True</UseWinFormsOutOfProcDesigner>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|arm64'">
+    <UseWinFormsOutOfProcDesigner>True</UseWinFormsOutOfProcDesigner>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|arm64'">
+    <UseWinFormsOutOfProcDesigner>True</UseWinFormsOutOfProcDesigner>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectTypeGuids>{82b43b9b-a64c-4715-b499-d71e9ca2bd60};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectGuid>{EC755572-4D28-4A6D-94E3-053D46F5809A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DBTools</RootNamespace>
+    <AssemblyName>DBTools</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <GeneratePkgDefFile>true</GeneratePkgDefFile>
+    <UseCodebase>true</UseCodebase>
+    <IncludeAssemblyInVSIXContainer>true</IncludeAssemblyInVSIXContainer>
+    <IncludeDebugSymbolsInVSIXContainer>false</IncludeDebugSymbolsInVSIXContainer>
+    <IncludeDebugSymbolsInLocalVSIXDeployment>false</IncludeDebugSymbolsInLocalVSIXDeployment>
+    <CopyBuildOutputToOutputDirectory>true</CopyBuildOutputToOutputDirectory>
+    <CopyOutputSymbolsToOutputDirectory>true</CopyOutputSymbolsToOutputDirectory>
+    <StartAction>Program</StartAction>
+    <StartProgram Condition="'$(DevEnvDir)' != ''">$(DevEnvDir)devenv.exe</StartProgram>
+    <StartArguments>/rootsuffix Exp</StartArguments>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;NET_4_8</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseWinFormsOutOfProcDesigner>True</UseWinFormsOutOfProcDesigner>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Release\2026\DBTools\</OutputPath>
+    <DefineConstants>TRACE;NET_4_8</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\Release\2026\DBTools\DBTools.xml</DocumentationFile>
+    <UseWinFormsOutOfProcDesigner>True</UseWinFormsOutOfProcDesigner>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="BuffaloToolCDCommand.cs" />
+    <Compile Include="ClassDesignerInfo.cs" />
+    <Compile Include="CommandBar.Designer.cs" />
+    <Compile Include="CommandBarId.cs" />
+    <Compile Include="CommandItems.cs" />
+    <Compile Include="DBAddIn.cs" />
+    <Compile Include="DBCreater\TableCreater.cs" />
+    <Compile Include="DocSummary\AssLabelSummary.cs" />
+    <Compile Include="DocSummary\EnumItemSummary.cs" />
+    <Compile Include="DocSummary\EnumSummary.cs" />
+    <Compile Include="DocSummary\InterSummary.cs" />
+    <Compile Include="DocSummary\MemberItem.cs" />
+    <Compile Include="DocSummary\MemberSummary.cs" />
+    <Compile Include="DocSummary\ShapeSummaryDisplayer.cs" />
+    <Compile Include="DocSummary\SummaryShape.cs" />
+    <Compile Include="DocSummary\SummaryShowItem.cs" />
+    <Compile Include="DocSummary\VSConfig\IVSConfig.cs" />
+    <Compile Include="DocSummary\VSConfig\VS2005Config.cs" />
+    <Compile Include="DocSummary\VSConfig\VS2008Config.cs" />
+    <Compile Include="DocSummary\VSConfig\VS2010Config.cs" />
+    <Compile Include="DocSummary\VSConfig\VSConfigManager.cs" />
+    <Compile Include="FrmAllTables.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmAllTables.designer.cs">
+      <DependentUpon>FrmAllTables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmClassDesigner.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmClassDesigner.designer.cs">
+      <DependentUpon>FrmClassDesigner.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmDBCreate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmDBCreate.designer.cs">
+      <DependentUpon>FrmDBCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmDBSetting.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmDBSetting.designer.cs">
+      <DependentUpon>FrmDBSetting.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmProcess.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmProcess.designer.cs">
+      <DependentUpon>FrmProcess.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GridViewComboBoxCell.cs" />
+    <Compile Include="HelperKernel\BQLEntityGenerater.cs" />
+    <Compile Include="HelperKernel\CodeFile.cs" />
+    <Compile Include="HelperKernel\ComboBoxItemCollection.cs" />
+    <Compile Include="HelperKernel\DataAccessMappingConfig.cs" />
+    <Compile Include="HelperKernel\DataTypeInfos.cs" />
+    <Compile Include="HelperKernel\DBConfigInfo.cs" />
+    <Compile Include="HelperKernel\EntityConfig.cs" />
+    <Compile Include="HelperKernel\EntityFieldBase.cs" />
+    <Compile Include="HelperKernel\EntityMappingConfig.cs" />
+    <Compile Include="HelperKernel\EntityParamField.cs" />
+    <Compile Include="HelperKernel\EntityParamFieldCollection.cs" />
+    <Compile Include="HelperKernel\EntityRelationCollection.cs" />
+    <Compile Include="HelperKernel\EntityRelationItem.cs" />
+    <Compile Include="HelperKernel\EntityRemoveHelper.cs" />
+    <Compile Include="HelperKernel\FieldComparer.cs" />
+    <Compile Include="HelperKernel\Generate3Tier.cs" />
+    <Compile Include="HelperKernel\GrneraterBase.cs" />
+    <Compile Include="HelperKernel\TagManager.cs" />
+    <Compile Include="HelperKernel\ToolConfig.cs" />
+    <Compile Include="Models.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Models.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DBToolsPackage.cs" />
+    <Compile Include="ROMHelper\DBEntityInfo.cs" />
+    <Compile Include="ToolVersionInfo.cs" />
+    <Compile Include="UIHelper\BuildAction.cs" />
+    <Compile Include="UIHelper\ConfigItem.cs" />
+    <Compile Include="UIHelper\EntityInfo.cs" />
+    <Compile Include="UIHelper\FrmCompileResault.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UIHelper\FrmCompileResault.Designer.cs">
+      <DependentUpon>FrmCompileResault.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UIHelper\FrmUIGenerater.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UIHelper\FrmUIGenerater.Designer.cs">
+      <DependentUpon>FrmUIGenerater.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UIHelper\InitBaseCode.cs" />
+    <Compile Include="UIHelper\ModelLoader\CodeGenCache.cs" />
+    <Compile Include="UIHelper\ModelLoader\CodeGeneration.cs" />
+    <Compile Include="UIHelper\ModelLoader\CodeGenInfo.cs" />
+    <Compile Include="UIHelper\ModelLoader\CodeOutputer.cs" />
+    <Compile Include="UIHelper\ModelLoader\CodesManger.cs" />
+    <Compile Include="UIHelper\ModelLoader\CompileException.cs" />
+    <Compile Include="UIHelper\ModelLoader\ExpressionItem.cs" />
+    <Compile Include="UIHelper\ModelLoader\ExpressionType.cs" />
+    <Compile Include="UIHelper\ModelLoader\ICodeOutputer.cs" />
+    <Compile Include="UIHelper\ModelLoader\LinkOutputer.cs" />
+    <Compile Include="UIHelper\ModelLoader\MethodOutputer.cs" />
+    <Compile Include="UIHelper\ModelLoader\ModelCompiler.cs" />
+    <Compile Include="UIHelper\ModelLoader\SourceCodeCompiler.cs" />
+    <Compile Include="UIHelper\ModelLoader\UsingOutputer.cs" />
+    <Compile Include="UIHelper\UIConfigItem.cs" />
+    <Compile Include="UIHelper\UIModelItem.cs" />
+    <Compile Include="UIHelper\UIProject.cs" />
+    <Compile Include="UIHelper\UIProjectItem.cs" />
+    <Compile Include="Units\FileEncodingInfo.cs" />
+    <Compile Include="VSPackage.Designer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="clidriver.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="source.extension.vsixmanifest">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="envdte, Version=18.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Buffalo.DBTools\Microsoft.VisualStudio.EnterpriseTools\VS2026\envdte.dll</HintPath>
+    </Reference>
+    <Reference Include="envdte100, Version=18.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Buffalo.DBTools\Microsoft.VisualStudio.EnterpriseTools\VS2026\envdte100.dll</HintPath>
+    </Reference>
+    <Reference Include="envdte80, Version=18.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Buffalo.DBTools\Microsoft.VisualStudio.EnterpriseTools\VS2026\envdte80.dll</HintPath>
+    </Reference>
+    <Reference Include="envdte90, Version=18.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Buffalo.DBTools\Microsoft.VisualStudio.EnterpriseTools\VS2026\envdte90.dll</HintPath>
+    </Reference>
+    <Reference Include="envdte90a, Version=18.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Buffalo.DBTools\Microsoft.VisualStudio.EnterpriseTools\VS2026\envdte90a.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.VisualStudio.CommandBars, Version=18.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Buffalo.DBTools\Microsoft.VisualStudio.EnterpriseTools\VS2026\Microsoft.VisualStudio.CommandBars.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.EnterpriseTools.ClassDesigner, Version=17.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Buffalo.DBTools\Microsoft.VisualStudio.EnterpriseTools\VS2026\Microsoft.VisualStudio.EnterpriseTools.ClassDesigner.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.EnterpriseTools.Shell, Version=17.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Buffalo.DBTools\Microsoft.VisualStudio.EnterpriseTools\VS2026\Microsoft.VisualStudio.EnterpriseTools.Shell.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.EnterpriseTools.Shell.Resources, Version=17.0.0.0, Culture=zh-HANS, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Buffalo.DBTools\Microsoft.VisualStudio.EnterpriseTools\VS2026\Microsoft.VisualStudio.EnterpriseTools.Shell.Resources.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.EnterpriseTools.TypeSystem, Version=17.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Buffalo.DBTools\Microsoft.VisualStudio.EnterpriseTools\VS2026\Microsoft.VisualStudio.EnterpriseTools.TypeSystem.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.EnterpriseTools.TypeSystem.resources, Version=17.0.0.0, Culture=zh-HANS, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Buffalo.DBTools\Microsoft.VisualStudio.EnterpriseTools\VS2026\Microsoft.VisualStudio.EnterpriseTools.TypeSystem.resources.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Interop, Version=18.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Buffalo.DBTools\Microsoft.VisualStudio.EnterpriseTools\VS2026\Microsoft.VisualStudio.Interop.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Modeling, Version=17.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Buffalo.DBTools\Microsoft.VisualStudio.EnterpriseTools\VS2026\Microsoft.VisualStudio.Modeling.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Modeling.Diagrams, Version=17.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Buffalo.DBTools\Microsoft.VisualStudio.EnterpriseTools\VS2026\Microsoft.VisualStudio.Modeling.Diagrams.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Modeling.Diagrams.Resources, Version=17.0.0.0, Culture=zh-HANS, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Buffalo.DBTools\Microsoft.VisualStudio.EnterpriseTools\VS2026\Microsoft.VisualStudio.Modeling.Diagrams.Resources.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.15.0, Version=18.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Buffalo.DBTools\Microsoft.VisualStudio.EnterpriseTools\VS2026\Microsoft.VisualStudio.Shell.15.0.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.15.0.resources">
+      <HintPath>..\Buffalo.DBTools\Microsoft.VisualStudio.EnterpriseTools\VS2026\Microsoft.VisualStudio.Shell.15.0.resources.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Design, Version=18.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Buffalo.DBTools\Microsoft.VisualStudio.EnterpriseTools\VS2026\Microsoft.VisualStudio.Shell.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Framework, Version=18.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Buffalo.DBTools\Microsoft.VisualStudio.EnterpriseTools\VS2026\Microsoft.VisualStudio.Shell.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop, Version=18.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Buffalo.DBTools\Microsoft.VisualStudio.EnterpriseTools\VS2026\Microsoft.VisualStudio.Shell.Interop.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.10.0, Version=18.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Buffalo.DBTools\Microsoft.VisualStudio.EnterpriseTools\VS2026\Microsoft.VisualStudio.Shell.Interop.10.0.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.11.0, Version=18.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Buffalo.DBTools\Microsoft.VisualStudio.EnterpriseTools\VS2026\Microsoft.VisualStudio.Shell.Interop.11.0.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.12.0, Version=18.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Buffalo.DBTools\Microsoft.VisualStudio.EnterpriseTools\VS2026\Microsoft.VisualStudio.Shell.Interop.12.0.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.8.0, Version=18.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Buffalo.DBTools\Microsoft.VisualStudio.EnterpriseTools\VS2026\Microsoft.VisualStudio.Shell.Interop.8.0.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.9.0, Version=18.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Buffalo.DBTools\Microsoft.VisualStudio.EnterpriseTools\VS2026\Microsoft.VisualStudio.Shell.Interop.9.0.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Threading">
+      <HintPath>..\Buffalo.DBTools\Microsoft.VisualStudio.EnterpriseTools\VS2026\Microsoft.VisualStudio.Threading.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Threading.resources">
+      <HintPath>..\Buffalo.DBTools\Microsoft.VisualStudio.EnterpriseTools\VS2026\Microsoft.VisualStudio.Threading.resources.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Utilities">
+      <HintPath>..\Buffalo.DBTools\Microsoft.VisualStudio.EnterpriseTools\VS2026\Microsoft.VisualStudio.Utilities.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <VSCTCompile Include="DBToolsPackage.vsct">
+      <ResourceName>Menus.ctmenu</ResourceName>
+    </VSCTCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bqldataaccess.txt" />
+    <None Include="Resources\bqldb.txt" />
+    <None Include="Resources\bqlentity.txt" />
+    <Content Include="Resources\BuffaloToolCDCommand.png" />
+    <Content Include="Resources\BuffaloToolsPackage.ico" />
+    <Content Include="Resources\buffalotoolspackage1.ico" />
+    <None Include="Resources\business.txt" />
+    <None Include="Resources\classdiagram.txt" />
+    <None Include="Resources\dataaccess.txt" />
+    <None Include="Resources\dataview.txt" />
+    <Content Include="Resources\DBAddIn.png" />
+    <Content Include="Resources\DBAddInPackage.ico" />
+    <Content Include="Resources\DBAddInPackage.png" />
+    <Content Include="Resources\DBAddInPackagePackage.ico" />
+    <Content Include="Resources\DBToolsConntct.ico" />
+    <None Include="Resources\entity.txt" />
+    <None Include="Resources\idataaccess.txt" />
+    <Content Include="Resources\pic0100.png" />
+    <Content Include="Resources\pic0101.png" />
+    <Content Include="Resources\pic0200.png" />
+    <Content Include="Resources\pic0201.png" />
+    <Content Include="Resources\pic0300.png" />
+    <Content Include="Resources\pic0301.png" />
+    <Content Include="Resources\pic0400.png" />
+    <Content Include="Resources\pic0401.png" />
+    <Content Include="Resources\pic0500.png" />
+    <Content Include="Resources\pic0501.png" />
+    <None Include="Resources\userentity.txt" />
+    <None Include="Resources\uiconfigitem.xml" />
+    <Content Include="x64\SQLite.Interop.dll">
+      <IncludeInVSIX>true</IncludeInVSIX>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="x86\SQLite.Interop.dll">
+      <IncludeInVSIX>true</IncludeInVSIX>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CommandBar.resx" />
+    <EmbeddedResource Include="FrmAllTables.resx">
+      <DependentUpon>FrmAllTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmClassDesigner.resx">
+      <DependentUpon>FrmClassDesigner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmDBCreate.resx">
+      <DependentUpon>FrmDBCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmDBSetting.resx">
+      <DependentUpon>FrmDBSetting.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmProcess.resx">
+      <DependentUpon>FrmProcess.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Models.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Models.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIHelper\FrmCompileResault.resx">
+      <DependentUpon>FrmCompileResault.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIHelper\FrmUIGenerater.resx">
+      <DependentUpon>FrmUIGenerater.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VSPackage.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Buffalo.ArgCommon\Buffalo2022.ArgCommon.csproj">
+      <Project>{584f95b4-461a-4d50-8294-9147364e1945}</Project>
+      <Name>Buffalo2022.ArgCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Buffalo.Data.DB2\Buffalo2022.Data.DB2.csproj">
+      <Project>{421a6af4-de30-47d4-9aa1-4b573a31c5f3}</Project>
+      <Name>Buffalo2022.Data.DB2</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Buffalo.Data.MySQL\Buffalo2022.Data.MySQL.csproj">
+      <Project>{687614c3-2681-403a-998a-ada65e02ea64}</Project>
+      <Name>Buffalo2022.Data.MySQL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Buffalo.Data.Oracle12\Buffalo2022.Data.Oracle.csproj">
+      <Project>{c38522e1-35ba-40f7-a1e9-716d52bb6c04}</Project>
+      <Name>Buffalo2022.Data.Oracle</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Buffalo.Data.PostgreSQL\Buffalo2022.Data.PostgreSQL.csproj">
+      <Project>{ef96ea11-c57a-4de0-97f7-1ab7e20ca0bd}</Project>
+      <Name>Buffalo2022.Data.PostgreSQL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Buffalo.Data.SQLite\Buffalo2022.Data.SQLite.csproj">
+      <Project>{2e4a32f0-f84b-4e73-a48c-d1c816bc81fc}</Project>
+      <Name>Buffalo2022.Data.SQLite</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Buffalo.DB\Buffalo2022.DB.csproj">
+      <Project>{9b0043e4-883b-47ba-9a5a-5110c8583902}</Project>
+      <Name>Buffalo2022.DB</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Buffalo.GeneratorInfo\Buffalo2022.GeneratorInfo.csproj">
+      <Project>{6320c7dc-d4ae-4ea5-a2ab-b08b59062868}</Project>
+      <Name>Buffalo2022.GeneratorInfo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Buffalo.Kernel\Buffalo2022.Kernel.csproj">
+      <Project>{6ec04216-a422-4751-aa81-1211dcb10bab}</Project>
+      <Name>Buffalo2022.Kernel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Buffalo.MongoDB\Buffalo2022.MongoDB.csproj">
+      <Project>{be4af0e1-9426-4f0a-9344-cdcb578c8b7c}</Project>
+      <Name>Buffalo2022.MongoDB</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Buffalo.MQ\Buffalo2022.MQ.csproj">
+      <Project>{6cedc1e6-bd83-4d69-8b52-f0534e16f688}</Project>
+      <Name>Buffalo2022.MQ</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Buffalo.QueryCache\Buffalo2022.QueryCache.csproj">
+      <Project>{03433135-2a02-421a-b229-b505a8f42b98}</Project>
+      <Name>Buffalo2022.QueryCache</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Buffalo.Storage\Buffalo2022.Storage.csproj">
+      <Project>{1bbb9409-a9ea-48e4-bff5-c97eb4017283}</Project>
+      <Name>Buffalo2022.Storage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Buffalo.WebKernel\Buffalo2022.WebKernel.csproj">
+      <Project>{cbd39541-7a26-4c92-a369-0f2df5d13030}</Project>
+      <Name>Buffalo2022.WebKernel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Buffalo.Win32Kernel\Buffalo2022.Win32Kernel.csproj">
+      <Project>{48492bad-6312-4a80-a660-c0da04957227}</Project>
+      <Name>Buffalo2022.Win32Kernel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Buffalo.WinFormsControl\Buffalo2022.WinFormsControl.csproj">
+      <Project>{e7808223-2e0f-44c3-a39d-26cf22a9d946}</Project>
+      <Name>Buffalo2022.WinFormsControl</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

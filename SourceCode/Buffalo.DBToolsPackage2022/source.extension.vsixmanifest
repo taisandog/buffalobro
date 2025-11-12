@@ -6,7 +6,7 @@
         <Description xml:space="preserve">Buffalo的实体配置工具</Description>
     </Metadata>
     <Installation>
-        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0, 18.0)">
+        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0, 20.0)">
             <ProductArchitecture>amd64</ProductArchitecture>
         </InstallationTarget>
     </Installation>
