@@ -10,6 +10,7 @@
 		<AddIn file="AddIns\Net4.6.2\Buffalo.DBToolsPackage2017.vsix" version="15.0" addin="Visual Studio 2017" isvsix="1"></AddIn>
 		<AddIn file="AddIns\Net4.7.2\Buffalo.DBToolsPackage2019.vsix" version="16.0" addin="Visual Studio 2019" isvsix="1"></AddIn>
 		<AddIn file="AddIns\Net4.8\DBTools.vsix" version="16.0" addin="Visual Studio 2022" isvsix="1"></AddIn>
+		<AddIn file="AddIns\vs2026\DBTools.vsix" version="16.0" addin="Visual Studio 2026" isvsix="1"></AddIn>
 	</AddIns>
 	<Docs>
 		<dic title="Buffalo.DB文档" path="\doc\Buffalo.DB.docx"></dic>

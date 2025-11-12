@@ -49,26 +49,32 @@
             nupSyncTimeout = new System.Windows.Forms.NumericUpDown();
             label13 = new System.Windows.Forms.Label();
             chkSkipCert = new System.Windows.Forms.CheckBox();
-            txtModeLab = new System.Windows.Forms.TextBox();
-            txtModeLabel = new System.Windows.Forms.TextBox();
             groupBox1 = new System.Windows.Forms.GroupBox();
+            btnXTrimMaxLengthRemarl = new System.Windows.Forms.Button();
+            btnNoAckRemark = new System.Windows.Forms.Button();
+            label16 = new System.Windows.Forms.Label();
+            nupXTrimMaxLength = new System.Windows.Forms.NumericUpDown();
+            chkNoAck = new System.Windows.Forms.CheckBox();
             label15 = new System.Windows.Forms.Label();
             txtConsumerGroupName = new System.Windows.Forms.TextBox();
             label14 = new System.Windows.Forms.Label();
             txtConsumerName = new System.Windows.Forms.TextBox();
+            btnRemarkPolling = new System.Windows.Forms.Button();
+            btnMessageModeRemark = new System.Windows.Forms.Button();
             gpSetting.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)txtExpir).BeginInit();
             ((System.ComponentModel.ISupportInitialize)txtDatabase).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nupMessageMode).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nupSyncTimeout).BeginInit();
             groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)nupXTrimMaxLength).BeginInit();
             SuspendLayout();
             // 
             // gpSetting
             // 
+            gpSetting.Controls.Add(btnMessageModeRemark);
+            gpSetting.Controls.Add(btnRemarkPolling);
             gpSetting.Controls.Add(groupBox1);
-            gpSetting.Controls.Add(txtModeLabel);
-            gpSetting.Controls.Add(txtModeLab);
             gpSetting.Controls.Add(chkSkipCert);
             gpSetting.Controls.Add(nupSyncTimeout);
             gpSetting.Controls.Add(label13);
@@ -109,7 +115,6 @@
             // 
             // txtPwd
             // 
-            txtPwd.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             txtPwd.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             txtPwd.Location = new System.Drawing.Point(194, 104);
             txtPwd.Name = "txtPwd";
@@ -118,7 +123,6 @@
             // 
             // txtExpir
             // 
-            txtExpir.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             txtExpir.Location = new System.Drawing.Point(194, 139);
             txtExpir.Maximum = new decimal(new int[] { 999999999, 0, 0, 0 });
             txtExpir.Name = "txtExpir";
@@ -127,7 +131,6 @@
             // 
             // txtServer
             // 
-            txtServer.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             txtServer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             txtServer.Location = new System.Drawing.Point(194, 69);
             txtServer.Name = "txtServer";
@@ -174,7 +177,6 @@
             // 
             // txtName
             // 
-            txtName.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             txtName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             txtName.Location = new System.Drawing.Point(194, 34);
             txtName.Name = "txtName";
@@ -207,7 +209,7 @@
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new System.Drawing.Point(71, 219);
+            label10.Location = new System.Drawing.Point(71, 214);
             label10.Name = "label10";
             label10.Size = new System.Drawing.Size(115, 21);
             label10.TabIndex = 74;
@@ -215,7 +217,6 @@
             // 
             // txtDatabase
             // 
-            txtDatabase.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             txtDatabase.Location = new System.Drawing.Point(194, 211);
             txtDatabase.Maximum = new decimal(new int[] { int.MaxValue, 0, 0, 0 });
             txtDatabase.Name = "txtDatabase";
@@ -226,7 +227,7 @@
             // 
             label11.AutoSize = true;
             label11.Font = new System.Drawing.Font("微软雅黑", 12F);
-            label11.Location = new System.Drawing.Point(108, 250);
+            label11.Location = new System.Drawing.Point(108, 251);
             label11.Name = "label11";
             label11.Size = new System.Drawing.Size(78, 21);
             label11.TabIndex = 76;
@@ -234,17 +235,15 @@
             // 
             // cmbMessageMode
             // 
-            cmbMessageMode.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             cmbMessageMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             cmbMessageMode.FormattingEnabled = true;
-            cmbMessageMode.Location = new System.Drawing.Point(458, 246);
+            cmbMessageMode.Location = new System.Drawing.Point(194, 248);
             cmbMessageMode.Name = "cmbMessageMode";
-            cmbMessageMode.Size = new System.Drawing.Size(193, 29);
+            cmbMessageMode.Size = new System.Drawing.Size(379, 29);
             cmbMessageMode.TabIndex = 75;
             // 
             // cmbCommandFlags
             // 
-            cmbCommandFlags.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             cmbCommandFlags.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             cmbCommandFlags.FormattingEnabled = true;
             cmbCommandFlags.Location = new System.Drawing.Point(193, 341);
@@ -255,7 +254,7 @@
             // label12
             // 
             label12.AutoSize = true;
-            label12.Location = new System.Drawing.Point(69, 285);
+            label12.Location = new System.Drawing.Point(69, 289);
             label12.Name = "label12";
             label12.Size = new System.Drawing.Size(120, 21);
             label12.TabIndex = 78;
@@ -263,18 +262,16 @@
             // 
             // nupMessageMode
             // 
-            nupMessageMode.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            nupMessageMode.Location = new System.Drawing.Point(458, 295);
+            nupMessageMode.Location = new System.Drawing.Point(193, 286);
             nupMessageMode.Maximum = new decimal(new int[] { int.MaxValue, 0, 0, 0 });
             nupMessageMode.Minimum = new decimal(new int[] { 10, 0, 0, 0 });
             nupMessageMode.Name = "nupMessageMode";
-            nupMessageMode.Size = new System.Drawing.Size(193, 29);
+            nupMessageMode.Size = new System.Drawing.Size(380, 29);
             nupMessageMode.TabIndex = 77;
             nupMessageMode.Value = new decimal(new int[] { 500, 0, 0, 0 });
             // 
             // nupSyncTimeout
             // 
-            nupSyncTimeout.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             nupSyncTimeout.Location = new System.Drawing.Point(194, 174);
             nupSyncTimeout.Maximum = new decimal(new int[] { 999999999, 0, 0, 0 });
             nupSyncTimeout.Name = "nupSyncTimeout";
@@ -301,36 +298,13 @@
             chkSkipCert.Text = "SSL跳过证书";
             chkSkipCert.UseVisualStyleBackColor = true;
             // 
-            // txtModeLab
-            // 
-            txtModeLab.BackColor = System.Drawing.Color.White;
-            txtModeLab.Font = new System.Drawing.Font("微软雅黑", 8F);
-            txtModeLab.ForeColor = System.Drawing.Color.OliveDrab;
-            txtModeLab.Location = new System.Drawing.Point(193, 244);
-            txtModeLab.Multiline = true;
-            txtModeLab.Name = "txtModeLab";
-            txtModeLab.ReadOnly = true;
-            txtModeLab.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            txtModeLab.Size = new System.Drawing.Size(261, 33);
-            txtModeLab.TabIndex = 86;
-            txtModeLab.Text = "Polling:轮询模式,按照间隔获取队列数据\r\n\r\nSubscriber为订阅发布模式,使用pub/sub实现发布,如果勾选使用队列存储信息,则pub/sub只推送通知，实际数据还是从队列获取，以防止消息丢失\r\n\r\nBlockQueue:阻塞队列模式，利用brpop指令实现阻塞读取队列";
-            // 
-            // txtModeLabel
-            // 
-            txtModeLabel.BackColor = System.Drawing.Color.White;
-            txtModeLabel.Font = new System.Drawing.Font("微软雅黑", 8F);
-            txtModeLabel.ForeColor = System.Drawing.Color.OliveDrab;
-            txtModeLabel.Location = new System.Drawing.Point(193, 281);
-            txtModeLabel.Multiline = true;
-            txtModeLabel.Name = "txtModeLabel";
-            txtModeLabel.ReadOnly = true;
-            txtModeLabel.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            txtModeLabel.Size = new System.Drawing.Size(261, 54);
-            txtModeLabel.TabIndex = 87;
-            txtModeLabel.Text = "Polling模式时：此为每次轮询到空队列时候的睡眠时间(越小越实时，但负担更重，为0时候是50ms)\r\n\r\nBlockQueue模式时：此为brPop的超时时间(最小1秒，尽量大，值为0时候是30秒)\r\n\r\n\r\n";
-            // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(btnXTrimMaxLengthRemarl);
+            groupBox1.Controls.Add(btnNoAckRemark);
+            groupBox1.Controls.Add(label16);
+            groupBox1.Controls.Add(nupXTrimMaxLength);
+            groupBox1.Controls.Add(chkNoAck);
             groupBox1.Controls.Add(label15);
             groupBox1.Controls.Add(txtConsumerGroupName);
             groupBox1.Controls.Add(label14);
@@ -343,6 +317,54 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Stream模式";
             // 
+            // btnXTrimMaxLengthRemarl
+            // 
+            btnXTrimMaxLengthRemarl.Location = new System.Drawing.Point(562, 57);
+            btnXTrimMaxLengthRemarl.Name = "btnXTrimMaxLengthRemarl";
+            btnXTrimMaxLengthRemarl.Size = new System.Drawing.Size(71, 33);
+            btnXTrimMaxLengthRemarl.TabIndex = 97;
+            btnXTrimMaxLengthRemarl.Text = "说明";
+            btnXTrimMaxLengthRemarl.UseVisualStyleBackColor = true;
+            btnXTrimMaxLengthRemarl.Click += btnXTrimMaxLengthRemarl_Click;
+            // 
+            // btnNoAckRemark
+            // 
+            btnNoAckRemark.Location = new System.Drawing.Point(562, 18);
+            btnNoAckRemark.Name = "btnNoAckRemark";
+            btnNoAckRemark.Size = new System.Drawing.Size(71, 33);
+            btnNoAckRemark.TabIndex = 96;
+            btnNoAckRemark.Text = "说明";
+            btnNoAckRemark.UseVisualStyleBackColor = true;
+            btnNoAckRemark.Click += btnNoAckRemark_Click;
+            // 
+            // label16
+            // 
+            label16.AutoSize = true;
+            label16.Location = new System.Drawing.Point(352, 60);
+            label16.Name = "label16";
+            label16.Size = new System.Drawing.Size(78, 21);
+            label16.TabIndex = 95;
+            label16.Text = "最大记录:";
+            // 
+            // nupXTrimMaxLength
+            // 
+            nupXTrimMaxLength.Location = new System.Drawing.Point(436, 57);
+            nupXTrimMaxLength.Maximum = new decimal(new int[] { 9999, 0, 0, 0 });
+            nupXTrimMaxLength.Name = "nupXTrimMaxLength";
+            nupXTrimMaxLength.Size = new System.Drawing.Size(120, 29);
+            nupXTrimMaxLength.TabIndex = 94;
+            nupXTrimMaxLength.Value = new decimal(new int[] { 1024, 0, 0, 0 });
+            // 
+            // chkNoAck
+            // 
+            chkNoAck.AutoSize = true;
+            chkNoAck.Location = new System.Drawing.Point(352, 24);
+            chkNoAck.Name = "chkNoAck";
+            chkNoAck.Size = new System.Drawing.Size(185, 25);
+            chkNoAck.TabIndex = 93;
+            chkNoAck.Text = "启动加载未Ack的消息";
+            chkNoAck.UseVisualStyleBackColor = true;
+            // 
             // label15
             // 
             label15.AutoSize = true;
@@ -354,7 +376,6 @@
             // 
             // txtConsumerGroupName
             // 
-            txtConsumerGroupName.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             txtConsumerGroupName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             txtConsumerGroupName.Location = new System.Drawing.Point(101, 58);
             txtConsumerGroupName.Name = "txtConsumerGroupName";
@@ -372,12 +393,31 @@
             // 
             // txtConsumerName
             // 
-            txtConsumerName.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             txtConsumerName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             txtConsumerName.Location = new System.Drawing.Point(101, 22);
             txtConsumerName.Name = "txtConsumerName";
             txtConsumerName.Size = new System.Drawing.Size(200, 29);
             txtConsumerName.TabIndex = 89;
+            // 
+            // btnRemarkPolling
+            // 
+            btnRemarkPolling.Location = new System.Drawing.Point(579, 286);
+            btnRemarkPolling.Name = "btnRemarkPolling";
+            btnRemarkPolling.Size = new System.Drawing.Size(71, 33);
+            btnRemarkPolling.TabIndex = 89;
+            btnRemarkPolling.Text = "说明";
+            btnRemarkPolling.UseVisualStyleBackColor = true;
+            btnRemarkPolling.Click += btnRemarkPolling_Click;
+            // 
+            // btnMessageModeRemark
+            // 
+            btnMessageModeRemark.Location = new System.Drawing.Point(579, 248);
+            btnMessageModeRemark.Name = "btnMessageModeRemark";
+            btnMessageModeRemark.Size = new System.Drawing.Size(71, 33);
+            btnMessageModeRemark.TabIndex = 90;
+            btnMessageModeRemark.Text = "说明";
+            btnMessageModeRemark.UseVisualStyleBackColor = true;
+            btnMessageModeRemark.Click += btnMessageModeRemark_Click;
             // 
             // UIRedisMQ
             // 
@@ -393,6 +433,7 @@
             ((System.ComponentModel.ISupportInitialize)nupSyncTimeout).EndInit();
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)nupXTrimMaxLength).EndInit();
             ResumeLayout(false);
 
         }
@@ -420,12 +461,17 @@
         private System.Windows.Forms.NumericUpDown nupSyncTimeout;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.CheckBox chkSkipCert;
-        private System.Windows.Forms.TextBox txtModeLab;
-        private System.Windows.Forms.TextBox txtModeLabel;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.TextBox txtConsumerGroupName;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.TextBox txtConsumerName;
+        private System.Windows.Forms.Button btnRemarkPolling;
+        private System.Windows.Forms.Button btnMessageModeRemark;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.NumericUpDown nupXTrimMaxLength;
+        private System.Windows.Forms.CheckBox chkNoAck;
+        private System.Windows.Forms.Button btnNoAckRemark;
+        private System.Windows.Forms.Button btnXTrimMaxLengthRemarl;
     }
 }

@@ -27,6 +27,7 @@ namespace AddInSetup.ConnStringUI
             ShowProxy = false;
             BindFlags();
             BindMessageMode();
+            nupXTrimMaxLength.Maximum = int.MaxValue;
         }
         protected override void OnHelp()
         {
@@ -39,7 +40,7 @@ namespace AddInSetup.ConnStringUI
             string key = "buffalo.testmq";
             try
             {
-                APIResault res=MQHelper.TestMQ(name,key, "redismq",false, sbStr);
+                APIResault res = MQHelper.TestMQ(name, key, "redismq", false, sbStr);
                 if (!res.IsSuccess)
                 {
                     MessageBox.Show(res.Message, "测试失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -52,7 +53,7 @@ namespace AddInSetup.ConnStringUI
                 MessageBox.Show(ex.ToString(), "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            
+
         }
         private void BindFlags()
         {
@@ -145,8 +146,8 @@ namespace AddInSetup.ConnStringUI
                 }
             }
 
-            
-            
+
+
             int commanfFlags = (int)cmbCommandFlags.SelectedValue;
             if (commanfFlags > 0)
             {
@@ -161,7 +162,7 @@ namespace AddInSetup.ConnStringUI
                 sbStr.Append(((int)nupSyncTimeout.Value).ToString());
                 sbStr.Append(";");
             }
-           
+
             int pInterval = (int)nupMessageMode.Value;
             if (pInterval > 0)
             {
@@ -179,6 +180,14 @@ namespace AddInSetup.ConnStringUI
                 sbStr.Append("consumerGroupName=");
                 sbStr.Append(txtConsumerGroupName.Text);
                 sbStr.Append(";");
+
+                sbStr.Append("loadNoAck=");
+                sbStr.Append(chkNoAck.Checked?"1":"0");
+                sbStr.Append(";");
+
+                sbStr.Append("topicMaxLength=");
+                sbStr.Append(((int)nupXTrimMaxLength.Value).ToString());
+                sbStr.Append(";");
             }
 
             sbStr.Append("database=");
@@ -186,6 +195,35 @@ namespace AddInSetup.ConnStringUI
             return sbStr.ToString();
         }
 
+        private void btnRemarkPolling_Click(object sender, EventArgs e)
+        {
+            string text = "Polling模式时：此为每次轮询到空队列时候的睡眠时间(越小越实时，但负担更重，为0时候是50ms)\r\n\r\nBlockQueue和Stream模式时：此为brPop和XREADGROUP的超时时间(最小1秒，尽量大，值为0时候是30秒)\r\n\r\n\r\n";
+            ShowRemark(text, "轮询间隔");
+        }
 
+        private void ShowRemark(string msg, string title)
+        {
+            MessageBox.Show(msg, title, MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void btnMessageModeRemark_Click(object sender, EventArgs e)
+        {
+            string text = "Polling:轮询模式,按照间隔获取队列数据\r\n\r\nSubscriber为订阅发布模式,使用pub/sub实现发布,如果勾选使用队列存储信息,则pub/sub只推送通知，实际数据还是从队列获取，以防止消息丢失\r\n\r\nBlockQueue:阻塞队列模式，利用brpop指令实现阻塞读取队列\r\n\r\nStream:阻塞Stream模式，利用XREADGROUP指令实现Stream消息队列，支持Ack";
+            ShowRemark(text, "推送模式");
+        }
+
+        private void btnNoAckRemark_Click(object sender, EventArgs e)
+        {
+            string text = "启动MQListener时候加载一次已读但没正确Ack的消息";
+            ShowRemark(text, "启动加载未Ack的消息");
+
+        }
+
+        private void btnXTrimMaxLengthRemarl_Click(object sender, EventArgs e)
+        {
+            string text = "自动修剪话题的最大记录数\r\n设置为0则不自动修剪\r\n如果不设置可能会一直耗尽内存";
+            ShowRemark(text, "最大记录");
+        
+        }
     }
 }

@@ -937,3 +937,29 @@ Debug
 bin
 obj
 /SourceCodeCore/BuffaloCore/.vs
+/SourceCodeCore/BuffaloCore/Buffalo.DB/BQLCommon/BQLDbBase.cs.bak
+/SourceCodeCore/BuffaloCore/Buffalo.DB/DataBaseAdapter/SqlServer2K12Adapter/CutPageSqlCreater.cs.bak
+/SourceCodeCore/BuffaloCore/Buffalo.DB/DataBaseAdapter/SqlServer2K5Adapter/CutPageSqlCreater.cs.bak
+/SourceCodeCore/BuffaloCore/Buffalo.DB/DataBaseAdapter/SqlServer2KAdapter/CutPageSqlCreater.cs.bak
+/SourceCodeCore/BuffaloCore/Buffalo.DB/DataBaseAdapter/SqlServer2KAdapter/DBAdapter.cs.bak
+/SourceCodeCore/BuffaloCore/Buffalo.Data.DB2/CutPageSqlCreater.cs.bak
+/SourceCodeCore/BuffaloCore/Buffalo.Data.MySQL/CursorPageCutter.cs.bak
+/SourceCodeCore/BuffaloCore/Buffalo.Data.MySQL/CutPageSqlCreater.cs.bak
+/SourceCodeCore/BuffaloCore/Buffalo.Data.Oracle/CursorPageCutter.cs.bak
+/SourceCodeCore/BuffaloCore/Buffalo.Data.Oracle/CutPageSqlCreater.cs.bak
+/SourceCodeCore/BuffaloCore/Buffalo.Data.Oracle/DBAdapter.cs.bak
+/SourceCodeCore/BuffaloCore/Buffalo.Data.PostgreSQL/CutPageSqlCreater.cs.bak
+/SourceCodeCore/BuffaloCore/Buffalo.Data.SQLite/Buffalo - Backup.Data.SQLite.csproj
+/SourceCodeCore/BuffaloCore/Buffalo.Data.SQLite/CursorPageCutter.cs.bak
+/SourceCodeCore/BuffaloCore/Buffalo.Data.SQLite/CutPageSqlCreater.cs.bak
+/SourceCodeCore/BuffaloCore/Buffalo.IOCP/Buffalo - Backup.IOCP.csproj
+/SourceCodeCore/BuffaloCore/Buffalo.IOCP/Buffalo.IOCP.csproj.user
+/SourceCodeCore/BuffaloCore/Buffalo.IOCP/Properties/PublishProfiles/FolderProfile.pubxml
+/SourceCodeCore/BuffaloCore/Buffalo.IOCP/Properties/PublishProfiles/FolderProfile.pubxml.user
+/SourceCodeCore/BuffaloCore/Buffalo.MQ/Properties/PublishProfiles/FolderProfile1.pubxml
+/SourceCodeCore/BuffaloCore/Buffalo.MQ/Properties/PublishProfiles/FolderProfile1.pubxml.user
+/SourceCodeCore/BuffaloCore/Buffalo.MQ/Properties/PublishProfiles/FolderProfile2.pubxml
+/SourceCodeCore/BuffaloCore/Buffalo.MQ/Properties/PublishProfiles/FolderProfile2.pubxml.user
+/SourceCodeCore/BuffaloCore/Buffalo.MQ/Properties/PublishProfiles/FolderProfile3.pubxml
+/SourceCodeCore/BuffaloCore/Buffalo.MQ/Properties/PublishProfiles/FolderProfile3.pubxml.user
+/SourceCodeCore/BuffaloCore/Buffalo.MQ/RedisMQ/*.bak

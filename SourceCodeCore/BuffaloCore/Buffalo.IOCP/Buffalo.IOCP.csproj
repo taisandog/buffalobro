@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="ServerSocket.udp.cs.bak" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Buffalo.ArgCommon\Buffalo.ArgCommon.csproj" />
     <ProjectReference Include="..\Buffalo.Kernel\Buffalo.Kernel.csproj" />
   </ItemGroup>

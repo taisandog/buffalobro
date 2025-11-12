@@ -103,7 +103,10 @@ namespace AddInSetup
 
             if (_isvsix)
             {
-                Process.Start(fileName);
+                string arguments = $"/select,\"{fileName}\"";
+
+                System.Diagnostics.Process.Start("explorer.exe", arguments);
+                
                 return null;
             }
 
