@@ -607,7 +607,7 @@ namespace Buffalo.QueryCache
             throw new NotSupportedException("Memcached不支持List表");
         }
 
-        public override ICacheLock GetCacheLock(string key, MemcachedConnection connection)
+        public override QueryCacheLock GetCacheLock(string key, MemcachedConnection connection)
         {
             return new MemcachedLock(connection.Client, key);
         }

@@ -370,7 +370,7 @@ namespace Buffalo.DB.CacheManager
         /// <param name="key"></param>
         /// <param name="oper"></param>
         /// <returns></returns>
-        public ICacheLock GetCacheLock(string key, DataBaseOperate oper)
+        public QueryCacheLock GetCacheLock(string key, DataBaseOperate oper)
         {
 
             return new MemoryCacheLock(key);

@@ -9,72 +9,78 @@ using System.Threading.Tasks;
 
 namespace Buffalo.DB.CacheManager.CacheCollection
 {
-    public class MemoryCacheLock : ICacheLock
+    public class MemoryCacheLock : QueryCacheLock
     {
         private static LockObjects<string> _lok = new LockObjects<string>();
         private static AsyncTaskLock<string> _asyncLock = null;
-        private object _lokObj = null;
-        private string _key;
-        public MemoryCacheLock(string key) 
+        object _curLockobj = null;
+        public MemoryCacheLock(string key) :base(key)
         {
-            _lokObj = _lok.GetObject(key);
-            _key = key;
+            
         }
 
-        private bool _islock = false;
-        public bool Islock 
-        {
-            get { return _islock; }
-        }
-
-        public void Dispose()
-        {
-            UnLock();
-        }
-
-        public bool Lock(long millisecondsTimeout = -1, int pollingMillisecond = -1)
+        protected override LockResult LockObject(long millisecondsTimeout = -1, int pollingMillisecond = -1)
         {
             bool ret = false;
+            LockResult retRes = LockResult.Success;
+            _curLockobj = _lok.GetObject(_key);
+
             if (millisecondsTimeout > 0)
             {
-                ret = Monitor.TryEnter(_lokObj, (int)millisecondsTimeout);
+                ret = Monitor.TryEnter(_curLockobj, (int)millisecondsTimeout);
+                if (!ret)
+                {
+                    retRes = LockResult.AlreadyLocked;
+                }
+                
             }
             else
             {
-                Monitor.Enter(_lokObj, ref ret);
+                Monitor.Enter(_curLockobj, ref ret);
+                
             }
-            _islock = ret;
-            return ret;
+            return retRes;
         }
 
-        public bool UnLock()
+        protected override UnlockResult UnLockUser()
         {
-            if (_lokObj != null && _islock)
+            if (_curLockobj != null )
             {
-                Monitor.Exit(_lokObj);
-                _islock = false;
-                return true;
+                Monitor.Exit(_curLockobj);
             }
-            
-            return false;
+            return UnlockResult.Success;
         }
 
-        public Task<bool> LockAsync(long millisecondsTimeout = -1, int pollingMillisecond = -1)
+
+        protected override async Task<LockResult> LockObjectAsync(long millisecondsTimeout = -1, int pollingMillisecond = -1)
         {
+            bool ret = false;
+            LockResult retRes = LockResult.Success;
+            _curLockobj = _lok.GetObject(_key);
             _asyncLock = new AsyncTaskLock<string>(_key);
-            return _asyncLock.LockAsync();
+
+
+            ret= await _asyncLock.LockAsync();
+            if (!ret) 
+            {
+                return LockResult.AlreadyLocked;
+            }
+           
+
+            return LockResult.Success;
+
         }
 
-        public async Task<bool> UnLockAsync()
+        protected override async Task<UnlockResult> UnLockUserAsync()
         {
-            _asyncLock.ReleaseLock();
-            return true;
+            if (_asyncLock != null) 
+            {
+                _asyncLock.ReleaseLock();
+                _asyncLock = null;
+            }
+            return UnlockResult.Success;
         }
 
-        public async ValueTask DisposeAsync()
-        {
-            await UnLockAsync();
-
-        }
+        
     }
 }

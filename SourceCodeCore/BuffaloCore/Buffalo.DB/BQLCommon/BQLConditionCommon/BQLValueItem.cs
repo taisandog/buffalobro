@@ -18,6 +18,7 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
     
     public abstract class BQLValueItem:IDisposable
     {
+        private static CallContext<KeyWordInfomation> _curKeyWordInfomation = new CallContext<KeyWordInfomation>();
         /// <summary>
         /// 通知函数符号另一端的字段的数值类型
         /// </summary>
@@ -529,7 +530,7 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
             return info;
         }
         //private static readonly string KeyWordInfomationKey = "$$Buffalo.KeyWordInfomation";
-        private static CallContext<KeyWordInfomation> _curKeyWordInfomation = new CallContext<KeyWordInfomation>();
+        
         /// <summary>
         /// 获取默认的Key信息
         /// </summary>

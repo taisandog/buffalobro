@@ -12,6 +12,7 @@ using Buffalo.DB.QueryConditions;
 using System.Data;
 using Buffalo.DB.DBFunction;
 using Buffalo.Kernel;
+using System.Threading;
 
 namespace Buffalo.DB.BQLCommon.BQLBaseFunction
 {
@@ -20,6 +21,18 @@ namespace Buffalo.DB.BQLCommon.BQLBaseFunction
     /// </summary>
     public class BQL
     {
+        /// <summary>
+        /// 预热异步变量(复制变量的坑)
+        /// </summary>
+        internal static void HotAsyncContext() 
+        {
+            if (!Thread.CurrentThread.IsThreadPoolThread) 
+            {
+                return;
+            }
+            KeyWordInfomation info = BQLValueItem.GetKeyInfo();
+        }
+
         /// <summary>
         /// Select表
         /// </summary>

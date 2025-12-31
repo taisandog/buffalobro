@@ -7,7 +7,7 @@
     <Product>Buffalo.MongoDB for .Net Standard 2.0</Product>
     <Description>Buffalo的MongoDB库</Description>
     <PackageProjectUrl>https://github.com/taisandog</PackageProjectUrl>
-    <Version>1.5.0</Version>
+    <Version>1.5.1</Version>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
@@ -16,8 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MongoDB.Bson" Version="3.1.0" />
-    <PackageReference Include="MongoDB.Driver" Version="3.1.0" />
+    <PackageReference Include="MongoDB.Bson" Version="3.5.2" />
+    <PackageReference Include="MongoDB.Driver" Version="3.5.2" />
   </ItemGroup>
 
   <ItemGroup>

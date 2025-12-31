@@ -531,7 +531,7 @@ namespace Buffalo.QueryCache
             }
         }
 
-        public ICacheLock GetCacheLock(string key, DataBaseOperate oper)
+        public QueryCacheLock GetCacheLock(string key, DataBaseOperate oper)
         {
             return new MemoryCacheLock(key);
         }

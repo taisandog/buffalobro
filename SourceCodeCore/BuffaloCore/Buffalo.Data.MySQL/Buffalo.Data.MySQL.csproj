@@ -7,7 +7,7 @@
     <Description>Buffalo.DB的MySQL支持</Description>
     <PackageProjectUrl>https://github.com/taisandog</PackageProjectUrl>
     <AssemblyVersion>1.0.2.0</AssemblyVersion>
-    <Version>1.5.10</Version>
+    <Version>1.5.11</Version>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MySql.Data" Version="9.1.0" />
+    <PackageReference Include="MySql.Data" Version="9.5.0" />
   </ItemGroup>
 
   <ItemGroup>

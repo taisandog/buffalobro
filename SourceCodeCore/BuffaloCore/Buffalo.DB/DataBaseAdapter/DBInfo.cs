@@ -23,6 +23,7 @@ namespace Buffalo.DB.DataBaseAdapter
     /// </summary>
     public class DBInfo
     {
+       
         /// <summary>
         /// 获取浮点型长度(整数部分为10000的倍数，小数部分为小于10000的部分)
         /// </summary>

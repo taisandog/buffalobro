@@ -1351,13 +1351,13 @@ namespace Buffalo.DB.CacheManager
         /// <param name="entityType">实体类型</param>
         /// <param name="oper"></param>
         /// <returns></returns>
-        public ICacheLock GetCacheLock(string key, DataBaseOperate oper)
+        public QueryCacheLock GetCacheLock(string key, DataBaseOperate oper)
         {
             try
             {
                 using (T client = CreateClient(true, QueryCacheCommand.CommandLock))
                 {
-                    ICacheLock ret = GetCacheLock(key, client);
+                    QueryCacheLock ret = GetCacheLock(key, client);
                     if (_info.SqlOutputer.HasOutput)
                     {
                         OutPutMessage(QueryCacheCommand.CommandLock, "key=" + key, oper);
@@ -1407,7 +1407,7 @@ namespace Buffalo.DB.CacheManager
         /// <param name="key"></param>
         /// <param name="connection"></param>
         /// <returns></returns>
-        public abstract ICacheLock GetCacheLock(string key, T connection);
+        public abstract QueryCacheLock GetCacheLock(string key, T connection);
 
 
 

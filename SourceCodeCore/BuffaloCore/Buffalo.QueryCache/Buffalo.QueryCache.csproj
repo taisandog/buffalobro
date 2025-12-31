@@ -6,7 +6,7 @@
     <PackageProjectUrl>https://github.com/taisandog</PackageProjectUrl>
     <Description>Buffalo的缓存支持(Redis、memcached)</Description>
     <Product>Buffalo.QueryCache for .Net Standard 2.0</Product>
-    <Version>1.8.0</Version>
+    <Version>1.8.5</Version>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
@@ -21,18 +21,23 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EnyimMemcachedCore" Version="3.3.2" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="9.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="9.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="9.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="EnyimMemcachedCore" Version="3.4.5" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="10.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="10.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="Newtonsoft.Json.Bson" Version="1.0.3" />
-    <PackageReference Include="StackExchange.Redis" Version="2.8.24" />
+    <PackageReference Include="StackExchange.Redis" Version="2.10.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Enums\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Buffalo.ArgCommon\Buffalo.ArgCommon.csproj" />
     <ProjectReference Include="..\Buffalo.DB\Buffalo.DB.csproj" />
     <ProjectReference Include="..\Buffalo.Kernel\Buffalo.Kernel.csproj" />
   </ItemGroup>

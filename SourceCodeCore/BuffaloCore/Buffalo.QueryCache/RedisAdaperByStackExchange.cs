@@ -597,7 +597,7 @@ namespace Buffalo.QueryCache
             return new RedisList(connection.DB, key, _commanfFlags, _expiration);
         }
 
-        public override ICacheLock GetCacheLock(string key, RedisConnection connection)
+        public override QueryCacheLock GetCacheLock(string key, RedisConnection connection)
         {
             return new RedisLock(connection.DB, key, _commanfFlags);
         }

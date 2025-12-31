@@ -842,7 +842,7 @@ namespace Buffalo.DB.CacheManager
         /// <param name="key"></param>
         /// <param name="oper"></param>
         /// <returns></returns>
-        public ICacheLock GetCacheLock(string key)
+        public QueryCacheLock GetCacheLock(string key)
         {
             return _cache.GetCacheLock(key, _db.DefaultOperate);
         }

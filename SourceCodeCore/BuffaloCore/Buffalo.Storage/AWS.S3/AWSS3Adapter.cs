@@ -163,7 +163,7 @@ namespace Buffalo.Storage.AWS.S3
                 DeleteObjectsResponse dresponse = _client.DeleteObjectsAsync(drequest).Result;
                 request.Marker = response.NextMarker;
             }
-            while (response.IsTruncated);
+            while (response.IsTruncated.GetValueOrDefault());
 
 
             return ApiCommon.GetSuccess();
@@ -213,7 +213,7 @@ namespace Buffalo.Storage.AWS.S3
                 string url = FileInfoBase.CombineUriToString(_internetUrl, request.Key);
                 string accessUrl = FileInfoBase.CombineUriToString(_internetUrl, request.Key);
 
-                NetStorageFileInfo info = new NetStorageFileInfo(response.LastModified, response.LastModified,
+                NetStorageFileInfo info = new NetStorageFileInfo(response.LastModified.GetValueOrDefault(), response.LastModified.GetValueOrDefault(),
                 path , url, accessUrl, response.ETag, response.ContentLength);
 
                 return info;
@@ -369,8 +369,8 @@ namespace Buffalo.Storage.AWS.S3
                     }
                     url = FileInfoBase.CombineUriToString(_internetUrl, entry.Key);
                     accessUrl = FileInfoBase.CombineUriToString(_lanUrl, entry.Key);
-                    NetStorageFileInfo info = new NetStorageFileInfo(entry.LastModified, entry.LastModified,
-                            entry.Key, url, accessUrl, entry.ETag, entry.Size);
+                    NetStorageFileInfo info = new NetStorageFileInfo(entry.LastModified.GetValueOrDefault(), entry.LastModified.GetValueOrDefault(),
+                            entry.Key, url, accessUrl, entry.ETag, entry.Size.GetValueOrDefault());
                     lst.Add(info);
 
                 }
@@ -378,7 +378,7 @@ namespace Buffalo.Storage.AWS.S3
                 
                 request.Marker = response.NextMarker;
             }
-            while (response.IsTruncated);
+            while (response.IsTruncated.GetValueOrDefault());
 
             return lst;
 

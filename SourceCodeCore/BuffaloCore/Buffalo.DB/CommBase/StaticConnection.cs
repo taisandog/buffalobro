@@ -8,6 +8,7 @@ using Buffalo.DB.EntityInfos;
 using Buffalo.Kernel;
 using System.Diagnostics;
 using Buffalo.DB.MessageOutPuters;
+using Buffalo.DB.BQLCommon.BQLBaseFunction;
 
 namespace Buffalo.DB.CommBase
 {
@@ -43,6 +44,7 @@ namespace Buffalo.DB.CommBase
 
                 db.SelectedOperate = oper;
             }
+            BQL.HotAsyncContext();
             return oper;
         }
 
