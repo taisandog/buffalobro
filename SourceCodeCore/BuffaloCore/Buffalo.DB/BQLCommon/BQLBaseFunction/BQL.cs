@@ -13,6 +13,7 @@ using System.Data;
 using Buffalo.DB.DBFunction;
 using Buffalo.Kernel;
 using System.Threading;
+using Buffalo.Kernel.FastReflection;
 
 namespace Buffalo.DB.BQLCommon.BQLBaseFunction
 {
@@ -26,7 +27,7 @@ namespace Buffalo.DB.BQLCommon.BQLBaseFunction
         /// </summary>
         internal static void HotAsyncContext() 
         {
-            if (!Thread.CurrentThread.IsThreadPoolThread) 
+            if (!CallContextAsyncTag.IsInAsync) 
             {
                 return;
             }

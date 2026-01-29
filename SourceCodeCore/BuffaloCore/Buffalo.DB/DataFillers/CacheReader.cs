@@ -279,7 +279,7 @@ namespace Buffalo.DB.DataFillers
             //return cacheReader;
             //dicReaderCache.Add(type.FullName,cacheReader);
         }
-
+        
         /// <summary>
         /// 从Reader里边读取一个对象数据
         /// </summary>

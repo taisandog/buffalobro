@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using Buffalo.DB.Exceptions;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
+using System.Threading;
+using Buffalo.Kernel.FastReflection;
 
 ///通用SQL Server访问类v1.2
 
@@ -550,6 +552,7 @@ namespace Buffalo.DB.DbCommon
             {
                 _conn = null;
                 _tran = null;
+                CallContextAsyncTag.ClearAsync();
             }
 
             try
@@ -650,6 +653,7 @@ namespace Buffalo.DB.DbCommon
             {
                 _conn = null;
                 _tran = null;
+                CallContextAsyncTag.ClearAsync();
             }
 
             try
@@ -1448,6 +1452,7 @@ namespace Buffalo.DB.DbCommon
 		}
         internal async Task<bool> StartTranAsync(IsolationLevel isolationLevel= IsolationLevel.ReadCommitted)
         {
+
             //若连接数据库失败抛出错误
             if (!( await ConnectDataBaseAsync()))
             {

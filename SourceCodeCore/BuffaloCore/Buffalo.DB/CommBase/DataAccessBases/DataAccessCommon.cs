@@ -709,9 +709,9 @@ namespace Buffalo.DB.CommBase.DataAccessBases
                 await using (DbDataReader reader =await dao.QueryReaderAsync(lstScope, childInfo.EntityType))
                 {
                     //获取子表的get列表
+
+                    CacheReader.GenerateCache(reader, childInfo, lstParamNames);//创建一个缓存数值列表
                     
-
-
                     while (await reader.ReadAsync())
                     {
                         string fk = reader[mappingInfo.TargetProperty.ParamName].ToString();

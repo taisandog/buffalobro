@@ -244,7 +244,7 @@ namespace Buffalo.DB.DataBaseAdapter
         
         private CallContext<DBInfo> _curDB = new CallContext<DBInfo>();
 
-
+        
         /// <summary>
         /// 本线程使用的子数据源（-1则为恢复主数据源）
         /// </summary>
@@ -252,6 +252,7 @@ namespace Buffalo.DB.DataBaseAdapter
         {
             get 
             {
+                CallContextAsyncTag.SetAsyncNx(false);
                 DBInfo val = _curDB.Value;
                 if (val == null) 
                 {
@@ -261,6 +262,7 @@ namespace Buffalo.DB.DataBaseAdapter
             }
             set 
             {
+                CallContextAsyncTag.SetAsyncNx(false);
                 if (value < 0) 
                 {
                     _curDB.Value = null;
@@ -270,8 +272,34 @@ namespace Buffalo.DB.DataBaseAdapter
                 _curDB.Value = info;
             }
         }
+        /// <summary>
+        /// 本线程使用的子数据源（-1则为恢复主数据源）
+        /// </summary>
+        public int SelectedDataSourceAsync
+        {
+            get
+            {
+                CallContextAsyncTag.SetAsyncNx(true);
+                DBInfo val = _curDB.Value;
+                if (val == null)
+                {
+                    return -1;
+                }
+                return val._childKey;
+            }
+            set
+            {
+                CallContextAsyncTag.SetAsyncNx(true);
+                if (value < 0)
+                {
+                    _curDB.Value = null;
+                    return;
+                }
+                DBInfo info = GetChildDBInfo(value);
+                _curDB.Value = info;
+            }
+        }
 
-       
         /// <summary>
         /// 选中的数据源
         /// </summary>

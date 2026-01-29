@@ -149,10 +149,12 @@ namespace Buffalo.DB.EntityInfos
         {
             get 
             {
+                CallContextAsyncTag.SetAsyncNx(false);
                 return _curTableName.Value;
             }
             set 
             {
+                CallContextAsyncTag.SetAsyncNx(false);
                 if (string.IsNullOrWhiteSpace(value)) 
                 {
                     _curTableName.Value = null;
@@ -161,7 +163,27 @@ namespace Buffalo.DB.EntityInfos
                 _curTableName.Value = value;
             }
         }
-
+        /// <summary>
+        /// 异步切换当前使用的表名,null则切换回默认
+        /// </summary>
+        public string SelectedTableNameAsync
+        {
+            get
+            {
+                CallContextAsyncTag.SetAsyncNx(true);
+                return _curTableName.Value;
+            }
+            set
+            {
+                CallContextAsyncTag.SetAsyncNx(true);
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    _curTableName.Value = null;
+                    return;
+                }
+                _curTableName.Value = value;
+            }
+        }
         /// <summary>
         /// 对应的表名名
         /// </summary>

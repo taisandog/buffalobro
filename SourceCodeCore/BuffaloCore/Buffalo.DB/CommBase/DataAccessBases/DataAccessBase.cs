@@ -19,6 +19,7 @@ using Buffalo.DB.CommBase.BusinessBases;
 using Buffalo.DB.BQLCommon.BQLConditionCommon;
 using System.Threading.Tasks;
 using System.Data.Common;
+using Buffalo.Kernel.FastReflection;
 
 namespace Buffalo.DB.CommBase.DataAccessBases
 {
@@ -118,6 +119,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <param name="commandType">语句类型</param>
         public virtual List<T> QueryList(string sql, ParamList list, CommandType commandType, Dictionary<string, bool> cachetables)
         {
+            CallContextAsyncTag.SetAsyncNx(false);
             List<T> retlist = null;
             using (IDataReader reader = _oper.Query(sql, list, commandType,cachetables))
             {
@@ -137,6 +139,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <param name="objPage">分页对象</param>
         public virtual List<T> QueryList(string sql,  PageContent objPage ,ParamList lstParam = null)
         {
+            CallContextAsyncTag.SetAsyncNx(false);
             List<T> retlist = null;
             using (IDataReader reader = EntityInfo.DBInfo.CurrentDbAdapter.Query(sql, lstParam, objPage, _oper))
             {
@@ -154,6 +157,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <param name="commandType">语句类型</param>
         public virtual async Task<List<T>> QueryListAsync(string sql, ParamList list, CommandType commandType, Dictionary<string, bool> cachetables)
         {
+            CallContextAsyncTag.SetAsyncNx(true);
             List<T> retlist = null;
             using (DbDataReader reader = await _oper.QueryAsync(sql, list, commandType, cachetables))
             {
@@ -173,6 +177,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <param name="objPage">分页对象</param>
         public virtual async Task<List<T>> QueryListAsync(string sql, PageContent objPage, ParamList lstParam = null)
         {
+            CallContextAsyncTag.SetAsyncNx(true);
             List<T> retlist = null;
             using (DbDataReader reader = EntityInfo.DBInfo.CurrentDbAdapter.Query(sql, lstParam, objPage, _oper))
             {
@@ -488,7 +493,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <returns></returns>
         public virtual T GetObjectById(object id, bool isSearchByCache=false)
         {
-            
+            CallContextAsyncTag.SetAsyncNx(false);
             ParamList list = new ParamList();
             T ret = default(T);
             Dictionary<string, bool> cacheTables = null;
@@ -513,7 +518,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <returns></returns>
         public virtual async Task<T> GetObjectByIdAsync(object id, bool isSearchByCache = false)
         {
-
+            CallContextAsyncTag.SetAsyncNx(true);
             ParamList list = new ParamList();
             T ret = default(T);
             Dictionary<string, bool> cacheTables = null;
@@ -538,6 +543,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <returns></returns>
         public virtual int Insert(T obj,ValueSetList setList=null, bool fillIdentity = false)
         {
+            CallContextAsyncTag.SetAsyncNx(false);
             int ret = -1;
             ret = DoInsert(obj, setList, fillIdentity);
             return ret;
@@ -549,6 +555,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <returns></returns>
         public virtual async Task<int> InsertAsync(T obj, ValueSetList setList = null, bool fillIdentity = false)
         {
+            CallContextAsyncTag.SetAsyncNx(true);
             int ret = -1;
             ret = await DoInsertAsync(obj, setList, fillIdentity);
             return ret;
@@ -585,6 +592,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <returns></returns>
         public virtual DataSet Select(ScopeList scopeList)
         {
+            CallContextAsyncTag.SetAsyncNx(false);
             if (scopeList.HasInner )
             {
                 if (scopeList.OrderBy.Count <= 0 && scopeList.HasPage)
@@ -617,6 +625,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <returns></returns>
         public virtual async Task<DataSet> SelectAsync(ScopeList scopeList)
         {
+            CallContextAsyncTag.SetAsyncNx(true);
             if (scopeList.HasInner)
             {
                 if (scopeList.OrderBy.Count <= 0 && scopeList.HasPage)
@@ -649,6 +658,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <returns></returns>
         public virtual List<T> SelectList(ScopeList scopeList)
         {
+            CallContextAsyncTag.SetAsyncNx(false);
             if (scopeList.HasPage)
             {
                 if (!scopeList.HasSort)
@@ -686,6 +696,8 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <returns></returns>
         public virtual async Task<List<T>> SelectListAsync(ScopeList scopeList)
         {
+
+            CallContextAsyncTag.SetAsyncNx(true);
             if (scopeList.HasPage)
             {
                 if (!scopeList.HasSort)
@@ -725,6 +737,8 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <returns></returns>
         public virtual long SelectCount(ScopeList scopeList)
         {
+
+            CallContextAsyncTag.SetAsyncNx(false);
             if (scopeList.HasInner)
             {
                 return _cdal.SelectCount<T>(scopeList);
@@ -758,6 +772,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <returns></returns>
         public virtual async Task<long> SelectCountAsync(ScopeList scopeList)
         {
+            CallContextAsyncTag.SetAsyncNx(true);
             if (scopeList.HasInner)
             {
                 return await _cdal.SelectCountAsync<T>(scopeList);
@@ -795,6 +810,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <returns></returns>
         public virtual bool ExistsRecord(ScopeList scopeList)
         {
+            CallContextAsyncTag.SetAsyncNx(false);
             if (scopeList.HasInner)
             {
                 return _cdal.ExistsRecord<T>(scopeList);
@@ -825,6 +841,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <returns></returns>
         public virtual async Task<bool> ExistsRecordAsync(ScopeList scopeList)
         {
+            CallContextAsyncTag.SetAsyncNx(true);
             if (scopeList.HasInner)
             {
                 return await _cdal.ExistsRecordAsync<T>(scopeList);

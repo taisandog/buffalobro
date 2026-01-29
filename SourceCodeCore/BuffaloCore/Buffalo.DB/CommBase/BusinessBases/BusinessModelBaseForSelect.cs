@@ -10,6 +10,7 @@ using Buffalo.DB.EntityInfos;
 using Buffalo.DB.BQLCommon.BQLConditionCommon;
 using Buffalo.DB.BQLCommon;
 using System.Threading.Tasks;
+using Buffalo.Kernel.FastReflection;
 
 namespace Buffalo.DB.CommBase.BusinessBases
 {
@@ -54,7 +55,7 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns></returns>
         protected DBTransaction StartTransaction() 
         {
-
+            CallContextAsyncTag.SetAsyncNx(false);
             return DefaultOperate.StartTransaction() ;
         }
         /// <summary>
@@ -63,7 +64,7 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns></returns>
         protected Task<DBTransaction> StartTransactionAsync()
         {
-
+            CallContextAsyncTag.SetAsyncNx(true);
             return DefaultOperate.StartTransactionAsync();
         }
         /// <summary>
@@ -83,6 +84,7 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns></returns>
         public virtual T GetEntityById(object id)
         {
+            CallContextAsyncTag.SetAsyncNx(false);
             DataAccessBaseForSelect<T> dao = new DataAccessBaseForSelect<T>();
             return dao.GetEntityById(id);
         }
@@ -93,6 +95,7 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns></returns>
         public virtual Task<T> GetEntityByIdAsync(object id)
         {
+            CallContextAsyncTag.SetAsyncNx(true);
             DataAccessBaseForSelect<T> dao = new DataAccessBaseForSelect<T>();
             return dao.GetEntityByIdAsync(id);
         }
@@ -103,6 +106,7 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns></returns>
         public virtual T GetByIdUseCache(object id)
         {
+            CallContextAsyncTag.SetAsyncNx(false);
             DataAccessBaseForSelect<T> dao = new DataAccessBaseForSelect<T>();
             return dao.GetObjectById(id,true);
         }
@@ -113,6 +117,7 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns></returns>
         public virtual Task<T> GetByIdUseCacheAsync(object id)
         {
+            CallContextAsyncTag.SetAsyncNx(true);
             DataAccessBaseForSelect<T> dao = new DataAccessBaseForSelect<T>();
             return dao.GetObjectByIdAsync(id, true);
         }
@@ -128,6 +133,7 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns></returns>
         public DataSet SelectTable(string tableName,  ScopeList lstScope)
         {
+            CallContextAsyncTag.SetAsyncNx(false);
             OnSelect(lstScope);
             BQLDataAccessBase<T> dao = new BQLDataAccessBase<T>();
             return dao.SelectTable(tableName, lstScope,typeof(T));
@@ -143,6 +149,7 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns></returns>
         public Task<DataSet> SelectTableAsync(string tableName, ScopeList lstScope)
         {
+            CallContextAsyncTag.SetAsyncNx(true);
             OnSelect(lstScope);
             BQLDataAccessBase<T> dao = new BQLDataAccessBase<T>();
             return dao.SelectTableAsync(tableName, lstScope, typeof(T));
@@ -157,6 +164,7 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns></returns>
         public DataSet SelectTable(BQLOtherTableHandle table,  ScopeList lstScope)
         {
+            CallContextAsyncTag.SetAsyncNx(false);
             OnSelect(lstScope);
             BQLDataAccessBase<T> dao = new BQLDataAccessBase<T>();
             return dao.SelectTable(table, lstScope, typeof(T));
@@ -171,6 +179,7 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns></returns>
         public Task<DataSet> SelectTableAsync(BQLOtherTableHandle table, ScopeList lstScope)
         {
+            CallContextAsyncTag.SetAsyncNx(true);
             OnSelect(lstScope);
             BQLDataAccessBase<T> dao = new BQLDataAccessBase<T>();
             return dao.SelectTableAsync(table, lstScope, typeof(T));
@@ -182,7 +191,8 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns></returns>
         public T GetUnique(ScopeList lstScope)
         {
-           
+            CallContextAsyncTag.SetAsyncNx(false);
+
             PageContent oldPage = lstScope.PageContent;
             lstScope.PageContent = new PageContent();
             lstScope.PageContent.PageSize = 1;
@@ -204,7 +214,7 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns></returns>
         public async Task<T> GetUniqueAsync(ScopeList lstScope)
         {
-
+            CallContextAsyncTag.SetAsyncNx(true);
             PageContent oldPage = lstScope.PageContent;
             lstScope.PageContent = new PageContent();
             lstScope.PageContent.PageSize = 1;
@@ -229,6 +239,7 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns></returns>
         public virtual DataSet Select(ScopeList lstScope)
         {
+            CallContextAsyncTag.SetAsyncNx(false);
             OnSelect(lstScope);
             DataAccessBaseForSelect<T> entityDao = new DataAccessBaseForSelect<T>();
             DataSet ret = entityDao.Select(lstScope);
@@ -242,6 +253,7 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns></returns>
         public virtual Task<DataSet> SelectAsync(ScopeList lstScope)
         {
+            CallContextAsyncTag.SetAsyncNx(true);
             OnSelect(lstScope);
             DataAccessBaseForSelect<T> entityDao = new DataAccessBaseForSelect<T>();
             
@@ -256,6 +268,7 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns></returns>
         public virtual List<T> SelectList(ScopeList lstScope)
         {
+            CallContextAsyncTag.SetAsyncNx(false);
             OnSelect(lstScope);
             DataAccessBaseForSelect<T> entityDao = new DataAccessBaseForSelect<T>();
             List<T> ret = entityDao.SelectList(lstScope);
@@ -268,6 +281,7 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns></returns>
         public virtual Task<List<T>> SelectListAsync(ScopeList lstScope)
         {
+            CallContextAsyncTag.SetAsyncNx(true);
             OnSelect(lstScope);
             DataAccessBaseForSelect<T> entityDao = new DataAccessBaseForSelect<T>();
             
@@ -285,6 +299,7 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns></returns>
         public virtual long SelectCount(ScopeList scpoeList)
         {
+            CallContextAsyncTag.SetAsyncNx(false);
             OnSelect(scpoeList);
             DataAccessBaseForSelect<T> entityDao = new DataAccessBaseForSelect<T>();
             long ret = 0;
@@ -298,6 +313,7 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns></returns>
         public virtual Task<long> SelectCountAsync(ScopeList scpoeList)
         {
+            CallContextAsyncTag.SetAsyncNx(true);
             OnSelect(scpoeList);
             DataAccessBaseForSelect<T> entityDao = new DataAccessBaseForSelect<T>();
             long ret = 0;
@@ -316,6 +332,7 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns></returns>
         public virtual bool ExistsRecord(ScopeList scpoeList)
         {
+            CallContextAsyncTag.SetAsyncNx(false);
             OnSelect(scpoeList);
             DataAccessBaseForSelect<T> entityDao = new DataAccessBaseForSelect<T>();
             bool ret = entityDao.ExistsRecord(scpoeList);
@@ -328,6 +345,7 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns></returns>
         public virtual Task<bool> ExistsRecordAsync(ScopeList scpoeList)
         {
+            CallContextAsyncTag.SetAsyncNx(true);
             OnSelect(scpoeList);
             DataAccessBaseForSelect<T> entityDao = new DataAccessBaseForSelect<T>();
            
