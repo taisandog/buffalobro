@@ -9,20 +9,19 @@ namespace Buffalo.Kernel.FastReflection
 {
 
 
-
+    /// <summary>
+    /// 上下文变量，支持异步调用传递，在线程池且不需要异步时候设置CallContextSyncTag.SetSync()
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class CallContext<T>
     {
         ThreadLocal<T> _thdValue = new ThreadLocal<T>();
         AsyncLocal<AsyncLocalValue<T>> _asyncValue = new AsyncLocal<AsyncLocalValue<T>>();
-       
-
-        
-
         public T Value
         {
             get 
             {
-                if (CallContextAsyncTag.IsInAsync) 
+                if (!CallContextSyncTag.IsInSync) 
                 {
                     AsyncLocalValue<T> val = _asyncValue.Value;
                     if(val == null) 
@@ -35,7 +34,7 @@ namespace Buffalo.Kernel.FastReflection
             }
             set 
             {
-                if (CallContextAsyncTag.IsInAsync)
+                if (!CallContextSyncTag.IsInSync)
                 {
                     AsyncLocalValue<T> val = _asyncValue.Value;
                     if (val == null)
@@ -60,77 +59,48 @@ namespace Buffalo.Kernel.FastReflection
         public T Value;
     }
     /// <summary>
-    /// 上下文异步标记
+    /// 上下文同步标记，在线程池且不需要异步时候设置CallContextSyncTag.SetSync()
     /// </summary>
-    public class CallContextAsyncTag 
+    public class CallContextSyncTag 
     {
-        private static AsyncLocal<AsyncLocalValue<int>> _isAsync = new AsyncLocal<AsyncLocalValue<int>>();
+        private static ThreadLocal<AsyncLocalValue<bool>> _isSync = new ThreadLocal<AsyncLocalValue<bool>>();
+
         /// <summary>
-        /// 是否异步调用标志，-1表示未设置，0表示同步调用，1表示异步调用
+        /// 设置为同步调用标志
         /// </summary>
-        private static int IsAsync
+        public static void SetSync()
+        {
+            AsyncLocalValue<bool> valObj = _isSync.Value;
+
+            if (valObj == null)
+            {
+                valObj = new AsyncLocalValue<bool>();
+                _isSync.Value = valObj;
+            }
+            valObj.Value = true;
+            
+        }
+        /// <summary>
+        /// 清除是否同步调用标志
+        /// </summary>
+        public static void ClearSync()
+        {
+            _isSync.Value = null;
+        }
+        /// <summary>
+        /// 判断是否在同步调用中
+        /// </summary>
+        public static bool IsInSync
         {
             get
             {
-                AsyncLocalValue<int> val = _isAsync.Value;
-                if (val == null)
+                AsyncLocalValue<bool> valObj = _isSync.Value;
+               
+                if (valObj==null)
                 {
-                    return -1;
+                    return (!Thread.CurrentThread.IsThreadPoolThread);
                 }
-                return val.Value;
-            }
-            set
-            {
-                if (value < 0) 
-                {
-                    _isAsync.Value = null;
-                    return;
-                }
-
-                AsyncLocalValue<int> val = _isAsync.Value;
-                if (val == null)
-                {
-                    val = new AsyncLocalValue<int>();
-                    _isAsync.Value = val;
-                }
-                val.Value = value;
-            }
-        }
-        /// <summary>
-        /// 设置是否异步调用标志
-        /// </summary>
-        /// <param name="isAsync">是否异步</param>
-        public static void SetAsyncNx(bool isAsync) 
-        {
-
-            int val = IsAsync;
-            if (val < 0)
-            {
-                IsAsync = isAsync ? 1 : 0;
-            }
-        }
-        /// <summary>
-        /// 清除是否异步调用标志
-        /// </summary>
-        public static void ClearAsync()
-        {
-            IsAsync = -1;
-
-
-        }
-        /// <summary>
-        /// 判断是否在异步调用中
-        /// </summary>
-        public static bool IsInAsync
-        {
-            get
-            {
-                int val = IsAsync;
-                if (val < 0)
-                {
-                    return Thread.CurrentThread.IsThreadPoolThread;
-                }
-                return val == 1;
+                return valObj.Value;
             }
         }
     }

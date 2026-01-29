@@ -50,12 +50,12 @@ namespace Buffalo.DB.CommBase.BusinessBases
         }
 
         /// <summary>
-        /// 开启事务
+        /// 开启事务,在非异步线程池时候先设置CallContextSyncTag.SetSync()
         /// </summary>
         /// <returns></returns>
         protected DBTransaction StartTransaction() 
         {
-            CallContextAsyncTag.SetAsyncNx(false);
+            //CallContextAsyncTag.SetAsyncNx(false);
             return DefaultOperate.StartTransaction() ;
         }
         /// <summary>
@@ -64,11 +64,11 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns></returns>
         protected Task<DBTransaction> StartTransactionAsync()
         {
-            CallContextAsyncTag.SetAsyncNx(true);
+            //CallContextAsyncTag.SetAsyncNx(true);
             return DefaultOperate.StartTransactionAsync();
         }
         /// <summary>
-        /// 开始非事务的批量动作
+        /// 开始非事务的批量动作,在非异步线程池时候先设置CallContextSyncTag.SetSync()
         /// </summary>
         /// <returns></returns>
         protected BatchAction StartBatchAction()
@@ -78,13 +78,13 @@ namespace Buffalo.DB.CommBase.BusinessBases
         }
 
         /// <summary>
-        /// 根据主键查找实体
+        /// 根据主键查找实体,在非异步线程池时候先设置CallContextSyncTag.SetSync()
         /// </summary>
         /// <param name="id">主键</param>
         /// <returns></returns>
         public virtual T GetEntityById(object id)
         {
-            CallContextAsyncTag.SetAsyncNx(false);
+            //CallContextAsyncTag.SetAsyncNx(false);
             DataAccessBaseForSelect<T> dao = new DataAccessBaseForSelect<T>();
             return dao.GetEntityById(id);
         }
@@ -95,18 +95,18 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns></returns>
         public virtual Task<T> GetEntityByIdAsync(object id)
         {
-            CallContextAsyncTag.SetAsyncNx(true);
+            //CallContextAsyncTag.SetAsyncNx(true);
             DataAccessBaseForSelect<T> dao = new DataAccessBaseForSelect<T>();
             return dao.GetEntityByIdAsync(id);
         }
         /// <summary>
-        /// 根据主键查找实体(使用缓存)
+        /// 根据主键查找实体(使用缓存),在非异步线程池时候先设置CallContextSyncTag.SetSync()
         /// </summary>
         /// <param name="id">主键</param>
         /// <returns></returns>
         public virtual T GetByIdUseCache(object id)
         {
-            CallContextAsyncTag.SetAsyncNx(false);
+            //CallContextAsyncTag.SetAsyncNx(false);
             DataAccessBaseForSelect<T> dao = new DataAccessBaseForSelect<T>();
             return dao.GetObjectById(id,true);
         }
@@ -117,13 +117,13 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns></returns>
         public virtual Task<T> GetByIdUseCacheAsync(object id)
         {
-            CallContextAsyncTag.SetAsyncNx(true);
+            //CallContextAsyncTag.SetAsyncNx(true);
             DataAccessBaseForSelect<T> dao = new DataAccessBaseForSelect<T>();
             return dao.GetObjectByIdAsync(id, true);
         }
 
         /// <summary>
-        /// 直接查询数据库视图
+        /// 直接查询数据库视图,在非异步线程池时候先设置CallContextSyncTag.SetSync()
         /// </summary>
         /// <param name="tableName">表名称</param>
         /// <param name="lstScope">条件</param>
@@ -133,7 +133,7 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns></returns>
         public DataSet SelectTable(string tableName,  ScopeList lstScope)
         {
-            CallContextAsyncTag.SetAsyncNx(false);
+            //CallContextAsyncTag.SetAsyncNx(false);
             OnSelect(lstScope);
             BQLDataAccessBase<T> dao = new BQLDataAccessBase<T>();
             return dao.SelectTable(tableName, lstScope,typeof(T));
@@ -149,13 +149,13 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns></returns>
         public Task<DataSet> SelectTableAsync(string tableName, ScopeList lstScope)
         {
-            CallContextAsyncTag.SetAsyncNx(true);
+            //CallContextAsyncTag.SetAsyncNx(true);
             OnSelect(lstScope);
             BQLDataAccessBase<T> dao = new BQLDataAccessBase<T>();
             return dao.SelectTableAsync(tableName, lstScope, typeof(T));
         }
         /// <summary>
-        /// 查询特殊表或者视图
+        /// 查询特殊表或者视图,在非异步线程池时候先设置CallContextSyncTag.SetSync()
         /// </summary>
         /// <param name="table"></param>
         /// <param name="vParams"></param>
@@ -164,7 +164,7 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns></returns>
         public DataSet SelectTable(BQLOtherTableHandle table,  ScopeList lstScope)
         {
-            CallContextAsyncTag.SetAsyncNx(false);
+            //CallContextAsyncTag.SetAsyncNx(false);
             OnSelect(lstScope);
             BQLDataAccessBase<T> dao = new BQLDataAccessBase<T>();
             return dao.SelectTable(table, lstScope, typeof(T));
@@ -179,19 +179,19 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns></returns>
         public Task<DataSet> SelectTableAsync(BQLOtherTableHandle table, ScopeList lstScope)
         {
-            CallContextAsyncTag.SetAsyncNx(true);
+            //CallContextAsyncTag.SetAsyncNx(true);
             OnSelect(lstScope);
             BQLDataAccessBase<T> dao = new BQLDataAccessBase<T>();
             return dao.SelectTableAsync(table, lstScope, typeof(T));
         }
         /// <summary>
-        /// 根据条件查找实体
+        /// 根据条件查找实体,在非异步线程池时候先设置CallContextSyncTag.SetSync()
         /// </summary>
         /// <param name="lstScope">条件</param>
         /// <returns></returns>
         public T GetUnique(ScopeList lstScope)
         {
-            CallContextAsyncTag.SetAsyncNx(false);
+            //CallContextAsyncTag.SetAsyncNx(false);
 
             PageContent oldPage = lstScope.PageContent;
             lstScope.PageContent = new PageContent();
@@ -214,7 +214,7 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns></returns>
         public async Task<T> GetUniqueAsync(ScopeList lstScope)
         {
-            CallContextAsyncTag.SetAsyncNx(true);
+            //CallContextAsyncTag.SetAsyncNx(true);
             PageContent oldPage = lstScope.PageContent;
             lstScope.PageContent = new PageContent();
             lstScope.PageContent.PageSize = 1;
@@ -232,14 +232,14 @@ namespace Buffalo.DB.CommBase.BusinessBases
 
 
         /// <summary>
-        /// 查找
+        /// 查找,在非异步线程池时候先设置CallContextSyncTag.SetSync()
         /// </summary>
         /// <param name="lstScope">范围集合</param>
         /// <param name="lstSort">排序条件集合</param>
         /// <returns></returns>
         public virtual DataSet Select(ScopeList lstScope)
         {
-            CallContextAsyncTag.SetAsyncNx(false);
+            //CallContextAsyncTag.SetAsyncNx(false);
             OnSelect(lstScope);
             DataAccessBaseForSelect<T> entityDao = new DataAccessBaseForSelect<T>();
             DataSet ret = entityDao.Select(lstScope);
@@ -253,7 +253,7 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns></returns>
         public virtual Task<DataSet> SelectAsync(ScopeList lstScope)
         {
-            CallContextAsyncTag.SetAsyncNx(true);
+            //CallContextAsyncTag.SetAsyncNx(true);
             OnSelect(lstScope);
             DataAccessBaseForSelect<T> entityDao = new DataAccessBaseForSelect<T>();
             
@@ -262,13 +262,13 @@ namespace Buffalo.DB.CommBase.BusinessBases
         }
 
         /// <summary>
-        /// 查找(返回集合)
+        /// 查找(返回集合),在非异步线程池时候先设置CallContextSyncTag.SetSync()
         /// </summary>
         /// <param name="lstScope">范围集合</param>
         /// <returns></returns>
         public virtual List<T> SelectList(ScopeList lstScope)
         {
-            CallContextAsyncTag.SetAsyncNx(false);
+            //CallContextAsyncTag.SetAsyncNx(false);
             OnSelect(lstScope);
             DataAccessBaseForSelect<T> entityDao = new DataAccessBaseForSelect<T>();
             List<T> ret = entityDao.SelectList(lstScope);
@@ -281,7 +281,7 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns></returns>
         public virtual Task<List<T>> SelectListAsync(ScopeList lstScope)
         {
-            CallContextAsyncTag.SetAsyncNx(true);
+            //CallContextAsyncTag.SetAsyncNx(true);
             OnSelect(lstScope);
             DataAccessBaseForSelect<T> entityDao = new DataAccessBaseForSelect<T>();
             
@@ -293,13 +293,13 @@ namespace Buffalo.DB.CommBase.BusinessBases
         #region SelectCount
 
         /// <summary>
-        /// 查询符合指定条件的记录条数
+        /// 查询符合指定条件的记录条数,在非异步线程池时候先设置CallContextSyncTag.SetSync()
         /// </summary>
         /// <param name="scpoeList">范围查找的集合</param>
         /// <returns></returns>
         public virtual long SelectCount(ScopeList scpoeList)
         {
-            CallContextAsyncTag.SetAsyncNx(false);
+            //CallContextAsyncTag.SetAsyncNx(false);
             OnSelect(scpoeList);
             DataAccessBaseForSelect<T> entityDao = new DataAccessBaseForSelect<T>();
             long ret = 0;
@@ -313,7 +313,7 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns></returns>
         public virtual Task<long> SelectCountAsync(ScopeList scpoeList)
         {
-            CallContextAsyncTag.SetAsyncNx(true);
+            //CallContextAsyncTag.SetAsyncNx(true);
             OnSelect(scpoeList);
             DataAccessBaseForSelect<T> entityDao = new DataAccessBaseForSelect<T>();
             long ret = 0;
@@ -326,13 +326,13 @@ namespace Buffalo.DB.CommBase.BusinessBases
 
 
         /// <summary>
-        /// 查询符合指定条件的记录条数
+        /// 查询符合指定条件的记录条数,在非异步线程池时候先设置CallContextSyncTag.SetSync()
         /// </summary>
         /// <param name="scpoeList">范围查找的集合</param>
         /// <returns></returns>
         public virtual bool ExistsRecord(ScopeList scpoeList)
         {
-            CallContextAsyncTag.SetAsyncNx(false);
+            //CallContextAsyncTag.SetAsyncNx(false);
             OnSelect(scpoeList);
             DataAccessBaseForSelect<T> entityDao = new DataAccessBaseForSelect<T>();
             bool ret = entityDao.ExistsRecord(scpoeList);
@@ -345,7 +345,7 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns></returns>
         public virtual Task<bool> ExistsRecordAsync(ScopeList scpoeList)
         {
-            CallContextAsyncTag.SetAsyncNx(true);
+            //CallContextAsyncTag.SetAsyncNx(true);
             OnSelect(scpoeList);
             DataAccessBaseForSelect<T> entityDao = new DataAccessBaseForSelect<T>();
            

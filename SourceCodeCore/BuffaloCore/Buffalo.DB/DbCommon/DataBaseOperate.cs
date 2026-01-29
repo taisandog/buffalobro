@@ -552,7 +552,7 @@ namespace Buffalo.DB.DbCommon
             {
                 _conn = null;
                 _tran = null;
-                CallContextAsyncTag.ClearAsync();
+                //CallContextAsyncTag.ClearAsync();
             }
 
             try
@@ -653,7 +653,7 @@ namespace Buffalo.DB.DbCommon
             {
                 _conn = null;
                 _tran = null;
-                CallContextAsyncTag.ClearAsync();
+                //CallContextAsyncTag.ClearAsync();
             }
 
             try

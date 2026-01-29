@@ -112,14 +112,14 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         #endregion
         #region 查询方法
         /// <summary>
-        /// 执行sql语句，返回List
+        /// 执行sql语句，返回List,在非异步线程池时候先设置CallContextSyncTag.SetSync()
         /// </summary>
         /// <param name="sql">sql语句</param>
         /// <param name="list">参数列表</param>
         /// <param name="commandType">语句类型</param>
         public virtual List<T> QueryList(string sql, ParamList list, CommandType commandType, Dictionary<string, bool> cachetables)
         {
-            CallContextAsyncTag.SetAsyncNx(false);
+            //CallContextAsyncTag.SetAsyncNx(false);
             List<T> retlist = null;
             using (IDataReader reader = _oper.Query(sql, list, commandType,cachetables))
             {
@@ -132,14 +132,14 @@ namespace Buffalo.DB.CommBase.DataAccessBases
 
 
         /// <summary>
-        /// 执行sql语句，分页返回List(游标分页)
+        /// 执行sql语句，分页返回List(游标分页),在非异步线程池时候先设置CallContextSyncTag.SetSync()
         /// </summary>
         /// <param name="sql">sql语句</param>
         /// <param name="lstParam">参数集合</param>
         /// <param name="objPage">分页对象</param>
         public virtual List<T> QueryList(string sql,  PageContent objPage ,ParamList lstParam = null)
         {
-            CallContextAsyncTag.SetAsyncNx(false);
+            //CallContextAsyncTag.SetAsyncNx(false);
             List<T> retlist = null;
             using (IDataReader reader = EntityInfo.DBInfo.CurrentDbAdapter.Query(sql, lstParam, objPage, _oper))
             {
@@ -157,7 +157,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <param name="commandType">语句类型</param>
         public virtual async Task<List<T>> QueryListAsync(string sql, ParamList list, CommandType commandType, Dictionary<string, bool> cachetables)
         {
-            CallContextAsyncTag.SetAsyncNx(true);
+            //CallContextAsyncTag.SetAsyncNx(true);
             List<T> retlist = null;
             using (DbDataReader reader = await _oper.QueryAsync(sql, list, commandType, cachetables))
             {
@@ -177,7 +177,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <param name="objPage">分页对象</param>
         public virtual async Task<List<T>> QueryListAsync(string sql, PageContent objPage, ParamList lstParam = null)
         {
-            CallContextAsyncTag.SetAsyncNx(true);
+            //CallContextAsyncTag.SetAsyncNx(true);
             List<T> retlist = null;
             using (DbDataReader reader = EntityInfo.DBInfo.CurrentDbAdapter.Query(sql, lstParam, objPage, _oper))
             {
@@ -486,14 +486,14 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         }
 
         /// <summary>
-        /// 根据ID获取记录
+        /// 根据ID获取记录,在非异步线程池时候先设置CallContextSyncTag.SetSync()
         /// </summary>
         /// <param name="id">ID</param>
         /// <param name="isSearchByCache">是否缓存搜索</param>
         /// <returns></returns>
         public virtual T GetObjectById(object id, bool isSearchByCache=false)
         {
-            CallContextAsyncTag.SetAsyncNx(false);
+            //CallContextAsyncTag.SetAsyncNx(false);
             ParamList list = new ParamList();
             T ret = default(T);
             Dictionary<string, bool> cacheTables = null;
@@ -518,7 +518,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <returns></returns>
         public virtual async Task<T> GetObjectByIdAsync(object id, bool isSearchByCache = false)
         {
-            CallContextAsyncTag.SetAsyncNx(true);
+            //CallContextAsyncTag.SetAsyncNx(true);
             ParamList list = new ParamList();
             T ret = default(T);
             Dictionary<string, bool> cacheTables = null;
@@ -537,13 +537,13 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         }
 
         /// <summary>
-        /// 插入一个记录
+        /// 插入一个记录,在非异步线程池时候先设置CallContextSyncTag.SetSync()
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
         public virtual int Insert(T obj,ValueSetList setList=null, bool fillIdentity = false)
         {
-            CallContextAsyncTag.SetAsyncNx(false);
+            //CallContextAsyncTag.SetAsyncNx(false);
             int ret = -1;
             ret = DoInsert(obj, setList, fillIdentity);
             return ret;
@@ -555,7 +555,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <returns></returns>
         public virtual async Task<int> InsertAsync(T obj, ValueSetList setList = null, bool fillIdentity = false)
         {
-            CallContextAsyncTag.SetAsyncNx(true);
+            //CallContextAsyncTag.SetAsyncNx(true);
             int ret = -1;
             ret = await DoInsertAsync(obj, setList, fillIdentity);
             return ret;
@@ -586,13 +586,13 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         }
 
         /// <summary>
-        /// 查询表
+        /// 查询表,在非异步线程池时候先设置CallContextSyncTag.SetSync()
         /// </summary>
         /// <param name="scopeList">范围查找的集合</param>
         /// <returns></returns>
         public virtual DataSet Select(ScopeList scopeList)
         {
-            CallContextAsyncTag.SetAsyncNx(false);
+            //CallContextAsyncTag.SetAsyncNx(false);
             if (scopeList.HasInner )
             {
                 if (scopeList.OrderBy.Count <= 0 && scopeList.HasPage)
@@ -625,7 +625,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <returns></returns>
         public virtual async Task<DataSet> SelectAsync(ScopeList scopeList)
         {
-            CallContextAsyncTag.SetAsyncNx(true);
+            //CallContextAsyncTag.SetAsyncNx(true);
             if (scopeList.HasInner)
             {
                 if (scopeList.OrderBy.Count <= 0 && scopeList.HasPage)
@@ -652,13 +652,13 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         }
 
         /// <summary>
-        /// 分页查询表(返回List)
+        /// 分页查询表(返回List),在非异步线程池时候先设置CallContextSyncTag.SetSync()
         /// </summary>
         /// <param name="scopeList">范围查找的集合</param>
         /// <returns></returns>
         public virtual List<T> SelectList(ScopeList scopeList)
         {
-            CallContextAsyncTag.SetAsyncNx(false);
+            //CallContextAsyncTag.SetAsyncNx(false);
             if (scopeList.HasPage)
             {
                 if (!scopeList.HasSort)
@@ -697,7 +697,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         public virtual async Task<List<T>> SelectListAsync(ScopeList scopeList)
         {
 
-            CallContextAsyncTag.SetAsyncNx(true);
+            //CallContextAsyncTag.SetAsyncNx(true);
             if (scopeList.HasPage)
             {
                 if (!scopeList.HasSort)
@@ -731,14 +731,14 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         #endregion
         #region SelectCount
         /// <summary>
-        /// 查询符合指定条件的记录条数
+        /// 查询符合指定条件的记录条数,在非异步线程池时候先设置CallContextSyncTag.SetSync()
         /// </summary>
         /// <param name="scopeList">范围查找的集合</param>
         /// <returns></returns>
         public virtual long SelectCount(ScopeList scopeList)
         {
 
-            CallContextAsyncTag.SetAsyncNx(false);
+            //CallContextAsyncTag.SetAsyncNx(false);
             if (scopeList.HasInner)
             {
                 return _cdal.SelectCount<T>(scopeList);
@@ -772,7 +772,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <returns></returns>
         public virtual async Task<long> SelectCountAsync(ScopeList scopeList)
         {
-            CallContextAsyncTag.SetAsyncNx(true);
+            //CallContextAsyncTag.SetAsyncNx(true);
             if (scopeList.HasInner)
             {
                 return await _cdal.SelectCountAsync<T>(scopeList);
@@ -804,13 +804,13 @@ namespace Buffalo.DB.CommBase.DataAccessBases
 
         #region SelectExists
         /// <summary>
-        /// 查询是否存在符合条件的记录
+        /// 查询是否存在符合条件的记录,在非异步线程池时候先设置CallContextSyncTag.SetSync()
         /// </summary>
         /// <param name="scopeList">范围查找的集合</param>
         /// <returns></returns>
         public virtual bool ExistsRecord(ScopeList scopeList)
         {
-            CallContextAsyncTag.SetAsyncNx(false);
+            //CallContextAsyncTag.SetAsyncNx(false);
             if (scopeList.HasInner)
             {
                 return _cdal.ExistsRecord<T>(scopeList);
@@ -841,7 +841,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <returns></returns>
         public virtual async Task<bool> ExistsRecordAsync(ScopeList scopeList)
         {
-            CallContextAsyncTag.SetAsyncNx(true);
+            //CallContextAsyncTag.SetAsyncNx(true);
             if (scopeList.HasInner)
             {
                 return await _cdal.ExistsRecordAsync<T>(scopeList);

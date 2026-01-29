@@ -143,18 +143,18 @@ namespace Buffalo.DB.EntityInfos
         private CallContext<string> _curTableName = new CallContext<string>();
 
         /// <summary>
-        /// 切换当前使用的表名,null则切换回默认
+        /// 切换当前使用的表名,null则切换回默认,在非异步线程池时候先设置CallContextSyncTag.SetSync()
         /// </summary>
         public string SelectedTableName 
         {
             get 
             {
-                CallContextAsyncTag.SetAsyncNx(false);
+                //CallContextAsyncTag.SetAsyncNx(false);
                 return _curTableName.Value;
             }
             set 
             {
-                CallContextAsyncTag.SetAsyncNx(false);
+                //CallContextAsyncTag.SetAsyncNx(false);
                 if (string.IsNullOrWhiteSpace(value)) 
                 {
                     _curTableName.Value = null;
@@ -163,27 +163,7 @@ namespace Buffalo.DB.EntityInfos
                 _curTableName.Value = value;
             }
         }
-        /// <summary>
-        /// 异步切换当前使用的表名,null则切换回默认
-        /// </summary>
-        public string SelectedTableNameAsync
-        {
-            get
-            {
-                CallContextAsyncTag.SetAsyncNx(true);
-                return _curTableName.Value;
-            }
-            set
-            {
-                CallContextAsyncTag.SetAsyncNx(true);
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    _curTableName.Value = null;
-                    return;
-                }
-                _curTableName.Value = value;
-            }
-        }
+        
         /// <summary>
         /// 对应的表名名
         /// </summary>
