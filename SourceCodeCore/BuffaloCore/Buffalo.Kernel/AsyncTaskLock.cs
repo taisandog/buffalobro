@@ -16,7 +16,7 @@ namespace Buffalo.Kernel
         /// <summary>
         /// 当前任务的变量
         /// </summary>
-        private static CallContext<Dictionary<T, bool>> _dicCurLock = new CallContext<Dictionary<T, bool>>();
+        private static AsyncLocal<Dictionary<T, bool>> _dicCurLock = new AsyncLocal<Dictionary<T, bool>>();
         /// <summary>
         /// 所有资源变量
         /// </summary>

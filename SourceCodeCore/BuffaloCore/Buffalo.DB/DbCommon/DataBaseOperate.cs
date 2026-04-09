@@ -207,9 +207,11 @@ namespace Buffalo.DB.DbCommon
         /// <summary>
         /// 开启非事务的批量操作
         /// </summary>
+        /// <param name="isAsync">是否异步调用</param>
         /// <returns></returns>
         public BatchAction StarBatchAction() 
         {
+
             BatchAction action = new BatchAction(this);
             return action;
         }
@@ -400,19 +402,26 @@ namespace Buffalo.DB.DbCommon
                     {
                         OutMessage(MessageType.OtherOper, "Connect DataBase", null, "");
                     }
-                    if (_comm == null)
-                    {
-                        _comm = _dbAdapter.GetCommand();//**
-                    }
-                    
-					_comm.Connection = _conn;
+                   
 				}
 				catch(Exception e)
 				{
 					throw e;
 				}
-			}
-			return true;
+
+               
+            }
+
+
+            if (_comm == null)
+            {
+                _comm = _dbAdapter.GetCommand();//**
+            }
+
+            _comm.Connection = _conn;
+
+
+            return true;
 		}
         /// <summary>
         /// 连接数据库，并打开数据库连接

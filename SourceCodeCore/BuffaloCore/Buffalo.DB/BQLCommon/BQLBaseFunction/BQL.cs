@@ -27,7 +27,7 @@ namespace Buffalo.DB.BQLCommon.BQLBaseFunction
         /// </summary>
         internal static void HotAsyncContext() 
         {
-            if (CallContextSyncTag.IsInSync) 
+            if (!CallContextSyncTag.IsAsync) 
             {
                 return;
             }

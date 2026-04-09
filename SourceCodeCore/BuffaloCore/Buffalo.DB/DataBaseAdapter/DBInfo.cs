@@ -246,13 +246,13 @@ namespace Buffalo.DB.DataBaseAdapter
 
 
         /// <summary>
-        /// 本线程使用的子数据源（-1则为恢复主数据源,在非异步线程池时候先设置CallContextSyncTag.SetSync()）
+        /// 本线程使用的子数据源（-1则为恢复主数据源,在非异步线程池时候先设置CallContextSyncTag.SetAsync()）
         /// </summary>
         public int SelectedDataSource 
         {
             get 
             {
-                //CallContextAsyncTag.SetAsyncNx(false);
+                CallContextSyncTag.SetAsync(false);
                 DBInfo val = _curDB.Value;
                 if (val == null) 
                 {
@@ -262,7 +262,7 @@ namespace Buffalo.DB.DataBaseAdapter
             }
             set 
             {
-                //CallContextAsyncTag.SetAsyncNx(false);
+                CallContextSyncTag.SetAsync(false);
                 if (value < 0) 
                 {
                     _curDB.Value = null;

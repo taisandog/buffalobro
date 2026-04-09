@@ -382,7 +382,7 @@ namespace Buffalo.Storage.AliCloud.OssAPI
                     string md5 = OssUtils.ComputeContentMd5(fs, fs.Length);
                     objectMeta.ContentMd5 = md5;
                 }
-
+                
                 //res = _cloud.PutObject(_bucketName, targetPath, sourcePath, objectMeta);
                 if (len > FileInfoBase.SLICE_UPLOAD_FILE_SIZE)
                 {

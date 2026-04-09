@@ -143,18 +143,18 @@ namespace Buffalo.DB.EntityInfos
         private CallContext<string> _curTableName = new CallContext<string>();
 
         /// <summary>
-        /// 切换当前使用的表名,null则切换回默认,在非异步线程池时候先设置CallContextSyncTag.SetSync()
+        /// 切换当前使用的表名,null则切换回默认,在非异步线程池时候先设置CallContextSyncTag.SetAsync()
         /// </summary>
         public string SelectedTableName 
         {
             get 
             {
-                //CallContextAsyncTag.SetAsyncNx(false);
+                CallContextSyncTag.SetAsync(false);
                 return _curTableName.Value;
             }
             set 
             {
-                //CallContextAsyncTag.SetAsyncNx(false);
+                CallContextSyncTag.SetAsync(false);
                 if (string.IsNullOrWhiteSpace(value)) 
                 {
                     _curTableName.Value = null;

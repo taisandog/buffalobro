@@ -112,7 +112,7 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
         /// <returns></returns>
         public static DBTransaction StartTransaction()
         {
-
+            CallContextSyncTag.SetAsync(false);
             return GetDefaultOperate().StartTransaction();
         }
         /// <summary>
@@ -121,19 +121,21 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
         /// <returns></returns>
         public static Task<DBTransaction> StartTransactionAsync()
         {
-
+            CallContextSyncTag.SetAsync(true);
             return GetDefaultOperate().StartTransactionAsync();
         }
         /// <summary>
         /// 开始非事务的批量动作
         /// </summary>
+        /// <param name="isAsync">是否异步调用</param>
         /// <returns></returns>
-        public static BatchAction StartBatchAction()
+        public static BatchAction StartBatchAction(bool isAsync)
         {
+            CallContextSyncTag.SetAsync(isAsync);
 
             return GetDefaultOperate().StarBatchAction();
         }
-        
+       
         /// <summary>
         /// 添加到库信息
         /// </summary>

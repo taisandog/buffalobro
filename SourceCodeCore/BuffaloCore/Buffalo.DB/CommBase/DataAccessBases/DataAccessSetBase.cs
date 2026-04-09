@@ -15,6 +15,7 @@ using Buffalo.Kernel;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Data.Common;
+using Buffalo.Kernel.FastReflection;
 
 namespace Buffalo.DB.CommBase.DataAccessBases
 {
@@ -597,6 +598,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <returns></returns>
         protected internal int DoInsert(EntityBase obj, ValueSetList setList, bool fillIdentity)
         {
+            //CallContextSyncTag.SetAsync();
             InsertCondition con = new InsertCondition(EntityInfo.DBInfo);
             ParamList list = new ParamList();
             List<EntityPropertyInfo> identityInfo = new List<EntityPropertyInfo>();
@@ -649,6 +651,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <returns></returns>
         protected internal async Task<int> DoInsertAsync(EntityBase obj, ValueSetList setList, bool fillIdentity)
         {
+            //CallContextSyncTag.SetAsync();
             InsertCondition con = new InsertCondition(EntityInfo.DBInfo);
             ParamList list = new ParamList();
             List<EntityPropertyInfo> identityInfo = new List<EntityPropertyInfo>();
@@ -765,6 +768,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <returns></returns>
         public async Task<int> DeleteAsync(EntityBase obj, ScopeList scopeList=null, bool isConcurrency=false)
         {
+            //CallContextSyncTag.SetAsync();
             DeleteCondition con = null;
             Dictionary<string, bool> cacheTables = null;
             ParamList list = new ParamList();
@@ -811,6 +815,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <returns></returns>
         public int DeleteById(object id)
         {
+            //CallContextSyncTag.SetAsync();
             int ret = -1;
             Dictionary<string, bool> cacheTables = null;
             DeleteCondition con = new DeleteCondition(EntityInfo.DBInfo);
@@ -827,6 +832,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <returns></returns>
         public async Task<int> DeleteByIdAsync(object id)
         {
+            //CallContextSyncTag.SetAsync();
             int ret = -1;
             Dictionary<string, bool> cacheTables = null;
             DeleteCondition con = new DeleteCondition(EntityInfo.DBInfo);
@@ -847,6 +853,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         public int ExecuteCommand(string sql, ParamList list, CommandType commandType,
             Dictionary<string, bool> cachetables)
         {
+            //CallContextSyncTag.SetAsync();
             int ret = -1;
             ret = _oper.Execute(sql, list, commandType, cachetables);
             return ret;
@@ -861,6 +868,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         public async Task<int> ExecuteCommandAsync(string sql, ParamList list, CommandType commandType,
             Dictionary<string, bool> cachetables)
         {
+            //CallContextSyncTag.SetAsync();
             int ret = -1;
             ret = await _oper.ExecuteAsync(sql, list, commandType, cachetables);
             return ret;
@@ -873,6 +881,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <param name="commandType">语句类型</param>
         public DataSet QueryDataSet(string sql, ParamList list, CommandType commandType, Dictionary<string, bool> cachetables)
         {
+            //CallContextSyncTag.SetAsync();
             DataSet ds = null;
             ds = _oper.QueryDataSet(sql, list, commandType, cachetables);
             return ds;
@@ -885,6 +894,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <param name="objPage">分页对象</param>
         public DataSet QueryDataSet(string sql, PageContent objPage, ParamList lstParam=null)
         {
+            //CallContextSyncTag.SetAsync();
             DataSet ds = new DataSet();
             DataTable retDt = EntityInfo.DBInfo.CurrentDbAdapter.QueryDataTable(sql, lstParam, objPage, _oper, null);
             ds.Tables.Add(retDt);
@@ -898,6 +908,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <param name="commandType">语句类型</param>
         public async Task<DataSet> QueryDataSetAsync(string sql, ParamList list, CommandType commandType, Dictionary<string, bool> cachetables)
         {
+            //CallContextSyncTag.SetAsync();
             DataSet ds = null;
             ds =await _oper.QueryDataSetAsync(sql, list, commandType, cachetables);
             return ds;
@@ -910,6 +921,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <param name="objPage">分页对象</param>
         public async Task<DataSet> QueryDataSetAsync(string sql, PageContent objPage, ParamList lstParam = null)
         {
+            //CallContextSyncTag.SetAsync();
             DataSet ds = new DataSet();
             DataTable retDt = await EntityInfo.DBInfo.CurrentDbAdapter.QueryDataTableAsync(sql, lstParam, objPage, _oper, null);
             ds.Tables.Add(retDt);

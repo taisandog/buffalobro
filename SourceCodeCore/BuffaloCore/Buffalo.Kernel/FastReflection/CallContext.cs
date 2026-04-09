@@ -10,7 +10,7 @@ namespace Buffalo.Kernel.FastReflection
 
 
     /// <summary>
-    /// 上下文变量，支持异步调用传递，在线程池且不需要异步时候设置CallContextSyncTag.SetSync()
+    /// 上下文变量，支持异步调用传递，在线程池且不需要异步时候设置CallContextSyncTag.SetAsync()
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class CallContext<T>
@@ -21,7 +21,7 @@ namespace Buffalo.Kernel.FastReflection
         {
             get 
             {
-                if (!CallContextSyncTag.IsInSync) 
+                if (CallContextSyncTag.IsAsync) 
                 {
                     AsyncLocalValue<T> val = _asyncValue.Value;
                     if(val == null) 
@@ -34,7 +34,7 @@ namespace Buffalo.Kernel.FastReflection
             }
             set 
             {
-                if (!CallContextSyncTag.IsInSync)
+                if (CallContextSyncTag.IsAsync)
                 {
                     AsyncLocalValue<T> val = _asyncValue.Value;
                     if (val == null)
@@ -59,48 +59,44 @@ namespace Buffalo.Kernel.FastReflection
         public T Value;
     }
     /// <summary>
-    /// 上下文同步标记，在线程池且不需要异步时候设置CallContextSyncTag.SetSync()
+    /// 上下文同步标记，在线程池且不需要异步时候设置CallContextSyncTag.SetAsync()
     /// </summary>
     public class CallContextSyncTag 
     {
-        private static ThreadLocal<AsyncLocalValue<bool>> _isSync = new ThreadLocal<AsyncLocalValue<bool>>();
+        private static ThreadLocal<int> _isAsync = new ThreadLocal<int>();
 
         /// <summary>
-        /// 设置为同步调用标志
+        /// 设置为异步调用标志
         /// </summary>
-        public static void SetSync()
+        /// <param name="isAsync">是否异步</param>
+        public static void SetAsync(bool isAsync)
         {
-            AsyncLocalValue<bool> valObj = _isSync.Value;
 
-            if (valObj == null)
-            {
-                valObj = new AsyncLocalValue<bool>();
-                _isSync.Value = valObj;
-            }
-            valObj.Value = true;
+            _isAsync.Value = isAsync ? 1:2;
             
         }
+       
         /// <summary>
         /// 清除是否同步调用标志
         /// </summary>
-        public static void ClearSync()
+        public static void ClearSetting()
         {
-            _isSync.Value = null;
+            _isAsync.Value = 0;
         }
         /// <summary>
-        /// 判断是否在同步调用中
+        /// 判断是否在异步调用中
         /// </summary>
-        public static bool IsInSync
+        public static bool IsAsync
         {
             get
             {
-                AsyncLocalValue<bool> valObj = _isSync.Value;
+                int valObj = _isAsync.Value;
                
-                if (valObj==null)
+                if (valObj<=0)
                 {
-                    return (!Thread.CurrentThread.IsThreadPoolThread);
+                    return Thread.CurrentThread.IsThreadPoolThread;
                 }
-                return valObj.Value;
+                return valObj==1;
             }
         }
     }
