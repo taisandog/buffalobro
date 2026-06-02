@@ -639,9 +639,10 @@ namespace Buffalo.DB.CommBase.DataAccessBases
                 using (IDataReader reader = dao.QueryReader(lstScope, childInfo.EntityType))
                 {
                     //获取子表的get列表
-                   
-                        CacheReader.GenerateCache(reader, childInfo, lstParamNames );//创建一个缓存数值列表
-                    
+                    if (lstParamNames.Count <= 0)
+                    {
+                        CacheReader.GenerateCache(reader, childInfo, lstParamNames);//创建一个缓存数值列表
+                    }
 
                     
                     while (reader.Read())
@@ -709,9 +710,10 @@ namespace Buffalo.DB.CommBase.DataAccessBases
                 await using (DbDataReader reader =await dao.QueryReaderAsync(lstScope, childInfo.EntityType))
                 {
                     //获取子表的get列表
-
-                    CacheReader.GenerateCache(reader, childInfo, lstParamNames);//创建一个缓存数值列表
-                    
+                    if (lstParamNames.Count <= 0)
+                    {
+                        CacheReader.GenerateCache(reader, childInfo, lstParamNames);//创建一个缓存数值列表
+                    }
                     while (await reader.ReadAsync())
                     {
                         string fk = reader[mappingInfo.TargetProperty.ParamName].ToString();
