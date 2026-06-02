@@ -3,9 +3,9 @@ using Buffalo.Kernel;
 using MQTTnet;
 using MQTTnet.Adapter;
 
-using MQTTnet.Client;
 using MQTTnet.Protocol;
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -45,7 +45,7 @@ namespace Buffalo.MQ.MQTTLib
                 ResetWait();
                 try
                 {
-                    MqttFactory factory = new MqttFactory();
+                    var factory = new MqttClientFactory();
                     _mqttClient2 = factory.CreateMqttClient() as MqttClient;
                     
                     _options = _config.Options.Build();
@@ -62,7 +62,7 @@ namespace Buffalo.MQ.MQTTLib
                     MqttClientConnectResult res = tsk1.Result;
                     if (res.ResultCode != MqttClientConnectResultCode.Success)
                     {
-                        throw new MqttConnectingFailedException("Connect Fault", null, res);
+                        throw new MqttConnectingFailedException("Connect Fault", new Exception(res.ToString()));
                     }
 
                     
@@ -84,9 +84,8 @@ namespace Buffalo.MQ.MQTTLib
         {
             try
             {
-                byte[] value = arg.ApplicationMessage.PayloadSegment.ToArray();
+                byte[] value = arg.ApplicationMessage.Payload.ToArray();
 
-                ;
                 string topic = arg.ApplicationMessage.Topic;
                 //string qos = e.ApplicationMessage.QualityOfServiceLevel.ToString();
                 //string retained = e.ApplicationMessage.Retain.ToString();

@@ -1,5 +1,6 @@
 ﻿using MQTTnet;
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Text;
 
@@ -19,7 +20,7 @@ namespace Buffalo.MQ.MQTTLib
             get { return _message; }
         }
         public MQTTMessage(MqttApplicationMessage message)
-            : base(message.Topic, message.Payload)
+            : base(message.Topic, message.Payload.ToArray())
         {
             
             _message = message;

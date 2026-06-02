@@ -1,13 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Authors>taisandog</Authors>
     <Product>Buffalo.Data.DB2  for .Net Standard 2.0</Product>
     <Description>Buffalo.DB的DB2支持</Description>
     <PackageProjectUrl>https://github.com/taisandog</PackageProjectUrl>
-    <Version>1.5.7</Version>
+    <Version>1.5.8</Version>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <BaseOutputPath></BaseOutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

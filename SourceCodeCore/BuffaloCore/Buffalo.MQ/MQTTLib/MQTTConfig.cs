@@ -1,6 +1,6 @@
 ﻿
 using Buffalo.Kernel;
-using MQTTnet.Client;
+using MQTTnet;
 using MQTTnet.Formatter;
 using MQTTnet.Protocol;
 using System;
@@ -66,9 +66,32 @@ namespace Buffalo.MQ.MQTTLib
                 Options.WithClientId(CommonMethods.GuidToString(Guid.NewGuid(), true));
             }
             string webSocketServer = _configs.GetDicValue<string, string>("webSocketServer");
+            string proxy = _configs.GetDicValue<string, string>("proxy");//代理地址
+            string proxyUserName = _configs.GetDicValue<string, string>("proxyUserName");//代理用户
+            string proxyPassword = _configs.GetDicValue<string, string>("proxyPassword");//代理用户密码
+            string domain = _configs.GetDicValue<string, string>("domain");//代理domain
+
             if (!string.IsNullOrWhiteSpace(webSocketServer))
             {
-                Options.WithWebSocketServer(webSocketServer);
+                Options.WithWebSocketServer(ws =>
+                {
+                    ws.WithUri(webSocketServer);
+                    if (!string.IsNullOrWhiteSpace(proxy))
+                    {
+                        ws.WithProxyOptions(p => p
+                            .WithAddress(proxy)
+                            .WithUsername(proxyUserName)
+                            .WithPassword(proxyPassword)
+                            .WithDomain(domain));
+                    }
+
+                });
+            }
+            else if (!string.IsNullOrWhiteSpace(proxy))
+            {
+                // v5 中纯 TCP 连接不再支持 WithProxy，proxy 仅适用于 WebSocket
+                // 如果原来就是 TCP+proxy 的场景，只能用 v4
+                throw new NotSupportedException("MQTTnet v5 不支持 TCP 连接的 Proxy，请用 WebSocket 或降级到 v4");
             }
             string sessionExpiry = _configs.GetDicValue<string, string>("sessionExpiry");//超时，秒数
             if (!string.IsNullOrWhiteSpace(sessionExpiry))
@@ -89,14 +112,8 @@ namespace Buffalo.MQ.MQTTLib
             }
 
 
-            string proxy = _configs.GetDicValue<string, string>("proxy");//代理地址
-            string proxyUserName = _configs.GetDicValue<string, string>("proxyUserName");//代理用户
-            string proxyPassword = _configs.GetDicValue<string, string>("proxyPassword");//代理用户密码
-            string domain = _configs.GetDicValue<string, string>("domain");//代理domain
-            if (!string.IsNullOrWhiteSpace(proxy))
-            {
-                Options.WithProxy(proxy, proxyUserName, proxyPassword, domain);
-            }
+           
+          
 
             string qualityOfServiceLevel = _configs.GetDicValue<string, string>("QualityOfServiceLevel");
             if (!string.IsNullOrWhiteSpace(qualityOfServiceLevel))

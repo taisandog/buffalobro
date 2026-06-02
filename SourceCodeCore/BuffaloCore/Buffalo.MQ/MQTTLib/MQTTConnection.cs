@@ -3,7 +3,7 @@
 using Buffalo.MQ.RedisMQ;
 using MQTTnet;
 using MQTTnet.Adapter;
-using MQTTnet.Client;
+
 using MQTTnet.Formatter;
 using System;
 using System.Collections.Generic;
@@ -154,7 +154,7 @@ namespace Buffalo.MQ.MQTTLib
 
         //public override void DeleteQueue(IEnumerable<string> queueName, bool ifUnused, bool ifEmpty)
         //{
-            
+
         //}
 
 
@@ -165,21 +165,20 @@ namespace Buffalo.MQ.MQTTLib
             {
                 return;
             }
-            lock(this){
+            lock (this)
+            {
                 if (!IsOpen)
                 {
-                    MqttFactory factory = new MqttFactory();
+                    // 1. MqttFactory -> MqttClientFactory
+                    var factory = new MqttClientFactory();
                     _mqttClient = factory.CreateMqttClient() as MqttClient;
-
                     _options = _config.Options.Build();
-
                     MqttClientConnectResult res = _mqttClient.ConnectAsync(_options).Result;
                     if (res.ResultCode != MqttClientConnectResultCode.Success)
                     {
-                        throw new MqttConnectingFailedException("Connect Fault", null, res);
+                        // 2. v5 的构造函数只接受 (message, result)，没有中间的 innerException 参数
+                        throw new MqttConnectingFailedException("Connect Fault",new Exception(res.ToString()));
                     }
-
-
                 }
             }
         }
