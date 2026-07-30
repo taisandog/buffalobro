@@ -25,7 +25,29 @@ namespace Buffalo.DB.BQLCommon
     /// </summary>
     public class BQLDbBase
     {
-        private DataBaseOperate _oper;
+        private readonly DataBaseOperate _explicitOperate;
+        private readonly DBInfo _dbInfo;
+        private readonly bool _hasExplicitOperate;
+
+        private DataBaseOperate Oper
+        {
+            get
+            {
+                return _hasExplicitOperate
+                    ? _explicitOperate
+                    : StaticConnection.GetStaticOperate(_dbInfo);
+            }
+        }
+
+        private DataBaseOperate OperAsync
+        {
+            get
+            {
+                return _hasExplicitOperate
+                    ? _explicitOperate
+                    : StaticConnection.GetStaticOperateAsync(_dbInfo);
+            }
+        }
 
         /// <summary>
         /// 数据层基类
@@ -33,7 +55,7 @@ namespace Buffalo.DB.BQLCommon
         ///  <param name="info">数据库信息</param>
         public BQLDbBase(DBInfo info)
         {
-            this._oper = info.DefaultOperate;
+            _dbInfo = info;
         }
 
         /// <summary>
@@ -52,8 +74,9 @@ namespace Buffalo.DB.BQLCommon
         /// <param name="oper"></param>
         public BQLDbBase(DataBaseOperate oper)
         {
-            this._oper = oper;
-
+            _explicitOperate = oper;
+            _dbInfo = oper.DBInfo;
+            _hasExplicitOperate = true;
         }
 
 
@@ -79,14 +102,14 @@ namespace Buffalo.DB.BQLCommon
         {
             return SelectTableAsync(BQL.ToTable(tableName), lstScope, entityType);
         }
-        protected BQLQuery GetSelectCountSQL(ScopeList lstScope, Type eType, out TableAliasNameManager aliasManager)
+        protected BQLQuery GetSelectCountSQL(ScopeList lstScope, Type eType, DataBaseOperate oper, out TableAliasNameManager aliasManager)
         {
 
             aliasManager = new TableAliasNameManager(new BQLEntityTableHandle(EntityInfoManager.GetEntityHandle(eType)));
-            BQLEntityTableHandle table = _oper.DBInfo.FindTable(eType);
+            BQLEntityTableHandle table = oper.DBInfo.FindTable(eType);
             if (CommonMethods.IsNull(table))
             {
-                _oper.DBInfo.ThrowNotFondTable(eType);
+                oper.DBInfo.ThrowNotFondTable(eType);
             }
 
             BQLCondition where = BQLCondition.TrueValue;
@@ -112,8 +135,8 @@ namespace Buffalo.DB.BQLCommon
             Type eType = typeof(E);
             //if(lstScope.GroupBy
             TableAliasNameManager aliasManager = null;
-            BQLQuery bql = GetSelectCountSQL(lstScope, eType, out aliasManager);
-            using (AbsCondition con = BQLKeyWordManager.ToCondition(bql, _oper.DBInfo, aliasManager, true))
+            BQLQuery bql = GetSelectCountSQL(lstScope, eType, Oper, out aliasManager);
+            using (AbsCondition con = BQLKeyWordManager.ToCondition(bql, Oper.DBInfo, aliasManager, true))
             {
                 Dictionary<string, bool> cacheTables = null;
                 if (lstScope.UseCache)
@@ -121,7 +144,7 @@ namespace Buffalo.DB.BQLCommon
                     cacheTables = con.CacheTables;
 
                 }
-                using (IDataReader reader = _oper.Query(con.GetSql(lstScope.UseCache), con.DbParamList, cacheTables))
+                using (IDataReader reader = Oper.Query(con.GetSql(lstScope.UseCache), con.DbParamList, cacheTables))
                 {
                     if (reader.Read())
                     {
@@ -142,8 +165,8 @@ namespace Buffalo.DB.BQLCommon
             Type eType = typeof(E);
             //if(lstScope.GroupBy
             TableAliasNameManager aliasManager = null;
-            BQLQuery bql = GetSelectCountSQL(lstScope, eType, out aliasManager);
-            using (AbsCondition con = BQLKeyWordManager.ToCondition(bql, _oper.DBInfo, aliasManager, true))
+            BQLQuery bql = GetSelectCountSQL(lstScope, eType, OperAsync, out aliasManager);
+            using (AbsCondition con = BQLKeyWordManager.ToConditionAsync(bql, OperAsync.DBInfo, aliasManager, true))
             {
                 Dictionary<string, bool> cacheTables = null;
                 if (lstScope.UseCache)
@@ -151,7 +174,7 @@ namespace Buffalo.DB.BQLCommon
                     cacheTables = con.CacheTables;
 
                 }
-                using (DbDataReader reader = await _oper.QueryAsync(con.GetSql(lstScope.UseCache), con.DbParamList, CommandType.Text, cacheTables))
+                using (DbDataReader reader = await OperAsync.QueryAsync(con.GetSql(lstScope.UseCache), con.DbParamList, CommandType.Text, cacheTables))
                 {
                     if (await reader.ReadAsync())
                     {
@@ -174,10 +197,10 @@ namespace Buffalo.DB.BQLCommon
         {
             Type eType = typeof(E);
             List<E> retlist = null;
-            BQLEntityTableHandle table = _oper.DBInfo.FindTable(eType);
+            BQLEntityTableHandle table = Oper.DBInfo.FindTable(eType);
             if (CommonMethods.IsNull(table))
             {
-                _oper.DBInfo.ThrowNotFondTable(eType);
+                Oper.DBInfo.ThrowNotFondTable(eType);
             }
             BQLQuery BQL = GetSelectSql(lstScope, table);
             if (!lstScope.HasPage)
@@ -186,7 +209,7 @@ namespace Buffalo.DB.BQLCommon
                 DataAccessCommon.FillEntityChidList(retlist, lstScope);
                 return retlist;
             }
-            using (BatchAction ba = _oper.StarBatchAction())
+            using (BatchAction ba = Oper.StarBatchAction())
             {
                 retlist = QueryPageList<E>(BQL, lstScope.PageContent, lstScope.ShowEntity, lstScope.UseCache);
                 DataAccessCommon.FillEntityChidList(retlist, lstScope);
@@ -204,10 +227,10 @@ namespace Buffalo.DB.BQLCommon
         {
             Type eType = typeof(E);
             List<E> retlist = null;
-            BQLEntityTableHandle table = _oper.DBInfo.FindTable(eType);
+            BQLEntityTableHandle table = OperAsync.DBInfo.FindTable(eType);
             if (CommonMethods.IsNull(table))
             {
-                _oper.DBInfo.ThrowNotFondTable(eType);
+                OperAsync.DBInfo.ThrowNotFondTable(eType);
             }
             BQLQuery BQL = GetSelectSql(lstScope, table);
             if (!lstScope.HasPage)
@@ -216,7 +239,7 @@ namespace Buffalo.DB.BQLCommon
                 await DataAccessCommon.FillEntityChidListAsync(retlist, lstScope);
                 return retlist;
             }
-            await using (BatchAction ba = _oper.StarBatchAction())
+            await using (BatchAction ba = OperAsync.StarBatchAction())
             {
                 retlist = await QueryPageListAsync<E>(BQL, lstScope.PageContent, lstScope.ShowEntity, lstScope.UseCache);
                 await DataAccessCommon.FillEntityChidListAsync(retlist, lstScope);
@@ -273,7 +296,7 @@ namespace Buffalo.DB.BQLCommon
 
             if (lstScope.HasPage)
             {
-                using (BatchAction ba = _oper.StarBatchAction())
+                using (BatchAction ba = Oper.StarBatchAction())
                 {
                     return QueryDataSet(bql, null, lstScope.PageContent, lstScope.UseCache);
                 }
@@ -316,7 +339,7 @@ namespace Buffalo.DB.BQLCommon
 
             if (lstScope.HasPage)
             {
-                await using (BatchAction ba = _oper.StarBatchAction())
+                await using (BatchAction ba = OperAsync.StarBatchAction())
                 {
                     return await QueryDataSetAsync(bql, null, lstScope.PageContent, lstScope.UseCache);
                 }
@@ -331,7 +354,7 @@ namespace Buffalo.DB.BQLCommon
         /// <param name="aliasManager"></param>
         /// <returns></returns>
         private AbsCondition ToCondition(BQLQuery BQL, IEnumerable<BQLEntityTableHandle> outPutTables,
-            bool isPutPropertyName, Type entityType)
+            bool isPutPropertyName, Type entityType, DataBaseOperate oper)
         {
             TableAliasNameManager aliasManager = null;
             if (entityType != null)
@@ -342,7 +365,22 @@ namespace Buffalo.DB.BQLCommon
             {
                 FillOutPutTables(outPutTables, aliasManager);
             }
-            AbsCondition con = BQLKeyWordManager.ToCondition(BQL, _oper.DBInfo, aliasManager, isPutPropertyName);
+            AbsCondition con = BQLKeyWordManager.ToCondition(BQL, oper.DBInfo, aliasManager, isPutPropertyName);
+            return con;
+        }
+        private AbsCondition ToConditionAsync(BQLQuery BQL, IEnumerable<BQLEntityTableHandle> outPutTables,
+            bool isPutPropertyName, Type entityType, DataBaseOperate oper)
+        {
+            TableAliasNameManager aliasManager = null;
+            if (entityType != null)
+            {
+                aliasManager = new TableAliasNameManager(new BQLEntityTableHandle(EntityInfoManager.GetEntityHandle(entityType)));
+            }
+            if (outPutTables != null)
+            {
+                FillOutPutTables(outPutTables, aliasManager);
+            }
+            AbsCondition con = BQLKeyWordManager.ToConditionAsync(BQL, oper.DBInfo, aliasManager, isPutPropertyName);
             return con;
         }
         /// <summary>
@@ -357,7 +395,7 @@ namespace Buffalo.DB.BQLCommon
             IEnumerable<BQLEntityTableHandle> outPutTables, bool useCache)
             where E : EntityBase, new()
         {
-            using (AbsCondition con = ToCondition(BQL, outPutTables, false, typeof(E)))
+            using (AbsCondition con = ToCondition(BQL, outPutTables, false, typeof(E), Oper))
             {
                 con.PageContent = objPage;
                 List<E> retlist = null;
@@ -373,17 +411,17 @@ namespace Buffalo.DB.BQLCommon
                     if (con.DbParamList != null)
                     {
                         con.PageContent = objPage;
-                        con.Oper = _oper;
+                        con.Oper = Oper;
                         string sql = con.GetSql(useCache);
 
-                        reader = _oper.Query(sql, con.DbParamList, cacheTables);
+                        reader = Oper.Query(sql, con.DbParamList, cacheTables);
 
                     }
                     else
                     {
                         SelectCondition sCon = con as SelectCondition;
 
-                        reader = con.DBinfo.CurrentDbAdapter.Query(sCon.GetSelect(), null, objPage, _oper);
+                        reader = con.DBinfo.CurrentDbAdapter.Query(sCon.GetSelect(), null, objPage, Oper);
                     }
                     retlist = LoadFromReader<E>(con.AliasManager, reader);
                 }
@@ -411,7 +449,7 @@ namespace Buffalo.DB.BQLCommon
             IEnumerable<BQLEntityTableHandle> outPutTables, bool useCache)
             where E : EntityBase, new()
         {
-            using (AbsCondition con = ToCondition(BQL, outPutTables, false, typeof(E)))
+            using (AbsCondition con = ToConditionAsync(BQL, outPutTables, false, typeof(E), OperAsync))
             {
                 con.PageContent = objPage;
                 List<E> retlist = null;
@@ -427,17 +465,17 @@ namespace Buffalo.DB.BQLCommon
                     if (con.DbParamList != null)
                     {
                         con.PageContent = objPage;
-                        con.Oper = _oper;
+                        con.Oper = OperAsync;
                         string sql = con.GetSql(useCache);
 
-                        reader = await _oper.QueryAsync(sql, con.DbParamList, CommandType.Text, cacheTables);
+                        reader = await OperAsync.QueryAsync(sql, con.DbParamList, CommandType.Text, cacheTables);
 
                     }
                     else
                     {
                         SelectCondition sCon = con as SelectCondition;
 
-                        reader = con.DBinfo.CurrentDbAdapter.Query(sCon.GetSelect(), null, objPage, _oper);
+                        reader = con.DBinfo.CurrentDbAdapter.Query(sCon.GetSelect(), null, objPage, OperAsync);
                     }
                     retlist = await LoadFromReaderAsync<E>(con.AliasManager, reader);
                 }
@@ -462,15 +500,15 @@ namespace Buffalo.DB.BQLCommon
         public List<E> QueryList<E>(BQLQuery BQL, IEnumerable<BQLEntityTableHandle> outPutTables, bool useCache)
             where E : EntityBase, new()
         {
-            using (AbsCondition con = ToCondition(BQL, outPutTables, false, typeof(E)))
+            using (AbsCondition con = ToCondition(BQL, outPutTables, false, typeof(E), Oper))
             {
                 List<E> retlist = null;
-                using (BatchAction ba = _oper.StarBatchAction())
+                using (BatchAction ba = Oper.StarBatchAction())
                 {
                     IDataReader reader = null;
                     try
                     {
-                        con.Oper = _oper;
+                        con.Oper = Oper;
                         Dictionary<string, bool> cacheTables = null;
                         if (useCache)
                         {
@@ -478,12 +516,12 @@ namespace Buffalo.DB.BQLCommon
                         }
                         if (con.DbParamList != null)
                         {
-                            reader = _oper.Query(con.GetSql(useCache), con.DbParamList, cacheTables);
+                            reader = Oper.Query(con.GetSql(useCache), con.DbParamList, cacheTables);
                         }
                         else
                         {
                             SelectCondition sCon = con as SelectCondition;
-                            reader = con.DBinfo.CurrentDbAdapter.Query(sCon.GetSelect(), null, con.PageContent, _oper);
+                            reader = con.DBinfo.CurrentDbAdapter.Query(sCon.GetSelect(), null, con.PageContent, Oper);
                         }
                         retlist = LoadFromReader<E>(con.AliasManager, reader);
                     }
@@ -508,15 +546,15 @@ namespace Buffalo.DB.BQLCommon
         public async Task<List<E>> QueryListAsync<E>(BQLQuery BQL, IEnumerable<BQLEntityTableHandle> outPutTables, bool useCache)
             where E : EntityBase, new()
         {
-            using (AbsCondition con = ToCondition(BQL, outPutTables, false, typeof(E)))
+            using (AbsCondition con = ToConditionAsync(BQL, outPutTables, false, typeof(E), OperAsync))
             {
                 List<E> retlist = null;
-                await using (BatchAction ba = _oper.StarBatchAction())
+                await using (BatchAction ba = OperAsync.StarBatchAction())
                 {
                     DbDataReader reader = null;
                     try
                     {
-                        con.Oper = _oper;
+                        con.Oper = OperAsync;
                         Dictionary<string, bool> cacheTables = null;
                         if (useCache)
                         {
@@ -524,12 +562,12 @@ namespace Buffalo.DB.BQLCommon
                         }
                         if (con.DbParamList != null)
                         {
-                            reader = await _oper.QueryAsync(con.GetSql(useCache), con.DbParamList, CommandType.Text, cacheTables);
+                            reader = await OperAsync.QueryAsync(con.GetSql(useCache), con.DbParamList, CommandType.Text, cacheTables);
                         }
                         else
                         {
                             SelectCondition sCon = con as SelectCondition;
-                            reader = await con.DBinfo.CurrentDbAdapter.QueryAsync(sCon.GetSelect(), null, con.PageContent, _oper);
+                            reader = await con.DBinfo.CurrentDbAdapter.QueryAsync(sCon.GetSelect(), null, con.PageContent, OperAsync);
                         }
                         retlist = await LoadFromReaderAsync<E>(con.AliasManager, reader);
                     }
@@ -662,10 +700,10 @@ namespace Buffalo.DB.BQLCommon
         public DataSet SelectDataSet<E>(ScopeList lstScope)
         {
             Type eType = typeof(E);
-            BQLEntityTableHandle table = _oper.DBInfo.FindTable(eType);
+            BQLEntityTableHandle table = Oper.DBInfo.FindTable(eType);
             if (CommonMethods.IsNull(table))
             {
-                _oper.DBInfo.ThrowNotFondTable(eType);
+                Oper.DBInfo.ThrowNotFondTable(eType);
             }
 
             BQLQuery BQL = GetSelectSql(lstScope, table);
@@ -674,7 +712,7 @@ namespace Buffalo.DB.BQLCommon
             {
                 return QueryDataSet<E>(BQL, lstScope.UseCache);
             }
-            using (BatchAction ba = _oper.StarBatchAction())
+            using (BatchAction ba = Oper.StarBatchAction())
             {
                 return QueryDataSet<E>(BQL, lstScope.PageContent, lstScope.UseCache);
             }
@@ -689,10 +727,10 @@ namespace Buffalo.DB.BQLCommon
         public async Task<DataSet> SelectDataSetAsync<E>(ScopeList lstScope)
         {
             Type eType = typeof(E);
-            BQLEntityTableHandle table = _oper.DBInfo.FindTable(eType);
+            BQLEntityTableHandle table = OperAsync.DBInfo.FindTable(eType);
             if (CommonMethods.IsNull(table))
             {
-                _oper.DBInfo.ThrowNotFondTable(eType);
+                OperAsync.DBInfo.ThrowNotFondTable(eType);
             }
 
             BQLQuery BQL = GetSelectSql(lstScope, table);
@@ -701,7 +739,7 @@ namespace Buffalo.DB.BQLCommon
             {
                 return await QueryDataSetAsync<E>(BQL, lstScope.UseCache);
             }
-            await using (BatchAction ba = _oper.StarBatchAction())
+            await using (BatchAction ba = OperAsync.StarBatchAction())
             {
                 return await QueryDataSetAsync<E>(BQL, lstScope.PageContent, lstScope.UseCache);
             }
@@ -712,11 +750,11 @@ namespace Buffalo.DB.BQLCommon
         /// <param name="BQL">sql语句</param>
         public DataSet QueryDataSet(BQLQuery BQL, Type tableType, bool useCache)
         {
-            using (AbsCondition con = ToCondition(BQL, null, true, tableType))
+            using (AbsCondition con = ToCondition(BQL, null, true, tableType, Oper))
             {
                 DataSet ds = null;
 
-                con.Oper = _oper;
+                con.Oper = Oper;
                 Dictionary<string, bool> cacheTables = null;
                 if (useCache)
                 {
@@ -725,12 +763,12 @@ namespace Buffalo.DB.BQLCommon
                 }
                 if (con.DbParamList != null)
                 {
-                    ds = _oper.QueryDataSet(con.GetSql(useCache), con.DbParamList, cacheTables);
+                    ds = Oper.QueryDataSet(con.GetSql(useCache), con.DbParamList, cacheTables);
                 }
                 else
                 {
                     SelectCondition sCon = con as SelectCondition;
-                    DataTable dt = con.DBinfo.CurrentDbAdapter.QueryDataTable(sCon.GetSelect(), null, sCon.PageContent, _oper, null);
+                    DataTable dt = con.DBinfo.CurrentDbAdapter.QueryDataTable(sCon.GetSelect(), null, sCon.PageContent, Oper, null);
                     dt.TableName = "newTable";
                     ds = new DataSet();
                     ds.Tables.Add(dt);
@@ -745,11 +783,11 @@ namespace Buffalo.DB.BQLCommon
         /// <param name="BQL">sql语句</param>
         public async Task<DataSet> QueryDataSetAsync(BQLQuery BQL, Type tableType, bool useCache)
         {
-            using (AbsCondition con = ToCondition(BQL, null, true, tableType))
+            using (AbsCondition con = ToConditionAsync(BQL, null, true, tableType, OperAsync))
             {
                 DataSet ds = null;
 
-                con.Oper = _oper;
+                con.Oper = OperAsync;
                 Dictionary<string, bool> cacheTables = null;
                 if (useCache)
                 {
@@ -758,12 +796,12 @@ namespace Buffalo.DB.BQLCommon
                 }
                 if (con.DbParamList != null)
                 {
-                    ds = await _oper.QueryDataSetAsync(con.GetSql(useCache), con.DbParamList, CommandType.Text, cacheTables);
+                    ds = await OperAsync.QueryDataSetAsync(con.GetSql(useCache), con.DbParamList, CommandType.Text, cacheTables);
                 }
                 else
                 {
                     SelectCondition sCon = con as SelectCondition;
-                    DataTable dt = await con.DBinfo.CurrentDbAdapter.QueryDataTableAsync(sCon.GetSelect(), null, sCon.PageContent, _oper, null);
+                    DataTable dt = await con.DBinfo.CurrentDbAdapter.QueryDataTableAsync(sCon.GetSelect(), null, sCon.PageContent, OperAsync, null);
                     dt.TableName = "newTable";
                     ds = new DataSet();
                     ds.Tables.Add(dt);
@@ -778,7 +816,7 @@ namespace Buffalo.DB.BQLCommon
         /// <param name="BQL">sql语句</param>
         public DataSet QueryDataSet<E>(BQLQuery BQL, bool useCache)
         {
-            using (AbsCondition con = ToCondition(BQL, null, true, typeof(E)))
+            using (AbsCondition con = ToCondition(BQL, null, true, typeof(E), Oper))
             {
                 DataSet ds = null;
                 Dictionary<string, bool> cacheTables = null;
@@ -787,15 +825,15 @@ namespace Buffalo.DB.BQLCommon
                     cacheTables = con.CacheTables;
 
                 }
-                con.Oper = _oper;
+                con.Oper = Oper;
                 if (con.DbParamList != null)
                 {
-                    ds = _oper.QueryDataSet(con.GetSql(useCache), con.DbParamList, cacheTables);
+                    ds = Oper.QueryDataSet(con.GetSql(useCache), con.DbParamList, cacheTables);
                 }
                 else
                 {
                     SelectCondition sCon = con as SelectCondition;
-                    DataTable dt = con.DBinfo.CurrentDbAdapter.QueryDataTable(sCon.GetSelect(), null, sCon.PageContent, _oper, null);
+                    DataTable dt = con.DBinfo.CurrentDbAdapter.QueryDataTable(sCon.GetSelect(), null, sCon.PageContent, Oper, null);
                     dt.TableName = "newTable";
                     ds = new DataSet();
                     ds.Tables.Add(dt);
@@ -810,7 +848,7 @@ namespace Buffalo.DB.BQLCommon
         /// <param name="BQL">sql语句</param>
         public async Task<DataSet> QueryDataSetAsync<E>(BQLQuery BQL, bool useCache)
         {
-            using (AbsCondition con = ToCondition(BQL, null, true, typeof(E)))
+            using (AbsCondition con = ToConditionAsync(BQL, null, true, typeof(E), OperAsync))
             {
                 DataSet ds = null;
                 Dictionary<string, bool> cacheTables = null;
@@ -819,15 +857,15 @@ namespace Buffalo.DB.BQLCommon
                     cacheTables = con.CacheTables;
 
                 }
-                con.Oper = _oper;
+                con.Oper = OperAsync;
                 if (con.DbParamList != null)
                 {
-                    ds = await _oper.QueryDataSetAsync(con.GetSql(useCache), con.DbParamList, CommandType.Text, cacheTables);
+                    ds = await OperAsync.QueryDataSetAsync(con.GetSql(useCache), con.DbParamList, CommandType.Text, cacheTables);
                 }
                 else
                 {
                     SelectCondition sCon = con as SelectCondition;
-                    DataTable dt = await con.DBinfo.CurrentDbAdapter.QueryDataTableAsync(sCon.GetSelect(), null, sCon.PageContent, _oper, null);
+                    DataTable dt = await con.DBinfo.CurrentDbAdapter.QueryDataTableAsync(sCon.GetSelect(), null, sCon.PageContent, OperAsync, null);
                     dt.TableName = "newTable";
                     ds = new DataSet();
                     ds.Tables.Add(dt);
@@ -844,7 +882,7 @@ namespace Buffalo.DB.BQLCommon
         public DataSet QueryDataSet<E>(BQLQuery BQL, PageContent objPage, bool useCache)
         {
 
-            using (AbsCondition con = ToCondition(BQL, null, true, typeof(E)))
+            using (AbsCondition con = ToCondition(BQL, null, true, typeof(E), Oper))
             {
                 DataSet ds = null;
                 Dictionary<string, bool> cacheTables = null;
@@ -853,19 +891,19 @@ namespace Buffalo.DB.BQLCommon
                     cacheTables = con.CacheTables;
 
                 }
-                using (BatchAction ba = _oper.StarBatchAction())
+                using (BatchAction ba = Oper.StarBatchAction())
                 {
                     if (con.DbParamList != null)
                     {
                         con.PageContent = objPage;
-                        con.Oper = _oper;
+                        con.Oper = Oper;
                         string sql = con.GetSql(useCache);
-                        ds = _oper.QueryDataSet(sql, con.DbParamList, cacheTables);
+                        ds = Oper.QueryDataSet(sql, con.DbParamList, cacheTables);
                     }
                     else
                     {
                         SelectCondition sCon = con as SelectCondition;
-                        DataTable dt = con.DBinfo.CurrentDbAdapter.QueryDataTable(sCon.GetSelect(), null, objPage, _oper, null);
+                        DataTable dt = con.DBinfo.CurrentDbAdapter.QueryDataTable(sCon.GetSelect(), null, objPage, Oper, null);
                         dt.TableName = "newTable";
                         ds = new DataSet();
                         ds.Tables.Add(dt);
@@ -882,7 +920,7 @@ namespace Buffalo.DB.BQLCommon
         public async Task<DataSet> QueryDataSetAsync<E>(BQLQuery BQL, PageContent objPage, bool useCache)
         {
 
-            using (AbsCondition con = ToCondition(BQL, null, true, typeof(E)))
+            using (AbsCondition con = ToConditionAsync(BQL, null, true, typeof(E), OperAsync))
             {
                 DataSet ds = null;
                 Dictionary<string, bool> cacheTables = null;
@@ -891,19 +929,19 @@ namespace Buffalo.DB.BQLCommon
                     cacheTables = con.CacheTables;
 
                 }
-                await using (BatchAction ba = _oper.StarBatchAction())
+                await using (BatchAction ba = OperAsync.StarBatchAction())
                 {
                     if (con.DbParamList != null)
                     {
                         con.PageContent = objPage;
-                        con.Oper = _oper;
+                        con.Oper = OperAsync;
                         string sql = con.GetSql(useCache);
-                        ds = await _oper.QueryDataSetAsync(sql, con.DbParamList, CommandType.Text, cacheTables);
+                        ds = await OperAsync.QueryDataSetAsync(sql, con.DbParamList, CommandType.Text, cacheTables);
                     }
                     else
                     {
                         SelectCondition sCon = con as SelectCondition;
-                        DataTable dt = await con.DBinfo.CurrentDbAdapter.QueryDataTableAsync(sCon.GetSelect(), null, objPage, _oper, null);
+                        DataTable dt = await con.DBinfo.CurrentDbAdapter.QueryDataTableAsync(sCon.GetSelect(), null, objPage, OperAsync, null);
                         dt.TableName = "newTable";
                         ds = new DataSet();
                         ds.Tables.Add(dt);
@@ -919,7 +957,7 @@ namespace Buffalo.DB.BQLCommon
         /// <param name="objPage">分页对象</param>
         public DataSet QueryDataSet(BQLQuery bql, Type tableType, PageContent objPage, bool useCache)
         {
-            using (AbsCondition con = ToCondition(bql, null, true, tableType))
+            using (AbsCondition con = ToCondition(bql, null, true, tableType, Oper))
             {
                 Dictionary<string, bool> cacheTables = null;
                 if (useCache)
@@ -928,19 +966,19 @@ namespace Buffalo.DB.BQLCommon
 
                 }
                 DataSet ds = null;
-                using (BatchAction ba = _oper.StarBatchAction())
+                using (BatchAction ba = Oper.StarBatchAction())
                 {
                     if (con.DbParamList != null)
                     {
                         con.PageContent = objPage;
-                        con.Oper = _oper;
+                        con.Oper = Oper;
                         string sql = con.GetSql(useCache);
-                        ds = _oper.QueryDataSet(sql, con.DbParamList, cacheTables);
+                        ds = Oper.QueryDataSet(sql, con.DbParamList, cacheTables);
                     }
                     else
                     {
                         SelectCondition sCon = con as SelectCondition;
-                        DataTable dt = con.DBinfo.CurrentDbAdapter.QueryDataTable(sCon.GetSelect(), null, objPage, _oper, null);
+                        DataTable dt = con.DBinfo.CurrentDbAdapter.QueryDataTable(sCon.GetSelect(), null, objPage, Oper, null);
                         dt.TableName = "newTable";
                         ds = new DataSet();
                         ds.Tables.Add(dt);
@@ -956,7 +994,7 @@ namespace Buffalo.DB.BQLCommon
         /// <param name="objPage">分页对象</param>
         public async Task<DataSet> QueryDataSetAsync(BQLQuery bql, Type tableType, PageContent objPage, bool useCache)
         {
-            using (AbsCondition con = ToCondition(bql, null, true, tableType))
+            using (AbsCondition con = ToConditionAsync(bql, null, true, tableType, OperAsync))
             {
                 Dictionary<string, bool> cacheTables = null;
                 if (useCache)
@@ -965,19 +1003,19 @@ namespace Buffalo.DB.BQLCommon
 
                 }
                 DataSet ds = null;
-                await using (BatchAction ba = _oper.StarBatchAction())
+                await using (BatchAction ba = OperAsync.StarBatchAction())
                 {
                     if (con.DbParamList != null)
                     {
                         con.PageContent = objPage;
-                        con.Oper = _oper;
+                        con.Oper = OperAsync;
                         string sql = con.GetSql(useCache);
-                        ds = await _oper.QueryDataSetAsync(sql, con.DbParamList, CommandType.Text, cacheTables);
+                        ds = await OperAsync.QueryDataSetAsync(sql, con.DbParamList, CommandType.Text, cacheTables);
                     }
                     else
                     {
                         SelectCondition sCon = con as SelectCondition;
-                        DataTable dt = await con.DBinfo.CurrentDbAdapter.QueryDataTableAsync(sCon.GetSelect(), null, objPage, _oper, null);
+                        DataTable dt = await con.DBinfo.CurrentDbAdapter.QueryDataTableAsync(sCon.GetSelect(), null, objPage, OperAsync, null);
                         dt.TableName = "newTable";
                         ds = new DataSet();
                         ds.Tables.Add(dt);
@@ -995,10 +1033,10 @@ namespace Buffalo.DB.BQLCommon
         /// <param name="tableType">表对应的实体类型</param>
         public DbDataReader QueryReader(ScopeList lstScope, PageContent objPage, Type tableType)
         {
-            BQLEntityTableHandle table = _oper.DBInfo.FindTable(tableType);
+            BQLEntityTableHandle table = Oper.DBInfo.FindTable(tableType);
             if (CommonMethods.IsNull(table))
             {
-                _oper.DBInfo.ThrowNotFondTable(tableType);
+                Oper.DBInfo.ThrowNotFondTable(tableType);
             }
 
             BQLQuery BQL = GetSelectSql(lstScope, table);
@@ -1012,28 +1050,28 @@ namespace Buffalo.DB.BQLCommon
         /// <param name="tableType">表对应的实体类型</param>
         public Task<DbDataReader> QueryReaderAsync(ScopeList lstScope, PageContent objPage, Type tableType)
         {
-            BQLEntityTableHandle table = _oper.DBInfo.FindTable(tableType);
+            BQLEntityTableHandle table = OperAsync.DBInfo.FindTable(tableType);
             if (CommonMethods.IsNull(table))
             {
-                _oper.DBInfo.ThrowNotFondTable(tableType);
+                OperAsync.DBInfo.ThrowNotFondTable(tableType);
             }
 
             BQLQuery BQL = GetSelectSql(lstScope, table);
             return QueryReaderAsync(BQL, objPage, tableType, lstScope.UseCache);
         }
-        protected string QueryReaderSql(BQLQuery BQL, PageContent objPage, Type tableType, bool useCache, out AbsCondition con, out Dictionary<string, bool> cacheTables)
+        protected string QueryReaderSql(BQLQuery BQL, PageContent objPage, Type tableType, bool useCache, DataBaseOperate oper, out AbsCondition con, out Dictionary<string, bool> cacheTables)
         {
             cacheTables = null;
             con = null;
 
             if (tableType == null)
             {
-                con = BQLKeyWordManager.ToCondition(BQL, _oper.DBInfo, null, true);
+                con = BQLKeyWordManager.ToCondition(BQL, oper.DBInfo, null, true);
 
             }
             else
             {
-                con = ToCondition(BQL, new BQLEntityTableHandle[] { }, true, tableType);
+                con = ToCondition(BQL, new BQLEntityTableHandle[] { }, true, tableType, oper);
             }
 
             if (useCache)
@@ -1045,7 +1083,36 @@ namespace Buffalo.DB.BQLCommon
 
 
             con.PageContent = objPage;
-            con.Oper = _oper;
+            con.Oper = oper;
+            string sql = con.GetSql(useCache);
+            return sql;
+        }
+
+        protected string QueryReaderSqlAsync(BQLQuery BQL, PageContent objPage, Type tableType, bool useCache, DataBaseOperate oper, out AbsCondition con, out Dictionary<string, bool> cacheTables)
+        {
+            cacheTables = null;
+            con = null;
+
+            if (tableType == null)
+            {
+                con = BQLKeyWordManager.ToConditionAsync(BQL, oper.DBInfo, null, true);
+
+            }
+            else
+            {
+                con = ToConditionAsync(BQL, new BQLEntityTableHandle[] { }, true, tableType, oper);
+            }
+
+            if (useCache)
+            {
+                cacheTables = con.CacheTables;
+
+            }
+            con.PageContent = objPage;
+
+
+            con.PageContent = objPage;
+            con.Oper = oper;
             string sql = con.GetSql(useCache);
             return sql;
         }
@@ -1060,8 +1127,8 @@ namespace Buffalo.DB.BQLCommon
         {
             AbsCondition con = null;
             Dictionary<string, bool> cacheTables = null;
-            string sql = QueryReaderSql(BQL, objPage, tableType, useCache, out con, out cacheTables);
-            DbDataReader reader = _oper.Query(sql, con.DbParamList, cacheTables);
+            string sql = QueryReaderSql(BQL, objPage, tableType, useCache, Oper, out con, out cacheTables);
+            DbDataReader reader = Oper.Query(sql, con.DbParamList, cacheTables);
 
             return reader;
         }
@@ -1075,8 +1142,8 @@ namespace Buffalo.DB.BQLCommon
         {
             AbsCondition con = null;
             Dictionary<string, bool> cacheTables = null;
-            string sql = QueryReaderSql(BQL, objPage, tableType, useCache, out con, out cacheTables);
-            DbDataReader reader = await _oper.QueryAsync(sql, con.DbParamList, CommandType.Text, cacheTables);
+            string sql = QueryReaderSqlAsync(BQL, objPage, tableType, useCache, OperAsync, out con, out cacheTables);
+            DbDataReader reader = await OperAsync.QueryAsync(sql, con.DbParamList, CommandType.Text, cacheTables);
 
             return reader;
         }
@@ -1087,10 +1154,10 @@ namespace Buffalo.DB.BQLCommon
         /// <param name="objPage">分页对象</param>
         public IDataReader QueryReader(ScopeList lstScope, Type tableType)
         {
-            BQLEntityTableHandle table = _oper.DBInfo.FindTable(tableType);
+            BQLEntityTableHandle table = Oper.DBInfo.FindTable(tableType);
             if (CommonMethods.IsNull(table))
             {
-                _oper.DBInfo.ThrowNotFondTable(tableType);
+                Oper.DBInfo.ThrowNotFondTable(tableType);
             }
 
             BQLQuery BQL = GetSelectSql(lstScope, table);
@@ -1103,10 +1170,10 @@ namespace Buffalo.DB.BQLCommon
         /// <param name="objPage">分页对象</param>
         public Task<DbDataReader> QueryReaderAsync(ScopeList lstScope, Type tableType)
         {
-            BQLEntityTableHandle table = _oper.DBInfo.FindTable(tableType);
+            BQLEntityTableHandle table = OperAsync.DBInfo.FindTable(tableType);
             if (CommonMethods.IsNull(table))
             {
-                _oper.DBInfo.ThrowNotFondTable(tableType);
+                OperAsync.DBInfo.ThrowNotFondTable(tableType);
             }
 
             BQLQuery BQL = GetSelectSql(lstScope, table);
@@ -1120,7 +1187,7 @@ namespace Buffalo.DB.BQLCommon
         public IDataReader QueryReader(BQLQuery BQL, Type tableType, bool useCache)
         {
 
-            using (AbsCondition con = ToCondition(BQL, null, true, tableType))
+            using (AbsCondition con = ToCondition(BQL, null, true, tableType, Oper))
             {
                 Dictionary<string, bool> cacheTables = null;
                 if (useCache)
@@ -1129,8 +1196,8 @@ namespace Buffalo.DB.BQLCommon
 
                 }
                 IDataReader reader = null;
-                con.Oper = _oper;
-                reader = _oper.Query(con.GetSql(useCache), con.DbParamList, cacheTables);
+                con.Oper = Oper;
+                reader = Oper.Query(con.GetSql(useCache), con.DbParamList, cacheTables);
 
                 return reader;
             }
@@ -1143,7 +1210,7 @@ namespace Buffalo.DB.BQLCommon
         public async Task<DbDataReader> QueryReaderAsync(BQLQuery BQL, Type tableType, bool useCache)
         {
 
-            using (AbsCondition con = ToCondition(BQL, null, true, tableType))
+            using (AbsCondition con = ToConditionAsync(BQL, null, true, tableType, OperAsync))
             {
                 Dictionary<string, bool> cacheTables = null;
                 if (useCache)
@@ -1152,8 +1219,8 @@ namespace Buffalo.DB.BQLCommon
 
                 }
                 DbDataReader reader = null;
-                con.Oper = _oper;
-                reader = await _oper.QueryAsync(con.GetSql(useCache), con.DbParamList, CommandType.Text, cacheTables);
+                con.Oper = OperAsync;
+                reader = await OperAsync.QueryAsync(con.GetSql(useCache), con.DbParamList, CommandType.Text, cacheTables);
 
                 return reader;
             }
@@ -1165,15 +1232,15 @@ namespace Buffalo.DB.BQLCommon
         /// <param name="BQL">sql语句</param>
         public int ExecuteCommand(BQLQuery BQL)
         {
-            AbsCondition con = BQLKeyWordManager.ToCondition(BQL, _oper.DBInfo, null, true);
+            AbsCondition con = BQLKeyWordManager.ToCondition(BQL, Oper.DBInfo, null, true);
             Dictionary<string, bool> cacheTables = null;
 
             cacheTables = con.CacheTables;
 
 
             int ret = -1;
-            con.Oper = _oper;
-            ret = _oper.Execute(con.GetSql(true), con.DbParamList, cacheTables);
+            con.Oper = Oper;
+            ret = Oper.Execute(con.GetSql(true), con.DbParamList, cacheTables);
             return ret;
         }
         /// <summary>
@@ -1182,25 +1249,25 @@ namespace Buffalo.DB.BQLCommon
         /// <param name="BQL">sql语句</param>
         public async Task<int> ExecuteCommandAsync(BQLQuery BQL)
         {
-            AbsCondition con = BQLKeyWordManager.ToCondition(BQL, _oper.DBInfo, null, true);
+            AbsCondition con = BQLKeyWordManager.ToConditionAsync(BQL, OperAsync.DBInfo, null, true);
             Dictionary<string, bool> cacheTables = null;
 
             cacheTables = con.CacheTables;
 
 
             int ret = -1;
-            con.Oper = _oper;
-            ret = await _oper.ExecuteAsync(con.GetSql(true), con.DbParamList, CommandType.Text, cacheTables);
+            con.Oper = OperAsync;
+            ret = await OperAsync.ExecuteAsync(con.GetSql(true), con.DbParamList, CommandType.Text, cacheTables);
             return ret;
         }
 
-        protected BQLQuery ExistsRecordBQL<E>(ScopeList lstScope)
+        protected BQLQuery ExistsRecordBQL<E>(ScopeList lstScope, DataBaseOperate oper)
         {
             Type eType = typeof(E);
-            BQLEntityTableHandle table = _oper.DBInfo.FindTable(eType);
+            BQLEntityTableHandle table = oper.DBInfo.FindTable(eType);
             if (CommonMethods.IsNull(table))
             {
-                _oper.DBInfo.ThrowNotFondTable(eType);
+                oper.DBInfo.ThrowNotFondTable(eType);
             }
             List<BQLParamHandle> lstParams = new List<BQLParamHandle>();
             if (table.GetEntityInfo().PrimaryProperty.Count <= 0)
@@ -1231,7 +1298,7 @@ namespace Buffalo.DB.BQLCommon
         public bool ExistsRecord<E>(ScopeList lstScope)
             where E : EntityBase, new()
         {
-            BQLQuery bql = ExistsRecordBQL<E>(lstScope);
+            BQLQuery bql = ExistsRecordBQL<E>(lstScope, Oper);
             return ExistsRecord<E>(bql, lstScope.UseCache);
         }
         /// <summary>
@@ -1242,7 +1309,7 @@ namespace Buffalo.DB.BQLCommon
         public Task<bool> ExistsRecordAsync<E>(ScopeList lstScope)
             where E : EntityBase, new()
         {
-            BQLQuery bql = ExistsRecordBQL<E>(lstScope);
+            BQLQuery bql = ExistsRecordBQL<E>(lstScope, OperAsync);
             return ExistsRecordAsync<E>(bql, lstScope.UseCache);
         }
         /// <summary>
@@ -1254,7 +1321,7 @@ namespace Buffalo.DB.BQLCommon
             where E : EntityBase, new()
         {
             Type tableType = typeof(E);
-            using (AbsCondition con = ToCondition(BQL, null, true, tableType))
+            using (AbsCondition con = ToCondition(BQL, null, true, tableType, Oper))
             {
                 string sql = con.DBinfo.CurrentDbAdapter.GetTopSelectSql(con as SelectCondition, 1);
                 bool exists = false;
@@ -1266,8 +1333,8 @@ namespace Buffalo.DB.BQLCommon
 
                 }
 
-                con.Oper = _oper;
-                using (reader = _oper.Query(sql, con.DbParamList, cacheTables))
+                con.Oper = Oper;
+                using (reader = Oper.Query(sql, con.DbParamList, cacheTables))
                 {
                     exists = reader.Read();
                 }
@@ -1284,7 +1351,7 @@ namespace Buffalo.DB.BQLCommon
             where E : EntityBase, new()
         {
             Type tableType = typeof(E);
-            using (AbsCondition con = ToCondition(BQL, null, true, tableType))
+            using (AbsCondition con = ToConditionAsync(BQL, null, true, tableType, OperAsync))
             {
                 string sql = con.DBinfo.CurrentDbAdapter.GetTopSelectSql(con as SelectCondition, 1);
                 bool exists = false;
@@ -1296,8 +1363,8 @@ namespace Buffalo.DB.BQLCommon
 
                 }
 
-                con.Oper = _oper;
-                using (reader = await _oper.QueryAsync(sql, con.DbParamList, CommandType.Text, cacheTables))
+                con.Oper = OperAsync;
+                using (reader = await OperAsync.QueryAsync(sql, con.DbParamList, CommandType.Text, cacheTables))
                 {
 
                     exists = await reader.ReadAsync();
@@ -1307,13 +1374,13 @@ namespace Buffalo.DB.BQLCommon
                 return exists;
             }
         }
-        protected BQLQuery GetGetUniqueSQL<E>(ScopeList lstScope)
+        protected BQLQuery GetGetUniqueSQL<E>(ScopeList lstScope, DataBaseOperate oper)
         {
             Type eType = typeof(E);
-            BQLEntityTableHandle table = _oper.DBInfo.FindTable(eType);
+            BQLEntityTableHandle table = oper.DBInfo.FindTable(eType);
             if (CommonMethods.IsNull(table))
             {
-                _oper.DBInfo.ThrowNotFondTable(eType);
+                oper.DBInfo.ThrowNotFondTable(eType);
             }
             List<BQLParamHandle> lstParams = GetParam(table, lstScope);
             BQLCondition where = BQLCondition.TrueValue;
@@ -1339,7 +1406,7 @@ namespace Buffalo.DB.BQLCommon
             where E : EntityBase, new()
         {
 
-            BQLQuery bql = GetGetUniqueSQL<E>(lstScope);
+            BQLQuery bql = GetGetUniqueSQL<E>(lstScope, Oper);
             return GetUnique<E>(bql, lstScope.UseCache);
         }
         // <summary>
@@ -1352,7 +1419,7 @@ namespace Buffalo.DB.BQLCommon
             where E : EntityBase, new()
         {
 
-            BQLQuery bql = GetGetUniqueSQL<E>(lstScope);
+            BQLQuery bql = GetGetUniqueSQL<E>(lstScope, OperAsync);
             return GetUniqueAsync<E>(bql, lstScope.UseCache);
         }
         /// <summary>
@@ -1368,7 +1435,7 @@ namespace Buffalo.DB.BQLCommon
             TableAliasNameManager aliasManager = new TableAliasNameManager(new BQLEntityTableHandle(EntityInfoManager.GetEntityHandle(tableType)));
 
 
-            using (AbsCondition con = BQLKeyWordManager.ToCondition(BQL, _oper.DBInfo, aliasManager, true))
+            using (AbsCondition con = BQLKeyWordManager.ToCondition(BQL, Oper.DBInfo, aliasManager, true))
             {
                 Dictionary<string, bool> cacheTables = null;
                 if (useCache)
@@ -1378,10 +1445,10 @@ namespace Buffalo.DB.BQLCommon
                 }
                 string sql = con.DBinfo.CurrentDbAdapter.GetTopSelectSql(con as SelectCondition, 1);
                 E ret = default(E);
-                IDataReader reader = _oper.Query(sql, con.DbParamList, cacheTables);
+                IDataReader reader = Oper.Query(sql, con.DbParamList, cacheTables);
                 try
                 {
-                    con.Oper = _oper;
+                    con.Oper = Oper;
 
                     aliasManager.InitMapping(reader);
                     if (reader.Read())
@@ -1412,7 +1479,7 @@ namespace Buffalo.DB.BQLCommon
             TableAliasNameManager aliasManager = new TableAliasNameManager(new BQLEntityTableHandle(EntityInfoManager.GetEntityHandle(tableType)));
 
 
-            using (AbsCondition con = BQLKeyWordManager.ToCondition(BQL, _oper.DBInfo, aliasManager, true))
+            using (AbsCondition con = BQLKeyWordManager.ToConditionAsync(BQL, OperAsync.DBInfo, aliasManager, true))
             {
                 Dictionary<string, bool> cacheTables = null;
                 if (useCache)
@@ -1422,10 +1489,10 @@ namespace Buffalo.DB.BQLCommon
                 }
                 string sql = con.DBinfo.CurrentDbAdapter.GetTopSelectSql(con as SelectCondition, 1);
                 E ret = default(E);
-                DbDataReader reader = await _oper.QueryAsync(sql, con.DbParamList, CommandType.Text, cacheTables);
+                DbDataReader reader = await OperAsync.QueryAsync(sql, con.DbParamList, CommandType.Text, cacheTables);
                 try
                 {
-                    con.Oper = _oper;
+                    con.Oper = OperAsync;
 
                     aliasManager.InitMapping(reader);
                     if (await reader.ReadAsync())

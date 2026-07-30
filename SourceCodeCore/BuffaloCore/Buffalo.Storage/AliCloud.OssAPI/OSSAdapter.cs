@@ -456,7 +456,9 @@ namespace Buffalo.Storage.AliCloud.OssAPI
                 //}
                 //else
                 //{
+               
                     res = _cloud.PutObject(_bucketName, path, stream, objectMeta);
+                
                 //}
 
             }

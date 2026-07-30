@@ -92,7 +92,7 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
             }
             else
             {
-                tableName = _entityInfo.TableName;
+                tableName = info.GetTableName(_entityInfo);
             }
 
             if (_pinfo == null)//查询全部字段时候
@@ -133,7 +133,7 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
             IDBAdapter idba = info.DBInfo.CurrentDbAdapter;
             StringBuilder sbRet = new StringBuilder();
             BQLEntityTableHandle outputTable = _belongTable;
-            if (string.IsNullOrEmpty(_entityInfo.TableName)) 
+            if (string.IsNullOrEmpty(info.GetTableName(_entityInfo))) 
             {
                 outputTable = info.FromTable;
             }
@@ -149,9 +149,9 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
                         sbRet.Append(".");
                     }
                 }
-                else if(!string.IsNullOrEmpty(_entityInfo.TableName))
+                else if(!string.IsNullOrEmpty(info.GetTableName(_entityInfo)))
                 {
-                    sbRet.Append(idba.FormatTableName(_entityInfo.TableName));
+                    sbRet.Append(idba.FormatTableName(info.GetTableName(_entityInfo)));
                     sbRet.Append(".");
                 }
             }

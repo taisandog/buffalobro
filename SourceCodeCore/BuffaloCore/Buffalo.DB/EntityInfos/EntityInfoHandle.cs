@@ -140,44 +140,46 @@ namespace Buffalo.DB.EntityInfos
             }
         }
 
-        private CallContext<string> _curTableName = new CallContext<string>();
+        private readonly CallContextSync<string> _curTableName = new CallContextSync<string>();
+        private readonly CallContextAsync<string> _curTableNameAsync = new CallContextAsync<string>();
 
         /// <summary>
-        /// 切换当前使用的表名,null则切换回默认,在非异步线程池时候先设置CallContextSyncTag.SetAsync()
+        /// 切换当前同步线程使用的表名，null 或空白值恢复默认表名。
         /// </summary>
-        public string SelectedTableName 
+        public string SelectedTableName
         {
-            get 
-            {
-                CallContextSyncTag.SetAsync(false);
-                return _curTableName.Value;
-            }
-            set 
-            {
-                CallContextSyncTag.SetAsync(false);
-                if (string.IsNullOrWhiteSpace(value)) 
-                {
-                    _curTableName.Value = null;
-                    return;
-                }
-                _curTableName.Value = value;
-            }
+            get { return _curTableName.Value; }
+            set { _curTableName.Value = NormalizeTableName(value); }
         }
-        
+
         /// <summary>
-        /// 对应的表名名
+        /// 切换当前异步调用链使用的表名，null 或空白值恢复默认表名。
+        /// </summary>
+        public string SelectedTableNameAsync
+        {
+            get { return _curTableNameAsync.Value; }
+            set { _curTableNameAsync.Value = NormalizeTableName(value); }
+        }
+
+        private static string NormalizeTableName(string value)
+        {
+            return string.IsNullOrWhiteSpace(value) ? null : value;
+        }
+
+        /// <summary>
+        /// 当前同步线程对应的表名。
         /// </summary>
         public string TableName
         {
-            get
-            {
-                string selTableName = _curTableName.Value;
-                if (selTableName != null) 
-                {
-                    return selTableName;
-                }
-                return _tableInfo.TableName;
-            }
+            get { return _curTableName.Value ?? _tableInfo.TableName; }
+        }
+
+        /// <summary>
+        /// 当前异步调用链对应的表名。
+        /// </summary>
+        public string TableNameAsync
+        {
+            get { return _curTableNameAsync.Value ?? _tableInfo.TableName; }
         }
         
         /// <summary>

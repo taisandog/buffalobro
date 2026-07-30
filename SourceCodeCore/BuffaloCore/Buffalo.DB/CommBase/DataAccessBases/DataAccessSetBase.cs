@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Buffalo.DB.DbCommon;
+using Buffalo.DB.DataBaseAdapter;
 using Buffalo.DB.QueryConditions;
 using System.Data;
 using Buffalo.DB.BQLCommon;
@@ -24,7 +25,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         public DataAccessSetBase(EntityInfoHandle entityInfo)
         {
             _entityInfo = entityInfo;
-
+            _cdal = new BQLDbBase(entityInfo.DBInfo);
         }
 
 
@@ -39,7 +40,8 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         }
 
 
-        protected DataBaseOperate _oper;
+        private DataBaseOperate _explicitOperate;
+        private bool _hasExplicitOperate;
 
         protected BQLDbBase _cdal;//BQL数据层类
 
@@ -78,14 +80,14 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         {
             if (string.IsNullOrWhiteSpace(tableName))
             {
-                tableName = EntityInfo.TableName;
+                tableName = EntityInfo.TableNameAsync;
             }
 
-            string sql = EntityInfo.DBInfo.CurrentDbAdapter.GetTruncateTable(tableName);
+            string sql = OperAsync.DBInfo.CurrentDbAdapter.GetTruncateTable(tableName);
             return ExecuteCommandAsync(sql, null, CommandType.Text, null);
         }
 
-        private bool FillUpdateSql(EntityBase obj, ScopeList scopeList, ValueSetList setList, bool optimisticConcurrency, ParamList list,
+        private bool FillUpdateSql(EntityBase obj, ScopeList scopeList, ValueSetList setList, bool optimisticConcurrency, ParamList list, DataBaseOperate oper, string tableName,
             out UpdateCondition con,out List<VersionInfo> lstVersionInfo, out Dictionary<string, bool> cacheTables) 
         {
             StringBuilder sql = new StringBuilder(500);
@@ -99,7 +101,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             int index = 0;
 
 
-            KeyWordInfomation keyinfo = BQLValueItem.GetKeyWordInfomation(EntityInfo.DBInfo);
+            KeyWordInfomation keyinfo = BQLValueItem.GetKeyWordInfomation(oper.DBInfo);
             keyinfo.ParamList = list;
             keyinfo.ShowTableName = false;
             keyinfo.OutPutModle = false;
@@ -122,8 +124,8 @@ namespace Buffalo.DB.CommBase.DataAccessBases
                         if (optimisticConcurrency == true && info.IsVersion) //并发控制
                         {
 
-                            object newValue = FillUpdateConcurrency(sql, info, list, curValue, ref index);
-                            FillWhereConcurrency(where, info, list, curValue, ref index);
+                            object newValue = FillUpdateConcurrency(sql, info, list, curValue, ref index, oper.DBInfo);
+                            FillWhereConcurrency(where, info, list, curValue, ref index, oper.DBInfo);
                             if (lstVersionInfo == null)
                             {
                                 lstVersionInfo = new List<VersionInfo>();
@@ -148,11 +150,11 @@ namespace Buffalo.DB.CommBase.DataAccessBases
                                     }
                                 }
                                 sql.Append(",");
-                                sql.Append(EntityInfo.DBInfo.CurrentDbAdapter.FormatParam(info.ParamName));
+                                sql.Append(oper.DBInfo.CurrentDbAdapter.FormatParam(info.ParamName));
                                 sql.Append("=");
                                 if (curValue != null)
                                 {
-                                    DBParameter dbPrm = list.NewParameter(info.SqlType, curValue, EntityInfo.DBInfo);
+                                    DBParameter dbPrm = list.NewParameter(info.SqlType, curValue, oper.DBInfo);
                                     sql.Append(dbPrm.ValueName);
                                 }
                                 else
@@ -167,9 +169,9 @@ namespace Buffalo.DB.CommBase.DataAccessBases
                     {
 
 
-                        DBParameter dbPrm = list.NewParameter(info.SqlType, curValue, EntityInfo.DBInfo);
+                        DBParameter dbPrm = list.NewParameter(info.SqlType, curValue, oper.DBInfo);
                         where.Append(" and ");
-                        where.Append(EntityInfo.DBInfo.CurrentDbAdapter.FormatParam(info.ParamName));
+                        where.Append(oper.DBInfo.CurrentDbAdapter.FormatParam(info.ParamName));
                         where.Append("=");
                         where.Append(dbPrm.ValueName);
                         //primaryKeyValue=curValue;
@@ -191,7 +193,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
                         throw new Exception("实体:" + EntityInfo.EntityType.FullName + "  找不到属性:" + kvp.Key);
                     }
                     sql.Append(",");
-                    sql.Append(EntityInfo.DBInfo.CurrentDbAdapter.FormatParam(epinfo.ParamName));
+                    sql.Append(oper.DBInfo.CurrentDbAdapter.FormatParam(epinfo.ParamName));
                     sql.Append("=");
                     if (CommonMethods.IsNull(kvp.Value))
                     {
@@ -214,8 +216,8 @@ namespace Buffalo.DB.CommBase.DataAccessBases
                 sql.Remove(0, 1);
 
             }
-            con = new UpdateCondition(EntityInfo.DBInfo);
-            con.Tables.Append(EntityInfo.DBInfo.CurrentDbAdapter.FormatTableName(EntityInfo.TableName));
+            con = new UpdateCondition(oper.DBInfo);
+            con.Tables.Append(oper.DBInfo.CurrentDbAdapter.FormatTableName(tableName));
             con.UpdateSetValue.Append(sql);
             con.Condition.Append("1=1");
 
@@ -224,7 +226,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             
             
 
-            cacheTables = _oper.DBInfo.QueryCache.CreateMap(EntityInfo.TableName);
+            cacheTables = oper.DBInfo.QueryCache.CreateMap(tableName);
 
             string msql = null;
             if (list.Count == 1)
@@ -262,7 +264,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             UpdateCondition con = null;
             List<VersionInfo> lstVersionInfo = null;
             Dictionary< string, bool> cacheTables = null;
-            if(!FillUpdateSql(obj, scopeList, setList, optimisticConcurrency, list, out con, out lstVersionInfo, out cacheTables)) 
+            if(!FillUpdateSql(obj, scopeList, setList, optimisticConcurrency, list, Oper, EntityInfo.TableName, out con, out lstVersionInfo, out cacheTables)) 
             {
                 return 0;
             }
@@ -285,7 +287,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             UpdateCondition con = null;
             List<VersionInfo> lstVersionInfo = null;
             Dictionary<string, bool> cacheTables = null;
-            if (!FillUpdateSql(obj, scopeList, setList, optimisticConcurrency, list, out con, out lstVersionInfo, out cacheTables))
+            if (!FillUpdateSql(obj, scopeList, setList, optimisticConcurrency, list, OperAsync, EntityInfo.TableNameAsync, out con, out lstVersionInfo, out cacheTables))
             {
                 return 0;
             }
@@ -302,19 +304,19 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <param name="list"></param>
         /// <param name="curValue"></param>
         protected internal void FillWhereConcurrency(StringBuilder where,
-            EntityPropertyInfo info, ParamList list, object curValue, ref int index)
+            EntityPropertyInfo info, ParamList list, object curValue, ref int index, DBInfo dbInfo)
         {
 
 
-            string paramValW = EntityInfo.DBInfo.CurrentDbAdapter.FormatValueName(DataAccessCommon.FormatParam(info.ParamName, index));
-            string paramKeyW = EntityInfo.DBInfo.CurrentDbAdapter.FormatParamKeyName(DataAccessCommon.FormatParam(info.ParamName, index));
+            string paramValW = dbInfo.CurrentDbAdapter.FormatValueName(DataAccessCommon.FormatParam(info.ParamName, index));
+            string paramKeyW = dbInfo.CurrentDbAdapter.FormatParamKeyName(DataAccessCommon.FormatParam(info.ParamName, index));
             index++;
             if (DefaultType.IsDefaultValue(curValue))
             {
                 throw new Exception("版本控制字段:" + info.PropertyName + " 必须有当前版本值");
             }
             where.Append(" and ");
-            where.Append(EntityInfo.DBInfo.CurrentDbAdapter.FormatParam(info.ParamName));
+            where.Append(dbInfo.CurrentDbAdapter.FormatParam(info.ParamName));
             where.Append("=");
             where.Append(paramValW);
             list.AddNew(paramKeyW, info.SqlType, curValue);
@@ -323,16 +325,16 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         #region 版本控制
 
         private object FillUpdateConcurrency(StringBuilder sql,
-            EntityPropertyInfo info, ParamList list, object curValue, ref int index)
+            EntityPropertyInfo info, ParamList list, object curValue, ref int index, DBInfo dbInfo)
         {
             object newValue = NewConcurrencyValue(curValue);
             if (newValue != null)
             {
-                string paramValV = EntityInfo.DBInfo.CurrentDbAdapter.FormatValueName(DataAccessCommon.FormatParam(info.ParamName, index));
-                string paramKeyV = EntityInfo.DBInfo.CurrentDbAdapter.FormatParamKeyName(DataAccessCommon.FormatParam(info.ParamName, index));
+                string paramValV = dbInfo.CurrentDbAdapter.FormatValueName(DataAccessCommon.FormatParam(info.ParamName, index));
+                string paramKeyV = dbInfo.CurrentDbAdapter.FormatParamKeyName(DataAccessCommon.FormatParam(info.ParamName, index));
 
                 sql.Append(",");
-                sql.Append(EntityInfo.DBInfo.CurrentDbAdapter.FormatParam(info.ParamName));
+                sql.Append(dbInfo.CurrentDbAdapter.FormatParam(info.ParamName));
                 sql.Append("=");
                 sql.Append(paramValV);
                 list.AddNew(paramKeyV, info.SqlType, newValue);
@@ -451,16 +453,29 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         {
             get
             {
-                return _oper;
+                return _hasExplicitOperate
+                    ? _explicitOperate
+                    : StaticConnection.GetStaticOperate(EntityInfo.DBInfo);
             }
             set
             {
-                _oper = value;
-                _cdal = new BQLDbBase(_oper);
+                _explicitOperate = value;
+                _hasExplicitOperate = true;
+                _cdal = value == null ? null : new BQLDbBase(value);
             }
         }
 
-        private bool FillDoInsert(EntityBase obj, ValueSetList setList, bool fillIdentity, InsertCondition con,ParamList list, List<EntityPropertyInfo> identityInfo )
+        protected internal DataBaseOperate OperAsync
+        {
+            get
+            {
+                return _hasExplicitOperate
+                    ? _explicitOperate
+                    : StaticConnection.GetStaticOperateAsync(EntityInfo.DBInfo);
+            }
+        }
+
+        private bool FillDoInsert(EntityBase obj, ValueSetList setList, bool fillIdentity, InsertCondition con, ParamList list, List<EntityPropertyInfo> identityInfo, DataBaseOperate oper, string tableName)
         {
             StringBuilder sqlParams = new StringBuilder(1000);
             StringBuilder sqlValues = new StringBuilder(1000);
@@ -470,7 +485,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
 
            
 
-            KeyWordInfomation keyinfo = BQLValueItem.GetKeyWordInfomation(EntityInfo.DBInfo);
+            KeyWordInfomation keyinfo = BQLValueItem.GetKeyWordInfomation(oper.DBInfo);
             keyinfo.ParamList = list;
             keyinfo.OutPutModle = false;
             keyinfo.ShowTableName = false;
@@ -485,7 +500,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
                 if (setList != null && setList.TryGetValue(info.PropertyName, out bvalue))
                 {
                     sqlParams.Append(",");
-                    sqlParams.Append(EntityInfo.DBInfo.CurrentDbAdapter.FormatParam(info.ParamName));
+                    sqlParams.Append(oper.DBInfo.CurrentDbAdapter.FormatParam(info.ParamName));
                     sqlValues.Append(",");
                     bvalue.FillInfo(keyinfo);
                     sqlValues.Append(bvalue.DisplayValue(keyinfo));
@@ -498,10 +513,10 @@ namespace Buffalo.DB.CommBase.DataAccessBases
                         curValue = Guid.NewGuid();
                         info.SetValue(obj, curValue);
 
-                        DBParameter prm = list.NewParameter(info.SqlType, curValue, EntityInfo.DBInfo);
+                        DBParameter prm = list.NewParameter(info.SqlType, curValue, oper.DBInfo);
 
                         sqlParams.Append(",");
-                        sqlParams.Append(EntityInfo.DBInfo.CurrentDbAdapter.FormatParam(info.ParamName));
+                        sqlParams.Append(oper.DBInfo.CurrentDbAdapter.FormatParam(info.ParamName));
                         sqlValues.Append(",");
                         sqlValues.Append(prm.ValueName);
                         continue;
@@ -512,13 +527,13 @@ namespace Buffalo.DB.CommBase.DataAccessBases
                         {
                             identityInfo.Add(info);
                         }
-                        param = EntityInfo.DBInfo.CurrentDbAdapter.GetIdentityParamName(info);
+                        param = oper.DBInfo.CurrentDbAdapter.GetIdentityParamName(info);
                         if (!string.IsNullOrEmpty(param))
                         {
                             sqlParams.Append(",");
                             sqlParams.Append(param);
                         }
-                        svalue = EntityInfo.DBInfo.CurrentDbAdapter.GetIdentityParamValue(EntityInfo, info);
+                        svalue = oper.DBInfo.CurrentDbAdapter.GetIdentityParamValue(EntityInfo, info);
                         if (!string.IsNullOrEmpty(svalue))
                         {
                             sqlValues.Append(",");
@@ -538,10 +553,10 @@ namespace Buffalo.DB.CommBase.DataAccessBases
                     }
                     if (conValue != null)
                     {
-                        DBParameter prm = list.NewParameter(info.SqlType, conValue, EntityInfo.DBInfo);
+                        DBParameter prm = list.NewParameter(info.SqlType, conValue, oper.DBInfo);
 
                         sqlParams.Append(",");
-                        sqlParams.Append(EntityInfo.DBInfo.CurrentDbAdapter.FormatParam(info.ParamName));
+                        sqlParams.Append(oper.DBInfo.CurrentDbAdapter.FormatParam(info.ParamName));
                         sqlValues.Append(",");
                         sqlValues.Append(prm.ValueName);
 
@@ -556,9 +571,9 @@ namespace Buffalo.DB.CommBase.DataAccessBases
                     }
                     else
                     {
-                        DBParameter prmValue = list.NewParameter(info.SqlType, curValue, EntityInfo.DBInfo);
+                        DBParameter prmValue = list.NewParameter(info.SqlType, curValue, oper.DBInfo);
                         sqlParams.Append(",");
-                        sqlParams.Append(EntityInfo.DBInfo.CurrentDbAdapter.FormatParam(info.ParamName));
+                        sqlParams.Append(oper.DBInfo.CurrentDbAdapter.FormatParam(info.ParamName));
                         sqlValues.Append(",");
                         sqlValues.Append(prmValue.ValueName);
                     }
@@ -582,7 +597,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             }
 
             
-            con.Tables.Append(EntityInfo.DBInfo.CurrentDbAdapter.FormatTableName(EntityInfo.TableName));
+            con.Tables.Append(oper.DBInfo.CurrentDbAdapter.FormatTableName(tableName));
             con.SqlParams.Append(sqlParams.ToString());
             con.SqlValues.Append(sqlValues.ToString());
            
@@ -598,23 +613,22 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <returns></returns>
         protected internal int DoInsert(EntityBase obj, ValueSetList setList, bool fillIdentity)
         {
-            //CallContextSyncTag.SetAsync();
             InsertCondition con = new InsertCondition(EntityInfo.DBInfo);
             ParamList list = new ParamList();
             List<EntityPropertyInfo> identityInfo = new List<EntityPropertyInfo>();
             int ret = -1;
-            if (!FillDoInsert(obj, setList, fillIdentity,con,list, identityInfo)) 
+            if (!FillDoInsert(obj, setList, fillIdentity, con, list, identityInfo, Oper, EntityInfo.TableName)) 
             {
                 return 0;
             }
 
 
-            using (BatchAction ba = _oper.StarBatchAction())
+            using (BatchAction ba = Oper.StarBatchAction())
             {
                 string sql = con.GetSql(true);
                 Dictionary<string, bool> cacheTables = null;
 
-                cacheTables = _oper.DBInfo.QueryCache.CreateMap(EntityInfo.TableName);
+                cacheTables = Oper.DBInfo.QueryCache.CreateMap(EntityInfo.TableName);
 
                 ret = ExecuteCommand(sql, list, CommandType.Text, cacheTables);
                 if (identityInfo.Count > 0 && fillIdentity)
@@ -622,7 +636,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
                     foreach (EntityPropertyInfo pkInfo in identityInfo)
                     {
                         sql = EntityInfo.DBInfo.CurrentDbAdapter.GetIdentitySQL(pkInfo);
-                        using (IDataReader reader = _oper.Query(sql, new ParamList(), null))
+                        using (IDataReader reader = Oper.Query(sql, new ParamList(), null))
                         {
 
                             if (reader.Read())
@@ -651,31 +665,30 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <returns></returns>
         protected internal async Task<int> DoInsertAsync(EntityBase obj, ValueSetList setList, bool fillIdentity)
         {
-            //CallContextSyncTag.SetAsync();
-            InsertCondition con = new InsertCondition(EntityInfo.DBInfo);
+            InsertCondition con = new InsertCondition(OperAsync.DBInfo);
             ParamList list = new ParamList();
             List<EntityPropertyInfo> identityInfo = new List<EntityPropertyInfo>();
             int ret = -1;
-            if (!FillDoInsert(obj, setList, fillIdentity, con, list, identityInfo))
+            if (!FillDoInsert(obj, setList, fillIdentity, con, list, identityInfo, OperAsync, EntityInfo.TableNameAsync))
             {
                 return 0;
             }
 
 
-            using (BatchAction ba = _oper.StarBatchAction())
+            using (BatchAction ba = OperAsync.StarBatchAction())
             {
                 string sql = con.GetSql(true);
                 Dictionary<string, bool> cacheTables = null;
 
-                cacheTables = _oper.DBInfo.QueryCache.CreateMap(EntityInfo.TableName);
+                cacheTables = OperAsync.DBInfo.QueryCache.CreateMap(EntityInfo.TableNameAsync);
 
                 ret = await ExecuteCommandAsync(sql, list, CommandType.Text, cacheTables);
                 if (identityInfo.Count > 0 && fillIdentity)
                 {
                     foreach (EntityPropertyInfo pkInfo in identityInfo)
                     {
-                        sql = EntityInfo.DBInfo.CurrentDbAdapter.GetIdentitySQL(pkInfo);
-                        using (DbDataReader reader = await _oper.QueryAsync(sql, new ParamList(),CommandType.Text, null))
+                        sql = OperAsync.DBInfo.CurrentDbAdapter.GetIdentitySQL(pkInfo);
+                        using (DbDataReader reader = await OperAsync.QueryAsync(sql, new ParamList(),CommandType.Text, null))
                         {
 
                             if (await reader.ReadAsync())
@@ -683,7 +696,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
                                 if (!(await reader.IsDBNullAsync(0)))
                                 {
 
-                                    await EntityInfo.DBInfo.CurrentDbAdapter.SetObjectValueFromReaderAsync(reader, 0, obj, pkInfo, !pkInfo.TypeEqual(reader, 0));
+                                    await OperAsync.DBInfo.CurrentDbAdapter.SetObjectValueFromReaderAsync(reader, 0, obj, pkInfo, !pkInfo.TypeEqual(reader, 0));
                                     //obj.PrimaryKeyChange();
                                     ret = 1;
                                 }
@@ -696,7 +709,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             return ret;
         }
 
-        private void FillDelete(EntityBase obj, ScopeList scopeList, bool isConcurrency, ParamList list, 
+        private void FillDelete(EntityBase obj, ScopeList scopeList, bool isConcurrency, ParamList list, DataBaseOperate oper, string tableName, 
             out DeleteCondition con,out Dictionary<string, bool> cacheTables)
         {
             con = null;
@@ -705,8 +718,8 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             {
                 throw new NullReferenceException(" 要删除的实体 和 要删除的条件 不能都为null");
             }
-            con = new DeleteCondition(EntityInfo.DBInfo);
-            con.Tables.Append(EntityInfo.DBInfo.CurrentDbAdapter.FormatTableName(EntityInfo.TableName));
+            con = new DeleteCondition(oper.DBInfo);
+            con.Tables.Append(oper.DBInfo.CurrentDbAdapter.FormatTableName(tableName));
             
             Type type = EntityInfo.EntityType;
             con.Condition.Append("1=1");
@@ -732,13 +745,13 @@ namespace Buffalo.DB.CommBase.DataAccessBases
                 {
                     if (pInfo.IsVersion)
                     {
-                        FillWhereConcurrency(con.Condition, pInfo, list, pInfo.GetValue(obj), ref index);
+                        FillWhereConcurrency(con.Condition, pInfo, list, pInfo.GetValue(obj), ref index, oper.DBInfo);
                     }
                 }
             }
             
 
-            cacheTables = _oper.DBInfo.QueryCache.CreateMap(EntityInfo.TableName);
+            cacheTables = oper.DBInfo.QueryCache.CreateMap(tableName);
         }
 
         /// <summary>
@@ -753,7 +766,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             DeleteCondition con = null;
             Dictionary<string, bool> cacheTables = null;
             ParamList list = new ParamList();
-            FillDelete(obj, scopeList, isConcurrency, list, out con,out cacheTables);
+            FillDelete(obj, scopeList, isConcurrency, list, Oper, EntityInfo.TableName, out con,out cacheTables);
             int ret = -1;
             ret = ExecuteCommand(con.GetSql(true), list, CommandType.Text, cacheTables);
 
@@ -768,21 +781,20 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <returns></returns>
         public async Task<int> DeleteAsync(EntityBase obj, ScopeList scopeList=null, bool isConcurrency=false)
         {
-            //CallContextSyncTag.SetAsync();
             DeleteCondition con = null;
             Dictionary<string, bool> cacheTables = null;
             ParamList list = new ParamList();
-            FillDelete(obj, scopeList, isConcurrency, list, out con, out cacheTables);
+            FillDelete(obj, scopeList, isConcurrency, list, OperAsync, EntityInfo.TableNameAsync, out con, out cacheTables);
             int ret = -1;
             ret = await ExecuteCommandAsync(con.GetSql(true), list, CommandType.Text, cacheTables);
 
             return ret;
         }
 
-        private void FillDeleteById(DeleteCondition con, object id, ParamList list, out Dictionary<string, bool> cacheTables ) 
+        private void FillDeleteById(DeleteCondition con, object id, ParamList list, DataBaseOperate oper, string tableName, out Dictionary<string, bool> cacheTables) 
         {
            
-            con.Tables.Append(EntityInfo.DBInfo.CurrentDbAdapter.FormatTableName(EntityInfo.TableName));
+            con.Tables.Append(oper.DBInfo.CurrentDbAdapter.FormatTableName(tableName));
             
 
             ScopeList lstScope = new ScopeList();
@@ -805,7 +817,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             con.Condition.Append(DataAccessCommon.FillCondition(EntityInfo, list, lstScope));
            
 
-            cacheTables = _oper.DBInfo.QueryCache.CreateMap(EntityInfo.TableName);
+            cacheTables = oper.DBInfo.QueryCache.CreateMap(tableName);
 
         }
         /// <summary>
@@ -815,12 +827,11 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <returns></returns>
         public int DeleteById(object id)
         {
-            //CallContextSyncTag.SetAsync();
             int ret = -1;
             Dictionary<string, bool> cacheTables = null;
             DeleteCondition con = new DeleteCondition(EntityInfo.DBInfo);
             ParamList list = new ParamList();
-            FillDeleteById(con, id,list,out cacheTables);
+            FillDeleteById(con, id, list, Oper, EntityInfo.TableName, out cacheTables);
             ret = ExecuteCommand(con.GetSql(true), list, CommandType.Text, cacheTables);
             return ret;
 
@@ -832,12 +843,11 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <returns></returns>
         public async Task<int> DeleteByIdAsync(object id)
         {
-            //CallContextSyncTag.SetAsync();
             int ret = -1;
             Dictionary<string, bool> cacheTables = null;
-            DeleteCondition con = new DeleteCondition(EntityInfo.DBInfo);
+            DeleteCondition con = new DeleteCondition(OperAsync.DBInfo);
             ParamList list = new ParamList();
-            FillDeleteById(con, id, list, out cacheTables);
+            FillDeleteById(con, id, list, OperAsync, EntityInfo.TableNameAsync, out cacheTables);
             ret = await ExecuteCommandAsync(con.GetSql(true), list, CommandType.Text, cacheTables);
             return ret;
 
@@ -853,9 +863,8 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         public int ExecuteCommand(string sql, ParamList list, CommandType commandType,
             Dictionary<string, bool> cachetables)
         {
-            //CallContextSyncTag.SetAsync();
             int ret = -1;
-            ret = _oper.Execute(sql, list, commandType, cachetables);
+            ret = Oper.Execute(sql, list, commandType, cachetables);
             return ret;
         }
         /// <summary>
@@ -868,9 +877,8 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         public async Task<int> ExecuteCommandAsync(string sql, ParamList list, CommandType commandType,
             Dictionary<string, bool> cachetables)
         {
-            //CallContextSyncTag.SetAsync();
             int ret = -1;
-            ret = await _oper.ExecuteAsync(sql, list, commandType, cachetables);
+            ret = await OperAsync.ExecuteAsync(sql, list, commandType, cachetables);
             return ret;
         }
         /// <summary>
@@ -881,9 +889,8 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <param name="commandType">语句类型</param>
         public DataSet QueryDataSet(string sql, ParamList list, CommandType commandType, Dictionary<string, bool> cachetables)
         {
-            //CallContextSyncTag.SetAsync();
             DataSet ds = null;
-            ds = _oper.QueryDataSet(sql, list, commandType, cachetables);
+            ds = Oper.QueryDataSet(sql, list, commandType, cachetables);
             return ds;
         }
         /// <summary>
@@ -894,9 +901,8 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <param name="objPage">分页对象</param>
         public DataSet QueryDataSet(string sql, PageContent objPage, ParamList lstParam=null)
         {
-            //CallContextSyncTag.SetAsync();
             DataSet ds = new DataSet();
-            DataTable retDt = EntityInfo.DBInfo.CurrentDbAdapter.QueryDataTable(sql, lstParam, objPage, _oper, null);
+            DataTable retDt = EntityInfo.DBInfo.CurrentDbAdapter.QueryDataTable(sql, lstParam, objPage, Oper, null);
             ds.Tables.Add(retDt);
             return ds;
         }
@@ -908,9 +914,8 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <param name="commandType">语句类型</param>
         public async Task<DataSet> QueryDataSetAsync(string sql, ParamList list, CommandType commandType, Dictionary<string, bool> cachetables)
         {
-            //CallContextSyncTag.SetAsync();
             DataSet ds = null;
-            ds =await _oper.QueryDataSetAsync(sql, list, commandType, cachetables);
+            ds =await OperAsync.QueryDataSetAsync(sql, list, commandType, cachetables);
             return ds;
         }
         /// <summary>
@@ -921,9 +926,8 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <param name="objPage">分页对象</param>
         public async Task<DataSet> QueryDataSetAsync(string sql, PageContent objPage, ParamList lstParam = null)
         {
-            //CallContextSyncTag.SetAsync();
             DataSet ds = new DataSet();
-            DataTable retDt = await EntityInfo.DBInfo.CurrentDbAdapter.QueryDataTableAsync(sql, lstParam, objPage, _oper, null);
+            DataTable retDt = await OperAsync.DBInfo.CurrentDbAdapter.QueryDataTableAsync(sql, lstParam, objPage, OperAsync, null);
             ds.Tables.Add(retDt);
             return ds;
         }
@@ -940,7 +944,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         protected DataSet QueryMappingDataSet(string sql, PageContent objPage, ParamList lstParam=null)
         {
             DataSet ds = new DataSet();
-            DataTable retDt = EntityInfo.DBInfo.CurrentDbAdapter.QueryDataTable(sql, lstParam, objPage, _oper, EntityInfo.EntityType);
+            DataTable retDt = EntityInfo.DBInfo.CurrentDbAdapter.QueryDataTable(sql, lstParam, objPage, Oper, EntityInfo.EntityType);
             ds.Tables.Add(retDt);
             return ds;
         }
@@ -956,7 +960,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         protected async Task<DataSet> QueryMappingDataSetAsync(string sql, PageContent objPage, ParamList lstParam=null)
         {
             DataSet ds = new DataSet();
-            DataTable retDt =await EntityInfo.DBInfo.CurrentDbAdapter.QueryDataTableAsync(sql, lstParam, objPage, _oper, EntityInfo.EntityType);
+            DataTable retDt =await OperAsync.DBInfo.CurrentDbAdapter.QueryDataTableAsync(sql, lstParam, objPage, OperAsync, EntityInfo.EntityType);
             ds.Tables.Add(retDt);
             return ds;
         }

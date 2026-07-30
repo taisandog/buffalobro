@@ -293,13 +293,13 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
             {
                 foreach (string pkep in GetPrimaryParam())
                 {
-                    info.Condition.PrimaryKey.Add(idba.FormatTableName(this._entityInfo.TableName) +
+                    info.Condition.PrimaryKey.Add(idba.FormatTableName(info.GetTableName(_entityInfo)) +
                         "." + idba.FormatParam(pkep));
                 }
             }
-            info.ContainTables[_entityInfo.TableName] = true;
+            info.ContainTables[info.GetTableName(_entityInfo)] = true;
 
-            return idba.FormatTableName(this._entityInfo.TableName);
+            return idba.FormatTableName(info.GetTableName(_entityInfo));
 
 
         }

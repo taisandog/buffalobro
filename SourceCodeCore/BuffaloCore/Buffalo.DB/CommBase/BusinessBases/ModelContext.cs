@@ -38,7 +38,6 @@ namespace Buffalo.DB.CommBase.BusinessBases
             {
                 EntityInfoHandle handle = EntityInfoManager.GetEntityHandle(typeof(T));
                 _dal = new DataAccessSetBase(handle);
-                _dal.Oper = StaticConnection.GetStaticOperate(handle.DBInfo);
             }
             return _dal;
         }
@@ -49,7 +48,6 @@ namespace Buffalo.DB.CommBase.BusinessBases
         public DataAccessBase<T> GetBaseContext()
         {
             DataAccessBase<T> baseDal = new DataAccessBase<T>();
-            baseDal.Oper = StaticConnection.GetDefaultOperate<T>();
             return baseDal;
         }
 
@@ -80,7 +78,7 @@ namespace Buffalo.DB.CommBase.BusinessBases
         {
             DataAccessBase<T> baseDal = GetBaseContext();
 
-            return baseDal.Oper.StartTransactionAsync();
+            return baseDal.OperAsync.StartTransactionAsync();
         }
         /// <summary>
         /// ≤È’“

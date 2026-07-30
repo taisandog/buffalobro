@@ -29,7 +29,6 @@ namespace Buffalo.DB.CommBase.BusinessBases
             {
                 EntityInfoHandle handle=EntityInfoManager.GetEntityHandle(CH.GetRealType(this));
                 _dal = new DataAccessSetBase(handle);
-                _dal.Oper = StaticConnection.GetStaticOperate(handle.DBInfo);
             }
             return _dal;
         }

@@ -568,7 +568,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         {
 
             DBInfo db = childHandle.DBInfo;
-            DataBaseOperate oper = childHandle.DBInfo.DefaultOperate;
+            DataBaseOperate oper = childHandle.DBInfo.DefaultOperateAsync;
             BQLDbBase dao = new BQLDbBase(oper);
             Queue<object> needCollect = null;
             List<EntityPropertyInfo> lstParamNames = new List<EntityPropertyInfo>();

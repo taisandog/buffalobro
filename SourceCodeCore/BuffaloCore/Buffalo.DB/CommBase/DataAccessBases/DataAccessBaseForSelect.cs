@@ -32,7 +32,6 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// </summary>
         public DataAccessBaseForSelect()
         {
-            Oper = StaticConnection.GetDefaultOperate<T>();
         }
 
         /// <summary>

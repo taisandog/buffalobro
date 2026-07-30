@@ -31,14 +31,17 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
         /// </summary>
         public static int SelectedDataSource
         {
-            get
-            {
-                return _db.SelectedDataSource;
-            }
-            set
-            {
-                _db.SelectedDataSource = value;
-            }
+            get { return _db.SelectedDataSource; }
+            set { _db.SelectedDataSource = value; }
+        }
+
+        /// <summary>
+        /// 当前异步调用链使用的子数据源（-1 则恢复主数据源）。
+        /// </summary>
+        public static int SelectedDataSourceAsync
+        {
+            get { return _db.SelectedDataSourceAsync; }
+            set { _db.SelectedDataSourceAsync = value; }
         }
         /// <summary>
         /// 是否已经初始化
@@ -106,13 +109,17 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
             return _db.DefaultOperate;
         }
 
+        public static DataBaseOperate GetDefaultOperateAsync()
+        {
+            return _db.DefaultOperateAsync;
+        }
+
         /// <summary>
         /// 开启事务
         /// </summary>
         /// <returns></returns>
         public static DBTransaction StartTransaction()
         {
-            CallContextSyncTag.SetAsync(false);
             return GetDefaultOperate().StartTransaction();
         }
         /// <summary>
@@ -121,19 +128,21 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
         /// <returns></returns>
         public static Task<DBTransaction> StartTransactionAsync()
         {
-            CallContextSyncTag.SetAsync(true);
-            return GetDefaultOperate().StartTransactionAsync();
+            return GetDefaultOperateAsync().StartTransactionAsync();
         }
         /// <summary>
         /// 开始非事务的批量动作
         /// </summary>
         /// <param name="isAsync">是否异步调用</param>
         /// <returns></returns>
-        public static BatchAction StartBatchAction(bool isAsync)
+        public static BatchAction StartBatchAction()
         {
-            CallContextSyncTag.SetAsync(isAsync);
-
             return GetDefaultOperate().StarBatchAction();
+        }
+
+        public static BatchAction StartBatchActionAsync()
+        {
+            return GetDefaultOperateAsync().StarBatchAction();
         }
        
         /// <summary>
@@ -153,8 +162,12 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
         /// <returns></returns>
         public static DataBaseOperate CreateOperate()
         {
-            DataBaseOperate oper = _db.CreateOperate();
-            return oper;
+            return _db.CreateOperate();
+        }
+
+        public static DataBaseOperate CreateOperateAsync()
+        {
+            return _db.CreateOperateAsync();
         }
 
         /// <summary>

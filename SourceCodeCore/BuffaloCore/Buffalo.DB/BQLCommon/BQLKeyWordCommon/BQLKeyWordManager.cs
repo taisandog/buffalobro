@@ -36,6 +36,15 @@ namespace Buffalo.DB.BQLCommon.BQLKeyWordCommon
             info.Infos.IsPutPropertyName = isPutPropertyName;
             return DoConver(info, item);
         }
+
+        public static AbsCondition ToConditionAsync(BQLQuery item, DBInfo db, TableAliasNameManager aliasManager, bool isPutPropertyName)
+        {
+            KeyWordInfomation info = CreateKeywordInfo(db);
+            info.UseAsyncTableNames();
+            info.AliasManager = aliasManager;
+            info.Infos.IsPutPropertyName = isPutPropertyName;
+            return DoConver(info, item);
+        }
         /// <summary>
         /// ½øÐÐ×ª»»
         /// </summary>

@@ -63,20 +63,24 @@ namespace Buffalo.DB.DataBaseAdapter
 
         private bool _operatorPrecedence=true;
 
-        private CallContext<DataBaseOperate> _operate = new CallContext<DataBaseOperate>();
+        private readonly CallContextSync<DataBaseOperate> _operate = new CallContextSync<DataBaseOperate>();
+        private readonly CallContextAsync<DataBaseOperate> _operateAsync = new CallContextAsync<DataBaseOperate>();
         /// <summary>
-        /// 选中库的数据库连接
+        /// 当前同步线程选中库的数据库连接。
         /// </summary>
-        public DataBaseOperate SelectedOperate 
+        public DataBaseOperate SelectedOperate
         {
-            get 
-            {
-                return SelectedDBInfo._operate.Value;
-            }
-            set 
-            {
-                SelectedDBInfo._operate.Value = value;
-            }
+            get { return SelectedDBInfoSync._operate.Value; }
+            set { SelectedDBInfoSync._operate.Value = value; }
+        }
+
+        /// <summary>
+        /// 当前异步调用链选中库的数据库连接。
+        /// </summary>
+        public DataBaseOperate SelectedOperateAsync
+        {
+            get { return SelectedDBInfoAsync._operateAsync.Value; }
+            set { SelectedDBInfoAsync._operateAsync.Value = value; }
         }
         /// <summary>
         /// 生成的SQL语句进行运算符优先级优化可读性
@@ -242,51 +246,45 @@ namespace Buffalo.DB.DataBaseAdapter
         }
 
         
-        private CallContext<DBInfo> _curDB = new CallContext<DBInfo>();
-
+        private readonly CallContextSync<DBInfo> _curDB = new CallContextSync<DBInfo>();
+        private readonly CallContextAsync<DBInfo> _curDBAsync = new CallContextAsync<DBInfo>();
 
         /// <summary>
-        /// 本线程使用的子数据源（-1则为恢复主数据源,在非异步线程池时候先设置CallContextSyncTag.SetAsync()）
+        /// 当前同步线程使用的子数据源，-1 恢复主数据源。
         /// </summary>
-        public int SelectedDataSource 
+        public int SelectedDataSource
         {
-            get 
-            {
-                CallContextSyncTag.SetAsync(false);
-                DBInfo val = _curDB.Value;
-                if (val == null) 
-                {
-                    return -1;
-                }
-                return val._childKey ;
-            }
-            set 
-            {
-                CallContextSyncTag.SetAsync(false);
-                if (value < 0) 
-                {
-                    _curDB.Value = null;
-                    return;
-                }
-                DBInfo info = GetChildDBInfo(value);
-                _curDB.Value = info;
-            }
+            get { return GetSelectedDataSourceKey(_curDB.Value); }
+            set { _curDB.Value = GetSelectedDataSource(value); }
         }
-        
 
         /// <summary>
-        /// 选中的数据源
+        /// 当前异步调用链使用的子数据源，-1 恢复主数据源。
         /// </summary>
-        private DBInfo SelectedDBInfo 
+        public int SelectedDataSourceAsync
         {
-            get 
-            {
-                if (_curDB.Value == null)
-                {
-                    return this;
-                }
-                return _curDB.Value;
-            }
+            get { return GetSelectedDataSourceKey(_curDBAsync.Value); }
+            set { _curDBAsync.Value = GetSelectedDataSource(value); }
+        }
+
+        private static int GetSelectedDataSourceKey(DBInfo info)
+        {
+            return info == null ? -1 : info._childKey;
+        }
+
+        private DBInfo GetSelectedDataSource(int value)
+        {
+            return value < 0 ? null : GetChildDBInfo(value);
+        }
+
+        internal DBInfo SelectedDBInfoSync
+        {
+            get { return _curDB.Value ?? this; }
+        }
+
+        internal DBInfo SelectedDBInfoAsync
+        {
+            get { return _curDBAsync.Value ?? this; }
         }
 
         /// <summary>
@@ -416,12 +414,17 @@ namespace Buffalo.DB.DataBaseAdapter
         /// 默认连接
         /// </summary>
         /// <returns></returns>
-        public DataBaseOperate DefaultOperate 
+        public DataBaseOperate DefaultOperate
         {
-            get
-            {
-                return StaticConnection.GetStaticOperate(this);
-            }
+            get { return StaticConnection.GetStaticOperate(this); }
+        }
+
+        /// <summary>
+        /// 当前异步调用链的默认连接。
+        /// </summary>
+        public DataBaseOperate DefaultOperateAsync
+        {
+            get { return StaticConnection.GetStaticOperateAsync(this); }
         }
 
         /// <summary>
@@ -430,8 +433,15 @@ namespace Buffalo.DB.DataBaseAdapter
         /// <returns></returns>
         public DataBaseOperate CreateOperate()
         {
-            DataBaseOperate oper = new DataBaseOperate(this);
-            return oper;
+            return new DataBaseOperate(SelectedDBInfoSync);
+        }
+
+        /// <summary>
+        /// 为当前异步调用链创建独立连接。
+        /// </summary>
+        public DataBaseOperate CreateOperateAsync()
+        {
+            return new DataBaseOperate(SelectedDBInfoAsync);
         }
 
         /// <summary>
@@ -441,7 +451,7 @@ namespace Buffalo.DB.DataBaseAdapter
         {
             get 
             {
-                return SelectedDBInfo._sqlOutputer;
+                return SelectedDBInfoSync._sqlOutputer;
             }
         }
 
@@ -482,7 +492,7 @@ namespace Buffalo.DB.DataBaseAdapter
             get
             {
 
-                return SelectedDBInfo._curDbAdapter;
+                return SelectedDBInfoSync._curDbAdapter;
             }
         }
         /// <summary>
@@ -494,7 +504,7 @@ namespace Buffalo.DB.DataBaseAdapter
             get
             {
 
-                return SelectedDBInfo._curAggregateFunctions;
+                return SelectedDBInfoSync._curAggregateFunctions;
             }
         }
 
@@ -507,7 +517,7 @@ namespace Buffalo.DB.DataBaseAdapter
             get
             {
 
-                return SelectedDBInfo._curMathFunctions;
+                return SelectedDBInfoSync._curMathFunctions;
             }
         }
 
@@ -520,7 +530,7 @@ namespace Buffalo.DB.DataBaseAdapter
             get
             {
 
-                return SelectedDBInfo._curConvertFunctions;
+                return SelectedDBInfoSync._curConvertFunctions;
             }
         }
 
@@ -533,7 +543,7 @@ namespace Buffalo.DB.DataBaseAdapter
             get
             {
 
-                return SelectedDBInfo._curCommonFunctions;
+                return SelectedDBInfoSync._curCommonFunctions;
             }
         }
         /// <summary>
@@ -545,7 +555,7 @@ namespace Buffalo.DB.DataBaseAdapter
             get
             {
 
-                return SelectedDBInfo._curDBStructure;
+                return SelectedDBInfoSync._curDBStructure;
             }
         }
         /// <summary>
@@ -584,7 +594,7 @@ namespace Buffalo.DB.DataBaseAdapter
         {
             get 
             {
-                return SelectedDBInfo.ConnectionString;
+                return SelectedDBInfoSync.ConnectionString;
             }
         }
         /// <summary>
@@ -594,7 +604,7 @@ namespace Buffalo.DB.DataBaseAdapter
         {
             get
             {
-                return SelectedDBInfo.ReadOnlyConnectionString;
+                return SelectedDBInfoSync.ReadOnlyConnectionString;
             }
         }
         /// <summary>
@@ -700,7 +710,7 @@ namespace Buffalo.DB.DataBaseAdapter
         {
             get 
             {
-                DBInfo selInfo = SelectedDBInfo;
+                DBInfo selInfo = SelectedDBInfoSync;
                 if (string.IsNullOrWhiteSpace(selInfo._fullName)) 
                 {
                     if (selInfo._childKey < 0)
@@ -747,7 +757,7 @@ namespace Buffalo.DB.DataBaseAdapter
         {
             get
             {
-                return SelectedDBInfo._dataaccessEntityMapping;
+                return SelectedDBInfoSync._dataaccessEntityMapping;
             }
         }
 
@@ -772,7 +782,7 @@ namespace Buffalo.DB.DataBaseAdapter
         {
             get
             {
-                return SelectedDBInfo._dataaccessInterfaceMapping;
+                return SelectedDBInfoSync._dataaccessInterfaceMapping;
             }
         }
     }

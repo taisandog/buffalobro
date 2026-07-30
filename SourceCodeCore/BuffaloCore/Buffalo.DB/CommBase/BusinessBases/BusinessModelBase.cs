@@ -11,7 +11,6 @@ using Buffalo.Kernel.Defaults;
 using Buffalo.DB.EntityInfos;
 using Buffalo.DB.CacheManager;
 using System.Threading.Tasks;
-using Buffalo.Kernel.FastReflection;
 
 namespace Buffalo.DB.CommBase.BusinessBases
 {
@@ -115,7 +114,6 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns>null:更新完毕,不为null:更新失败</returns>
         public virtual object Update( ScopeList scorpList = null, ValueSetList lstValue = null, bool optimisticConcurrency = false)
         {
-            CallContextSyncTag.SetAsync(false);
             _affectedRows = 0;
             DataAccessModel<T> entityDao = new DataAccessModel<T>();
             object ret = null;
@@ -134,7 +132,6 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns>null:更新完毕,不为null:更新失败</returns>
         public virtual async Task<object> UpdateAsync(ScopeList scorpList = null, ValueSetList lstValue = null, bool optimisticConcurrency = false)
         {
-            CallContextSyncTag.SetAsync(true);
             _affectedRows = 0;
             DataAccessModel<T> entityDao = new DataAccessModel<T>();
             object ret = null;
@@ -153,7 +150,6 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns>null:更新完毕,不为null:更新失败</returns>
         public virtual object Update(T entity, ScopeList scorpList=null, ValueSetList lstValue = null, bool optimisticConcurrency=false)
         {
-            CallContextSyncTag.SetAsync(false);
             _affectedRows = 0;
             DataAccessModel<T> entityDao = new DataAccessModel<T>();
             object ret = null;
@@ -179,7 +175,6 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns>null:更新完毕,不为null:更新失败</returns>
         public virtual async Task<object> UpdateAsync(T entity, ScopeList scorpList = null, ValueSetList lstValue = null, bool optimisticConcurrency = false)
         {
-            CallContextSyncTag.SetAsync(true);
             _affectedRows = 0;
             DataAccessModel<T> entityDao = new DataAccessModel<T>();
             object ret = null;
@@ -206,7 +201,6 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns>null:更新完毕,不为null:更新失败</returns>
         public virtual object Update(List<T> lst)
         {
-            CallContextSyncTag.SetAsync(false);
             _affectedRows = 0;
 
             DataAccessModel<T> entityDao = new DataAccessModel<T>();
@@ -235,7 +229,6 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns>null:更新完毕,不为null:更新失败</returns>
         public virtual async Task<object> UpdateAsync(List<T> lst)
         {
-            CallContextSyncTag.SetAsync(true);
             _affectedRows = 0;
 
             DataAccessModel<T> entityDao = new DataAccessModel<T>();
@@ -271,7 +264,6 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns>null:插入完毕,不为null:插入失败</returns>
         public virtual object Insert(T entity,ValueSetList setList=null, bool fillIdentity = false)
         {
-            CallContextSyncTag.SetAsync(false);
             _affectedRows = 0;
             DataAccessModel<T> entityDao = new DataAccessModel<T>();
 
@@ -295,7 +287,6 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns>null:插入完毕,不为null:插入失败</returns>
         public virtual async Task<object> InsertAsync(T entity, ValueSetList setList = null, bool fillIdentity = false)
         {
-            CallContextSyncTag.SetAsync(true);
             _affectedRows = 0;
             DataAccessModel<T> entityDao = new DataAccessModel<T>();
 
@@ -321,7 +312,6 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns>null:删除完毕,不为null:删除失败</returns>
         public virtual object Delete(T entity,bool isConcurrency = false)
         {
-            CallContextSyncTag.SetAsync(false);
             _affectedRows = 0;
             DataAccessModel<T> entityDao = new DataAccessModel<T>();
             object ret = HasChild(entity,null);
@@ -341,7 +331,6 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns>null:删除完毕,不为null:删除失败</returns>
         public virtual async Task<object> DeleteAsync(T entity, bool isConcurrency = false)
         {
-            CallContextSyncTag.SetAsync(true);
             _affectedRows = 0;
             DataAccessModel<T> entityDao = new DataAccessModel<T>();
             object ret = await HasChildAsync(entity, null);
@@ -360,7 +349,6 @@ namespace Buffalo.DB.CommBase.BusinessBases
 
         public void TruncateTable()
         {
-            CallContextSyncTag.SetAsync(false);
             DataAccessModel<T> entityDao = new DataAccessModel<T>();
             _affectedRows = entityDao.TruncateTable();
 
@@ -371,7 +359,6 @@ namespace Buffalo.DB.CommBase.BusinessBases
 
         public async Task TruncateTableAsync()
         {
-            CallContextSyncTag.SetAsync(true);
             DataAccessModel<T> entityDao = new DataAccessModel<T>();
             _affectedRows = await entityDao.TruncateTableAsync();
 
@@ -384,7 +371,6 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns>null:删除完毕,不为null:删除失败</returns>
         public virtual object DeleteById(object id)
         {
-            CallContextSyncTag.SetAsync(false);
             _affectedRows = 0;
             DataAccessModel<T> entityDao = new DataAccessModel<T>();
             object ret = HasChildById(id);
@@ -403,7 +389,6 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns>null:删除完毕,不为null:删除失败</returns>
         public virtual async Task<object> DeleteByIdAsync(object id)
         {
-            CallContextSyncTag.SetAsync(true);
             _affectedRows = 0;
             DataAccessModel<T> entityDao = new DataAccessModel<T>();
             object ret = await HasChildByIdAsync(id);
@@ -422,7 +407,6 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns>null:删除完毕,不为null:删除失败</returns>
         public virtual object Delete(ScopeList lstScope)
         {
-            CallContextSyncTag.SetAsync(false);
             _affectedRows = 0;
             DataAccessModel<T> entityDao = new DataAccessModel<T>();
 
@@ -444,7 +428,6 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns>null:删除完毕,不为null:删除失败</returns>
         public virtual async Task<object> DeleteAsync(ScopeList lstScope)
         {
-            CallContextSyncTag.SetAsync(true);
             _affectedRows = 0;
             DataAccessModel<T> entityDao = new DataAccessModel<T>();
 
@@ -466,7 +449,6 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns>大于0:删除完毕,小于0:删除失败</returns>
         public virtual object Delete(List<T> lst)
         {
-            CallContextSyncTag.SetAsync(false);
             _affectedRows = 0;
             DataAccessModel<T> entityDao = new DataAccessModel<T>();
             object res = null;
@@ -490,7 +472,6 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <returns>大于0:删除完毕,小于0:删除失败</returns>
         public virtual async Task<object> DeleteAsync(List<T> lst)
         {
-            CallContextSyncTag.SetAsync(true);
             _affectedRows = 0;
             DataAccessModel<T> entityDao = new DataAccessModel<T>();
             object res = null;

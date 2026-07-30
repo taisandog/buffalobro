@@ -101,7 +101,7 @@ namespace Buffalo.DB.BQLCommon.BQLKeyWordCommon
                 {
                     return "";
                 }
-                ret.Append(idb.FormatTableName(identInfo.EntityInfo.TableName));
+                ret.Append(idb.FormatTableName(info.GetTableName(identInfo.EntityInfo)));
                 ret.Append(".");
                 ret.Append(prmName);
                 ret.Append(',');

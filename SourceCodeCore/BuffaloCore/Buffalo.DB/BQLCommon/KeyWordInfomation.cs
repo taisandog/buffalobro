@@ -7,6 +7,7 @@ using Buffalo.DB.DbCommon;
 using Buffalo.DB.DataBaseAdapter;
 using Buffalo.DB.CommBase.DataAccessBases.AliasTableMappingManagers;
 using Buffalo.DB.BQLCommon.BQLKeyWordCommon;
+using Buffalo.DB.EntityInfos;
 
 namespace Buffalo.DB.BQLCommon.BQLConditionCommon
 {
@@ -92,6 +93,18 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
             set { _infos = value; }
         }
 
+        private Func<EntityInfoHandle, string> _tableNameResolver =
+            entityInfo => entityInfo.TableName;
+
+        internal string GetTableName(EntityInfoHandle entityInfo)
+        {
+            return _tableNameResolver(entityInfo);
+        }
+
+        internal void UseAsyncTableNames()
+        {
+            _tableNameResolver = entityInfo => entityInfo.TableNameAsync;
+        }
         private DBInfo _dbInfo;
         /// <summary>
         /// 数据库信息
@@ -192,6 +205,7 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
             //info._isPage = this._isShowTableName;
             info._paramList = _paramList;
             info._dbInfo = this._dbInfo;
+            info._tableNameResolver = this._tableNameResolver;
             info.OutPutModle = this.OutPutModle;
             return info;
         }

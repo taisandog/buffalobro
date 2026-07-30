@@ -74,7 +74,7 @@ namespace Buffalo.DB.BQLCommon.BQLKeyWordCommon
             {
                 sName = _item.SourceProperty.ParamName;
                 tName = _item.TargetProperty.ParamName;
-                tTable = _item.TargetProperty.BelongInfo.TableName;
+                tTable = info.GetTableName(_item.TargetProperty.BelongInfo);
             }
             else 
             {

@@ -445,7 +445,7 @@ namespace Buffalo.DB.CacheManager
         /// <returns></returns>
         public async Task<IDictionary<string, object>> GetValuesAsync(string[] keys)
         {
-            return await _cache.GetValuesAsync(keys, _db.DefaultOperate);
+            return await _cache.GetValuesAsync(keys, _db.DefaultOperateAsync);
         }
         /// <summary>
         /// 获取值
@@ -465,7 +465,7 @@ namespace Buffalo.DB.CacheManager
         /// <returns></returns>
         public async Task<E> GetValueAsync<E>(string key, E defaultValue)
         {
-            return await _cache.GetValueAsync<E>(key, defaultValue, _db.DefaultOperate);
+            return await _cache.GetValueAsync<E>(key, defaultValue, _db.DefaultOperateAsync);
         }
         /// <summary>
         /// 获取值
@@ -483,7 +483,7 @@ namespace Buffalo.DB.CacheManager
         /// <returns></returns>
         public async Task<E> GetValueAsync<E>(string key)
         {
-            return await _cache.GetValueAsync<E>(key, default(E), _db.DefaultOperate);
+            return await _cache.GetValueAsync<E>(key, default(E), _db.DefaultOperateAsync);
         }
         /// <summary>
         /// 获取值
@@ -501,7 +501,7 @@ namespace Buffalo.DB.CacheManager
         /// <returns></returns>
         public async Task<object> GetValueAsync(string key)
         {
-            return await _cache.GetValueAsync(key, _db.DefaultOperate);
+            return await _cache.GetValueAsync(key, _db.DefaultOperateAsync);
         }
         /// <summary>
         /// Key是否存在
@@ -519,7 +519,7 @@ namespace Buffalo.DB.CacheManager
         /// <returns></returns>
         public async Task<bool> ExistsKeyAsync(string key)
         {
-            return await _cache.ExistsKeyAsync(key, _db.DefaultOperate);
+            return await _cache.ExistsKeyAsync(key, _db.DefaultOperateAsync);
         }
         /// <summary>
         /// 设置key过期
@@ -539,7 +539,7 @@ namespace Buffalo.DB.CacheManager
         /// <returns></returns>
         public async Task<bool> SetKeyExpireAsync(string key, TimeSpan expir)
         {
-            return await _cache.SetKeyExpireAsync(key, expir, _db.DefaultOperate);
+            return await _cache.SetKeyExpireAsync(key, expir, _db.DefaultOperateAsync);
         }
         
         /// <summary>
@@ -568,7 +568,7 @@ namespace Buffalo.DB.CacheManager
         /// <returns>是否设置成功</returns>
         public async Task<bool> SetValueAsync<E>(string key, E value)
         {
-            return await _cache.SetValueAsync<E>(key, value, SetValueType.Set, TimeSpan.MinValue, _db.DefaultOperate);
+            return await _cache.SetValueAsync<E>(key, value, SetValueType.Set, TimeSpan.MinValue, _db.DefaultOperateAsync);
         }
         /// <summary>
         /// 设置值
@@ -592,7 +592,7 @@ namespace Buffalo.DB.CacheManager
         /// <returns>是否设置成功</returns>
         public async Task<bool> SetValueAsync<E>(string key, E value, SetValueType type, TimeSpan expir)
         {
-            return await _cache.SetValueAsync<E>(key, value, type, expir, _db.DefaultOperate);
+            return await _cache.SetValueAsync<E>(key, value, type, expir, _db.DefaultOperateAsync);
         }
         /// <summary>
         /// 设置值
@@ -616,7 +616,7 @@ namespace Buffalo.DB.CacheManager
         /// <returns>是否设置成功</returns>
         public async Task<bool> SetValueAsync(string key, object value, SetValueType type, TimeSpan expir)
         {
-            return await _cache.SetValueAsync(key, value, type, expir, _db.DefaultOperate);
+            return await _cache.SetValueAsync(key, value, type, expir, _db.DefaultOperateAsync);
         }
         /// <summary>
         /// 设置值
@@ -636,7 +636,7 @@ namespace Buffalo.DB.CacheManager
         /// <returns>是否设置成功</returns>
         public async Task<bool> SetValueAsync(string key, object value)
         {
-            return await _cache.SetValueAsync(key, value, SetValueType.Set, TimeSpan.MinValue, _db.DefaultOperate);
+            return await _cache.SetValueAsync(key, value, SetValueType.Set, TimeSpan.MinValue, _db.DefaultOperateAsync);
         }
 
         /// <summary>
@@ -655,7 +655,7 @@ namespace Buffalo.DB.CacheManager
         /// <returns></returns>
         public async Task DeleteValueAsync(string key)
         {
-            await _cache.DeleteValueAsync(key, _db.DefaultOperate);
+            await _cache.DeleteValueAsync(key, _db.DefaultOperateAsync);
         }
         /// <summary>
         /// 自增1
@@ -671,7 +671,7 @@ namespace Buffalo.DB.CacheManager
         /// <param name="key"></param>
         public async Task<long> DoIncrementAsync(string key)
         {
-            return await _cache.DoIncrementAsync(key, 1, _db.DefaultOperate);
+            return await _cache.DoIncrementAsync(key, 1, _db.DefaultOperateAsync);
         }
         /// <summary>
         /// 自增1
@@ -687,7 +687,7 @@ namespace Buffalo.DB.CacheManager
         /// <param name="key"></param>
         public async Task<long> DoIncrementAsync(string key, ulong inc)
         {
-            return await _cache.DoIncrementAsync(key, inc, _db.DefaultOperate);
+            return await _cache.DoIncrementAsync(key, inc, _db.DefaultOperateAsync);
         }
         /// <summary>
         /// 自减1
@@ -703,7 +703,7 @@ namespace Buffalo.DB.CacheManager
         /// <param name="key"></param>
         public async Task<long> DoDecrementAsync(string key)
         {
-            return await _cache.DoDecrementAsync(key, 1, _db.DefaultOperate);
+            return await _cache.DoDecrementAsync(key, 1, _db.DefaultOperateAsync);
         }
         /// <summary>
         /// 自减
@@ -719,7 +719,7 @@ namespace Buffalo.DB.CacheManager
         /// <param name="key"></param>
         public async Task<long> DoDecrementAsync(string key, ulong dec)
         {
-            return await _cache.DoDecrementAsync(key, dec, _db.DefaultOperate);
+            return await _cache.DoDecrementAsync(key, dec, _db.DefaultOperateAsync);
         }
         /// <summary>
         /// 获取实体

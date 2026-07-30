@@ -8,7 +8,6 @@ using Buffalo.DB.EntityInfos;
 using Buffalo.Kernel;
 using System.Diagnostics;
 using Buffalo.DB.MessageOutPuters;
-using Buffalo.DB.BQLCommon.BQLBaseFunction;
 
 namespace Buffalo.DB.CommBase
 {
@@ -24,38 +23,55 @@ namespace Buffalo.DB.CommBase
         public static void ClearCacheOperate(DBInfo db)
         {
             db.SelectedOperate = null;
+            db.SelectedOperateAsync = null;
         }
+
         /// <summary>
-        /// 获取数据库的静态连接
+        /// 获取当前同步线程的静态连接。
         /// </summary>
-        /// <param name="db">数据库信息</param>
-        /// <returns></returns>
-        public static DataBaseOperate GetStaticOperate(DBInfo db) 
+        public static DataBaseOperate GetStaticOperate(DBInfo db)
         {
             DataBaseOperate oper = db.SelectedOperate;
-            if (oper==null) 
+            if (oper == null)
             {
-                oper = new DataBaseOperate(db, true);
-
-                if (oper.DBInfo.SqlOutputer.HasOutput)
-                {
-                    oper.OutMessage(MessageType.OtherOper, "CreateConnection", null, "NewConnection");
-                }
-
+                oper = CreateOperate(db.SelectedDBInfoSync);
                 db.SelectedOperate = oper;
             }
-            BQL.HotAsyncContext();
             return oper;
         }
 
         /// <summary>
-        /// 获取此实体的默认连接
+        /// 获取当前异步调用链的静态连接。
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public static DataBaseOperate GetDefaultOperate<T>() 
+        public static DataBaseOperate GetStaticOperateAsync(DBInfo db)
         {
-            return StaticConnection.GetStaticOperate(EntityInfoManager.GetEntityHandle(typeof(T)).DBInfo);
+            DataBaseOperate oper = db.SelectedOperateAsync;
+            if (oper == null)
+            {
+                oper = CreateOperate(db.SelectedDBInfoAsync);
+                db.SelectedOperateAsync = oper;
+            }
+            return oper;
+        }
+
+        private static DataBaseOperate CreateOperate(DBInfo db)
+        {
+            DataBaseOperate oper = new DataBaseOperate(db, true);
+            if (oper.DBInfo.SqlOutputer.HasOutput)
+            {
+                oper.OutMessage(MessageType.OtherOper, "CreateConnection", null, "NewConnection");
+            }
+            return oper;
+        }
+
+        public static DataBaseOperate GetDefaultOperate<T>()
+        {
+            return GetStaticOperate(EntityInfoManager.GetEntityHandle(typeof(T)).DBInfo);
+        }
+
+        public static DataBaseOperate GetDefaultOperateAsync<T>()
+        {
+            return GetStaticOperateAsync(EntityInfoManager.GetEntityHandle(typeof(T)).DBInfo);
         }
 
     }

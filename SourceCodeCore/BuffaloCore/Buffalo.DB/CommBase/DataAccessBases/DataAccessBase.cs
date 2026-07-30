@@ -19,7 +19,6 @@ using Buffalo.DB.CommBase.BusinessBases;
 using Buffalo.DB.BQLCommon.BQLConditionCommon;
 using System.Threading.Tasks;
 using System.Data.Common;
-using Buffalo.Kernel.FastReflection;
 
 namespace Buffalo.DB.CommBase.DataAccessBases
 {
@@ -112,16 +111,14 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         #endregion
         #region 查询方法
         /// <summary>
-        /// 执行sql语句，返回List,在非异步线程池时候先设置CallContextSyncTag.SetAsync()
         /// </summary>
         /// <param name="sql">sql语句</param>
         /// <param name="list">参数列表</param>
         /// <param name="commandType">语句类型</param>
         public virtual List<T> QueryList(string sql, ParamList list, CommandType commandType, Dictionary<string, bool> cachetables)
         {
-            CallContextSyncTag.SetAsync(false);
             List<T> retlist = null;
-            using (IDataReader reader = _oper.Query(sql, list, commandType,cachetables))
+            using (IDataReader reader = Oper.Query(sql, list, commandType,cachetables))
             {
 
                 retlist = CacheReader.LoadFromReaderList<T>(reader);
@@ -132,16 +129,14 @@ namespace Buffalo.DB.CommBase.DataAccessBases
 
 
         /// <summary>
-        /// 执行sql语句，分页返回List(游标分页),在非异步线程池时候先设置CallContextSyncTag.SetAsync()
         /// </summary>
         /// <param name="sql">sql语句</param>
         /// <param name="lstParam">参数集合</param>
         /// <param name="objPage">分页对象</param>
         public virtual List<T> QueryList(string sql,  PageContent objPage ,ParamList lstParam = null)
         {
-            CallContextSyncTag.SetAsync(false);
             List<T> retlist = null;
-            using (IDataReader reader = EntityInfo.DBInfo.CurrentDbAdapter.Query(sql, lstParam, objPage, _oper))
+            using (IDataReader reader = EntityInfo.DBInfo.CurrentDbAdapter.Query(sql, lstParam, objPage, Oper))
             {
 
                 retlist = CacheReader.LoadFromReaderList<T>(reader);
@@ -157,9 +152,8 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <param name="commandType">语句类型</param>
         public virtual async Task<List<T>> QueryListAsync(string sql, ParamList list, CommandType commandType, Dictionary<string, bool> cachetables)
         {
-            CallContextSyncTag.SetAsync(true);
             List<T> retlist = null;
-            using (DbDataReader reader = await _oper.QueryAsync(sql, list, commandType, cachetables))
+            using (DbDataReader reader = await OperAsync.QueryAsync(sql, list, commandType, cachetables))
             {
 
                 retlist =await CacheReader.LoadFromReaderListAsync<T>(reader);
@@ -177,9 +171,8 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <param name="objPage">分页对象</param>
         public virtual async Task<List<T>> QueryListAsync(string sql, PageContent objPage, ParamList lstParam = null)
         {
-            CallContextSyncTag.SetAsync(true);
             List<T> retlist = null;
-            using (DbDataReader reader = EntityInfo.DBInfo.CurrentDbAdapter.Query(sql, lstParam, objPage, _oper))
+            using (DbDataReader reader = OperAsync.DBInfo.CurrentDbAdapter.Query(sql, lstParam, objPage, OperAsync))
             {
 
                 retlist =await CacheReader.LoadFromReaderListAsync<T>(reader);
@@ -197,7 +190,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// </summary>
         /// <param name="lstSort">排序条件集合</param>
         /// <returns></returns>
-        protected static string GetSortCondition(SortList lstSort)
+        protected static string GetSortCondition(SortList lstSort, DBInfo dbInfo)
         {
             if (lstSort == null)
             {
@@ -215,7 +208,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
                     {
                         strSort = "DESC";
                     }
-                    orderBy.Append(CurEntityInfo.DBInfo.CurrentDbAdapter.FormatParam(info.ParamName));
+                    orderBy.Append(dbInfo.CurrentDbAdapter.FormatParam(info.ParamName));
                     orderBy.Append(" ");
                     orderBy.Append(strSort);
                     orderBy.Append(",");
@@ -238,7 +231,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// </summary>
         /// <param name="lstScope">范围查询集合</param>
         /// <returns></returns>
-        private static string GetSelectParams(ScopeList lstScope) 
+        private static string GetSelectParams(ScopeList lstScope, DBInfo dbInfo) 
         {
             
             if (lstScope == null) 
@@ -248,10 +241,10 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             
             StringBuilder ret = new StringBuilder();
 
-            BQLEntityTableHandle table = CurEntityInfo.DBInfo.FindTable(typeof(T));
+            BQLEntityTableHandle table = dbInfo.FindTable(typeof(T));
             if (CommonMethods.IsNull(table))
             {
-                CurEntityInfo.DBInfo.ThrowNotFondTable(typeof(T));
+                dbInfo.ThrowNotFondTable(typeof(T));
             }
             List<BQLParamHandle> propertyNames = lstScope.GetShowProperty(table);
 
@@ -268,7 +261,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
                     EntityPropertyInfo info = eproperty.PInfo;
                     if (info != null)
                     {
-                        ret.Append(CurEntityInfo.DBInfo.CurrentDbAdapter.FormatParam(info.ParamName) + ",");
+                        ret.Append(dbInfo.CurrentDbAdapter.FormatParam(info.ParamName) + ",");
                     }
                 }
             }
@@ -278,7 +271,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
                 {
                     if (info != null)
                     {
-                        ret.Append(CurEntityInfo.DBInfo.CurrentDbAdapter.FormatParam(info.ParamName) + ",");
+                        ret.Append(dbInfo.CurrentDbAdapter.FormatParam(info.ParamName) + ",");
                     }
                 }
             }
@@ -297,21 +290,21 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <param name="list">参数列表</param>
         /// <param name="scopeList">范围查找的集合</param>
         /// <returns></returns>
-        protected string GetSelectPageContant(ParamList list, ScopeList scopeList)
+        protected string GetSelectPageContant(ParamList list, ScopeList scopeList, DataBaseOperate oper, string tableName)
         {
 
-            SelectCondition condition = new SelectCondition(CurEntityInfo.DBInfo);
-            condition.Oper = this._oper;
-            condition.Tables.Append(CurEntityInfo.DBInfo.CurrentDbAdapter.FormatTableName(CurEntityInfo.TableName));
-            condition.SqlParams.Append(GetSelectParams(scopeList));
+            SelectCondition condition = new SelectCondition(oper.DBInfo);
+            condition.Oper = oper;
+            condition.Tables.Append(oper.DBInfo.CurrentDbAdapter.FormatTableName(tableName));
+            condition.SqlParams.Append(GetSelectParams(scopeList, oper.DBInfo));
             if (scopeList.UseCache)
             {
-                condition.CacheTables = CurEntityInfo.DBInfo.QueryCache.CreateMap(CurEntityInfo.TableName);
+                condition.CacheTables = oper.DBInfo.QueryCache.CreateMap(tableName);
             }
             condition.Condition.Append("1=1");
             foreach (EntityPropertyInfo ep in CurEntityInfo.PrimaryProperty)
             {
-                condition.PrimaryKey.Add(CurEntityInfo.DBInfo.CurrentDbAdapter.FormatParam(ep.ParamName));
+                condition.PrimaryKey.Add(oper.DBInfo.CurrentDbAdapter.FormatParam(ep.ParamName));
             }
             string conditionWhere = "";
 
@@ -334,7 +327,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             //排序方式
             if (sortList != null && sortList.Count > 0)
             {
-                string orderBy = GetSortCondition(sortList);
+                string orderBy = GetSortCondition(sortList, oper.DBInfo);
                 if (orderBy != "")
                 {
                     if (condition.Orders.Length > 0)
@@ -369,18 +362,18 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <param name="scopeList">范围查找的集合</param>
         /// <param name="param">输出字段</param>
         /// <returns></returns>
-        protected SelectCondition GetSelectContant(ParamList list, ScopeList scopeList, string param)
+        protected SelectCondition GetSelectContant(ParamList list, ScopeList scopeList, string param, DataBaseOperate oper, string tableName)
         {
             string conditionWhere = "";
             string orderBy = "";
-            SelectCondition condition = new SelectCondition(CurEntityInfo.DBInfo);
+            SelectCondition condition = new SelectCondition(oper.DBInfo);
             if (condition.SqlParams.Length > 0)
             {
                 condition.SqlParams.Append(",");
             }
             condition.SqlParams.Append(param);
 
-            condition.Tables.Append(CurEntityInfo.DBInfo.CurrentDbAdapter.FormatTableName(CurEntityInfo.TableName));
+            condition.Tables.Append(oper.DBInfo.CurrentDbAdapter.FormatTableName(tableName));
 
             condition.Condition.Append("1=1");
 
@@ -390,7 +383,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             {
                 if (scopeList.UseCache)
                 {
-                    condition.CacheTables = CurEntityInfo.DBInfo.QueryCache.CreateMap(CurEntityInfo.TableName);
+                    condition.CacheTables = oper.DBInfo.QueryCache.CreateMap(tableName);
                 }
                 condition.Condition.Append(DataAccessCommon.FillCondition(CurEntityInfo, list, scopeList));
 
@@ -409,11 +402,11 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             {
                 if (orderBy != "")
                 {
-                    orderBy = orderBy + "," + GetSortCondition(sortList);
+                    orderBy = orderBy + "," + GetSortCondition(sortList, oper.DBInfo);
                 }
                 else
                 {
-                    orderBy = GetSortCondition(sortList);
+                    orderBy = GetSortCondition(sortList, oper.DBInfo);
                 }
             }
 
@@ -454,9 +447,9 @@ namespace Buffalo.DB.CommBase.DataAccessBases
 
         #endregion
 
-        protected SelectCondition GetObjectByIdSQL(object id, bool isSearchByCache, ParamList list, ScopeList lstScope, out Dictionary<string, bool> cacheTables)
+        protected SelectCondition GetObjectByIdSQL(object id, bool isSearchByCache, ParamList list, ScopeList lstScope, DataBaseOperate oper, string tableName, out Dictionary<string, bool> cacheTables)
         {
-            string tabName = CurEntityInfo.DBInfo.CurrentDbAdapter.FormatTableName(CurEntityInfo.TableName);
+            string tabName = oper.DBInfo.CurrentDbAdapter.FormatTableName(tableName);
             
             lstScope.UseCache = isSearchByCache;
             PrimaryKeyInfo pkInfo = id as PrimaryKeyInfo;
@@ -474,32 +467,30 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             {
                 pkInfo.FillScope(CurEntityInfo.PrimaryProperty, lstScope, true);
             }
-            SelectCondition sc = GetSelectContant(list, lstScope, GetSelectParams(lstScope));
+            SelectCondition sc = GetSelectContant(list, lstScope, GetSelectParams(lstScope, oper.DBInfo), oper, tableName);
             //sql.Append( DataAccessCommon.FillCondition(CurEntityInfo,list, lstScope));
 
            
             if (lstScope.UseCache)
             {
-                cacheTables = _oper.DBInfo.QueryCache.CreateMap(CurEntityInfo.TableName);
+                cacheTables = oper.DBInfo.QueryCache.CreateMap(tableName);
             }
             return sc;
         }
 
         /// <summary>
-        /// 根据ID获取记录,在非异步线程池时候先设置CallContextSyncTag.SetAsync()
         /// </summary>
         /// <param name="id">ID</param>
         /// <param name="isSearchByCache">是否缓存搜索</param>
         /// <returns></returns>
         public virtual T GetObjectById(object id, bool isSearchByCache=false)
         {
-            CallContextSyncTag.SetAsync(false);
             ParamList list = new ParamList();
             T ret = default(T);
             Dictionary<string, bool> cacheTables = null;
             ScopeList lstScope = new ScopeList();
-            SelectCondition sc = GetObjectByIdSQL(id, isSearchByCache,list,lstScope,out cacheTables);
-            using (IDataReader reader = _oper.Query(sc.GetSql(lstScope.UseCache), list, cacheTables))
+            SelectCondition sc = GetObjectByIdSQL(id, isSearchByCache, list, lstScope, Oper, CurEntityInfo.TableName, out cacheTables);
+            using (IDataReader reader = Oper.Query(sc.GetSql(lstScope.UseCache), list, cacheTables))
             {
                 if (reader.Read())
                 {
@@ -518,14 +509,13 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <returns></returns>
         public virtual async Task<T> GetObjectByIdAsync(object id, bool isSearchByCache = false)
         {
-            CallContextSyncTag.SetAsync(true);
             ParamList list = new ParamList();
             T ret = default(T);
             Dictionary<string, bool> cacheTables = null;
             ScopeList lstScope = new ScopeList();
-            SelectCondition sc = GetObjectByIdSQL(id, isSearchByCache, list, lstScope, out cacheTables);
+            SelectCondition sc = GetObjectByIdSQL(id, isSearchByCache, list, lstScope, OperAsync, CurEntityInfo.TableNameAsync, out cacheTables);
 
-            await using (DbDataReader reader = await _oper.QueryAsync(sc.GetSql(lstScope.UseCache), list,CommandType.Text, cacheTables))
+            await using (DbDataReader reader = await OperAsync.QueryAsync(sc.GetSql(lstScope.UseCache), list,CommandType.Text, cacheTables))
             {
                 if (await reader.ReadAsync())
                 {
@@ -537,7 +527,6 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         }
 
         /// <summary>
-        /// 插入一个记录,在非异步线程池时候先设置CallContextSyncTag.SetAsync()
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
@@ -564,35 +553,33 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         #region Select
 
 
-        protected string GetSelectSQL(ScopeList scopeList,ParamList list,out Dictionary<string, bool> cacheTables) 
+        protected string GetSelectSQL(ScopeList scopeList, ParamList list, DataBaseOperate oper, string tableName, out Dictionary<string, bool> cacheTables) 
         {
             string sql = null;
             if (!scopeList.HasPage)//判断是否分页查询
             {
-                sql = GetSelectContant(list, scopeList, GetSelectParams(scopeList)).GetSql(scopeList.UseCache);
+                sql = GetSelectContant(list, scopeList, GetSelectParams(scopeList, oper.DBInfo), oper, tableName).GetSql(scopeList.UseCache);
             }
             else
             {
 
-                sql = GetSelectPageContant(list, scopeList);
+                sql = GetSelectPageContant(list, scopeList, oper, tableName);
             }
 
             cacheTables = null;
             if (scopeList.UseCache)
             {
-                cacheTables = _oper.DBInfo.QueryCache.CreateMap(CurEntityInfo.TableName);
+                cacheTables = oper.DBInfo.QueryCache.CreateMap(tableName);
             }
             return sql;
         }
 
         /// <summary>
-        /// 查询表,在非异步线程池时候先设置CallContextSyncTag.SetAsync()
         /// </summary>
         /// <param name="scopeList">范围查找的集合</param>
         /// <returns></returns>
         public virtual DataSet Select(ScopeList scopeList)
         {
-            CallContextSyncTag.SetAsync(false);
             if (scopeList.HasInner )
             {
                 if (scopeList.OrderBy.Count <= 0 && scopeList.HasPage)
@@ -607,12 +594,12 @@ namespace Buffalo.DB.CommBase.DataAccessBases
 
             ParamList list = new ParamList();
             Dictionary<string, bool> cacheTables = null;
-            string sql = GetSelectSQL(scopeList, list, out cacheTables);
+            string sql = GetSelectSQL(scopeList, list, Oper, CurEntityInfo.TableName, out cacheTables);
 
             using (BatchAction ba = Oper.StarBatchAction())
             {
                 
-                DataSet ds = _oper.QueryDataSet(sql, list, CommandType.Text,cacheTables);
+                DataSet ds = Oper.QueryDataSet(sql, list, CommandType.Text,cacheTables);
 
                 return ds;
             }
@@ -625,7 +612,6 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <returns></returns>
         public virtual async Task<DataSet> SelectAsync(ScopeList scopeList)
         {
-            CallContextSyncTag.SetAsync(true);
             if (scopeList.HasInner)
             {
                 if (scopeList.OrderBy.Count <= 0 && scopeList.HasPage)
@@ -640,25 +626,23 @@ namespace Buffalo.DB.CommBase.DataAccessBases
 
             ParamList list = new ParamList();
             Dictionary<string, bool> cacheTables = null;
-            string sql = GetSelectSQL(scopeList, list, out cacheTables);
+            string sql = GetSelectSQL(scopeList, list, OperAsync, CurEntityInfo.TableNameAsync, out cacheTables);
 
-            await using (BatchAction ba = Oper.StarBatchAction())
+            await using (BatchAction ba = OperAsync.StarBatchAction())
             {
 
-                DataSet ds = await _oper.QueryDataSetAsync(sql, list, CommandType.Text, cacheTables);
+                DataSet ds = await OperAsync.QueryDataSetAsync(sql, list, CommandType.Text, cacheTables);
 
                 return ds;
             }
         }
 
         /// <summary>
-        /// 分页查询表(返回List),在非异步线程池时候先设置CallContextSyncTag.SetAsync()
         /// </summary>
         /// <param name="scopeList">范围查找的集合</param>
         /// <returns></returns>
         public virtual List<T> SelectList(ScopeList scopeList)
         {
-            CallContextSyncTag.SetAsync(false);
             if (scopeList.HasPage)
             {
                 if (!scopeList.HasSort)
@@ -676,7 +660,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             }
             ParamList list = new ParamList();
             Dictionary<string, bool> cacheTables = null;
-            string sql = GetSelectSQL(scopeList, list, out cacheTables);
+            string sql = GetSelectSQL(scopeList, list, Oper, CurEntityInfo.TableName, out cacheTables);
 
             using (BatchAction ba = Oper.StarBatchAction())
             {
@@ -697,7 +681,6 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         public virtual async Task<List<T>> SelectListAsync(ScopeList scopeList)
         {
 
-            CallContextSyncTag.SetAsync(true);
             if (scopeList.HasPage)
             {
                 if (!scopeList.HasSort)
@@ -715,9 +698,9 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             }
             ParamList list = new ParamList();
             Dictionary<string, bool> cacheTables = null;
-            string sql = GetSelectSQL(scopeList, list, out cacheTables);
+            string sql = GetSelectSQL(scopeList, list, OperAsync, CurEntityInfo.TableNameAsync, out cacheTables);
 
-            await using (BatchAction ba = Oper.StarBatchAction())
+            await using (BatchAction ba = OperAsync.StarBatchAction())
             {
 
                 List<T> retlist = null;
@@ -731,14 +714,12 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         #endregion
         #region SelectCount
         /// <summary>
-        /// 查询符合指定条件的记录条数,在非异步线程池时候先设置CallContextSyncTag.SetAsync()
         /// </summary>
         /// <param name="scopeList">范围查找的集合</param>
         /// <returns></returns>
         public virtual long SelectCount(ScopeList scopeList)
         {
 
-            CallContextSyncTag.SetAsync(false);
             if (scopeList.HasInner)
             {
                 return _cdal.SelectCount<T>(scopeList);
@@ -746,14 +727,14 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             ParamList list = null;
             list = new ParamList();
 
-            string sql = GetSelectContant(list, scopeList, "count(*)").GetSql(scopeList.UseCache);
+            string sql = GetSelectContant(list, scopeList, "count(*)", Oper, CurEntityInfo.TableName).GetSql(scopeList.UseCache);
             long count = 0;
             Dictionary<string, bool> cacheTables = null;
             if (scopeList.UseCache)
             {
-                cacheTables = _oper.DBInfo.QueryCache.CreateMap(CurEntityInfo.TableName);
+                cacheTables = Oper.DBInfo.QueryCache.CreateMap(CurEntityInfo.TableName);
             }
-            using (IDataReader reader = _oper.Query(sql, list, cacheTables))
+            using (IDataReader reader = Oper.Query(sql, list, cacheTables))
             {
                 if (reader.Read())
                 {
@@ -772,7 +753,6 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <returns></returns>
         public virtual async Task<long> SelectCountAsync(ScopeList scopeList)
         {
-            CallContextSyncTag.SetAsync(true);
             if (scopeList.HasInner)
             {
                 return await _cdal.SelectCountAsync<T>(scopeList);
@@ -780,14 +760,14 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             ParamList list = null;
             list = new ParamList();
 
-            string sql = GetSelectContant(list, scopeList, "count(*)").GetSql(scopeList.UseCache);
+            string sql = GetSelectContant(list, scopeList, "count(*)", OperAsync, CurEntityInfo.TableNameAsync).GetSql(scopeList.UseCache);
             long count = 0;
             Dictionary<string, bool> cacheTables = null;
             if (scopeList.UseCache)
             {
-                cacheTables = _oper.DBInfo.QueryCache.CreateMap(CurEntityInfo.TableName);
+                cacheTables = OperAsync.DBInfo.QueryCache.CreateMap(CurEntityInfo.TableNameAsync);
             }
-            using (DbDataReader reader = await _oper.QueryAsync(sql, list,CommandType.Text, cacheTables))
+            using (DbDataReader reader = await OperAsync.QueryAsync(sql, list,CommandType.Text, cacheTables))
             {
                 if (await reader.ReadAsync())
                 {
@@ -804,28 +784,26 @@ namespace Buffalo.DB.CommBase.DataAccessBases
 
         #region SelectExists
         /// <summary>
-        /// 查询是否存在符合条件的记录,在非异步线程池时候先设置CallContextSyncTag.SetAsync()
         /// </summary>
         /// <param name="scopeList">范围查找的集合</param>
         /// <returns></returns>
         public virtual bool ExistsRecord(ScopeList scopeList)
         {
-            CallContextSyncTag.SetAsync(false);
             if (scopeList.HasInner)
             {
                 return _cdal.ExistsRecord<T>(scopeList);
             }
             ParamList list = null;
 
-            SelectCondition sc = GetSelectContant(list, scopeList, CurEntityInfo.DBInfo.CurrentDbAdapter.FormatParam(CurEntityInfo.PrimaryProperty[0].ParamName));
+            SelectCondition sc = GetSelectContant(list, scopeList, Oper.DBInfo.CurrentDbAdapter.FormatParam(CurEntityInfo.PrimaryProperty[0].ParamName), Oper, CurEntityInfo.TableName);
             string sql = CurEntityInfo.DBInfo.CurrentDbAdapter.GetTopSelectSql(sc, 1);
             bool exists = false;
             Dictionary<string, bool> cacheTables = null;
             if (scopeList.UseCache)
             {
-                cacheTables = _oper.DBInfo.QueryCache.CreateMap(CurEntityInfo.TableName);
+                cacheTables = Oper.DBInfo.QueryCache.CreateMap(CurEntityInfo.TableName);
             }
-            using (IDataReader reader = _oper.Query(sql, list,cacheTables))
+            using (IDataReader reader = Oper.Query(sql, list,cacheTables))
             {
                 if (reader.Read())
                 {
@@ -841,22 +819,21 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         /// <returns></returns>
         public virtual async Task<bool> ExistsRecordAsync(ScopeList scopeList)
         {
-            CallContextSyncTag.SetAsync(true);
             if (scopeList.HasInner)
             {
                 return await _cdal.ExistsRecordAsync<T>(scopeList);
             }
             ParamList list = null;
 
-            SelectCondition sc = GetSelectContant(list, scopeList, CurEntityInfo.DBInfo.CurrentDbAdapter.FormatParam(CurEntityInfo.PrimaryProperty[0].ParamName));
-            string sql = CurEntityInfo.DBInfo.CurrentDbAdapter.GetTopSelectSql(sc, 1);
+            SelectCondition sc = GetSelectContant(list, scopeList, OperAsync.DBInfo.CurrentDbAdapter.FormatParam(CurEntityInfo.PrimaryProperty[0].ParamName), OperAsync, CurEntityInfo.TableNameAsync);
+            string sql = OperAsync.DBInfo.CurrentDbAdapter.GetTopSelectSql(sc, 1);
             bool exists = false;
             Dictionary<string, bool> cacheTables = null;
             if (scopeList.UseCache)
             {
-                cacheTables = _oper.DBInfo.QueryCache.CreateMap(CurEntityInfo.TableName);
+                cacheTables = OperAsync.DBInfo.QueryCache.CreateMap(CurEntityInfo.TableNameAsync);
             }
-            using (DbDataReader reader = await _oper.QueryAsync(sql, list,CommandType.Text, cacheTables))
+            using (DbDataReader reader = await OperAsync.QueryAsync(sql, list,CommandType.Text, cacheTables))
             {
                 if ( await reader.ReadAsync())
                 {
