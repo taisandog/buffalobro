@@ -7,12 +7,12 @@ using Buffalo.MQ.RabbitMQ;
 
 #endif
 using Buffalo.MQ.RedisMQ;
+using Buffalo.Kernel.FastReflection;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Buffalo.MQ
@@ -31,7 +31,10 @@ namespace Buffalo.MQ
         ///// 线程变量名
         ///// </summary>
         //private const string Tag = "$*_MQ_Conn&$";
-        private static AsyncLocal<Dictionary<string, MQConnection>> _staticConnTable = new AsyncLocal<Dictionary<string, MQConnection>>();
+        private static readonly CallContextSync<Dictionary<string, MQConnection>> _staticConnTable =
+            new CallContextSync<Dictionary<string, MQConnection>>();
+        private static readonly CallContextAsync<Dictionary<string, MQConnection>> _staticConnTableAsync =
+            new CallContextAsync<Dictionary<string, MQConnection>>();
         /// <summary>
         /// 获取本线程变量连接
         /// </summary>
@@ -43,6 +46,20 @@ namespace Buffalo.MQ
             {
                 dic = new Dictionary<string, MQConnection>();
                 _staticConnTable.Value = dic;
+            }
+            return dic;
+        }
+
+        /// <summary>
+        /// 获取当前异步调用链的连接表
+        /// </summary>
+        private static Dictionary<string, MQConnection> GetStaticConnTableAsync()
+        {
+            Dictionary<string, MQConnection> dic = _staticConnTableAsync.Value;
+            if (dic == null)
+            {
+                dic = new Dictionary<string, MQConnection>();
+                _staticConnTableAsync.Value = dic;
             }
             return dic;
         }
@@ -101,9 +118,23 @@ namespace Buffalo.MQ
         /// <returns></returns>
         public static MQConnection GetMQConnection(string name)
         {
-            Dictionary<string, MQConnection> dic = GetStaticConnTable();
+            return GetMQConnection(name, GetStaticConnTable());
+        }
+
+        /// <summary>
+        /// 获取当前异步调用链的生产者连接
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static MQConnection GetMQConnectionAsync(string name)
+        {
+            return GetMQConnection(name, GetStaticConnTableAsync());
+        }
+
+        private static MQConnection GetMQConnection(string name, Dictionary<string, MQConnection> dic)
+        {
             MQConnection conn = null;
-            
+
             string key = name;
             if (dic.TryGetValue(key, out conn))
             {
