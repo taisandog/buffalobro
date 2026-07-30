@@ -12,6 +12,7 @@ using System.Collections;
 using Buffalo.DB.BQLCommon;
 using System.Data.Common;
 using System.Threading.Tasks;
+using System.Reflection;
 
 namespace Buffalo.DB.CommBase.DataAccessBases.AliasTableMappingManagers
 {
@@ -61,30 +62,61 @@ namespace Buffalo.DB.CommBase.DataAccessBases.AliasTableMappingManagers
         /// <param name="reader"></param>
         public void InitReaderMapping(IDataReader reader) 
         {
-            _lstReaderMapping = new List<AliasReaderMapping>(_dicPropertyInfo.Count);
-            int fCount=reader.FieldCount;
-            EntityPropertyInfo info=null;
+
+            int fCount = reader.FieldCount;
+            
+            List<TableFieldInfo> lstField = new List<TableFieldInfo>(fCount<4?4: fCount);
+            
+           
             for (int i = 0; i < fCount; i++) 
             {
                 string colName = reader.GetName(i);
+                TableFieldInfo info = new TableFieldInfo();
+                info.FieldName = colName;
+                info.FieldType = reader.GetFieldType(i);
+                lstField.Add(info);
+            }
 
-                if (_dicPropertyInfo.TryGetValue(colName, out info)) 
+            InitLstMapping(lstField);
+
+            //_baseList = new ArrayList();
+        }
+
+        /// <summary>
+        /// 初始化跟Reader的映射信息
+        /// </summary>
+        /// <param name="reader"></param>
+        private void InitLstMapping(List<TableFieldInfo> lstAllFieldName)
+        {
+            _lstReaderMapping = new List<AliasReaderMapping>(_dicPropertyInfo.Count);
+
+
+            EntityPropertyInfo info = null;
+            for (int i = 0; i < lstAllFieldName.Count; i++)
+            {
+                TableFieldInfo colName = lstAllFieldName[i];
+
+                if (!_dicPropertyInfo.TryGetValue(colName.FieldName, out info))
                 {
-                    AliasReaderMapping aliasMapping = new AliasReaderMapping(i, info, !info.TypeEqual(reader,i));
-                    if (aliasMapping != null)
-                    {
-                        _lstReaderMapping.Add(aliasMapping);
-                        if (info.IsPrimaryKey)
-                        {
-                            _primaryMapping = aliasMapping;
-                        }
-                    }
+                    continue;
                 }
+                AliasReaderMapping aliasMapping = new AliasReaderMapping(i, info, !info.TypeEqual(colName.FieldType));
+                if (aliasMapping == null)
+                {
+                    continue;
+                }
+                _lstReaderMapping.Add(aliasMapping);
+                if (info.IsPrimaryKey)
+                {
+                    _primaryMapping = aliasMapping;
+                }
+
+
             }
 
             foreach (KeyValuePair<string, AliasTableMapping> keyPair in _dicChildTables)
             {
-                keyPair.Value.InitReaderMapping(reader);
+                keyPair.Value.InitLstMapping(lstAllFieldName);
             }
 
             //_baseList = new ArrayList();
