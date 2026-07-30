@@ -55,7 +55,16 @@ namespace Buffalo.Kernel.FastReflection
         {
             return this._realFieldType.Equals(reader.GetFieldType(index));
         }
-
+        /// <summary>
+        /// 判断类型是否跟本属性一致
+        /// </summary>
+        /// <param name="reader">读取器</param>
+        /// <param name="index">索引</param>
+        /// <returns></returns>
+        public bool TypeEqual(Type targetType)
+        {
+            return this._realFieldType.Equals(targetType);
+        }
         /// <summary>
         /// 加载真正的数据类型
         /// </summary>
