@@ -174,7 +174,7 @@ namespace Buffalo.DB.BQLCommon
                     cacheTables = con.CacheTables;
 
                 }
-                using (DbDataReader reader = await OperAsync.QueryAsync(con.GetSql(lstScope.UseCache), con.DbParamList, CommandType.Text, cacheTables))
+                await using (DbDataReader reader = await OperAsync.QueryAsync(con.GetSql(lstScope.UseCache), con.DbParamList, CommandType.Text, cacheTables))
                 {
                     if (await reader.ReadAsync())
                     {
@@ -475,7 +475,7 @@ namespace Buffalo.DB.BQLCommon
                     {
                         SelectCondition sCon = con as SelectCondition;
 
-                        reader = con.DBinfo.CurrentDbAdapter.Query(sCon.GetSelect(), null, objPage, OperAsync);
+                        reader =await con.DBinfo.CurrentDbAdapter.QueryAsync(sCon.GetSelect(), null, objPage, OperAsync);
                     }
                     retlist = await LoadFromReaderAsync<E>(con.AliasManager, reader);
                 }
@@ -1364,7 +1364,7 @@ namespace Buffalo.DB.BQLCommon
                 }
 
                 con.Oper = OperAsync;
-                using (reader = await OperAsync.QueryAsync(sql, con.DbParamList, CommandType.Text, cacheTables))
+                await using (reader = await OperAsync.QueryAsync(sql, con.DbParamList, CommandType.Text, cacheTables))
                 {
 
                     exists = await reader.ReadAsync();
@@ -1504,7 +1504,7 @@ namespace Buffalo.DB.BQLCommon
                 {
                     if (reader != null)
                     {
-                        reader.Close();
+                         await reader.CloseAsync();
                     }
                 }
                 return ret;

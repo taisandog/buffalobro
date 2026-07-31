@@ -37,7 +37,7 @@ namespace Buffalo.Storage.AWS.S3
                     Key = key
                 };
                 ((Amazon.Runtime.Internal.IAmazonWebServiceRequest)request).AddBeforeRequestHandler(FileIORequestEventHandler);
-                GetObjectMetadataResponse response = _client.GetObjectMetadataAsync(request).Result;
+                GetObjectMetadataResponse response = _client.GetObjectMetadataAsync(request).GetAwaiter().GetResult();
                 return true;
             }
             catch (AmazonS3Exception e)

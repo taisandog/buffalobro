@@ -237,7 +237,7 @@ namespace Buffalo.DB.CommBase.BusinessBases
 
             foreach (T entity in lst)
             {
-                ret = ExistsAsync(entity);
+                ret = await ExistsAsync(entity);
                 if (ret != null)
                 {
                     continue;

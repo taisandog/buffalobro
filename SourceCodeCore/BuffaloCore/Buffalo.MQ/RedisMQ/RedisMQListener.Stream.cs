@@ -119,7 +119,7 @@ namespace Buffalo.MQ.RedisMQ
                         RedisCallbackMessage mess = new RedisCallbackMessage(pkey, field.Value,
                                        db, _config.ConsumerGroupName, message.Id, _config.CommanfFlags);
                         mess.IsOldMessage= true;
-                        CallBack(mess).Wait();
+                        CallBack(mess).GetAwaiter().GetResult();
                     }
 
                 }
@@ -198,7 +198,7 @@ namespace Buffalo.MQ.RedisMQ
                                 }
                                 RedisCallbackMessage mess = new RedisCallbackMessage(streamKey, svalue,
                                     db, _config.ConsumerGroupName, messageId, _config.CommanfFlags);
-                                CallBack(mess).Wait();
+                                CallBack(mess).GetAwaiter().GetResult();
                             }
                         }
                     }
@@ -206,7 +206,7 @@ namespace Buffalo.MQ.RedisMQ
 
                 catch (Exception e)
                 {
-                    OnException(e).Wait();
+                    OnException(e).GetAwaiter().GetResult();
                     Thread.Sleep(300);
                 }
             }
@@ -261,7 +261,7 @@ namespace Buffalo.MQ.RedisMQ
                 }
                 RedisCallbackMessage mess = new RedisCallbackMessage(pkey, svalue, db, _config.ConsumerGroupName, entry.Id,
                                 _config.CommanfFlags);
-                CallBack(mess).Wait();
+                CallBack(mess).GetAwaiter().GetResult();
 
             }
             

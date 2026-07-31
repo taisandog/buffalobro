@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
 
@@ -44,6 +45,7 @@ namespace Buffalo.MQ.MQTTLib
             }
         }
         private TimeSpan _timeout;
+        private readonly SemaphoreSlim _openLock = new SemaphoreSlim(1, 1);
         public MQTTConnection(MQTTConfig config)
         {
             _config = config;
@@ -85,27 +87,9 @@ namespace Buffalo.MQ.MQTTLib
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
-        private APIResault SendMess(MqttApplicationMessage message) 
+        private APIResault SendMess(MqttApplicationMessage message)
         {
-            if (message == null)
-            {
-                return ApiCommon.GetFault("mess.Message can't be null");
-            }
-            if (_que != null)
-            {
-                _que.Enqueue(message);
-            }
-            else
-            {
-                message.Retain = false;
-                MqttClientPublishResult res = _mqttClient.PublishAsync(message).Result;
-
-                if (res.ReasonCode != MqttClientPublishReasonCode.Success)
-                {
-                    return ApiCommon.GetFault(res.ReasonString, res);
-                }
-            }
-            return ApiCommon.GetSuccess();
+            return SendMessAsync(message).GetAwaiter().GetResult();
         }
         /// <summary>
         /// 发送消息
@@ -144,7 +128,7 @@ namespace Buffalo.MQ.MQTTLib
 
         public override void Close()
         {
-            CloseAsync().Wait();
+            CloseAsync().GetAwaiter().GetResult();
         }
 
         //public override void DeleteTopic(bool ifUnused)
@@ -161,30 +145,38 @@ namespace Buffalo.MQ.MQTTLib
 
         protected override void Open()
         {
+            OpenAsync().GetAwaiter().GetResult();
+        }
+        protected override async Task OpenAsync()
+        {
             if (IsOpen)
             {
                 return;
             }
-            lock (this)
+
+            await _openLock.WaitAsync();
+            try
             {
-                if (!IsOpen)
+                if (IsOpen)
                 {
-                    // 1. MqttFactory -> MqttClientFactory
-                    var factory = new MqttClientFactory();
-                    _mqttClient = factory.CreateMqttClient() as MqttClient;
-                    _options = _config.Options.Build();
-                    MqttClientConnectResult res = _mqttClient.ConnectAsync(_options).Result;
-                    if (res.ResultCode != MqttClientConnectResultCode.Success)
-                    {
-                        // 2. v5 的构造函数只接受 (message, result)，没有中间的 innerException 参数
-                        throw new MqttConnectingFailedException("Connect Fault",new Exception(res.ToString()));
-                    }
+                    return;
+                }
+
+                var factory = new MqttClientFactory();
+                _mqttClient = factory.CreateMqttClient() as MqttClient;
+                _options = _config.Options.Build();
+                MqttClientConnectResult result = await _mqttClient.ConnectAsync(_options);
+                if (result.ResultCode != MqttClientConnectResultCode.Success)
+                {
+                    throw new MqttConnectingFailedException(
+                        "Connect Fault",
+                        new Exception(result.ToString()));
                 }
             }
-        }
-        protected override async Task OpenAsync()
-        {
-           Open();
+            finally
+            {
+                _openLock.Release();
+            }
         }
 
         protected override APIResault StartTran()
@@ -196,25 +188,7 @@ namespace Buffalo.MQ.MQTTLib
 
         protected override APIResault CommitTran()
         {
-            
-            if (_que != null)
-            {
-                Queue<Task<MqttClientPublishResult>> que = new Queue<Task<MqttClientPublishResult>>();
-                MqttApplicationMessage mess = null;
-                while (_que.Count > 0)
-                {
-                    mess = _que.Dequeue();
-                    que.Enqueue(_mqttClient.PublishAsync(mess));
-                }
-
-                Task<MqttClientPublishResult> tmp = null;
-                while (que.Count > 0)
-                {
-                    tmp = que.Dequeue();
-                    MqttClientPublishResult res=tmp.Result;
-                }
-            }
-            return ApiCommon.GetSuccess();
+            return CommitTranAsync().GetAwaiter().GetResult();
         }
         protected override async Task<APIResault> CommitTranAsync()
         {

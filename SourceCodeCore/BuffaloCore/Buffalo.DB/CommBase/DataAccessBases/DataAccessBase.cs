@@ -153,7 +153,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         public virtual async Task<List<T>> QueryListAsync(string sql, ParamList list, CommandType commandType, Dictionary<string, bool> cachetables)
         {
             List<T> retlist = null;
-            using (DbDataReader reader = await OperAsync.QueryAsync(sql, list, commandType, cachetables))
+            await using (DbDataReader reader = await OperAsync.QueryAsync(sql, list, commandType, cachetables))
             {
 
                 retlist =await CacheReader.LoadFromReaderListAsync<T>(reader);
@@ -172,7 +172,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
         public virtual async Task<List<T>> QueryListAsync(string sql, PageContent objPage, ParamList lstParam = null)
         {
             List<T> retlist = null;
-            using (DbDataReader reader = OperAsync.DBInfo.CurrentDbAdapter.Query(sql, lstParam, objPage, OperAsync))
+            await using (DbDataReader reader = await OperAsync.DBInfo.CurrentDbAdapter.QueryAsync(sql, lstParam, objPage, OperAsync))
             {
 
                 retlist =await CacheReader.LoadFromReaderListAsync<T>(reader);
@@ -767,7 +767,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             {
                 cacheTables = OperAsync.DBInfo.QueryCache.CreateMap(CurEntityInfo.TableNameAsync);
             }
-            using (DbDataReader reader = await OperAsync.QueryAsync(sql, list,CommandType.Text, cacheTables))
+            await using (DbDataReader reader = await OperAsync.QueryAsync(sql, list,CommandType.Text, cacheTables))
             {
                 if (await reader.ReadAsync())
                 {
@@ -833,7 +833,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             {
                 cacheTables = OperAsync.DBInfo.QueryCache.CreateMap(CurEntityInfo.TableNameAsync);
             }
-            using (DbDataReader reader = await OperAsync.QueryAsync(sql, list,CommandType.Text, cacheTables))
+            await using (DbDataReader reader = await OperAsync.QueryAsync(sql, list,CommandType.Text, cacheTables))
             {
                 if ( await reader.ReadAsync())
                 {

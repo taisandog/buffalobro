@@ -521,7 +521,8 @@ namespace Buffalo.DB.CacheManager
 
         public Task ClearAllAsync()
         {
-            return Task.FromResult(ClearAllAsync());
+            ClearAll();
+            return Task.CompletedTask;
         }
 
         public Task<bool> DeleteValueAsync(string key, DataBaseOperate oper)

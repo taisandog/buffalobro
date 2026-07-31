@@ -13,6 +13,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 
 namespace Buffalo.MQ.RedisMQ
@@ -50,6 +51,8 @@ namespace Buffalo.MQ.RedisMQ
         /// 主题和队列的对应关系
         /// </summary>
         private Dictionary<string, string> _dicTopicToQueue = null;
+        private Channel<(RedisChannel Key, RedisValue Value)> _callbackChannel;
+        private Task _callbackWorker;
         /// <summary>
         /// RabbitMQ适配
         /// </summary>
@@ -66,12 +69,15 @@ namespace Buffalo.MQ.RedisMQ
         /// </summary>
         public void Open()
         {
-            
+            OpenAsync().GetAwaiter().GetResult();
+        }
+
+        public async Task OpenAsync()
+        {
             if (_redis == null)
             {
-                _redis = RedisMQConnection.CreateManager(_config.Options);
+                _redis = await RedisMQConnection.CreateManagerAsync(_config.Options);
             }
-
         }
         /// <summary>
         /// 获取Redis操作类
@@ -90,17 +96,59 @@ namespace Buffalo.MQ.RedisMQ
         
         private void OnRedisCallback(RedisChannel key, RedisValue value)
         {
-            string skey = key.ToString();
-            
-            if (_config.SaveToQueue)
+            _callbackChannel?.Writer.TryWrite((key, value));
+        }
+
+        private void StartCallbackWorker()
+        {
+            _callbackChannel = Channel.CreateUnbounded<(RedisChannel Key, RedisValue Value)>(
+                new UnboundedChannelOptions
+                {
+                    SingleReader = true,
+                    SingleWriter = false
+                });
+            _callbackWorker = ProcessCallbacksAsync(_callbackChannel.Reader);
+        }
+
+        private async Task ProcessCallbacksAsync(
+            ChannelReader<(RedisChannel Key, RedisValue Value)> reader)
+        {
+            await foreach ((RedisChannel Key, RedisValue Value) item in reader.ReadAllAsync())
             {
-                FlushQueueAsync(skey).Wait();
+                try
+                {
+                    string key = item.Key.ToString();
+                    if (_config.SaveToQueue)
+                    {
+                        await FlushQueueAsync(key);
+                    }
+                    else
+                    {
+                        RedisCallbackMessage message =
+                            new RedisCallbackMessage(key, (byte[])item.Value);
+                        await CallBack(message);
+                    }
+                }
+                catch (Exception exception)
+                {
+                    await OnException(exception);
+                }
             }
-            else
+        }
+
+        private async Task StopCallbackWorkerAsync()
+        {
+            Channel<(RedisChannel Key, RedisValue Value)> channel = _callbackChannel;
+            Task worker = _callbackWorker;
+            _callbackChannel = null;
+            _callbackWorker = null;
+            if (channel != null)
             {
-                byte[] svalue = (byte[])value;
-                RedisCallbackMessage mess = new RedisCallbackMessage(skey, svalue);
-                CallBack(mess).Wait();
+                channel.Writer.TryComplete();
+            }
+            if (worker != null)
+            {
+                await worker;
             }
         }
 
@@ -210,7 +258,7 @@ namespace Buffalo.MQ.RedisMQ
             }
             while (_pollrunning)
             {
-                FlushQueueAsync(listenKey, pkey, db).Wait();
+                FlushQueueAsync(listenKey, pkey, db).GetAwaiter().GetResult();
 
                 Thread.Sleep(sleep);
             }
@@ -269,7 +317,7 @@ namespace Buffalo.MQ.RedisMQ
                         svalue = tmpval;
 
                         RedisCallbackMessage mess = new RedisCallbackMessage(listenKey, svalue);
-                        CallBack(mess).Wait();
+                        CallBack(mess).GetAwaiter().GetResult();
 
                     }
                     catch (TimeoutException tex)
@@ -278,7 +326,7 @@ namespace Buffalo.MQ.RedisMQ
                     }
                     catch (Exception e)
                     {
-                        OnException(e).Wait();
+                        OnException(e).GetAwaiter().GetResult();
                         Thread.Sleep(300);
                     }
                 }
@@ -299,19 +347,24 @@ namespace Buffalo.MQ.RedisMQ
         /// <param name="listenKeys"></param>
         public override void StartListend(IEnumerable<string> listenKeys)
         {
-            Close();
-            
+            StartListendAsync(listenKeys).GetAwaiter().GetResult();
+        }
+
+        public override async Task StartListendAsync(IEnumerable<string> listenKeys)
+        {
+            await CloseAsync();
 
             ResetWait();
-            Open();
+            await OpenAsync();
 
+            List<string> keys = listenKeys.ToList();
             string queKey = null;
             switch (_config.Mode)
             {
                 case RedisMQMessageMode.Subscriber:
                 _dicTopicToQueue = new Dictionary<string, string>();
                     
-                    foreach (string key in listenKeys)
+                    foreach (string key in keys)
                     {
                         queKey = _config.GetDefaultQueueKey(key) ;
                         if (string.IsNullOrWhiteSpace(queKey))
@@ -323,16 +376,20 @@ namespace Buffalo.MQ.RedisMQ
 
                     if (_config.SaveToQueue)
                     {
-                        foreach (string key in listenKeys)
+                        foreach (string key in keys)
                         {
-                            FlushQueueAsync(key).Wait();
+                            await FlushQueueAsync(key);
                         }
                     }
 
+                    StartCallbackWorker();
                     _subscriber = _redis.GetSubscriber();
-                    foreach (string key in listenKeys)
+                    foreach (string key in keys)
                     {
-                        _subscriber.Subscribe(key, OnRedisCallback, _config.CommanfFlags);
+                        await _subscriber.SubscribeAsync(
+                            key,
+                            OnRedisCallback,
+                            _config.CommanfFlags);
                     }
                     break;
 
@@ -341,7 +398,7 @@ namespace Buffalo.MQ.RedisMQ
                     _thdPolling = new BlockThreadPool();
                     _pollrunning = true;
 
-                    foreach (string lisKey in listenKeys)
+                    foreach (string lisKey in keys)
                     {
                         _thdPolling.RunParamThread(DoListening, lisKey);
                     }
@@ -350,7 +407,7 @@ namespace Buffalo.MQ.RedisMQ
                     _thdPolling = new BlockThreadPool();
                     _pollrunning = true;
                     _queRedis = new ConcurrentQueue<ConnectionMultiplexer>();
-                    foreach (string lisKey in listenKeys)
+                    foreach (string lisKey in keys)
                     {
                         _thdPolling.RunParamThread(DoBlockPopListening, lisKey);
                     }
@@ -361,7 +418,7 @@ namespace Buffalo.MQ.RedisMQ
                     _thdPolling = new BlockThreadPool();
                     _pollrunning = true;
                     _queRedis = new ConcurrentQueue<ConnectionMultiplexer>();
-                    foreach (string lisKey in listenKeys)
+                    foreach (string lisKey in keys)
                     {
                        
                         _pollrunning = true;
@@ -380,6 +437,11 @@ namespace Buffalo.MQ.RedisMQ
         /// </summary>
         public override void Close()
         {
+            CloseAsync().GetAwaiter().GetResult();
+        }
+
+        public override async Task CloseAsync()
+        {
             _pollrunning = false;
 
 
@@ -387,25 +449,26 @@ namespace Buffalo.MQ.RedisMQ
             {
                 try
                 {
-                    _subscriber.UnsubscribeAll();
+                    await _subscriber.UnsubscribeAllAsync(_config.CommanfFlags);
                 }
                 catch (Exception ex)
                 {
-                    OnException(ex).Wait();
+                    await OnException(ex);
                 }
             }
 
             _subscriber = null;
+            await StopCallbackWorkerAsync();
             if (_redis != null)
             {
                 try
                 {
-                    _redis.Close();
-                    _redis.Dispose();
+                    await _redis.CloseAsync();
+                    await _redis.DisposeAsync();
                 }
                 catch (Exception ex)
                 {
-                    OnException(ex);
+                    await OnException(ex);
                 }
             }
             _redis = null;
@@ -413,7 +476,7 @@ namespace Buffalo.MQ.RedisMQ
             if (_thdPolling != null)
             {
                 _thdPolling.StopAll();
-                Thread.Sleep(100);
+                await Task.Delay(100);
             }
             _thdPolling = null;
 
@@ -425,15 +488,16 @@ namespace Buffalo.MQ.RedisMQ
                     
                     if (_queRedis.TryDequeue(out conn)) 
                     {
-                        try 
+                        try
                         {
-                            conn.Close();
+                            await conn.CloseAsync();
+                            await conn.DisposeAsync();
                         }catch(Exception ex) { }
                     }
                 }
             }
             _queRedis = null;
-            DisponseWait().Wait();
+            await DisponseWait();
         }
 
         public override void Dispose()

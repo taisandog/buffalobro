@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Buffalo.Storage
 {
-    public abstract class IFileStorage : IDisposable
+    public abstract partial class IFileStorage : IDisposable
     {
         /// <summary>
         /// 追加文件

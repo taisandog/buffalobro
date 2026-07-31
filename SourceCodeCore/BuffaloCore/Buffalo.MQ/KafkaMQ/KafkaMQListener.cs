@@ -97,12 +97,12 @@ namespace Buffalo.MQ.KafkaMQ
                             ConsumeResult<byte[], byte[]> res = consumer.Consume(token);
                             KafkaCallbackMessage mess = new KafkaCallbackMessage(res.Topic,res.Message.Value,
                                 res.Partition, res.Offset, consumer, res);
-                            CallBack(mess).Wait();
+                            CallBack(mess).GetAwaiter().GetResult();
                             //consumer.Commit(res);
                         }
                         catch (Exception ex)
                         {
-                            OnException(ex).Wait();
+                            OnException(ex).GetAwaiter().GetResult();
                         }
                     }
                 }
@@ -128,7 +128,7 @@ namespace Buffalo.MQ.KafkaMQ
 
                 catch (Exception ex)
                 {
-                    OnException(ex).Wait();
+                    OnException(ex).GetAwaiter().GetResult();
                 }
             }
 
@@ -152,7 +152,7 @@ namespace Buffalo.MQ.KafkaMQ
             //    }
             //}
             //_handle = null;
-            DisponseWait().Wait();
+            DisponseWait().GetAwaiter().GetResult();
         }
 
         public override void Dispose()

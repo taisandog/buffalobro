@@ -28,9 +28,9 @@ namespace Buffalo.MQ.MQTTLib
 
         public override void Commit()
         {
-            if(_receivedEventArgs != null && !_receivedEventArgs.AutoAcknowledge) 
+            if(_receivedEventArgs != null && !_receivedEventArgs.AutoAcknowledge)
             {
-                _receivedEventArgs.AcknowledgeAsync(CancellationToken.None).Wait() ;
+                CommitAsync().GetAwaiter().GetResult();
             }
             
         }

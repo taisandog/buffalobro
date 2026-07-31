@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Threading;
 using Buffalo.Kernel.FastReflection;
+using Buffalo.DB.DataFillers;
 
 ///通用SQL Server访问类v1.2
 
@@ -674,8 +675,8 @@ namespace Buffalo.DB.DbCommon
                     {
                         await OutMessageAsync(MessageType.OtherOper, "Closed Readonly DataBase", null, "");
                     }
-                    _readconn.Close();
-                    _readconn.Dispose();
+                    await _readconn.CloseAsync();
+                     await _readconn.DisposeAsync();
                     _dbAdapter.OnConnectionClosed(_readconn, _db);
                 }
 
@@ -876,6 +877,14 @@ namespace Buffalo.DB.DbCommon
         /// <param name="paramList">SqlParameter的列表</param>
         /// <param name="queryCommandType">SQL语句类型</param>
         /// <returns>返回结果集</returns>
+        private static async Task<DataSet> FillDataSetAsync(DbCommand command)
+        {
+            await using (DbDataReader reader = await command.ExecuteReaderAsync())
+            {
+                return await CacheReader.GenerateDataSetAsync(reader, false);
+            }
+        }
+
         public async Task<DataSet> QueryDataSetAsync(
             string sql,
             ParamList paramList,
@@ -891,7 +900,7 @@ namespace Buffalo.DB.DbCommon
             paramList = _db.CurrentDbAdapter.RebuildParamList(ref sql, paramList);
             if (cacheTables != null && cacheTables.Count > 0)
             {
-                dataSet = _db.QueryCache.GetDataSet(cacheTables, sql, paramList, this);
+                dataSet =await _db.QueryCache.GetDataSetAsync(cacheTables, sql, paramList, this);
                 if (dataSet != null)
                 {
                     return dataSet;
@@ -908,12 +917,9 @@ namespace Buffalo.DB.DbCommon
                 throw (new ApplicationException("没有建立数据库连接。"));
             }
 
-            dataSet = new DataSet();
             comm.CommandType = queryCommandType;
             comm.CommandText = sql;
-            
-            IDbDataAdapter sda = _dbAdapter.GetAdapter();
-            sda.SelectCommand = comm;
+
             string paramInfo = null;
             if (paramList != null)
             {
@@ -932,10 +938,10 @@ namespace Buffalo.DB.DbCommon
 
                     await OutMessageAsync(MessageType.Query, "DataSet", null, sql + ";" + paramInfo);
                 }
-                sda.Fill(dataSet);
+                dataSet = await FillDataSetAsync(comm);
                 if (paramList != null)
                 {
-                    paramList.ReturnParameterValue(_comm, _db);
+                    paramList.ReturnParameterValue(comm, _db);
                 }
 
                 if (cacheTables != null && cacheTables.Count > 0)
@@ -1099,7 +1105,7 @@ namespace Buffalo.DB.DbCommon
             paramList = _db.CurrentDbAdapter.RebuildParamList(ref sql, paramList);
             if (cacheTables != null && cacheTables.Count > 0)
             {
-                reader = _db.QueryCache.GetReader(cacheTables, sql, paramList, this);
+                reader =await _db.QueryCache.GetReaderAsync(cacheTables, sql, paramList, this);
                 if (reader != null)
                 {
                     return reader;

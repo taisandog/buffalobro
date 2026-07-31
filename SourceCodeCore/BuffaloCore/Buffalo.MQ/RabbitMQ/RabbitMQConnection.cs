@@ -57,7 +57,7 @@ namespace Buffalo.MQ.RabbitMQ
         /// </summary>
         protected override void Open()
         {
-            OpenAsync().Wait();
+            OpenAsync().GetAwaiter().GetResult();
         }
         /// <summary>
         /// 打来连接
@@ -99,7 +99,7 @@ namespace Buffalo.MQ.RabbitMQ
         /// <returns></returns>
         protected override APIResault SendMessage(string routingKey, byte[] body)
         {
-            return SendMessageAsync(routingKey, body).Result;
+            return SendMessageAsync(routingKey, body).GetAwaiter().GetResult();
 
 
         }
@@ -111,13 +111,18 @@ namespace Buffalo.MQ.RabbitMQ
         /// <returns></returns>
         protected override APIResault SendMessage(MQSendMessage message)
         {
-            return SendMessageAsync(message).Result;
+            return SendMessageAsync(message).GetAwaiter().GetResult();
         }
         /// <summary>
         /// 删除队列(Rabbit可用)
         /// </summary>
         /// <param name="queueName">队列名，如果为null则全删除</param>
         public void DeleteQueue(IEnumerable<string> queueName, bool ifUnused, bool ifEmpty)
+        {
+            DeleteQueueAsync(queueName, ifUnused, ifEmpty).GetAwaiter().GetResult();
+        }
+
+        public async Task DeleteQueueAsync(IEnumerable<string> queueName, bool ifUnused, bool ifEmpty)
         {
             IEnumerable<string> curDelete = queueName;
             if (curDelete == null)
@@ -126,7 +131,7 @@ namespace Buffalo.MQ.RabbitMQ
             }
             foreach (string delName in curDelete)
             {
-                _channel.QueueDeleteAsync(delName, ifUnused, ifEmpty).Wait();
+                await _channel.QueueDeleteAsync(delName, ifUnused, ifEmpty);
             }
         }
         /// <summary>
@@ -135,7 +140,12 @@ namespace Buffalo.MQ.RabbitMQ
 
         public void DeleteExchange(bool ifUnused)
         {
-            _channel.ExchangeDeleteAsync(_config.ExchangeName, ifUnused).Wait();
+            DeleteExchangeAsync(ifUnused).GetAwaiter().GetResult();
+        }
+
+        public async Task DeleteExchangeAsync(bool ifUnused)
+        {
+            await _channel.ExchangeDeleteAsync(_config.ExchangeName, ifUnused);
         }
 
         /// <summary>
@@ -143,20 +153,20 @@ namespace Buffalo.MQ.RabbitMQ
         /// </summary>
         public override void Close()
         {
-            CloseAsync().Wait();
+            CloseAsync().GetAwaiter().GetResult();
         }
 
 
 
         protected override APIResault StartTran()
         {
-            
-            return StartTranAsync().Result;
+
+            return StartTranAsync().GetAwaiter().GetResult();
         }
 
         protected override APIResault CommitTran()
         {
-            return CommitTranAsync().Result;
+            return CommitTranAsync().GetAwaiter().GetResult();
         }
         protected override async Task<APIResault> CommitTranAsync()
         {
@@ -165,7 +175,7 @@ namespace Buffalo.MQ.RabbitMQ
         }
         protected override APIResault RoolbackTran()
         {
-            return RoolbackTranAsync().Result;
+            return RoolbackTranAsync().GetAwaiter().GetResult();
         }
 
         protected override async Task<APIResault> SendMessageAsync(MQSendMessage message)

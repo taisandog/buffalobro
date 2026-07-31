@@ -146,7 +146,8 @@ namespace Buffalo.DB.DataFillers
             {
                 DataTable dt = await GenerateDataTableAsync(reader, "table" + index, isEmpty);
                 ds.Tables.Add(dt);
-            } while (reader.NextResult());
+                index++;
+            } while (await reader.NextResultAsync());
 
             return ds;
         }

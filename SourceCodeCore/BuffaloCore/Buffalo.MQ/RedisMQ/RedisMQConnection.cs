@@ -122,7 +122,7 @@ namespace Buffalo.MQ.RedisMQ
                 }
                 if (_redis == null)
                 {
-                    _redis = CreateManager(_config.Options);
+                    _redis = await CreateManagerAsync(_config.Options);
                 }
                 if (_config.Mode == RedisMQMessageMode.Subscriber)
                 {

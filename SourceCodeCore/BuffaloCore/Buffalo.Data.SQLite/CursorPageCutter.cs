@@ -155,15 +155,13 @@ namespace Buffalo.Data.SQLite
             }
 
             DataTable ret = new DataTable();
-            DbDataReader reader = null;
-            try
-            {
-                StringBuilder tmpsql = new StringBuilder();
-                tmpsql.Append(sql);
-                CutPageSqlCreater.FillCutPageSql(tmpsql, objPage);
-                string qsql = tmpsql.ToString();
-                reader = await oper.QueryAsync(qsql, lstParam, CommandType.Text, cacheTables);
+            StringBuilder tmpsql = new StringBuilder();
+            tmpsql.Append(sql);
+            CutPageSqlCreater.FillCutPageSql(tmpsql, objPage);
+            string qsql = tmpsql.ToString();
 
+            await using (DbDataReader reader = await oper.QueryAsync(qsql, lstParam, CommandType.Text, cacheTables))
+            {
                 if (curType == null)
                 {
                     ret = await CacheReader.GenerateDataTableAsync(reader, "newDt", false);
@@ -172,11 +170,6 @@ namespace Buffalo.Data.SQLite
                 {
                     ret = await CacheReader.GenerateDataTableAsync(reader, "newDt", curType, false);
                 }
-            }
-            finally
-            {
-                reader.CloseAsync();
-                //oper.CloseDataBase();
             }
             return ret;
         }

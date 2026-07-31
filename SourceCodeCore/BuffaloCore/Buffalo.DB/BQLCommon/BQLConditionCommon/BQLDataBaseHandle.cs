@@ -140,10 +140,7 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
             return GetDefaultOperate().StarBatchAction();
         }
 
-        public static BatchAction StartBatchActionAsync()
-        {
-            return GetDefaultOperateAsync().StarBatchAction();
-        }
+        
        
         /// <summary>
         /// 添加到库信息

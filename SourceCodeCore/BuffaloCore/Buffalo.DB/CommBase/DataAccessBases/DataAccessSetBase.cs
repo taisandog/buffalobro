@@ -675,7 +675,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             }
 
 
-            using (BatchAction ba = OperAsync.StarBatchAction())
+            await using (BatchAction ba = OperAsync.StarBatchAction())
             {
                 string sql = con.GetSql(true);
                 Dictionary<string, bool> cacheTables = null;
@@ -688,7 +688,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
                     foreach (EntityPropertyInfo pkInfo in identityInfo)
                     {
                         sql = OperAsync.DBInfo.CurrentDbAdapter.GetIdentitySQL(pkInfo);
-                        using (DbDataReader reader = await OperAsync.QueryAsync(sql, new ParamList(),CommandType.Text, null))
+                        await using (DbDataReader reader = await OperAsync.QueryAsync(sql, new ParamList(),CommandType.Text, null))
                         {
 
                             if (await reader.ReadAsync())

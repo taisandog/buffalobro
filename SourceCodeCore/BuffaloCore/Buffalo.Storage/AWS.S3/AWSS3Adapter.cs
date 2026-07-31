@@ -149,7 +149,7 @@ namespace Buffalo.Storage.AWS.S3
             request.MaxKeys = 20;
             do
             {
-                response = _client.ListObjectsAsync(request).Result;
+                response = _client.ListObjectsAsync(request).GetAwaiter().GetResult();
 
                 DeleteObjectsRequest drequest = new DeleteObjectsRequest();
                 drequest.BucketName = _bucketName;
@@ -160,7 +160,7 @@ namespace Buffalo.Storage.AWS.S3
                 {
                     drequest.AddKey(entry.Key);
                 }
-                DeleteObjectsResponse dresponse = _client.DeleteObjectsAsync(drequest).Result;
+                DeleteObjectsResponse dresponse = _client.DeleteObjectsAsync(drequest).GetAwaiter().GetResult();
                 request.Marker = response.NextMarker;
             }
             while (response.IsTruncated.GetValueOrDefault());
@@ -209,7 +209,7 @@ namespace Buffalo.Storage.AWS.S3
                     BucketName = _bucketName,
                     Key = path
                 };
-                GetObjectMetadataResponse response = _client.GetObjectMetadataAsync(request).Result;
+                GetObjectMetadataResponse response = _client.GetObjectMetadataAsync(request).GetAwaiter().GetResult();
                 string url = FileInfoBase.CombineUriToString(_internetUrl, request.Key);
                 string accessUrl = FileInfoBase.CombineUriToString(_internetUrl, request.Key);
 
@@ -277,7 +277,7 @@ namespace Buffalo.Storage.AWS.S3
             listObjectsRequest.Delimiter = "/";
             listObjectsRequest.BucketName = _bucketName;
 
-            ListObjectsResponse result = _client.ListObjectsAsync(listObjectsRequest).Result;
+            ListObjectsResponse result = _client.ListObjectsAsync(listObjectsRequest).GetAwaiter().GetResult();
 
             foreach (string prefix in result.CommonPrefixes)
             {
@@ -300,7 +300,7 @@ namespace Buffalo.Storage.AWS.S3
             request.BucketName = _bucketName;
             request.Key = path;
 
-            GetObjectResponse response = _client.GetObjectAsync(request).Result;
+            GetObjectResponse response = _client.GetObjectAsync(request).GetAwaiter().GetResult();
             return response.ResponseStream;
         }
 
@@ -320,7 +320,7 @@ namespace Buffalo.Storage.AWS.S3
             request.BucketName = _bucketName;
             request.Key = path;
             request.ByteRange = byteRange;
-            GetObjectResponse response = _client.GetObjectAsync(request).Result;
+            GetObjectResponse response = _client.GetObjectAsync(request).GetAwaiter().GetResult();
             Stream stmRet=response.ResponseStream;
             return stmRet;
 
@@ -357,7 +357,7 @@ namespace Buffalo.Storage.AWS.S3
             List<string> lstRet = new List<string>();
             do
             {
-                response = _client.ListObjectsAsync(request).Result;
+                response = _client.ListObjectsAsync(request).GetAwaiter().GetResult();
 
 
                 
@@ -429,7 +429,7 @@ namespace Buffalo.Storage.AWS.S3
             DeleteObjectRequest request = new DeleteObjectRequest();
             request.BucketName = _bucketName;
             request.Key = path;
-            DeleteObjectResponse delRes=_client.DeleteObjectAsync(request).Result;
+            DeleteObjectResponse delRes=_client.DeleteObjectAsync(request).GetAwaiter().GetResult();
             if (delRes.HttpStatusCode != HttpStatusCode.OK)
             {
                 return ApiCommon.GetFault(null, delRes.HttpStatusCode);
@@ -456,12 +456,12 @@ namespace Buffalo.Storage.AWS.S3
             copyRequest.DestinationKey = target;
             Task <CopyObjectResponse> copyResponseTsk = _client.CopyObjectAsync(copyRequest);
 
-            CopyObjectResponse copyResponse = copyResponseTsk.Result;
+            CopyObjectResponse copyResponse = copyResponseTsk.GetAwaiter().GetResult();
             if (copyResponse.HttpStatusCode!= HttpStatusCode.OK)
             {
                 return ApiCommon.GetFault(null, copyResponse.HttpStatusCode);
             }
-            GetACLResponse getAclResponse = getAclResponseTsk.Result;
+            GetACLResponse getAclResponse = getAclResponseTsk.GetAwaiter().GetResult();
             if (getAclResponse.HttpStatusCode != HttpStatusCode.OK)
             {
                 return ApiCommon.GetFault(null, getAclResponse.HttpStatusCode);
@@ -474,7 +474,7 @@ namespace Buffalo.Storage.AWS.S3
             setAclRequest.AccessControlList = getAclResponse.AccessControlList;
 
 
-            PutACLResponse setAclRespone = _client.PutACLAsync(setAclRequest).Result;
+            PutACLResponse setAclRespone = _client.PutACLAsync(setAclRequest).GetAwaiter().GetResult();
             if (setAclRespone.HttpStatusCode != HttpStatusCode.OK)
             {
                 return ApiCommon.GetFault(null, setAclRespone.HttpStatusCode);
@@ -484,7 +484,7 @@ namespace Buffalo.Storage.AWS.S3
             deleteRequest.BucketName = _bucketName;
             deleteRequest.Key = source;
 
-            DeleteObjectResponse deleteResponse = _client.DeleteObjectAsync(deleteRequest).Result;
+            DeleteObjectResponse deleteResponse = _client.DeleteObjectAsync(deleteRequest).GetAwaiter().GetResult();
             if (deleteResponse.HttpStatusCode != HttpStatusCode.OK)
             {
                 return ApiCommon.GetFault(null, deleteResponse.HttpStatusCode);
@@ -550,7 +550,7 @@ namespace Buffalo.Storage.AWS.S3
                 stream.Position = 0;
                 request.MD5Digest = md5;
             }
-            PutObjectResponse res = _client.PutObjectAsync(request).Result;
+            PutObjectResponse res = _client.PutObjectAsync(request).GetAwaiter().GetResult();
             if (res.HttpStatusCode == HttpStatusCode.OK)
             {
                 return ApiCommon.GetSuccess();
@@ -650,7 +650,7 @@ namespace Buffalo.Storage.AWS.S3
                 Key = folder,
 
             };
-            PutObjectResponse response = _client.PutObjectAsync(request).Result;
+            PutObjectResponse response = _client.PutObjectAsync(request).GetAwaiter().GetResult();
             return ApiCommon.GetSuccess();
         }
 
@@ -672,7 +672,7 @@ namespace Buffalo.Storage.AWS.S3
                 ByteRange = byteRange
             };
 
-            using (GetObjectResponse response = _client.GetObjectAsync(request).Result)
+            using (GetObjectResponse response = _client.GetObjectAsync(request).GetAwaiter().GetResult())
             {
                 CommonMethods.CopyStreamData(response.ResponseStream, stm);
             }

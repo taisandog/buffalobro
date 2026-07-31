@@ -173,7 +173,29 @@ namespace Buffalo.DB.CacheManager
 
             return ds;
         }
-       
+        /// <summary>
+        /// 获取缓存中的DataSet
+        /// </summary>
+        /// <param name="tables">表</param>
+        /// <param name="sql">SQL语句</param>
+        /// <param name="lstParam">变量集合</param>
+        /// <returns></returns>
+        public async Task<DataSet> GetDataSetAsync(IDictionary<string, bool> tables,
+            string sql, ParamList lstParam, DataBaseOperate oper)
+        {
+            if (_cache == null)
+            {
+                return null;
+            }
+            StringBuilder sbSql = new StringBuilder();
+            sbSql.Append(sql);
+            sbSql.Append(";");
+            sbSql.Append(lstParam.GetParamString(_db, oper));
+
+            DataSet ds =await _cache.GetDataAsync(tables, sbSql.ToString(), oper);
+
+            return ds;
+        }
         /// <summary>
         /// 获取缓存中的DataSet
         /// </summary>
@@ -289,7 +311,29 @@ namespace Buffalo.DB.CacheManager
             MemCacheReader reader = new MemCacheReader(ds);
             return reader;
         }
-       
+        /// <summary>
+        /// 获取缓存中的Reader
+        /// </summary>
+        /// <param name="tables">表</param>
+        /// <param name="sql">SQL语句</param>
+        /// <param name="lstParam">变量集合</param>
+        /// <returns></returns>
+        public async Task<MemCacheReader> GetReaderAsync(IDictionary<string, bool> tables,
+            string sql, ParamList lstParam, DataBaseOperate oper)
+        {
+            if (_cache == null)
+            {
+                return null;
+            }
+            CheckTable(tables);
+            DataSet ds =await GetDataSetAsync(tables, sql, lstParam, oper);
+            if (ds == null)
+            {
+                return null;
+            }
+            MemCacheReader reader = new MemCacheReader(ds);
+            return reader;
+        }
         /// <summary>
         /// 写入缓存中的Reader
         /// </summary>

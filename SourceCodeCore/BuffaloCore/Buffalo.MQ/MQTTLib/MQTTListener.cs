@@ -24,6 +24,7 @@ namespace Buffalo.MQ.MQTTLib
         private static Encoding DefaultEncoding = Encoding.UTF8;
         IEnumerable<string> _lstTopic = null;
         bool _isRunning = false;
+        private readonly SemaphoreSlim _openLock = new SemaphoreSlim(1, 1);
         /// <summary>
         /// RabbitMQ适配
         /// </summary>
@@ -39,43 +40,46 @@ namespace Buffalo.MQ.MQTTLib
         /// </summary>
         public void Open()
         {
-            if (_mqttClient2 == null)
+            OpenAsync().GetAwaiter().GetResult();
+        }
+
+        public async Task OpenAsync()
+        {
+            if (_mqttClient2 != null)
             {
-                _isRunning = true;
-                ResetWait();
-                try
-                {
-                    var factory = new MqttClientFactory();
-                    _mqttClient2 = factory.CreateMqttClient() as MqttClient;
-                    
-                    _options = _config.Options.Build();
-                    
-                    _mqttClient2.ConnectedAsync +=  Connected;
-                    //_mqttClient.ConnectedHandler = new MqttClientConnectedHandlerDelegate(new Func<MqttClientConnectedEventArgs, Task>(Connected));
-                    _mqttClient2.DisconnectedAsync +=Disconnected;
-                    
-                    _mqttClient2.ApplicationMessageReceivedAsync += ApplicationMessageReceivedAsync;
-                    Task<MqttClientConnectResult> tsk1 = _mqttClient2.ConnectAsync(_options);
-                   
-                    
-
-                    MqttClientConnectResult res = tsk1.Result;
-                    if (res.ResultCode != MqttClientConnectResultCode.Success)
-                    {
-                        throw new MqttConnectingFailedException("Connect Fault", new Exception(res.ToString()));
-                    }
-
-                    
-                    
-                }
-                finally 
-                {
-                    SetWait();
-                }
-                
+                return;
             }
 
+            await _openLock.WaitAsync();
+            try
+            {
+                if (_mqttClient2 != null)
+                {
+                    return;
+                }
 
+                _isRunning = true;
+                ResetWait();
+                var factory = new MqttClientFactory();
+                _mqttClient2 = factory.CreateMqttClient() as MqttClient;
+                _options = _config.Options.Build();
+                _mqttClient2.ConnectedAsync += Connected;
+                _mqttClient2.DisconnectedAsync += Disconnected;
+                _mqttClient2.ApplicationMessageReceivedAsync += ApplicationMessageReceivedAsync;
+
+                MqttClientConnectResult result = await _mqttClient2.ConnectAsync(_options);
+                if (result.ResultCode != MqttClientConnectResultCode.Success)
+                {
+                    throw new MqttConnectingFailedException(
+                        "Connect Fault",
+                        new Exception(result.ToString()));
+                }
+            }
+            finally
+            {
+                SetWait();
+                _openLock.Release();
+            }
         }
 
         
@@ -171,10 +175,13 @@ namespace Buffalo.MQ.MQTTLib
 
         public override void StartListend(IEnumerable<string> listenKeys)
         {
-            //StartListend(MQUnit.GetLintenOffest(listenKeys));
-            _lstTopic = listenKeys;
+            StartListendAsync(listenKeys).GetAwaiter().GetResult();
+        }
 
-            Open();
+        public override async Task StartListendAsync(IEnumerable<string> listenKeys)
+        {
+            _lstTopic = listenKeys;
+            await OpenAsync();
         }
         //public override void StartListend(IEnumerable<MQOffestInfo> listenKeys)
         //{
@@ -187,17 +194,22 @@ namespace Buffalo.MQ.MQTTLib
         /// </summary>
         public override void Close()
         {
+            CloseAsync().GetAwaiter().GetResult();
+        }
+
+        public override async Task CloseAsync()
+        {
             _isRunning = false;
             if (_mqttClient2 != null)
             {
                 try
                 {
-                    _mqttClient2.DisconnectAsync().Wait();
+                    await _mqttClient2.DisconnectAsync();
                     _mqttClient2.Dispose();
                 }
                 catch (Exception ex)
                 {
-                    OnException(ex).Wait();
+                    await OnException(ex);
                 }
                 _mqttClient2 = null;
             }

@@ -123,37 +123,42 @@ namespace Buffalo.MQ.KafkaMQ
         /// </summary>
         private void DoFlush()
         {
-            if (_producer != null)
-            {
-                _producer.Flush(new TimeSpan(2000));
-            }
-            if (_tranProducer != null)
-            {
-                _tranProducer.Flush(new TimeSpan(2000));
-            }
+            DoFlushAsync().GetAwaiter().GetResult();
+        }
+
+        private async Task DoFlushAsync()
+        {
             Queue<Task<DeliveryResult<byte[], byte[]>>> curQueue = _queResault;
             if (curQueue == null)
             {
                 return;
             }
+            List<Task<DeliveryResult<byte[], byte[]>>> pending =
+                new List<Task<DeliveryResult<byte[], byte[]>>>(curQueue.Count);
             while (curQueue.Count > 0)
             {
-                Task<DeliveryResult<byte[], byte[]>> delRes = curQueue.Dequeue();
-                DeliveryResult<byte[], byte[]> re = delRes.Result;
+                pending.Add(curQueue.Dequeue());
+            }
+            if (pending.Count > 0)
+            {
+                await Task.WhenAll(pending);
             }
         }
        
         public override void Close()
         {
+            CloseAsync().GetAwaiter().GetResult();
+        }
+
+        private void CloseCore()
+        {
             if (_producer != null)
             {
-                DoFlush();
                 _producer.Dispose();
                 _producer = null;
             }
             if (_tranProducer != null)
             {
-                DoFlush();
                 _tranProducer.Dispose();
                 _tranProducer = null;
             }
@@ -179,11 +184,11 @@ namespace Buffalo.MQ.KafkaMQ
         /// 删除话题
         /// </summary>
         /// <param name="queueName"></param>
-        public void DeleteTopicsAsync(IEnumerable<string> queueName)
+        public async Task DeleteTopicsAsync(IEnumerable<string> queueName)
         {
             using (IAdminClient admin = _config.AdminBuilder.Build())
             {
-                admin.DeleteTopicsAsync(queueName, null);
+                await admin.DeleteTopicsAsync(queueName, null);
             }
         }
 
@@ -289,7 +294,8 @@ namespace Buffalo.MQ.KafkaMQ
 
         public override async Task CloseAsync()
         {
-            Close();
+            await DoFlushAsync();
+            CloseCore();
         }
     }
 }

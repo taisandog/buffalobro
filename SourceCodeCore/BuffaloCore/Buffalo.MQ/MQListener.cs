@@ -15,7 +15,7 @@ namespace Buffalo.MQ
 
     public delegate Task DelOnMQException(MQListener sender, Exception ex);
 
-    public abstract class MQListener
+    public abstract class MQListener : IDisposable, IAsyncDisposable
     {
         /// <summary>
         /// 接收数据
@@ -32,6 +32,23 @@ namespace Buffalo.MQ
         /// </summary>
         /// <param name="listenKeys">监听键</param>
         public abstract void StartListend(IEnumerable<string> listenKeys);
+
+        /// <summary>
+        /// 异步打开事件监听。派生类应在底层组件支持异步时重写此方法。
+        /// </summary>
+        public virtual Task StartListendAsync(IEnumerable<string> listenKeys)
+        {
+            StartListend(listenKeys);
+            return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// StartListendAsync 的正确拼写别名。
+        /// </summary>
+        public Task StartListenAsync(IEnumerable<string> listenKeys)
+        {
+            return StartListendAsync(listenKeys);
+        }
         ///// <summary>
         ///// 打开事件监听
         ///// </summary>
@@ -44,6 +61,21 @@ namespace Buffalo.MQ
         /// 关闭连接
         /// </summary>
         public abstract void Close();
+
+        /// <summary>
+        /// 异步关闭连接。派生类应在底层组件支持异步时重写此方法。
+        /// </summary>
+        public virtual Task CloseAsync()
+        {
+            Close();
+            return Task.CompletedTask;
+        }
+
+        public virtual async ValueTask DisposeAsync()
+        {
+            await CloseAsync();
+            GC.SuppressFinalize(this);
+        }
 
 
         /// <summary>

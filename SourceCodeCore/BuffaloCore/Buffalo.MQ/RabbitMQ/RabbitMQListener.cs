@@ -84,28 +84,30 @@ namespace Buffalo.MQ.RabbitMQ
         /// </summary>
         public override void StartListend(IEnumerable<string> listenKeys)
         {
-           
-            OpenAsync().Wait();
+            StartListendAsync(listenKeys).GetAwaiter().GetResult();
+        }
+
+        public override async Task StartListendAsync(IEnumerable<string> listenKeys)
+        {
+            await OpenAsync();
             ResetWait();
 
             AsyncEventingBasicConsumer consumer = new AsyncEventingBasicConsumer(_channel);
+            consumer.ReceivedAsync += Consumer_Received;
             if (_config.QueueName != null)
             {
                 foreach (string name in _config.QueueName)
                 {
-                    _channel.QueueDeclareAsync(name, _config.DeliveryMode == 2, false, _config.AutoDelete, null).Wait();
-                    
+                    await _channel.QueueDeclareAsync(name, _config.DeliveryMode == 2, false, _config.AutoDelete, null);
+
                     foreach (string key in listenKeys)
                     {
-
-                        _channel.QueueBindAsync(name, _config.ExchangeName, key, null).Wait();
-
+                        await _channel.QueueBindAsync(name, _config.ExchangeName, key, null);
                     }
 
-                    _channel.BasicConsumeAsync(name, false, consumer).Wait();
+                    await _channel.BasicConsumeAsync(name, false, consumer);
                 }
             }
-            consumer.ReceivedAsync += Consumer_Received;
             SetWait();
         }
         //public override void StartListend(IEnumerable<MQOffestInfo> listenKeys)
@@ -129,15 +131,20 @@ namespace Buffalo.MQ.RabbitMQ
 
         public override void Close()
         {
+            CloseAsync().GetAwaiter().GetResult();
+        }
+
+        public override async Task CloseAsync()
+        {
             if (_channel != null)
             {
                 try
                 {
-                    _channel.CloseAsync().Wait();
+                    await _channel.CloseAsync();
                 }
                 catch (Exception ex)
                 {
-                    OnException(ex).Wait();
+                    await OnException(ex);
                 }
                 _channel = null;
             }
@@ -145,15 +152,15 @@ namespace Buffalo.MQ.RabbitMQ
             {
                 try
                 {
-                    _connection.CloseAsync().Wait();
+                    await _connection.CloseAsync();
                 }
                 catch (Exception ex)
                 {
-                    OnException(ex).Wait();
+                    await OnException(ex);
                 }
                 _connection = null;
             }
-            DisponseWait().Wait();
+            await DisponseWait();
         }
     }
 }
