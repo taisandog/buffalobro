@@ -675,7 +675,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             }
 
 
-            await using (BatchAction ba = OperAsync.StarBatchAction())
+            await using (BatchActionAsync ba = await OperAsync.StarBatchActionAsync())
             {
                 string sql = con.GetSql(true);
                 Dictionary<string, bool> cacheTables = null;

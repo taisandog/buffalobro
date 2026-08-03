@@ -74,7 +74,7 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// 开启事务
         /// </summary>
         /// <returns></returns>
-        public Task<DBTransaction> StartTransactionAsync()
+        public Task<DBTransactionAsync> StartTransactionAsync()
         {
             DataAccessBase<T> baseDal = GetBaseContext();
 
@@ -121,6 +121,15 @@ namespace Buffalo.DB.CommBase.BusinessBases
         public BatchAction StartBatchAction()
         {
             return GetBaseContext().Oper.StarBatchAction();
+        }
+
+        /// <summary>
+        /// 开始异步非事务的批量动作
+        /// </summary>
+        /// <returns></returns>
+        public Task<BatchActionAsync> StartBatchActionAsync()
+        {
+            return GetBaseContext().OperAsync.StarBatchActionAsync();
         }
 
         /// <summary>

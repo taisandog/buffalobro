@@ -208,13 +208,21 @@ namespace Buffalo.DB.DbCommon
         /// <summary>
         /// 开启非事务的批量操作
         /// </summary>
-        /// <param name="isAsync">是否异步调用</param>
         /// <returns></returns>
-        public BatchAction StarBatchAction() 
+        public BatchAction StarBatchAction()
         {
 
             BatchAction action = new BatchAction(this);
             return action;
+        }
+
+        /// <summary>
+        /// 开启异步非事务的批量操作
+        /// </summary>
+        /// <returns></returns>
+        public Task<BatchActionAsync> StarBatchActionAsync()
+        {
+            return BatchActionAsync.CreateAsync(this);
         }
         
         /// <summary>
@@ -1426,14 +1434,14 @@ namespace Buffalo.DB.DbCommon
         /// 开启事务
         /// </summary>
         /// <returns></returns>
-        public async Task<DBTransaction> StartTransactionAsync(IsolationLevel isolationLevel= IsolationLevel.ReadCommitted)
+        public async Task<DBTransactionAsync> StartTransactionAsync(IsolationLevel isolationLevel= IsolationLevel.ReadCommitted)
         {
             bool runnow = await StartTranAsync(isolationLevel);
             if (runnow)
             {
-                return new DBTransaction(this);
+                return new DBTransactionAsync(this);
             }
-            return new DBTransaction(null);
+            return new DBTransactionAsync(null);
         }
         
 

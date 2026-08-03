@@ -628,7 +628,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             Dictionary<string, bool> cacheTables = null;
             string sql = GetSelectSQL(scopeList, list, OperAsync, CurEntityInfo.TableNameAsync, out cacheTables);
 
-            await using (BatchAction ba = OperAsync.StarBatchAction())
+            await using (BatchActionAsync ba = await OperAsync.StarBatchActionAsync())
             {
 
                 DataSet ds = await OperAsync.QueryDataSetAsync(sql, list, CommandType.Text, cacheTables);
@@ -700,7 +700,7 @@ namespace Buffalo.DB.CommBase.DataAccessBases
             Dictionary<string, bool> cacheTables = null;
             string sql = GetSelectSQL(scopeList, list, OperAsync, CurEntityInfo.TableNameAsync, out cacheTables);
 
-            await using (BatchAction ba = OperAsync.StarBatchAction())
+            await using (BatchActionAsync ba = await OperAsync.StarBatchActionAsync())
             {
 
                 List<T> retlist = null;

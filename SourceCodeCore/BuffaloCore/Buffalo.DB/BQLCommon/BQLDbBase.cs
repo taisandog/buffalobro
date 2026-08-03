@@ -239,7 +239,7 @@ namespace Buffalo.DB.BQLCommon
                 await DataAccessCommon.FillEntityChidListAsync(retlist, lstScope);
                 return retlist;
             }
-            await using (BatchAction ba = OperAsync.StarBatchAction())
+            await using (BatchActionAsync ba = await OperAsync.StarBatchActionAsync())
             {
                 retlist = await QueryPageListAsync<E>(BQL, lstScope.PageContent, lstScope.ShowEntity, lstScope.UseCache);
                 await DataAccessCommon.FillEntityChidListAsync(retlist, lstScope);
@@ -339,7 +339,7 @@ namespace Buffalo.DB.BQLCommon
 
             if (lstScope.HasPage)
             {
-                await using (BatchAction ba = OperAsync.StarBatchAction())
+                await using (BatchActionAsync ba = await OperAsync.StarBatchActionAsync())
                 {
                     return await QueryDataSetAsync(bql, null, lstScope.PageContent, lstScope.UseCache);
                 }
@@ -549,7 +549,7 @@ namespace Buffalo.DB.BQLCommon
             using (AbsCondition con = ToConditionAsync(BQL, outPutTables, false, typeof(E), OperAsync))
             {
                 List<E> retlist = null;
-                await using (BatchAction ba = OperAsync.StarBatchAction())
+                await using (BatchActionAsync ba = await OperAsync.StarBatchActionAsync())
                 {
                     DbDataReader reader = null;
                     try
@@ -739,7 +739,7 @@ namespace Buffalo.DB.BQLCommon
             {
                 return await QueryDataSetAsync<E>(BQL, lstScope.UseCache);
             }
-            await using (BatchAction ba = OperAsync.StarBatchAction())
+            await using (BatchActionAsync ba = await OperAsync.StarBatchActionAsync())
             {
                 return await QueryDataSetAsync<E>(BQL, lstScope.PageContent, lstScope.UseCache);
             }
@@ -929,7 +929,7 @@ namespace Buffalo.DB.BQLCommon
                     cacheTables = con.CacheTables;
 
                 }
-                await using (BatchAction ba = OperAsync.StarBatchAction())
+                await using (BatchActionAsync ba = await OperAsync.StarBatchActionAsync())
                 {
                     if (con.DbParamList != null)
                     {
@@ -1003,7 +1003,7 @@ namespace Buffalo.DB.BQLCommon
 
                 }
                 DataSet ds = null;
-                await using (BatchAction ba = OperAsync.StarBatchAction())
+                await using (BatchActionAsync ba = await OperAsync.StarBatchActionAsync())
                 {
                     if (con.DbParamList != null)
                     {

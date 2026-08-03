@@ -62,7 +62,7 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// 开启事务
         /// </summary>
         /// <returns></returns>
-        protected Task<DBTransaction> StartTransactionAsync()
+        protected Task<DBTransactionAsync> StartTransactionAsync()
         {
             return DefaultOperateAsync.StartTransactionAsync();
         }
@@ -72,6 +72,15 @@ namespace Buffalo.DB.CommBase.BusinessBases
         protected BatchAction StartBatchAction()
         {
             return DefaultOperate.StarBatchAction();
+        }
+
+        /// <summary>
+        /// 开始异步非事务的批量动作
+        /// </summary>
+        /// <returns></returns>
+        protected Task<BatchActionAsync> StartBatchActionAsync()
+        {
+            return DefaultOperateAsync.StarBatchActionAsync();
         }
 
         /// <summary>

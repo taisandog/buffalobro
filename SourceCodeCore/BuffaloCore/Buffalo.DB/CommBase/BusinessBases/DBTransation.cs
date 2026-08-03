@@ -1,7 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 using Buffalo.DB.DbCommon;
 
 namespace Buffalo.DB.CommBase.BusinessBases
@@ -9,7 +6,7 @@ namespace Buffalo.DB.CommBase.BusinessBases
     /// <summary>
     /// 数据库的自释放事务类
     /// </summary>
-    public class DBTransaction:IDisposable,IAsyncDisposable
+    public class DBTransaction : IDisposable
     {
         /// <summary>
         /// 自释放事务类
@@ -61,25 +58,6 @@ namespace Buffalo.DB.CommBase.BusinessBases
             return ret;
         }
         /// <summary>
-        /// 提交事务
-        /// </summary>
-        /// <returns></returns>
-        public async Task<bool> CommitAsync()
-        {
-            if (_oper == null)
-            {
-                return false;
-            }
-            if (_isCommit)
-            {
-                return false;
-            }
-            bool ret=await _oper.CommitAsync();
-            _oper = null;
-            _isCommit = true;
-            return ret;
-        }
-        /// <summary>
         /// 回滚事务
         /// </summary>
         /// <returns></returns>
@@ -98,25 +76,6 @@ namespace Buffalo.DB.CommBase.BusinessBases
             _isCommit = true;
             return true;
         }
-        /// <summary>
-        /// 回滚事务
-        /// </summary>
-        /// <returns></returns>
-        public async Task<bool> RollbackAsync()
-        {
-            if (_oper == null)
-            {
-                return false;
-            }
-            if (_isCommit)
-            {
-                return false;
-            }
-            bool ret = await _oper.RoolBackAsync();
-            _oper = null;
-            _isCommit = true;
-            return true;
-        }
         #region IDisposable 成员
 
         /// <summary>
@@ -128,13 +87,7 @@ namespace Buffalo.DB.CommBase.BusinessBases
             GC.SuppressFinalize(this);
         }
 
-        public async ValueTask DisposeAsync()
-        {
-            await RollbackAsync();
-            GC.SuppressFinalize(this);
-        }
-
-        ~DBTransaction() 
+        ~DBTransaction()
         {
             Rollback();
         }

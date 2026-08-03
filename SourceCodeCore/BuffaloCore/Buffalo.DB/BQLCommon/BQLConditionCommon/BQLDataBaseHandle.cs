@@ -126,18 +126,26 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
         /// 开启事务
         /// </summary>
         /// <returns></returns>
-        public static Task<DBTransaction> StartTransactionAsync()
+        public static Task<DBTransactionAsync> StartTransactionAsync()
         {
             return GetDefaultOperateAsync().StartTransactionAsync();
         }
         /// <summary>
         /// 开始非事务的批量动作
         /// </summary>
-        /// <param name="isAsync">是否异步调用</param>
         /// <returns></returns>
         public static BatchAction StartBatchAction()
         {
             return GetDefaultOperate().StarBatchAction();
+        }
+
+        /// <summary>
+        /// 开始异步非事务的批量动作
+        /// </summary>
+        /// <returns></returns>
+        public static Task<BatchActionAsync> StartBatchActionAsync()
+        {
+            return GetDefaultOperateAsync().StarBatchActionAsync();
         }
 
         
