@@ -376,6 +376,11 @@ namespace Buffalo.DB.CacheManager
             return new MemoryCacheLock(key);
         }
 
+        public QueryCacheLockAsync GetCacheLockAsync(string key, DataBaseOperate oper)
+        {
+            return new MemoryCacheLockAsync(key);
+        }
+
         /// <summary>
         /// 获取排序表的操作方式
         /// </summary>

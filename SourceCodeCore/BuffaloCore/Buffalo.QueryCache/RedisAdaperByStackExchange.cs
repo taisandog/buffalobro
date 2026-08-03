@@ -602,6 +602,11 @@ namespace Buffalo.QueryCache
             return new RedisLock(connection.DB, key, _commanfFlags);
         }
 
+        public override QueryCacheLockAsync GetCacheLockAsync(string key, RedisConnection connection)
+        {
+            return new RedisLockAsync(connection.DB, key, _commanfFlags);
+        }
+
         public override ICacheSortedSet GetSortedSet(string key, RedisConnection connection)
         {
             return new RedisSortedSet(connection.DB, key, _commanfFlags, _expiration);

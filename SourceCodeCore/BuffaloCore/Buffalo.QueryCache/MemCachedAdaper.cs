@@ -612,6 +612,11 @@ namespace Buffalo.QueryCache
             return new MemcachedLock(connection.Client, key);
         }
 
+        public override QueryCacheLockAsync GetCacheLockAsync(string key, MemcachedConnection connection)
+        {
+            return new MemcachedLockAsync(connection.Client, key);
+        }
+
         public override ICacheSortedSet GetSortedSet(string key, MemcachedConnection connection)
         {
             throw new NotSupportedException("Memcached不支持SortedSet表");

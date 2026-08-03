@@ -49,6 +49,7 @@ namespace Buffalo.DB.BQLCommon.BQLBaseFunction
         /// <returns></returns>
         public static KeyWordCreateTableItem CreateTable(string tableName) 
         {
+            //KeyWordInfomation info = BQLValueItem.GetKeyInfo();
             KeyWordCreateTableItem item = new KeyWordCreateTableItem(tableName, null);
             return item;
         }

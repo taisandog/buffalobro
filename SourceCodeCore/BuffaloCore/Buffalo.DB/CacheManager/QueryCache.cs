@@ -892,6 +892,16 @@ namespace Buffalo.DB.CacheManager
         }
 
         /// <summary>
+        /// 获取异步锁的操作方式
+        /// </summary>
+        /// <param name="key">要锁的键</param>
+        /// <returns></returns>
+        public QueryCacheLockAsync GetCacheLockAsync(string key)
+        {
+            return _cache.GetCacheLockAsync(key, _db.DefaultOperateAsync);
+        }
+
+        /// <summary>
         /// 获取排序表的操作方式
         /// </summary>
         /// <param name="key"></param>

@@ -536,6 +536,11 @@ namespace Buffalo.QueryCache
             return new MemoryCacheLock(key);
         }
 
+        public QueryCacheLockAsync GetCacheLockAsync(string key, DataBaseOperate oper)
+        {
+            return new MemoryCacheLockAsync(key);
+        }
+
         public ICacheSortedSet GetSortedSet(string key, DataBaseOperate oper)
         {
             object lok = _lockObjects.GetObject(key);

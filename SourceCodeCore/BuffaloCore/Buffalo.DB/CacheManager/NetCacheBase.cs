@@ -1378,6 +1378,38 @@ namespace Buffalo.DB.CacheManager
                 }
             }
         }
+
+        /// <summary>
+        /// 获取异步锁
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="oper">数据库操作上下文</param>
+        /// <returns></returns>
+        public QueryCacheLockAsync GetCacheLockAsync(string key, DataBaseOperate oper)
+        {
+            try
+            {
+                using (T client = CreateClient(true, QueryCacheCommand.CommandLock))
+                {
+                    QueryCacheLockAsync ret = GetCacheLockAsync(key, client);
+                    if (_info.SqlOutputer.HasOutput)
+                    {
+                        OutPutMessage(QueryCacheCommand.CommandLock, "key=" + key, oper);
+                    }
+                    return ret;
+                }
+            }
+            catch (Exception ex)
+            {
+                if (_throwExcertion)
+                {
+                    throw;
+                }
+
+                OutExceptionMessage(ex, oper);
+                return null;
+            }
+        }
         public abstract void ClearAll(T client);
         public abstract Task ClearAllAsync(T client);
         public abstract object GetClient();
@@ -1408,6 +1440,14 @@ namespace Buffalo.DB.CacheManager
         /// <param name="connection"></param>
         /// <returns></returns>
         public abstract QueryCacheLock GetCacheLock(string key, T connection);
+
+        /// <summary>
+        /// 获取异步锁
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="connection">缓存连接</param>
+        /// <returns></returns>
+        public abstract QueryCacheLockAsync GetCacheLockAsync(string key, T connection);
 
 
 

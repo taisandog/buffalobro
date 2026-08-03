@@ -18,8 +18,8 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
     
     public abstract class BQLValueItem:IDisposable
     {
-        private static readonly CallContextSync<KeyWordInfomation> _curKeyWordInfomation = new CallContextSync<KeyWordInfomation>();
-        private static readonly CallContextAsync<KeyWordInfomation> _curKeyWordInfomationAsync = new CallContextAsync<KeyWordInfomation>();
+        //private static readonly CallContextSync<KeyWordInfomation> _curKeyWordInfomation = new CallContextSync<KeyWordInfomation>();
+        //private static readonly CallContextAsync<KeyWordInfomation> _curKeyWordInfomationAsync = new CallContextAsync<KeyWordInfomation>();
         /// <summary>
         /// 通知函数符号另一端的字段的数值类型
         /// </summary>
@@ -531,34 +531,21 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
             return info;
         }
         //private static readonly string KeyWordInfomationKey = "$$Buffalo.KeyWordInfomation";
-        
+
         /// <summary>
         /// 获取默认的Key信息
         /// </summary>
         /// <returns></returns>
         internal static KeyWordInfomation GetKeyInfo()
         {
-            KeyWordInfomation info = _curKeyWordInfomation.Value;
-            if (info == null)
-            {
-                info = NewKeyWordInfomation();
-                info.DBInfo = DataAccessLoader.GetFristDBInfo();
-                _curKeyWordInfomation.Value = info;
-            }
+            KeyWordInfomation info = NewKeyWordInfomation();
+            info.DBInfo = DataAccessLoader.GetFristDBInfo();
+
+
             return info;
         }
 
-        internal static KeyWordInfomation GetKeyInfoAsync()
-        {
-            KeyWordInfomation info = _curKeyWordInfomationAsync.Value;
-            if (info == null)
-            {
-                info = NewKeyWordInfomation();
-                info.DBInfo = DataAccessLoader.GetFristDBInfo();
-                _curKeyWordInfomationAsync.Value = info;
-            }
-            return info;
-        }
+        
         /// <summary>
         /// 获取默认的Key信息
         /// </summary>

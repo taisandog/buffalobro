@@ -148,6 +148,14 @@ namespace Buffalo.DB.CacheManager
         QueryCacheLock GetCacheLock(string key, DataBaseOperate oper);
 
         /// <summary>
+        /// 获取异步锁的操作方式
+        /// </summary>
+        /// <param name="key">要锁的键</param>
+        /// <param name="oper">连接</param>
+        /// <returns></returns>
+        QueryCacheLockAsync GetCacheLockAsync(string key, DataBaseOperate oper);
+
+        /// <summary>
         /// 获取排序表的操作方式
         /// </summary>
         /// <param name="key"></param>
