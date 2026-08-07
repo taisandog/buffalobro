@@ -30,9 +30,16 @@ namespace Buffalo.MQ.MQTTLib
         public bool? NoLocal;
 
         public MqttProtocolVersion ProtocolVersion;
+
+        /// <summary>
+        /// 禁用 MQTTnet 自动协议 ACK，让 ACK 与业务处理结果绑定。
+        /// </summary>
+        public bool ManualAcknowledge = true;
         public MQTTConfig(string connString) : base(connString)
         {
             Options = new MqttClientOptionsBuilder();
+            string autoAcknowledge = _configs.GetDicValue<string, string>("autoAcknowledge");
+            ManualAcknowledge = autoAcknowledge != "1";
             string server = _configs.GetDicValue<string, string>("server");
             if (!string.IsNullOrWhiteSpace(server))
             {

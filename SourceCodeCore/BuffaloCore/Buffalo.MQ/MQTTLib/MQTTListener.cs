@@ -32,6 +32,7 @@ namespace Buffalo.MQ.MQTTLib
         public MQTTListener(MQTTConfig config)
         {
             _config = config;
+            ConfigureRetry(config);
         }
 
 
@@ -88,12 +89,17 @@ namespace Buffalo.MQ.MQTTLib
         {
             try
             {
+                if (_config.ManualAcknowledge)
+                {
+                    arg.AutoAcknowledge = false;
+                }
                 byte[] value = arg.ApplicationMessage.Payload.ToArray();
 
                 string topic = arg.ApplicationMessage.Topic;
                 //string qos = e.ApplicationMessage.QualityOfServiceLevel.ToString();
                 //string retained = e.ApplicationMessage.Retain.ToString();
-                MQTTCallbackMessage message = new MQTTCallbackMessage(topic, value, arg);
+                MQTTCallbackMessage message = new MQTTCallbackMessage(topic, value, arg,
+                    _mqttClient2, _config.RetryOptions.DeadLetterSuffix);
                 await CallBack(message);
                 
 

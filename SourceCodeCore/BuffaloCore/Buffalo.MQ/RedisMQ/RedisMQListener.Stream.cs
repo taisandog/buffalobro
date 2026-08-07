@@ -59,11 +59,6 @@ namespace Buffalo.MQ.RedisMQ
                 {
                     DoNewGroup(db, pkey);
                 }
-                StreamInfo info = db.StreamInfo(pkey);
-                if (_config.LoadNoAck)
-                {
-                    LoadPendingMessages(db, pkey);
-                }
                 LoadMQMessage(db,pkey,timeout);
 
             }
@@ -76,7 +71,13 @@ namespace Buffalo.MQ.RedisMQ
         /// <param name="pkey"></param>
         private void XTrimMaxLength(IDatabase db, string pkey)
         {
-            if (_config.TopicMaxLength <= 0) 
+            if (_config.TopicMaxLength <= 0)
+            {
+                return;
+            }
+            // MAXLEN 会删除仍在 PEL 中的记录；存在未确认消息时不能修剪。
+            if (db.StreamGroupInfo(pkey, _config.CommanfFlags)
+                .Any(group => group.PendingMessageCount > 0))
             {
                 return;
             }
@@ -91,40 +92,110 @@ namespace Buffalo.MQ.RedisMQ
         /// <param name="timeout">等待时间</param>
         private void LoadPendingMessages(IDatabase db, string pkey)
         {
-            List<RedisValue> lstMessageId = null;
+            RedisValue nextStartId = "0-0";
             do
             {
-                lstMessageId = new List<RedisValue>();
-                foreach (var pending in db.StreamPendingMessages(pkey, _config.ConsumerGroupName, _config.StreamPageSize, _config.ConsumerName)) // 获取所有消费者的未确认消息
-                {
-                    lstMessageId.Add(pending.MessageId);
-                }
-                if (lstMessageId.Count <= 0) 
+                StreamAutoClaimResult claimResult = db.StreamAutoClaim(
+                    pkey,
+                    _config.ConsumerGroupName,
+                    _config.ConsumerName,
+                    _config.RetryOptions.AckTimeoutMilliseconds,
+                    nextStartId,
+                    _config.StreamPageSize,
+                    _config.CommanfFlags);
+                if (claimResult.IsNull)
                 {
                     break;
                 }
-                var claimedMessages = db.StreamClaim(pkey, _config.ConsumerGroupName, _config.ConsumerName, 0,
-                    lstMessageId.ToArray());
-
-                foreach (var message in claimedMessages)
+                nextStartId = claimResult.NextStartId;
+                foreach (StreamEntry message in claimResult.ClaimedEntries)
                 {
-
-                    foreach (var field in message.Values)
+                    byte[] body = GetStreamBody(message);
+                    if (body == null)
                     {
-                        if (field.Value.IsNull)
-                        {
-                            CommitEmptyMessageId(db, pkey, message.Id);
-                            continue;
-                        }
-                        RedisCallbackMessage mess = new RedisCallbackMessage(pkey, field.Value,
-                                       db, _config.ConsumerGroupName, message.Id, _config.CommanfFlags);
-                        mess.IsOldMessage= true;
+                        CommitEmptyMessageId(db, pkey, message.Id);
+                        continue;
+                    }
+                    int deliveryCount = GetDeliveryCount(db, pkey, message.Id);
+                    RedisCallbackMessage mess = CreateStreamMessage(
+                        db, pkey, message.Id, body, deliveryCount, true);
+                    ApplyStreamMetadata(mess, message.Values);
+                    if (_config.RetryOptions.DeadLetterEnabled &&
+                        deliveryCount > _config.RetryOptions.MaxDeliveryCount)
+                    {
+                        mess.DeadLetterAsync("未确认消息超过最大投递次数")
+                            .GetAwaiter().GetResult();
+                    }
+                    else
+                    {
                         CallBack(mess).GetAwaiter().GetResult();
                     }
-
                 }
-            }while (lstMessageId.Count>= _config.StreamPageSize);
+            } while (_pollrunning && nextStartId != "0-0");
 
+        }
+
+        private int GetDeliveryCount(IDatabase db, string pkey, RedisValue messageId)
+        {
+            StreamPendingMessageInfo[] pending = db.StreamPendingMessages(
+                pkey, _config.ConsumerGroupName, 1, _config.ConsumerName,
+                messageId, messageId, _config.CommanfFlags);
+            if (pending.Length == 0)
+            {
+                return 1;
+            }
+            return Math.Max(1, pending[0].DeliveryCount);
+        }
+
+        private byte[] GetStreamBody(StreamEntry entry)
+        {
+            RedisValue value = entry[_config.DefaultStreamDataKey];
+            if (!value.IsNull)
+            {
+                return (byte[])value;
+            }
+            foreach (NameValueEntry field in entry.Values)
+            {
+                if (!field.Name.ToString().StartsWith("bufmq.", StringComparison.Ordinal) &&
+                    !field.Value.IsNull)
+                {
+                    return (byte[])field.Value;
+                }
+            }
+            return null;
+        }
+
+        private RedisCallbackMessage CreateStreamMessage(IDatabase db, string topic,
+            RedisValue messageId, byte[] body, int deliveryCount, bool oldMessage)
+        {
+            RedisCallbackMessage message = new RedisCallbackMessage(topic, body, db,
+                _config.ConsumerGroupName, messageId, _config.CommanfFlags,
+                _config.RetryOptions.DeadLetterSuffix, _config.DefaultStreamDataKey,
+                deliveryCount);
+            message.IsOldMessage = oldMessage;
+            message.IsRedelivered = oldMessage || deliveryCount > 1;
+            return message;
+        }
+
+        private static void ApplyStreamMetadata(RedisCallbackMessage message,
+            NameValueEntry[] values)
+        {
+            foreach (NameValueEntry value in values)
+            {
+                string name = value.Name.ToString();
+                if (name == "bufmq.originalTopic")
+                {
+                    message.OriginalTopic = value.Value.ToString();
+                }
+                else if (name == "bufmq.originalMessageId")
+                {
+                    message.OriginalMessageId = value.Value.ToString();
+                }
+                else if (name == "bufmq.failureReason")
+                {
+                    message.DeadLetterReason = value.Value.ToString();
+                }
+            }
         }
         /// <summary>
         /// 加载消息
@@ -135,8 +206,8 @@ namespace Buffalo.MQ.RedisMQ
         private void LoadMQMessage(IDatabase db ,string pkey, int timeout) 
         {
             DateTime lastTrimLen = DateTime.MinValue;
+            DateTime nextPendingScan = DateTime.UtcNow;
             int trimTime = _config.XTrimTimeout;
-            byte[] svalue = null;
             DateTime dtNow = DateTime.Now;
             RedisResult res = null;
             object[] argsArr = new object[] { "GROUP", _config.ConsumerGroupName, _config.ConsumerName, "COUNT", _config.StreamPageSize,
@@ -146,9 +217,17 @@ namespace Buffalo.MQ.RedisMQ
                 try
                 {
                     dtNow= DateTime.Now;
-                    if (dtNow.Subtract(lastTrimLen).TotalMilliseconds> trimTime) 
+                    if (_config.LoadNoAck && DateTime.UtcNow >= nextPendingScan)
+                    {
+                        LoadPendingMessages(db, pkey);
+                        nextPendingScan = DateTime.UtcNow.AddMilliseconds(
+                            _config.RetryOptions.PendingScanIntervalMilliseconds);
+                    }
+                    if (trimTime > 0 &&
+                        dtNow.Subtract(lastTrimLen).TotalMilliseconds > trimTime)
                     {
                         XTrimMaxLength(db, pkey);
+                        lastTrimLen = dtNow;
                     }
                     res = db.Execute("XREADGROUP", argsArr);
                     
@@ -181,25 +260,63 @@ namespace Buffalo.MQ.RedisMQ
                             var fields = (RedisResult[])messageData[1]; // 字段值对
                            
 
-                            for (int i = 0; i < fields.Length; i += 2)
+                            byte[] messageBody = null;
+                            byte[] fallbackBody = null;
+                            string originalTopic = null;
+                            string originalMessageId = null;
+                            string deadLetterReason = null;
+                            for (int i = 0; i + 1 < fields.Length; i += 2)
                             {
                                 RedisResult field = fields[i];
                                 RedisResult value = fields[i + 1];
                                 if (IsResultObjectNull(field) || IsResultObjectNull(value))
                                 {
-                                    CommitEmptyMessageId(db,pkey, messageId);
                                     continue;
                                 }
-                                svalue = (byte[])value;
-                                if (svalue == null)
+                                string fieldName = (string)field;
+                                if (fieldName == "bufmq.originalTopic")
                                 {
-                                    CommitEmptyMessageId(db, pkey, messageId);
+                                    originalTopic = (string)value;
                                     continue;
                                 }
-                                RedisCallbackMessage mess = new RedisCallbackMessage(streamKey, svalue,
-                                    db, _config.ConsumerGroupName, messageId, _config.CommanfFlags);
-                                CallBack(mess).GetAwaiter().GetResult();
+                                if (fieldName == "bufmq.originalMessageId")
+                                {
+                                    originalMessageId = (string)value;
+                                    continue;
+                                }
+                                if (fieldName == "bufmq.failureReason")
+                                {
+                                    deadLetterReason = (string)value;
+                                    continue;
+                                }
+                                byte[] fieldValue = (byte[])value;
+                                if (fieldValue == null)
+                                {
+                                    continue;
+                                }
+                                if (string.Equals(fieldName, _config.DefaultStreamDataKey,
+                                    StringComparison.Ordinal))
+                                {
+                                    messageBody = fieldValue;
+                                }
+                                else if (!fieldName.StartsWith("bufmq.",
+                                    StringComparison.Ordinal) && fallbackBody == null)
+                                {
+                                    fallbackBody = fieldValue;
+                                }
                             }
+                            messageBody ??= fallbackBody;
+                            if (messageBody == null)
+                            {
+                                CommitEmptyMessageId(db, pkey, messageId);
+                                continue;
+                            }
+                            RedisCallbackMessage mess = CreateStreamMessage(db, streamKey,
+                                messageId, messageBody, 1, false);
+                            mess.OriginalTopic = originalTopic;
+                            mess.OriginalMessageId = originalMessageId;
+                            mess.DeadLetterReason = deadLetterReason;
+                            CallBack(mess).GetAwaiter().GetResult();
                         }
                     }
                 }
@@ -222,7 +339,8 @@ namespace Buffalo.MQ.RedisMQ
         private void CommitEmptyMessageId(IDatabase db, string pkey,string messageId) 
         {
             RedisCallbackMessage messEmpty = new RedisCallbackMessage(pkey, EmpeyByte, db, _config.ConsumerGroupName, messageId,
-                                    _config.CommanfFlags);
+                                    _config.CommanfFlags, _config.RetryOptions.DeadLetterSuffix,
+                                    _config.DefaultStreamDataKey);
 
             messEmpty.Commit();
         }
@@ -259,8 +377,8 @@ namespace Buffalo.MQ.RedisMQ
                     CommitEmptyMessageId(db, pkey, entry.Id);
                     continue;
                 }
-                RedisCallbackMessage mess = new RedisCallbackMessage(pkey, svalue, db, _config.ConsumerGroupName, entry.Id,
-                                _config.CommanfFlags);
+                RedisCallbackMessage mess = CreateStreamMessage(db, pkey, entry.Id,
+                    svalue, 1, false);
                 CallBack(mess).GetAwaiter().GetResult();
 
             }

@@ -2,6 +2,7 @@
 using Confluent.Kafka;
 using System;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Threading;
 
@@ -13,7 +14,10 @@ namespace Buffalo.MQ.KafkaMQ
         public KafkaMQListener(KafkaMQConfig config)
         {
             _config = config;
+            ConfigureRetry(config);
         }
+        private readonly ConcurrentDictionary<string, int> _deliveryAttempts =
+            new ConcurrentDictionary<string, int>();
         
 
         private CancellationTokenSource _running =null;
@@ -59,6 +63,7 @@ namespace Buffalo.MQ.KafkaMQ
             CancellationToken token = _running.Token;
 
             using (IConsumer<byte[], byte[]> consumer = builder.Build())
+            using (IProducer<byte[], byte[]> deadLetterProducer = _config.ProducerBuilder.Build())
             {
                 
                 consumer.Subscribe(topics);
@@ -66,24 +71,25 @@ namespace Buffalo.MQ.KafkaMQ
                 //if (topicsOffest != null)
                 //{
                     
-                    foreach (string key in topics)
+                    if (_config.UseConfiguredStartOffset)
                     {
-                        for (int i = 0; i < 50; i++)
+                        foreach (string key in topics)
                         {
-                            try
+                            for (int i = 0; i < 50; i++)
                             {
-                                consumer.Seek(new TopicPartitionOffset(new TopicPartition(key, _config.TopicPartitionIndex), 
-                                    _config.TopicPartitionOffset));
-                                break;
+                                try
+                                {
+                                    consumer.Seek(new TopicPartitionOffset(
+                                        new TopicPartition(key, _config.TopicPartitionIndex),
+                                        _config.TopicPartitionOffset));
+                                    break;
+                                }
+                                catch
+                                {
+                                    Thread.Sleep(300);
+                                }
                             }
-                            catch(Exception ex)
-                            {
-                                Thread.Sleep(300);
-                                continue;
-                            }
-                            
                         }
-
                     }
                 //}
                 
@@ -95,10 +101,14 @@ namespace Buffalo.MQ.KafkaMQ
                         try
                         {
                             ConsumeResult<byte[], byte[]> res = consumer.Consume(token);
+                            string deliveryKey = GetDeliveryKey(res);
+                            int deliveryCount = _deliveryAttempts.AddOrUpdate(
+                                deliveryKey, 1, (_, count) => count + 1);
                             KafkaCallbackMessage mess = new KafkaCallbackMessage(res.Topic,res.Message.Value,
-                                res.Partition, res.Offset, consumer, res);
+                                res.Partition, res.Offset, consumer, res, deadLetterProducer,
+                                _config.RetryOptions.DeadLetterSuffix, deliveryCount,
+                                () => _deliveryAttempts.TryRemove(deliveryKey, out _));
                             CallBack(mess).GetAwaiter().GetResult();
-                            //consumer.Commit(res);
                         }
                         catch (Exception ex)
                         {
@@ -111,6 +121,11 @@ namespace Buffalo.MQ.KafkaMQ
                     consumer.Close();
                 }
             }
+        }
+
+        private static string GetDeliveryKey(ConsumeResult<byte[], byte[]> result)
+        {
+            return result.Topic + ":" + result.Partition.Value + ":" + result.Offset.Value;
         }
        
         

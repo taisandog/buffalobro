@@ -186,7 +186,13 @@ namespace Buffalo.MQ.RedisMQ
 
             ConsumerGroupName = hs.GetDicValue<string, string>("consumerGroupName");
 
-            LoadNoAck = hs.GetDicValue<string, string>("loadNoAck")=="1";
+            StreamPageSize = Math.Max(1,
+                hs.GetDicValue<string, string>("streamPageSize").ConvertTo<int>(10));
+            XTrimTimeout = Math.Max(0,
+                hs.GetDicValue<string, string>("xTrimInterval").ConvertTo<int>(30 * 60 * 1000));
+
+            string loadNoAck = hs.GetDicValue<string, string>("loadNoAck");
+            LoadNoAck = string.IsNullOrWhiteSpace(loadNoAck) || loadNoAck == "1";
 
             TopicMaxLength = hs.GetDicValue<string, string>("topicMaxLength").ConvertTo<int>(1024);//话题最大长度,0则为无限制
             if (Mode == RedisMQMessageMode.Stream)

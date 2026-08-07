@@ -19,8 +19,12 @@ namespace Buffalo.MQ
         public MQConfigBase(string connectString)
         {
             _configs = ConnStringFilter.GetConnectInfo(connectString);
-            
+            RetryOptions = MQRetryOptions.FromConfig(_configs);
         }
+        /// <summary>
+        /// 消费确认、重试及死信配置。
+        /// </summary>
+        public MQRetryOptions RetryOptions { get; }
         protected Dictionary<string, string> _configs;
         /// <summary>
         /// 配置

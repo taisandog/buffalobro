@@ -33,6 +33,8 @@ namespace Buffalo.MQ.KafkaMQ
         /// 话题分区
         /// </summary>
         public int TopicPartitionIndex = 0;
+
+        public bool UseConfiguredStartOffset { get; private set; }
         /// <summary>
         /// 生产者构造器
         /// </summary>
@@ -142,7 +144,19 @@ namespace Buffalo.MQ.KafkaMQ
             {
                 this.KConsumerConfig.GroupId = CommonMethods.GuidToString(Guid.NewGuid());
             }
-            this.KConsumerConfig.EnableAutoCommit = hs.GetDicValue<string, string>("autoCommit") == "1";
+            bool autoCommit = hs.GetDicValue<string, string>("autoCommit") == "1";
+            // 开启重试时必须由处理结果决定 offset，不能后台自动提交。
+            this.KConsumerConfig.EnableAutoCommit = RetryOptions.RetryEnabled ? false : autoCommit;
+            this.KConsumerConfig.EnableAutoOffsetStore = !RetryOptions.RetryEnabled && autoCommit;
+
+            string startOffset = hs.GetDicValue<string, string>("startOffset");
+            if (!string.IsNullOrWhiteSpace(startOffset))
+            {
+                TopicPartitionOffset = startOffset.ConvertTo<int>(0);
+                TopicPartitionIndex = hs.GetDicValue<string, string>("partitionIndex")
+                    .ConvertTo<int>(0);
+                UseConfiguredStartOffset = true;
+            }
 
 
             string value = hs.GetDicValue<string, string>("interval");

@@ -60,7 +60,7 @@ namespace Buffalo.MQ.RedisMQ
         public RedisMQListener(RedisMQConfig config)
         {
             _config = config;
-
+            ConfigureRetry(config);
         }
 
 
@@ -124,8 +124,8 @@ namespace Buffalo.MQ.RedisMQ
                     }
                     else
                     {
-                        RedisCallbackMessage message =
-                            new RedisCallbackMessage(key, (byte[])item.Value);
+                        RedisCallbackMessage message = CreateSubscriberMessage(
+                            key, (byte[])item.Value);
                         await CallBack(message);
                     }
                 }
@@ -210,7 +210,8 @@ namespace Buffalo.MQ.RedisMQ
                             break;
                         }
                         svalue = tmpval;
-                        RedisCallbackMessage mess = new RedisCallbackMessage(skey, svalue);
+                        RedisCallbackMessage mess = CreateListMessage(
+                            skey, pkey, svalue, db);
                         await CallBack(mess);
                         count++;
                     }
@@ -316,7 +317,8 @@ namespace Buffalo.MQ.RedisMQ
 
                         svalue = tmpval;
 
-                        RedisCallbackMessage mess = new RedisCallbackMessage(listenKey, svalue);
+                        RedisCallbackMessage mess = CreateListMessage(
+                            listenKey, pkey, svalue, db);
                         CallBack(mess).GetAwaiter().GetResult();
 
                     }
@@ -348,6 +350,47 @@ namespace Buffalo.MQ.RedisMQ
         public override void StartListend(IEnumerable<string> listenKeys)
         {
             StartListendAsync(listenKeys).GetAwaiter().GetResult();
+        }
+
+        private RedisCallbackMessage CreateListMessage(string topic, string queueKey,
+            byte[] body, IDatabase db)
+        {
+            return new RedisCallbackMessage(topic, body,
+                retryHandler: async (reason, delay) =>
+                {
+                    if (delay.GetValueOrDefault() > TimeSpan.Zero)
+                    {
+                        await Task.Delay(delay.Value);
+                    }
+                    await db.ListRightPushAsync(queueKey, body, flags: _config.CommanfFlags);
+                },
+                deadLetterHandler: async reason =>
+                {
+                    string deadLetterQueue = _config.GetDefaultQueueKey(
+                        _config.RetryOptions.GetDeadLetterTopic(topic));
+                    await db.ListLeftPushAsync(deadLetterQueue, body,
+                        flags: _config.CommanfFlags);
+                });
+        }
+
+        private RedisCallbackMessage CreateSubscriberMessage(string topic, byte[] body)
+        {
+            return new RedisCallbackMessage(topic, body,
+                retryHandler: async (reason, delay) =>
+                {
+                    if (delay.GetValueOrDefault() > TimeSpan.Zero)
+                    {
+                        await Task.Delay(delay.Value);
+                    }
+                    await _subscriber.PublishAsync(RedisChannel.Literal(topic), body,
+                        _config.CommanfFlags);
+                },
+                deadLetterHandler: async reason =>
+                {
+                    await _subscriber.PublishAsync(
+                        RedisChannel.Literal(_config.RetryOptions.GetDeadLetterTopic(topic)),
+                        body, _config.CommanfFlags);
+                });
         }
 
         public override async Task StartListendAsync(IEnumerable<string> listenKeys)

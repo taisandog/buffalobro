@@ -33,6 +33,8 @@ namespace Buffalo.MQ.RabbitMQ
         /// </summary>
         public bool AutoDelete;
 
+        public ushort PrefetchCount = 1;
+
        
 
         public RabbitMQConfig(string connString) : base(connString)
@@ -69,6 +71,12 @@ namespace Buffalo.MQ.RabbitMQ
             }
             ExchangeName = _configs.GetDicValue<string, string>("exchangeName");
             AutoDelete = _configs.GetDicValue<string, string>("autoDelete") == "1";
+            PrefetchCount = _configs.GetDicValue<string, string>("prefetchCount")
+                .ConvertTo<ushort>(1);
+            if (PrefetchCount == 0)
+            {
+                PrefetchCount = 1;
+            }
             string queueName = _configs.GetDicValue<string, string>("queueName");//队列名，用|隔开,只有Fanout模式可用
             if (!string.IsNullOrWhiteSpace(queueName))
             {
