@@ -32,7 +32,7 @@ namespace AddInSetup
                 {
                     frm.labHelp.Visible = true;
                     frm.labHelp.Text = selectVer.HelpText;
-                    frm._docLink = Path.Combine(ConfigLoader.BasePath, selectVer.HelpDoc);
+                    frm._docLink = ConfigLoader.GetBaseFile(selectVer.HelpDoc);
                 }
                 else
                 {

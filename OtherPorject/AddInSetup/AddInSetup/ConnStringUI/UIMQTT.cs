@@ -22,6 +22,7 @@ namespace AddInSetup.ConnStringUI
         public UIMQTT()
         {
             InitializeComponent();
+            InitMQReliabilitySettings(MQBackend.MQTT);
         }
 
         private static string MQType = "mqttmq";
@@ -155,7 +156,7 @@ namespace AddInSetup.ConnStringUI
 
         protected override void OnHelp()
         {
-            Process.Start(BasePath + "Buffalo.MQ.docx");
+            OpenDocument("Buffalo.MQ.docx");
         }
         protected override void OnTest()
         {
@@ -377,6 +378,7 @@ namespace AddInSetup.ConnStringUI
                 sbStr.Append(";");
             }
 
+            FillMQReliabilityInfo(sbStr);
             return sbStr.ToString();
         }
 

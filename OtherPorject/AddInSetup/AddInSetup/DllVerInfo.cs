@@ -43,7 +43,7 @@ namespace AddInSetup
         {
             get 
             {
-                return System.IO.Path.Combine(ConfigLoader.BasePath , _path);
+                return ConfigLoader.GetBaseFile(_path);
             }
         }
         /// <summary>

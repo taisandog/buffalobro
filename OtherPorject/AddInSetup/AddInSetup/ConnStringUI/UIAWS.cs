@@ -22,7 +22,8 @@ namespace AddInSetup.ConnStringUI
         }
         protected override void OnHelp()
         {
-            Process.Start(BasePath + "aws.docx");
+            
+            OpenDocument("aws.docx");
         }
         protected override void OnTest()
         {

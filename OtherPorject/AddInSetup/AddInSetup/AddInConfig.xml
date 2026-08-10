@@ -13,10 +13,10 @@
 		<AddIn file="AddIns\vs2026\DBTools.vsix" version="16.0" addin="Visual Studio 2026" isvsix="1"></AddIn>
 	</AddIns>
 	<Docs>
-		<dic title="Buffalo.DB文档" path="\doc\Buffalo.DB.docx"></dic>
-		<dic title="Buffalo.Cache 文档" path="\doc\Buffalo.Cache.docx"></dic>
-		<dic title="Buffalo.Storage文档" path="\doc\Buffalo.Storage.docx"></dic>
-		<dic title="Buffalo.MongoDB文档" path="\doc\BuffaloMongo.docx"></dic>
+		<dic title="Buffalo.DB文档" path="Buffalo.DB.docx"></dic>
+		<dic title="Buffalo.Cache 文档" path="Buffalo.Cache.docx"></dic>
+		<dic title="Buffalo.Storage文档" path="Buffalo.Storage.docx"></dic>
+		<dic title="Buffalo.MongoDB文档" path="BuffaloMongo.docx"></dic>
 
 	</Docs>
 	<DllVer>

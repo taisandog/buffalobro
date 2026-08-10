@@ -25,13 +25,14 @@ namespace AddInSetup.ConnStringUI
         {
             InitializeComponent();
             ShowProxy = false;
+            InitMQReliabilitySettings(MQBackend.Redis);
             BindFlags();
             BindMessageMode();
             nupXTrimMaxLength.Maximum = int.MaxValue;
         }
         protected override void OnHelp()
         {
-            Process.Start(BasePath + "Buffalo.MQ.docx");
+            OpenDocument("Buffalo.MQ.docx");
         }
         protected override void OnTest()
         {
@@ -192,6 +193,8 @@ namespace AddInSetup.ConnStringUI
 
             sbStr.Append("database=");
             sbStr.Append(((int)txtDatabase.Value).ToString());
+            sbStr.Append(";");
+            FillMQReliabilityInfo(sbStr);
             return sbStr.ToString();
         }
 

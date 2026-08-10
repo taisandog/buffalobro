@@ -21,10 +21,11 @@ namespace AddInSetup.ConnStringUI
         {
             InitializeComponent();
             ShowProxy = false;
+            InitMQReliabilitySettings(MQBackend.RabbitMQ);
         }
         protected override void OnHelp()
         {
-            Process.Start(BasePath + "Buffalo.MQ.docx");
+            OpenDocument("Buffalo.MQ.docx");
         }
         protected override void OnTest()
         {
@@ -131,6 +132,7 @@ namespace AddInSetup.ConnStringUI
             sbStr.Append(";");
 
 
+            FillMQReliabilityInfo(sbStr);
             return sbStr.ToString();
         }
 

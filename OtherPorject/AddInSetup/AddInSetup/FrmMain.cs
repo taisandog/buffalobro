@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Threading;
 using Buffalo.Kernel;
 using System.IO;
+using AddInSetup.ConnStringUI;
 
 namespace AddInSetup
 {
@@ -275,8 +276,8 @@ namespace AddInSetup
             {
                 return;
             }
-            string path = Path.Combine(ConfigLoader.BasePath , (item.Tag as string));
-            Process.Start(path);
+            string fileName = (item.Tag as string);
+            UIConnBase.OpenDocument(fileName);
         }
 
         private void LoadDocItem()

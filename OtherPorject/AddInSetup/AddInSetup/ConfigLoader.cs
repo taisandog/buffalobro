@@ -5,6 +5,7 @@ using System.IO;
 using System.Xml;
 using System.Windows.Forms;
 using System.Diagnostics;
+using Buffalo.Kernel;
 
 namespace AddInSetup
 {
@@ -21,8 +22,18 @@ namespace AddInSetup
         /// <summary>
         /// 基路径
         /// </summary>
-        public static readonly string BasePath = AppDomain.CurrentDomain.BaseDirectory;
-        
+        protected static readonly string AppBasePath = CommonMethods.GetBaseRoot();
+        /// <summary>
+        /// 获取基础路径文件
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        public static string GetBaseFile(string fileName)
+        {
+            fileName = fileName.TrimStart('\\');
+            fileName = fileName.TrimStart('/');
+            return Path.Combine(AppBasePath, fileName);
+        }
 
         private List<AddInInfo> _lstAddInInfos;
         /// <summary>
@@ -97,7 +108,7 @@ namespace AddInSetup
         /// </summary>
         public void LoadConfig()
         {
-            string infoFile = Path.Combine(ConfigLoader.BasePath ,"AddInConfig.xml");
+            string infoFile = ConfigLoader.GetBaseFile("AddInConfig.xml");
             if (!File.Exists(infoFile))
             {
                 return;

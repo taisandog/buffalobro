@@ -21,7 +21,7 @@ namespace AddInSetup.ConnStringUI
         public UIKafkaMQ()
         {
             InitializeComponent();
-           
+            InitMQReliabilitySettings(MQBackend.Kafka);
 
         }
         protected override void OnLoad(EventArgs e)
@@ -74,7 +74,7 @@ namespace AddInSetup.ConnStringUI
         }
         protected override void OnHelp()
         {
-            Process.Start(BasePath + "Buffalo.MQ.docx");
+            OpenDocument("Buffalo.MQ.docx");
         }
         protected override void OnTest()
         {
@@ -220,6 +220,7 @@ namespace AddInSetup.ConnStringUI
             }
 
             
+            FillMQReliabilityInfo(sbStr);
             return sbStr.ToString();
         }
 

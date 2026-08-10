@@ -21,7 +21,7 @@ namespace AddInSetup.ConnStringUI
         
         protected override void OnHelp()
         {
-            Process.Start(BasePath + "OSS.docx");
+            OpenDocument("OSS.docx");
         }
         protected override void OnTest()
         {

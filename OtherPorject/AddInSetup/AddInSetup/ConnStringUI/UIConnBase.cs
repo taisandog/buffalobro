@@ -7,16 +7,38 @@ using System.Text;
 using System.Windows.Forms;
 using Buffalo.Kernel;
 using System.Web;
+using System.IO;
+using System.Diagnostics;
 
 namespace AddInSetup.ConnStringUI
 {
     public partial class UIConnBase : UserControl
     {
+        private MQReliabilitySettings _mqReliabilitySettings;
+
         public UIConnBase()
         {
             InitializeComponent();
         }
-        protected static string BasePath = CommonMethods.GetBaseRoot() + "\\doc\\";
+        protected static string DocumtntPath = Path.Combine(CommonMethods.GetBaseRoot(), "doc");
+
+        protected static string GetDocumtntPath(string fileName) 
+        {
+            return Path.Combine(DocumtntPath, fileName);
+        }
+
+        /// <summary>
+        /// 使用 Windows 默认关联程序打开帮助文档。
+        /// </summary>
+        public static void OpenDocument(string fileName)
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = GetDocumtntPath(fileName),
+                UseShellExecute = true
+            });
+        }
+
         private void gpOutput_SizeChanged(object sender, EventArgs e)
         {
             if (gpOutput != null && gpOutput.Width > 10)
@@ -24,6 +46,8 @@ namespace AddInSetup.ConnStringUI
                 scOut.SplitterDistance = gpOutput.Width / 2;
             }
         }
+
+
         /// <summary>
         /// 填充代理信息
         /// </summary>
@@ -51,6 +75,41 @@ namespace AddInSetup.ConnStringUI
             sbStr.Append("ProxyPass=");
             sbStr.Append(HttpUtility.UrlEncode(txtProxyPass.Text));
             sbStr.Append(";");
+        }
+
+        /// <summary>
+        /// 初始化 MQ 可靠消费设置入口。
+        /// </summary>
+        protected void InitMQReliabilitySettings(MQBackend backend)
+        {
+            _mqReliabilitySettings = new MQReliabilitySettings(backend);
+            Button button = new Button
+            {
+                Text = "可靠消费设置",
+                Name = "btnMQReliabilitySettings",
+                Location = new Point(347, 8),
+                Size = new Size(145, 39),
+                Anchor = AnchorStyles.Left | AnchorStyles.Bottom,
+                UseVisualStyleBackColor = true
+            };
+            button.Click += (_, __) =>
+            {
+                using (MQReliabilitySettingsForm form =
+                    new MQReliabilitySettingsForm(_mqReliabilitySettings))
+                {
+                    form.ShowDialog(this);
+                }
+            };
+            panel2.Controls.Add(button);
+            button.BringToFront();
+        }
+
+        /// <summary>
+        /// 输出 MQ 可靠消费配置。
+        /// </summary>
+        protected void FillMQReliabilityInfo(StringBuilder sbStr)
+        {
+            _mqReliabilitySettings?.AppendTo(sbStr);
         }
         /// <summary>
         /// 显示帮助按钮

@@ -22,7 +22,7 @@ namespace AddInSetup.ConnStringUI
 
         protected override void OnHelp()
         {
-            Process.Start(BasePath + "cos.docx");
+            OpenDocument("cos.docx");
         }
         protected override void OnTest()
         {
