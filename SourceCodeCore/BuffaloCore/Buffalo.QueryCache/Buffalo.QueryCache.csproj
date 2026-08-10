@@ -6,7 +6,7 @@
     <PackageProjectUrl>https://github.com/taisandog</PackageProjectUrl>
     <Description>Buffalo的缓存支持(Redis、memcached)</Description>
     <Product>Buffalo.QueryCache for .Net 8</Product>
-    <Version>2.0.1</Version>
+    <Version>2.0.2</Version>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
