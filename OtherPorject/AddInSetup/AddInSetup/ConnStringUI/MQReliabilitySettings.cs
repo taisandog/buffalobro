@@ -41,7 +41,9 @@ namespace AddInSetup.ConnStringUI
         public int PartitionIndex { get; set; }
         public bool AutoAcknowledge { get; set; }
         public int StreamPageSize { get; set; } = 10;
-        public int XTrimInterval { get; set; } = 30 * 60 * 1000;
+        public string CleanupMode { get; set; } = "none";
+        public long MessageRetention { get; set; }
+        public int CleanupInterval { get; set; } = 30 * 60 * 1000;
 
         public void AppendTo(StringBuilder builder)
         {
@@ -72,7 +74,9 @@ namespace AddInSetup.ConnStringUI
                     Append(builder, "ackTimeout", AckTimeout);
                     Append(builder, "pendingScanInterval", PendingScanInterval);
                     Append(builder, "streamPageSize", StreamPageSize);
-                    Append(builder, "xTrimInterval", XTrimInterval);
+                    Append(builder, "cleanupMode", CleanupMode);
+                    Append(builder, "messageRetention", MessageRetention);
+                    Append(builder, "cleanupInterval", CleanupInterval);
                     break;
             }
         }
@@ -110,19 +114,22 @@ namespace AddInSetup.ConnStringUI
         private NumericUpDown _partitionIndex;
         private CheckBox _autoAcknowledge;
         private NumericUpDown _streamPageSize;
-        private NumericUpDown _xTrimInterval;
+        private ComboBox _cleanupMode;
+        private NumericUpDown _messageRetention;
+        private NumericUpDown _cleanupInterval;
+        private readonly ToolTip _toolTip = new ToolTip();
 
         public MQReliabilitySettingsForm(MQReliabilitySettings settings)
         {
             _settings = settings;
-            Text = GetBackendName(settings.Backend) + " - 可靠消费设置";
+            Text = GetBackendName(settings.Backend) + " - 可靠消费与消息保留设置";
             Font = new Font("微软雅黑", 10F);
             StartPosition = FormStartPosition.CenterParent;
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
             MinimizeBox = false;
             ShowInTaskbar = false;
-            ClientSize = new Size(620, 635);
+            ClientSize = new Size(620, 660);
 
             FlowLayoutPanel content = new FlowLayoutPanel
             {
@@ -137,8 +144,8 @@ namespace AddInSetup.ConnStringUI
             Label note = new Label
             {
                 AutoSize = false,
-                Size = new Size(570, 42),
-                Text = "失败消息会按重试上限重新投递；超过上限后写入死信。默认保持手动 ACK。",
+                Size = new Size(570, settings.Backend == MQBackend.Redis ? 64 : 42),
+                Text = GetIntroText(settings.Backend),
                 ForeColor = Color.DimGray
             };
             content.Controls.Add(note);
@@ -149,6 +156,15 @@ namespace AddInSetup.ConnStringUI
             content.Controls.Add(CreateButtonPanel());
 
             LoadValues();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _toolTip.Dispose();
+            }
+            base.Dispose(disposing);
         }
 
         private GroupBox CreateCommonGroup()
@@ -194,16 +210,35 @@ namespace AddInSetup.ConnStringUI
                     height = 70;
                     break;
                 default:
-                    table = CreateTable(4);
+                    table = CreateTable(6);
                     _ackTimeout = CreateNumber(0, int.MaxValue);
                     _pendingScanInterval = CreateNumber(0, int.MaxValue);
                     _streamPageSize = CreateNumber(1, int.MaxValue);
-                    _xTrimInterval = CreateNumber(0, int.MaxValue);
+                    _cleanupMode = CreateComboBox();
+                    _cleanupMode.Items.AddRange(new object[]
+                    {
+                        "none（不自动清理）",
+                        "maxLength（按最大记录数）",
+                        "maxAge（按消息年龄）",
+                        "deleteOnAck（单消费组 ACK 后删除）"
+                    });
+                    _cleanupMode.SelectedIndexChanged += (_, __) => UpdateRedisCleanupControls();
+                    _messageRetention = CreateNumber(0, long.MaxValue);
+                    _cleanupInterval = CreateNumber(0, int.MaxValue);
+                    _toolTip.SetToolTip(_cleanupMode,
+                        "none：不自动清理；maxLength：按主界面的最大记录数清理；" +
+                        "maxAge：按消息保留时间清理；deleteOnAck：仅单消费者组可用。");
+                    _toolTip.SetToolTip(_messageRetention,
+                        "仅 maxAge 模式生效，必须大于 0。示例：7 天为 604800000 毫秒。");
+                    _toolTip.SetToolTip(_cleanupInterval,
+                        "仅 maxLength/maxAge 模式生效；0 表示不执行后台定时清理，仍可通过保留策略接口手动执行。");
                     AddRow(table, 0, "Pending 认领超时（毫秒）", _ackTimeout);
                     AddRow(table, 1, "Pending 扫描间隔（毫秒）", _pendingScanInterval);
                     AddRow(table, 2, "Stream 每批读取数", _streamPageSize);
-                    AddRow(table, 3, "XTrim 间隔（毫秒）", _xTrimInterval);
-                    height = 178;
+                    AddRow(table, 3, "清理模式", _cleanupMode);
+                    AddRow(table, 4, "消息保留时间（毫秒）", _messageRetention);
+                    AddRow(table, 5, "清理检查间隔（毫秒）", _cleanupInterval);
+                    height = 250;
                     break;
             }
             return CreateGroup(GetBackendName(backend) + " 专用设置", table, height);
@@ -227,7 +262,10 @@ namespace AddInSetup.ConnStringUI
             };
             ok.Click += (_, __) =>
             {
-                SaveValues();
+                if (!TrySaveValues())
+                {
+                    return;
+                }
                 DialogResult = DialogResult.OK;
                 Close();
             };
@@ -267,13 +305,32 @@ namespace AddInSetup.ConnStringUI
                     _ackTimeout.Value = _settings.AckTimeout;
                     _pendingScanInterval.Value = _settings.PendingScanInterval;
                     _streamPageSize.Value = _settings.StreamPageSize;
-                    _xTrimInterval.Value = _settings.XTrimInterval;
+                    string[] cleanupModes = { "none", "maxLength", "maxAge", "deleteOnAck" };
+                    int cleanupModeIndex = Array.FindIndex(cleanupModes,
+                        mode => string.Equals(mode, _settings.CleanupMode,
+                            StringComparison.OrdinalIgnoreCase));
+                    _cleanupMode.SelectedIndex = cleanupModeIndex < 0 ? 0 : cleanupModeIndex;
+                    _messageRetention.Value = _settings.MessageRetention;
+                    _cleanupInterval.Value = _settings.CleanupInterval;
+                    UpdateRedisCleanupControls();
                     break;
             }
         }
 
-        private void SaveValues()
+        private bool TrySaveValues()
         {
+            if (_settings.Backend == MQBackend.Redis &&
+                _cleanupMode.SelectedIndex == 2 && _messageRetention.Value <= 0)
+            {
+                MessageBox.Show(this,
+                    "maxAge 模式必须设置大于 0 的消息保留时间。",
+                    "Redis Stream 清理设置",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                _messageRetention.Focus();
+                return false;
+            }
+
             _settings.AckMode = _ackMode.SelectedIndex == 1 ? "onSuccess" : "manual";
             _settings.RetryEnabled = _retryEnabled.Checked;
             _settings.RetryOnException = _retryOnException.Checked;
@@ -299,9 +356,14 @@ namespace AddInSetup.ConnStringUI
                     _settings.AckTimeout = Decimal.ToInt32(_ackTimeout.Value);
                     _settings.PendingScanInterval = Decimal.ToInt32(_pendingScanInterval.Value);
                     _settings.StreamPageSize = Decimal.ToInt32(_streamPageSize.Value);
-                    _settings.XTrimInterval = Decimal.ToInt32(_xTrimInterval.Value);
+                    string[] cleanupModes = { "none", "maxLength", "maxAge", "deleteOnAck" };
+                    _settings.CleanupMode = cleanupModes[Math.Max(0,
+                        _cleanupMode.SelectedIndex)];
+                    _settings.MessageRetention = Decimal.ToInt64(_messageRetention.Value);
+                    _settings.CleanupInterval = Decimal.ToInt32(_cleanupInterval.Value);
                     break;
             }
+            return true;
         }
 
         private void SetKafkaOffsetEnabled()
@@ -309,6 +371,29 @@ namespace AddInSetup.ConnStringUI
             bool enabled = _useStartOffset.Checked;
             _startOffset.Enabled = enabled;
             _partitionIndex.Enabled = enabled;
+        }
+
+        private void UpdateRedisCleanupControls()
+        {
+            if (_cleanupMode == null)
+            {
+                return;
+            }
+
+            bool periodicCleanup = _cleanupMode.SelectedIndex == 1 ||
+                _cleanupMode.SelectedIndex == 2;
+            _messageRetention.Enabled = _cleanupMode.SelectedIndex == 2;
+            _cleanupInterval.Enabled = periodicCleanup;
+        }
+
+        private static string GetIntroText(MQBackend backend)
+        {
+            if (backend == MQBackend.Redis)
+            {
+                return "失败消息会按重试上限重新投递，超过上限后写入死信。Redis Stream 默认不自动清理；" +
+                    "maxLength 使用主界面的“最大记录”，deleteOnAck 仅允许单消费者组。";
+            }
+            return "失败消息会按重试上限重新投递；超过上限后写入死信。默认保持手动 ACK。";
         }
 
         private static GroupBox CreateGroup(string text, Control content, int height)

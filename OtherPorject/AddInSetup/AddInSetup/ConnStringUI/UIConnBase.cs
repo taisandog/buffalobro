@@ -85,10 +85,11 @@ namespace AddInSetup.ConnStringUI
             _mqReliabilitySettings = new MQReliabilitySettings(backend);
             Button button = new Button
             {
-                Text = "可靠消费设置",
+                Text = "可靠消费与保留设置",
                 Name = "btnMQReliabilitySettings",
                 Location = new Point(347, 8),
                 Size = new Size(145, 39),
+                Font = new Font("微软雅黑", 10F),
                 Anchor = AnchorStyles.Left | AnchorStyles.Bottom,
                 UseVisualStyleBackColor = true
             };

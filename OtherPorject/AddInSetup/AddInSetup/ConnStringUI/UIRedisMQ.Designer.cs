@@ -353,7 +353,7 @@
             nupXTrimMaxLength.Name = "nupXTrimMaxLength";
             nupXTrimMaxLength.Size = new System.Drawing.Size(120, 29);
             nupXTrimMaxLength.TabIndex = 94;
-            nupXTrimMaxLength.Value = new decimal(new int[] { 1024, 0, 0, 0 });
+            nupXTrimMaxLength.Value = new decimal(new int[] { 0, 0, 0, 0 });
             // 
             // chkNoAck
             // 

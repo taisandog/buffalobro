@@ -224,7 +224,10 @@ namespace AddInSetup.ConnStringUI
 
         private void btnXTrimMaxLengthRemarl_Click(object sender, EventArgs e)
         {
-            string text = "自动修剪话题的最大记录数\r\n设置为0则不自动修剪\r\n如果不设置可能会一直耗尽内存";
+            string text = "仅在“可靠消费与保留设置”中选择 maxLength 时生效。\r\n" +
+                "设置为0表示不按长度修剪。\r\n" +
+                "修剪前会确认所有消费组没有 Pending 且 Lag 为0，避免删除离线消费组尚未读取的数据。\r\n" +
+                "如需单消费组 ACK 后立即删除，请在“可靠消费与保留设置”中选择 deleteOnAck。";
             ShowRemark(text, "最大记录");
         
         }

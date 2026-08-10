@@ -41,7 +41,7 @@
     <PackageReference Include="Buffalo.ArgCommon" Version="1.3.5" />
     <PackageReference Include="Buffalo.DB" Version="2.0.3" />
     <PackageReference Include="Buffalo.Kernel" Version="2.0.0" />
-    <PackageReference Include="Buffalo.MQ" Version="2.1.0" />
+    <PackageReference Include="Buffalo.MQ" Version="2.2.0" />
     <PackageReference Include="Buffalo.QueryCache" Version="2.0.2" />
     <PackageReference Include="Buffalo.Storage" Version="2.0.1" />
     <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="10.0.10" />
