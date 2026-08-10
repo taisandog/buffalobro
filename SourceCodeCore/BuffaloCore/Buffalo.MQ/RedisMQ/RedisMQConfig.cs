@@ -101,7 +101,7 @@ namespace Buffalo.MQ.RedisMQ
         /// <summary>
         /// 话题内容的最大长度
         /// </summary>
-        public int TopicMaxLength = 1024;
+        public int TopicMaxLength = 0;
         /// <summary>
         /// 启动时候是否加载未ack的旧消息
         /// </summary>
@@ -110,7 +110,13 @@ namespace Buffalo.MQ.RedisMQ
         /// <summary>
         /// 修剪Stream记录的时间间隔(0则为不修剪)
         /// </summary>
-        public int XTrimTimeout = 30*60 * 1000 ;
+        public int XTrimTimeout = 0;
+
+        /// <summary>
+        /// Stream 保留策略。默认不自动清理，避免删除离线消费组尚未读取的数据。
+        /// </summary>
+        public MQRetentionPolicy RetentionPolicy { get; internal set; } =
+            new MQRetentionPolicy();
         /// <summary>
         /// 使用数据库
         /// </summary>
@@ -188,13 +194,47 @@ namespace Buffalo.MQ.RedisMQ
 
             StreamPageSize = Math.Max(1,
                 hs.GetDicValue<string, string>("streamPageSize").ConvertTo<int>(10));
+
+            string topicMaxLength = hs.GetDicValue<string, string>("topicMaxLength");
+            TopicMaxLength = Math.Max(0, topicMaxLength.ConvertTo<int>(0));
+            string cleanupInterval = hs.GetDicValue<string, string>("cleanupInterval");
+            if (string.IsNullOrWhiteSpace(cleanupInterval))
+            {
+                cleanupInterval = hs.GetDicValue<string, string>("xTrimInterval");
+            }
             XTrimTimeout = Math.Max(0,
-                hs.GetDicValue<string, string>("xTrimInterval").ConvertTo<int>(30 * 60 * 1000));
+                cleanupInterval.ConvertTo<int>(30 * 60 * 1000));
+            long messageRetention = Math.Max(0,
+                hs.GetDicValue<string, string>("messageRetention").ConvertTo<long>(0));
+
+            MQCleanupMode cleanupMode = MQCleanupMode.None;
+            string cleanupModeValue = hs.GetDicValue<string, string>("cleanupMode");
+            if (!string.IsNullOrWhiteSpace(cleanupModeValue))
+            {
+                if (!Enum.TryParse(cleanupModeValue, true, out cleanupMode))
+                {
+                    throw new ArgumentException("不支持的 Redis Stream cleanupMode: " +
+                        cleanupModeValue);
+                }
+            }
+            else if (!string.IsNullOrWhiteSpace(topicMaxLength) && TopicMaxLength > 0)
+            {
+                // 兼容旧连接字符串：显式设置 topicMaxLength 时继续按长度修剪。
+                cleanupMode = MQCleanupMode.MaxLength;
+            }
+
+            RetentionPolicy = new MQRetentionPolicy
+            {
+                CleanupMode = cleanupMode,
+                MaxLength = TopicMaxLength,
+                MaxAge = TimeSpan.FromMilliseconds(messageRetention),
+                CleanupInterval = TimeSpan.FromMilliseconds(XTrimTimeout)
+            };
+            ValidateRetentionPolicy(RetentionPolicy);
 
             string loadNoAck = hs.GetDicValue<string, string>("loadNoAck");
             LoadNoAck = string.IsNullOrWhiteSpace(loadNoAck) || loadNoAck == "1";
 
-            TopicMaxLength = hs.GetDicValue<string, string>("topicMaxLength").ConvertTo<int>(1024);//话题最大长度,0则为无限制
             if (Mode == RedisMQMessageMode.Stream)
             {
                 if (string.IsNullOrWhiteSpace(ConsumerGroupName)) 
@@ -214,6 +254,28 @@ namespace Buffalo.MQ.RedisMQ
                     Options.EndPoints.Add(strServer);
                 }
 
+            }
+        }
+
+        internal static void ValidateRetentionPolicy(MQRetentionPolicy policy)
+        {
+            if (policy == null)
+            {
+                throw new ArgumentNullException(nameof(policy));
+            }
+            if (policy.CleanupMode == MQCleanupMode.MaxLength && policy.MaxLength <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(policy.MaxLength),
+                    "cleanupMode=maxLength 时必须设置大于 0 的 topicMaxLength");
+            }
+            if (policy.CleanupMode == MQCleanupMode.MaxAge && policy.MaxAge <= TimeSpan.Zero)
+            {
+                throw new ArgumentOutOfRangeException(nameof(policy.MaxAge),
+                    "cleanupMode=maxAge 时必须设置大于 0 的 messageRetention");
+            }
+            if (policy.CleanupInterval < TimeSpan.Zero)
+            {
+                throw new ArgumentOutOfRangeException(nameof(policy.CleanupInterval));
             }
         }
         private bool _options_CertificateValidation(object sender, System.Security.Cryptography.X509Certificates.X509Certificate certificate, System.Security.Cryptography.X509Certificates.X509Chain chain, System.Net.Security.SslPolicyErrors sslPolicyErrors)

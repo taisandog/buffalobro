@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Buffalo.ArgCommon;
 using Buffalo.Kernel;
 using Confluent.Kafka;
+using Confluent.Kafka.Admin;
 using MQTTnet;
 
 namespace Buffalo.MQ.KafkaMQ
@@ -20,6 +21,96 @@ namespace Buffalo.MQ.KafkaMQ
         /// 生产者
         /// </summary>
         private IProducer<byte[], byte[]> _producer;
+
+        public override MQRetentionCapabilities RetentionCapabilities
+        {
+            get
+            {
+                return MQRetentionCapabilities.MaxAge |
+                    MQRetentionCapabilities.MaxBytes |
+                    MQRetentionCapabilities.BrokerManaged;
+            }
+        }
+
+        public override async Task<MQRetentionResult> ApplyRetentionPolicyAsync(string topic,
+            MQRetentionPolicy policy)
+        {
+            if (string.IsNullOrWhiteSpace(topic))
+            {
+                throw new ArgumentException("Topic 不能为空", nameof(topic));
+            }
+            if (policy == null)
+            {
+                throw new ArgumentNullException(nameof(policy));
+            }
+            if (policy.CleanupMode == MQCleanupMode.DeleteOnAck ||
+                policy.CleanupMode == MQCleanupMode.MaxLength || policy.MaxLength > 0)
+            {
+                throw new NotSupportedException(
+                    "Kafka 不能按消费 ACK 或消息条数删除，请使用 MaxAge 或 MaxBytes");
+            }
+            if (policy.CleanupMode == MQCleanupMode.MaxAge && policy.MaxAge <= TimeSpan.Zero)
+            {
+                throw new ArgumentOutOfRangeException(nameof(policy.MaxAge));
+            }
+
+            List<ConfigEntry> entries = new List<ConfigEntry>();
+            bool resetToBrokerDefault = policy.CleanupMode == MQCleanupMode.None &&
+                policy.MaxAge <= TimeSpan.Zero && policy.MaxBytes <= 0;
+            if (resetToBrokerDefault)
+            {
+                entries.Add(new ConfigEntry
+                {
+                    Name = "retention.ms",
+                    IncrementalOperation = AlterConfigOpType.Delete
+                });
+                entries.Add(new ConfigEntry
+                {
+                    Name = "retention.bytes",
+                    IncrementalOperation = AlterConfigOpType.Delete
+                });
+            }
+            else
+            {
+                if (policy.MaxAge > TimeSpan.Zero)
+                {
+                    entries.Add(new ConfigEntry
+                    {
+                        Name = "retention.ms",
+                        Value = ((long)policy.MaxAge.TotalMilliseconds).ToString(),
+                        IncrementalOperation = AlterConfigOpType.Set
+                    });
+                }
+                if (policy.MaxBytes > 0)
+                {
+                    entries.Add(new ConfigEntry
+                    {
+                        Name = "retention.bytes",
+                        Value = policy.MaxBytes.ToString(),
+                        IncrementalOperation = AlterConfigOpType.Set
+                    });
+                }
+            }
+            if (entries.Count == 0)
+            {
+                return MQRetentionResult.NotApplied("没有可应用的 Kafka 保留参数");
+            }
+
+            ConfigResource resource = new ConfigResource
+            {
+                Name = topic,
+                Type = ResourceType.Topic
+            };
+            using (IAdminClient admin = _config.AdminBuilder.Build())
+            {
+                await admin.IncrementalAlterConfigsAsync(
+                    new Dictionary<ConfigResource, List<ConfigEntry>>
+                    {
+                        [resource] = entries
+                    }).ConfigureAwait(false);
+            }
+            return MQRetentionResult.Success("Kafka Topic 保留策略已提交给 Broker");
+        }
         /// <summary>
         /// 事务生产者
         /// </summary>

@@ -58,9 +58,40 @@ await deadLetterListener.StartDeadLetterListenAsync(new[] { "orders.created" });
 
 后端行为：
 
-- Redis Stream 使用 `XAUTOCLAIM` 周期性领取超时 Pending，要求 Redis 6.2 或更高版本。List/Subscriber 模式通过重新入队或重新发布实现应用异常重试。
+- Redis Stream 使用 `XAUTOCLAIM` 周期性领取超时 Pending，要求 Redis 6.2 或更高版本。List/Subscriber 模式通过重新入队或重新发布实现应用异常重试。`XACK` 只移除 Pending，不会物理删除 Stream 记录。
 - RabbitMQ 为每个源队列和 routing key 建立固定 TTL 重试队列，并为每个源队列建立 `.DLQ` 队列。
 - Kafka 关闭自动 offset 提交；失败时 Seek 当前 offset，达到上限后写入 `.DLQ` Topic，成功写入后才提交源 offset。只有配置 `startOffset` 时才覆盖消费组位置。
 - MQTT 默认关闭 MQTTnet 自动 ACK。建议使用 QoS 1/2、固定 `clientId`、`CleanSession=0` 和有效的会话过期时间。
 
 死信重放应由业务显式执行：先确认重新发布成功，再 ACK 死信。所有消费者仍需根据 `MessageId` 或业务键实现幂等。
+
+## 消息保留与清理
+
+`AckAsync()` 只表示当前消费者处理完成；物理删除和保留策略通过 `IMQRetentionManager` 独立管理。可先检查 `RetentionCapabilities`，不支持的策略会抛出 `NotSupportedException`。
+
+```csharp
+MQConnection connection = MQUnit.GetMQConnection("orders");
+IMQRetentionManager retention = connection;
+
+await retention.ApplyRetentionPolicyAsync("orders.created", new MQRetentionPolicy
+{
+    CleanupMode = MQCleanupMode.MaxAge,
+    MaxAge = TimeSpan.FromDays(7),
+    MaxBytes = 10L * 1024 * 1024 * 1024
+});
+```
+
+- RabbitMQ、MQTT：普通消息 ACK 后由 Broker 移除，能力包含 `AckRemovesMessage`，不提供额外的逐消息删除。
+- Kafka：支持通过管理接口设置 Topic 的 `retention.ms` 和 `retention.bytes`，不支持按消费 ACK 删除。
+- Redis Stream：支持 `none`、`maxLength`、`maxAge` 和 `deleteOnAck`。周期修剪前会确认所有消费组均无 Pending 且 Lag 为 0。
+
+Redis Stream 连接字符串参数：
+
+| 参数 | 默认值 | 说明 |
+| --- | --- | --- |
+| `cleanupMode` | `none` | `none`、`maxLength`、`maxAge` 或 `deleteOnAck` |
+| `cleanupInterval` | `1800000` | 自动清理检查间隔，毫秒；`xTrimInterval` 仍作为兼容别名 |
+| `topicMaxLength` | `0` | `maxLength` 模式的最大记录数 |
+| `messageRetention` | `0` | `maxAge` 模式的最大消息年龄，毫秒 |
+
+`deleteOnAck` 会用一个 Redis 事务执行 `XACK + XDEL`，仅允许 Stream 中存在当前一个消费组；检测到多个消费组会拒绝启动或 ACK。未配置 `cleanupMode` 时默认不清理；旧连接字符串如果显式配置了大于 0 的 `topicMaxLength`，仍兼容为 `maxLength` 模式。

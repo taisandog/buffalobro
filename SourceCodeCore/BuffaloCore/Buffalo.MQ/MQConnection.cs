@@ -14,7 +14,7 @@ namespace Buffalo.MQ
 {
 
 
-    public abstract class MQConnection :IDisposable, IAsyncDisposable
+    public abstract class MQConnection : IDisposable, IAsyncDisposable, IMQRetentionManager
     {
         /// <summary>
         /// 默认编码
@@ -39,6 +39,41 @@ namespace Buffalo.MQ
                 return _isTran;
             }
             
+        }
+
+        /// <summary>
+        /// 当前后端支持的保留能力。
+        /// </summary>
+        public virtual MQRetentionCapabilities RetentionCapabilities
+        {
+            get { return MQRetentionCapabilities.None; }
+        }
+
+        /// <summary>
+        /// 应用消息保留策略。
+        /// </summary>
+        public MQRetentionResult ApplyRetentionPolicy(string topic, MQRetentionPolicy policy)
+        {
+            return ApplyRetentionPolicyAsync(topic, policy).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// 异步应用消息保留策略。派生类只应实现其能力标志声明的策略。
+        /// </summary>
+        public virtual Task<MQRetentionResult> ApplyRetentionPolicyAsync(string topic,
+            MQRetentionPolicy policy)
+        {
+            if (policy == null)
+            {
+                throw new ArgumentNullException(nameof(policy));
+            }
+            if (policy.CleanupMode == MQCleanupMode.None &&
+                policy.MaxAge <= TimeSpan.Zero && policy.MaxBytes <= 0 &&
+                policy.MaxLength <= 0)
+            {
+                return Task.FromResult(MQRetentionResult.NotApplied("未配置保留策略"));
+            }
+            throw new NotSupportedException(GetType().Name + " 不支持请求的保留策略");
         }
 
         //internal bool _isAutoClose=true;

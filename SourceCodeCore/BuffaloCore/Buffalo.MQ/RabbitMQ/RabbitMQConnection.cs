@@ -18,6 +18,14 @@ namespace Buffalo.MQ.RabbitMQ
     /// </summary>
     public partial class RabbitMQConnection : MQConnection
     {
+        public override MQRetentionCapabilities RetentionCapabilities
+        {
+            get
+            {
+                return MQRetentionCapabilities.AckRemovesMessage |
+                    MQRetentionCapabilities.BrokerManaged;
+            }
+        }
        
         private IConnection _connection;
         private IChannel _channel;

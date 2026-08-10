@@ -20,6 +20,14 @@ namespace Buffalo.MQ.MQTTLib
     /// </summary>
     public class MQTTConnection : MQConnection
     {
+        public override MQRetentionCapabilities RetentionCapabilities
+        {
+            get
+            {
+                return MQRetentionCapabilities.AckRemovesMessage |
+                    MQRetentionCapabilities.BrokerManaged;
+            }
+        }
         private MQTTConfig _config;
         MqttClient _mqttClient = null;
         MqttClientOptions _options = null;

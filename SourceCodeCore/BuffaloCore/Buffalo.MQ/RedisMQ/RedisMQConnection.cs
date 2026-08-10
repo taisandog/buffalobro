@@ -159,6 +159,65 @@ namespace Buffalo.MQ.RedisMQ
 
         }
 
+        public override MQRetentionCapabilities RetentionCapabilities
+        {
+            get
+            {
+                return MQRetentionCapabilities.MaxLength |
+                    MQRetentionCapabilities.MaxAge |
+                    MQRetentionCapabilities.DeleteOnAck;
+            }
+        }
+
+        public override async Task<MQRetentionResult> ApplyRetentionPolicyAsync(string topic,
+            MQRetentionPolicy policy)
+        {
+            if (string.IsNullOrWhiteSpace(topic))
+            {
+                throw new ArgumentException("Stream 不能为空", nameof(topic));
+            }
+            if (_config.Mode != RedisMQMessageMode.Stream)
+            {
+                throw new NotSupportedException("Redis 保留策略只适用于 Stream 模式");
+            }
+            if (policy == null)
+            {
+                throw new ArgumentNullException(nameof(policy));
+            }
+            if (policy.MaxBytes > 0)
+            {
+                throw new NotSupportedException("Redis Stream 不支持按字节数保留");
+            }
+
+            RedisMQConfig.ValidateRetentionPolicy(policy);
+            MQRetentionPolicy appliedPolicy = policy.Clone();
+            _config.RetentionPolicy = appliedPolicy;
+            _config.TopicMaxLength = appliedPolicy.MaxLength > int.MaxValue
+                ? int.MaxValue : (int)Math.Max(0, appliedPolicy.MaxLength);
+            _config.XTrimTimeout = appliedPolicy.CleanupInterval.TotalMilliseconds > int.MaxValue
+                ? int.MaxValue : (int)Math.Max(0,
+                    appliedPolicy.CleanupInterval.TotalMilliseconds);
+
+            await OpenAsync().ConfigureAwait(false);
+            if (appliedPolicy.CleanupMode == MQCleanupMode.MaxLength ||
+                appliedPolicy.CleanupMode == MQCleanupMode.MaxAge)
+            {
+                MQRetentionResult cleanupResult = await RedisStreamRetention.ApplyAsync(
+                    GetDB(), topic, appliedPolicy, _config.CommanfFlags)
+                    .ConfigureAwait(false);
+                if (!cleanupResult.Applied)
+                {
+                    return MQRetentionResult.Success("Redis Stream 保留策略已启用；" +
+                        cleanupResult.Message);
+                }
+                return cleanupResult;
+            }
+            string description = appliedPolicy.CleanupMode == MQCleanupMode.DeleteOnAck
+                ? "Redis Stream 已启用单消费组 ACK 后删除"
+                : "Redis Stream 自动清理已关闭";
+            return MQRetentionResult.Success(description);
+        }
+
         protected override APIResault SendMessage(MQSendMessage mess)
         {
             if (_que != null)

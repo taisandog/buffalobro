@@ -59,6 +59,12 @@ namespace Buffalo.MQ.RedisMQ
                 {
                     DoNewGroup(db, pkey);
                 }
+                if (_config.RetentionPolicy.CleanupMode == MQCleanupMode.DeleteOnAck)
+                {
+                    RedisStreamRetention.EnsureDeleteOnAckAllowedAsync(db, pkey,
+                        _config.ConsumerGroupName, _config.CommanfFlags)
+                        .GetAwaiter().GetResult();
+                }
                 LoadMQMessage(db,pkey,timeout);
 
             }
@@ -69,19 +75,10 @@ namespace Buffalo.MQ.RedisMQ
         /// </summary>
         /// <param name="db"></param>
         /// <param name="pkey"></param>
-        private void XTrimMaxLength(IDatabase db, string pkey)
+        private void ApplyRetentionPolicy(IDatabase db, string pkey)
         {
-            if (_config.TopicMaxLength <= 0)
-            {
-                return;
-            }
-            // MAXLEN 会删除仍在 PEL 中的记录；存在未确认消息时不能修剪。
-            if (db.StreamGroupInfo(pkey, _config.CommanfFlags)
-                .Any(group => group.PendingMessageCount > 0))
-            {
-                return;
-            }
-            db.Execute("XTRIM", new object[] { pkey, "MAXLEN", _config.TopicMaxLength });
+            RedisStreamRetention.ApplyAsync(db, pkey, _config.RetentionPolicy,
+                _config.CommanfFlags).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -171,7 +168,8 @@ namespace Buffalo.MQ.RedisMQ
             RedisCallbackMessage message = new RedisCallbackMessage(topic, body, db,
                 _config.ConsumerGroupName, messageId, _config.CommanfFlags,
                 _config.RetryOptions.DeadLetterSuffix, _config.DefaultStreamDataKey,
-                deliveryCount);
+                deliveryCount,
+                _config.RetentionPolicy.CleanupMode == MQCleanupMode.DeleteOnAck);
             message.IsOldMessage = oldMessage;
             message.IsRedelivered = oldMessage || deliveryCount > 1;
             return message;
@@ -207,7 +205,11 @@ namespace Buffalo.MQ.RedisMQ
         {
             DateTime lastTrimLen = DateTime.MinValue;
             DateTime nextPendingScan = DateTime.UtcNow;
-            int trimTime = _config.XTrimTimeout;
+            int trimTime = _config.RetentionPolicy.CleanupMode == MQCleanupMode.MaxLength ||
+                _config.RetentionPolicy.CleanupMode == MQCleanupMode.MaxAge
+                ? (int)Math.Min(int.MaxValue,
+                    _config.RetentionPolicy.CleanupInterval.TotalMilliseconds)
+                : 0;
             DateTime dtNow = DateTime.Now;
             RedisResult res = null;
             object[] argsArr = new object[] { "GROUP", _config.ConsumerGroupName, _config.ConsumerName, "COUNT", _config.StreamPageSize,
@@ -226,7 +228,7 @@ namespace Buffalo.MQ.RedisMQ
                     if (trimTime > 0 &&
                         dtNow.Subtract(lastTrimLen).TotalMilliseconds > trimTime)
                     {
-                        XTrimMaxLength(db, pkey);
+                        ApplyRetentionPolicy(db, pkey);
                         lastTrimLen = dtNow;
                     }
                     res = db.Execute("XREADGROUP", argsArr);
@@ -338,9 +340,8 @@ namespace Buffalo.MQ.RedisMQ
         /// <param name="messageId"></param>
         private void CommitEmptyMessageId(IDatabase db, string pkey,string messageId) 
         {
-            RedisCallbackMessage messEmpty = new RedisCallbackMessage(pkey, EmpeyByte, db, _config.ConsumerGroupName, messageId,
-                                    _config.CommanfFlags, _config.RetryOptions.DeadLetterSuffix,
-                                    _config.DefaultStreamDataKey);
+            RedisCallbackMessage messEmpty = CreateStreamMessage(db, pkey, messageId,
+                EmpeyByte, 1, false);
 
             messEmpty.Commit();
         }

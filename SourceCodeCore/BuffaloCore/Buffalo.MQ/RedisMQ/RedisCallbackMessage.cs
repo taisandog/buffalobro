@@ -12,6 +12,7 @@ namespace Buffalo.MQ.RedisMQ
         private CommandFlags _commandFlags;
         private string _deadLetterSuffix;
         private string _defaultDataKey;
+        private readonly bool _deleteOnAck;
         private readonly Func<Task> _ackHandler;
         private readonly Func<string, TimeSpan?, Task> _retryHandler;
         private readonly Func<string, Task> _deadLetterHandler;
@@ -29,7 +30,8 @@ namespace Buffalo.MQ.RedisMQ
 
         public RedisCallbackMessage(string topic, byte[] body, IDatabase db,
             string consumerGroup, RedisValue messId, CommandFlags commandFlags,
-            string deadLetterSuffix, string defaultDataKey, int deliveryCount = 1) :
+            string deadLetterSuffix, string defaultDataKey, int deliveryCount = 1,
+            bool deleteOnAck = false) :
             base(topic, body)
         {
             _db = db;
@@ -38,6 +40,7 @@ namespace Buffalo.MQ.RedisMQ
             _consumerGroup = consumerGroup;
             _deadLetterSuffix = deadLetterSuffix;
             _defaultDataKey = defaultDataKey;
+            _deleteOnAck = deleteOnAck;
             MessageId = messId.ToString();
             DeliveryCount = Math.Max(1, deliveryCount);
         }
@@ -58,8 +61,7 @@ namespace Buffalo.MQ.RedisMQ
             }
             if (_db != null)
             {
-                await _db.StreamAcknowledgeAsync(_topic, _consumerGroup, _messId,
-                    _commandFlags).ConfigureAwait(false);
+                await CompleteSourceAsync().ConfigureAwait(false);
             }
         }
 
@@ -95,8 +97,31 @@ namespace Buffalo.MQ.RedisMQ
                 new NameValueEntry("bufmq.deadLetterTime", DateTimeOffset.UtcNow.ToUnixTimeMilliseconds())
             }, flags: _commandFlags).ConfigureAwait(false);
 
-            await _db.StreamAcknowledgeAsync(_topic, _consumerGroup, _messId,
-                _commandFlags).ConfigureAwait(false);
+            await CompleteSourceAsync().ConfigureAwait(false);
+        }
+
+        private async Task CompleteSourceAsync()
+        {
+            if (!_deleteOnAck)
+            {
+                await _db.StreamAcknowledgeAsync(_topic, _consumerGroup, _messId,
+                    _commandFlags).ConfigureAwait(false);
+                return;
+            }
+
+            await RedisStreamRetention.EnsureDeleteOnAckAllowedAsync(_db, _topic,
+                _consumerGroup, _commandFlags).ConfigureAwait(false);
+            ITransaction transaction = _db.CreateTransaction();
+            Task<long> acknowledgeTask = transaction.StreamAcknowledgeAsync(_topic,
+                _consumerGroup, _messId, _commandFlags);
+            Task<long> deleteTask = transaction.StreamDeleteAsync(_topic,
+                new[] { _messId }, _commandFlags);
+            if (!await transaction.ExecuteAsync(_commandFlags).ConfigureAwait(false))
+            {
+                throw new InvalidOperationException("Redis Stream XACK/XDEL 事务执行失败");
+            }
+            await acknowledgeTask.ConfigureAwait(false);
+            await deleteTask.ConfigureAwait(false);
         }
 
         public override void Dispose()
