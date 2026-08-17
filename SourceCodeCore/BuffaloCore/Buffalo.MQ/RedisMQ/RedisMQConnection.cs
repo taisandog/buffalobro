@@ -163,6 +163,12 @@ namespace Buffalo.MQ.RedisMQ
         {
             get
             {
+                // 返回的是“当前连接模式”的能力，而不是 Redis 服务端理论上能做什么。
+                // List/pub-sub 没有与 Stream 等价的安全保留策略，因此明确返回 None。
+                if (_config.Mode != RedisMQMessageMode.Stream)
+                {
+                    return MQRetentionCapabilities.None;
+                }
                 return MQRetentionCapabilities.MaxLength |
                     MQRetentionCapabilities.MaxAge |
                     MQRetentionCapabilities.DeleteOnAck;

@@ -124,7 +124,7 @@ namespace Buffalo.MQ.RedisMQ
                     }
                     else
                     {
-                        RedisCallbackMessage message = CreateSubscriberMessage(
+                        RedisCallbackMessage message = CreateSimpleMessage(
                             key, (byte[])item.Value);
                         await CallBack(message);
                     }
@@ -210,8 +210,7 @@ namespace Buffalo.MQ.RedisMQ
                             break;
                         }
                         svalue = tmpval;
-                        RedisCallbackMessage mess = CreateListMessage(
-                            skey, pkey, svalue, db);
+                        RedisCallbackMessage mess = CreateSimpleMessage(skey, svalue);
                         await CallBack(mess);
                         count++;
                     }
@@ -317,8 +316,7 @@ namespace Buffalo.MQ.RedisMQ
 
                         svalue = tmpval;
 
-                        RedisCallbackMessage mess = CreateListMessage(
-                            listenKey, pkey, svalue, db);
+                        RedisCallbackMessage mess = CreateSimpleMessage(listenKey, svalue);
                         CallBack(mess).GetAwaiter().GetResult();
 
                     }
@@ -352,45 +350,28 @@ namespace Buffalo.MQ.RedisMQ
             StartListendAsync(listenKeys).GetAwaiter().GetResult();
         }
 
-        private RedisCallbackMessage CreateListMessage(string topic, string queueKey,
-            byte[] body, IDatabase db)
+        /// <summary>
+        /// 为 Polling、Subscriber 和 BlockQueue 创建简单消息。
+        /// 不注入重试/死信处理器，是为了明确表示这些模式在消息取出或投递后没有
+        /// Broker 级 ACK/Pending；回调异常统一交给业务异常处理逻辑。
+        /// </summary>
+        private static RedisCallbackMessage CreateSimpleMessage(string topic, byte[] body)
         {
-            return new RedisCallbackMessage(topic, body,
-                retryHandler: async (reason, delay) =>
-                {
-                    if (delay.GetValueOrDefault() > TimeSpan.Zero)
-                    {
-                        await Task.Delay(delay.Value);
-                    }
-                    await db.ListRightPushAsync(queueKey, body, flags: _config.CommanfFlags);
-                },
-                deadLetterHandler: async reason =>
-                {
-                    string deadLetterQueue = _config.GetDefaultQueueKey(
-                        _config.RetryOptions.GetDeadLetterTopic(topic));
-                    await db.ListLeftPushAsync(deadLetterQueue, body,
-                        flags: _config.CommanfFlags);
-                });
+            return new RedisCallbackMessage(topic, body);
         }
 
-        private RedisCallbackMessage CreateSubscriberMessage(string topic, byte[] body)
+        /// <summary>
+        /// 启动死信监听。Redis 只有 Stream 模式具备框架管理的死信 Stream。
+        /// </summary>
+        public override Task StartDeadLetterListenAsync(IEnumerable<string> listenKeys)
         {
-            return new RedisCallbackMessage(topic, body,
-                retryHandler: async (reason, delay) =>
-                {
-                    if (delay.GetValueOrDefault() > TimeSpan.Zero)
-                    {
-                        await Task.Delay(delay.Value);
-                    }
-                    await _subscriber.PublishAsync(RedisChannel.Literal(topic), body,
-                        _config.CommanfFlags);
-                },
-                deadLetterHandler: async reason =>
-                {
-                    await _subscriber.PublishAsync(
-                        RedisChannel.Literal(_config.RetryOptions.GetDeadLetterTopic(topic)),
-                        body, _config.CommanfFlags);
-                });
+            if (_config.Mode != RedisMQMessageMode.Stream)
+            {
+                throw new NotSupportedException(
+                    "Redis 只有 Stream 模式支持死信监听；当前模式的异常请由业务处理");
+            }
+            // 基类会将传入的原 Topic 转换成配置好的死信 Topic 后开始监听。
+            return base.StartDeadLetterListenAsync(listenKeys);
         }
 
         public override async Task StartListendAsync(IEnumerable<string> listenKeys)

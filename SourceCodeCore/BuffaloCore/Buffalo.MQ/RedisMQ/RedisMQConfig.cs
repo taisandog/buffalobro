@@ -172,9 +172,23 @@ namespace Buffalo.MQ.RedisMQ
             int mode = 0;
             
             Mode = RedisMQMessageMode.Subscriber;//消息模式
-            if (int.TryParse(strmode, out mode)) 
+            if (int.TryParse(strmode, out mode))
             {
                 Mode = (RedisMQMessageMode)mode;//消息模式
+            }
+
+            if (Mode != RedisMQMessageMode.Stream)
+            {
+                // Redis 的 Polling、Subscriber 和 BlockQueue 都是简单收发模式。
+                // 它们没有 Broker 级 ACK/Pending，忽略连接串中的自动重试和死信设置，
+                // 保持旧版本“回调完成即消费完成，异常交给业务处理”的行为。
+                // OnSuccess 仅让公共回调流程保持一致；此时 AckCoreAsync 不会向 Redis
+                // 发送命令。即使旧连接字符串带有 retryEnabled/deadLetterEnabled，
+                // 这里也会主动覆盖，避免界面配置造成“已可靠重试”的误解。
+                RetryOptions.AckMode = MQAckMode.OnSuccess;
+                RetryOptions.RetryEnabled = false;
+                RetryOptions.RetryOnHandlerException = false;
+                RetryOptions.DeadLetterEnabled = false;
             }
 
             if (Mode == RedisMQMessageMode.Subscriber)
@@ -207,9 +221,12 @@ namespace Buffalo.MQ.RedisMQ
             long messageRetention = Math.Max(0,
                 hs.GetDicValue<string, string>("messageRetention").ConvertTo<long>(0));
 
+            // 保留/清理策略只属于 Redis Stream。其他模式即使沿用包含这些参数的旧
+            // 连接字符串，也按 None 处理，既不报错，也不会误删 List 中的数据。
             MQCleanupMode cleanupMode = MQCleanupMode.None;
             string cleanupModeValue = hs.GetDicValue<string, string>("cleanupMode");
-            if (!string.IsNullOrWhiteSpace(cleanupModeValue))
+            if (Mode == RedisMQMessageMode.Stream &&
+                !string.IsNullOrWhiteSpace(cleanupModeValue))
             {
                 if (!Enum.TryParse(cleanupModeValue, true, out cleanupMode))
                 {
@@ -217,7 +234,8 @@ namespace Buffalo.MQ.RedisMQ
                         cleanupModeValue);
                 }
             }
-            else if (!string.IsNullOrWhiteSpace(topicMaxLength) && TopicMaxLength > 0)
+            else if (Mode == RedisMQMessageMode.Stream &&
+                !string.IsNullOrWhiteSpace(topicMaxLength) && TopicMaxLength > 0)
             {
                 // 兼容旧连接字符串：显式设置 topicMaxLength 时继续按长度修剪。
                 cleanupMode = MQCleanupMode.MaxLength;
