@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Data;
@@ -20,16 +20,24 @@ namespace Buffalo.DB.CommBase.BusinessBases
         protected readonly static DBInfo _db = _curEntityInfo.DBInfo;
 
         /// <summary>
-        /// Ö´ĞĞ²éÑ¯Ö®Ç°´¥·¢µÄÊÂ¼ş
+        /// æ‰§è¡ŒæŸ¥è¯¢ä¹‹å‰è§¦å‘çš„äº‹ä»¶
         /// </summary>
         /// <param name="lstScope"></param>
         /// <returns></returns>
         protected virtual void OnSelect(ScopeList lstScope) 
         {
         }
-
         /// <summary>
-        /// »ñÈ¡µ±Ç°Í¬²½Ïß³ÌµÄÄ¬ÈÏÁ¬½Ó¡£
+        /// æ‰§è¡ŒæŸ¥è¯¢ä¹‹å‰è§¦å‘çš„äº‹ä»¶
+        /// </summary>
+        /// <param name="lstScope"></param>
+        /// <returns></returns>
+        protected virtual Task OnSelectAsync(ScopeList lstScope)
+        {
+            return Task.CompletedTask;
+        }
+        /// <summary>
+        /// è·å–å½“å‰åŒæ­¥çº¿ç¨‹çš„é»˜è®¤è¿æ¥ã€‚
         /// </summary>
         protected DataBaseOperate DefaultOperate
         {
@@ -37,14 +45,14 @@ namespace Buffalo.DB.CommBase.BusinessBases
         }
 
         /// <summary>
-        /// »ñÈ¡µ±Ç°Òì²½µ÷ÓÃÁ´µÄÄ¬ÈÏÁ¬½Ó¡£
+        /// è·å–å½“å‰å¼‚æ­¥è°ƒç”¨é“¾çš„é»˜è®¤è¿æ¥ã€‚
         /// </summary>
         protected DataBaseOperate DefaultOperateAsync
         {
             get { return _db.DefaultOperateAsync; }
         }
         /// <summary>
-        /// ÒµÎñ²ãµÄ²éÑ¯¼¯ºÏ
+        /// ä¸šåŠ¡å±‚çš„æŸ¥è¯¢é›†åˆ
         /// </summary>
         public BusinessModelBaseForSelect()
         {
@@ -59,7 +67,7 @@ namespace Buffalo.DB.CommBase.BusinessBases
             return DefaultOperate.StartTransaction() ;
         }
         /// <summary>
-        /// ¿ªÆôÊÂÎñ
+        /// å¼€å¯äº‹åŠ¡
         /// </summary>
         /// <returns></returns>
         protected Task<DBTransactionAsync> StartTransactionAsync()
@@ -75,7 +83,7 @@ namespace Buffalo.DB.CommBase.BusinessBases
         }
 
         /// <summary>
-        /// ¿ªÊ¼Òì²½·ÇÊÂÎñµÄÅúÁ¿¶¯×÷
+        /// å¼€å§‹å¼‚æ­¥éäº‹åŠ¡çš„æ‰¹é‡åŠ¨ä½œ
         /// </summary>
         /// <returns></returns>
         protected Task<BatchActionAsync> StartBatchActionAsync()
@@ -85,7 +93,7 @@ namespace Buffalo.DB.CommBase.BusinessBases
 
         /// <summary>
         /// </summary>
-        /// <param name="id">Ö÷¼ü</param>
+        /// <param name="id">ä¸»é”®</param>
         /// <returns></returns>
         public virtual T GetEntityById(object id)
         {
@@ -93,9 +101,9 @@ namespace Buffalo.DB.CommBase.BusinessBases
             return dao.GetEntityById(id);
         }
         /// <summary>
-        /// ¸ù¾İÖ÷¼ü²éÕÒÊµÌå
+        /// æ ¹æ®ä¸»é”®æŸ¥æ‰¾å®ä½“
         /// </summary>
-        /// <param name="id">Ö÷¼ü</param>
+        /// <param name="id">ä¸»é”®</param>
         /// <returns></returns>
         public virtual Task<T> GetEntityByIdAsync(object id)
         {
@@ -104,7 +112,7 @@ namespace Buffalo.DB.CommBase.BusinessBases
         }
         /// <summary>
         /// </summary>
-        /// <param name="id">Ö÷¼ü</param>
+        /// <param name="id">ä¸»é”®</param>
         /// <returns></returns>
         public virtual T GetByIdUseCache(object id)
         {
@@ -112,9 +120,9 @@ namespace Buffalo.DB.CommBase.BusinessBases
             return dao.GetObjectById(id,true);
         }
         /// <summary>
-        /// ¸ù¾İÖ÷¼ü²éÕÒÊµÌå(Ê¹ÓÃ»º´æ)
+        /// æ ¹æ®ä¸»é”®æŸ¥æ‰¾å®ä½“(ä½¿ç”¨ç¼“å­˜)
         /// </summary>
-        /// <param name="id">Ö÷¼ü</param>
+        /// <param name="id">ä¸»é”®</param>
         /// <returns></returns>
         public virtual Task<T> GetByIdUseCacheAsync(object id)
         {
@@ -124,11 +132,11 @@ namespace Buffalo.DB.CommBase.BusinessBases
 
         /// <summary>
         /// </summary>
-        /// <param name="tableName">±íÃû³Æ</param>
-        /// <param name="lstScope">Ìõ¼ş</param>
-        /// <param name="vParams">×Ö¶ÎÁĞ±í</param>
-        /// <param name="lstSort">ÅÅĞòÀàĞÍ</param>
-        /// <param name="lstSort">ÅÅĞò</param>
+        /// <param name="tableName">è¡¨åç§°</param>
+        /// <param name="lstScope">æ¡ä»¶</param>
+        /// <param name="vParams">å­—æ®µåˆ—è¡¨</param>
+        /// <param name="lstSort">æ’åºç±»å‹</param>
+        /// <param name="lstSort">æ’åº</param>
         /// <returns></returns>
         public DataSet SelectTable(string tableName,  ScopeList lstScope)
         {
@@ -137,19 +145,19 @@ namespace Buffalo.DB.CommBase.BusinessBases
             return dao.SelectTable(tableName, lstScope,typeof(T));
         }
         /// <summary>
-        /// Ö±½Ó²éÑ¯Êı¾İ¿âÊÓÍ¼
+        /// ç›´æ¥æŸ¥è¯¢æ•°æ®åº“è§†å›¾
         /// </summary>
-        /// <param name="tableName">±íÃû³Æ</param>
-        /// <param name="lstScope">Ìõ¼ş</param>
-        /// <param name="vParams">×Ö¶ÎÁĞ±í</param>
-        /// <param name="lstSort">ÅÅĞòÀàĞÍ</param>
-        /// <param name="lstSort">ÅÅĞò</param>
+        /// <param name="tableName">è¡¨åç§°</param>
+        /// <param name="lstScope">æ¡ä»¶</param>
+        /// <param name="vParams">å­—æ®µåˆ—è¡¨</param>
+        /// <param name="lstSort">æ’åºç±»å‹</param>
+        /// <param name="lstSort">æ’åº</param>
         /// <returns></returns>
-        public Task<DataSet> SelectTableAsync(string tableName, ScopeList lstScope)
+        public async Task<DataSet> SelectTableAsync(string tableName, ScopeList lstScope)
         {
-            OnSelect(lstScope);
+            await OnSelectAsync(lstScope);
             BQLDataAccessBase<T> dao = new BQLDataAccessBase<T>();
-            return dao.SelectTableAsync(tableName, lstScope, typeof(T));
+            return await dao.SelectTableAsync(tableName, lstScope, typeof(T));
         }
         /// <summary>
         /// </summary>
@@ -165,22 +173,22 @@ namespace Buffalo.DB.CommBase.BusinessBases
             return dao.SelectTable(table, lstScope, typeof(T));
         }
         /// <summary>
-        /// ²éÑ¯ÌØÊâ±í»òÕßÊÓÍ¼
+        /// æŸ¥è¯¢ç‰¹æ®Šè¡¨æˆ–è€…è§†å›¾
         /// </summary>
         /// <param name="table"></param>
         /// <param name="vParams"></param>
         /// <param name="lstScope"></param>
         /// <param name="objPage"></param>
         /// <returns></returns>
-        public Task<DataSet> SelectTableAsync(BQLOtherTableHandle table, ScopeList lstScope)
+        public async Task<DataSet> SelectTableAsync(BQLOtherTableHandle table, ScopeList lstScope)
         {
-            OnSelect(lstScope);
+            await OnSelectAsync(lstScope);
             BQLDataAccessBase<T> dao = new BQLDataAccessBase<T>();
-            return dao.SelectTableAsync(table, lstScope, typeof(T));
+            return await dao.SelectTableAsync(table, lstScope, typeof(T));
         }
         /// <summary>
         /// </summary>
-        /// <param name="lstScope">Ìõ¼ş</param>
+        /// <param name="lstScope">æ¡ä»¶</param>
         /// <returns></returns>
         public T GetUnique(ScopeList lstScope)
         {
@@ -200,9 +208,9 @@ namespace Buffalo.DB.CommBase.BusinessBases
         }
 
         /// <summary>
-        /// ¸ù¾İÌõ¼ş²éÕÒÊµÌå
+        /// æ ¹æ®æ¡ä»¶æŸ¥æ‰¾å®ä½“
         /// </summary>
-        /// <param name="lstScope">Ìõ¼ş</param>
+        /// <param name="lstScope">æ¡ä»¶</param>
         /// <returns></returns>
         public async Task<T> GetUniqueAsync(ScopeList lstScope)
         {
@@ -224,8 +232,8 @@ namespace Buffalo.DB.CommBase.BusinessBases
 
         /// <summary>
         /// </summary>
-        /// <param name="lstScope">·¶Î§¼¯ºÏ</param>
-        /// <param name="lstSort">ÅÅĞòÌõ¼ş¼¯ºÏ</param>
+        /// <param name="lstScope">èŒƒå›´é›†åˆ</param>
+        /// <param name="lstSort">æ’åºæ¡ä»¶é›†åˆ</param>
         /// <returns></returns>
         public virtual DataSet Select(ScopeList lstScope)
         {
@@ -235,23 +243,23 @@ namespace Buffalo.DB.CommBase.BusinessBases
             return ret;
         }
         /// <summary>
-        /// ²éÕÒ
+        /// æŸ¥æ‰¾
         /// </summary>
-        /// <param name="lstScope">·¶Î§¼¯ºÏ</param>
-        /// <param name="lstSort">ÅÅĞòÌõ¼ş¼¯ºÏ</param>
+        /// <param name="lstScope">èŒƒå›´é›†åˆ</param>
+        /// <param name="lstSort">æ’åºæ¡ä»¶é›†åˆ</param>
         /// <returns></returns>
-        public virtual Task<DataSet> SelectAsync(ScopeList lstScope)
+        public virtual async Task<DataSet> SelectAsync(ScopeList lstScope)
         {
-            OnSelect(lstScope);
+            await OnSelectAsync(lstScope);
             DataAccessBaseForSelect<T> entityDao = new DataAccessBaseForSelect<T>();
             
-            return entityDao.SelectAsync(lstScope);
+            return await entityDao.SelectAsync(lstScope);
             
         }
 
         /// <summary>
         /// </summary>
-        /// <param name="lstScope">·¶Î§¼¯ºÏ</param>
+        /// <param name="lstScope">èŒƒå›´é›†åˆ</param>
         /// <returns></returns>
         public virtual List<T> SelectList(ScopeList lstScope)
         {
@@ -261,16 +269,16 @@ namespace Buffalo.DB.CommBase.BusinessBases
             return ret;
         }
         /// <summary>
-        /// ²éÕÒ(·µ»Ø¼¯ºÏ)
+        /// æŸ¥æ‰¾(è¿”å›é›†åˆ)
         /// </summary>
-        /// <param name="lstScope">·¶Î§¼¯ºÏ</param>
+        /// <param name="lstScope">èŒƒå›´é›†åˆ</param>
         /// <returns></returns>
-        public virtual Task<List<T>> SelectListAsync(ScopeList lstScope)
+        public virtual async Task<List<T>> SelectListAsync(ScopeList lstScope)
         {
-            OnSelect(lstScope);
+            await OnSelectAsync(lstScope);
             DataAccessBaseForSelect<T> entityDao = new DataAccessBaseForSelect<T>();
             
-            return entityDao.SelectListAsync(lstScope);
+            return await entityDao.SelectListAsync(lstScope);
             
         }
         #endregion
@@ -279,7 +287,7 @@ namespace Buffalo.DB.CommBase.BusinessBases
 
         /// <summary>
         /// </summary>
-        /// <param name="scpoeList">·¶Î§²éÕÒµÄ¼¯ºÏ</param>
+        /// <param name="scpoeList">èŒƒå›´æŸ¥æ‰¾çš„é›†åˆ</param>
         /// <returns></returns>
         public virtual long SelectCount(ScopeList scpoeList)
         {
@@ -290,16 +298,16 @@ namespace Buffalo.DB.CommBase.BusinessBases
             return ret;
         }
         /// <summary>
-        /// ²éÑ¯·ûºÏÖ¸¶¨Ìõ¼şµÄ¼ÇÂ¼ÌõÊı
+        /// æŸ¥è¯¢ç¬¦åˆæŒ‡å®šæ¡ä»¶çš„è®°å½•æ¡æ•°
         /// </summary>
-        /// <param name="scpoeList">·¶Î§²éÕÒµÄ¼¯ºÏ</param>
+        /// <param name="scpoeList">èŒƒå›´æŸ¥æ‰¾çš„é›†åˆ</param>
         /// <returns></returns>
-        public virtual Task<long> SelectCountAsync(ScopeList scpoeList)
+        public virtual async Task<long> SelectCountAsync(ScopeList scpoeList)
         {
-            OnSelect(scpoeList);
+            await OnSelectAsync(lstScope);
             DataAccessBaseForSelect<T> entityDao = new DataAccessBaseForSelect<T>();
-            long ret = 0;
-            return entityDao.SelectCountAsync(scpoeList);
+            
+            return await entityDao.SelectCountAsync(scpoeList);
             
         }
         #endregion
@@ -309,7 +317,7 @@ namespace Buffalo.DB.CommBase.BusinessBases
 
         /// <summary>
         /// </summary>
-        /// <param name="scpoeList">·¶Î§²éÕÒµÄ¼¯ºÏ</param>
+        /// <param name="scpoeList">èŒƒå›´æŸ¥æ‰¾çš„é›†åˆ</param>
         /// <returns></returns>
         public virtual bool ExistsRecord(ScopeList scpoeList)
         {
@@ -319,16 +327,16 @@ namespace Buffalo.DB.CommBase.BusinessBases
             return ret;
         }
         /// <summary>
-        /// ²éÑ¯·ûºÏÖ¸¶¨Ìõ¼şµÄ¼ÇÂ¼ÌõÊı
+        /// æŸ¥è¯¢ç¬¦åˆæŒ‡å®šæ¡ä»¶çš„è®°å½•æ¡æ•°
         /// </summary>
-        /// <param name="scpoeList">·¶Î§²éÕÒµÄ¼¯ºÏ</param>
+        /// <param name="lstScope">èŒƒå›´æŸ¥æ‰¾çš„é›†åˆ</param>
         /// <returns></returns>
-        public virtual Task<bool> ExistsRecordAsync(ScopeList scpoeList)
+        public virtual async Task<bool> ExistsRecordAsync(ScopeList lstScope)
         {
-            OnSelect(scpoeList);
+            await OnSelectAsync(lstScope);
             DataAccessBaseForSelect<T> entityDao = new DataAccessBaseForSelect<T>();
            
-            return  entityDao.ExistsRecordAsync(scpoeList);
+            return await  entityDao.ExistsRecordAsync(lstScope);
             
         }
         #endregion

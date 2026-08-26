@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Text;
 using Buffalo.DB.BQLCommon.IdentityInfos;
@@ -27,7 +27,7 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
         private bool _hasGroup = false;
 
         /// <summary>
-        /// ÊÇ·ñÓĞ¾ÛºÏÓï¾ä
+        /// æ˜¯å¦æœ‰èšåˆè¯­å¥
         /// </summary>
         public bool HasGroup
         {
@@ -44,7 +44,7 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
         private bool _showTableName=true;
 
         /// <summary>
-        /// µ±Ç°Óï¾äÊÇ·ñÏÔÊ¾±íÃû
+        /// å½“å‰è¯­å¥æ˜¯å¦æ˜¾ç¤ºè¡¨å
         /// </summary>
         public bool ShowTableName
         {
@@ -56,7 +56,7 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
 
 
         /// <summary>
-        /// Ö÷¼üÊı
+        /// ä¸»é”®æ•°
         /// </summary>
         public int PrimaryKeys
         {
@@ -66,7 +66,7 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
         private bool _isWhere = false;
 
         /// <summary>
-        /// ÊÇ·ñÔÚÊä³öÌõ¼şÖĞ
+        /// æ˜¯å¦åœ¨è¾“å‡ºæ¡ä»¶ä¸­
         /// </summary>
         public bool IsWhere
         {
@@ -75,7 +75,7 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
         }
         private AbsCondition _condition = null;
         /// <summary>
-        /// Êä³öµÄÌõ¼şĞÅÏ¢ 
+        /// è¾“å‡ºçš„æ¡ä»¶ä¿¡æ¯ 
         /// </summary>
         public AbsCondition Condition
         {
@@ -85,7 +85,7 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
 
         private BQLInfos _infos = null;
         /// <summary>
-        /// Êä³öÉèÖÃ
+        /// è¾“å‡ºè®¾ç½®
         /// </summary>
         public BQLInfos Infos
         {
@@ -93,21 +93,32 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
             set { _infos = value; }
         }
 
-        private Func<EntityInfoHandle, string> _tableNameResolver =
-            entityInfo => entityInfo.TableName;
+        //private Func<EntityInfoHandle, string> _tableNameResolver =
+        //    entityInfo => entityInfo.TableName;
+
+        /// <summary>
+        /// æ˜¯å¦ä½¿ç”¨å¼‚æ­¥TableName
+        /// </summary>
+        private bool _isUseAsync = false;
 
         internal string GetTableName(EntityInfoHandle entityInfo)
         {
-            return _tableNameResolver(entityInfo);
+            //return _tableNameResolver(entityInfo);
+            if (_isUseAsync) 
+            {
+                return entityInfo.TableNameAsync;
+            }
+            return entityInfo.TableName;
         }
 
         internal void UseAsyncTableNames()
         {
-            _tableNameResolver = entityInfo => entityInfo.TableNameAsync;
+            //_tableNameResolver = entityInfo => entityInfo.TableNameAsync;
+            _isUseAsync = true;
         }
         private DBInfo _dbInfo;
         /// <summary>
-        /// Êı¾İ¿âĞÅÏ¢
+        /// æ•°æ®åº“ä¿¡æ¯
         /// </summary>
         public DBInfo DBInfo
         {
@@ -116,7 +127,7 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
         }
         private BQLEntityTableHandle _fromTable;
         /// <summary>
-        /// FromµÄµÚÒ»¸ö±í
+        /// Fromçš„ç¬¬ä¸€ä¸ªè¡¨
         /// </summary>
         public BQLEntityTableHandle FromTable
         {
@@ -127,7 +138,7 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
 
         private Dictionary<string, bool> _containTables=new Dictionary<string,bool>();
         /// <summary>
-        /// °üº¬µÄ±í
+        /// åŒ…å«çš„è¡¨
         /// </summary>
         public Dictionary<string, bool> ContainTables
         {
@@ -148,7 +159,7 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
         }
 
         /// <summary>
-        /// ×Ô¶¯Ôö³¤µÄ¼¯ºÏ
+        /// è‡ªåŠ¨å¢é•¿çš„é›†åˆ
         /// </summary>
         internal List<IdentityInfo> IdentityInfos
         {
@@ -161,7 +172,7 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
         private TableAliasNameManager _aliasManager;
 
         /// <summary>
-        /// ±íÓ³Éä¹ÜÀíÆ÷
+        /// è¡¨æ˜ å°„ç®¡ç†å™¨
         /// </summary>
         internal TableAliasNameManager AliasManager
         {
@@ -178,7 +189,7 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
 
         private bool _outPutModle = false;
         /// <summary>
-        /// ÊÇ·ñÊä³öSQLÓï¾äÄ£Ê½
+        /// æ˜¯å¦è¾“å‡ºSQLè¯­å¥æ¨¡å¼
         /// </summary>
         public bool OutPutModle
         {
@@ -188,14 +199,14 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
 
         private BQLLockType _lockType;
         /// <summary>
-        /// ĞĞ¼¶ËøÀàĞÍ
+        /// è¡Œçº§é”ç±»å‹
         /// </summary>
         public BQLLockType LockType 
         {
             get { return _lockType;}
             set { _lockType = value; }
         }
-        #region ICloneable ³ÉÔ±
+        #region ICloneable æˆå‘˜
 
         public object Clone()
         {
@@ -205,7 +216,7 @@ namespace Buffalo.DB.BQLCommon.BQLConditionCommon
             //info._isPage = this._isShowTableName;
             info._paramList = _paramList;
             info._dbInfo = this._dbInfo;
-            info._tableNameResolver = this._tableNameResolver;
+            info._isUseAsync = this._isUseAsync;
             info.OutPutModle = this.OutPutModle;
             return info;
         }
