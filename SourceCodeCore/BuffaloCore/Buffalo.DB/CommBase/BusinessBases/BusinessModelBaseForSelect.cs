@@ -300,14 +300,14 @@ namespace Buffalo.DB.CommBase.BusinessBases
         /// <summary>
         /// 查询符合指定条件的记录条数
         /// </summary>
-        /// <param name="scpoeList">范围查找的集合</param>
+        /// <param name="lstScope">范围查找的集合</param>
         /// <returns></returns>
-        public virtual async Task<long> SelectCountAsync(ScopeList scpoeList)
+        public virtual async Task<long> SelectCountAsync(ScopeList lstScope)
         {
             await OnSelectAsync(lstScope);
             DataAccessBaseForSelect<T> entityDao = new DataAccessBaseForSelect<T>();
             
-            return await entityDao.SelectCountAsync(scpoeList);
+            return await entityDao.SelectCountAsync(lstScope);
             
         }
         #endregion
