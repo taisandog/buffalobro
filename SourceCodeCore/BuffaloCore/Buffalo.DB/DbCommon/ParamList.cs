@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Data;
 using System.Collections.Generic;
@@ -12,17 +12,17 @@ namespace Buffalo.DB.DbCommon
 {
 	
 	/// <summary>
-	/// SqlParameterµÄÁĞ±í
+	/// SqlParameterçš„åˆ—è¡¨
 	/// </summary>
 	public class ParamList:List<DBParameter>
 	{
         ///// <summary>
-        ///// ÒÑ¾­´æÔÚµÄÊı¾İ¿âÖµ
+        ///// å·²ç»å­˜åœ¨çš„æ•°æ®åº“å€¼
         ///// </summary>
         //private Dictionary<string, DBParameter> _dicExistsValue = new Dictionary<string, DBParameter>();
 
         /// <summary>
-        /// ĞÂµÄ¼üÃû
+        /// æ–°çš„é”®å
         /// </summary>
         /// <returns></returns>
         private string NewKeyName(DBInfo db) 
@@ -32,7 +32,7 @@ namespace Buffalo.DB.DbCommon
         }
 
         /// <summary>
-        /// ĞÂµÄÖµÃû
+        /// æ–°çš„å€¼å
         /// </summary>
         /// <returns></returns>
         private string NewValueKeyName(DBInfo db)
@@ -43,7 +43,7 @@ namespace Buffalo.DB.DbCommon
 
         //private Dictionary<string, bool> _tables;
         ///// <summary>
-        ///// ±¾´ÎÓï¾ä¹ØÁªµÄ±í
+        ///// æœ¬æ¬¡è¯­å¥å…³è”çš„è¡¨
         ///// </summary>
         //public Dictionary<string, bool> Tables
         //{
@@ -51,7 +51,7 @@ namespace Buffalo.DB.DbCommon
         //    internal set { _tables = value; }
         //}
         ///// <summary>
-        ///// ³õÊ¼»¯»º´æ±íĞÅÏ¢
+        ///// åˆå§‹åŒ–ç¼“å­˜è¡¨ä¿¡æ¯
         ///// </summary>
         ///// <returns></returns>
         //internal bool SetCacheTable(string tabelName) 
@@ -64,10 +64,10 @@ namespace Buffalo.DB.DbCommon
         //    return true;
         //}
         /// <summary>
-        /// ĞÂµÄÊı¾İ¿âÖµ
+        /// æ–°çš„æ•°æ®åº“å€¼
         /// </summary>
-        /// <param name="type">Êı¾İ¿âÀàĞÍ</param>
-        /// <param name="paramValue">ÖµÀàĞÍ</param>
+        /// <param name="type">æ•°æ®åº“ç±»å‹</param>
+        /// <param name="paramValue">å€¼ç±»å‹</param>
         /// <returns></returns>
         public DBParameter NewParameter(DbType type, object paramValue, DBInfo db)
         {
@@ -87,22 +87,22 @@ namespace Buffalo.DB.DbCommon
 
 
 		/// <summary>
-        /// ´´½¨Ò»¸öĞÂµÄIDataParameter²¢Ìí¼Óµ½ÁĞ±í
+        /// åˆ›å»ºä¸€ä¸ªæ–°çš„IDataParameterå¹¶æ·»åŠ åˆ°åˆ—è¡¨
 		/// </summary>
-        /// <param name="paramName">IDataParameterÒªÓ³Éä²ÎÊıµÄÃû×Ö</param>
-		/// <param name="type">²ÎÊıÀàĞÍ</param>
-		/// <param name="paramValue">²ÎÊıµÄÖµ</param>
+        /// <param name="paramName">IDataParameterè¦æ˜ å°„å‚æ•°çš„åå­—</param>
+		/// <param name="type">å‚æ•°ç±»å‹</param>
+		/// <param name="paramValue">å‚æ•°çš„å€¼</param>
         public DBParameter AddNew(string paramName, DbType type, object paramValue)
 		{
 			return AddNew(paramName,type,paramValue,ParameterDirection.Input);
         }
         /// <summary>
-        /// ´´½¨Ò»¸öĞÂµÄIDataParameter²¢Ìí¼Óµ½ÁĞ±í
+        /// åˆ›å»ºä¸€ä¸ªæ–°çš„IDataParameterå¹¶æ·»åŠ åˆ°åˆ—è¡¨
 		/// </summary>
-        /// <param name="paramName">IDataParameterÒªÓ³Éä²ÎÊıµÄÃû×Ö</param>
-		/// <param name="type">²ÎÊıÀàĞÍ</param>
-		/// <param name="paramValue">²ÎÊıµÄÖµ£¨Èç¹ûÎªÊäÈëµÄ²ÎÊı£¬´ËÏî¿ÉÎªnull£©</param>
-		/// <param name="paramDir">²ÎÊıµÄÊäÈëÀàĞÍ</param>
+        /// <param name="paramName">IDataParameterè¦æ˜ å°„å‚æ•°çš„åå­—</param>
+		/// <param name="type">å‚æ•°ç±»å‹</param>
+		/// <param name="paramValue">å‚æ•°çš„å€¼ï¼ˆå¦‚æœä¸ºè¾“å…¥çš„å‚æ•°ï¼Œæ­¤é¡¹å¯ä¸ºnullï¼‰</param>
+		/// <param name="paramDir">å‚æ•°çš„è¾“å…¥ç±»å‹</param>
         public DBParameter AddNew(string paramName, DbType type, object paramValue, ParameterDirection paramDir)
 		{
             if (paramValue is Enum)
@@ -115,9 +115,9 @@ namespace Buffalo.DB.DbCommon
 		}
 		
 		/// <summary>
-		/// °ÑÁĞ±íÀï±ßµÄSqlParameter¼Óµ½SqlCommandÀï±ß
+		/// æŠŠåˆ—è¡¨é‡Œè¾¹çš„SqlParameteråŠ åˆ°SqlCommandé‡Œè¾¹
 		/// </summary>
-		/// <param name="comm">Òª¼Ó½øÈ¥µÄSqlCommand</param>
+		/// <param name="comm">è¦åŠ è¿›å»çš„SqlCommand</param>
 		public void Fill(IDbCommand comm,DBInfo db)
 		{
             StringBuilder ret = new StringBuilder(500);
@@ -139,7 +139,7 @@ namespace Buffalo.DB.DbCommon
             //return null;
 		}
         /// <summary>
-        /// »ñÈ¡paramÀï±ßµÄÖµµÄÏÔÊ¾×Ö·û´®
+        /// è·å–paramé‡Œè¾¹çš„å€¼çš„æ˜¾ç¤ºå­—ç¬¦ä¸²
         /// </summary>
         /// <returns></returns>
         public string GetParamString(DBInfo db,DataBaseOperate oper)
@@ -155,11 +155,11 @@ namespace Buffalo.DB.DbCommon
             return GetParamString(db, showBinary, hideTextLength);
         }
         /// <summary>
-        /// »ñÈ¡paramÀï±ßµÄÖµµÄĞÅÏ¢
+        /// è·å–paramé‡Œè¾¹çš„å€¼çš„ä¿¡æ¯
         /// </summary>
-        /// <param name="db">Êı¾İ¿â</param>
-        /// <param name="showBinary">ÊÇ·ñÏÔÊ¾byte[]</param>
-        /// <param name="hideTextLength">µ±×Ö·û´®³¤¶È´óÓÚÕâ¸öÖµÊ±ºò£¬ÔòÒş²ØÖµ</param>
+        /// <param name="db">æ•°æ®åº“</param>
+        /// <param name="showBinary">æ˜¯å¦æ˜¾ç¤ºbyte[]</param>
+        /// <param name="hideTextLength">å½“å­—ç¬¦ä¸²é•¿åº¦å¤§äºè¿™ä¸ªå€¼æ—¶å€™ï¼Œåˆ™éšè—å€¼</param>
         /// <returns></returns>
         public string GetParamString(DBInfo db, bool showBinary,int hideTextLength) 
         {
@@ -215,27 +215,25 @@ namespace Buffalo.DB.DbCommon
         }
 
         /// <summary>
-        /// »ñÈ¡Êµ¼ÊÊı¾İ¿âµÄ×Ö¶Î±äÁ¿
+        /// è·å–å®é™…æ•°æ®åº“çš„å­—æ®µå˜é‡
         /// </summary>
         /// <param name="prm"></param>
         /// <returns></returns>
         private IDataParameter GetParameter(DBParameter prm, DBInfo db)
         {
             object value = prm.Value;
-            if (value is Guid)
-            {
-                value = Buffalo.Kernel.CommonMethods.GuidToString((Guid)value);
-            }
             DbType dbType = prm.DbType;
-            if (dbType == DbType.Guid) 
+            if (dbType == DbType.Guid)
             {
-                dbType = DbType.AnsiString;
+                value = value == null || value == DBNull.Value
+                    ? DBNull.Value
+                    : Buffalo.Kernel.CommonMethods.ChangeType(value, typeof(Guid));
             }
             return db.CurrentDbAdapter.GetDataParameter(prm.ParameterName, dbType, value, prm.Direction);
         }
 
         /// <summary>
-        /// ·µ»Ø±äÁ¿µÄÖµ
+        /// è¿”å›å˜é‡çš„å€¼
         /// </summary>
         /// <param name="comm"></param>
         /// <param name="db"></param>
@@ -256,7 +254,7 @@ namespace Buffalo.DB.DbCommon
         }
 
 		/// <summary>
-		/// »ñÈ¡µÚ¼¸¸öSqlParameter
+		/// è·å–ç¬¬å‡ ä¸ªSqlParameter
 		/// </summary>
         public DBParameter this[string paramName]
 		{

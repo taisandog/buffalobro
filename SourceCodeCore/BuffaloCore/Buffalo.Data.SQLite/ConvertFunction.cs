@@ -109,7 +109,7 @@ namespace Buffalo.Data.SQLite
                 case DbType.DateTime:
                     return "TIMESTAMP";
                 case DbType.Guid:
-                    return "VARCHAR";
+                    return "TEXT";
                 case DbType.Single:
                     return "FLOAT";
                 case DbType.String:

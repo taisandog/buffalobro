@@ -472,6 +472,8 @@ namespace Buffalo.Data.MySQL
         {
             switch (dbType)
             {
+                case DbType.Guid:
+                    return "CHAR(36)";
                 case DbType.Boolean:
                     return "bit";
 

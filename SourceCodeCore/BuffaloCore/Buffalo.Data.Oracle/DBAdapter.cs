@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Data;
@@ -20,7 +20,7 @@ namespace Buffalo.Data.Oracle
     public class DBAdapter : IDBAdapter
     {
         /// <summary>
-        /// È«ÎÄËÑË÷Ê±ºòÅÅĞò×Ö¶ÎÊÇ·ñÏÔÊ¾±í´ïÊ½
+        /// å…¨æ–‡æœç´¢æ—¶å€™æ’åºå­—æ®µæ˜¯å¦æ˜¾ç¤ºè¡¨è¾¾å¼
         /// </summary>
         public virtual bool IsShowExpression
         {
@@ -30,7 +30,7 @@ namespace Buffalo.Data.Oracle
             }
         }
         /// <summary>
-        /// Çå¿Õ±í
+        /// æ¸…ç©ºè¡¨
         /// </summary>
         /// <param name="tableName"></param>
         /// <returns></returns>
@@ -46,7 +46,7 @@ namespace Buffalo.Data.Oracle
             get { return false; }
         }
         /// <summary>
-        /// ÊÇ·ñ¼ÇÂ¼×ÔÔö³¤×Ö¶Î×÷ÊÖ¶¯´¦Àí
+        /// æ˜¯å¦è®°å½•è‡ªå¢é•¿å­—æ®µä½œæ‰‹åŠ¨å¤„ç†
         /// </summary>
         public bool IsSaveIdentityParam
         {
@@ -57,17 +57,17 @@ namespace Buffalo.Data.Oracle
 
         }
         /// <summary>
-        /// »ñÈ¡ÔÚ×Ö¶ÎÌí¼ÓSQL
+        /// è·å–åœ¨å­—æ®µæ·»åŠ SQL
         /// </summary>
-        /// <param name="table">±í</param>
-        /// <param name="pInfo">×Ö¶Î£¨Èç¹ûÎª¿ÕÔòÉèÖÃ±í×¢ÊÍ£©</param>
+        /// <param name="table">è¡¨</param>
+        /// <param name="pInfo">å­—æ®µï¼ˆå¦‚æœä¸ºç©ºåˆ™è®¾ç½®è¡¨æ³¨é‡Šï¼‰</param>
         /// <returns></returns>
         public virtual string GetColumnDescriptionSQL(EntityParam pInfo, DBInfo info)
         {
             return null;
         }
         /// <summary>
-        /// ÖØ½¨²ÎÊı¼¯ºÏ
+        /// é‡å»ºå‚æ•°é›†åˆ
         /// </summary>
         /// <param name="lstPrm"></param>
         /// <returns></returns>
@@ -76,7 +76,7 @@ namespace Buffalo.Data.Oracle
             return lstPrm;
         }
         ///// <summary>
-        ///// »ñÈ¡±äÁ¿ÁĞ±í
+        ///// è·å–å˜é‡åˆ—è¡¨
         ///// </summary>
         //public ParamList BQLSelectParamList
         //{
@@ -86,12 +86,12 @@ namespace Buffalo.Data.Oracle
         //    }
         //}
         /// <summary>
-        /// »ñÈ¡²ÎÊıÀà
+        /// è·å–å‚æ•°ç±»
         /// </summary>
-        /// <param name="paramName">²ÎÊıÃû</param>
-        /// <param name="type">²ÎÊıÊı¾İ¿âÀàĞÍ</param>
-        /// <param name="paramValue">²ÎÊıÖµ</param>
-        /// <param name="paramDir">²ÎÊı½ø³öÀàĞÍ</param>
+        /// <param name="paramName">å‚æ•°å</param>
+        /// <param name="type">å‚æ•°æ•°æ®åº“ç±»å‹</param>
+        /// <param name="paramValue">å‚æ•°å€¼</param>
+        /// <param name="paramDir">å‚æ•°è¿›å‡ºç±»å‹</param>
         /// <returns></returns>
         public virtual IDataParameter GetDataParameter(string paramName, DbType type, object paramValue, ParameterDirection paramDir)
         {
@@ -105,7 +105,7 @@ namespace Buffalo.Data.Oracle
         }
 
         /// <summary>
-        /// ¸ñÊ½»¯Êı¾İ¿âÀàĞÍ
+        /// æ ¼å¼åŒ–æ•°æ®åº“ç±»å‹
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
@@ -131,6 +131,7 @@ namespace Buffalo.Data.Oracle
                 case DbType.VarNumeric:
                     return DbType.Decimal;
                 case DbType.Guid:
+                    return DbType.AnsiString;
                 case DbType.Xml:
                     return DbType.String;
                 default:
@@ -139,10 +140,10 @@ namespace Buffalo.Data.Oracle
         }
 
         /// <summary>
-        /// »ñÈ¡topµÄ²éÑ¯×Ö·û´®
+        /// è·å–topçš„æŸ¥è¯¢å­—ç¬¦ä¸²
         /// </summary>
-        /// <param name="sql">²éÑ¯×Ö·û´®</param>
-        /// <param name="top">topÖµ</param>
+        /// <param name="sql">æŸ¥è¯¢å­—ç¬¦ä¸²</param>
+        /// <param name="top">topå€¼</param>
         /// <returns></returns>
         public string GetTopSelectSql(SelectCondition sql, int top)
         {
@@ -159,7 +160,7 @@ namespace Buffalo.Data.Oracle
         }
 
         /// <summary>
-        /// °ÑÊı¾İÀàĞÍ×ª»»³Éµ±Ç°Êı¾İ¿âÖ§³ÖµÄÀàĞÍ
+        /// æŠŠæ•°æ®ç±»å‹è½¬æ¢æˆå½“å‰æ•°æ®åº“æ”¯æŒçš„ç±»å‹
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
@@ -168,7 +169,7 @@ namespace Buffalo.Data.Oracle
             return type;
         }
         /// <summary>
-        /// »ñÈ¡SQLÃüÁîÀà
+        /// è·å–SQLå‘½ä»¤ç±»
         /// </summary>
         /// <returns></returns>
         public virtual DbCommand GetCommand()
@@ -177,7 +178,7 @@ namespace Buffalo.Data.Oracle
             return comm;
         }
         /// <summary>
-        /// »ñÈ¡SQLÁ¬½Ó
+        /// è·å–SQLè¿æ¥
         /// </summary>
         /// <returns></returns>
         public virtual DbConnection GetConnection(DBInfo db)
@@ -186,7 +187,7 @@ namespace Buffalo.Data.Oracle
             return conn;
         }
         /// <summary>
-        /// »ñÈ¡SQLÊÊÅäÆ÷
+        /// è·å–SQLé€‚é…å™¨
         /// </summary>
         /// <returns></returns>
         public virtual IDbDataAdapter GetAdapter()
@@ -196,7 +197,7 @@ namespace Buffalo.Data.Oracle
         }
 
         /// <summary>
-        /// ¸ñÊ½»¯×Ö¶ÎÃû
+        /// æ ¼å¼åŒ–å­—æ®µå
         /// </summary>
         /// <param name="paramName"></param>
         /// <returns></returns>
@@ -206,7 +207,7 @@ namespace Buffalo.Data.Oracle
         }
 
         /// <summary>
-        /// ¸ñÊ½»¯±í¸ñÃû
+        /// æ ¼å¼åŒ–è¡¨æ ¼å
         /// </summary>
         /// <param name="paramName"></param>
         /// <returns></returns>
@@ -216,7 +217,7 @@ namespace Buffalo.Data.Oracle
         }
 
         /// <summary>
-        /// ¸ñÊ½»¯±äÁ¿Ãû
+        /// æ ¼å¼åŒ–å˜é‡å
         /// </summary>
         /// <param name="pname"></param>
         /// <returns></returns>
@@ -226,7 +227,7 @@ namespace Buffalo.Data.Oracle
         }
 
         /// <summary>
-        /// ¸ñÊ½»¯±äÁ¿µÄ¼üÃû
+        /// æ ¼å¼åŒ–å˜é‡çš„é”®å
         /// </summary>
         /// <param name="pname"></param>
         /// <returns></returns>
@@ -236,17 +237,17 @@ namespace Buffalo.Data.Oracle
         }
 
         /// <summary>
-        /// ·µ»ØÈ«ÎÄ¼ìË÷µÄ²éÑ¯Óï¾ä
+        /// è¿”å›å…¨æ–‡æ£€ç´¢çš„æŸ¥è¯¢è¯­å¥
         /// </summary>
         /// <param name="paranName"></param>
         /// <param name="value"></param>
         /// <returns></returns>
         public string FreeTextLike(string paranName, string value)
         {
-            throw new NotImplementedException("Oracle²»°üº¬FreeText·½·¨");
+            throw new NotImplementedException("Oracleä¸åŒ…å«FreeTextæ–¹æ³•");
         }
         /// <summary>
-        /// ·µ»ØÈ«ÎÄ¼ìË÷µÄ²éÑ¯Óï¾ä
+        /// è¿”å›å…¨æ–‡æ£€ç´¢çš„æŸ¥è¯¢è¯­å¥
         /// </summary>
         /// <param name="paranName"></param>
         /// <param name="value"></param>
@@ -257,7 +258,7 @@ namespace Buffalo.Data.Oracle
         }
 
         /// <summary>
-        /// »ñÈ¡µ±Ç°Ê±¼ä
+        /// è·å–å½“å‰æ—¶é—´
         /// </summary>
         /// <returns></returns>
         public string GetNowDate(DbType dbType)
@@ -271,7 +272,7 @@ namespace Buffalo.Data.Oracle
         }
 
         /// <summary>
-        /// »ñÈ¡µ±Ç°Ê±¼ä
+        /// è·å–å½“å‰æ—¶é—´
         /// </summary>
         /// <returns></returns>
         public string GetUTCDate(DbType dbType)
@@ -284,7 +285,7 @@ namespace Buffalo.Data.Oracle
             }
         }
         /// <summary>
-        /// »ñÈ¡Ê±¼ä´Á
+        /// è·å–æ—¶é—´æˆ³
         /// </summary>
         /// <returns></returns>
         public string GetTimeStamp(DbType dbType)
@@ -293,13 +294,13 @@ namespace Buffalo.Data.Oracle
         }
 
         /// <summary>
-        /// ÓÎ±ê·ÖÒ³
+        /// æ¸¸æ ‡åˆ†é¡µ
         /// </summary>
-        /// <typeparam name="T">ÊµÌåÀàĞÍ</typeparam>
-        /// <param name="lstParam">²ÎÊı¼¯ºÏ</param>
-        /// <param name="sql">sqlÓï¾ä</param>
-        /// <param name="objPage">·ÖÒ³ÊµÌå</param>
-        /// <param name="oper">Êı¾İ¿âÁ´½Ó</param>
+        /// <typeparam name="T">å®ä½“ç±»å‹</typeparam>
+        /// <param name="lstParam">å‚æ•°é›†åˆ</param>
+        /// <param name="sql">sqlè¯­å¥</param>
+        /// <param name="objPage">åˆ†é¡µå®ä½“</param>
+        /// <param name="oper">æ•°æ®åº“é“¾æ¥</param>
         /// <returns></returns>
         public DbDataReader Query(string sql, ParamList lstParam, PageContent objPage, DataBaseOperate oper)
         {
@@ -307,25 +308,25 @@ namespace Buffalo.Data.Oracle
         }
 
         /// <summary>
-        /// ²éÑ¯²¢ÇÒ·µ»ØDataSet(ÓÎ±ê·ÖÒ³)
+        /// æŸ¥è¯¢å¹¶ä¸”è¿”å›DataSet(æ¸¸æ ‡åˆ†é¡µ)
         /// </summary>
-        /// <param name="sql">Òª²éÑ¯µÄSQLÓï¾ä</param>
-        /// <param name="lstParam">²ÎÊı¼¯ºÏ</param>
-        /// <param name="objPage">·ÖÒ³¶ÔÏó</param>
-        /// <param name="oper">Êı¾İ¿â¶ÔÏó</param>
-        /// <param name="curType">Ó³ÉäµÄÊµÌåÀàĞÍ(Èç¹ûÓÃ»ØÊı¾İ¿âµÄÔ­ÁĞÃû£¬Ôò´ËÎªnull)</param>
+        /// <param name="sql">è¦æŸ¥è¯¢çš„SQLè¯­å¥</param>
+        /// <param name="lstParam">å‚æ•°é›†åˆ</param>
+        /// <param name="objPage">åˆ†é¡µå¯¹è±¡</param>
+        /// <param name="oper">æ•°æ®åº“å¯¹è±¡</param>
+        /// <param name="curType">æ˜ å°„çš„å®ä½“ç±»å‹(å¦‚æœç”¨å›æ•°æ®åº“çš„åŸåˆ—åï¼Œåˆ™æ­¤ä¸ºnull)</param>
         /// <returns></returns>
         public DataTable QueryDataTable(string sql, ParamList lstParam, PageContent objPage, DataBaseOperate oper, Type curType)
         {
             return CursorPageCutter.QueryDataTable(sql, lstParam, objPage, oper, curType);
         }
         /// <summary>
-        /// Éú³É·ÖÒ³SQLÓï¾ä
+        /// ç”Ÿæˆåˆ†é¡µSQLè¯­å¥
         /// </summary>
-        /// <param name="list">²ÎÊıÁĞ±í</param>
-        /// <param name="oper">Á¬½Ó¶ÔÏó</param>
-        /// <param name="objCondition">Ìõ¼ş¶ÔÏó</param>
-        /// <param name="objPage">·ÖÒ³¼ÇÂ¼Àà</param>
+        /// <param name="list">å‚æ•°åˆ—è¡¨</param>
+        /// <param name="oper">è¿æ¥å¯¹è±¡</param>
+        /// <param name="objCondition">æ¡ä»¶å¯¹è±¡</param>
+        /// <param name="objPage">åˆ†é¡µè®°å½•ç±»</param>
         /// <returns></returns>
         public string CreatePageSql(ParamList list, DataBaseOperate oper, SelectCondition objCondition,
             PageContent objPage, bool useCache)
@@ -336,9 +337,9 @@ namespace Buffalo.Data.Oracle
 
 
         /// <summary>
-        /// »ñÈ¡×Ö·û´®Æ´½ÓSQlÓï¾ä
+        /// è·å–å­—ç¬¦ä¸²æ‹¼æ¥SQlè¯­å¥
         /// </summary>
-        /// <param name="str">×Ö·û´®¼¯ºÏ</param>
+        /// <param name="str">å­—ç¬¦ä¸²é›†åˆ</param>
         /// <returns></returns>
         public string ConcatString(params string[] strs)
         {
@@ -356,7 +357,7 @@ namespace Buffalo.Data.Oracle
         }
 
         /// <summary>
-        /// »ñÈ¡×Ô¶¯Ôö³¤µÄSQL
+        /// è·å–è‡ªåŠ¨å¢é•¿çš„SQL
         /// </summary>
         /// <returns></returns>
         public string GetIdentitySQL(EntityPropertyInfo pkInfo)
@@ -364,12 +365,12 @@ namespace Buffalo.Data.Oracle
 
             if (pkInfo == null)
             {
-                throw new Exception("ÕÒ²»µ½Ö÷¼üÊôĞÔ");
+                throw new Exception("æ‰¾ä¸åˆ°ä¸»é”®å±æ€§");
             }
             return "select \"" + GetSequenceName(pkInfo) + "\".currval as curVal from dual";
         }
         /// <summary>
-        /// »ñÈ¡×Ô¶¯Ôö³¤ÖµµÄSQL
+        /// è·å–è‡ªåŠ¨å¢é•¿å€¼çš„SQL
         /// </summary>
         /// <returns></returns>
         public string GetIdentityValueSQL(EntityPropertyInfo pkInfo)
@@ -377,15 +378,15 @@ namespace Buffalo.Data.Oracle
 
             if (pkInfo == null)
             {
-                throw new Exception("ÕÒ²»µ½Ö÷¼üÊôĞÔ");
+                throw new Exception("æ‰¾ä¸åˆ°ä¸»é”®å±æ€§");
             }
             return "select \"" + GetSequenceName(pkInfo) + "\".nextval as curVal from dual";
         }
         /// <summary>
-        /// »ñÈ¡ĞòÁĞÃû
+        /// è·å–åºåˆ—å
         /// </summary>
-        /// <param name="tableName">±íÃû</param>
-        /// <param name="entityInfo">×Ö¶ÎÃû</param>
+        /// <param name="tableName">è¡¨å</param>
+        /// <param name="entityInfo">å­—æ®µå</param>
         /// <returns></returns>
         public string GetSequenceName(EntityPropertyInfo info)
         {
@@ -393,17 +394,17 @@ namespace Buffalo.Data.Oracle
         }
 
         /// <summary>
-        ///  »ñÈ¡Ä¬ÈÏĞòÁĞÃû
+        ///  è·å–é»˜è®¤åºåˆ—å
         /// </summary>
-        /// <param name="tableName">±íÃû</param>
-        /// <param name="paramName">×Ö¶ÎÃû</param>
+        /// <param name="tableName">è¡¨å</param>
+        /// <param name="paramName">å­—æ®µå</param>
         /// <returns></returns>
         public string GetDefaultSequenceName(string tableName, string paramName)
         {
             return SequenceManager.GetDefaultName(tableName, paramName);
         }
         /// <summary>
-        /// ³õÊ¼»¯ĞòÁĞÃû
+        /// åˆå§‹åŒ–åºåˆ—å
         /// </summary>
         /// <param name="seqName"></param>
         public string GetSequenceInit(string seqName, EntityParam prm, DataBaseOperate oper)
@@ -412,7 +413,7 @@ namespace Buffalo.Data.Oracle
         }
 
         /// <summary>
-        /// °Ñ±äÁ¿×ª±ä³ÉSQLÓï¾äÖĞµÄÊ±¼ä±í´ïÊ½
+        /// æŠŠå˜é‡è½¬å˜æˆSQLè¯­å¥ä¸­çš„æ—¶é—´è¡¨è¾¾å¼
         /// </summary>
         /// <returns></returns>
         public string GetDateTimeString(object value)
@@ -430,7 +431,7 @@ namespace Buffalo.Data.Oracle
         }
 
         /// <summary>
-        /// ²åÈëÊ±ºò×Ô¶¯Ôö³¤µÄ×Ö¶ÎÃû
+        /// æ’å…¥æ—¶å€™è‡ªåŠ¨å¢é•¿çš„å­—æ®µå
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
@@ -439,10 +440,10 @@ namespace Buffalo.Data.Oracle
             return "\"" + info.ParamName + "\"";
         }
         /// <summary>
-        /// ²åÈëÊ±ºò×Ô¶¯Ôö³¤µÄ×Ö¶ÎÖµ
+        /// æ’å…¥æ—¶å€™è‡ªåŠ¨å¢é•¿çš„å­—æ®µå€¼
         /// </summary>
-        /// <param name="entityInfo">ÊµÌåĞÅÏ¢</param>
-        /// <param name="info">ÊôĞÔĞÅÏ¢</param>
+        /// <param name="entityInfo">å®ä½“ä¿¡æ¯</param>
+        /// <param name="info">å±æ€§ä¿¡æ¯</param>
         /// <returns></returns>
         public string GetIdentityParamValue(EntityInfoHandle entityInfo, EntityPropertyInfo info)
         {
@@ -450,31 +451,31 @@ namespace Buffalo.Data.Oracle
         }
 
         /// <summary>
-        /// ¸ù¾İReaderµÄÄÚÈİ°ÑÊıÖµ¸³½øÊµÌå
+        /// æ ¹æ®Readerçš„å†…å®¹æŠŠæ•°å€¼èµ‹è¿›å®ä½“
         /// </summary>
         /// <param name="reader">Reader</param>
-        /// <param name="index">µ±Ç°ReaderµÄË÷Òı</param>
-        /// <param name="arg">Ä¿±ê¶ÔÏó</param>
-        /// <param name="info">Ä¿±êÊôĞÔµÄ¾ä±ú</param>
+        /// <param name="index">å½“å‰Readerçš„ç´¢å¼•</param>
+        /// <param name="arg">ç›®æ ‡å¯¹è±¡</param>
+        /// <param name="info">ç›®æ ‡å±æ€§çš„å¥æŸ„</param>
         public void SetObjectValueFromReader(IDataReader reader, int index, object arg, EntityPropertyInfo info, bool needChangeType)
         {
             DB.DataBaseAdapter.SqlServer2KAdapter.DBAdapter.ValueFromReader(reader, index, arg, info, needChangeType);
         }
 
         /// <summary>
-        /// ¸ù¾İReaderµÄÄÚÈİ°ÑÊıÖµ¸³½øÊµÌå
+        /// æ ¹æ®Readerçš„å†…å®¹æŠŠæ•°å€¼èµ‹è¿›å®ä½“
         /// </summary>
         /// <param name="reader">Reader</param>
-        /// <param name="index">µ±Ç°ReaderµÄË÷Òı</param>
-        /// <param name="arg">Ä¿±ê¶ÔÏó</param>
-        /// <param name="info">Ä¿±êÊôĞÔµÄ¾ä±ú</param>
+        /// <param name="index">å½“å‰Readerçš„ç´¢å¼•</param>
+        /// <param name="arg">ç›®æ ‡å¯¹è±¡</param>
+        /// <param name="info">ç›®æ ‡å±æ€§çš„å¥æŸ„</param>
         public async Task SetObjectValueFromReaderAsync(DbDataReader reader, int index, object arg, EntityPropertyInfo info, bool needChangeType)
         {
             await DB.DataBaseAdapter.SqlServer2KAdapter.DBAdapter.ValueFromReaderAsync(reader, index, arg, info, needChangeType);
         }
 
         /// <summary>
-        /// »ñÈ¡Êı¾İ¿âµÄ×ÔÔö³¤×Ö¶ÎµÄĞÅÏ¢
+        /// è·å–æ•°æ®åº“çš„è‡ªå¢é•¿å­—æ®µçš„ä¿¡æ¯
         /// </summary>
         /// <returns></returns>
         public virtual string DBIdentity(string tableName, string paramName)
@@ -484,7 +485,7 @@ namespace Buffalo.Data.Oracle
         }
 
         /// <summary>
-        /// °ÑDBTypeÀàĞÍ×ª³É¶ÔÓ¦µÄSQLType
+        /// æŠŠDBTypeç±»å‹è½¬æˆå¯¹åº”çš„SQLType
         /// </summary>
         /// <param name="dbType"></param>
         /// <returns></returns>
@@ -560,7 +561,7 @@ namespace Buffalo.Data.Oracle
                 case DbType.SByte:
                     return "Number(4,0)";
                 case DbType.Guid:
-                    return "VARCHAR2(64)";
+                    return "VARCHAR2(36)";
                 case DbType.String:
                     if (length < 8000)
                     {
@@ -599,8 +600,9 @@ namespace Buffalo.Data.Oracle
                     {
                         return (int)OracleDbType.Long;
                     }
-                case DbType.AnsiStringFixedLength:
                 case DbType.Guid:
+                    return (int)OracleDbType.Varchar2;
+                case DbType.AnsiStringFixedLength:
                     if (length < 8000)
                     {
                         return (int)OracleDbType.Char;
@@ -675,11 +677,11 @@ namespace Buffalo.Data.Oracle
             }
         }
         /// <summary>
-        /// »ñÈ¡´´½¨×¢ÊÍµÄSQL
+        /// è·å–åˆ›å»ºæ³¨é‡Šçš„SQL
         /// </summary>
-        /// <param name="table">±í</param>
-        /// <param name="paramName">×Ö¶Î(Èç¹ûÎª¿ÕÔò¸ø±íÉèÖÃ×¢ÊÍ)</param>
-        /// <param name="description">×¢ÊÍ</param>
+        /// <param name="table">è¡¨</param>
+        /// <param name="paramName">å­—æ®µ(å¦‚æœä¸ºç©ºåˆ™ç»™è¡¨è®¾ç½®æ³¨é‡Š)</param>
+        /// <param name="description">æ³¨é‡Š</param>
         /// <returns></returns>
         public string GetAddDescriptionSQL(KeyWordTableParamItem table, EntityParam pInfo, DBInfo info)
         {
@@ -699,7 +701,7 @@ namespace Buffalo.Data.Oracle
             return true;
         }
         /// <summary>
-        /// ´´½¨±íÓï¾äµÄ½áÊø
+        /// åˆ›å»ºè¡¨è¯­å¥çš„ç»“æŸ
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
@@ -713,7 +715,7 @@ namespace Buffalo.Data.Oracle
             return true;
         }
         /// <summary>
-        /// like²»Çø·Ö´óĞ¡Ğ´
+        /// likeä¸åŒºåˆ†å¤§å°å†™
         /// </summary>
         /// <param name="source"></param>
         /// <param name="lstParam"></param>
@@ -759,7 +761,7 @@ namespace Buffalo.Data.Oracle
             return sbSql.ToString();
         }
         /// <summary>
-        /// ¸ñÊ½»¯×Ö¶ÎÃû
+        /// æ ¼å¼åŒ–å­—æ®µå
         /// </summary>
         /// <param name="pName"></param>
         /// <returns></returns>

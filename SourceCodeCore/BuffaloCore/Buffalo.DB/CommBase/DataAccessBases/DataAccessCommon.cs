@@ -243,11 +243,12 @@ namespace Buffalo.DB.CommBase.DataAccessBases
                 case DbType.StringFixedLength:
                     return "'" + value.ToString().Replace("'", "''") + "'";
                 case DbType.Guid:
-                    if (value is Guid)
+                    if (value == DBNull.Value)
                     {
-                        return Buffalo.Kernel.CommonMethods.GuidToString((Guid)value);
+                        return "null";
                     }
-                    return value.ToString();
+                    Guid guid = (Guid)CommonMethods.ChangeType(value, typeof(Guid));
+                    return "'" + guid.ToString("D") + "'";
                 case DbType.DateTime:
                 case DbType.Time:
                 case DbType.Date:

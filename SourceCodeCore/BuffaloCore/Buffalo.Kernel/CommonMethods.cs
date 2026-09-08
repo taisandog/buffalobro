@@ -364,12 +364,26 @@ namespace Buffalo.Kernel
         /// <returns></returns>
         public static object ChangeType(object sValue, Type targetType)
         {
-            if (targetType == DefaultType.GUIDType)
+            if ((Nullable.GetUnderlyingType(targetType) ?? targetType) == DefaultType.GUIDType)
             {
+                if (sValue == null || sValue == DBNull.Value)
+                {
+                    return sValue;
+                }
+                if (sValue is Guid)
+                {
+                    return sValue;
+                }
+                byte[] bytes = sValue as byte[];
+                if (bytes != null)
+                {
+                    return new Guid(bytes);
+                }
                 string str = sValue as string;
                 if (!string.IsNullOrEmpty(str))
                 {
-                    return StringToGuid(str);
+                    // 32 位字符串沿用历史字节序编码，标准 Guid 文本使用带连字符格式。
+                    return str.Length == 32 ? StringToGuid(str) : new Guid(str);
                 }
             }
             return Convert.ChangeType(sValue, targetType);

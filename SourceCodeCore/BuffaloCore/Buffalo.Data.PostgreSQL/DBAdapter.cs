@@ -453,6 +453,8 @@ namespace Buffalo.Data.PostgreSQL
         {
             switch (dbType)
             {
+                case DbType.Guid:
+                    return "uuid";
                 case DbType.Boolean:
                     return "bool";
 

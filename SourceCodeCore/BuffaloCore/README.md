@@ -8,6 +8,8 @@ Buffalo 基础库集合，面向 .NET 应用的基础设施组件，覆盖 ORM�
 **作者：** taisandog  
 **解决方案：** `BuffaloCore.sln`
 
+面向 AI / 贡献者的项目结构、编码约定，以及 `Buffalo.Kernel`、`Buffalo.ArgCommon` 的必用 API，见 [AGENT.md](AGENT.md)。
+
 ---
 
 ## 模块一览
@@ -41,16 +43,15 @@ Buffalo 基础库集合，面向 .NET 应用的基础设施组件，覆盖 ORM�
 
 ### Buffalo.Kernel — 基础类库
 
-通用底层工具，被多数 Buffalo 组件依赖。
+通用底层工具，被多数 Buffalo 组件依赖。提供快速反射、集合与并发锁、类型转换、代理拦截、线程池、哈希、枚举与连接串解析等。
 
-主要能力包括：
+**写代码时优先复用本库已有方法**，完整 API 对照见 [AGENT.md](AGENT.md#buffalo-kernel)。
 
-- **快速反射**（`FastReflection`）：属性/字段读写、动态调用
-- **集合与并发**（`Collections`、`Lock`、`AsyncTaskLock`）
-- **类型与值转换**（`ValueConvert`、`Defaults`）
-- **代理与拦截**（`ClassProxyBuilder`）
-- **线程池与批量任务**（`TreadPoolManager`、`MassManager`）
-- 密码哈希、枚举工具、连接串过滤等常用辅助
+### Buffalo.ArgCommon — 参数与 API 结果
+
+Web/API 入参（`ArgValues`）与统一返回值（`APIResault`）封装。存储、对外接口等场景返回结果时使用本库，不要另造 `{ code, msg, data }`。
+
+完整 API 对照见 [AGENT.md](AGENT.md#buffalo-argcommon)。
 
 ### Buffalo.DB — ORM
 
@@ -124,7 +125,7 @@ Buffalo 基础库集合，面向 .NET 应用的基础设施组件，覆盖 ORM�
 | `redismq` | Redis Stream / 队列 |
 | `mqttmq` | MQTT（MQTTnet） |
 
-业务代码面向 `MQConnection` / `MQListener` 等抽象编程，更换中间件时主要改配置即可。
+业务代码面向 `MQConnection` / `MQListener` 等抽象编程，更换中间件时主要改配置即可。可靠消费、死信与保留策略见 `Buffalo.MQ/README.md`。
 
 ---
 
@@ -178,6 +179,7 @@ dotnet build BuffaloCore.sln -c Release
 | 场景 | 建议引用 |
 |------|----------|
 | 仅工具与通用逻辑 | `Buffalo.Kernel` |
+| API 入参 / 统一返回值 | `Buffalo.ArgCommon`（已依赖 Kernel） |
 | 关系型数据库 ORM | `Buffalo.DB` + 对应 `Buffalo.Data.*` |
 | MongoDB | `Buffalo.MongoDB` |
 | 文件 / 对象存储 | `Buffalo.Storage` |
@@ -218,6 +220,8 @@ dotnet build BuffaloCore.sln -c Release
 ```text
 BuffaloCore/
 ├── BuffaloCore.sln
+├── README.md                # 给人看的概览
+├── AGENT.md                 # 给 AI / 贡献者的结构与复用约定
 ├── Buffalo.Kernel/          # 基础类库
 ├── Buffalo.ArgCommon/       # 参数与 API 结果
 ├── Buffalo.DB/              # ORM 核心
