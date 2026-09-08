@@ -111,7 +111,9 @@ namespace Buffalo.DBTools.HelperKernel
                         att = node.Attributes["DbType"];
                         if (att != null)
                         {
-                            filed.DbType = att.InnerText;
+                            DataTypeInfos fieldType = EntityFieldBase.GetTypeInfo(filed.FInfo);
+                            filed.DbType = fieldType != null && fieldType.DbTypes[0] == System.Data.DbType.Guid
+                                ? System.Data.DbType.Guid.ToString() : att.InnerText;
                         }
                         att = node.Attributes["Length"];
                         if (att != null)

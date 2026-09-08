@@ -61,6 +61,10 @@ namespace Buffalo.Data.MySQL
         /// <returns></returns>
         public string ConvetTo(string value, DbType type)
         {
+            if (type == DbType.Guid)
+            {
+                return "CAST(" + value + " as char(36))";
+            }
             if (type == DbType.AnsiString || type == DbType.AnsiStringFixedLength || type == DbType.String ||
                 type == DbType.StringFixedLength)
             {

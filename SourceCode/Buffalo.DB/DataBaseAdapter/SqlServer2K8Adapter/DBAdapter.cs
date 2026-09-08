@@ -60,7 +60,7 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2K8Adapter
                     }
                     return stype.ToString() + "(" + length + ")";
                 case SqlDbType.UniqueIdentifier:
-                    return "varchar(64)";
+                    return "uniqueidentifier";
                 default:
                     return stype.ToString();
             }

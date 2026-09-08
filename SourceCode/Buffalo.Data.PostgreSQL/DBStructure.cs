@@ -258,6 +258,9 @@ namespace Buffalo.Data.PostgreSQL
         {
             switch (type)
             {
+                case "uuid":
+                    return DbType.Guid;
+
                 case "int8":
                     return DbType.Int64;
 

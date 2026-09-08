@@ -390,7 +390,8 @@ namespace AddInSetup.ConnStringUI
         {
             if (backend == MQBackend.Redis)
             {
-                return "失败消息会按重试上限重新投递，超过上限后写入死信。Redis Stream 默认不自动清理；" +
+                return "本页仅用于 Redis Stream。失败消息会按重试上限重新投递，超过上限后写入死信；" +
+                    "Stream 默认不自动清理，" +
                     "maxLength 使用主界面的“最大记录”，deleteOnAck 仅允许单消费者组。";
             }
             return "失败消息会按重试上限重新投递；超过上限后写入死信。默认保持手动 ACK。";

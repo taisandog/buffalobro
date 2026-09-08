@@ -241,6 +241,10 @@ namespace Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter
         /// <returns></returns>
         public string ConvetTo(string value, DbType dbType) 
         {
+            if (dbType == DbType.Guid)
+            {
+                return "convert(uniqueidentifier," + value + ")";
+            }
             SqlDbType sdb = (SqlDbType)DBAdapter.CurrentDbType(dbType);
             return "convert(" + sdb.ToString() + "," + value + ")";
         }

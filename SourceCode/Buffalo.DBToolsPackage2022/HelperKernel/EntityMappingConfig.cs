@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
@@ -11,7 +11,7 @@ using Buffalo.DB.DataBaseAdapter;
 namespace Buffalo.DBTools.HelperKernel
 {
     /// <summary>
-    /// ÊµÌåÓ³ÉäÎÄ¼şÉú³É
+    /// å®ä½“æ˜ å°„æ–‡ä»¶ç”Ÿæˆ
     /// </summary>
     public class EntityMappingConfig
     {
@@ -24,7 +24,7 @@ namespace Buffalo.DBTools.HelperKernel
             get { return _allowLazy; }
         }
         /// <summary>
-        /// ¼ÓÔØÅäÖÃĞÅÏ¢
+        /// åŠ è½½é…ç½®ä¿¡æ¯
         /// </summary>
         /// <param name="entity"></param>
         public static bool LoadConfigInfo(EntityConfig entity) 
@@ -79,7 +79,7 @@ namespace Buffalo.DBTools.HelperKernel
         }
 
         /// <summary>
-        /// Ìî³äÊôĞÔĞÅÏ¢
+        /// å¡«å……å±æ€§ä¿¡æ¯
         /// </summary>
         /// <param name="doc"></param>
         /// <param name="entity"></param>
@@ -153,7 +153,7 @@ namespace Buffalo.DBTools.HelperKernel
             }
         }
         /// <summary>
-        /// Ìî³äÓ³ÉäĞÅÏ¢
+        /// å¡«å……æ˜ å°„ä¿¡æ¯
         /// </summary>
         /// <param name="doc"></param>
         /// <param name="entity"></param>
@@ -214,7 +214,7 @@ namespace Buffalo.DBTools.HelperKernel
         }
 
         /// <summary>
-        /// ±£´æXMLĞÅÏ¢
+        /// ä¿å­˜XMLä¿¡æ¯
         /// </summary>
         /// <param name="entity"></param>
         public static void SaveXML(DBEntityInfo entity)
@@ -235,7 +235,7 @@ namespace Buffalo.DBTools.HelperKernel
         }
 
         /// <summary>
-        /// ±£´æXMLĞÅÏ¢
+        /// ä¿å­˜XMLä¿¡æ¯
         /// </summary>
         /// <param name="entity"></param>
         public static void SaveXML(EntityConfig entity) 
@@ -256,10 +256,10 @@ namespace Buffalo.DBTools.HelperKernel
         }
 
         /// <summary>
-        /// ±£´æXML
+        /// ä¿å­˜XML
         /// </summary>
-        /// <param name="path">ÎÄ¼şÂ·¾¶</param>
-        /// <param name="doc">XMLÎÄµµ</param>
+        /// <param name="path">æ–‡ä»¶è·¯å¾„</param>
+        /// <param name="doc">XMLæ–‡æ¡£</param>
         public static void SaveXML(string path, XmlDocument doc) 
         {
             
@@ -267,7 +267,7 @@ namespace Buffalo.DBTools.HelperKernel
         }
 
         /// <summary>
-        /// ĞÂ½¨Ò»¸öXMLÎÄµµ
+        /// æ–°å»ºä¸€ä¸ªXMLæ–‡æ¡£
         /// </summary>
         /// <returns></returns>
         internal static XmlDocument NewXmlDocument() 
@@ -278,7 +278,7 @@ namespace Buffalo.DBTools.HelperKernel
         }
 
         /// <summary>
-        /// ¼ÓÔØXML
+        /// åŠ è½½XML
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
@@ -291,7 +291,7 @@ namespace Buffalo.DBTools.HelperKernel
 
 
         /// <summary>
-        /// ÊµÌåÉú³ÉXMLÅäÖÃ
+        /// å®ä½“ç”ŸæˆXMLé…ç½®
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
@@ -327,7 +327,7 @@ namespace Buffalo.DBTools.HelperKernel
             att.InnerText = entity.Summary;
             classNode.Attributes.Append(att);
 
-            att = doc.CreateAttribute("Lazy");//ÑÓ³Ù¼ÓÔØ
+            att = doc.CreateAttribute("Lazy");//å»¶è¿ŸåŠ è½½
             att.InnerText = "1";
             classNode.Attributes.Append(att);
 
@@ -337,7 +337,7 @@ namespace Buffalo.DBTools.HelperKernel
         }
 
         /// <summary>
-        /// Ìí¼ÓÓ³ÉäĞÅÏ¢
+        /// æ·»åŠ æ˜ å°„ä¿¡æ¯
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="classNode"></param>
@@ -355,31 +355,31 @@ namespace Buffalo.DBTools.HelperKernel
                 XmlNode node = doc.CreateElement("relation");
                 classNode.AppendChild(node);
 
-                XmlAttribute att = doc.CreateAttribute("FieldName");//×Ö¶ÎÃû
+                XmlAttribute att = doc.CreateAttribute("FieldName");//å­—æ®µå
                 att.InnerText = field.FieldName;
                 node.Attributes.Append(att);
 
-                att = doc.CreateAttribute("PropertyName");//¶ÔÓ¦µÄÊôĞÔÃûÃû
+                att = doc.CreateAttribute("PropertyName");//å¯¹åº”çš„å±æ€§åå
                 att.InnerText = field.PropertyName;
                 node.Attributes.Append(att);
 
-                att = doc.CreateAttribute("SourceProperty");//Êı¾İ¿âÀàĞÍ
+                att = doc.CreateAttribute("SourceProperty");//æ•°æ®åº“ç±»å‹
                 att.InnerText = EntityFieldBase.ToPascalName( field.SourceName);
                 node.Attributes.Append(att);
 
-                att = doc.CreateAttribute("TargetProperty");//Êı¾İ¿âÀàĞÍ³¤¶È
+                att = doc.CreateAttribute("TargetProperty");//æ•°æ®åº“ç±»å‹é•¿åº¦
                 att.InnerText = EntityFieldBase.ToPascalName(field.TargetName);
                 node.Attributes.Append(att);
 
-                att = doc.CreateAttribute("IsToDB");//Êı¾İ¿âÀàĞÍ³¤¶È
+                att = doc.CreateAttribute("IsToDB");//æ•°æ®åº“ç±»å‹é•¿åº¦
                 att.InnerText = field.IsToDB ? "1" : "0";
                 node.Attributes.Append(att);
 
-                att = doc.CreateAttribute("IsParent");//Êı¾İ¿âÀàĞÍ³¤¶È
+                att = doc.CreateAttribute("IsParent");//æ•°æ®åº“ç±»å‹é•¿åº¦
                 att.InnerText = field.IsParent ? "1" : "0";
                 node.Attributes.Append(att);
 
-                att = doc.CreateAttribute("Description");//ÊôĞÔ×¢ÊÍ
+                att = doc.CreateAttribute("Description");//å±æ€§æ³¨é‡Š
                 att.InnerText = field.Description;
                 node.Attributes.Append(att);
 
@@ -388,7 +388,7 @@ namespace Buffalo.DBTools.HelperKernel
         }
 
         /// <summary>
-        /// Ìí¼ÓÊôĞÔµÄXMLĞÅÏ¢
+        /// æ·»åŠ å±æ€§çš„XMLä¿¡æ¯
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="classNode"></param>
@@ -405,35 +405,35 @@ namespace Buffalo.DBTools.HelperKernel
                 XmlNode node = doc.CreateElement("property");
                 classNode.AppendChild(node);
 
-                XmlAttribute att = doc.CreateAttribute("FieldName");//×Ö¶ÎÃû
+                XmlAttribute att = doc.CreateAttribute("FieldName");//å­—æ®µå
                 att.InnerText = field.FieldName;
                 node.Attributes.Append(att);
 
-                att = doc.CreateAttribute("PropertyName");//¶ÔÓ¦µÄÊôĞÔÃûÃû
+                att = doc.CreateAttribute("PropertyName");//å¯¹åº”çš„å±æ€§åå
                 att.InnerText = field.PropertyName;
                 node.Attributes.Append(att);
 
-                att = doc.CreateAttribute("DbType");//Êı¾İ¿âÀàĞÍ
+                att = doc.CreateAttribute("DbType");//æ•°æ®åº“ç±»å‹
                 att.InnerText = field.SqlType.ToString();
                 node.Attributes.Append(att);
 
-                att = doc.CreateAttribute("Length");//Êı¾İ¿âÀàĞÍ³¤¶È
+                att = doc.CreateAttribute("Length");//æ•°æ®åº“ç±»å‹é•¿åº¦
                 att.InnerText = field.Length.ToString();
                 node.Attributes.Append(att);
 
-                att = doc.CreateAttribute("EntityPropertyType");//ÀàĞÍ
+                att = doc.CreateAttribute("EntityPropertyType");//ç±»å‹
                 att.InnerText = ((int)field.PropertyType).ToString();
                 node.Attributes.Append(att);
 
-                att = doc.CreateAttribute("ParamName");//×Ö¶ÎÃû
+                att = doc.CreateAttribute("ParamName");//å­—æ®µå
                 att.InnerText = field.ParamName;
                 node.Attributes.Append(att);
 
-                att = doc.CreateAttribute("ReadOnly");//×Ö¶ÎÃû
+                att = doc.CreateAttribute("ReadOnly");//å­—æ®µå
                 att.InnerText = field.ReadOnly?"1":"0";
                 node.Attributes.Append(att);
 
-                att = doc.CreateAttribute("Description");//ÊôĞÔ×¢ÊÍ
+                att = doc.CreateAttribute("Description");//å±æ€§æ³¨é‡Š
                 att.InnerText = field.Description;
                 node.Attributes.Append(att);
 
@@ -441,14 +441,14 @@ namespace Buffalo.DBTools.HelperKernel
                 att.InnerText = field.DefaultValue;
                 node.Attributes.Append(att);
 
-                att = doc.CreateAttribute("AllowNull");//ÊôĞÔ×¢ÊÍ
+                att = doc.CreateAttribute("AllowNull");//å±æ€§æ³¨é‡Š
                 att.InnerText = field.AllowNull ? "1" : "0";
                 node.Attributes.Append(att);
             }
         }
 
         /// <summary>
-        /// ÊµÌåÉú³ÉXMLÅäÖÃ
+        /// å®ä½“ç”ŸæˆXMLé…ç½®
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
@@ -502,7 +502,7 @@ namespace Buffalo.DBTools.HelperKernel
         }
 
         /// <summary>
-        /// Ìí¼ÓÓ³ÉäĞÅÏ¢
+        /// æ·»åŠ æ˜ å°„ä¿¡æ¯
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="classNode"></param>
@@ -519,35 +519,35 @@ namespace Buffalo.DBTools.HelperKernel
                 XmlNode node = doc.CreateElement("relation");
                 classNode.AppendChild(node);
 
-                XmlAttribute att = doc.CreateAttribute("FieldName");//×Ö¶ÎÃû
+                XmlAttribute att = doc.CreateAttribute("FieldName");//å­—æ®µå
                 att.InnerText = field.FieldName;
                 node.Attributes.Append(att);
 
-                att = doc.CreateAttribute("PropertyName");//¶ÔÓ¦µÄÊôĞÔÃûÃû
+                att = doc.CreateAttribute("PropertyName");//å¯¹åº”çš„å±æ€§åå
                 att.InnerText = field.PropertyName;
                 node.Attributes.Append(att);
 
-                att = doc.CreateAttribute("SourceProperty");//Êı¾İ¿âÀàĞÍ
+                att = doc.CreateAttribute("SourceProperty");//æ•°æ®åº“ç±»å‹
                 att.InnerText = field.SourceProperty;
                 node.Attributes.Append(att);
 
-                att = doc.CreateAttribute("TargetProperty");//Êı¾İ¿âÀàĞÍ³¤¶È
+                att = doc.CreateAttribute("TargetProperty");//æ•°æ®åº“ç±»å‹é•¿åº¦
                 att.InnerText = field.TargetProperty;
                 node.Attributes.Append(att);
 
-                att = doc.CreateAttribute("IsToDB");//Êı¾İ¿âÀàĞÍ³¤¶È
+                att = doc.CreateAttribute("IsToDB");//æ•°æ®åº“ç±»å‹é•¿åº¦
                 att.InnerText = field.IsToDB?"1":"0";
                 node.Attributes.Append(att);
 
-                att = doc.CreateAttribute("IsParent");//Êı¾İ¿âÀàĞÍ³¤¶È
+                att = doc.CreateAttribute("IsParent");//æ•°æ®åº“ç±»å‹é•¿åº¦
                 att.InnerText = field.IsParent ? "1" : "0";
                 node.Attributes.Append(att);
 
-                att = doc.CreateAttribute("DefaultValue");//Ä¬ÈÏÖµ
+                att = doc.CreateAttribute("DefaultValue");//é»˜è®¤å€¼
                 att.InnerText = field.DefaultValue;
                 node.Attributes.Append(att);
 
-                att = doc.CreateAttribute("Description");//ÊôĞÔ×¢ÊÍ
+                att = doc.CreateAttribute("Description");//å±æ€§æ³¨é‡Š
                 att.InnerText = field.Summary;
                 node.Attributes.Append(att);
             }
@@ -560,7 +560,7 @@ namespace Buffalo.DBTools.HelperKernel
         }
 
         /// <summary>
-        /// Ìí¼ÓÊôĞÔµÄXMLĞÅÏ¢
+        /// æ·»åŠ å±æ€§çš„XMLä¿¡æ¯
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="classNode"></param>
@@ -577,43 +577,43 @@ namespace Buffalo.DBTools.HelperKernel
                 XmlNode node = doc.CreateElement("property");
                 classNode.AppendChild(node);
 
-                XmlAttribute att = doc.CreateAttribute("FieldName");//×Ö¶ÎÃû
+                XmlAttribute att = doc.CreateAttribute("FieldName");//å­—æ®µå
                 att.InnerText = field.FieldName;
                 node.Attributes.Append(att);
 
-                att = doc.CreateAttribute("PropertyName");//¶ÔÓ¦µÄÊôĞÔÃûÃû
+                att = doc.CreateAttribute("PropertyName");//å¯¹åº”çš„å±æ€§åå
                 att.InnerText = field.PropertyName;
                 node.Attributes.Append(att);
 
-                att = doc.CreateAttribute("DbType");//Êı¾İ¿âÀàĞÍ
+                att = doc.CreateAttribute("DbType");//æ•°æ®åº“ç±»å‹
                 att.InnerText = field.DbType;
                 node.Attributes.Append(att);
 
-                att = doc.CreateAttribute("Length");//Êı¾İ¿âÀàĞÍ³¤¶È
+                att = doc.CreateAttribute("Length");//æ•°æ®åº“ç±»å‹é•¿åº¦
                 att.InnerText = field.Length.ToString();
                 node.Attributes.Append(att);
 
-                att = doc.CreateAttribute("EntityPropertyType");//ÀàĞÍ
+                att = doc.CreateAttribute("EntityPropertyType");//ç±»å‹
                 att.InnerText = ((int)field.EntityPropertyType).ToString();
                 node.Attributes.Append(att);
 
-                att = doc.CreateAttribute("ParamName");//×Ö¶ÎÃû
+                att = doc.CreateAttribute("ParamName");//å­—æ®µå
                 att.InnerText = field.ParamName;
                 node.Attributes.Append(att);
 
-                att = doc.CreateAttribute("ReadOnly");//×Ö¶ÎÃû
+                att = doc.CreateAttribute("ReadOnly");//å­—æ®µå
                 att.InnerText = field.ReadOnly ? "1" : "0";
                 node.Attributes.Append(att);
 
-                att = doc.CreateAttribute("Description");//ÊôĞÔ×¢ÊÍ
+                att = doc.CreateAttribute("Description");//å±æ€§æ³¨é‡Š
                 att.InnerText = field.Summary;
                 node.Attributes.Append(att);
 
-                att = doc.CreateAttribute("DefaultValue");//Ä¬ÈÏÖµ
+                att = doc.CreateAttribute("DefaultValue");//é»˜è®¤å€¼
                 att.InnerText = field.DefaultValue;
                 node.Attributes.Append(att);
 
-                att = doc.CreateAttribute("AllowNull");//×Ö¶ÎÃû
+                att = doc.CreateAttribute("AllowNull");//å­—æ®µå
                 att.InnerText = field.AllowNull ? "1" : "0";
                 node.Attributes.Append(att);
 

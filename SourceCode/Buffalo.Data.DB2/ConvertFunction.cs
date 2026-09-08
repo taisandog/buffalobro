@@ -63,6 +63,10 @@ namespace Buffalo.Data.DB2
         /// <returns></returns>
         public string ConvetTo(string value, DbType dbType) 
         {
+            if (dbType == DbType.Guid)
+            {
+                return "cast(" + value + " as VARCHAR(36))";
+            }
             DB2Type sdb = (DB2Type)dbType;
             return "cast("+value+" as "+sdb+")";
         }

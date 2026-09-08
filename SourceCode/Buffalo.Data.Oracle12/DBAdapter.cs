@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Data;
@@ -20,12 +20,12 @@ namespace Buffalo.Data.Oracle
     {
         
         /// <summary>
-        /// »ñÈ¡²ÎÊıÀà
+        /// è·å–å‚æ•°ç±»
         /// </summary>
-        /// <param name="paramName">²ÎÊıÃû</param>
-        /// <param name="type">²ÎÊıÊı¾İ¿âÀàĞÍ</param>
-        /// <param name="paramValue">²ÎÊıÖµ</param>
-        /// <param name="paramDir">²ÎÊı½ø³öÀàĞÍ</param>
+        /// <param name="paramName">å‚æ•°å</param>
+        /// <param name="type">å‚æ•°æ•°æ®åº“ç±»å‹</param>
+        /// <param name="paramValue">å‚æ•°å€¼</param>
+        /// <param name="paramDir">å‚æ•°è¿›å‡ºç±»å‹</param>
         /// <returns></returns>
         public override IDataParameter GetDataParameter(string paramName, DbType type, object paramValue, ParameterDirection paramDir)
         {
@@ -33,12 +33,12 @@ namespace Buffalo.Data.Oracle
             newParam.ParameterName = paramName;
             newParam.DbType = FormatDbType(type);
             
-            newParam.Value = paramValue;
+            newParam.Value =paramValue;
             newParam.Direction = paramDir;
             return newParam;
         }
         /// <summary>
-        /// ¸ñÊ½»¯Êı¾İ¿âÀàĞÍ
+        /// æ ¼å¼åŒ–æ•°æ®åº“ç±»å‹
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
@@ -64,6 +64,7 @@ namespace Buffalo.Data.Oracle
                 case DbType.VarNumeric:
                     return DbType.Decimal;
                 case DbType.Guid:
+                    return DbType.AnsiString;
                 case DbType.Xml:
                     return DbType.String;
 
@@ -73,7 +74,7 @@ namespace Buffalo.Data.Oracle
         }
        
         /// <summary>
-        /// »ñÈ¡SQLÃüÁîÀà
+        /// è·å–SQLå‘½ä»¤ç±»
         /// </summary>
         /// <returns></returns>
         public override IDbCommand GetCommand()
@@ -82,7 +83,7 @@ namespace Buffalo.Data.Oracle
             return comm;
         }
         /// <summary>
-        /// »ñÈ¡SQLÁ¬½Ó
+        /// è·å–SQLè¿æ¥
         /// </summary>
         /// <returns></returns>
         public override DbConnection GetConnection(DBInfo db)
@@ -91,7 +92,7 @@ namespace Buffalo.Data.Oracle
             return conn;
         }
         /// <summary>
-        /// »ñÈ¡SQLÊÊÅäÆ÷
+        /// è·å–SQLé€‚é…å™¨
         /// </summary>
         /// <returns></returns>
         public override IDbDataAdapter GetAdapter()
@@ -100,7 +101,7 @@ namespace Buffalo.Data.Oracle
             return adapter;
         }
         /// <summary>
-        /// °ÑDBTypeÀàĞÍ×ª³É¶ÔÓ¦µÄSQLType
+        /// æŠŠDBTypeç±»å‹è½¬æˆå¯¹åº”çš„SQLType
         /// </summary>
         /// <param name="dbType"></param>
         /// <returns></returns>
@@ -176,7 +177,7 @@ namespace Buffalo.Data.Oracle
                 case DbType.SByte:
                     return "Number(4,0)";
                 case DbType.Guid:
-                    return "VARCHAR2(64)";
+                    return "VARCHAR2(36)";
                 case DbType.String:
                     if (length < 8000)
                     {

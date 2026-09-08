@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Data;
@@ -17,7 +17,7 @@ namespace Buffalo.Data.SQLite
     public class DBAdapter : IDBAdapter
     {
         /// <summary>
-        /// È«ÎÄËÑË÷Ê±ºòÅÅĞò×Ö¶ÎÊÇ·ñÏÔÊ¾±í´ïÊ½
+        /// å…¨æ–‡æœç´¢æ—¶å€™æ’åºå­—æ®µæ˜¯å¦æ˜¾ç¤ºè¡¨è¾¾å¼
         /// </summary>
         public virtual bool IsShowExpression
         {
@@ -31,7 +31,7 @@ namespace Buffalo.Data.SQLite
             return false;
         }
         /// <summary>
-        /// Çå¿Õ±í
+        /// æ¸…ç©ºè¡¨
         /// </summary>
         /// <param name="tableName"></param>
         /// <returns></returns>
@@ -47,7 +47,7 @@ namespace Buffalo.Data.SQLite
             get { return false; }
         }
         /// <summary>
-        /// »ñÈ¡µ±Ç°Ê±¼ä
+        /// è·å–å½“å‰æ—¶é—´
         /// </summary>
         /// <returns></returns>
         public string GetNowDate(DbType dbType)
@@ -56,7 +56,7 @@ namespace Buffalo.Data.SQLite
             //return "CURRENT_TIMESTAMP";
         }
         /// <summary>
-        /// »ñÈ¡¸ñÁÖÍşÖÎÊ±¼ä
+        /// è·å–æ ¼æ—å¨æ²»æ—¶é—´
         /// </summary>
         /// <returns></returns>
         public string GetUTCDate(DbType dbType)
@@ -65,7 +65,7 @@ namespace Buffalo.Data.SQLite
         }
 
         /// <summary>
-        /// »ñÈ¡unixÊ±¼ä´Á
+        /// è·å–unixæ—¶é—´æˆ³
         /// </summary>
         /// <returns></returns>
         public string GetTimeStamp(DbType dbType)
@@ -73,7 +73,7 @@ namespace Buffalo.Data.SQLite
             return "strftime('%s', 'now')";
         }
         /// <summary>
-        /// ÖØ½¨²ÎÊı¼¯ºÏ
+        /// é‡å»ºå‚æ•°é›†åˆ
         /// </summary>
         /// <param name="lstPrm"></param>
         /// <returns></returns>
@@ -82,17 +82,17 @@ namespace Buffalo.Data.SQLite
             return lstPrm;
         }
         /// <summary>
-        /// »ñÈ¡ÔÚ×Ö¶ÎÌí¼ÓSQL
+        /// è·å–åœ¨å­—æ®µæ·»åŠ SQL
         /// </summary>
-        /// <param name="table">±í</param>
-        /// <param name="pInfo">×Ö¶Î£¨Èç¹ûÎª¿ÕÔòÉèÖÃ±í×¢ÊÍ£©</param>
+        /// <param name="table">è¡¨</param>
+        /// <param name="pInfo">å­—æ®µï¼ˆå¦‚æœä¸ºç©ºåˆ™è®¾ç½®è¡¨æ³¨é‡Šï¼‰</param>
         /// <returns></returns>
         public virtual string GetColumnDescriptionSQL(EntityParam pInfo, DBInfo info)
         {
             return null;
         }
         /// <summary>
-        /// ÊÇ·ñ¼ÇÂ¼×ÔÔö³¤×Ö¶Î×÷ÊÖ¶¯´¦Àí
+        /// æ˜¯å¦è®°å½•è‡ªå¢é•¿å­—æ®µä½œæ‰‹åŠ¨å¤„ç†
         /// </summary>
         public bool IsSaveIdentityParam
         {
@@ -102,7 +102,7 @@ namespace Buffalo.Data.SQLite
             }
         }
         ///// <summary>
-        ///// »ñÈ¡±äÁ¿ÁĞ±í
+        ///// è·å–å˜é‡åˆ—è¡¨
         ///// </summary>
         //public ParamList BQLSelectParamList
         //{
@@ -112,28 +112,28 @@ namespace Buffalo.Data.SQLite
         //    }
         //}
         /// <summary>
-        /// »ñÈ¡²ÎÊıÀà
+        /// è·å–å‚æ•°ç±»
         /// </summary>
-        /// <param name="paramName">²ÎÊıÃû</param>
-        /// <param name="type">²ÎÊıÊı¾İ¿âÀàĞÍ</param>
-        /// <param name="paramValue">²ÎÊıÖµ</param>
-        /// <param name="paramDir">²ÎÊı½ø³öÀàĞÍ</param>
+        /// <param name="paramName">å‚æ•°å</param>
+        /// <param name="type">å‚æ•°æ•°æ®åº“ç±»å‹</param>
+        /// <param name="paramValue">å‚æ•°å€¼</param>
+        /// <param name="paramDir">å‚æ•°è¿›å‡ºç±»å‹</param>
         /// <returns></returns>
         public IDataParameter GetDataParameter(string paramName, DbType type, object paramValue, ParameterDirection paramDir)
         {
             IDataParameter newParam = new SQLiteParameter();
             newParam.ParameterName = paramName;
-            newParam.DbType = type;
+            newParam.DbType =  type;
             newParam.Value = paramValue;
             newParam.Direction = paramDir;
             return newParam;
         }
 
         /// <summary>
-        /// »ñÈ¡topµÄ²éÑ¯×Ö·û´®
+        /// è·å–topçš„æŸ¥è¯¢å­—ç¬¦ä¸²
         /// </summary>
-        /// <param name="sql">²éÑ¯×Ö·û´®</param>
-        /// <param name="top">topÖµ</param>
+        /// <param name="sql">æŸ¥è¯¢å­—ç¬¦ä¸²</param>
+        /// <param name="top">topå€¼</param>
         /// <returns></returns>
         public string GetTopSelectSql(SelectCondition sql, int top)
         {
@@ -144,7 +144,7 @@ namespace Buffalo.Data.SQLite
         }
 
         /// <summary>
-        /// °ÑÊı¾İÀàĞÍ×ª»»³Éµ±Ç°Êı¾İ¿âÖ§³ÖµÄÀàĞÍ
+        /// æŠŠæ•°æ®ç±»å‹è½¬æ¢æˆå½“å‰æ•°æ®åº“æ”¯æŒçš„ç±»å‹
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
@@ -153,7 +153,7 @@ namespace Buffalo.Data.SQLite
             return type;
         }
         /// <summary>
-        /// »ñÈ¡SQLÃüÁîÀà
+        /// è·å–SQLå‘½ä»¤ç±»
         /// </summary>
         /// <returns></returns>
         public IDbCommand GetCommand()
@@ -162,7 +162,7 @@ namespace Buffalo.Data.SQLite
             return comm;
         }
         /// <summary>
-        /// »ñÈ¡SQLÁ¬½Ó
+        /// è·å–SQLè¿æ¥
         /// </summary>
         /// <returns></returns>
         public DbConnection GetConnection(DBInfo db)
@@ -172,7 +172,7 @@ namespace Buffalo.Data.SQLite
             return conn;
         }
         /// <summary>
-        /// »ñÈ¡SQLÊÊÅäÆ÷
+        /// è·å–SQLé€‚é…å™¨
         /// </summary>
         /// <returns></returns>
         public IDbDataAdapter GetAdapter()
@@ -182,7 +182,7 @@ namespace Buffalo.Data.SQLite
         }
 
         /// <summary>
-        /// ¸ñÊ½»¯×Ö¶ÎÃû
+        /// æ ¼å¼åŒ–å­—æ®µå
         /// </summary>
         /// <param name="paramName"></param>
         /// <returns></returns>
@@ -193,7 +193,7 @@ namespace Buffalo.Data.SQLite
         }
 
         /// <summary>
-        /// ¸ñÊ½»¯±í¸ñÃû
+        /// æ ¼å¼åŒ–è¡¨æ ¼å
         /// </summary>
         /// <param name="paramName"></param>
         /// <returns></returns>
@@ -202,7 +202,7 @@ namespace Buffalo.Data.SQLite
             return FormatParam(tableName);
         }
         /// <summary>
-        /// ¸ñÊ½»¯±äÁ¿Ãû
+        /// æ ¼å¼åŒ–å˜é‡å
         /// </summary>
         /// <param name="pname"></param>
         /// <returns></returns>
@@ -212,7 +212,7 @@ namespace Buffalo.Data.SQLite
         }
 
         /// <summary>
-        /// ¸ñÊ½»¯±äÁ¿µÄ¼üÃû
+        /// æ ¼å¼åŒ–å˜é‡çš„é”®å
         /// </summary>
         /// <param name="pname"></param>
         /// <returns></returns>
@@ -221,32 +221,32 @@ namespace Buffalo.Data.SQLite
             return pname;
         }
         /// <summary>
-        /// ·µ»ØÈ«ÎÄ¼ìË÷µÄ²éÑ¯Óï¾ä
+        /// è¿”å›å…¨æ–‡æ£€ç´¢çš„æŸ¥è¯¢è¯­å¥
         /// </summary>
         /// <param name="paranName"></param>
         /// <param name="value"></param>
         /// <returns></returns>
         public string ContainsLike(string paranName, string value)
         {
-            throw new NotImplementedException("SQLite²»°üº¬È«ÎÄ¼ìË÷·½·¨");
+            throw new NotImplementedException("SQLiteä¸åŒ…å«å…¨æ–‡æ£€ç´¢æ–¹æ³•");
         }
         /// <summary>
-        /// ·µ»ØÈ«ÎÄ¼ìË÷µÄ²éÑ¯Óï¾ä
+        /// è¿”å›å…¨æ–‡æ£€ç´¢çš„æŸ¥è¯¢è¯­å¥
         /// </summary>
         /// <param name="paranName"></param>
         /// <param name="value"></param>
         /// <returns></returns>
         public string FreeTextLike(string paranName, string value)
         {
-            throw new NotImplementedException("SQLite²»°üº¬È«ÎÄ¼ìË÷·½·¨");
+            throw new NotImplementedException("SQLiteä¸åŒ…å«å…¨æ–‡æ£€ç´¢æ–¹æ³•");
         }
         /// <summary>
-        /// ÓÎ±ê·ÖÒ³
+        /// æ¸¸æ ‡åˆ†é¡µ
         /// </summary>
-        /// <typeparam name="T">ÊµÌåÀàĞÍ</typeparam>
-        /// <param name="sql">sqlÓï¾ä</param>
-        /// <param name="objPage">·ÖÒ³ÊµÌå</param>
-        /// <param name="oper">Êı¾İ¿âÁ´½Ó</param>
+        /// <typeparam name="T">å®ä½“ç±»å‹</typeparam>
+        /// <param name="sql">sqlè¯­å¥</param>
+        /// <param name="objPage">åˆ†é¡µå®ä½“</param>
+        /// <param name="oper">æ•°æ®åº“é“¾æ¥</param>
         /// <returns></returns>
         public IDataReader Query(string sql, PageContent objPage, DataBaseOperate oper)
         {
@@ -254,12 +254,12 @@ namespace Buffalo.Data.SQLite
         }
 
         /// <summary>
-        /// ²éÑ¯²¢ÇÒ·µ»ØDataSet(ÓÎ±ê·ÖÒ³)
+        /// æŸ¥è¯¢å¹¶ä¸”è¿”å›DataSet(æ¸¸æ ‡åˆ†é¡µ)
         /// </summary>
-        /// <param name="sql">Òª²éÑ¯µÄSQLÓï¾ä</param>
-        /// <param name="objPage">·ÖÒ³¶ÔÏó</param>
-        /// <param name="oper">Êı¾İ¿â¶ÔÏó</param>
-        /// <param name="curType">Ó³ÉäµÄÊµÌåÀàĞÍ(Èç¹ûÓÃ»ØÊı¾İ¿âµÄÔ­ÁĞÃû£¬Ôò´ËÎªnull)</param>
+        /// <param name="sql">è¦æŸ¥è¯¢çš„SQLè¯­å¥</param>
+        /// <param name="objPage">åˆ†é¡µå¯¹è±¡</param>
+        /// <param name="oper">æ•°æ®åº“å¯¹è±¡</param>
+        /// <param name="curType">æ˜ å°„çš„å®ä½“ç±»å‹(å¦‚æœç”¨å›æ•°æ®åº“çš„åŸåˆ—åï¼Œåˆ™æ­¤ä¸ºnull)</param>
         /// <returns></returns>
         public DataTable QueryDataTable(string sql, PageContent objPage, DataBaseOperate oper, Type curType)
         {
@@ -268,13 +268,13 @@ namespace Buffalo.Data.SQLite
 
 
         /// <summary>
-        /// ÓÎ±ê·ÖÒ³
+        /// æ¸¸æ ‡åˆ†é¡µ
         /// </summary>
-        /// <typeparam name="T">ÊµÌåÀàĞÍ</typeparam>
-        /// <param name="lstParam">²ÎÊı¼¯ºÏ</param>
-        /// <param name="sql">sqlÓï¾ä</param>
-        /// <param name="objPage">·ÖÒ³ÊµÌå</param>
-        /// <param name="oper">Êı¾İ¿âÁ´½Ó</param>
+        /// <typeparam name="T">å®ä½“ç±»å‹</typeparam>
+        /// <param name="lstParam">å‚æ•°é›†åˆ</param>
+        /// <param name="sql">sqlè¯­å¥</param>
+        /// <param name="objPage">åˆ†é¡µå®ä½“</param>
+        /// <param name="oper">æ•°æ®åº“é“¾æ¥</param>
         /// <returns></returns>
         public IDataReader Query(string sql, ParamList lstParam, PageContent objPage,
             DataBaseOperate oper)
@@ -283,25 +283,25 @@ namespace Buffalo.Data.SQLite
         }
 
         /// <summary>
-        /// ²éÑ¯²¢ÇÒ·µ»ØDataSet(ÓÎ±ê·ÖÒ³)
+        /// æŸ¥è¯¢å¹¶ä¸”è¿”å›DataSet(æ¸¸æ ‡åˆ†é¡µ)
         /// </summary>
-        /// <param name="sql">Òª²éÑ¯µÄSQLÓï¾ä</param>
-        /// <param name="lstParam">²ÎÊı¼¯ºÏ</param>
-        /// <param name="objPage">·ÖÒ³¶ÔÏó</param>
-        /// <param name="oper">Êı¾İ¿â¶ÔÏó</param>
-        /// <param name="curType">Ó³ÉäµÄÊµÌåÀàĞÍ(Èç¹ûÓÃ»ØÊı¾İ¿âµÄÔ­ÁĞÃû£¬Ôò´ËÎªnull)</param>
+        /// <param name="sql">è¦æŸ¥è¯¢çš„SQLè¯­å¥</param>
+        /// <param name="lstParam">å‚æ•°é›†åˆ</param>
+        /// <param name="objPage">åˆ†é¡µå¯¹è±¡</param>
+        /// <param name="oper">æ•°æ®åº“å¯¹è±¡</param>
+        /// <param name="curType">æ˜ å°„çš„å®ä½“ç±»å‹(å¦‚æœç”¨å›æ•°æ®åº“çš„åŸåˆ—åï¼Œåˆ™æ­¤ä¸ºnull)</param>
         /// <returns></returns>
         public DataTable QueryDataTable(string sql, ParamList lstParam, PageContent objPage, DataBaseOperate oper, Type curType)
         {
             return CursorPageCutter.QueryDataTable(sql, lstParam, objPage, oper, curType, null);
         }
         /// <summary>
-        /// Éú³É·ÖÒ³SQLÓï¾ä
+        /// ç”Ÿæˆåˆ†é¡µSQLè¯­å¥
         /// </summary>
-        /// <param name="list">²ÎÊıÁĞ±í</param>
-        /// <param name="oper">Á¬½Ó¶ÔÏó</param>
-        /// <param name="objCondition">Ìõ¼ş¶ÔÏó</param>
-        /// <param name="objPage">·ÖÒ³¼ÇÂ¼Àà</param>
+        /// <param name="list">å‚æ•°åˆ—è¡¨</param>
+        /// <param name="oper">è¿æ¥å¯¹è±¡</param>
+        /// <param name="objCondition">æ¡ä»¶å¯¹è±¡</param>
+        /// <param name="objPage">åˆ†é¡µè®°å½•ç±»</param>
         /// <returns></returns>
         public virtual string CreatePageSql(ParamList list, DataBaseOperate oper,
             SelectCondition objCondition, PageContent objPage,bool useCache)
@@ -309,7 +309,7 @@ namespace Buffalo.Data.SQLite
             return CutPageSqlCreater.CreatePageSql(list, oper, objCondition, objPage,useCache);
         }
         /// <summary>
-        /// »ñÈ¡³õÊ¼»¯¼Æ·Öº¯ÊıµÄSQLÓï¾ä
+        /// è·å–åˆå§‹åŒ–è®¡åˆ†å‡½æ•°çš„SQLè¯­å¥
         /// </summary>
         /// <returns></returns>
         public string GetInitPointFunSql()
@@ -318,7 +318,7 @@ namespace Buffalo.Data.SQLite
         }
 
         /// <summary>
-        /// »ñÈ¡ÅĞ¶Ï¼Æ·Öº¯ÊıÊÇ·ñ´æÔÚµÄSQL
+        /// è·å–åˆ¤æ–­è®¡åˆ†å‡½æ•°æ˜¯å¦å­˜åœ¨çš„SQL
         /// </summary>
         /// <returns></returns>
         public string GetPiontFunSqlExistsSql()
@@ -327,7 +327,7 @@ namespace Buffalo.Data.SQLite
         }
 
         /// <summary>
-        /// »ñÈ¡¼Æ·Öº¯ÊıµÄÃû×Ö
+        /// è·å–è®¡åˆ†å‡½æ•°çš„åå­—
         /// </summary>
         public string PointFunName
         {
@@ -338,9 +338,9 @@ namespace Buffalo.Data.SQLite
         }
 
         /// <summary>
-        /// »ñÈ¡×Ö·û´®Æ´½ÓSQlÓï¾ä
+        /// è·å–å­—ç¬¦ä¸²æ‹¼æ¥SQlè¯­å¥
         /// </summary>
-        /// <param name="str">×Ö·û´®¼¯ºÏ</param>
+        /// <param name="str">å­—ç¬¦ä¸²é›†åˆ</param>
         /// <returns></returns>
         public string ConcatString(params string[] strs)
         {
@@ -357,7 +357,7 @@ namespace Buffalo.Data.SQLite
             return ret;
         }
         /// <summary>
-        /// »ñÈ¡×Ô¶¯Ôö³¤µÄSQL
+        /// è·å–è‡ªåŠ¨å¢é•¿çš„SQL
         /// </summary>
         /// <returns></returns>
         public string GetIdentitySQL(EntityPropertyInfo info)
@@ -365,7 +365,7 @@ namespace Buffalo.Data.SQLite
             return "select LAST_INSERT_ROWID()";
         }
         /// <summary>
-        /// »ñÈ¡×Ô¶¯Ôö³¤ÖµµÄSQL
+        /// è·å–è‡ªåŠ¨å¢é•¿å€¼çš„SQL
         /// </summary>
         /// <returns></returns>
         public string GetIdentityValueSQL(EntityPropertyInfo info)
@@ -373,7 +373,7 @@ namespace Buffalo.Data.SQLite
             return null;
         }
         /// <summary>
-        /// °Ñ±äÁ¿×ª±ä³ÉSQLÓï¾äÖĞµÄÊ±¼ä±í´ïÊ½
+        /// æŠŠå˜é‡è½¬å˜æˆSQLè¯­å¥ä¸­çš„æ—¶é—´è¡¨è¾¾å¼
         /// </summary>
         /// <returns></returns>
         public string GetDateTimeString(object value)
@@ -391,7 +391,7 @@ namespace Buffalo.Data.SQLite
         }
 
         // <summary>
-        /// ²åÈëÊ±ºò×Ô¶¯Ôö³¤µÄ×Ö¶ÎÃû
+        /// æ’å…¥æ—¶å€™è‡ªåŠ¨å¢é•¿çš„å­—æ®µå
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
@@ -400,7 +400,7 @@ namespace Buffalo.Data.SQLite
             return null;
         }
         /// <summary>
-        /// ²åÈëÊ±ºòµÄÖ÷¼ü×Ö¶ÎÖµ
+        /// æ’å…¥æ—¶å€™çš„ä¸»é”®å­—æ®µå€¼
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
@@ -410,29 +410,29 @@ namespace Buffalo.Data.SQLite
         }
 
         /// <summary>
-        /// »ñÈ¡´´½¨×¢ÊÍµÄSQL
+        /// è·å–åˆ›å»ºæ³¨é‡Šçš„SQL
         /// </summary>
-        /// <param name="table">±í</param>
-        /// <param name="paramName">×Ö¶Î(Èç¹ûÎª¿ÕÔò¸ø±íÉèÖÃ×¢ÊÍ)</param>
-        /// <param name="description">×¢ÊÍ</param>
+        /// <param name="table">è¡¨</param>
+        /// <param name="paramName">å­—æ®µ(å¦‚æœä¸ºç©ºåˆ™ç»™è¡¨è®¾ç½®æ³¨é‡Š)</param>
+        /// <param name="description">æ³¨é‡Š</param>
         /// <returns></returns>
         public string GetAddDescriptionSQL(KeyWordTableParamItem table, EntityParam pInfo, DBInfo info)
         {
             return "";
         }
         /// <summary>
-        /// ¸ù¾İReaderµÄÄÚÈİ°ÑÊıÖµ¸³½øÊµÌå
+        /// æ ¹æ®Readerçš„å†…å®¹æŠŠæ•°å€¼èµ‹è¿›å®ä½“
         /// </summary>
         /// <param name="reader">Reader</param>
-        /// <param name="index">µ±Ç°ReaderµÄË÷Òı</param>
-        /// <param name="arg">Ä¿±ê¶ÔÏó</param>
-        /// <param name="info">Ä¿±êÊôĞÔµÄ¾ä±ú</param>
+        /// <param name="index">å½“å‰Readerçš„ç´¢å¼•</param>
+        /// <param name="arg">ç›®æ ‡å¯¹è±¡</param>
+        /// <param name="info">ç›®æ ‡å±æ€§çš„å¥æŸ„</param>
         public void SetObjectValueFromReader(IDataReader reader, int index, object arg, EntityPropertyInfo info, bool needChangeType)
         {
             Buffalo.DB.DataBaseAdapter.SqlServer2KAdapter.DBAdapter.ValueFromReader(reader, index, arg, info,needChangeType);
         }
 
-        #region IDBAdapter ³ÉÔ±
+        #region IDBAdapter æˆå‘˜
 
 
         public string GetIdentityParamValue(EntityInfoHandle entityInfo, EntityPropertyInfo info)
@@ -445,17 +445,17 @@ namespace Buffalo.Data.SQLite
             return null;
         }
         /// <summary>
-        ///  »ñÈ¡Ä¬ÈÏĞòÁĞÃû
+        ///  è·å–é»˜è®¤åºåˆ—å
         /// </summary>
-        /// <param name="tableName">±íÃû</param>
-        /// <param name="paramName">×Ö¶ÎÃû</param>
+        /// <param name="tableName">è¡¨å</param>
+        /// <param name="paramName">å­—æ®µå</param>
         /// <returns></returns>
         public string GetDefaultSequenceName(string tableName, string paramName)
         {
             return null;
         }
         /// <summary>
-        /// ³õÊ¼»¯ĞòÁĞÃû
+        /// åˆå§‹åŒ–åºåˆ—å
         /// </summary>
         /// <param name="seqName"></param>
         public string GetSequenceInit(string seqName, EntityParam prm, DataBaseOperate oper)
@@ -465,11 +465,11 @@ namespace Buffalo.Data.SQLite
 
         #endregion
 
-        #region IDBAdapter ³ÉÔ±
+        #region IDBAdapter æˆå‘˜
 
 
         /// <summary>
-        /// »ñÈ¡Êı¾İ¿âµÄ×ÔÔö³¤×Ö¶ÎµÄĞÅÏ¢
+        /// è·å–æ•°æ®åº“çš„è‡ªå¢é•¿å­—æ®µçš„ä¿¡æ¯
         /// </summary>
         /// <returns></returns>
         public virtual string DBIdentity(string tableName, string paramName)
@@ -523,7 +523,7 @@ namespace Buffalo.Data.SQLite
                 case DbType.DateTime:
                     return "TIMESTAMP";
                 case DbType.Guid:
-                    return "VARCHAR(64)";
+                    return "VARCHAR(36)";
                 case DbType.Single:
                     return "FLOAT";
                 case DbType.String:
@@ -550,7 +550,7 @@ namespace Buffalo.Data.SQLite
         }
         #endregion
         /// <summary>
-        /// ´´½¨±íÓï¾äµÄ½áÊø
+        /// åˆ›å»ºè¡¨è¯­å¥çš„ç»“æŸ
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
@@ -560,7 +560,7 @@ namespace Buffalo.Data.SQLite
         }
 
         /// <summary>
-        /// like²»Çø·Ö´óĞ¡Ğ´
+        /// likeä¸åŒºåˆ†å¤§å°å†™
         /// </summary>
         /// <param name="source"></param>
         /// <param name="lstParam"></param>
@@ -595,7 +595,7 @@ namespace Buffalo.Data.SQLite
             return sbSql.ToString();
         }
         /// <summary>
-        /// »ñÈ¡likeµÄ²ÎÊı
+        /// è·å–likeçš„å‚æ•°
         /// </summary>
         /// <param name="ida"></param>
         /// <param name="type"></param>

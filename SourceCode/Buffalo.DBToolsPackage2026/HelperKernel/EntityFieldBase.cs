@@ -166,7 +166,7 @@ namespace Buffalo.DBTools.HelperKernel
         }
         private static Dictionary<string, DataTypeInfos> _dicTypeInfos = InitTypeInfos();
         
-        private static string[] _allTypes={"Guid","float","float?","Single","Single?","bool","bool?","Boolean","Boolean?",
+        private static string[] _allTypes={"Guid","Guid?","float","float?","Single","Single?","bool","bool?","Boolean","Boolean?",
         "DateTime","decimal","decimal?","Decimal","Decimal?","double","double?","Double","Double?","byte","byte?","Byte","Byte?",
         "sbyte","sbyte?","SByte","SByte?","short","short?","int","int?","Int32","Int32?","long","long?","Int64","Int64?",
         "ushort","ushort?","UInt16","UInt16?","uint","uint?","UInt32","UInt32?","ulong","ulong?","UInt64","UInt64?",
@@ -190,7 +190,7 @@ namespace Buffalo.DBTools.HelperKernel
         {
             
             Dictionary<string, DataTypeInfos> dic = new Dictionary<string, DataTypeInfos>();
-            DataTypeInfos info = new DataTypeInfos("Guid", new DbType[]{DbType.Guid},"DefaultValue.DefaultGuidValue", "null", 0);
+            DataTypeInfos info = new DataTypeInfos("Guid", new DbType[]{DbType.Guid},"DefaultValue.DefaultGuid", "DefaultValue.DefaultGuidValue", 0);
             dic["Guid"] = info;
 
             info = new DataTypeInfos("float", new DbType[] { DbType.Single, DbType.Currency, DbType.Decimal,DbType.Double },
@@ -289,7 +289,7 @@ namespace Buffalo.DBTools.HelperKernel
             {
                 return GetTypeInfo("int");
             }
-            return GetTypeInfo(source.MemberTypeShortName);
+            return GetTypeInfo(source.MemberTypeShortName) ?? GetTypeInfo(source.MemberTypeName);
         } 
 
         /// <summary>
@@ -299,7 +299,7 @@ namespace Buffalo.DBTools.HelperKernel
         private static bool MemberIsEnumType(Member source) 
         {
             TypeInstance typeIns = source.MemberTypeInstance as TypeInstance;
-            if(typeIns.TypeKind!= TypeKind.Type) 
+            if(typeIns == null || typeIns.TypeKind!= TypeKind.Type)
             {
                 return false;
             }
@@ -322,7 +322,15 @@ namespace Buffalo.DBTools.HelperKernel
         /// <returns></returns>
         public static DataTypeInfos GetTypeInfo(string typeName) 
         {
-            string key=typeName.Trim().Trim('?');
+            if (string.IsNullOrEmpty(typeName))
+            {
+                return null;
+            }
+            string key = typeName.Replace("global::", "").Replace("System.", "").Replace(" ", "").Trim('?');
+            if (key.StartsWith("Nullable<") && key.EndsWith(">"))
+            {
+                key = key.Substring(9, key.Length - 10);
+            }
             DataTypeInfos ret=null;
             if (_dicTypeInfos.TryGetValue(key, out ret)) 
             {
@@ -342,7 +350,7 @@ namespace Buffalo.DBTools.HelperKernel
             DataTypeInfos info = GetTypeInfo(typeName);
             if (info != null)
             {
-                if (typeName.Trim().LastIndexOf('?') >= 0)
+                if (typeName.Trim().LastIndexOf('?') >= 0 || typeName.IndexOf("Nullable<", StringComparison.Ordinal) >= 0)
                 {
                     return true;
                 }
@@ -364,7 +372,7 @@ namespace Buffalo.DBTools.HelperKernel
             DataTypeInfos info = GetTypeInfo(typeName);
             if (info != null) 
             {
-                if (typeName.Trim().LastIndexOf('?') >= 0)
+                if (typeName.Trim().LastIndexOf('?') >= 0 || typeName.IndexOf("Nullable<", StringComparison.Ordinal) >= 0)
                 {
                     return info.DefaultNullValue;
                 }

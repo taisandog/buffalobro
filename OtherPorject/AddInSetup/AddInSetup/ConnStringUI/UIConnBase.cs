@@ -15,6 +15,8 @@ namespace AddInSetup.ConnStringUI
     public partial class UIConnBase : UserControl
     {
         private MQReliabilitySettings _mqReliabilitySettings;
+        // 保存按钮引用，便于派生界面根据具体消息模式切换入口状态。
+        private Button _mqReliabilitySettingsButton;
 
         public UIConnBase()
         {
@@ -83,7 +85,7 @@ namespace AddInSetup.ConnStringUI
         protected void InitMQReliabilitySettings(MQBackend backend)
         {
             _mqReliabilitySettings = new MQReliabilitySettings(backend);
-            Button button = new Button
+            _mqReliabilitySettingsButton = new Button
             {
                 Text = "可靠消费与保留设置",
                 Name = "btnMQReliabilitySettings",
@@ -93,7 +95,7 @@ namespace AddInSetup.ConnStringUI
                 Anchor = AnchorStyles.Left | AnchorStyles.Bottom,
                 UseVisualStyleBackColor = true
             };
-            button.Click += (_, __) =>
+            _mqReliabilitySettingsButton.Click += (_, __) =>
             {
                 using (MQReliabilitySettingsForm form =
                     new MQReliabilitySettingsForm(_mqReliabilitySettings))
@@ -101,8 +103,26 @@ namespace AddInSetup.ConnStringUI
                     form.ShowDialog(this);
                 }
             };
-            panel2.Controls.Add(button);
-            button.BringToFront();
+            panel2.Controls.Add(_mqReliabilitySettingsButton);
+            _mqReliabilitySettingsButton.BringToFront();
+        }
+
+        /// <summary>
+        /// 设置 MQ 可靠消费入口状态。用于只在后端特定模式下提供可靠消费能力。
+        /// </summary>
+        /// <param name="enabled">当前后端/模式是否支持可靠消费设置。</param>
+        /// <param name="text">需要同时更新时使用的按钮文字；为空则保持原文字。</param>
+        protected void SetMQReliabilitySettingsEnabled(bool enabled, string text = null)
+        {
+            if (_mqReliabilitySettingsButton == null)
+            {
+                return;
+            }
+            _mqReliabilitySettingsButton.Enabled = enabled;
+            if (!string.IsNullOrWhiteSpace(text))
+            {
+                _mqReliabilitySettingsButton.Text = text;
+            }
         }
 
         /// <summary>

@@ -29,6 +29,9 @@ namespace AddInSetup.ConnStringUI
             BindFlags();
             BindMessageMode();
             nupXTrimMaxLength.Maximum = int.MaxValue;
+            cmbMessageMode.SelectedValueChanged += (_, __) => UpdateMessageModeControls();
+            // BindMessageMode 已设置默认值，事件注册较晚，因此这里主动同步一次初始状态。
+            UpdateMessageModeControls();
         }
         protected override void OnHelp()
         {
@@ -71,6 +74,25 @@ namespace AddInSetup.ConnStringUI
             cmbMessageMode.DisplayMember = "FieldName";
             cmbMessageMode.ValueMember = "Value";
             cmbMessageMode.SelectedValue = RedisMQMessageMode.Subscriber;
+        }
+
+        /// <summary>
+        /// 根据 Redis 消息模式切换可用控件：Stream 才能设置消费组、ACK、重试、
+        /// 死信和保留策略；useQueue 只对 Subscriber 有意义。
+        /// </summary>
+        private void UpdateMessageModeControls()
+        {
+            if (cmbMessageMode.SelectedValue == null)
+            {
+                return;
+            }
+            RedisMQMessageMode mode = (RedisMQMessageMode)(int)cmbMessageMode.SelectedValue;
+            bool isStream = mode == RedisMQMessageMode.Stream;
+            // groupBox1 内是消费组、未 ACK 加载和 Stream 最大长度等专用配置。
+            groupBox1.Enabled = isStream;
+            chkUseQueue.Enabled = mode == RedisMQMessageMode.Subscriber;
+            SetMQReliabilitySettingsEnabled(isStream,
+                isStream ? "可靠消费与保留设置" : "仅Stream支持可靠设置");
         }
         protected override void OnConnOut()
         {
@@ -131,12 +153,11 @@ namespace AddInSetup.ConnStringUI
             }
 
             int messageMode = (int)cmbMessageMode.SelectedValue;
-            if (messageMode > 0)
-            {
-                sbStr.Append("MessageMode=");
-                sbStr.Append(messageMode.ToString());
-                sbStr.Append(";");
-            }
+            // 必须连 Polling=0 一起输出。库端未提供 MessageMode 时会按 Subscriber
+            // 兼容旧连接串，若省略 0，界面选择 Polling 后会被错误解析为 Subscriber。
+            sbStr.Append("MessageMode=");
+            sbStr.Append(messageMode.ToString());
+            sbStr.Append(";");
             RedisMQMessageMode mode = (RedisMQMessageMode)messageMode;
             if (mode == RedisMQMessageMode.Subscriber)
             {
@@ -194,7 +215,11 @@ namespace AddInSetup.ConnStringUI
             sbStr.Append("database=");
             sbStr.Append(((int)txtDatabase.Value).ToString());
             sbStr.Append(";");
-            FillMQReliabilityInfo(sbStr);
+            // 非 Stream 模式不支持这些语义，因此不把可靠消费参数写入连接字符串。
+            if (mode == RedisMQMessageMode.Stream)
+            {
+                FillMQReliabilityInfo(sbStr);
+            }
             return sbStr.ToString();
         }
 
@@ -211,7 +236,11 @@ namespace AddInSetup.ConnStringUI
 
         private void btnMessageModeRemark_Click(object sender, EventArgs e)
         {
-            string text = "Polling:轮询模式,按照间隔获取队列数据\r\n\r\nSubscriber为订阅发布模式,使用pub/sub实现发布,如果勾选使用队列存储信息,则pub/sub只推送通知，实际数据还是从队列获取，以防止消息丢失\r\n\r\nBlockQueue:阻塞队列模式，利用brpop指令实现阻塞读取队列\r\n\r\nStream:阻塞Stream模式，利用XREADGROUP指令实现Stream消息队列，支持Ack";
+            string text = "Polling：轮询 List，消息取出即删除。\r\n\r\n" +
+                "Subscriber：使用 pub/sub 推送；勾选队列存储时数据存放在 List。\r\n\r\n" +
+                "BlockQueue：使用 BRPOP 阻塞读取，消息取出即删除。\r\n\r\n" +
+                "以上三种模式均为简单收发，不提供 ACK、自动重试和死信，异常由业务处理。\r\n\r\n" +
+                "Stream：使用 XREADGROUP，支持 ACK、Pending 认领、自动重试、死信和保留策略。";
             ShowRemark(text, "推送模式");
         }
 

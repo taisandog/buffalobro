@@ -62,6 +62,10 @@ namespace Buffalo.DBTools.HelperKernel
             {
                 _dbType = info.DbTypes[0].ToString();
                 _length = info.DbLength;
+                if (info.DbTypes[0] == System.Data.DbType.Guid)
+                {
+                    _allowNull = EntityFieldBase.IsNullProperty(fInfo.MemberTypeName);
+                }
             }
 
         }

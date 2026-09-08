@@ -58,6 +58,10 @@ namespace Buffalo.DB.DataBaseAdapter.Oracle9Adapter
         /// <returns></returns>
         public string ConvetTo(string value, DbType type)
         {
+            if (type == DbType.Guid)
+            {
+                return "CAST(" + value + " as VARCHAR2(36))";
+            }
             if (type == DbType.AnsiString || type == DbType.AnsiStringFixedLength || type == DbType.String ||
                 type == DbType.StringFixedLength) 
             {
