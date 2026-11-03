@@ -1,0 +1,156 @@
+================================================================================
+ BuffaloCore 框架文档体系及业务项目 AGENT.md 整合配置指南
+================================================================================
+
+一、我们刚刚生成的文档清单（位于当前“说明”目录下）：
+--------------------------------------------------------------------------------
+ 1. Buffalo.Kernel.md          - 底层基础库（类型转换、常用工具、哈希、并发锁、快速反射等）
+ 2. Buffalo.ArgCommon.md       - 统一通信协议（APIResault、ApiCommon、ArgValues、JSON 转换）
+ 3. Buffalo.DB.md              - ORM 核心（BQL 强类型查询、BusinessModelBase、ScopeList、事务）
+ 4. Buffalo.QueryCache.md      - 缓存适配器（CacheLoader、Redis/Memcached/本地内存、分布式锁）
+ 5. Buffalo.Storage.md         - 对象存储（FSCreater、OSS/COS/OBS/Local、统一 APIResault 规范）
+ 6. Buffalo.MongoDB.md         - MongoDB 封装（MongoDBManager、MongoDBOperate、ConditionList）
+ 7. Buffalo.MQ.md              - 消息队列（MQUnit、Kafka/RabbitMQ/RedisMQ/MQTT、生产与消费）
+ 8. Buffalo.IOCP.md            - 高性能 Socket/IOCP 网络框架（FastNetAdapter、WebSocket）
+ 9. Buffalo.Data.MySQL.md      - MySQL/MariaDB 方言适配器
+10. Buffalo.Data.Oracle.md     - Oracle 10g/11g/12c 方言与序列适配器
+11. Buffalo.Data.PostgreSQL.md - PostgreSQL 方言适配器
+12. Buffalo.Data.SQLite.md     - SQLite 嵌入式数据库适配器
+13. Buffalo.Data.DB2.md        - IBM DB2 方言与开窗分页适配器
+
+
+二、为什么业务项目写代码时 AI 容易脱轨？
+--------------------------------------------------------------------------------
+1. 预训练无语料：AI 在训练集中见过海量 EF Core、Dapper、Newtonsoft、原生 SQL，但完全没有
+   见过你自研的 BuffaloCore 和代码生成插件生成的类库结构。
+2. 惯性退回标准写法：一旦你让 AI 写一个“查询用户并更新状态”的接口，AI 的第一反应是
+   写原生 SQL、建 DbContext、用 System.Text.Json、手写 try/catch 返回自定义 JSON。
+3. 不清楚代码生成工具的约定：AI 不知道实体和 BQL 操作句柄是由插件生成的，可能会尝试
+   手写实体映射或自己反射读写数据库。
+
+
+三、如何在实际业务项目中使用本套文档？（两级架构方案）
+--------------------------------------------------------------------------------
+
+【第一步】：将“BuffaloMD”文件夹拷贝到业务项目中
+推荐将此“BuffaloMD”文件夹拷贝到实际业务项目根目录（例如 `D:\workspace\CarInstallationWorkProject\BuffaloMD\`），
+作为 AI 可查阅的技术底座分册。
+
+【第二步】：在实际业务项目的根目录创建/更新 `AGENTS.md`
+业务项目的 `AGENTS.md` 充当 AI 的“最高宪法与交通规则”。它不能过于冗长（防止 Token 浪费和注意力稀释），
+必须包含三部分：
+  1. 架构声明：明确三层架构是由插件生成的，告知 AI 各层的命名空间和职责。
+  2. 极简红线：告诉 AI“必须做什么”与“绝不能做什么”。
+  3. 文档索引：告诉 AI 详细方法请直接阅读 `BuffaloMD/Buffalo.XXX.md`。
+
+
+四、实际业务项目 `AGENTS.md` 推荐完整模板（直接复制可用）：
+--------------------------------------------------------------------------------
+（将以下虚线之间的内容直接保存为业务项目根目录的 AGENTS.md）
+
+--------------------------------------------------------------------------------
+# 项目 AI 开发规范与 BuffaloCore 框架规则
+
+本项目基于自主研发的 BuffaloCore 基础架构与插件自动生成的三层架构。
+AI 在生成、修改业务代码时，必须严格遵守以下规范，严禁退回 .NET 官方常规写法。
+
+## 1. 架构定位与层级规范
+- 实体与 BQL 查询层：位于 `[项目].BQLEntity`，由代码生成插件自动维护。
+  - 数据库统一句柄（如 `CIWDB`）继承 `BQLDataBaseHandle`，静态暴露各表操作句柄。
+- 数据访问层：位于 `[项目].DataAccess`，继承自 `BQLDataAccessBase<T>`，由工厂反射管理。
+- 业务逻辑层（BO）：位于 `[项目].Business`，必须继承 `BusinessModelBase<T>`。
+  - 所有数据库增删改查必须在 Business 层进行，Controller 严禁跨层直接操作数据库。
+- 表现层（API 控制器）：位于 `[项目].Controller`，继承 `ControllerBase`。
+  - 所有对外接口统一返回 `APIResault.ToJson()` 或 `res.ToMessJson()`。
+
+## 2. 核心红线（禁止事项 vs 必用规范）
+| 禁止行为（严禁出现） | 必须使用的规范（强制遵守） |
+|---|---|
+| 手写原生 SQL、手写拼接字符串 | 使用 BQL 语法树，如 `CIWDB.表名.列名 == 变量` |
+| 使用 EF Core、Dapper、DbContext | 使用 `BusinessModelBase<T>` 提供的 `SelectList`、`Insert`、`Update`、`Delete` |
+| 自造 `{ code, msg, data }` 结构 | 使用 `Buffalo.ArgCommon.ApiCommon.GetSuccess/GetFault/GetException` |
+| 裸类型转换 `Convert.ChangeType` | 使用全局扩展 `ValueConvertExtend.ConvertValue<T>` 或 `val.ConvertTo<T>()` |
+| 裸 JSON 转换 `System.Text.Json` | 使用全局扩展 `val.ConvertJsonTo<T>()` 或 `JsonValueConvertExtend` |
+| 自己解析连接串 `Split(';')` | 使用 `ConnStringFilter.GetConnectInfo(conn)` |
+| 时间戳自己加减 1970 年 | 使用 `CommonMethods.ConvertDateTimeInt` / `ConvertIntDateTime` |
+| 裸写 `StackExchange.Redis` | 使用 `CacheLoader.GetCache(null, "redis", conn)` |
+| 裸写云厂商对象存储 SDK | 使用 `FSCreater.Create("OSS", conn)` 返回 `IFileStorage` |
+| 裸写 RabbitMQ/Kafka 原生客户端 | 使用 `MQUnit.GetMQConnection` / `GetMQListener` |
+
+## 3. 标准业务代码编写范例（Golden Snippet）
+
+### A. 业务层 BO 查询范例
+```csharp
+using Buffalo.DB.QueryConditions;
+using Buffalo.ArgCommon;
+
+public class MyBusiness : BusinessModelBase<MyEntity>
+{
+    public List<MyEntity> QueryData(string keyword, int pageIndex, int pageSize, out long total)
+    {
+        ScopeList lstScope = new ScopeList();
+        if (!CommonMethods.IsNullOrWhiteSpace(keyword))
+        {
+            lstScope.Add(CIWDB.MyEntity.Name.Like("%" + keyword + "%"));
+        }
+        lstScope.Add(CIWDB.MyEntity.Status == 1);
+        lstScope.SortList.Add(CIWDB.MyEntity.CreateTime, SortType.Desc);
+        lstScope.Page = new PageContent { CurrentPage = pageIndex, PageSize = pageSize };
+
+        List<MyEntity> list = SelectList(lstScope);
+        total = lstScope.Page.TotalRecord;
+        return list;
+    }
+}
+```
+
+### B. 控制器 Controller 范例
+```csharp
+[HttpPost("doAction")]
+public string DoAction([FromBody] Dictionary<string, object> oargs)
+{
+    if (oargs == null) return ApiCommon.GetFault("参数不能为空").ToJson();
+    try
+    {
+        ArgValues args = new ArgValues(oargs);
+        string name = args.GetDataValue<string>("name");
+        
+        MyBusiness bo = new MyBusiness();
+        APIResault res = bo.Process(name);
+        return res.ToJson();
+    }
+    catch (Exception ex)
+    {
+        return ApiCommon.GetException(ex).ToJson();
+    }
+}
+```
+
+## 4. 基础库详细 API 分册文档索引
+如需查看底层各组件的具体方法定义、签名与高级参数，请直接查阅以下对应分册：
+- 基础通用工具：BuffaloMD/Buffalo.Kernel.md
+- 统一通讯协议：BuffaloMD/Buffalo.ArgCommon.md
+- ORM 与 BQL 查询：BuffaloMD/Buffalo.DB.md
+- 缓存组件：BuffaloMD/Buffalo.QueryCache.md
+- 对象存储：BuffaloMD/Buffalo.Storage.md
+- 消息队列：BuffaloMD/Buffalo.MQ.md
+- MongoDB：BuffaloMD/Buffalo.MongoDB.md
+- Socket通信：BuffaloMD/Buffalo.IOCP.md
+--------------------------------------------------------------------------------
+
+
+五、主流 AI 工具的生效机制说明：
+--------------------------------------------------------------------------------
+1. Google Antigravity：
+   - 自动加载工作区根目录的 `AGENTS.md`，作为最高优先级 System Instructions。
+2. Cursor：
+   - 会自动读取根目录的 `AGENTS.md`；也可以另存一份到 `.cursorrules`，AI 在生成代码时会时刻
+     比对规则表中的“禁止事项”与“必须使用的规范”。
+3. Claude Code / Cline：
+   - 会默认读取工作区中的 `CLAUDE.md` 或 `AGENTS.md`。
+4. GitHub Copilot：
+   - 会自动读取 `.github/copilot-instructions.md`。可以直接将上述模板软链接或复制到该路径。
+
+只要将上述规范落地到项目的根目录中，AI 在面对业务任务时就会严格遵循三层架构与 BuffaloCore 既定模式，
+写出风格统一、没有原生 SQL、没有混用库的规范代码！
+================================================================================
