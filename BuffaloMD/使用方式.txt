@@ -1,0 +1,18 @@
+请在Agent.MD下加入这段：
+
+Buffalo 底层 API 详细分册（位于根目录 BuffaloMD/）
+
+编写或调用底层组件（ORM 查询、缓存、存储、MQ、网络等）时，直接参考对应的分册规则：
+
+BQL 语法与 ORM 查询：BuffaloMD/Buffalo.DB.md
+基础通用工具 / 快速反射 / 锁：BuffaloMD/Buffalo.Kernel.md
+统一 API 返回值 / 参数解析：BuffaloMD/Buffalo.ArgCommon.md
+缓存适配与分布式锁：BuffaloMD/Buffalo.QueryCache.md
+对象存储 (OSS/COS/OBS/本地)：BuffaloMD/Buffalo.Storage.md
+消息队列 (Kafka/RabbitMQ/Redis/MQTT)：BuffaloMD/Buffalo.MQ.md
+MongoDB 操作：BuffaloMD/Buffalo.MongoDB.md
+Socket / IOCP 网络通信：BuffaloMD/Buffalo.IOCP.md
+MySQL 方言适配：BuffaloMD/Buffalo.Data.MySQL.md
+Oracle 方言适配：BuffaloMD/Buffalo.Data.Oracle.md
+PostgreSQL 方言适配：BuffaloMD/Buffalo.Data.PostgreSQL.md
+SQLite 方言适配：BuffaloMD/Buffalo.Data.SQLite.md
